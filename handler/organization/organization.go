@@ -45,41 +45,6 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Organization/operation/OrganizationUserGet
 	UserGet(ctx context.Context, id string, memberUserId string) (*UserGetOut, error)
 
-	// UserGroupCreate create a user group in the organization
-	// OrganizationUserGroupCreate POST /organization/{organization_id}/user-groups
-	// https://api.aiven.io/doc/#tag/Organization/operation/OrganizationUserGroupCreate
-	UserGroupCreate(ctx context.Context, id string, in *UserGroupCreateIn) (*UserGroupCreateOut, error)
-
-	// UserGroupDelete remove a user group from the organization
-	// OrganizationUserGroupDelete DELETE /organization/{organization_id}/user-groups/{user_group_id}
-	// https://api.aiven.io/doc/#tag/Organization/operation/OrganizationUserGroupDelete
-	UserGroupDelete(ctx context.Context, id string, userGroupId string) error
-
-	// UserGroupGet get details on an organization's user group
-	// OrganizationUserGroupGet GET /organization/{organization_id}/user-groups/{user_group_id}
-	// https://api.aiven.io/doc/#tag/Organization/operation/OrganizationUserGroupGet
-	UserGroupGet(ctx context.Context, id string, userGroupId string) (*UserGroupGetOut, error)
-
-	// UserGroupMemberList list members of the organization's user group
-	// UserGroupMemberList GET /organization/{organization_id}/user-groups/{user_group_id}/members
-	// https://api.aiven.io/doc/#tag/Organization/operation/UserGroupMemberList
-	UserGroupMemberList(ctx context.Context, id string, userGroupId string) ([]Member, error)
-
-	// UserGroupMembersModify add or remove members of the organization's user group
-	// OrganizationUserGroupMembersModify PATCH /organization/{organization_id}/user-groups/{user_group_id}/members
-	// https://api.aiven.io/doc/#tag/Organization/operation/OrganizationUserGroupMembersModify
-	UserGroupMembersModify(ctx context.Context, id string, userGroupId string, in *UserGroupMembersModifyIn) error
-
-	// UserGroupModify modify an organization's user group
-	// UserGroupModify PATCH /organization/{organization_id}/user-groups/{user_group_id}
-	// https://api.aiven.io/doc/#tag/Organization/operation/UserGroupModify
-	UserGroupModify(ctx context.Context, id string, userGroupId string, in *UserGroupModifyIn) (*UserGroupModifyOut, error)
-
-	// UserGroupsList list user groups in the organization
-	// OrganizationUserGroupsList GET /organization/{organization_id}/user-groups
-	// https://api.aiven.io/doc/#tag/Organization/operation/OrganizationUserGroupsList
-	UserGroupsList(ctx context.Context, id string) ([]UserGroupItem, error)
-
 	// UserInvitationAccept accept a user invitation to the organization
 	// OrganizationUserInvitationAccept POST /organization/{organization_id}/invitation/{user_email}
 	// https://api.aiven.io/doc/#tag/Organization/operation/OrganizationUserInvitationAccept
@@ -217,66 +182,6 @@ func (h *handler) UserGet(ctx context.Context, id string, memberUserId string) (
 		return nil, err
 	}
 	return out, nil
-}
-func (h *handler) UserGroupCreate(ctx context.Context, id string, in *UserGroupCreateIn) (*UserGroupCreateOut, error) {
-	path := fmt.Sprintf("/organization/%s/user-groups", id)
-	b, err := h.doer.Do(ctx, "OrganizationUserGroupCreate", "POST", path, in)
-	out := new(UserGroupCreateOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-func (h *handler) UserGroupDelete(ctx context.Context, id string, userGroupId string) error {
-	path := fmt.Sprintf("/organization/%s/user-groups/%s", id, userGroupId)
-	_, err := h.doer.Do(ctx, "OrganizationUserGroupDelete", "DELETE", path, nil)
-	return err
-}
-func (h *handler) UserGroupGet(ctx context.Context, id string, userGroupId string) (*UserGroupGetOut, error) {
-	path := fmt.Sprintf("/organization/%s/user-groups/%s", id, userGroupId)
-	b, err := h.doer.Do(ctx, "OrganizationUserGroupGet", "GET", path, nil)
-	out := new(UserGroupGetOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-func (h *handler) UserGroupMemberList(ctx context.Context, id string, userGroupId string) ([]Member, error) {
-	path := fmt.Sprintf("/organization/%s/user-groups/%s/members", id, userGroupId)
-	b, err := h.doer.Do(ctx, "UserGroupMemberList", "GET", path, nil)
-	out := new(UserGroupMemberListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Members, nil
-}
-func (h *handler) UserGroupMembersModify(ctx context.Context, id string, userGroupId string, in *UserGroupMembersModifyIn) error {
-	path := fmt.Sprintf("/organization/%s/user-groups/%s/members", id, userGroupId)
-	_, err := h.doer.Do(ctx, "OrganizationUserGroupMembersModify", "PATCH", path, in)
-	return err
-}
-func (h *handler) UserGroupModify(ctx context.Context, id string, userGroupId string, in *UserGroupModifyIn) (*UserGroupModifyOut, error) {
-	path := fmt.Sprintf("/organization/%s/user-groups/%s", id, userGroupId)
-	b, err := h.doer.Do(ctx, "UserGroupModify", "PATCH", path, in)
-	out := new(UserGroupModifyOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-func (h *handler) UserGroupsList(ctx context.Context, id string) ([]UserGroupItem, error) {
-	path := fmt.Sprintf("/organization/%s/user-groups", id)
-	b, err := h.doer.Do(ctx, "OrganizationUserGroupsList", "GET", path, nil)
-	out := new(UserGroupsListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.UserGroups, nil
 }
 func (h *handler) UserInvitationAccept(ctx context.Context, id string, userEmail string, in *UserInvitationAcceptIn) error {
 	path := fmt.Sprintf("/organization/%s/invitation/%s", id, userEmail)
@@ -460,25 +365,9 @@ type Invitation struct {
 	InvitedBy  string    `json:"invited_by"`
 	UserEmail  string    `json:"user_email"`
 }
-type Member struct {
-	LastActivityTime *time.Time `json:"last_activity_time,omitempty"`
-	UserId           string     `json:"user_id"`
-	UserInfo         *UserInfo  `json:"user_info,omitempty"`
-}
 type MemberGroupsListOut struct {
 	UserGroups []UserGroup `json:"user_groups"`
 }
-type OperationType string
-
-const (
-	OperationTypeAddMembers    OperationType = "add_members"
-	OperationTypeRemoveMembers OperationType = "remove_members"
-)
-
-func OperationTypeChoices() []string {
-	return []string{"add_members", "remove_members"}
-}
-
 type Organization struct {
 	AccountId        string    `json:"account_id"`
 	CreateTime       time.Time `json:"create_time"`
@@ -574,53 +463,6 @@ type UserGroup struct {
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
 	UpdateTime    time.Time `json:"update_time"`
-}
-type UserGroupCreateIn struct {
-	Description   string `json:"description"`
-	UserGroupName string `json:"user_group_name"`
-}
-type UserGroupCreateOut struct {
-	CreateTime    time.Time `json:"create_time"`
-	Description   string    `json:"description"`
-	UpdateTime    time.Time `json:"update_time"`
-	UserGroupId   string    `json:"user_group_id"`
-	UserGroupName string    `json:"user_group_name"`
-}
-type UserGroupGetOut struct {
-	CreateTime    time.Time `json:"create_time"`
-	Description   string    `json:"description"`
-	UpdateTime    time.Time `json:"update_time"`
-	UserGroupId   string    `json:"user_group_id"`
-	UserGroupName string    `json:"user_group_name"`
-}
-type UserGroupItem struct {
-	CreateTime    time.Time `json:"create_time"`
-	Description   string    `json:"description"`
-	MemberCount   int       `json:"member_count"`
-	UpdateTime    time.Time `json:"update_time"`
-	UserGroupId   string    `json:"user_group_id"`
-	UserGroupName string    `json:"user_group_name"`
-}
-type UserGroupMemberListOut struct {
-	Members []Member `json:"members"`
-}
-type UserGroupMembersModifyIn struct {
-	MemberIds []string      `json:"member_ids"`
-	Operation OperationType `json:"operation"`
-}
-type UserGroupModifyIn struct {
-	Description   string `json:"description,omitempty"`
-	UserGroupName string `json:"user_group_name,omitempty"`
-}
-type UserGroupModifyOut struct {
-	CreateTime    time.Time `json:"create_time"`
-	Description   string    `json:"description"`
-	UpdateTime    time.Time `json:"update_time"`
-	UserGroupId   string    `json:"user_group_id"`
-	UserGroupName string    `json:"user_group_name"`
-}
-type UserGroupsListOut struct {
-	UserGroups []UserGroupItem `json:"user_groups"`
 }
 type UserInfo struct {
 	City                   string    `json:"city,omitempty"`

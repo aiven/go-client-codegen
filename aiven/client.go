@@ -13,6 +13,7 @@ import (
 	flinkapplicationdeployment "github.com/aiven/aiven-go-client-v2/handler/flinkapplicationdeployment"
 	flinkapplicationversion "github.com/aiven/aiven-go-client-v2/handler/flinkapplicationversion"
 	flinkjob "github.com/aiven/aiven-go-client-v2/handler/flinkjob"
+	group "github.com/aiven/aiven-go-client-v2/handler/group"
 	kafka "github.com/aiven/aiven-go-client-v2/handler/kafka"
 	kafkaconnect "github.com/aiven/aiven-go-client-v2/handler/kafkaconnect"
 	kafkamirrormaker "github.com/aiven/aiven-go-client-v2/handler/kafkamirrormaker"
@@ -49,6 +50,7 @@ func newClient(doer doer) *Client {
 		FlinkApplicationDeployment: flinkapplicationdeployment.NewHandler(doer),
 		FlinkApplicationVersion:    flinkapplicationversion.NewHandler(doer),
 		FlinkJob:                   flinkjob.NewHandler(doer),
+		Group:                      group.NewHandler(doer),
 		Kafka:                      kafka.NewHandler(doer),
 		KafkaConnect:               kafkaconnect.NewHandler(doer),
 		KafkaMirrorMaker:           kafkamirrormaker.NewHandler(doer),
@@ -81,6 +83,7 @@ type Client struct {
 	FlinkApplicationDeployment flinkapplicationdeployment.Handler
 	FlinkApplicationVersion    flinkapplicationversion.Handler
 	FlinkJob                   flinkjob.Handler
+	Group                      group.Handler
 	Kafka                      kafka.Handler
 	KafkaConnect               kafkaconnect.Handler
 	KafkaMirrorMaker           kafkamirrormaker.Handler

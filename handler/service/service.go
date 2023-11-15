@@ -818,13 +818,12 @@ const (
 type MethodType string
 
 const (
-	MethodTypeDump        MethodType = "dump"
-	MethodTypeReplication MethodType = "replication"
+	MethodType MethodType = ","
+	MethodType MethodType = ","
+	MethodType MethodType = ","
+	MethodType MethodType = ","
+	MethodType MethodType = ","
 )
-
-func MethodTypeChoices() []string {
-	return []string{"dump", "replication"}
-}
 
 type MetricsFetchIn struct {
 	Period PeriodType `json:"period,omitempty"`
@@ -836,27 +835,47 @@ type Migration struct {
 	Error                  string               `json:"error,omitempty"`
 	MasterLastIoSecondsAgo *int                 `json:"master_last_io_seconds_ago,omitempty"`
 	MasterLinkStatus       MasterLinkStatusType `json:"master_link_status,omitempty"`
-	Method                 string               `json:"method"`
-	Status                 string               `json:"status"`
+	Method                 MethodType           `json:"method"`
+	Status                 MigrationStatusType  `json:"status"`
 }
 type MigrationCheck struct {
-	IgnoreDbs        string     `json:"ignore_dbs,omitempty"`
-	Method           MethodType `json:"method,omitempty"`
-	SourceServiceUri string     `json:"source_service_uri"`
+	IgnoreDbs        string                   `json:"ignore_dbs,omitempty"`
+	Method           MigrationCheckMethodType `json:"method,omitempty"`
+	SourceServiceUri string                   `json:"source_service_uri"`
 }
+type MigrationCheckMethodType string
+
+const (
+	MigrationCheckMethodTypeDump        MigrationCheckMethodType = "dump"
+	MigrationCheckMethodTypeReplication MigrationCheckMethodType = "replication"
+)
+
+func MigrationCheckMethodTypeChoices() []string {
+	return []string{"dump", "replication"}
+}
+
 type MigrationDetail struct {
 	Dbname string                    `json:"dbname"`
 	Error  string                    `json:"error,omitempty"`
-	Method string                    `json:"method"`
+	Method MethodType                `json:"method"`
 	Status MigrationDetailStatusType `json:"status"`
 }
 type MigrationDetailStatusType string
 
 const (
 	MigrationDetailStatusTypeDone    MigrationDetailStatusType = "done"
+	MigrationDetailStatusTypeFailed  MigrationDetailStatusType = "failed"
 	MigrationDetailStatusTypeRunning MigrationDetailStatusType = "running"
 	MigrationDetailStatusTypeSyncing MigrationDetailStatusType = "syncing"
-	MigrationDetailStatusTypeFailed  MigrationDetailStatusType = "failed"
+)
+
+type MigrationStatusType string
+
+const (
+	MigrationStatusTypeDone    MigrationStatusType = "done"
+	MigrationStatusTypeFailed  MigrationStatusType = "failed"
+	MigrationStatusTypeRunning MigrationStatusType = "running"
+	MigrationStatusTypeSyncing MigrationStatusType = "syncing"
 )
 
 type NodeState struct {
@@ -1243,6 +1262,7 @@ func TargetVersionTypeChoices() []string {
 
 type Task struct {
 	CreateTime  time.Time    `json:"create_time"`
+	TaskId      string       `json:"task_id"`
 	Result      string       `json:"result"`
 	ResultCodes []ResultCode `json:"result_codes,omitempty"`
 	Success     bool         `json:"success"`

@@ -90,6 +90,7 @@ func (h *handler) PatchReplicationFlow(ctx context.Context, project string, serv
 
 type CreateReplicationFlowIn struct {
 	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
+	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
 	Enabled                         bool                         `json:"enabled"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
@@ -116,6 +117,7 @@ const (
 
 type PatchReplicationFlowIn struct {
 	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
+	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
 	Enabled                         *bool                        `json:"enabled,omitempty"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
@@ -130,6 +132,7 @@ type PatchReplicationFlowOut struct {
 }
 type ReplicationFlow struct {
 	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
+	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
 	Enabled                         bool                         `json:"enabled"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`

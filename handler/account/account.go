@@ -506,6 +506,7 @@ type AuthenticationMethod struct {
 	AuthenticationMethodId           string                     `json:"authentication_method_id"`
 	InternalOauthEnabled             *bool                      `json:"internal_oauth_enabled,omitempty"`
 	InternalPasswordAuthEnabled      *bool                      `json:"internal_password_auth_enabled,omitempty"`
+	InternalSamlEnabled              *bool                      `json:"internal_saml_enabled,omitempty"`
 	InternalTwoFactorRequired        *bool                      `json:"internal_two_factor_required,omitempty"`
 	AuthenticationMethodName         string                     `json:"authentication_method_name,omitempty"`
 	OrganizationId                   string                     `json:"organization_id,omitempty"`
@@ -539,6 +540,7 @@ type AuthenticationMethodCreateIn struct {
 	AutoJoinUserGroupId              string                     `json:"auto_join_user_group_id,omitempty"`
 	InternalOauthEnabled             *bool                      `json:"internal_oauth_enabled,omitempty"`
 	InternalPasswordAuthEnabled      *bool                      `json:"internal_password_auth_enabled,omitempty"`
+	InternalSamlEnabled              *bool                      `json:"internal_saml_enabled,omitempty"`
 	InternalTwoFactorRequired        *bool                      `json:"internal_two_factor_required,omitempty"`
 	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`
 	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`
@@ -576,6 +578,7 @@ type AuthenticationMethodUpdateIn struct {
 	AutoJoinUserGroupId              string                     `json:"auto_join_user_group_id,omitempty"`
 	InternalOauthEnabled             *bool                      `json:"internal_oauth_enabled,omitempty"`
 	InternalPasswordAuthEnabled      *bool                      `json:"internal_password_auth_enabled,omitempty"`
+	InternalSamlEnabled              *bool                      `json:"internal_saml_enabled,omitempty"`
 	InternalTwoFactorRequired        *bool                      `json:"internal_two_factor_required,omitempty"`
 	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`
 	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`
