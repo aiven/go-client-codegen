@@ -147,6 +147,6 @@ type ReplicationFlow struct {
 type ReplicationPolicyClassType string
 
 const (
-	ReplicationPolicyClassTypeOrgApacheKafkaConnectMirrorDefaultReplicationPolicy  ReplicationPolicyClassType = "org.apache.kafka.connect.mirror.DefaultReplicationPolicy"
-	ReplicationPolicyClassTypeOrgApacheKafkaConnectMirrorIdentityReplicationPolicy ReplicationPolicyClassType = "org.apache.kafka.connect.mirror.IdentityReplicationPolicy"
+	ReplicationPolicyClassTypeDefault  ReplicationPolicyClassType = "org.apache.kafka.connect.mirror.DefaultReplicationPolicy"
+	ReplicationPolicyClassTypeIdentity ReplicationPolicyClassType = "org.apache.kafka.connect.mirror.IdentityReplicationPolicy"
 )

@@ -359,15 +359,20 @@ func writeStruct(f *jen.File, s *Schema) error {
 		enums := make([]jen.Code, len(s.Enum))
 		values := make([]jen.Code, len(s.Enum))
 		for _, e := range s.Enum {
-			v := fmt.Sprint(e)
-			i := s.camelName + strcase.ToCamel(v)
+			literal := fmt.Sprint(e)
+			constant := s.camelName + strcase.ToCamel(literal)
+
+			// KafkaMirror ReplicationPolicyClassType makes bad generated name
+			if strings.HasPrefix(literal, "org.apache.kafka.connect.mirror.") {
+				constant = s.camelName + literal[32:len(literal)-17]
+			}
 
 			// OpenSearch HealthType has value "red*"
-			if strings.HasSuffix(v, "*") {
-				i += "Asterisk"
+			if strings.HasSuffix(literal, "*") {
+				constant += "Asterisk"
 			}
-			enums = append(enums, jen.Id(i).Op(s.camelName).Op("=").Lit(v))
-			values = append(values, jen.Lit(v))
+			enums = append(enums, jen.Id(constant).Op(s.camelName).Op("=").Lit(literal))
+			values = append(values, jen.Lit(literal))
 		}
 		o.Line().Const().Defs(enums...)
 
