@@ -614,6 +614,7 @@ type Project struct {
 	EstimatedBalanceLocal string              `json:"estimated_balance_local,omitempty"`
 	Features              map[string]any      `json:"features,omitempty"`
 	ProjectName           string              `json:"project_name"`
+	OrganizationId        string              `json:"organization_id"`
 	PaymentMethod         string              `json:"payment_method"`
 	State                 string              `json:"state,omitempty"`
 	Tags                  map[string]string   `json:"tags,omitempty"`

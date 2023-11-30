@@ -6,20 +6,21 @@ import (
 	"context"
 
 	account "github.com/aiven/aiven-go-client-v2/handler/account"
+	billing "github.com/aiven/aiven-go-client-v2/handler/billing"
 	billinggroup "github.com/aiven/aiven-go-client-v2/handler/billinggroup"
 	clickhouse "github.com/aiven/aiven-go-client-v2/handler/clickhouse"
+	cloudplatform "github.com/aiven/aiven-go-client-v2/handler/cloudplatform"
+	domain "github.com/aiven/aiven-go-client-v2/handler/domain"
 	flink "github.com/aiven/aiven-go-client-v2/handler/flink"
 	flinkapplication "github.com/aiven/aiven-go-client-v2/handler/flinkapplication"
 	flinkapplicationdeployment "github.com/aiven/aiven-go-client-v2/handler/flinkapplicationdeployment"
 	flinkapplicationversion "github.com/aiven/aiven-go-client-v2/handler/flinkapplicationversion"
 	flinkjob "github.com/aiven/aiven-go-client-v2/handler/flinkjob"
-	group "github.com/aiven/aiven-go-client-v2/handler/group"
 	kafka "github.com/aiven/aiven-go-client-v2/handler/kafka"
 	kafkaconnect "github.com/aiven/aiven-go-client-v2/handler/kafkaconnect"
 	kafkamirrormaker "github.com/aiven/aiven-go-client-v2/handler/kafkamirrormaker"
 	kafkaschemaregistry "github.com/aiven/aiven-go-client-v2/handler/kafkaschemaregistry"
 	kafkatopic "github.com/aiven/aiven-go-client-v2/handler/kafkatopic"
-	misc "github.com/aiven/aiven-go-client-v2/handler/misc"
 	mysql "github.com/aiven/aiven-go-client-v2/handler/mysql"
 	opensearch "github.com/aiven/aiven-go-client-v2/handler/opensearch"
 	organization "github.com/aiven/aiven-go-client-v2/handler/organization"
@@ -34,6 +35,7 @@ import (
 	staticip "github.com/aiven/aiven-go-client-v2/handler/staticip"
 	ticket "github.com/aiven/aiven-go-client-v2/handler/ticket"
 	user "github.com/aiven/aiven-go-client-v2/handler/user"
+	usergroup "github.com/aiven/aiven-go-client-v2/handler/usergroup"
 )
 
 type doer interface {
@@ -43,20 +45,21 @@ type doer interface {
 func newClient(doer doer) *Client {
 	return &Client{
 		Account:                    account.NewHandler(doer),
+		Billing:                    billing.NewHandler(doer),
 		BillingGroup:               billinggroup.NewHandler(doer),
 		ClickHouse:                 clickhouse.NewHandler(doer),
+		CloudPlatform:              cloudplatform.NewHandler(doer),
+		Domain:                     domain.NewHandler(doer),
 		Flink:                      flink.NewHandler(doer),
 		FlinkApplication:           flinkapplication.NewHandler(doer),
 		FlinkApplicationDeployment: flinkapplicationdeployment.NewHandler(doer),
 		FlinkApplicationVersion:    flinkapplicationversion.NewHandler(doer),
 		FlinkJob:                   flinkjob.NewHandler(doer),
-		Group:                      group.NewHandler(doer),
 		Kafka:                      kafka.NewHandler(doer),
 		KafkaConnect:               kafkaconnect.NewHandler(doer),
 		KafkaMirrorMaker:           kafkamirrormaker.NewHandler(doer),
 		KafkaSchemaRegistry:        kafkaschemaregistry.NewHandler(doer),
 		KafkaTopic:                 kafkatopic.NewHandler(doer),
-		Misc:                       misc.NewHandler(doer),
 		MySql:                      mysql.NewHandler(doer),
 		OpenSearch:                 opensearch.NewHandler(doer),
 		Organization:               organization.NewHandler(doer),
@@ -71,25 +74,27 @@ func newClient(doer doer) *Client {
 		StaticIp:                   staticip.NewHandler(doer),
 		Ticket:                     ticket.NewHandler(doer),
 		User:                       user.NewHandler(doer),
+		UserGroup:                  usergroup.NewHandler(doer),
 	}
 }
 
 type Client struct {
 	Account                    account.Handler
+	Billing                    billing.Handler
 	BillingGroup               billinggroup.Handler
 	ClickHouse                 clickhouse.Handler
+	CloudPlatform              cloudplatform.Handler
+	Domain                     domain.Handler
 	Flink                      flink.Handler
 	FlinkApplication           flinkapplication.Handler
 	FlinkApplicationDeployment flinkapplicationdeployment.Handler
 	FlinkApplicationVersion    flinkapplicationversion.Handler
 	FlinkJob                   flinkjob.Handler
-	Group                      group.Handler
 	Kafka                      kafka.Handler
 	KafkaConnect               kafkaconnect.Handler
 	KafkaMirrorMaker           kafkamirrormaker.Handler
 	KafkaSchemaRegistry        kafkaschemaregistry.Handler
 	KafkaTopic                 kafkatopic.Handler
-	Misc                       misc.Handler
 	MySql                      mysql.Handler
 	OpenSearch                 opensearch.Handler
 	Organization               organization.Handler
@@ -104,4 +109,5 @@ type Client struct {
 	StaticIp                   staticip.Handler
 	Ticket                     ticket.Handler
 	User                       user.Handler
+	UserGroup                  usergroup.Handler
 }

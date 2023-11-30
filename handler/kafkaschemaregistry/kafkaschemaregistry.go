@@ -295,6 +295,11 @@ const (
 	PermissionTypeSchemaRegistryWrite PermissionType = "schema_registry_write"
 )
 
+type Reference struct {
+	Name    string `json:"name"`
+	Subject string `json:"subject"`
+	Version int    `json:"version"`
+}
 type SchemaType string
 
 const (
@@ -317,8 +322,9 @@ type SubjectConfigPutOut struct {
 	Compatibility CompatibilityType `json:"compatibility"`
 }
 type SubjectVersionPostIn struct {
-	Schema     string     `json:"schema"`
-	SchemaType SchemaType `json:"schemaType,omitempty"`
+	References []Reference `json:"references,omitempty"`
+	Schema     string      `json:"schema"`
+	SchemaType SchemaType  `json:"schemaType,omitempty"`
 }
 type SubjectVersionPostOut struct {
 	Id int `json:"id"`

@@ -630,7 +630,6 @@ type CreateIn struct {
 	Cloud                 string               `json:"cloud,omitempty"`
 	CopyTags              *bool                `json:"copy_tags,omitempty"`
 	DiskSpaceMb           *float64             `json:"disk_space_mb,omitempty"`
-	ExoscaleSettings      *ExoscaleSettings    `json:"exoscale_settings,omitempty"`
 	GroupName             string               `json:"group_name,omitempty"`
 	Maintenance           *Maintenance         `json:"maintenance,omitempty"`
 	Plan                  string               `json:"plan"`
@@ -689,9 +688,6 @@ func DowTypeChoices() []string {
 type EnableWritesOut struct {
 	Until string `json:"until,omitempty"`
 }
-type ExoscaleSettings struct {
-	SecuritygroupIds []string `json:"securitygroup_ids,omitempty"`
-}
 type Extension struct {
 	Name     string   `json:"name"`
 	Versions []string `json:"versions,omitempty"`
@@ -717,6 +713,7 @@ const (
 	IntegrationTypeAutoscaler                        IntegrationType = "autoscaler"
 	IntegrationTypeCaching                           IntegrationType = "caching"
 	IntegrationTypeCassandraCrossServiceCluster      IntegrationType = "cassandra_cross_service_cluster"
+	IntegrationTypeClickhouseCredentials             IntegrationType = "clickhouse_credentials"
 	IntegrationTypeClickhouseKafka                   IntegrationType = "clickhouse_kafka"
 	IntegrationTypeClickhousePostgresql              IntegrationType = "clickhouse_postgresql"
 	IntegrationTypeDashboard                         IntegrationType = "dashboard"
@@ -753,7 +750,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "internal_connectivity", "jolokia", "kafka_connect", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vmalert"}
+	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "internal_connectivity", "jolokia", "kafka_connect", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vmalert"}
 }
 
 type KafkaAuthenticationMethodType string
@@ -818,11 +815,7 @@ const (
 type MethodType string
 
 const (
-	MethodType MethodType = ","
-	MethodType MethodType = ","
-	MethodType MethodType = ","
-	MethodType MethodType = ","
-	MethodType MethodType = ","
+	MethodTypePgDump MethodType = "pg_dump"
 )
 
 type MetricsFetchIn struct {
@@ -839,9 +832,11 @@ type Migration struct {
 	Status                 MigrationStatusType  `json:"status"`
 }
 type MigrationCheck struct {
-	IgnoreDbs        string                   `json:"ignore_dbs,omitempty"`
-	Method           MigrationCheckMethodType `json:"method,omitempty"`
-	SourceServiceUri string                   `json:"source_service_uri"`
+	IgnoreDbs         string                   `json:"ignore_dbs,omitempty"`
+	Method            MigrationCheckMethodType `json:"method,omitempty"`
+	SourceProjectName string                   `json:"source_project_name,omitempty"`
+	SourceServiceName string                   `json:"source_service_name,omitempty"`
+	SourceServiceUri  string                   `json:"source_service_uri,omitempty"`
 }
 type MigrationCheckMethodType string
 

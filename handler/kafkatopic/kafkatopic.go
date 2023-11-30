@@ -172,6 +172,7 @@ type Config struct {
 	SegmentIndexBytes               *int                     `json:"segment_index_bytes,omitempty"`
 	SegmentJitterMs                 *int                     `json:"segment_jitter_ms,omitempty"`
 	SegmentMs                       *int                     `json:"segment_ms,omitempty"`
+	UncleanLeaderElectionEnable     *bool                    `json:"unclean_leader_election_enable,omitempty"`
 }
 type ConsumerGroup struct {
 	GroupName string `json:"group_name"`

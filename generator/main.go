@@ -70,6 +70,10 @@ func exec() error {
 				pkg = "ServiceIntegrationEndpoint"
 			}
 
+			if pkg == "Group" {
+				pkg = "UserGroup"
+			}
+
 			if pkg == "Kafka" {
 				if strings.HasPrefix(p.ID, "KafkaTopic") {
 					pkg = "KafkaTopic"
@@ -347,6 +351,8 @@ func exec() error {
 	return client.Save(filepath.Join(clientDir, "client.go"))
 }
 
+var reMakesSense = regexp.MustCompile(`\w`)
+
 func writeStruct(f *jen.File, s *Schema) error {
 	if s.isMap() {
 		return nil
@@ -360,6 +366,10 @@ func writeStruct(f *jen.File, s *Schema) error {
 		values := make([]jen.Code, len(s.Enum))
 		for _, e := range s.Enum {
 			literal := fmt.Sprint(e)
+			if !reMakesSense.MatchString(literal) {
+				continue
+			}
+
 			constant := s.camelName + strcase.ToCamel(literal)
 
 			// KafkaMirror ReplicationPolicyClassType makes bad generated name
@@ -374,6 +384,11 @@ func writeStruct(f *jen.File, s *Schema) error {
 			enums = append(enums, jen.Id(constant).Op(s.camelName).Op("=").Lit(literal))
 			values = append(values, jen.Lit(literal))
 		}
+
+		if len(enums) == 0 {
+			return nil
+		}
+
 		o.Line().Const().Defs(enums...)
 
 		if !s.isOut() {

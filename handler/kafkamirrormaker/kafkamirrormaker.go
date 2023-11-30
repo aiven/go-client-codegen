@@ -93,6 +93,7 @@ type CreateReplicationFlowIn struct {
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
 	Enabled                         bool                         `json:"enabled"`
+	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
 	SourceCluster                   string                       `json:"source_cluster"`
@@ -120,6 +121,7 @@ type PatchReplicationFlowIn struct {
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
 	Enabled                         *bool                        `json:"enabled,omitempty"`
+	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
@@ -135,6 +137,7 @@ type ReplicationFlow struct {
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
 	Enabled                         bool                         `json:"enabled"`
+	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
 	SourceCluster                   string                       `json:"source_cluster"`

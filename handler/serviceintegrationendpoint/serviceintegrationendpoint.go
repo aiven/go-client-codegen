@@ -127,6 +127,7 @@ const (
 	EndpointTypeExternalGoogleCloudBigquery  EndpointType = "external_google_cloud_bigquery"
 	EndpointTypeExternalGoogleCloudLogging   EndpointType = "external_google_cloud_logging"
 	EndpointTypeExternalKafka                EndpointType = "external_kafka"
+	EndpointTypeExternalMysql                EndpointType = "external_mysql"
 	EndpointTypeExternalOpensearchLogs       EndpointType = "external_opensearch_logs"
 	EndpointTypeExternalPostgresql           EndpointType = "external_postgresql"
 	EndpointTypeExternalSchemaRegistry       EndpointType = "external_schema_registry"

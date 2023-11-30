@@ -14,9 +14,9 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectPrivatelinkAvailabilityList
 	ProjectPrivatelinkAvailabilityList(ctx context.Context, project string) ([]PrivatelinkAvailability, error)
 
-	// PublicPrivatelinkAvailabilityList list Privatelink cloud availability and prices for a tenant
+	// PublicPrivatelinkAvailabilityList list privatelink clouds and prices
 	// PublicPrivatelinkAvailabilityList GET /tenants/{tenant}/privatelink-availability
-	// https://api.aiven.io/doc/#operation/PublicPrivatelinkAvailabilityList
+	// https://api.aiven.io/doc/#tag/Cloud_platforms/operation/PublicPrivatelinkAvailabilityList
 	PublicPrivatelinkAvailabilityList(ctx context.Context, tenant string) ([]PrivatelinkAvailability, error)
 
 	// ServicePrivatelinkAWSConnectionList list VPC Endpoint connections for an AWS Privatelink Endpoint Service

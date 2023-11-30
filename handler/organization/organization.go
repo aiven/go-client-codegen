@@ -10,6 +10,16 @@ import (
 )
 
 type Handler interface {
+	// AuthenticationConfigGet retrieve authentication configuration
+	// OrganizationAuthenticationConfigGet GET /organization/{organization_id}/config/authentication
+	// https://api.aiven.io/doc/#tag/Organization/operation/OrganizationAuthenticationConfigGet
+	AuthenticationConfigGet(ctx context.Context, id string) (*AuthenticationConfigGetOut, error)
+
+	// AuthenticationConfigUpdate update authentication configuration
+	// OrganizationAuthenticationConfigUpdate PATCH /organization/{organization_id}/config/authentication
+	// https://api.aiven.io/doc/#tag/Organization/operation/OrganizationAuthenticationConfigUpdate
+	AuthenticationConfigUpdate(ctx context.Context, id string, in *AuthenticationConfigUpdateIn) (*AuthenticationConfigUpdateOut, error)
+
 	// Get get information about an organization
 	// OrganizationGet GET /organization/{organization_id}
 	// https://api.aiven.io/doc/#tag/Organization/operation/OrganizationGet
@@ -118,6 +128,26 @@ type handler struct {
 	doer doer
 }
 
+func (h *handler) AuthenticationConfigGet(ctx context.Context, id string) (*AuthenticationConfigGetOut, error) {
+	path := fmt.Sprintf("/organization/%s/config/authentication", id)
+	b, err := h.doer.Do(ctx, "OrganizationAuthenticationConfigGet", "GET", path, nil)
+	out := new(AuthenticationConfigGetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *handler) AuthenticationConfigUpdate(ctx context.Context, id string, in *AuthenticationConfigUpdateIn) (*AuthenticationConfigUpdateOut, error) {
+	path := fmt.Sprintf("/organization/%s/config/authentication", id)
+	b, err := h.doer.Do(ctx, "OrganizationAuthenticationConfigUpdate", "PATCH", path, in)
+	out := new(AuthenticationConfigUpdateOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
 func (h *handler) Get(ctx context.Context, id string) (*GetOut, error) {
 	path := fmt.Sprintf("/organization/%s", id)
 	b, err := h.doer.Do(ctx, "OrganizationGet", "GET", path, nil)
@@ -289,6 +319,24 @@ func ActionTypeChoices() []string {
 	return []string{"accept"}
 }
 
+type AuthenticationConfigGetOut struct {
+	OauthEnabled        *bool `json:"oauth_enabled,omitempty"`
+	PasswordAuthEnabled *bool `json:"password_auth_enabled,omitempty"`
+	SamlEnabled         *bool `json:"saml_enabled,omitempty"`
+	TwoFactorRequired   *bool `json:"two_factor_required,omitempty"`
+}
+type AuthenticationConfigUpdateIn struct {
+	OauthEnabled        *bool `json:"oauth_enabled,omitempty"`
+	PasswordAuthEnabled *bool `json:"password_auth_enabled,omitempty"`
+	SamlEnabled         *bool `json:"saml_enabled,omitempty"`
+	TwoFactorRequired   *bool `json:"two_factor_required,omitempty"`
+}
+type AuthenticationConfigUpdateOut struct {
+	OauthEnabled        *bool `json:"oauth_enabled,omitempty"`
+	PasswordAuthEnabled *bool `json:"password_auth_enabled,omitempty"`
+	SamlEnabled         *bool `json:"saml_enabled,omitempty"`
+	TwoFactorRequired   *bool `json:"two_factor_required,omitempty"`
+}
 type AuthenticationMethod struct {
 	IsEnabled2Fa     *bool      `json:"is_enabled_2fa,omitempty"`
 	LastUsedTime     *time.Time `json:"last_used_time,omitempty"`
@@ -352,8 +400,9 @@ type Info struct {
 	Country                string    `json:"country,omitempty"`
 	CreateTime             time.Time `json:"create_time"`
 	Department             string    `json:"department,omitempty"`
+	IsApplicationUser      bool      `json:"is_application_user"`
 	JobTitle               string    `json:"job_title,omitempty"`
-	ManagedByScim          *bool     `json:"managed_by_scim,omitempty"`
+	ManagedByScim          bool      `json:"managed_by_scim"`
 	ManagingOrganizationId string    `json:"managing_organization_id,omitempty"`
 	RealName               string    `json:"real_name"`
 	State                  string    `json:"state"`
@@ -398,6 +447,7 @@ type Project struct {
 	EstimatedBalanceLocal string              `json:"estimated_balance_local,omitempty"`
 	Features              map[string]any      `json:"features,omitempty"`
 	ProjectName           string              `json:"project_name"`
+	OrganizationId        string              `json:"organization_id"`
 	PaymentMethod         string              `json:"payment_method"`
 	State                 string              `json:"state,omitempty"`
 	Tags                  map[string]string   `json:"tags,omitempty"`
@@ -469,8 +519,9 @@ type UserInfo struct {
 	Country                string    `json:"country,omitempty"`
 	CreateTime             time.Time `json:"create_time"`
 	Department             string    `json:"department,omitempty"`
+	IsApplicationUser      bool      `json:"is_application_user"`
 	JobTitle               string    `json:"job_title,omitempty"`
-	ManagedByScim          *bool     `json:"managed_by_scim,omitempty"`
+	ManagedByScim          bool      `json:"managed_by_scim"`
 	ManagingOrganizationId string    `json:"managing_organization_id,omitempty"`
 	RealName               string    `json:"real_name"`
 	State                  string    `json:"state"`

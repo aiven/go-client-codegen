@@ -16,44 +16,39 @@ type Handler interface {
 	Create(ctx context.Context, in *CreateIn) (*BillingGroup, error)
 
 	// CreditsClaim claim a credit code
-	// BillingGroupCreditsClaim POST /billing-group/{billing_group}/credits
+	// BillingGroupCreditsClaim POST /billing-group/{billing_group_id}/credits
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupCreditsClaim
-	CreditsClaim(ctx context.Context, billingGroup string, in *CreditsClaimIn) (*Credit, error)
+	CreditsClaim(ctx context.Context, id string, in *CreditsClaimIn) (*Credit, error)
 
 	// CreditsList list billing group credits
-	// BillingGroupCreditsList GET /billing-group/{billing_group}/credits
+	// BillingGroupCreditsList GET /billing-group/{billing_group_id}/credits
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupCreditsList
-	CreditsList(ctx context.Context, billingGroup string) ([]Credit, error)
+	CreditsList(ctx context.Context, id string) ([]Credit, error)
 
 	// Delete delete billing group
-	// BillingGroupDelete DELETE /billing-group/{billing_group}
+	// BillingGroupDelete DELETE /billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupDelete
-	Delete(ctx context.Context, billingGroup string) error
+	Delete(ctx context.Context, id string) error
 
 	// EventList list billing group events
-	// BillingGroupEventList GET /billing-group/{billing_group}/events
+	// BillingGroupEventList GET /billing-group/{billing_group_id}/events
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupEventList
-	EventList(ctx context.Context, billingGroup string) ([]Event, error)
+	EventList(ctx context.Context, id string) ([]Event, error)
 
 	// Get get billing group details
-	// BillingGroupGet GET /billing-group/{billing_group}
+	// BillingGroupGet GET /billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupGet
-	Get(ctx context.Context, billingGroup string) (*BillingGroup, error)
-
-	// InvoiceGet get a single invoice
-	// BillingGroupInvoiceGet GET /billing-group/{billing_group}/invoice/{invoice_number}
-	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupInvoiceGet
-	InvoiceGet(ctx context.Context, billingGroup string, invoiceNumber string) (*Invoice, error)
+	Get(ctx context.Context, id string) (*BillingGroup, error)
 
 	// InvoiceLinesList get invoice lines for a single invoice
-	// BillingGroupInvoiceLinesList GET /billing-group/{billing_group}/invoice/{invoice_number}/lines
+	// BillingGroupInvoiceLinesList GET /billing-group/{billing_group_id}/invoice/{invoice_number}/lines
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupInvoiceLinesList
-	InvoiceLinesList(ctx context.Context, billingGroup string, invoiceNumber string) ([]Line, error)
+	InvoiceLinesList(ctx context.Context, id string, invoiceNumber string) ([]Line, error)
 
 	// InvoiceList get invoices generated for billing group
-	// BillingGroupInvoiceList GET /billing-group/{billing_group}/invoice
+	// BillingGroupInvoiceList GET /billing-group/{billing_group_id}/invoice
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupInvoiceList
-	InvoiceList(ctx context.Context, billingGroup string) ([]InvoiceItem, error)
+	InvoiceList(ctx context.Context, id string) ([]Invoice, error)
 
 	// List list billing groups
 	// BillingGroupList GET /billing-group
@@ -61,24 +56,24 @@ type Handler interface {
 	List(ctx context.Context) ([]BillingGroup, error)
 
 	// ProjectAssign assign project to billing group
-	// BillingGroupProjectAssign POST /billing-group/{billing_group}/project-assign/{project}
+	// BillingGroupProjectAssign POST /billing-group/{billing_group_id}/project-assign/{project}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectAssign
-	ProjectAssign(ctx context.Context, billingGroup string, project string) error
+	ProjectAssign(ctx context.Context, id string, project string) error
 
 	// ProjectList get projects assigned to billing group
-	// BillingGroupProjectList GET /billing-group/{billing_group}/projects
+	// BillingGroupProjectList GET /billing-group/{billing_group_id}/projects
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectList
-	ProjectList(ctx context.Context, billingGroup string) ([]Project, error)
+	ProjectList(ctx context.Context, id string) ([]Project, error)
 
 	// ProjectsAssign assign projects to billing group
-	// BillingGroupProjectsAssign POST /billing-group/{billing_group}/projects-assign
+	// BillingGroupProjectsAssign POST /billing-group/{billing_group_id}/projects-assign
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectsAssign
-	ProjectsAssign(ctx context.Context, billingGroup string, in *ProjectsAssignIn) error
+	ProjectsAssign(ctx context.Context, id string, in *ProjectsAssignIn) error
 
 	// Update update billing group
-	// BillingGroupUpdate PUT /billing-group/{billing_group}
+	// BillingGroupUpdate PUT /billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupUpdate
-	Update(ctx context.Context, billingGroup string, in *UpdateIn) (*BillingGroup, error)
+	Update(ctx context.Context, id string, in *UpdateIn) (*BillingGroup, error)
 }
 
 func NewHandler(doer doer) Handler {
@@ -103,8 +98,8 @@ func (h *handler) Create(ctx context.Context, in *CreateIn) (*BillingGroup, erro
 	}
 	return out.BillingGroup, nil
 }
-func (h *handler) CreditsClaim(ctx context.Context, billingGroup string, in *CreditsClaimIn) (*Credit, error) {
-	path := fmt.Sprintf("/billing-group/%s/credits", billingGroup)
+func (h *handler) CreditsClaim(ctx context.Context, id string, in *CreditsClaimIn) (*Credit, error) {
+	path := fmt.Sprintf("/billing-group/%s/credits", id)
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsClaim", "POST", path, in)
 	out := new(CreditsClaimOut)
 	err = json.Unmarshal(b, out)
@@ -113,8 +108,8 @@ func (h *handler) CreditsClaim(ctx context.Context, billingGroup string, in *Cre
 	}
 	return out.Credit, nil
 }
-func (h *handler) CreditsList(ctx context.Context, billingGroup string) ([]Credit, error) {
-	path := fmt.Sprintf("/billing-group/%s/credits", billingGroup)
+func (h *handler) CreditsList(ctx context.Context, id string) ([]Credit, error) {
+	path := fmt.Sprintf("/billing-group/%s/credits", id)
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsList", "GET", path, nil)
 	out := new(CreditsListOut)
 	err = json.Unmarshal(b, out)
@@ -123,13 +118,13 @@ func (h *handler) CreditsList(ctx context.Context, billingGroup string) ([]Credi
 	}
 	return out.Credits, nil
 }
-func (h *handler) Delete(ctx context.Context, billingGroup string) error {
-	path := fmt.Sprintf("/billing-group/%s", billingGroup)
+func (h *handler) Delete(ctx context.Context, id string) error {
+	path := fmt.Sprintf("/billing-group/%s", id)
 	_, err := h.doer.Do(ctx, "BillingGroupDelete", "DELETE", path, nil)
 	return err
 }
-func (h *handler) EventList(ctx context.Context, billingGroup string) ([]Event, error) {
-	path := fmt.Sprintf("/billing-group/%s/events", billingGroup)
+func (h *handler) EventList(ctx context.Context, id string) ([]Event, error) {
+	path := fmt.Sprintf("/billing-group/%s/events", id)
 	b, err := h.doer.Do(ctx, "BillingGroupEventList", "GET", path, nil)
 	out := new(EventListOut)
 	err = json.Unmarshal(b, out)
@@ -138,8 +133,8 @@ func (h *handler) EventList(ctx context.Context, billingGroup string) ([]Event, 
 	}
 	return out.Events, nil
 }
-func (h *handler) Get(ctx context.Context, billingGroup string) (*BillingGroup, error) {
-	path := fmt.Sprintf("/billing-group/%s", billingGroup)
+func (h *handler) Get(ctx context.Context, id string) (*BillingGroup, error) {
+	path := fmt.Sprintf("/billing-group/%s", id)
 	b, err := h.doer.Do(ctx, "BillingGroupGet", "GET", path, nil)
 	out := new(GetOut)
 	err = json.Unmarshal(b, out)
@@ -148,18 +143,8 @@ func (h *handler) Get(ctx context.Context, billingGroup string) (*BillingGroup, 
 	}
 	return out.BillingGroup, nil
 }
-func (h *handler) InvoiceGet(ctx context.Context, billingGroup string, invoiceNumber string) (*Invoice, error) {
-	path := fmt.Sprintf("/billing-group/%s/invoice/%s", billingGroup, invoiceNumber)
-	b, err := h.doer.Do(ctx, "BillingGroupInvoiceGet", "GET", path, nil)
-	out := new(InvoiceGetOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Invoice, nil
-}
-func (h *handler) InvoiceLinesList(ctx context.Context, billingGroup string, invoiceNumber string) ([]Line, error) {
-	path := fmt.Sprintf("/billing-group/%s/invoice/%s/lines", billingGroup, invoiceNumber)
+func (h *handler) InvoiceLinesList(ctx context.Context, id string, invoiceNumber string) ([]Line, error) {
+	path := fmt.Sprintf("/billing-group/%s/invoice/%s/lines", id, invoiceNumber)
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceLinesList", "GET", path, nil)
 	out := new(InvoiceLinesListOut)
 	err = json.Unmarshal(b, out)
@@ -168,8 +153,8 @@ func (h *handler) InvoiceLinesList(ctx context.Context, billingGroup string, inv
 	}
 	return out.Lines, nil
 }
-func (h *handler) InvoiceList(ctx context.Context, billingGroup string) ([]InvoiceItem, error) {
-	path := fmt.Sprintf("/billing-group/%s/invoice", billingGroup)
+func (h *handler) InvoiceList(ctx context.Context, id string) ([]Invoice, error) {
+	path := fmt.Sprintf("/billing-group/%s/invoice", id)
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceList", "GET", path, nil)
 	out := new(InvoiceListOut)
 	err = json.Unmarshal(b, out)
@@ -188,13 +173,13 @@ func (h *handler) List(ctx context.Context) ([]BillingGroup, error) {
 	}
 	return out.BillingGroups, nil
 }
-func (h *handler) ProjectAssign(ctx context.Context, billingGroup string, project string) error {
-	path := fmt.Sprintf("/billing-group/%s/project-assign/%s", billingGroup, project)
+func (h *handler) ProjectAssign(ctx context.Context, id string, project string) error {
+	path := fmt.Sprintf("/billing-group/%s/project-assign/%s", id, project)
 	_, err := h.doer.Do(ctx, "BillingGroupProjectAssign", "POST", path, nil)
 	return err
 }
-func (h *handler) ProjectList(ctx context.Context, billingGroup string) ([]Project, error) {
-	path := fmt.Sprintf("/billing-group/%s/projects", billingGroup)
+func (h *handler) ProjectList(ctx context.Context, id string) ([]Project, error) {
+	path := fmt.Sprintf("/billing-group/%s/projects", id)
 	b, err := h.doer.Do(ctx, "BillingGroupProjectList", "GET", path, nil)
 	out := new(ProjectListOut)
 	err = json.Unmarshal(b, out)
@@ -203,13 +188,13 @@ func (h *handler) ProjectList(ctx context.Context, billingGroup string) ([]Proje
 	}
 	return out.Projects, nil
 }
-func (h *handler) ProjectsAssign(ctx context.Context, billingGroup string, in *ProjectsAssignIn) error {
-	path := fmt.Sprintf("/billing-group/%s/projects-assign", billingGroup)
+func (h *handler) ProjectsAssign(ctx context.Context, id string, in *ProjectsAssignIn) error {
+	path := fmt.Sprintf("/billing-group/%s/projects-assign", id)
 	_, err := h.doer.Do(ctx, "BillingGroupProjectsAssign", "POST", path, in)
 	return err
 }
-func (h *handler) Update(ctx context.Context, billingGroup string, in *UpdateIn) (*BillingGroup, error) {
-	path := fmt.Sprintf("/billing-group/%s", billingGroup)
+func (h *handler) Update(ctx context.Context, id string, in *UpdateIn) (*BillingGroup, error) {
+	path := fmt.Sprintf("/billing-group/%s", id)
 	b, err := h.doer.Do(ctx, "BillingGroupUpdate", "PUT", path, in)
 	out := new(UpdateOut)
 	err = json.Unmarshal(b, out)
@@ -349,16 +334,6 @@ type GetOut struct {
 	BillingGroup *BillingGroup `json:"billing_group"`
 }
 type Invoice struct {
-	GeneratedAt   *time.Time `json:"generated_at,omitempty"`
-	LocalIncVat   string     `json:"local_inc_vat"`
-	LocalVatZero  string     `json:"local_vat_zero"`
-	InvoiceNumber string     `json:"invoice_number"`
-	InvoiceState  StateType  `json:"invoice_state,omitempty"`
-}
-type InvoiceGetOut struct {
-	Invoice *Invoice `json:"invoice"`
-}
-type InvoiceItem struct {
 	BillingGroupId    string                `json:"billing_group_id"`
 	BillingGroupName  string                `json:"billing_group_name"`
 	BillingGroupState BillingGroupStateType `json:"billing_group_state"`
@@ -376,7 +351,7 @@ type InvoiceLinesListOut struct {
 	Lines []Line `json:"lines,omitempty"`
 }
 type InvoiceListOut struct {
-	Invoices []InvoiceItem `json:"invoices"`
+	Invoices []Invoice `json:"invoices"`
 }
 type Line struct {
 	CloudName            string            `json:"cloud_name,omitempty"`
