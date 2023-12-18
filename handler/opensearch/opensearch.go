@@ -156,7 +156,7 @@ type AclUpdateIn struct {
 	OpensearchAclConfig *AclUpdateInOpensearchAclConfig `json:"opensearch_acl_config"`
 }
 type AclUpdateInOpensearchAclConfig struct {
-	Acls    []Acl `json:"acls,omitempty"`
+	Acls    []Acl `json:"acls"`
 	Enabled *bool `json:"enabled,omitempty"`
 }
 type AclUpdateOut struct {

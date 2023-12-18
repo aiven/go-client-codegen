@@ -115,7 +115,7 @@ func (h *handler) Update(ctx context.Context, project string, serviceName string
 
 type CleanupPolicy struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    string     `json:"value,omitempty"`
 }
 type CleanupPolicyType string
@@ -186,27 +186,27 @@ type CreateIn struct {
 	Replication       *int              `json:"replication,omitempty"`
 	RetentionBytes    *int              `json:"retention_bytes,omitempty"`
 	RetentionHours    *int              `json:"retention_hours,omitempty"`
-	Tags              []Tag             `json:"tags,omitempty"`
+	Tags              []Tag             `json:"tags"`
 	TopicName         string            `json:"topic_name"`
 }
 type DeleteRetentionMs struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type FileDeleteDelayMs struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type FlushMessages struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type FlushMs struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type FormatType string
@@ -228,7 +228,7 @@ type GetOut struct {
 }
 type IndexIntervalBytes struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type ListOut struct {
@@ -236,22 +236,22 @@ type ListOut struct {
 }
 type LocalRetentionBytes struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type LocalRetentionMs struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type MaxCompactionLagMs struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type MaxMessageBytes struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type Message struct {
@@ -263,13 +263,13 @@ type Message struct {
 }
 type MessageDownconversionEnable struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *bool      `json:"value,omitempty"`
 }
 type MessageFormatVersion struct {
 	Value    MessageFormatVersionValueType `json:"value,omitempty"`
 	Source   SourceType                    `json:"source,omitempty"`
-	Synonyms []Synonym                     `json:"synonyms,omitempty"`
+	Synonyms []Synonym                     `json:"synonyms"`
 }
 type MessageFormatVersionType string
 
@@ -432,7 +432,7 @@ type MessageListIn struct {
 	Timeout    *int           `json:"timeout,omitempty"`
 }
 type MessageListOut struct {
-	Messages []Message `json:"messages,omitempty"`
+	Messages []Message `json:"messages"`
 }
 type MessageProduceIn struct {
 	Format        FormatType `json:"format"`
@@ -444,12 +444,12 @@ type MessageProduceIn struct {
 }
 type MessageProduceOut struct {
 	KeySchemaId   *int     `json:"key_schema_id,omitempty"`
-	Offsets       []Offset `json:"offsets,omitempty"`
+	Offsets       []Offset `json:"offsets"`
 	ValueSchemaId *int     `json:"value_schema_id,omitempty"`
 }
 type MessageTimestampDifferenceMaxMs struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type MessageTimestampType string
@@ -465,17 +465,17 @@ func MessageTimestampTypeChoices() []string {
 
 type MinCleanableDirtyRatio struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *float64   `json:"value,omitempty"`
 }
 type MinCompactionLagMs struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type MinInsyncReplicas struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type Offset struct {
@@ -494,7 +494,7 @@ type Partition struct {
 }
 type Preallocate struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *bool      `json:"value,omitempty"`
 }
 type Record struct {
@@ -504,37 +504,37 @@ type Record struct {
 }
 type RemoteStorageEnable struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *bool      `json:"value,omitempty"`
 }
 type RetentionBytes struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type RetentionMs struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type SegmentBytes struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type SegmentIndexBytes struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type SegmentJitterMs struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type SegmentMs struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
 type SourceType string
@@ -609,12 +609,12 @@ type TopicConfig struct {
 }
 type TopicConfigCompressionType struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    ValueType  `json:"value,omitempty"`
 }
 type TopicConfigMessageTimestampType struct {
 	Source   SourceType                               `json:"source,omitempty"`
-	Synonyms []Synonym                                `json:"synonyms,omitempty"`
+	Synonyms []Synonym                                `json:"synonyms"`
 	Value    TopicConfigMessageTimestampTypeValueType `json:"value,omitempty"`
 }
 type TopicConfigMessageTimestampTypeValueType string
@@ -638,7 +638,7 @@ type TopicItem struct {
 }
 type UncleanLeaderElectionEnable struct {
 	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms,omitempty"`
+	Synonyms []Synonym  `json:"synonyms"`
 	Value    *bool      `json:"value,omitempty"`
 }
 type UpdateIn struct {
@@ -648,7 +648,7 @@ type UpdateIn struct {
 	Replication       *int    `json:"replication,omitempty"`
 	RetentionBytes    *int    `json:"retention_bytes,omitempty"`
 	RetentionHours    *int    `json:"retention_hours,omitempty"`
-	Tags              []Tag   `json:"tags,omitempty"`
+	Tags              []Tag   `json:"tags"`
 }
 type ValueType string
 

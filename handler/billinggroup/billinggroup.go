@@ -266,9 +266,9 @@ type CardInfo struct {
 }
 type CreateIn struct {
 	AccountId            string              `json:"account_id,omitempty"`
-	AddressLines         []string            `json:"address_lines,omitempty"`
+	AddressLines         []string            `json:"address_lines"`
 	BillingCurrency      BillingCurrencyType `json:"billing_currency,omitempty"`
-	BillingEmails        []BillingEmail      `json:"billing_emails,omitempty"`
+	BillingEmails        []BillingEmail      `json:"billing_emails"`
 	BillingExtraText     string              `json:"billing_extra_text,omitempty"`
 	BillingGroupName     string              `json:"billing_group_name"`
 	CardId               string              `json:"card_id,omitempty"`
@@ -348,7 +348,7 @@ type Invoice struct {
 	TotalVatZero      string                `json:"total_vat_zero"`
 }
 type InvoiceLinesListOut struct {
-	Lines []Line `json:"lines,omitempty"`
+	Lines []Line `json:"lines"`
 }
 type InvoiceListOut struct {
 	Invoices []Invoice `json:"invoices"`
@@ -465,9 +465,9 @@ const (
 
 type UpdateIn struct {
 	AccountId        string              `json:"account_id,omitempty"`
-	AddressLines     []string            `json:"address_lines,omitempty"`
+	AddressLines     []string            `json:"address_lines"`
 	BillingCurrency  BillingCurrencyType `json:"billing_currency,omitempty"`
-	BillingEmails    []BillingEmail      `json:"billing_emails,omitempty"`
+	BillingEmails    []BillingEmail      `json:"billing_emails"`
 	BillingExtraText string              `json:"billing_extra_text,omitempty"`
 	BillingGroupName string              `json:"billing_group_name,omitempty"`
 	CardId           string              `json:"card_id,omitempty"`

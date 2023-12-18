@@ -100,8 +100,8 @@ type CreateReplicationFlowIn struct {
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
 	TargetCluster                   string                       `json:"target_cluster"`
-	Topics                          []string                     `json:"topics,omitempty"`
-	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`
+	Topics                          []string                     `json:"topics"`
+	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
 }
 type GetReplicationFlowOut struct {
 	ReplicationFlow *ReplicationFlow `json:"replication_flow"`
@@ -126,8 +126,8 @@ type PatchReplicationFlowIn struct {
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
-	Topics                          []string                     `json:"topics,omitempty"`
-	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`
+	Topics                          []string                     `json:"topics"`
+	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
 }
 type PatchReplicationFlowOut struct {
 	ReplicationFlow *ReplicationFlow `json:"replication_flow"`
@@ -144,8 +144,8 @@ type ReplicationFlow struct {
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
 	TargetCluster                   string                       `json:"target_cluster"`
-	Topics                          []string                     `json:"topics,omitempty"`
-	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`
+	Topics                          []string                     `json:"topics"`
+	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
 }
 type ReplicationPolicyClassType string
 

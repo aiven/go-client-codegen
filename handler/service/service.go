@@ -532,10 +532,10 @@ func (h *handler) UserGet(ctx context.Context, project string, name string, user
 type AccessControl struct {
 	M3Group            string   `json:"m3_group,omitempty"`
 	PgAllowReplication *bool    `json:"pg_allow_replication,omitempty"`
-	RedisAclCategories []string `json:"redis_acl_categories,omitempty"`
-	RedisAclChannels   []string `json:"redis_acl_channels,omitempty"`
-	RedisAclCommands   []string `json:"redis_acl_commands,omitempty"`
-	RedisAclKeys       []string `json:"redis_acl_keys,omitempty"`
+	RedisAclCategories []string `json:"redis_acl_categories"`
+	RedisAclChannels   []string `json:"redis_acl_channels"`
+	RedisAclCommands   []string `json:"redis_acl_commands"`
+	RedisAclKeys       []string `json:"redis_acl_keys"`
 }
 type Acl struct {
 	Id         string         `json:"id,omitempty"`
@@ -576,7 +576,7 @@ const (
 )
 
 type Backup struct {
-	AdditionalRegions []AdditionalRegion `json:"additional_regions,omitempty"`
+	AdditionalRegions []AdditionalRegion `json:"additional_regions"`
 	DataSize          int                `json:"data_size"`
 	BackupName        string             `json:"backup_name"`
 	StorageLocation   string             `json:"storage_location,omitempty"`
@@ -634,11 +634,12 @@ type CreateIn struct {
 	Maintenance           *Maintenance         `json:"maintenance,omitempty"`
 	Plan                  string               `json:"plan"`
 	ProjectVpcId          string               `json:"project_vpc_id,omitempty"`
-	ServiceIntegrations   []ServiceIntegration `json:"service_integrations,omitempty"`
+	ServiceIntegrations   []ServiceIntegration `json:"service_integrations"`
 	ServiceName           string               `json:"service_name"`
 	ServiceType           string               `json:"service_type"`
-	StaticIps             []string             `json:"static_ips,omitempty"`
+	StaticIps             []string             `json:"static_ips"`
 	Tags                  map[string]string    `json:"tags,omitempty"`
+	TechEmails            []TechEmail          `json:"tech_emails"`
 	TerminationProtection *bool                `json:"termination_protection,omitempty"`
 	UserConfig            map[string]any       `json:"user_config,omitempty"`
 }
@@ -690,11 +691,11 @@ type EnableWritesOut struct {
 }
 type Extension struct {
 	Name     string   `json:"name"`
-	Versions []string `json:"versions,omitempty"`
+	Versions []string `json:"versions"`
 }
 type GetMigrationStatusOut struct {
 	Migration       *Migration        `json:"migration"`
-	MigrationDetail []MigrationDetail `json:"migration_detail,omitempty"`
+	MigrationDetail []MigrationDetail `json:"migration_detail"`
 }
 type GetOut struct {
 	Service *Service `json:"service"`
@@ -746,11 +747,12 @@ const (
 	IntegrationTypeThanoscompactor                   IntegrationType = "thanoscompactor"
 	IntegrationTypeThanosquery                       IntegrationType = "thanosquery"
 	IntegrationTypeThanosstore                       IntegrationType = "thanosstore"
+	IntegrationTypeVector                            IntegrationType = "vector"
 	IntegrationTypeVmalert                           IntegrationType = "vmalert"
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "internal_connectivity", "jolokia", "kafka_connect", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vmalert"}
+	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "internal_connectivity", "jolokia", "kafka_connect", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
 }
 
 type KafkaAuthenticationMethodType string
@@ -814,9 +816,7 @@ const (
 
 type MethodType string
 
-const (
-	MethodTypePgDump MethodType = "pg_dump"
-)
+const ()
 
 type MetricsFetchIn struct {
 	Period PeriodType `json:"period,omitempty"`
@@ -876,7 +876,7 @@ const (
 type NodeState struct {
 	Name            string             `json:"name"`
 	State           NodeStateStateType `json:"state"`
-	ProgressUpdates []ProgressUpdate   `json:"progress_updates,omitempty"`
+	ProgressUpdates []ProgressUpdate   `json:"progress_updates"`
 	Role            RoleType           `json:"role,omitempty"`
 	Shard           *Shard             `json:"shard,omitempty"`
 }
@@ -931,7 +931,7 @@ type Pg struct {
 	Version    string      `json:"version"`
 }
 type PgAvailableExtensionsOut struct {
-	Pg []Pg `json:"pg,omitempty"`
+	Pg []Pg `json:"pg"`
 }
 type PhaseType string
 
@@ -996,7 +996,7 @@ type Query struct {
 	Datid                                     *int     `json:"datid,omitempty"`
 	Datname                                   string   `json:"datname,omitempty"`
 	QueryDuration                             *float64 `json:"query_duration,omitempty"`
-	Flags                                     []string `json:"flags,omitempty"`
+	Flags                                     []string `json:"flags"`
 	FlagsRaw                                  string   `json:"flags_raw,omitempty"`
 	Id                                        string   `json:"id,omitempty"`
 	QueryId                                   *int     `json:"query_id,omitempty"`
@@ -1071,15 +1071,15 @@ const (
 )
 
 type Service struct {
-	Acl                    []Acl                    `json:"acl,omitempty"`
-	Backups                []Backup                 `json:"backups,omitempty"`
+	Acl                    []Acl                    `json:"acl"`
+	Backups                []Backup                 `json:"backups"`
 	CloudDescription       string                   `json:"cloud_description,omitempty"`
 	CloudName              string                   `json:"cloud_name"`
-	Components             []Component              `json:"components,omitempty"`
+	Components             []Component              `json:"components"`
 	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`
-	ConnectionPools        []ConnectionPool         `json:"connection_pools,omitempty"`
+	ConnectionPools        []ConnectionPool         `json:"connection_pools"`
 	CreateTime             time.Time                `json:"create_time"`
-	Databases              []string                 `json:"databases,omitempty"`
+	Databases              []string                 `json:"databases"`
 	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`
 	Features               map[string]any           `json:"features,omitempty"`
 	GroupList              []string                 `json:"group_list"`
@@ -1089,23 +1089,24 @@ type Service struct {
 	NodeCount              *int                     `json:"node_count,omitempty"`
 	NodeCpuCount           *int                     `json:"node_cpu_count,omitempty"`
 	NodeMemoryMb           *float64                 `json:"node_memory_mb,omitempty"`
-	NodeStates             []NodeState              `json:"node_states,omitempty"`
-	ServiceNotifications   []ServiceNotification    `json:"service_notifications,omitempty"`
+	NodeStates             []NodeState              `json:"node_states"`
+	ServiceNotifications   []ServiceNotification    `json:"service_notifications"`
 	Plan                   string                   `json:"plan"`
 	ProjectVpcId           string                   `json:"project_vpc_id"`
-	SchemaRegistryAcl      []SchemaRegistryAcl      `json:"schema_registry_acl,omitempty"`
+	SchemaRegistryAcl      []SchemaRegistryAcl      `json:"schema_registry_acl"`
 	Maintenance            *ServiceMaintenance      `json:"maintenance,omitempty"`
 	State                  StateType                `json:"state"`
 	Tags                   map[string]string        `json:"tags,omitempty"`
+	TechEmails             []TechEmail              `json:"tech_emails"`
 	TerminationProtection  bool                     `json:"termination_protection"`
-	Topics                 []Topic                  `json:"topics,omitempty"`
+	Topics                 []Topic                  `json:"topics"`
 	ServiceType            string                   `json:"service_type"`
 	ServiceTypeDescription string                   `json:"service_type_description,omitempty"`
 	UpdateTime             time.Time                `json:"update_time"`
 	ServiceUri             string                   `json:"service_uri"`
 	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`
 	UserConfig             map[string]any           `json:"user_config"`
-	Users                  []User                   `json:"users,omitempty"`
+	Users                  []User                   `json:"users"`
 }
 type ServiceIntegration struct {
 	DestEndpointId   string          `json:"dest_endpoint_id,omitempty"`
@@ -1259,7 +1260,7 @@ type Task struct {
 	CreateTime  time.Time    `json:"create_time"`
 	TaskId      string       `json:"task_id"`
 	Result      string       `json:"result"`
-	ResultCodes []ResultCode `json:"result_codes,omitempty"`
+	ResultCodes []ResultCode `json:"result_codes"`
 	Success     bool         `json:"success"`
 	TaskType    string       `json:"task_type"`
 }
@@ -1287,6 +1288,9 @@ func TaskTypeChoices() []string {
 	return []string{"upgrade_check", "migration_check", "dataset_import"}
 }
 
+type TechEmail struct {
+	Email string `json:"email"`
+}
 type Topic struct {
 	CleanupPolicy     string         `json:"cleanup_policy"`
 	MinInsyncReplicas int            `json:"min_insync_replicas"`
@@ -1337,6 +1341,7 @@ type UpdateIn struct {
 	Powered               *bool          `json:"powered,omitempty"`
 	ProjectVpcId          string         `json:"project_vpc_id,omitempty"`
 	SchemaRegistryAuthz   *bool          `json:"schema_registry_authz,omitempty"`
+	TechEmails            []TechEmail    `json:"tech_emails"`
 	TerminationProtection *bool          `json:"termination_protection,omitempty"`
 	UserConfig            map[string]any `json:"user_config,omitempty"`
 }

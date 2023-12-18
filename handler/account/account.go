@@ -735,7 +735,7 @@ type PaymentMethodsListOut struct {
 type Project struct {
 	AccountId             string              `json:"account_id"`
 	AccountName           string              `json:"account_name,omitempty"`
-	AddressLines          []string            `json:"address_lines,omitempty"`
+	AddressLines          []string            `json:"address_lines"`
 	AvailableCredits      string              `json:"available_credits,omitempty"`
 	BillingAddress        string              `json:"billing_address"`
 	BillingCurrency       BillingCurrencyType `json:"billing_currency,omitempty"`
@@ -758,7 +758,7 @@ type Project struct {
 	PaymentMethod         string              `json:"payment_method"`
 	State                 string              `json:"state,omitempty"`
 	Tags                  map[string]string   `json:"tags,omitempty"`
-	TechEmails            []TechEmail         `json:"tech_emails,omitempty"`
+	TechEmails            []TechEmail         `json:"tech_emails"`
 	TenantId              string              `json:"tenant_id,omitempty"`
 	TrialExpirationTime   *time.Time          `json:"trial_expiration_time,omitempty"`
 	VatId                 string              `json:"vat_id"`

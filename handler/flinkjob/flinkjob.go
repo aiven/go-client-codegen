@@ -66,14 +66,14 @@ type DetailsOut struct {
 	State          StateType        `json:"state,omitempty"`
 	StatusCounts   *StatusCounts    `json:"status-counts,omitempty"`
 	Timestamps     map[string]any   `json:"timestamps,omitempty"`
-	Vertices       []map[string]any `json:"vertices,omitempty"`
+	Vertices       []map[string]any `json:"vertices"`
 }
 type Job struct {
 	Id     string     `json:"id,omitempty"`
 	Status StatusType `json:"status,omitempty"`
 }
 type ListOut struct {
-	Jobs []Job `json:"jobs,omitempty"`
+	Jobs []Job `json:"jobs"`
 }
 type StateType string
 

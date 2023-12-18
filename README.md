@@ -3,9 +3,10 @@
 ## Known limitations
 
 - doesn't support query params
+- doesn't support custom certificates
 - `string` type is never a pointer, as it is not expected to send `""`
 - authorization is by token only
-- doesn't support custom certificates
+- slices never omitted (always send), as it makes development much easier
 
 ## Configuration 
 

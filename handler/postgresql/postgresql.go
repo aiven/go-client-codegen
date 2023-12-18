@@ -85,7 +85,7 @@ func (h *handler) PGServiceQueryStatistics(ctx context.Context, project string, 
 
 type Extension struct {
 	Name     string   `json:"name"`
-	Versions []string `json:"versions,omitempty"`
+	Versions []string `json:"versions"`
 }
 type PgbouncerCreateIn struct {
 	Database string       `json:"database"`

@@ -406,11 +406,22 @@ func writeStruct(f *jen.File, s *Schema) error {
 	fields := make([]jen.Code, 0, len(s.properties))
 	for _, p := range s.properties {
 		field := jen.Id(strcase.ToCamel(p.name)).Add(getType(p))
-		js := p.name
+		tag := p.name
 		if !p.required {
-			js += ",omitempty"
+			if !p.isArray() {
+				tag += ",omitempty"
+			} else {
+				if p.MinItems > 0 || p.Default != nil {
+					// Slices never omitted.
+					// But we must make sure they don't have default values or min items constraint.
+					// So no default value will be overriden, and validation is OK with an empty list.
+					return fmt.Errorf("%q has minItems=%d and default=%v", p.name, p.MinItems, p.Default)
+				}
+			}
 		}
-		fields = append(fields, field.Tag(map[string]string{"json": js}))
+
+		field = field.Tag(map[string]string{"json": tag})
+		fields = append(fields, field)
 	}
 
 	f.Type().Id(s.camelName).Struct(fields...)
@@ -420,6 +431,8 @@ func writeStruct(f *jen.File, s *Schema) error {
 func getResponse(s *Schema) *Schema {
 	switch len(s.Properties) {
 	case 1:
+		// If the schema has just one field, then uses it as out dto
+		// That makes code simpler
 		for _, p := range s.Properties {
 			return p
 		}

@@ -108,6 +108,8 @@ type Schema struct {
 	Items         *Schema            `json:"items"`
 	RequiredProps []string           `json:"required"`
 	Enum          []any              `json:"enum"`
+	Default       any                `json:"default"`
+	MinItems      int                `json:"minItems"`
 	required      bool
 	hash          string
 	name          string
@@ -267,10 +269,11 @@ func getType(s *Schema) *jen.Statement {
 
 	switch {
 	case s.isArray():
+		a := jen.Index()
 		if len(s.Items.properties) != 0 {
-			return jen.Index().Id(s.Items.camelName)
+			return a.Id(s.Items.camelName)
 		}
-		return jen.Index().Add(getType(s.Items))
+		return a.Add(getType(s.Items))
 	case s.isObject():
 		if s.isMap() {
 			if isMapString(s) {

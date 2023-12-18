@@ -170,7 +170,7 @@ type ValidateOut struct {
 	StatementError *StatementError         `json:"statement_error,omitempty"`
 }
 type ValidateOutSinkItem struct {
-	Columns       []Column       `json:"columns,omitempty"`
+	Columns       []Column       `json:"columns"`
 	CreateTable   string         `json:"create_table"`
 	IntegrationId string         `json:"integration_id,omitempty"`
 	Message       string         `json:"message,omitempty"`
@@ -179,7 +179,7 @@ type ValidateOutSinkItem struct {
 	TableName     string         `json:"table_name,omitempty"`
 }
 type ValidateOutSourceItem struct {
-	Columns       []Column       `json:"columns,omitempty"`
+	Columns       []Column       `json:"columns"`
 	CreateTable   string         `json:"create_table"`
 	IntegrationId string         `json:"integration_id,omitempty"`
 	Message       string         `json:"message,omitempty"`

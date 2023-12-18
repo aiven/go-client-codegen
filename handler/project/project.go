@@ -454,10 +454,10 @@ type CardInfo struct {
 type CreateIn struct {
 	AccountId                    string              `json:"account_id,omitempty"`
 	AddAccountOwnersAdminAccess  *bool               `json:"add_account_owners_admin_access,omitempty"`
-	AddressLines                 []string            `json:"address_lines,omitempty"`
+	AddressLines                 []string            `json:"address_lines"`
 	BillingAddress               string              `json:"billing_address,omitempty"`
 	BillingCurrency              BillingCurrencyType `json:"billing_currency,omitempty"`
-	BillingEmails                []BillingEmail      `json:"billing_emails,omitempty"`
+	BillingEmails                []BillingEmail      `json:"billing_emails"`
 	BillingExtraText             string              `json:"billing_extra_text,omitempty"`
 	BillingGroupId               string              `json:"billing_group_id,omitempty"`
 	CardId                       string              `json:"card_id,omitempty"`
@@ -470,7 +470,7 @@ type CreateIn struct {
 	Project                      string              `json:"project"`
 	State                        string              `json:"state,omitempty"`
 	Tags                         map[string]string   `json:"tags,omitempty"`
-	TechEmails                   []TechEmail         `json:"tech_emails,omitempty"`
+	TechEmails                   []TechEmail         `json:"tech_emails"`
 	UseSourceProjectBillingGroup *bool               `json:"use_source_project_billing_group,omitempty"`
 	VatId                        string              `json:"vat_id,omitempty"`
 	ZipCode                      string              `json:"zip_code,omitempty"`
@@ -552,7 +552,7 @@ type PeeringConnection struct {
 	PeerRegion           string   `json:"peer_region,omitempty"`
 	PeerResourceGroup    string   `json:"peer_resource_group,omitempty"`
 	PeerVpc              string   `json:"peer_vpc"`
-	UserPeerNetworkCidrs []string `json:"user_peer_network_cidrs,omitempty"`
+	UserPeerNetworkCidrs []string `json:"user_peer_network_cidrs"`
 }
 type PeeringConnectionItem struct {
 	CreateTime               time.Time                                     `json:"create_time"`
@@ -595,7 +595,7 @@ const (
 type Project struct {
 	AccountId             string              `json:"account_id"`
 	AccountName           string              `json:"account_name,omitempty"`
-	AddressLines          []string            `json:"address_lines,omitempty"`
+	AddressLines          []string            `json:"address_lines"`
 	AvailableCredits      string              `json:"available_credits,omitempty"`
 	BillingAddress        string              `json:"billing_address"`
 	BillingCurrency       BillingCurrencyType `json:"billing_currency,omitempty"`
@@ -618,7 +618,7 @@ type Project struct {
 	PaymentMethod         string              `json:"payment_method"`
 	State                 string              `json:"state,omitempty"`
 	Tags                  map[string]string   `json:"tags,omitempty"`
-	TechEmails            []TechEmail         `json:"tech_emails,omitempty"`
+	TechEmails            []TechEmail         `json:"tech_emails"`
 	TenantId              string              `json:"tenant_id,omitempty"`
 	TrialExpirationTime   *time.Time          `json:"trial_expiration_time,omitempty"`
 	VatId                 string              `json:"vat_id"`
@@ -628,12 +628,12 @@ type ProjectMembership struct {
 	Any AnyType `json:"ANY,omitempty"`
 }
 type ProjectMemberships struct {
-	Any []string `json:"ANY,omitempty"`
+	Any []string `json:"ANY"`
 }
 type StateInfo struct {
 	Message  string    `json:"message"`
 	Type     string    `json:"type"`
-	Warnings []Warning `json:"warnings,omitempty"`
+	Warnings []Warning `json:"warnings"`
 }
 type StateType string
 
@@ -665,10 +665,10 @@ const (
 type UpdateIn struct {
 	AccountId                   string              `json:"account_id,omitempty"`
 	AddAccountOwnersAdminAccess *bool               `json:"add_account_owners_admin_access,omitempty"`
-	AddressLines                []string            `json:"address_lines,omitempty"`
+	AddressLines                []string            `json:"address_lines"`
 	BillingAddress              string              `json:"billing_address,omitempty"`
 	BillingCurrency             BillingCurrencyType `json:"billing_currency,omitempty"`
-	BillingEmails               []BillingEmail      `json:"billing_emails,omitempty"`
+	BillingEmails               []BillingEmail      `json:"billing_emails"`
 	BillingExtraText            string              `json:"billing_extra_text,omitempty"`
 	BillingGroupId              string              `json:"billing_group_id,omitempty"`
 	CardId                      string              `json:"card_id,omitempty"`
@@ -679,7 +679,7 @@ type UpdateIn struct {
 	ProjectName                 string              `json:"project_name,omitempty"`
 	State                       string              `json:"state,omitempty"`
 	Tags                        map[string]string   `json:"tags,omitempty"`
-	TechEmails                  []TechEmail         `json:"tech_emails,omitempty"`
+	TechEmails                  []TechEmail         `json:"tech_emails"`
 	VatId                       string              `json:"vat_id,omitempty"`
 	ZipCode                     string              `json:"zip_code,omitempty"`
 }
@@ -757,7 +757,7 @@ type VpcPeeringConnectionCreateIn struct {
 	PeerRegion           string   `json:"peer_region,omitempty"`
 	PeerResourceGroup    string   `json:"peer_resource_group,omitempty"`
 	PeerVpc              string   `json:"peer_vpc"`
-	UserPeerNetworkCidrs []string `json:"user_peer_network_cidrs,omitempty"`
+	UserPeerNetworkCidrs []string `json:"user_peer_network_cidrs"`
 }
 type VpcPeeringConnectionCreateOut struct {
 	CreateTime               time.Time                                             `json:"create_time"`
@@ -851,8 +851,8 @@ const (
 )
 
 type VpcPeeringConnectionUpdateIn struct {
-	Add    []Add    `json:"add,omitempty"`
-	Delete []string `json:"delete,omitempty"`
+	Add    []Add    `json:"add"`
+	Delete []string `json:"delete"`
 }
 type VpcPeeringConnectionUpdateOut struct {
 	CloudName                          string                  `json:"cloud_name"`

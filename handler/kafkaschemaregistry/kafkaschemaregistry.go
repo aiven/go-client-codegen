@@ -322,7 +322,7 @@ type SubjectConfigPutOut struct {
 	Compatibility CompatibilityType `json:"compatibility"`
 }
 type SubjectVersionPostIn struct {
-	References []Reference `json:"references,omitempty"`
+	References []Reference `json:"references"`
 	Schema     string      `json:"schema"`
 	SchemaType SchemaType  `json:"schemaType,omitempty"`
 }
