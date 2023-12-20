@@ -86,7 +86,7 @@ func (h *handler) Get(ctx context.Context, organizationId string, id string) (*G
 func (h *handler) List(ctx context.Context, organizationId string) ([]UserGroup, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups", organizationId)
 	b, err := h.doer.Do(ctx, "UserGroupsList", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -96,7 +96,7 @@ func (h *handler) List(ctx context.Context, organizationId string) ([]UserGroup,
 func (h *handler) MemberList(ctx context.Context, organizationId string, id string) ([]Member, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups/%s/members", organizationId, id)
 	b, err := h.doer.Do(ctx, "UserGroupMemberList", "GET", path, nil)
-	out := new(MemberListOut)
+	out := new(memberListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -137,15 +137,15 @@ type GetOut struct {
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
 }
-type ListOut struct {
+type listOut struct {
 	UserGroups []UserGroup `json:"user_groups"`
 }
 type Member struct {
 	LastActivityTime *time.Time `json:"last_activity_time,omitempty"`
 	UserId           string     `json:"user_id"`
-	UserInfo         *UserInfo  `json:"user_info,omitempty"`
+	UserInfo         *UserInfo  `json:"user_info"`
 }
-type MemberListOut struct {
+type memberListOut struct {
 	Members []Member `json:"members"`
 }
 type MembersUpdateIn struct {

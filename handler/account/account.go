@@ -176,7 +176,7 @@ type handler struct {
 func (h *handler) AttachPaymentMethod(ctx context.Context, id string, in *AttachPaymentMethodIn) (*Card, error) {
 	path := fmt.Sprintf("/account/%s/payment_methods", id)
 	b, err := h.doer.Do(ctx, "AccountAttachPaymentMethod", "POST", path, in)
-	out := new(AttachPaymentMethodOut)
+	out := new(attachPaymentMethodOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -186,7 +186,7 @@ func (h *handler) AttachPaymentMethod(ctx context.Context, id string, in *Attach
 func (h *handler) AuthenticationMethodCreate(ctx context.Context, id string, in *AuthenticationMethodCreateIn) (*AuthenticationMethod, error) {
 	path := fmt.Sprintf("/account/%s/authentication", id)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodCreate", "POST", path, in)
-	out := new(AuthenticationMethodCreateOut)
+	out := new(authenticationMethodCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -201,7 +201,7 @@ func (h *handler) AuthenticationMethodDelete(ctx context.Context, id string, aut
 func (h *handler) AuthenticationMethodGet(ctx context.Context, id string, authenticationMethodId string) (*AuthenticationMethod, error) {
 	path := fmt.Sprintf("/account/%s/authentication/%s", id, authenticationMethodId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodGet", "GET", path, nil)
-	out := new(AuthenticationMethodGetOut)
+	out := new(authenticationMethodGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -211,7 +211,7 @@ func (h *handler) AuthenticationMethodGet(ctx context.Context, id string, authen
 func (h *handler) AuthenticationMethodUpdate(ctx context.Context, id string, authenticationMethodId string, in *AuthenticationMethodUpdateIn) (*AuthenticationMethod, error) {
 	path := fmt.Sprintf("/account/%s/authentication/%s", id, authenticationMethodId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodUpdate", "PUT", path, in)
-	out := new(AuthenticationMethodUpdateOut)
+	out := new(authenticationMethodUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -221,7 +221,7 @@ func (h *handler) AuthenticationMethodUpdate(ctx context.Context, id string, aut
 func (h *handler) AuthenticationMethodsList(ctx context.Context, id string) ([]AuthenticationMethod, error) {
 	path := fmt.Sprintf("/account/%s/authentication", id)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodsList", "GET", path, nil)
-	out := new(AuthenticationMethodsListOut)
+	out := new(authenticationMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -231,7 +231,7 @@ func (h *handler) AuthenticationMethodsList(ctx context.Context, id string) ([]A
 func (h *handler) BillingGroupList(ctx context.Context, id string) ([]AccountBillingGroup, error) {
 	path := fmt.Sprintf("/account/%s/billing-group", id)
 	b, err := h.doer.Do(ctx, "AccountBillingGroupList", "GET", path, nil)
-	out := new(BillingGroupListOut)
+	out := new(billingGroupListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -241,7 +241,7 @@ func (h *handler) BillingGroupList(ctx context.Context, id string) ([]AccountBil
 func (h *handler) Create(ctx context.Context, in *CreateIn) (*Account, error) {
 	path := fmt.Sprintf("/account")
 	b, err := h.doer.Do(ctx, "AccountCreate", "POST", path, in)
-	out := new(CreateOut)
+	out := new(createOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -256,7 +256,7 @@ func (h *handler) Delete(ctx context.Context, id string) error {
 func (h *handler) EventList(ctx context.Context, id string) ([]Event, error) {
 	path := fmt.Sprintf("/account/%s/events", id)
 	b, err := h.doer.Do(ctx, "AccountEventList", "GET", path, nil)
-	out := new(EventListOut)
+	out := new(eventListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -266,7 +266,7 @@ func (h *handler) EventList(ctx context.Context, id string) ([]Event, error) {
 func (h *handler) Get(ctx context.Context, id string) (*Account, error) {
 	path := fmt.Sprintf("/account/%s", id)
 	b, err := h.doer.Do(ctx, "AccountGet", "GET", path, nil)
-	out := new(GetOut)
+	out := new(getOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -276,7 +276,7 @@ func (h *handler) Get(ctx context.Context, id string) (*Account, error) {
 func (h *handler) List(ctx context.Context) ([]Account, error) {
 	path := fmt.Sprintf("/account")
 	b, err := h.doer.Do(ctx, "AccountList", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -286,7 +286,7 @@ func (h *handler) List(ctx context.Context) ([]Account, error) {
 func (h *handler) Move(ctx context.Context, id string, in *MoveIn) (*Account, error) {
 	path := fmt.Sprintf("/account/%s/parent_account", id)
 	b, err := h.doer.Do(ctx, "AccountMove", "PUT", path, in)
-	out := new(MoveOut)
+	out := new(moveOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -301,7 +301,7 @@ func (h *handler) PaymentMethodDelete(ctx context.Context, id string, cardId str
 func (h *handler) PaymentMethodsList(ctx context.Context, id string) ([]CardItem, error) {
 	path := fmt.Sprintf("/account/%s/payment_methods", id)
 	b, err := h.doer.Do(ctx, "AccountPaymentMethodsList", "GET", path, nil)
-	out := new(PaymentMethodsListOut)
+	out := new(paymentMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -326,7 +326,7 @@ func (h *handler) TeamDelete(ctx context.Context, id string, teamId string) erro
 func (h *handler) TeamGet(ctx context.Context, id string, teamId string) (*Team, error) {
 	path := fmt.Sprintf("/account/%s/team/%s", id, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamGet", "GET", path, nil)
-	out := new(TeamGetOut)
+	out := new(teamGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -336,7 +336,7 @@ func (h *handler) TeamGet(ctx context.Context, id string, teamId string) (*Team,
 func (h *handler) TeamInvitesList(ctx context.Context, id string, teamId string) ([]AccountInvite, error) {
 	path := fmt.Sprintf("/account/%s/team/%s/invites", id, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamInvitesList", "GET", path, nil)
-	out := new(TeamInvitesListOut)
+	out := new(teamInvitesListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -346,7 +346,7 @@ func (h *handler) TeamInvitesList(ctx context.Context, id string, teamId string)
 func (h *handler) TeamList(ctx context.Context, id string) ([]Team, error) {
 	path := fmt.Sprintf("/account/%s/teams", id)
 	b, err := h.doer.Do(ctx, "AccountTeamList", "GET", path, nil)
-	out := new(TeamListOut)
+	out := new(teamListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -361,7 +361,7 @@ func (h *handler) TeamMemberCancelInvite(ctx context.Context, id string, teamId 
 func (h *handler) TeamMemberVerifyInvite(ctx context.Context, id string, inviteVerificationCode string) (*InviteDetails, error) {
 	path := fmt.Sprintf("/account/%s/invite/%s", id, inviteVerificationCode)
 	b, err := h.doer.Do(ctx, "AccountTeamMemberVerifyInvite", "POST", path, nil)
-	out := new(TeamMemberVerifyInviteOut)
+	out := new(teamMemberVerifyInviteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -376,7 +376,7 @@ func (h *handler) TeamMembersInvite(ctx context.Context, id string, teamId strin
 func (h *handler) TeamMembersList(ctx context.Context, id string, teamId string) ([]Member, error) {
 	path := fmt.Sprintf("/account/%s/team/%s/members", id, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamMembersList", "GET", path, nil)
-	out := new(TeamMembersListOut)
+	out := new(teamMembersListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -396,7 +396,7 @@ func (h *handler) TeamProjectDisassociate(ctx context.Context, id string, teamId
 func (h *handler) TeamUpdate(ctx context.Context, id string, teamId string, in *TeamUpdateIn) (*Team, error) {
 	path := fmt.Sprintf("/account/%s/team/%s", id, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamUpdate", "PUT", path, in)
-	out := new(TeamUpdateOut)
+	out := new(teamUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -406,7 +406,7 @@ func (h *handler) TeamUpdate(ctx context.Context, id string, teamId string, in *
 func (h *handler) Update(ctx context.Context, id string, in *UpdateIn) (*Account, error) {
 	path := fmt.Sprintf("/account/%s", id)
 	b, err := h.doer.Do(ctx, "AccountUpdate", "PUT", path, in)
-	out := new(UpdateOut)
+	out := new(updateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -416,7 +416,7 @@ func (h *handler) Update(ctx context.Context, id string, in *UpdateIn) (*Account
 func (h *handler) UserProjectsList(ctx context.Context, id string, userId string) ([]UserProject, error) {
 	path := fmt.Sprintf("/account/%s/user/%s/projects", id, userId)
 	b, err := h.doer.Do(ctx, "AccountUserProjectsList", "GET", path, nil)
-	out := new(UserProjectsListOut)
+	out := new(userProjectsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -426,7 +426,7 @@ func (h *handler) UserProjectsList(ctx context.Context, id string, userId string
 func (h *handler) UsersSearch(ctx context.Context, id string, in *UsersSearchIn) ([]User, error) {
 	path := fmt.Sprintf("/account/%s/users/search", id)
 	b, err := h.doer.Do(ctx, "AccountUsersSearch", "POST", path, in)
-	out := new(UsersSearchOut)
+	out := new(usersSearchOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -493,7 +493,7 @@ type AccountInvite struct {
 type AttachPaymentMethodIn struct {
 	PaymentMethodId string `json:"payment_method_id"`
 }
-type AttachPaymentMethodOut struct {
+type attachPaymentMethodOut struct {
 	Card *Card `json:"card"`
 }
 type AuthenticationMethod struct {
@@ -534,6 +534,7 @@ type AuthenticationMethodCreateIn struct {
 	AuthenticationMethodType         AuthenticationMethodType   `json:"authentication_method_type"`
 	AutoJoinTeamId                   string                     `json:"auto_join_team_id,omitempty"`
 	AutoJoinUserGroupId              string                     `json:"auto_join_user_group_id,omitempty"`
+	LinkedDomains                    []LinkedDomain             `json:"linked_domains"`
 	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`
 	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`
 	SamlCertificate                  string                     `json:"saml_certificate,omitempty"`
@@ -546,10 +547,10 @@ type AuthenticationMethodCreateIn struct {
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
 }
-type AuthenticationMethodCreateOut struct {
+type authenticationMethodCreateOut struct {
 	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
 }
-type AuthenticationMethodGetOut struct {
+type authenticationMethodGetOut struct {
 	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
 }
 type AuthenticationMethodType string
@@ -580,10 +581,10 @@ type AuthenticationMethodUpdateIn struct {
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
 }
-type AuthenticationMethodUpdateOut struct {
+type authenticationMethodUpdateOut struct {
 	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
 }
-type AuthenticationMethodsListOut struct {
+type authenticationMethodsListOut struct {
 	AuthenticationMethods []AuthenticationMethod `json:"authentication_methods"`
 }
 type BillingCurrencyType string
@@ -606,7 +607,7 @@ const (
 type BillingEmail struct {
 	Email string `json:"email"`
 }
-type BillingGroupListOut struct {
+type billingGroupListOut struct {
 	AccountBillingGroups []AccountBillingGroup `json:"account_billing_groups"`
 }
 type Card struct {
@@ -647,7 +648,7 @@ type CreateIn struct {
 	ParentAccountId       string `json:"parent_account_id,omitempty"`
 	PrimaryBillingGroupId string `json:"primary_billing_group_id,omitempty"`
 }
-type CreateOut struct {
+type createOut struct {
 	Account *Account `json:"account"`
 }
 type Elasticsearch struct {
@@ -667,16 +668,19 @@ type Event struct {
 	LogEntryId        int       `json:"log_entry_id"`
 	TeamId            string    `json:"team_id"`
 }
-type EventListOut struct {
+type eventListOut struct {
 	Events []Event `json:"events"`
 }
-type GetOut struct {
+type getOut struct {
 	Account *Account `json:"account"`
 }
 type InviteDetails struct {
 	UserEmail string `json:"user_email"`
 }
-type ListOut struct {
+type LinkedDomain struct {
+	DomainId string `json:"domain_id"`
+}
+type listOut struct {
 	Accounts []Account `json:"accounts"`
 }
 type Member struct {
@@ -700,7 +704,7 @@ const (
 type MoveIn struct {
 	ParentAccountId string `json:"parent_account_id"`
 }
-type MoveOut struct {
+type moveOut struct {
 	Account *Account `json:"account"`
 }
 type OrderByType string
@@ -729,7 +733,7 @@ const (
 	PaymentMethodTypePartner           PaymentMethodType = "partner"
 )
 
-type PaymentMethodsListOut struct {
+type paymentMethodsListOut struct {
 	Cards []CardItem `json:"cards"`
 }
 type Project struct {
@@ -821,22 +825,22 @@ type Team struct {
 	TeamName   string     `json:"team_name"`
 	UpdateTime *time.Time `json:"update_time,omitempty"`
 }
-type TeamGetOut struct {
+type teamGetOut struct {
 	Team *Team `json:"team"`
 }
-type TeamInvitesListOut struct {
+type teamInvitesListOut struct {
 	AccountInvites []AccountInvite `json:"account_invites"`
 }
-type TeamListOut struct {
+type teamListOut struct {
 	Teams []Team `json:"teams"`
 }
-type TeamMemberVerifyInviteOut struct {
+type teamMemberVerifyInviteOut struct {
 	InviteDetails *InviteDetails `json:"invite_details"`
 }
 type TeamMembersInviteIn struct {
 	Email string `json:"email"`
 }
-type TeamMembersListOut struct {
+type teamMembersListOut struct {
 	Members []Member `json:"members"`
 }
 type TeamProjectAssociateIn struct {
@@ -858,7 +862,7 @@ func TeamTypeChoices() []string {
 type TeamUpdateIn struct {
 	TeamName string `json:"team_name"`
 }
-type TeamUpdateOut struct {
+type teamUpdateOut struct {
 	Team *Team `json:"team"`
 }
 type TechEmail struct {
@@ -875,7 +879,7 @@ type UpdateIn struct {
 	AccountName           string `json:"account_name,omitempty"`
 	PrimaryBillingGroupId string `json:"primary_billing_group_id,omitempty"`
 }
-type UpdateOut struct {
+type updateOut struct {
 	Account *Account `json:"account"`
 }
 type User struct {
@@ -894,7 +898,7 @@ type UserProject struct {
 	TeamName    string     `json:"team_name"`
 	UserEmail   string     `json:"user_email"`
 }
-type UserProjectsListOut struct {
+type userProjectsListOut struct {
 	UserProjects []UserProject `json:"user_projects"`
 }
 type UsersSearchIn struct {
@@ -902,6 +906,6 @@ type UsersSearchIn struct {
 	OrderBy OrderByType `json:"order_by,omitempty"`
 	Query   string      `json:"query,omitempty"`
 }
-type UsersSearchOut struct {
+type usersSearchOut struct {
 	Users []User `json:"users"`
 }

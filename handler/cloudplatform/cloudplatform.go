@@ -40,7 +40,7 @@ type handler struct {
 func (h *handler) ListClouds(ctx context.Context) ([]Cloud, error) {
 	path := fmt.Sprintf("/clouds")
 	b, err := h.doer.Do(ctx, "ListClouds", "GET", path, nil)
-	out := new(ListCloudsOut)
+	out := new(listCloudsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -50,7 +50,7 @@ func (h *handler) ListClouds(ctx context.Context) ([]Cloud, error) {
 func (h *handler) ListProjectClouds(ctx context.Context, project string) ([]Cloud, error) {
 	path := fmt.Sprintf("/project/%s/clouds", project)
 	b, err := h.doer.Do(ctx, "ListProjectClouds", "GET", path, nil)
-	out := new(ListProjectCloudsOut)
+	out := new(listProjectCloudsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -60,7 +60,7 @@ func (h *handler) ListProjectClouds(ctx context.Context, project string) ([]Clou
 func (h *handler) PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIpAddressAvailability, error) {
 	path := fmt.Sprintf("/tenants/%s/static-ip-availability", tenant)
 	b, err := h.doer.Do(ctx, "PublicStaticIPAvailabilityList", "GET", path, nil)
-	out := new(PublicStaticIpavailabilityListOut)
+	out := new(publicStaticIpavailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -77,13 +77,13 @@ type Cloud struct {
 	Provider            string   `json:"provider,omitempty"`
 	ProviderDescription string   `json:"provider_description,omitempty"`
 }
-type ListCloudsOut struct {
+type listCloudsOut struct {
 	Clouds []Cloud `json:"clouds"`
 }
-type ListProjectCloudsOut struct {
+type listProjectCloudsOut struct {
 	Clouds []Cloud `json:"clouds"`
 }
-type PublicStaticIpavailabilityListOut struct {
+type publicStaticIpavailabilityListOut struct {
 	StaticIpAddressAvailability []StaticIpAddressAvailability `json:"static_ip_address_availability"`
 }
 type StaticIpAddressAvailability struct {

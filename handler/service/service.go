@@ -206,7 +206,7 @@ type handler struct {
 func (h *handler) AlertsList(ctx context.Context, project string, name string) ([]Alert, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/alerts", project, name)
 	b, err := h.doer.Do(ctx, "ServiceAlertsList", "GET", path, nil)
-	out := new(AlertsListOut)
+	out := new(alertsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -216,7 +216,7 @@ func (h *handler) AlertsList(ctx context.Context, project string, name string) (
 func (h *handler) BackupToAnotherRegionReport(ctx context.Context, project string, name string, in *BackupToAnotherRegionReportIn) (map[string]any, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/backup_to_another_region/report", project, name)
 	b, err := h.doer.Do(ctx, "ServiceBackupToAnotherRegionReport", "POST", path, in)
-	out := new(BackupToAnotherRegionReportOut)
+	out := new(backupToAnotherRegionReportOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -226,7 +226,7 @@ func (h *handler) BackupToAnotherRegionReport(ctx context.Context, project strin
 func (h *handler) BackupsGet(ctx context.Context, project string, name string) ([]Backup, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/backups", project, name)
 	b, err := h.doer.Do(ctx, "ServiceBackupsGet", "GET", path, nil)
-	out := new(BackupsGetOut)
+	out := new(backupsGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -236,7 +236,7 @@ func (h *handler) BackupsGet(ctx context.Context, project string, name string) (
 func (h *handler) CancelQuery(ctx context.Context, project string, name string, in *CancelQueryIn) (bool, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/query/cancel", project, name)
 	b, err := h.doer.Do(ctx, "ServiceCancelQuery", "POST", path, in)
-	out := new(CancelQueryOut)
+	out := new(cancelQueryOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return false, err
@@ -246,7 +246,7 @@ func (h *handler) CancelQuery(ctx context.Context, project string, name string, 
 func (h *handler) Create(ctx context.Context, project string, in *CreateIn) (*Service, error) {
 	path := fmt.Sprintf("/project/%s/service", project)
 	b, err := h.doer.Do(ctx, "ServiceCreate", "POST", path, in)
-	out := new(CreateOut)
+	out := new(createOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -266,7 +266,7 @@ func (h *handler) DatabaseDelete(ctx context.Context, project string, name strin
 func (h *handler) DatabaseList(ctx context.Context, project string, name string) ([]Database, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/db", project, name)
 	b, err := h.doer.Do(ctx, "ServiceDatabaseList", "GET", path, nil)
-	out := new(DatabaseListOut)
+	out := new(databaseListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -281,7 +281,7 @@ func (h *handler) Delete(ctx context.Context, project string, name string) error
 func (h *handler) EnableWrites(ctx context.Context, project string, name string) (string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/enable-writes", project, name)
 	b, err := h.doer.Do(ctx, "ServiceEnableWrites", "POST", path, nil)
-	out := new(EnableWritesOut)
+	out := new(enableWritesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -291,7 +291,7 @@ func (h *handler) EnableWrites(ctx context.Context, project string, name string)
 func (h *handler) Get(ctx context.Context, project string, name string) (*Service, error) {
 	path := fmt.Sprintf("/project/%s/service/%s", project, name)
 	b, err := h.doer.Do(ctx, "ServiceGet", "GET", path, nil)
-	out := new(GetOut)
+	out := new(getOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -311,7 +311,7 @@ func (h *handler) GetMigrationStatus(ctx context.Context, project string, name s
 func (h *handler) InfluxDBStats(ctx context.Context, project string, name string) (map[string]any, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/influxdb/stats", project, name)
 	b, err := h.doer.Do(ctx, "ServiceInfluxDBStats", "GET", path, nil)
-	out := new(InfluxDbstatsOut)
+	out := new(influxDbstatsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -321,7 +321,7 @@ func (h *handler) InfluxDBStats(ctx context.Context, project string, name string
 func (h *handler) KmsGetCA(ctx context.Context, project string, name string, caName string) (string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kms/ca/%s", project, name, caName)
 	b, err := h.doer.Do(ctx, "ServiceKmsGetCA", "GET", path, nil)
-	out := new(KmsGetCaout)
+	out := new(kmsGetCaout)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -341,7 +341,7 @@ func (h *handler) KmsGetKeypair(ctx context.Context, project string, name string
 func (h *handler) List(ctx context.Context, project string) ([]Service, error) {
 	path := fmt.Sprintf("/project/%s/service", project)
 	b, err := h.doer.Do(ctx, "ServiceList", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -351,7 +351,7 @@ func (h *handler) List(ctx context.Context, project string) ([]Service, error) {
 func (h *handler) ListProjectServiceTypes(ctx context.Context, project string) (*ServiceTypes, error) {
 	path := fmt.Sprintf("/project/%s/service_types", project)
 	b, err := h.doer.Do(ctx, "ListProjectServiceTypes", "GET", path, nil)
-	out := new(ListProjectServiceTypesOut)
+	out := new(listProjectServiceTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -361,7 +361,7 @@ func (h *handler) ListProjectServiceTypes(ctx context.Context, project string) (
 func (h *handler) ListPublicServiceTypes(ctx context.Context) (*ServiceTypes, error) {
 	path := fmt.Sprintf("/service_types")
 	b, err := h.doer.Do(ctx, "ListPublicServiceTypes", "GET", path, nil)
-	out := new(ListPublicServiceTypesOut)
+	out := new(listPublicServiceTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -371,7 +371,7 @@ func (h *handler) ListPublicServiceTypes(ctx context.Context) (*ServiceTypes, er
 func (h *handler) ListServiceVersions(ctx context.Context) ([]ServiceVersion, error) {
 	path := fmt.Sprintf("/service_versions")
 	b, err := h.doer.Do(ctx, "ListServiceVersions", "GET", path, nil)
-	out := new(ListServiceVersionsOut)
+	out := new(listServiceVersionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -386,7 +386,7 @@ func (h *handler) MaintenanceStart(ctx context.Context, project string, name str
 func (h *handler) MetricsFetch(ctx context.Context, project string, name string, in *MetricsFetchIn) (map[string]any, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/metrics", project, name)
 	b, err := h.doer.Do(ctx, "ServiceMetricsFetch", "POST", path, in)
-	out := new(MetricsFetchOut)
+	out := new(metricsFetchOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -396,7 +396,7 @@ func (h *handler) MetricsFetch(ctx context.Context, project string, name string,
 func (h *handler) PgAvailableExtensions(ctx context.Context, tenant string) ([]Pg, error) {
 	path := fmt.Sprintf("/tenants/%s/pg-available-extensions", tenant)
 	b, err := h.doer.Do(ctx, "PgAvailableExtensions", "GET", path, nil)
-	out := new(PgAvailableExtensionsOut)
+	out := new(pgAvailableExtensionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -416,7 +416,7 @@ func (h *handler) ProjectGetServiceLogs(ctx context.Context, project string, nam
 func (h *handler) ProjectServiceTagsList(ctx context.Context, project string, name string) (map[string]string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/tags", project, name)
 	b, err := h.doer.Do(ctx, "ProjectServiceTagsList", "GET", path, nil)
-	out := new(ProjectServiceTagsListOut)
+	out := new(projectServiceTagsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -436,7 +436,7 @@ func (h *handler) ProjectServiceTagsUpdate(ctx context.Context, project string, 
 func (h *handler) QueryActivity(ctx context.Context, project string, name string, in *QueryActivityIn) ([]Query, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/query/activity", project, name)
 	b, err := h.doer.Do(ctx, "ServiceQueryActivity", "POST", path, in)
-	out := new(QueryActivityOut)
+	out := new(queryActivityOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -446,7 +446,7 @@ func (h *handler) QueryActivity(ctx context.Context, project string, name string
 func (h *handler) QueryStatisticsReset(ctx context.Context, project string, name string) ([]map[string]any, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/query/stats/reset", project, name)
 	b, err := h.doer.Do(ctx, "ServiceQueryStatisticsReset", "PUT", path, nil)
-	out := new(QueryStatisticsResetOut)
+	out := new(queryStatisticsResetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -456,7 +456,7 @@ func (h *handler) QueryStatisticsReset(ctx context.Context, project string, name
 func (h *handler) TaskCreate(ctx context.Context, project string, name string, in *TaskCreateIn) (*Task, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/task", project, name)
 	b, err := h.doer.Do(ctx, "ServiceTaskCreate", "POST", path, in)
-	out := new(TaskCreateOut)
+	out := new(taskCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -466,7 +466,7 @@ func (h *handler) TaskCreate(ctx context.Context, project string, name string, i
 func (h *handler) TaskGet(ctx context.Context, project string, name string, taskId string) (*Task, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/task/%s", project, name, taskId)
 	b, err := h.doer.Do(ctx, "ServiceTaskGet", "GET", path, nil)
-	out := new(TaskGetOut)
+	out := new(taskGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -476,7 +476,7 @@ func (h *handler) TaskGet(ctx context.Context, project string, name string, task
 func (h *handler) Update(ctx context.Context, project string, name string, in *UpdateIn) (*Service, error) {
 	path := fmt.Sprintf("/project/%s/service/%s", project, name)
 	b, err := h.doer.Do(ctx, "ServiceUpdate", "PUT", path, in)
-	out := new(UpdateOut)
+	out := new(updateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -486,7 +486,7 @@ func (h *handler) Update(ctx context.Context, project string, name string, in *U
 func (h *handler) UserCreate(ctx context.Context, project string, name string, in *UserCreateIn) (*User, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user", project, name)
 	b, err := h.doer.Do(ctx, "ServiceUserCreate", "POST", path, in)
-	out := new(UserCreateOut)
+	out := new(userCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -496,7 +496,7 @@ func (h *handler) UserCreate(ctx context.Context, project string, name string, i
 func (h *handler) UserCredentialsModify(ctx context.Context, project string, name string, username string, in *UserCredentialsModifyIn) (*Service, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, name, username)
 	b, err := h.doer.Do(ctx, "ServiceUserCredentialsModify", "PUT", path, in)
-	out := new(UserCredentialsModifyOut)
+	out := new(userCredentialsModifyOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -506,7 +506,7 @@ func (h *handler) UserCredentialsModify(ctx context.Context, project string, nam
 func (h *handler) UserCredentialsReset(ctx context.Context, project string, name string, username string) (*Service, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user/%s/credentials/reset", project, name, username)
 	b, err := h.doer.Do(ctx, "ServiceUserCredentialsReset", "PUT", path, nil)
-	out := new(UserCredentialsResetOut)
+	out := new(userCredentialsResetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -521,7 +521,7 @@ func (h *handler) UserDelete(ctx context.Context, project string, name string, u
 func (h *handler) UserGet(ctx context.Context, project string, name string, username string) (*User, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, name, username)
 	b, err := h.doer.Do(ctx, "ServiceUserGet", "GET", path, nil)
-	out := new(UserGetOut)
+	out := new(userGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -552,12 +552,13 @@ type AdditionalRegion struct {
 type Alert struct {
 	CreateTime  time.Time `json:"create_time"`
 	Event       string    `json:"event"`
+	NodeName    string    `json:"node_name,omitempty"`
 	ProjectName string    `json:"project_name"`
 	ServiceName string    `json:"service_name,omitempty"`
 	ServiceType string    `json:"service_type,omitempty"`
 	Severity    string    `json:"severity"`
 }
-type AlertsListOut struct {
+type alertsListOut struct {
 	Alerts []Alert `json:"alerts"`
 }
 type Any struct {
@@ -594,17 +595,17 @@ type BackupConfig struct {
 type BackupToAnotherRegionReportIn struct {
 	Period PeriodType `json:"period,omitempty"`
 }
-type BackupToAnotherRegionReportOut struct {
+type backupToAnotherRegionReportOut struct {
 	Metrics map[string]any `json:"metrics"`
 }
-type BackupsGetOut struct {
+type backupsGetOut struct {
 	Backups []Backup `json:"backups"`
 }
 type CancelQueryIn struct {
 	Pid       *int  `json:"pid,omitempty"`
 	Terminate *bool `json:"terminate,omitempty"`
 }
-type CancelQueryOut struct {
+type cancelQueryOut struct {
 	Success bool `json:"success"`
 }
 type Component struct {
@@ -643,7 +644,7 @@ type CreateIn struct {
 	TerminationProtection *bool                `json:"termination_protection,omitempty"`
 	UserConfig            map[string]any       `json:"user_config,omitempty"`
 }
-type CreateOut struct {
+type createOut struct {
 	Service *Service `json:"service"`
 }
 type Database struct {
@@ -654,7 +655,7 @@ type DatabaseCreateIn struct {
 	LcCollate string `json:"lc_collate,omitempty"`
 	LcCtype   string `json:"lc_ctype,omitempty"`
 }
-type DatabaseListOut struct {
+type databaseListOut struct {
 	Databases []Database `json:"databases"`
 }
 type DatasetImport struct {
@@ -686,7 +687,7 @@ func DowTypeChoices() []string {
 	return []string{"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"}
 }
 
-type EnableWritesOut struct {
+type enableWritesOut struct {
 	Until string `json:"until,omitempty"`
 }
 type Extension struct {
@@ -697,10 +698,10 @@ type GetMigrationStatusOut struct {
 	Migration       *Migration        `json:"migration"`
 	MigrationDetail []MigrationDetail `json:"migration_detail"`
 }
-type GetOut struct {
+type getOut struct {
 	Service *Service `json:"service"`
 }
-type InfluxDbstatsOut struct {
+type influxDbstatsOut struct {
 	DbStats map[string]any `json:"db_stats"`
 }
 type IntegrationStatus struct {
@@ -762,7 +763,7 @@ const (
 	KafkaAuthenticationMethodTypeSasl        KafkaAuthenticationMethodType = "sasl"
 )
 
-type KmsGetCaout struct {
+type kmsGetCaout struct {
 	Certificate string `json:"certificate"`
 }
 type KmsGetKeypairOut struct {
@@ -786,16 +787,16 @@ const (
 	LikelyErrorCauseTypeUnknown     LikelyErrorCauseType = "unknown"
 )
 
-type ListOut struct {
+type listOut struct {
 	Services []Service `json:"services"`
 }
-type ListProjectServiceTypesOut struct {
+type listProjectServiceTypesOut struct {
 	ServiceTypes *ServiceTypes `json:"service_types"`
 }
-type ListPublicServiceTypesOut struct {
+type listPublicServiceTypesOut struct {
 	ServiceTypes *ServiceTypes `json:"service_types"`
 }
-type ListServiceVersionsOut struct {
+type listServiceVersionsOut struct {
 	ServiceVersions []ServiceVersion `json:"service_versions"`
 }
 type Log struct {
@@ -821,7 +822,7 @@ const ()
 type MetricsFetchIn struct {
 	Period PeriodType `json:"period,omitempty"`
 }
-type MetricsFetchOut struct {
+type metricsFetchOut struct {
 	Metrics map[string]any `json:"metrics"`
 }
 type Migration struct {
@@ -930,7 +931,7 @@ type Pg struct {
 	Extensions []Extension `json:"extensions"`
 	Version    string      `json:"version"`
 }
-type PgAvailableExtensionsOut struct {
+type pgAvailableExtensionsOut struct {
 	Pg []Pg `json:"pg"`
 }
 type PhaseType string
@@ -968,7 +969,7 @@ type ProjectGetServiceLogsOut struct {
 	Logs           []Log  `json:"logs"`
 	Offset         string `json:"offset"`
 }
-type ProjectServiceTagsListOut struct {
+type projectServiceTagsListOut struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 type ProjectServiceTagsReplaceIn struct {
@@ -1023,10 +1024,10 @@ type QueryActivityIn struct {
 	Offset  *int   `json:"offset,omitempty"`
 	OrderBy string `json:"order_by,omitempty"`
 }
-type QueryActivityOut struct {
+type queryActivityOut struct {
 	Queries []Query `json:"queries"`
 }
-type QueryStatisticsResetOut struct {
+type queryStatisticsResetOut struct {
 	Queries []map[string]any `json:"queries"`
 }
 type RecoveryModeType string
@@ -1250,10 +1251,11 @@ const (
 	TargetVersionType13 TargetVersionType = "13"
 	TargetVersionType14 TargetVersionType = "14"
 	TargetVersionType15 TargetVersionType = "15"
+	TargetVersionType16 TargetVersionType = "16"
 )
 
 func TargetVersionTypeChoices() []string {
-	return []string{"12", "13", "14", "15"}
+	return []string{"12", "13", "14", "15", "16"}
 }
 
 type Task struct {
@@ -1270,10 +1272,10 @@ type TaskCreateIn struct {
 	TargetVersion  TargetVersionType `json:"target_version,omitempty"`
 	TaskType       TaskType          `json:"task_type"`
 }
-type TaskCreateOut struct {
+type taskCreateOut struct {
 	Task *Task `json:"task"`
 }
-type TaskGetOut struct {
+type taskGetOut struct {
 	Task *Task `json:"task"`
 }
 type TaskType string
@@ -1345,7 +1347,7 @@ type UpdateIn struct {
 	TerminationProtection *bool          `json:"termination_protection,omitempty"`
 	UserConfig            map[string]any `json:"user_config,omitempty"`
 }
-type UpdateOut struct {
+type updateOut struct {
 	Service *Service `json:"service"`
 }
 type UsageType string
@@ -1371,7 +1373,7 @@ type UserCreateIn struct {
 	Authentication AuthenticationType `json:"authentication,omitempty"`
 	Username       string             `json:"username"`
 }
-type UserCreateOut struct {
+type userCreateOut struct {
 	User *User `json:"user"`
 }
 type UserCredentialsModifyIn struct {
@@ -1380,12 +1382,12 @@ type UserCredentialsModifyIn struct {
 	NewPassword    string             `json:"new_password,omitempty"`
 	Operation      OperationType      `json:"operation"`
 }
-type UserCredentialsModifyOut struct {
+type userCredentialsModifyOut struct {
 	Service *Service `json:"service"`
 }
-type UserCredentialsResetOut struct {
+type userCredentialsResetOut struct {
 	Service *Service `json:"service"`
 }
-type UserGetOut struct {
+type userGetOut struct {
 	User *User `json:"user"`
 }

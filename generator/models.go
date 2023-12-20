@@ -27,6 +27,7 @@ func (d *Doc) getSchema(path string) (*Schema, error) {
 	if schema == nil {
 		return nil, fmt.Errorf("schema %q not found", path)
 	}
+	schema.name = name
 	return schema, nil
 }
 
@@ -64,7 +65,7 @@ func (p *Path) Comment() *jen.Statement {
 	// For instance, there is always "List" method and that's a common verb
 	// But IDE will highlight it as a reference
 	// Lowers first letter
-	s := strings.ToLower(p.Summary[:1]) + p.Summary[1:]
+	s := lowerFirst(p.Summary)
 	c := jen.Comment(fmt.Sprintf("%s %s", p.FuncName, s))
 	c.Line().Comment(fmt.Sprintf("%s %s %s", p.OperationID, p.Method, p.Path))
 	if p.Tags[0] == "" {
@@ -110,6 +111,7 @@ type Schema struct {
 	Enum          []any              `json:"enum"`
 	Default       any                `json:"default"`
 	MinItems      int                `json:"minItems"`
+	Ref           string             `json:"$ref"`
 	required      bool
 	hash          string
 	name          string
@@ -119,7 +121,15 @@ type Schema struct {
 	in, out       bool // Request or Response DTO
 }
 
-func (s *Schema) init(scope map[string]*Schema, prefix, name string) {
+func (s *Schema) init(doc *Doc, scope map[string]*Schema, prefix, name string) {
+	if s.Ref != "" {
+		other, err := doc.getSchema(s.Ref)
+		if err != nil {
+			panic(err)
+		}
+		*s = *other
+	}
+
 	s.hash = mustMarshal(s)
 	name = strings.ReplaceAll(name, `\`, "")
 	s.name = name
@@ -172,7 +182,7 @@ func (s *Schema) init(scope map[string]*Schema, prefix, name string) {
 	if s.isArray() {
 		s.Items.parent = s
 		s.Items.required = true // a workaround to not have slices with pointers
-		s.Items.init(scope, s.camelName, toSingle(name))
+		s.Items.init(doc, scope, s.camelName, toSingle(name))
 	}
 
 	if s.Type == SchemaTypeString {
@@ -192,7 +202,7 @@ func (s *Schema) init(scope map[string]*Schema, prefix, name string) {
 	for _, k := range keys {
 		p := s.Properties[k]
 		p.parent = s
-		p.init(scope, s.camelName, k)
+		p.init(doc, scope, s.camelName, k)
 		s.properties = append(s.properties, p)
 	}
 
@@ -284,7 +294,7 @@ func getType(s *Schema) *jen.Statement {
 		}
 		return jen.Id("*" + s.camelName)
 	default:
-		panic(fmt.Errorf("unknown type %q", s.Type))
+		panic(fmt.Errorf("unknown type %q for %q and parent %q", s.Type, s.name, s.parent.name))
 	}
 }
 
@@ -299,4 +309,8 @@ func mustMarshal(s *Schema) string {
 // isMapString for hacking schemaless maps
 func isMapString(s *Schema) bool {
 	return s.name == "tags"
+}
+
+func lowerFirst(s string) string {
+	return strings.ToLower(s[:1]) + s[1:]
 }

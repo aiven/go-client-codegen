@@ -55,7 +55,7 @@ type handler struct {
 func (h *handler) Create(ctx context.Context, project string, in *CreateIn) (*ServiceIntegration, error) {
 	path := fmt.Sprintf("/project/%s/integration", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationCreate", "POST", path, in)
-	out := new(CreateOut)
+	out := new(createOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -70,7 +70,7 @@ func (h *handler) Delete(ctx context.Context, project string, integrationId stri
 func (h *handler) Get(ctx context.Context, project string, integrationId string) (*ServiceIntegration, error) {
 	path := fmt.Sprintf("/project/%s/integration/%s", project, integrationId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationGet", "GET", path, nil)
-	out := new(GetOut)
+	out := new(getOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (h *handler) Get(ctx context.Context, project string, integrationId string)
 func (h *handler) List(ctx context.Context, project string, serviceName string) ([]ServiceIntegration, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/integration", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationList", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (h *handler) List(ctx context.Context, project string, serviceName string) 
 func (h *handler) Types(ctx context.Context, project string) ([]IntegrationTypeItem, error) {
 	path := fmt.Sprintf("/project/%s/integration_types", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationTypes", "GET", path, nil)
-	out := new(TypesOut)
+	out := new(typesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -100,7 +100,7 @@ func (h *handler) Types(ctx context.Context, project string) ([]IntegrationTypeI
 func (h *handler) Update(ctx context.Context, project string, integrationId string, in *UpdateIn) (*ServiceIntegration, error) {
 	path := fmt.Sprintf("/project/%s/integration/%s", project, integrationId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationUpdate", "PUT", path, in)
-	out := new(UpdateOut)
+	out := new(updateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -118,10 +118,10 @@ type CreateIn struct {
 	SourceService    string          `json:"source_service,omitempty"`
 	UserConfig       map[string]any  `json:"user_config,omitempty"`
 }
-type CreateOut struct {
+type createOut struct {
 	ServiceIntegration *ServiceIntegration `json:"service_integration"`
 }
-type GetOut struct {
+type getOut struct {
 	ServiceIntegration *ServiceIntegration `json:"service_integration"`
 }
 type IntegrationStatus struct {
@@ -195,7 +195,7 @@ const (
 	LikelyErrorCauseTypeUnknown     LikelyErrorCauseType = "unknown"
 )
 
-type ListOut struct {
+type listOut struct {
 	ServiceIntegrations []ServiceIntegration `json:"service_integrations"`
 }
 type ServiceIntegration struct {
@@ -233,12 +233,12 @@ const (
 	StatusTypeUnknown  StatusType = "unknown"
 )
 
-type TypesOut struct {
+type typesOut struct {
 	IntegrationTypes []IntegrationTypeItem `json:"integration_types"`
 }
 type UpdateIn struct {
 	UserConfig map[string]any `json:"user_config"`
 }
-type UpdateOut struct {
+type updateOut struct {
 	ServiceIntegration *ServiceIntegration `json:"service_integration"`
 }

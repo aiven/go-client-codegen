@@ -30,7 +30,7 @@ type handler struct {
 func (h *handler) ProjectKmsGetCA(ctx context.Context, project string) (string, error) {
 	path := fmt.Sprintf("/project/%s/kms/ca", project)
 	b, err := h.doer.Do(ctx, "ProjectKmsGetCA", "GET", path, nil)
-	out := new(ProjectKmsGetCaout)
+	out := new(projectKmsGetCaout)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -38,6 +38,6 @@ func (h *handler) ProjectKmsGetCA(ctx context.Context, project string) (string, 
 	return out.Certificate, nil
 }
 
-type ProjectKmsGetCaout struct {
+type projectKmsGetCaout struct {
 	Certificate string `json:"certificate"`
 }

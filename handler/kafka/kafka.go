@@ -75,7 +75,7 @@ type handler struct {
 func (h *handler) AclAdd(ctx context.Context, project string, serviceName string, in *AclAddIn) ([]Acl, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclAdd", "POST", path, in)
-	out := new(AclAddOut)
+	out := new(aclAddOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -85,7 +85,7 @@ func (h *handler) AclAdd(ctx context.Context, project string, serviceName string
 func (h *handler) AclDelete(ctx context.Context, project string, serviceName string, aclId string) ([]Acl, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/acl/%s", project, serviceName, aclId)
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclDelete", "DELETE", path, nil)
-	out := new(AclDeleteOut)
+	out := new(aclDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -95,7 +95,7 @@ func (h *handler) AclDelete(ctx context.Context, project string, serviceName str
 func (h *handler) AclList(ctx context.Context, project string, serviceName string) ([]Acl, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclList", "GET", path, nil)
-	out := new(AclListOut)
+	out := new(aclListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -115,7 +115,7 @@ func (h *handler) QuotaDelete(ctx context.Context, project string, serviceName s
 func (h *handler) QuotaDescribe(ctx context.Context, project string, serviceName string) (*Quota, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/quota/describe", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaQuotaDescribe", "GET", path, nil)
-	out := new(QuotaDescribeOut)
+	out := new(quotaDescribeOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -125,7 +125,7 @@ func (h *handler) QuotaDescribe(ctx context.Context, project string, serviceName
 func (h *handler) QuotaList(ctx context.Context, project string, serviceName string) ([]Quota, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/quota", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaQuotaList", "GET", path, nil)
-	out := new(QuotaListOut)
+	out := new(quotaListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -145,7 +145,7 @@ func (h *handler) TieredStorageSummary(ctx context.Context, project string, serv
 func (h *handler) TieredStorageUsageByTopic(ctx context.Context, project string, serviceName string) (map[string]any, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/tiered-storage/storage-usage/by-topic", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTieredStorageStorageUsageByTopic", "GET", path, nil)
-	out := new(TieredStorageUsageByTopicOut)
+	out := new(tieredStorageUsageByTopicOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -155,7 +155,7 @@ func (h *handler) TieredStorageUsageByTopic(ctx context.Context, project string,
 func (h *handler) TieredStorageUsageTotal(ctx context.Context, project string, serviceName string) (int, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/tiered-storage/storage-usage/total", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTieredStorageStorageUsageTotal", "GET", path, nil)
-	out := new(TieredStorageUsageTotalOut)
+	out := new(tieredStorageUsageTotalOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return 0, err
@@ -174,16 +174,17 @@ type AclAddIn struct {
 	Topic      string         `json:"topic"`
 	Username   string         `json:"username"`
 }
-type AclAddOut struct {
+type aclAddOut struct {
 	Acl []Acl `json:"acl"`
 }
-type AclDeleteOut struct {
+type aclDeleteOut struct {
 	Acl []Acl `json:"acl"`
 }
-type AclListOut struct {
+type aclListOut struct {
 	Acl []Acl `json:"acl"`
 }
 type Hourly struct {
+	EstimatedCost   string `json:"estimated_cost,omitempty"`
 	HourStart       string `json:"hour_start"`
 	PeakStoredBytes int    `json:"peak_stored_bytes"`
 }
@@ -210,10 +211,10 @@ type QuotaCreateIn struct {
 	RequestPercentage *float64 `json:"request_percentage,omitempty"`
 	User              string   `json:"user,omitempty"`
 }
-type QuotaDescribeOut struct {
+type quotaDescribeOut struct {
 	Quota *Quota `json:"quota"`
 }
-type QuotaListOut struct {
+type quotaListOut struct {
 	Quotas []Quota `json:"quotas"`
 }
 type StorageUsageHistory struct {
@@ -225,9 +226,9 @@ type TieredStorageSummaryOut struct {
 	StorageUsageHistory *StorageUsageHistory `json:"storage_usage_history"`
 	TotalStorageUsage   int                  `json:"total_storage_usage"`
 }
-type TieredStorageUsageByTopicOut struct {
+type tieredStorageUsageByTopicOut struct {
 	StorageUsage map[string]any `json:"storage_usage"`
 }
-type TieredStorageUsageTotalOut struct {
+type tieredStorageUsageTotalOut struct {
 	TotalStorageUsage int `json:"total_storage_usage"`
 }

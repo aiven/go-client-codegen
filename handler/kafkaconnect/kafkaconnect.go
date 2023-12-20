@@ -80,7 +80,7 @@ type handler struct {
 func (h *handler) CreateConnector(ctx context.Context, project string, serviceName string, in *CreateConnectorIn) (*Connector, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/connectors", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectCreateConnector", "POST", path, in)
-	out := new(CreateConnectorOut)
+	out := new(createConnectorOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -95,7 +95,7 @@ func (h *handler) DeleteConnector(ctx context.Context, project string, serviceNa
 func (h *handler) EditConnector(ctx context.Context, project string, serviceName string, connectorName string, in *EditConnectorIn) (*Connector, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/connectors/%s", project, serviceName, connectorName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectEditConnector", "PUT", path, in)
-	out := new(EditConnectorOut)
+	out := new(editConnectorOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func (h *handler) EditConnector(ctx context.Context, project string, serviceName
 func (h *handler) GetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]Plugin, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/available-connectors", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetAvailableConnectors", "GET", path, nil)
-	out := new(GetAvailableConnectorsOut)
+	out := new(getAvailableConnectorsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -115,7 +115,7 @@ func (h *handler) GetAvailableConnectors(ctx context.Context, project string, se
 func (h *handler) GetConnectorConfiguration(ctx context.Context, project string, serviceName string, connectorName string) ([]ConfigurationSchema, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/connector-plugins/%s/configuration", project, serviceName, connectorName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetConnectorConfiguration", "GET", path, nil)
-	out := new(GetConnectorConfigurationOut)
+	out := new(getConnectorConfigurationOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -125,7 +125,7 @@ func (h *handler) GetConnectorConfiguration(ctx context.Context, project string,
 func (h *handler) GetConnectorStatus(ctx context.Context, project string, serviceName string, connectorName string) (*Status, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/connectors/%s/status", project, serviceName, connectorName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetConnectorStatus", "GET", path, nil)
-	out := new(GetConnectorStatusOut)
+	out := new(getConnectorStatusOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -135,7 +135,7 @@ func (h *handler) GetConnectorStatus(ctx context.Context, project string, servic
 func (h *handler) List(ctx context.Context, project string, serviceName string) ([]Connector, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/connectors", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectList", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -203,23 +203,23 @@ type CreateConnectorIn struct {
 	ConnectorClass string `json:"connector.class,omitempty"`
 	Name           string `json:"name"`
 }
-type CreateConnectorOut struct {
+type createConnectorOut struct {
 	Connector *Connector `json:"connector"`
 }
 type EditConnectorIn struct {
 	ConnectorClass string `json:"connector.class,omitempty"`
 	Name           string `json:"name"`
 }
-type EditConnectorOut struct {
+type editConnectorOut struct {
 	Connector *Connector `json:"connector"`
 }
-type GetAvailableConnectorsOut struct {
+type getAvailableConnectorsOut struct {
 	Plugins []Plugin `json:"plugins"`
 }
-type GetConnectorConfigurationOut struct {
+type getConnectorConfigurationOut struct {
 	ConfigurationSchema []ConfigurationSchema `json:"configuration_schema"`
 }
-type GetConnectorStatusOut struct {
+type getConnectorStatusOut struct {
 	Status *Status `json:"status"`
 }
 type ImportanceType string
@@ -230,7 +230,7 @@ const (
 	ImportanceTypeHigh   ImportanceType = "HIGH"
 )
 
-type ListOut struct {
+type listOut struct {
 	Connectors []Connector `json:"connectors"`
 }
 type Plugin struct {

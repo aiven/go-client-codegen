@@ -121,7 +121,7 @@ func (h *handler) UserOrganizationCreate(ctx context.Context, in *UserOrganizati
 func (h *handler) UserOrganizationsList(ctx context.Context) ([]Organization, error) {
 	path := fmt.Sprintf("/organizations")
 	b, err := h.doer.Do(ctx, "UserOrganizationsList", "GET", path, nil)
-	out := new(UserOrganizationsListOut)
+	out := new(userOrganizationsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -272,6 +272,6 @@ type UserOrganizationCreateOut struct {
 	Tier             TierType  `json:"tier"`
 	UpdateTime       time.Time `json:"update_time"`
 }
-type UserOrganizationsListOut struct {
+type userOrganizationsListOut struct {
 	Organizations []Organization `json:"organizations"`
 }

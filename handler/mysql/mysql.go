@@ -30,7 +30,7 @@ type handler struct {
 func (h *handler) ServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *ServiceQueryStatisticsIn) ([]Query, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mysql/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "MySQLServiceQueryStatistics", "POST", path, in)
-	out := new(ServiceQueryStatisticsOut)
+	out := new(serviceQueryStatisticsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -80,6 +80,6 @@ type ServiceQueryStatisticsIn struct {
 	Offset  *int   `json:"offset,omitempty"`
 	OrderBy string `json:"order_by,omitempty"`
 }
-type ServiceQueryStatisticsOut struct {
+type serviceQueryStatisticsOut struct {
 	Queries []Query `json:"queries"`
 }

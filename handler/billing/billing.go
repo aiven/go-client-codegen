@@ -31,7 +31,7 @@ type handler struct {
 func (h *handler) InvoiceGet(ctx context.Context, invoiceNumber string) (*Invoice, error) {
 	path := fmt.Sprintf("/invoices/%s", invoiceNumber)
 	b, err := h.doer.Do(ctx, "InvoiceGet", "GET", path, nil)
-	out := new(InvoiceGetOut)
+	out := new(invoiceGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -53,6 +53,6 @@ type Invoice struct {
 	TotalIncVat       string    `json:"total_inc_vat"`
 	TotalVatZero      string    `json:"total_vat_zero"`
 }
-type InvoiceGetOut struct {
+type invoiceGetOut struct {
 	Invoice *Invoice `json:"invoice"`
 }

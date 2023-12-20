@@ -96,7 +96,7 @@ func (h *handler) Get(ctx context.Context, project string, serviceName string, a
 func (h *handler) List(ctx context.Context, project string, serviceName string, applicationId string) ([]Deployment, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplicationDeployments", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -117,6 +117,7 @@ func (h *handler) Stop(ctx context.Context, project string, serviceName string, 
 type CancelOut struct {
 	CreatedAt         time.Time  `json:"created_at"`
 	CreatedBy         string     `json:"created_by"`
+	ErrorMsg          string     `json:"error_msg,omitempty"`
 	Id                string     `json:"id"`
 	JobId             string     `json:"job_id,omitempty"`
 	LastSavepoint     string     `json:"last_savepoint,omitempty"`
@@ -135,6 +136,7 @@ type CreateIn struct {
 type CreateOut struct {
 	CreatedAt         time.Time  `json:"created_at"`
 	CreatedBy         string     `json:"created_by"`
+	ErrorMsg          string     `json:"error_msg,omitempty"`
 	Id                string     `json:"id"`
 	JobId             string     `json:"job_id,omitempty"`
 	LastSavepoint     string     `json:"last_savepoint,omitempty"`
@@ -147,6 +149,7 @@ type CreateOut struct {
 type DeleteOut struct {
 	CreatedAt         time.Time  `json:"created_at"`
 	CreatedBy         string     `json:"created_by"`
+	ErrorMsg          string     `json:"error_msg,omitempty"`
 	Id                string     `json:"id"`
 	JobId             string     `json:"job_id,omitempty"`
 	LastSavepoint     string     `json:"last_savepoint,omitempty"`
@@ -159,6 +162,7 @@ type DeleteOut struct {
 type Deployment struct {
 	CreatedAt         time.Time  `json:"created_at"`
 	CreatedBy         string     `json:"created_by"`
+	ErrorMsg          string     `json:"error_msg,omitempty"`
 	Id                string     `json:"id"`
 	JobId             string     `json:"job_id,omitempty"`
 	LastSavepoint     string     `json:"last_savepoint,omitempty"`
@@ -171,6 +175,7 @@ type Deployment struct {
 type GetOut struct {
 	CreatedAt         time.Time  `json:"created_at"`
 	CreatedBy         string     `json:"created_by"`
+	ErrorMsg          string     `json:"error_msg,omitempty"`
 	Id                string     `json:"id"`
 	JobId             string     `json:"job_id,omitempty"`
 	LastSavepoint     string     `json:"last_savepoint,omitempty"`
@@ -180,7 +185,7 @@ type GetOut struct {
 	Status            StatusType `json:"status"`
 	VersionId         string     `json:"version_id"`
 }
-type ListOut struct {
+type listOut struct {
 	Deployments []Deployment `json:"deployments"`
 }
 type StatusType string
@@ -208,6 +213,7 @@ const (
 type StopOut struct {
 	CreatedAt         time.Time  `json:"created_at"`
 	CreatedBy         string     `json:"created_by"`
+	ErrorMsg          string     `json:"error_msg,omitempty"`
 	Id                string     `json:"id"`
 	JobId             string     `json:"job_id,omitempty"`
 	LastSavepoint     string     `json:"last_savepoint,omitempty"`

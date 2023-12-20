@@ -166,7 +166,7 @@ func (h *handler) AccessTokenCreate(ctx context.Context, in *AccessTokenCreateIn
 func (h *handler) AccessTokenList(ctx context.Context) ([]Token, error) {
 	path := fmt.Sprintf("/access_token")
 	b, err := h.doer.Do(ctx, "AccessTokenList", "GET", path, nil)
-	out := new(AccessTokenListOut)
+	out := new(accessTokenListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -191,7 +191,7 @@ func (h *handler) AccessTokenUpdate(ctx context.Context, tokenPrefix string, in 
 func (h *handler) AccountInvitesAccept(ctx context.Context, in *AccountInvitesAcceptIn) ([]AccountInvite, error) {
 	path := fmt.Sprintf("/me/account/invites/accept")
 	b, err := h.doer.Do(ctx, "UserAccountInvitesAccept", "POST", path, in)
-	out := new(AccountInvitesAcceptOut)
+	out := new(accountInvitesAcceptOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -201,7 +201,7 @@ func (h *handler) AccountInvitesAccept(ctx context.Context, in *AccountInvitesAc
 func (h *handler) AccountInvitesList(ctx context.Context) ([]AccountInvite, error) {
 	path := fmt.Sprintf("/me/account/invites")
 	b, err := h.doer.Do(ctx, "UserAccountInvitesList", "GET", path, nil)
-	out := new(AccountInvitesListOut)
+	out := new(accountInvitesListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -236,7 +236,7 @@ func (h *handler) AuthenticationMethodDelete(ctx context.Context, authentication
 func (h *handler) AuthenticationMethodsList(ctx context.Context) ([]AuthenticationMethod, error) {
 	path := fmt.Sprintf("/me/authentication_methods")
 	b, err := h.doer.Do(ctx, "UserAuthenticationMethodsList", "GET", path, nil)
-	out := new(AuthenticationMethodsListOut)
+	out := new(authenticationMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -246,7 +246,7 @@ func (h *handler) AuthenticationMethodsList(ctx context.Context) ([]Authenticati
 func (h *handler) CheckPasswordStrengthExistingUser(ctx context.Context, in *CheckPasswordStrengthExistingUserIn) (*PasswordStrength, error) {
 	path := fmt.Sprintf("/me/password_strength")
 	b, err := h.doer.Do(ctx, "CheckPasswordStrengthExistingUser", "POST", path, in)
-	out := new(CheckPasswordStrengthExistingUserOut)
+	out := new(checkPasswordStrengthExistingUserOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -256,7 +256,7 @@ func (h *handler) CheckPasswordStrengthExistingUser(ctx context.Context, in *Che
 func (h *handler) CheckPasswordStrengthNewUser(ctx context.Context, in *CheckPasswordStrengthNewUserIn) (*PasswordStrength, error) {
 	path := fmt.Sprintf("/user/password_strength")
 	b, err := h.doer.Do(ctx, "CheckPasswordStrengthNewUser", "POST", path, in)
-	out := new(CheckPasswordStrengthNewUserOut)
+	out := new(checkPasswordStrengthNewUserOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -281,7 +281,7 @@ func (h *handler) ExpireTokens(ctx context.Context) error {
 func (h *handler) Info(ctx context.Context) (*InfoOutUser, error) {
 	path := fmt.Sprintf("/me")
 	b, err := h.doer.Do(ctx, "UserInfo", "GET", path, nil)
-	out := new(InfoOut)
+	out := new(infoOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -296,7 +296,7 @@ func (h *handler) Logout(ctx context.Context) error {
 func (h *handler) OrganizationMemberGroupsList(ctx context.Context, organizationId string, memberUserId string) ([]UserGroup, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s/user-groups", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationMemberGroupsList", "GET", path, nil)
-	out := new(OrganizationMemberGroupsListOut)
+	out := new(organizationMemberGroupsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -306,7 +306,7 @@ func (h *handler) OrganizationMemberGroupsList(ctx context.Context, organization
 func (h *handler) PasswordChange(ctx context.Context, in *PasswordChangeIn) (string, error) {
 	path := fmt.Sprintf("/me/password")
 	b, err := h.doer.Do(ctx, "UserPasswordChange", "PUT", path, in)
-	out := new(PasswordChangeOut)
+	out := new(passwordChangeOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -346,7 +346,7 @@ func (h *handler) TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFactorAu
 func (h *handler) Update(ctx context.Context, in *UpdateIn) (*UpdateOutUser, error) {
 	path := fmt.Sprintf("/me")
 	b, err := h.doer.Do(ctx, "UserUpdate", "PATCH", path, in)
-	out := new(UpdateOut)
+	out := new(updateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -366,7 +366,7 @@ func (h *handler) ValidateReferralCode(ctx context.Context, referralCode string)
 func (h *handler) VerifyEmail(ctx context.Context, verificationCode string) (*InviteDetails, error) {
 	path := fmt.Sprintf("/user/verify_email/%s", verificationCode)
 	b, err := h.doer.Do(ctx, "UserVerifyEmail", "POST", path, nil)
-	out := new(VerifyEmailOut)
+	out := new(verifyEmailOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -396,7 +396,7 @@ type AccessTokenCreateOut struct {
 	Scopes                     []string   `json:"scopes"`
 	TokenPrefix                string     `json:"token_prefix"`
 }
-type AccessTokenListOut struct {
+type accessTokenListOut struct {
 	Tokens []Token `json:"tokens"`
 }
 type AccessTokenUpdateIn struct {
@@ -430,10 +430,10 @@ type AccountInvitesAcceptIn struct {
 	AccountId string `json:"account_id"`
 	TeamId    string `json:"team_id,omitempty"`
 }
-type AccountInvitesAcceptOut struct {
+type accountInvitesAcceptOut struct {
 	AccountInvites []AccountInvite `json:"account_invites"`
 }
-type AccountInvitesListOut struct {
+type accountInvitesListOut struct {
 	AccountInvites []AccountInvite `json:"account_invites"`
 }
 type ActionType string
@@ -492,14 +492,14 @@ type AuthenticationMethod struct {
 	UpdateTime                    time.Time `json:"update_time"`
 	UserEmail                     string    `json:"user_email"`
 }
-type AuthenticationMethodsListOut struct {
+type authenticationMethodsListOut struct {
 	AuthenticationMethods []AuthenticationMethod `json:"authentication_methods"`
 }
 type CheckPasswordStrengthExistingUserIn struct {
 	NewPassword string `json:"new_password"`
 	OldPassword string `json:"old_password"`
 }
-type CheckPasswordStrengthExistingUserOut struct {
+type checkPasswordStrengthExistingUserOut struct {
 	PasswordStrength *PasswordStrength `json:"password_strength"`
 }
 type CheckPasswordStrengthNewUserIn struct {
@@ -507,7 +507,7 @@ type CheckPasswordStrengthNewUserIn struct {
 	Password string `json:"password"`
 	RealName string `json:"real_name,omitempty"`
 }
-type CheckPasswordStrengthNewUserOut struct {
+type checkPasswordStrengthNewUserOut struct {
 	PasswordStrength *PasswordStrength `json:"password_strength"`
 }
 type CreateIn struct {
@@ -528,7 +528,7 @@ type CreateOut struct {
 	User      *User  `json:"user"`
 	UserEmail string `json:"user_email"`
 }
-type InfoOut struct {
+type infoOut struct {
 	User *InfoOutUser `json:"user"`
 }
 type InfoOutUser struct {
@@ -572,14 +572,14 @@ const (
 	MethodTypeGet  MethodType = "GET"
 )
 
-type OrganizationMemberGroupsListOut struct {
+type organizationMemberGroupsListOut struct {
 	UserGroups []UserGroup `json:"user_groups"`
 }
 type PasswordChangeIn struct {
 	NewPassword string `json:"new_password"`
 	Password    string `json:"password"`
 }
-type PasswordChangeOut struct {
+type passwordChangeOut struct {
 	Token string `json:"token"`
 }
 type PasswordResetIn struct {
@@ -646,7 +646,7 @@ type UpdateIn struct {
 	JobTitle   string `json:"job_title,omitempty"`
 	RealName   string `json:"real_name"`
 }
-type UpdateOut struct {
+type updateOut struct {
 	User *UpdateOutUser `json:"user"`
 }
 type UpdateOutUser struct {
@@ -697,6 +697,6 @@ type UserGroup struct {
 	UserGroupName string    `json:"user_group_name"`
 	UpdateTime    time.Time `json:"update_time"`
 }
-type VerifyEmailOut struct {
+type verifyEmailOut struct {
 	InviteDetails *InviteDetails `json:"invite_details"`
 }

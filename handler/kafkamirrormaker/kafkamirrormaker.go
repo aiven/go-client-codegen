@@ -60,7 +60,7 @@ func (h *handler) DeleteReplicationFlow(ctx context.Context, project string, ser
 func (h *handler) GetReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) (*ReplicationFlow, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerGetReplicationFlow", "GET", path, nil)
-	out := new(GetReplicationFlowOut)
+	out := new(getReplicationFlowOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -70,7 +70,7 @@ func (h *handler) GetReplicationFlow(ctx context.Context, project string, servic
 func (h *handler) GetReplicationFlows(ctx context.Context, project string, serviceName string) ([]ReplicationFlow, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerGetReplicationFlows", "GET", path, nil)
-	out := new(GetReplicationFlowsOut)
+	out := new(getReplicationFlowsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (h *handler) GetReplicationFlows(ctx context.Context, project string, servi
 func (h *handler) PatchReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string, in *PatchReplicationFlowIn) (*ReplicationFlow, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerPatchReplicationFlow", "PUT", path, in)
-	out := new(PatchReplicationFlowOut)
+	out := new(patchReplicationFlowOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -103,10 +103,10 @@ type CreateReplicationFlowIn struct {
 	Topics                          []string                     `json:"topics"`
 	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
 }
-type GetReplicationFlowOut struct {
+type getReplicationFlowOut struct {
 	ReplicationFlow *ReplicationFlow `json:"replication_flow"`
 }
-type GetReplicationFlowsOut struct {
+type getReplicationFlowsOut struct {
 	ReplicationFlows []ReplicationFlow `json:"replication_flows"`
 }
 type OffsetSyncsTopicLocationType string
@@ -129,7 +129,7 @@ type PatchReplicationFlowIn struct {
 	Topics                          []string                     `json:"topics"`
 	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
 }
-type PatchReplicationFlowOut struct {
+type patchReplicationFlowOut struct {
 	ReplicationFlow *ReplicationFlow `json:"replication_flow"`
 }
 type ReplicationFlow struct {

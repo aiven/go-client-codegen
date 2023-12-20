@@ -70,7 +70,7 @@ func (h *handler) Delete(ctx context.Context, project string, serviceName string
 func (h *handler) Get(ctx context.Context, project string, serviceName string, topicName string) (*Topic, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/topic/%s", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicGet", "GET", path, nil)
-	out := new(GetOut)
+	out := new(getOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (h *handler) Get(ctx context.Context, project string, serviceName string, t
 func (h *handler) List(ctx context.Context, project string, serviceName string) ([]TopicItem, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/topic", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicList", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (h *handler) List(ctx context.Context, project string, serviceName string) 
 func (h *handler) MessageList(ctx context.Context, project string, serviceName string, topicName string, in *MessageListIn) ([]Message, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/rest/topics/%s/messages", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicMessageList", "POST", path, in)
-	out := new(MessageListOut)
+	out := new(messageListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -223,7 +223,7 @@ func FormatTypeChoices() []string {
 	return []string{"binary", "json", "avro", "protobuf", "jsonschema"}
 }
 
-type GetOut struct {
+type getOut struct {
 	Topic *Topic `json:"topic"`
 }
 type IndexIntervalBytes struct {
@@ -231,7 +231,7 @@ type IndexIntervalBytes struct {
 	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
-type ListOut struct {
+type listOut struct {
 	Topics []TopicItem `json:"topics"`
 }
 type LocalRetentionBytes struct {
@@ -431,7 +431,7 @@ type MessageListIn struct {
 	Partitions map[string]any `json:"partitions"`
 	Timeout    *int           `json:"timeout,omitempty"`
 }
-type MessageListOut struct {
+type messageListOut struct {
 	Messages []Message `json:"messages"`
 }
 type MessageProduceIn struct {

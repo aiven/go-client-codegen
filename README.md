@@ -6,7 +6,7 @@
 - doesn't support custom certificates
 - `string` type is never a pointer, as it is not expected to send `""`
 - authorization is by token only
-- slices never omitted (always send), as it makes development much easier
+- slices never omitted (always sent), as it makes development much easier
 
 ## Configuration 
 

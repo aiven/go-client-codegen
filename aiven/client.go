@@ -34,7 +34,6 @@ import (
 	serviceintegration "github.com/aiven/aiven-go-client-v2/handler/serviceintegration"
 	serviceintegrationendpoint "github.com/aiven/aiven-go-client-v2/handler/serviceintegrationendpoint"
 	staticip "github.com/aiven/aiven-go-client-v2/handler/staticip"
-	ticket "github.com/aiven/aiven-go-client-v2/handler/ticket"
 	user "github.com/aiven/aiven-go-client-v2/handler/user"
 	usergroup "github.com/aiven/aiven-go-client-v2/handler/usergroup"
 )
@@ -74,7 +73,6 @@ func newClient(doer doer) *Client {
 		ServiceIntegration:         serviceintegration.NewHandler(doer),
 		ServiceIntegrationEndpoint: serviceintegrationendpoint.NewHandler(doer),
 		StaticIp:                   staticip.NewHandler(doer),
-		Ticket:                     ticket.NewHandler(doer),
 		User:                       user.NewHandler(doer),
 		UserGroup:                  usergroup.NewHandler(doer),
 	}
@@ -110,7 +108,6 @@ type Client struct {
 	ServiceIntegration         serviceintegration.Handler
 	ServiceIntegrationEndpoint serviceintegrationendpoint.Handler
 	StaticIp                   staticip.Handler
-	Ticket                     ticket.Handler
 	User                       user.Handler
 	UserGroup                  usergroup.Handler
 }

@@ -81,7 +81,7 @@ func (h *handler) Get(ctx context.Context, project string, serviceName string, a
 func (h *handler) List(ctx context.Context, project string, serviceName string) ([]Application, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplications", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -146,6 +146,7 @@ type CreateOut struct {
 type CurrentDeployment struct {
 	CreatedAt         time.Time  `json:"created_at"`
 	CreatedBy         string     `json:"created_by"`
+	ErrorMsg          string     `json:"error_msg,omitempty"`
 	Id                string     `json:"id"`
 	JobId             string     `json:"job_id,omitempty"`
 	LastSavepoint     string     `json:"last_savepoint,omitempty"`
@@ -175,7 +176,7 @@ type GetOut struct {
 	UpdatedAt           time.Time                `json:"updated_at"`
 	UpdatedBy           string                   `json:"updated_by"`
 }
-type ListOut struct {
+type listOut struct {
 	Applications []Application `json:"applications"`
 }
 type Sink struct {

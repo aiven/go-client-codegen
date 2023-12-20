@@ -91,7 +91,7 @@ type handler struct {
 func (h *handler) Create(ctx context.Context, in *CreateIn) (*BillingGroup, error) {
 	path := fmt.Sprintf("/billing-group")
 	b, err := h.doer.Do(ctx, "BillingGroupCreate", "POST", path, in)
-	out := new(CreateOut)
+	out := new(createOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -101,7 +101,7 @@ func (h *handler) Create(ctx context.Context, in *CreateIn) (*BillingGroup, erro
 func (h *handler) CreditsClaim(ctx context.Context, id string, in *CreditsClaimIn) (*Credit, error) {
 	path := fmt.Sprintf("/billing-group/%s/credits", id)
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsClaim", "POST", path, in)
-	out := new(CreditsClaimOut)
+	out := new(creditsClaimOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -111,7 +111,7 @@ func (h *handler) CreditsClaim(ctx context.Context, id string, in *CreditsClaimI
 func (h *handler) CreditsList(ctx context.Context, id string) ([]Credit, error) {
 	path := fmt.Sprintf("/billing-group/%s/credits", id)
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsList", "GET", path, nil)
-	out := new(CreditsListOut)
+	out := new(creditsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -126,7 +126,7 @@ func (h *handler) Delete(ctx context.Context, id string) error {
 func (h *handler) EventList(ctx context.Context, id string) ([]Event, error) {
 	path := fmt.Sprintf("/billing-group/%s/events", id)
 	b, err := h.doer.Do(ctx, "BillingGroupEventList", "GET", path, nil)
-	out := new(EventListOut)
+	out := new(eventListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -136,7 +136,7 @@ func (h *handler) EventList(ctx context.Context, id string) ([]Event, error) {
 func (h *handler) Get(ctx context.Context, id string) (*BillingGroup, error) {
 	path := fmt.Sprintf("/billing-group/%s", id)
 	b, err := h.doer.Do(ctx, "BillingGroupGet", "GET", path, nil)
-	out := new(GetOut)
+	out := new(getOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -146,7 +146,7 @@ func (h *handler) Get(ctx context.Context, id string) (*BillingGroup, error) {
 func (h *handler) InvoiceLinesList(ctx context.Context, id string, invoiceNumber string) ([]Line, error) {
 	path := fmt.Sprintf("/billing-group/%s/invoice/%s/lines", id, invoiceNumber)
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceLinesList", "GET", path, nil)
-	out := new(InvoiceLinesListOut)
+	out := new(invoiceLinesListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (h *handler) InvoiceLinesList(ctx context.Context, id string, invoiceNumber
 func (h *handler) InvoiceList(ctx context.Context, id string) ([]Invoice, error) {
 	path := fmt.Sprintf("/billing-group/%s/invoice", id)
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceList", "GET", path, nil)
-	out := new(InvoiceListOut)
+	out := new(invoiceListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -166,7 +166,7 @@ func (h *handler) InvoiceList(ctx context.Context, id string) ([]Invoice, error)
 func (h *handler) List(ctx context.Context) ([]BillingGroup, error) {
 	path := fmt.Sprintf("/billing-group")
 	b, err := h.doer.Do(ctx, "BillingGroupList", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -181,7 +181,7 @@ func (h *handler) ProjectAssign(ctx context.Context, id string, project string) 
 func (h *handler) ProjectList(ctx context.Context, id string) ([]Project, error) {
 	path := fmt.Sprintf("/billing-group/%s/projects", id)
 	b, err := h.doer.Do(ctx, "BillingGroupProjectList", "GET", path, nil)
-	out := new(ProjectListOut)
+	out := new(projectListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -196,7 +196,7 @@ func (h *handler) ProjectsAssign(ctx context.Context, id string, in *ProjectsAss
 func (h *handler) Update(ctx context.Context, id string, in *UpdateIn) (*BillingGroup, error) {
 	path := fmt.Sprintf("/billing-group/%s", id)
 	b, err := h.doer.Do(ctx, "BillingGroupUpdate", "PUT", path, in)
-	out := new(UpdateOut)
+	out := new(updateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -280,7 +280,7 @@ type CreateIn struct {
 	VatId                string              `json:"vat_id,omitempty"`
 	ZipCode              string              `json:"zip_code,omitempty"`
 }
-type CreateOut struct {
+type createOut struct {
 	BillingGroup *BillingGroup `json:"billing_group"`
 }
 type Credit struct {
@@ -294,10 +294,10 @@ type Credit struct {
 type CreditsClaimIn struct {
 	Code string `json:"code"`
 }
-type CreditsClaimOut struct {
+type creditsClaimOut struct {
 	Credit *Credit `json:"credit"`
 }
-type CreditsListOut struct {
+type creditsListOut struct {
 	Credits []Credit `json:"credits"`
 }
 type CurrencyType string
@@ -327,10 +327,10 @@ type Event struct {
 	ProjectName    string     `json:"project_name,omitempty"`
 	EventType      string     `json:"event_type,omitempty"`
 }
-type EventListOut struct {
+type eventListOut struct {
 	Events []Event `json:"events"`
 }
-type GetOut struct {
+type getOut struct {
 	BillingGroup *BillingGroup `json:"billing_group"`
 }
 type Invoice struct {
@@ -347,10 +347,10 @@ type Invoice struct {
 	TotalIncVat       string                `json:"total_inc_vat"`
 	TotalVatZero      string                `json:"total_vat_zero"`
 }
-type InvoiceLinesListOut struct {
+type invoiceLinesListOut struct {
 	Lines []Line `json:"lines"`
 }
-type InvoiceListOut struct {
+type invoiceListOut struct {
 	Invoices []Invoice `json:"invoices"`
 }
 type Line struct {
@@ -383,7 +383,7 @@ const (
 	LineTypeSupportCharge     LineType = "support_charge"
 )
 
-type ListOut struct {
+type listOut struct {
 	BillingGroups []BillingGroup `json:"billing_groups"`
 }
 type PaymentMethodType string
@@ -402,7 +402,7 @@ type Project struct {
 	EstimatedBalance string `json:"estimated_balance"`
 	ProjectName      string `json:"project_name"`
 }
-type ProjectListOut struct {
+type projectListOut struct {
 	Projects []Project `json:"projects"`
 }
 type ProjectsAssignIn struct {
@@ -411,8 +411,10 @@ type ProjectsAssignIn struct {
 type ServiceType string
 
 const (
+	ServiceTypeAlertmanager     ServiceType = "alertmanager"
 	ServiceTypeCassandra        ServiceType = "cassandra"
 	ServiceTypeClickhouse       ServiceType = "clickhouse"
+	ServiceTypeDragonfly        ServiceType = "dragonfly"
 	ServiceTypeElasticsearch    ServiceType = "elasticsearch"
 	ServiceTypeFlink            ServiceType = "flink"
 	ServiceTypeGrafana          ServiceType = "grafana"
@@ -420,12 +422,21 @@ const (
 	ServiceTypeKafka            ServiceType = "kafka"
 	ServiceTypeKafkaConnect     ServiceType = "kafka_connect"
 	ServiceTypeKafkaMirrormaker ServiceType = "kafka_mirrormaker"
-	ServiceTypeM3Db             ServiceType = "m3db"
 	ServiceTypeM3Aggregator     ServiceType = "m3aggregator"
+	ServiceTypeM3Db             ServiceType = "m3db"
 	ServiceTypeMysql            ServiceType = "mysql"
 	ServiceTypeOpensearch       ServiceType = "opensearch"
 	ServiceTypePg               ServiceType = "pg"
 	ServiceTypeRedis            ServiceType = "redis"
+	ServiceTypeStresstester     ServiceType = "stresstester"
+	ServiceTypeSw               ServiceType = "sw"
+	ServiceTypeThanos           ServiceType = "thanos"
+	ServiceTypeThanoscompactor  ServiceType = "thanoscompactor"
+	ServiceTypeThanosquery      ServiceType = "thanosquery"
+	ServiceTypeThanosreceiver   ServiceType = "thanosreceiver"
+	ServiceTypeThanosstore      ServiceType = "thanosstore"
+	ServiceTypeVector           ServiceType = "vector"
+	ServiceTypeVmalert          ServiceType = "vmalert"
 )
 
 type StateType string
@@ -478,6 +489,6 @@ type UpdateIn struct {
 	VatId            string              `json:"vat_id,omitempty"`
 	ZipCode          string              `json:"zip_code,omitempty"`
 }
-type UpdateOut struct {
+type updateOut struct {
 	BillingGroup *BillingGroup `json:"billing_group"`
 }

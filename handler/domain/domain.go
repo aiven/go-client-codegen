@@ -81,7 +81,7 @@ func (h *handler) OrganizationDomainVerify(ctx context.Context, organizationId s
 func (h *handler) OrganizationDomainsList(ctx context.Context, organizationId string) ([]Domain, error) {
 	path := fmt.Sprintf("/organization/%s/domains", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationDomainsList", "GET", path, nil)
-	out := new(OrganizationDomainsListOut)
+	out := new(organizationDomainsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -137,7 +137,7 @@ type OrganizationDomainVerifyOut struct {
 	State            StateType        `json:"state"`
 	VerificationType VerificationType `json:"verification_type"`
 }
-type OrganizationDomainsListOut struct {
+type organizationDomainsListOut struct {
 	Domains []Domain `json:"domains"`
 }
 type StateType string

@@ -55,7 +55,7 @@ type handler struct {
 func (h *handler) Create(ctx context.Context, project string, in *CreateIn) (*ServiceIntegrationEndpoint, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointCreate", "POST", path, in)
-	out := new(CreateOut)
+	out := new(createOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -70,7 +70,7 @@ func (h *handler) Delete(ctx context.Context, project string, integrationEndpoin
 func (h *handler) Get(ctx context.Context, project string, integrationEndpointId string) (*ServiceIntegrationEndpoint, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint/%s", project, integrationEndpointId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointGet", "GET", path, nil)
-	out := new(GetOut)
+	out := new(getOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (h *handler) Get(ctx context.Context, project string, integrationEndpointId
 func (h *handler) List(ctx context.Context, project string) ([]ServiceIntegrationEndpoint, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointList", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (h *handler) List(ctx context.Context, project string) ([]ServiceIntegratio
 func (h *handler) Types(ctx context.Context, project string) ([]EndpointTypeItem, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint_types", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointTypes", "GET", path, nil)
-	out := new(TypesOut)
+	out := new(typesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -100,7 +100,7 @@ func (h *handler) Types(ctx context.Context, project string) ([]EndpointTypeItem
 func (h *handler) Update(ctx context.Context, project string, integrationEndpointId string, in *UpdateIn) (*ServiceIntegrationEndpoint, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint/%s", project, integrationEndpointId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointUpdate", "PUT", path, in)
-	out := new(UpdateOut)
+	out := new(updateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -113,7 +113,7 @@ type CreateIn struct {
 	EndpointType EndpointType   `json:"endpoint_type"`
 	UserConfig   map[string]any `json:"user_config"`
 }
-type CreateOut struct {
+type createOut struct {
 	ServiceIntegrationEndpoint *ServiceIntegrationEndpoint `json:"service_integration_endpoint"`
 }
 type EndpointType string
@@ -144,10 +144,10 @@ type EndpointTypeItem struct {
 	Title            string         `json:"title"`
 	UserConfigSchema map[string]any `json:"user_config_schema"`
 }
-type GetOut struct {
+type getOut struct {
 	ServiceIntegrationEndpoint *ServiceIntegrationEndpoint `json:"service_integration_endpoint"`
 }
-type ListOut struct {
+type listOut struct {
 	ServiceIntegrationEndpoints []ServiceIntegrationEndpoint `json:"service_integration_endpoints"`
 }
 type ServiceIntegrationEndpoint struct {
@@ -157,12 +157,12 @@ type ServiceIntegrationEndpoint struct {
 	EndpointType   EndpointType   `json:"endpoint_type"`
 	UserConfig     map[string]any `json:"user_config"`
 }
-type TypesOut struct {
+type typesOut struct {
 	EndpointTypes []EndpointTypeItem `json:"endpoint_types"`
 }
 type UpdateIn struct {
 	UserConfig map[string]any `json:"user_config"`
 }
-type UpdateOut struct {
+type updateOut struct {
 	ServiceIntegrationEndpoint *ServiceIntegrationEndpoint `json:"service_integration_endpoint"`
 }

@@ -91,7 +91,7 @@ type handler struct {
 func (h *handler) AuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethod, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s/authentication_methods", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserAuthenticationMethodsList", "GET", path, nil)
-	out := new(AuthenticationMethodsListOut)
+	out := new(authenticationMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -126,7 +126,7 @@ func (h *handler) InvitationDelete(ctx context.Context, organizationId string, u
 func (h *handler) InvitationsList(ctx context.Context, organizationId string) ([]Invitation, error) {
 	path := fmt.Sprintf("/organization/%s/invitation", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationUserInvitationsList", "GET", path, nil)
-	out := new(InvitationsListOut)
+	out := new(invitationsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -141,7 +141,7 @@ func (h *handler) Invite(ctx context.Context, organizationId string, in *InviteI
 func (h *handler) List(ctx context.Context, organizationId string) ([]User, error) {
 	path := fmt.Sprintf("/organization/%s/user", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationUserList", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -171,7 +171,7 @@ func (h *handler) Set(ctx context.Context, organizationId string, memberUserId s
 func (h *handler) TokensList(ctx context.Context, organizationId string, memberUserId string) ([]Token, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s/access-tokens", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserTokensList", "GET", path, nil)
-	out := new(TokensListOut)
+	out := new(tokensListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -211,7 +211,7 @@ type AuthenticationMethod struct {
 	UserEmail        string     `json:"user_email,omitempty"`
 	UserId           string     `json:"user_id,omitempty"`
 }
-type AuthenticationMethodsListOut struct {
+type authenticationMethodsListOut struct {
 	AuthenticationMethods []AuthenticationMethod `json:"authentication_methods"`
 }
 type GetOut struct {
@@ -219,7 +219,7 @@ type GetOut struct {
 	JoinTime         time.Time `json:"join_time"`
 	LastActivityTime time.Time `json:"last_activity_time"`
 	UserId           string    `json:"user_id"`
-	UserInfo         *UserInfo `json:"user_info,omitempty"`
+	UserInfo         *UserInfo `json:"user_info"`
 }
 type Info struct {
 	City                   string    `json:"city,omitempty"`
@@ -243,13 +243,13 @@ type Invitation struct {
 type InvitationAcceptIn struct {
 	Action ActionType `json:"action,omitempty"`
 }
-type InvitationsListOut struct {
+type invitationsListOut struct {
 	Invitations []Invitation `json:"invitations"`
 }
 type InviteIn struct {
 	UserEmail string `json:"user_email"`
 }
-type ListOut struct {
+type listOut struct {
 	Users []User `json:"users"`
 }
 type SetOut struct {
@@ -257,8 +257,20 @@ type SetOut struct {
 	JoinTime         time.Time `json:"join_time"`
 	LastActivityTime time.Time `json:"last_activity_time"`
 	UserId           string    `json:"user_id"`
-	UserInfo         *UserInfo `json:"user_info,omitempty"`
+	UserInfo         *UserInfo `json:"user_info"`
 }
+type StateType string
+
+const (
+	StateTypeActive      StateType = "active"
+	StateTypeDeactivated StateType = "deactivated"
+	StateTypeDeleted     StateType = "deleted"
+)
+
+func StateTypeChoices() []string {
+	return []string{"active", "deactivated", "deleted"}
+}
+
 type Token struct {
 	Description   string    `json:"description"`
 	LastIp        string    `json:"last_ip"`
@@ -266,27 +278,28 @@ type Token struct {
 	LastUserAgent string    `json:"last_user_agent"`
 	TokenPrefix   string    `json:"token_prefix"`
 }
-type TokensListOut struct {
+type tokensListOut struct {
 	Tokens []Token `json:"tokens"`
 }
 type UpdateIn struct {
-	City         string `json:"city,omitempty"`
-	Country      string `json:"country,omitempty"`
-	Department   string `json:"department,omitempty"`
-	IsSuperAdmin *bool  `json:"is_super_admin,omitempty"`
-	JobTitle     string `json:"job_title,omitempty"`
-	RealName     string `json:"real_name,omitempty"`
+	City         string    `json:"city,omitempty"`
+	Country      string    `json:"country,omitempty"`
+	Department   string    `json:"department,omitempty"`
+	IsSuperAdmin *bool     `json:"is_super_admin,omitempty"`
+	JobTitle     string    `json:"job_title,omitempty"`
+	RealName     string    `json:"real_name,omitempty"`
+	State        StateType `json:"state,omitempty"`
 }
 type UpdateOut struct {
 	IsSuperAdmin     bool      `json:"is_super_admin"`
 	JoinTime         time.Time `json:"join_time"`
 	LastActivityTime time.Time `json:"last_activity_time"`
 	UserId           string    `json:"user_id"`
-	UserInfo         *UserInfo `json:"user_info,omitempty"`
+	UserInfo         *UserInfo `json:"user_info"`
 }
 type User struct {
 	UserId           string    `json:"user_id"`
-	UserInfo         *Info     `json:"user_info,omitempty"`
+	UserInfo         *Info     `json:"user_info"`
 	IsSuperAdmin     bool      `json:"is_super_admin"`
 	JoinTime         time.Time `json:"join_time"`
 	LastActivityTime time.Time `json:"last_activity_time"`

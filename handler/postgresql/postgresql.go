@@ -65,7 +65,7 @@ func (h *handler) PGBouncerUpdate(ctx context.Context, project string, serviceNa
 func (h *handler) PGServiceAvailableExtensions(ctx context.Context, project string, serviceName string) ([]Extension, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/pg/available-extensions", project, serviceName)
 	b, err := h.doer.Do(ctx, "PGServiceAvailableExtensions", "GET", path, nil)
-	out := new(PgserviceAvailableExtensionsOut)
+	out := new(pgserviceAvailableExtensionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func (h *handler) PGServiceAvailableExtensions(ctx context.Context, project stri
 func (h *handler) PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]Query, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/pg/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "PGServiceQueryStatistics", "POST", path, in)
-	out := new(PgserviceQueryStatisticsOut)
+	out := new(pgserviceQueryStatisticsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -100,7 +100,7 @@ type PgbouncerUpdateIn struct {
 	PoolSize *int         `json:"pool_size,omitempty"`
 	Username string       `json:"username,omitempty"`
 }
-type PgserviceAvailableExtensionsOut struct {
+type pgserviceAvailableExtensionsOut struct {
 	Extensions []Extension `json:"extensions"`
 }
 type PgserviceQueryStatisticsIn struct {
@@ -108,7 +108,7 @@ type PgserviceQueryStatisticsIn struct {
 	Offset  *int   `json:"offset,omitempty"`
 	OrderBy string `json:"order_by,omitempty"`
 }
-type PgserviceQueryStatisticsOut struct {
+type pgserviceQueryStatisticsOut struct {
 	Queries []Query `json:"queries"`
 }
 type PoolModeType string

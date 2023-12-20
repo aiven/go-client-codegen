@@ -66,7 +66,7 @@ type handler struct {
 func (h *handler) AclGet(ctx context.Context, project string, serviceName string) (*OpensearchAclConfig, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclGet", "GET", path, nil)
-	out := new(AclGetOut)
+	out := new(aclGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (h *handler) AclGet(ctx context.Context, project string, serviceName string
 func (h *handler) AclSet(ctx context.Context, project string, serviceName string, in *AclSetIn) (*OpensearchAclConfig, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclSet", "POST", path, in)
-	out := new(AclSetOut)
+	out := new(aclSetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (h *handler) AclSet(ctx context.Context, project string, serviceName string
 func (h *handler) AclUpdate(ctx context.Context, project string, serviceName string, in *AclUpdateIn) (*OpensearchAclConfig, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclUpdate", "PUT", path, in)
-	out := new(AclUpdateOut)
+	out := new(aclUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -101,7 +101,7 @@ func (h *handler) IndexDelete(ctx context.Context, project string, serviceName s
 func (h *handler) IndexList(ctx context.Context, project string, serviceName string) ([]Indexe, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/index", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchIndexList", "GET", path, nil)
-	out := new(IndexListOut)
+	out := new(indexListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -143,13 +143,13 @@ type Acl struct {
 	Rules    []Rule `json:"rules"`
 	Username string `json:"username"`
 }
-type AclGetOut struct {
+type aclGetOut struct {
 	OpensearchAclConfig *OpensearchAclConfig `json:"opensearch_acl_config"`
 }
 type AclSetIn struct {
 	OpensearchAclConfig *OpensearchAclConfig `json:"opensearch_acl_config"`
 }
-type AclSetOut struct {
+type aclSetOut struct {
 	OpensearchAclConfig *OpensearchAclConfig `json:"opensearch_acl_config"`
 }
 type AclUpdateIn struct {
@@ -159,7 +159,7 @@ type AclUpdateInOpensearchAclConfig struct {
 	Acls    []Acl `json:"acls"`
 	Enabled *bool `json:"enabled,omitempty"`
 }
-type AclUpdateOut struct {
+type aclUpdateOut struct {
 	OpensearchAclConfig *OpensearchAclConfig `json:"opensearch_acl_config"`
 }
 type HealthType string
@@ -172,7 +172,7 @@ const (
 	HealthTypeUnknown     HealthType = "unknown"
 )
 
-type IndexListOut struct {
+type indexListOut struct {
 	Indexes []Indexe `json:"indexes"`
 }
 type Indexe struct {

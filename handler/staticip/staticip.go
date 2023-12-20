@@ -65,7 +65,7 @@ func (h *handler) Create(ctx context.Context, project string, in *CreateIn) (*Cr
 func (h *handler) List(ctx context.Context, project string) ([]StaticIp, error) {
 	path := fmt.Sprintf("/project/%s/static-ips", project)
 	b, err := h.doer.Do(ctx, "StaticIPList", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -85,7 +85,7 @@ func (h *handler) ProjectStaticIPAssociate(ctx context.Context, project string, 
 func (h *handler) ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailability, error) {
 	path := fmt.Sprintf("/project/%s/static-ip-availability", project)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPAvailabilityList", "GET", path, nil)
-	out := new(ProjectStaticIpavailabilityListOut)
+	out := new(projectStaticIpavailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -125,7 +125,7 @@ type CreateOut struct {
 	StaticIpAddressId     string    `json:"static_ip_address_id"`
 	TerminationProtection bool      `json:"termination_protection"`
 }
-type ListOut struct {
+type listOut struct {
 	StaticIps []StaticIp `json:"static_ips"`
 }
 type ProjectStaticIpassociateIn struct {
@@ -139,7 +139,7 @@ type ProjectStaticIpassociateOut struct {
 	StaticIpAddressId     string    `json:"static_ip_address_id"`
 	TerminationProtection bool      `json:"termination_protection"`
 }
-type ProjectStaticIpavailabilityListOut struct {
+type projectStaticIpavailabilityListOut struct {
 	StaticIpAddressAvailability []StaticIpAddressAvailability `json:"static_ip_address_availability"`
 }
 type ProjectStaticIpdissociateOut struct {

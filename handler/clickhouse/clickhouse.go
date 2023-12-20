@@ -55,7 +55,7 @@ func (h *handler) DatabaseDelete(ctx context.Context, project string, serviceNam
 func (h *handler) QueryStats(ctx context.Context, project string, serviceName string) ([]Query, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil)
-	out := new(QueryStatsOut)
+	out := new(queryStatsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -77,6 +77,7 @@ type DatabaseCreateIn struct {
 	Database string `json:"database"`
 }
 type Hourly struct {
+	EstimatedCost   string `json:"estimated_cost,omitempty"`
 	HourStart       string `json:"hour_start"`
 	PeakStoredBytes int    `json:"peak_stored_bytes"`
 }
@@ -92,7 +93,7 @@ type Query struct {
 	StddevTime *int     `json:"stddev_time,omitempty"`
 	TotalTime  *int     `json:"total_time,omitempty"`
 }
-type QueryStatsOut struct {
+type queryStatsOut struct {
 	Queries []Query `json:"queries"`
 }
 type StorageUsageHistory struct {

@@ -41,8 +41,8 @@ func exec() error {
 		return err
 	}
 
-	var doc Doc
-	err = json.Unmarshal(b, &doc)
+	doc := new(Doc)
+	err = json.Unmarshal(b, doc)
 	if err != nil {
 		return err
 	}
@@ -195,7 +195,7 @@ func exec() error {
 			params = append(params, ctx)
 			for _, p := range path.Parameters {
 				p.Schema.required = true
-				p.Schema.init(scope, pkg, p.Name)
+				p.Schema.init(doc, scope, pkg, p.Name)
 				schemas = append(schemas, p.Schema)
 				param := jen.Id(strcase.ToLowerCamel(p.Schema.camelName)).Add(getType(p.Schema))
 				params = append(params, param)
@@ -215,7 +215,7 @@ func exec() error {
 					return err
 				}
 				schemaIn.in = true
-				schemaIn.init(scope, "", path.FuncName+"In")
+				schemaIn.init(doc, scope, "", path.FuncName+"In")
 				schemas = append(schemas, schemaIn)
 				params = append(params, jen.Id("in").Id("*"+schemaIn.camelName))
 			}
@@ -230,7 +230,7 @@ func exec() error {
 					return err
 				}
 				schemaOut.out = true
-				schemaOut.init(scope, "", path.FuncName+"Out")
+				schemaOut.init(doc, scope, "", path.FuncName+"Out")
 				rsp = getResponse(schemaOut)
 			}
 
@@ -437,6 +437,7 @@ func getResponse(s *Schema) *Schema {
 	case 1:
 		// If the schema has just one field, then uses it as out dto
 		// That makes code simpler
+		s.camelName = lowerFirst(s.camelName)
 		for _, p := range s.Properties {
 			return p
 		}

@@ -100,7 +100,7 @@ type handler struct {
 func (h *handler) AclAdd(ctx context.Context, project string, serviceName string, in *AclAddIn) ([]Acl, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema-registry/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryAclAdd", "POST", path, in)
-	out := new(AclAddOut)
+	out := new(aclAddOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -110,7 +110,7 @@ func (h *handler) AclAdd(ctx context.Context, project string, serviceName string
 func (h *handler) AclDelete(ctx context.Context, project string, serviceName string, schemaRegistryAclId string) ([]Acl, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema-registry/acl/%s", project, serviceName, schemaRegistryAclId)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryAclDelete", "DELETE", path, nil)
-	out := new(AclDeleteOut)
+	out := new(aclDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -120,7 +120,7 @@ func (h *handler) AclDelete(ctx context.Context, project string, serviceName str
 func (h *handler) AclList(ctx context.Context, project string, serviceName string) ([]Acl, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema-registry/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryAclList", "GET", path, nil)
-	out := new(AclListOut)
+	out := new(aclListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -130,7 +130,7 @@ func (h *handler) AclList(ctx context.Context, project string, serviceName strin
 func (h *handler) Compatibility(ctx context.Context, project string, serviceName string, subjectName string, versionId int, in *CompatibilityIn) (bool, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/compatibility/subjects/%s/versions/%d", project, serviceName, subjectName, versionId)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryCompatibility", "POST", path, in)
-	out := new(CompatibilityOut)
+	out := new(compatibilityOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return false, err
@@ -140,7 +140,7 @@ func (h *handler) Compatibility(ctx context.Context, project string, serviceName
 func (h *handler) GlobalConfigGet(ctx context.Context, project string, serviceName string) (CompatibilityLevelType, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryGlobalConfigGet", "GET", path, nil)
-	out := new(GlobalConfigGetOut)
+	out := new(globalConfigGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -150,7 +150,7 @@ func (h *handler) GlobalConfigGet(ctx context.Context, project string, serviceNa
 func (h *handler) GlobalConfigPut(ctx context.Context, project string, serviceName string, in *GlobalConfigPutIn) (CompatibilityType, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryGlobalConfigPut", "PUT", path, in)
-	out := new(GlobalConfigPutOut)
+	out := new(globalConfigPutOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -165,7 +165,7 @@ func (h *handler) SchemaGet(ctx context.Context, project string, serviceName str
 func (h *handler) SubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string) (CompatibilityLevelType, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config/%s", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectConfigGet", "GET", path, nil)
-	out := new(SubjectConfigGetOut)
+	out := new(subjectConfigGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -175,7 +175,7 @@ func (h *handler) SubjectConfigGet(ctx context.Context, project string, serviceN
 func (h *handler) SubjectConfigPut(ctx context.Context, project string, serviceName string, subjectName string, in *SubjectConfigPutIn) (CompatibilityType, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config/%s", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectConfigPut", "PUT", path, in)
-	out := new(SubjectConfigPutOut)
+	out := new(subjectConfigPutOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -200,7 +200,7 @@ func (h *handler) SubjectVersionGet(ctx context.Context, project string, service
 func (h *handler) SubjectVersionPost(ctx context.Context, project string, serviceName string, subjectName string, in *SubjectVersionPostIn) (int, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects/%s/versions", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionPost", "POST", path, in)
-	out := new(SubjectVersionPostOut)
+	out := new(subjectVersionPostOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return 0, err
@@ -210,7 +210,7 @@ func (h *handler) SubjectVersionPost(ctx context.Context, project string, servic
 func (h *handler) SubjectVersionsGet(ctx context.Context, project string, serviceName string, subjectName string) ([]int, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects/%s/versions", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionsGet", "GET", path, nil)
-	out := new(SubjectVersionsGetOut)
+	out := new(subjectVersionsGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -220,7 +220,7 @@ func (h *handler) SubjectVersionsGet(ctx context.Context, project string, servic
 func (h *handler) Subjects(ctx context.Context, project string, serviceName string) ([]string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjects", "GET", path, nil)
-	out := new(SubjectsOut)
+	out := new(subjectsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -239,13 +239,13 @@ type AclAddIn struct {
 	Resource   string         `json:"resource"`
 	Username   string         `json:"username"`
 }
-type AclAddOut struct {
+type aclAddOut struct {
 	Acl []Acl `json:"acl"`
 }
-type AclDeleteOut struct {
+type aclDeleteOut struct {
 	Acl []Acl `json:"acl"`
 }
-type AclListOut struct {
+type aclListOut struct {
 	Acl []Acl `json:"acl"`
 }
 type CompatibilityIn struct {
@@ -264,7 +264,7 @@ const (
 	CompatibilityLevelTypeNone               CompatibilityLevelType = "NONE"
 )
 
-type CompatibilityOut struct {
+type compatibilityOut struct {
 	IsCompatible bool `json:"is_compatible"`
 }
 type CompatibilityType string
@@ -279,13 +279,13 @@ const (
 	CompatibilityTypeNone               CompatibilityType = "NONE"
 )
 
-type GlobalConfigGetOut struct {
+type globalConfigGetOut struct {
 	CompatibilityLevel CompatibilityLevelType `json:"compatibilityLevel"`
 }
 type GlobalConfigPutIn struct {
 	Compatibility CompatibilityType `json:"compatibility"`
 }
-type GlobalConfigPutOut struct {
+type globalConfigPutOut struct {
 	Compatibility CompatibilityType `json:"compatibility"`
 }
 type PermissionType string
@@ -312,13 +312,13 @@ func SchemaTypeChoices() []string {
 	return []string{"AVRO", "JSON", "PROTOBUF"}
 }
 
-type SubjectConfigGetOut struct {
+type subjectConfigGetOut struct {
 	CompatibilityLevel CompatibilityLevelType `json:"compatibilityLevel"`
 }
 type SubjectConfigPutIn struct {
 	Compatibility CompatibilityType `json:"compatibility"`
 }
-type SubjectConfigPutOut struct {
+type subjectConfigPutOut struct {
 	Compatibility CompatibilityType `json:"compatibility"`
 }
 type SubjectVersionPostIn struct {
@@ -326,12 +326,12 @@ type SubjectVersionPostIn struct {
 	Schema     string      `json:"schema"`
 	SchemaType SchemaType  `json:"schemaType,omitempty"`
 }
-type SubjectVersionPostOut struct {
+type subjectVersionPostOut struct {
 	Id int `json:"id"`
 }
-type SubjectVersionsGetOut struct {
+type subjectVersionsGetOut struct {
 	Versions []int `json:"versions"`
 }
-type SubjectsOut struct {
+type subjectsOut struct {
 	Subjects []string `json:"subjects"`
 }

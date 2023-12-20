@@ -45,7 +45,7 @@ func (h *handler) Details(ctx context.Context, project string, serviceName strin
 func (h *handler) List(ctx context.Context, project string, serviceName string) ([]Job, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/job", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkJobsList", "GET", path, nil)
-	out := new(ListOut)
+	out := new(listOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -72,7 +72,7 @@ type Job struct {
 	Id     string     `json:"id,omitempty"`
 	Status StatusType `json:"status,omitempty"`
 }
-type ListOut struct {
+type listOut struct {
 	Jobs []Job `json:"jobs"`
 }
 type StateType string
