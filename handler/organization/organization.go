@@ -35,26 +35,6 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUpdate
 	Update(ctx context.Context, id string, in *UpdateIn) (*UpdateOut, error)
 
-	// UserInvitationAccept accept a user invitation to the organization
-	// OrganizationUserInvitationAccept POST /organization/{organization_id}/invitation/{user_email}
-	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationAccept
-	UserInvitationAccept(ctx context.Context, id string, userEmail string, in *UserInvitationAcceptIn) error
-
-	// UserInvitationDelete remove an invitation to the organization
-	// OrganizationUserInvitationDelete DELETE /organization/{organization_id}/invitation/{user_email}
-	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationDelete
-	UserInvitationDelete(ctx context.Context, id string, userEmail string) error
-
-	// UserInvitationsList list user invitations to the organization
-	// OrganizationUserInvitationsList GET /organization/{organization_id}/invitation
-	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationsList
-	UserInvitationsList(ctx context.Context, id string) ([]Invitation, error)
-
-	// UserInvite invite a user to the organization
-	// OrganizationUserInvite POST /organization/{organization_id}/invitation
-	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvite
-	UserInvite(ctx context.Context, id string, in *UserInviteIn) error
-
 	// UserOrganizationCreate create an organization
 	// UserOrganizationCreate POST /organizations
 	// https://api.aiven.io/doc/#tag/Organizations/operation/UserOrganizationCreate
@@ -128,31 +108,6 @@ func (h *handler) Update(ctx context.Context, id string, in *UpdateIn) (*UpdateO
 	}
 	return out, nil
 }
-func (h *handler) UserInvitationAccept(ctx context.Context, id string, userEmail string, in *UserInvitationAcceptIn) error {
-	path := fmt.Sprintf("/organization/%s/invitation/%s", id, userEmail)
-	_, err := h.doer.Do(ctx, "OrganizationUserInvitationAccept", "POST", path, in)
-	return err
-}
-func (h *handler) UserInvitationDelete(ctx context.Context, id string, userEmail string) error {
-	path := fmt.Sprintf("/organization/%s/invitation/%s", id, userEmail)
-	_, err := h.doer.Do(ctx, "OrganizationUserInvitationDelete", "DELETE", path, nil)
-	return err
-}
-func (h *handler) UserInvitationsList(ctx context.Context, id string) ([]Invitation, error) {
-	path := fmt.Sprintf("/organization/%s/invitation", id)
-	b, err := h.doer.Do(ctx, "OrganizationUserInvitationsList", "GET", path, nil)
-	out := new(UserInvitationsListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Invitations, nil
-}
-func (h *handler) UserInvite(ctx context.Context, id string, in *UserInviteIn) error {
-	path := fmt.Sprintf("/organization/%s/invitation", id)
-	_, err := h.doer.Do(ctx, "OrganizationUserInvite", "POST", path, in)
-	return err
-}
 func (h *handler) UserOrganizationCreate(ctx context.Context, in *UserOrganizationCreateIn) (*UserOrganizationCreateOut, error) {
 	path := fmt.Sprintf("/organizations")
 	b, err := h.doer.Do(ctx, "UserOrganizationCreate", "POST", path, in)
@@ -172,16 +127,6 @@ func (h *handler) UserOrganizationsList(ctx context.Context) ([]Organization, er
 		return nil, err
 	}
 	return out.Organizations, nil
-}
-
-type ActionType string
-
-const (
-	ActionTypeAccept ActionType = "accept"
-)
-
-func ActionTypeChoices() []string {
-	return []string{"accept"}
 }
 
 type AuthenticationConfigGetOut struct {
@@ -248,12 +193,6 @@ type GetOut struct {
 	Tier             TierType  `json:"tier"`
 	UpdateTime       time.Time `json:"update_time"`
 }
-type Invitation struct {
-	CreateTime time.Time `json:"create_time"`
-	ExpiryTime time.Time `json:"expiry_time"`
-	InvitedBy  string    `json:"invited_by"`
-	UserEmail  string    `json:"user_email"`
-}
 type Organization struct {
 	AccountId        string    `json:"account_id"`
 	CreateTime       time.Time `json:"create_time"`
@@ -319,15 +258,6 @@ type UpdateOut struct {
 	OrganizationName string    `json:"organization_name"`
 	Tier             TierType  `json:"tier"`
 	UpdateTime       time.Time `json:"update_time"`
-}
-type UserInvitationAcceptIn struct {
-	Action ActionType `json:"action,omitempty"`
-}
-type UserInvitationsListOut struct {
-	Invitations []Invitation `json:"invitations"`
-}
-type UserInviteIn struct {
-	UserEmail string `json:"user_email"`
 }
 type UserOrganizationCreateIn struct {
 	OrganizationName      string   `json:"organization_name"`

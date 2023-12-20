@@ -95,51 +95,6 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationMemberGroupsList
 	OrganizationMemberGroupsList(ctx context.Context, organizationId string, memberUserId string) ([]UserGroup, error)
 
-	// OrganizationUserAuthenticationMethodsList list authentication methods for a user in the organization
-	// OrganizationUserAuthenticationMethodsList GET /organization/{organization_id}/user/{member_user_id}/authentication_methods
-	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserAuthenticationMethodsList
-	OrganizationUserAuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethodItem, error)
-
-	// OrganizationUserDelete remove a user from the organization
-	// OrganizationUserDelete DELETE /organization/{organization_id}/user/{member_user_id}
-	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserDelete
-	OrganizationUserDelete(ctx context.Context, organizationId string, memberUserId string) error
-
-	// OrganizationUserGet get details on a user of the organization
-	// OrganizationUserGet GET /organization/{organization_id}/user/{member_user_id}
-	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserGet
-	OrganizationUserGet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserGetOut, error)
-
-	// OrganizationUserList list users of the organization
-	// OrganizationUserList GET /organization/{organization_id}/user
-	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserList
-	OrganizationUserList(ctx context.Context, organizationId string) ([]UserItem, error)
-
-	// OrganizationUserPasswordReset reset the password of a managed user in the organization
-	// OrganizationUserPasswordReset POST /organization/{organization_id}/user/{member_user_id}/reset_password
-	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserPasswordReset
-	OrganizationUserPasswordReset(ctx context.Context, organizationId string, memberUserId string) error
-
-	// OrganizationUserRevokeToken revoke the token of a managed user in the organization
-	// OrganizationUserRevokeToken DELETE /organization/{organization_id}/user/{member_user_id}/access-token/{token_prefix}
-	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserRevokeToken
-	OrganizationUserRevokeToken(ctx context.Context, organizationId string, memberUserId string, tokenPrefix string) error
-
-	// OrganizationUserSet add or modify a user of the organization
-	// OrganizationUserSet PUT /organization/{organization_id}/user/{member_user_id}
-	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserSet
-	OrganizationUserSet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserSetOut, error)
-
-	// OrganizationUserTokensList list tokens from an organization's member
-	// OrganizationUserTokensList GET /organization/{organization_id}/user/{member_user_id}/access-tokens
-	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserTokensList
-	OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]TokenItem, error)
-
-	// OrganizationUserUpdate update details on a user of the organization
-	// OrganizationUserUpdate PATCH /organization/{organization_id}/user/{member_user_id}
-	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserUpdate
-	OrganizationUserUpdate(ctx context.Context, organizationId string, memberUserId string, in *OrganizationUserUpdateIn) (*OrganizationUserUpdateOut, error)
-
 	// PasswordChange change user password
 	// UserPasswordChange PUT /me/password
 	// https://api.aiven.io/doc/#tag/Users/operation/UserPasswordChange
@@ -348,81 +303,6 @@ func (h *handler) OrganizationMemberGroupsList(ctx context.Context, organization
 	}
 	return out.UserGroups, nil
 }
-func (h *handler) OrganizationUserAuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethodItem, error) {
-	path := fmt.Sprintf("/organization/%s/user/%s/authentication_methods", organizationId, memberUserId)
-	b, err := h.doer.Do(ctx, "OrganizationUserAuthenticationMethodsList", "GET", path, nil)
-	out := new(OrganizationUserAuthenticationMethodsListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.AuthenticationMethods, nil
-}
-func (h *handler) OrganizationUserDelete(ctx context.Context, organizationId string, memberUserId string) error {
-	path := fmt.Sprintf("/organization/%s/user/%s", organizationId, memberUserId)
-	_, err := h.doer.Do(ctx, "OrganizationUserDelete", "DELETE", path, nil)
-	return err
-}
-func (h *handler) OrganizationUserGet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserGetOut, error) {
-	path := fmt.Sprintf("/organization/%s/user/%s", organizationId, memberUserId)
-	b, err := h.doer.Do(ctx, "OrganizationUserGet", "GET", path, nil)
-	out := new(OrganizationUserGetOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-func (h *handler) OrganizationUserList(ctx context.Context, organizationId string) ([]UserItem, error) {
-	path := fmt.Sprintf("/organization/%s/user", organizationId)
-	b, err := h.doer.Do(ctx, "OrganizationUserList", "GET", path, nil)
-	out := new(OrganizationUserListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Users, nil
-}
-func (h *handler) OrganizationUserPasswordReset(ctx context.Context, organizationId string, memberUserId string) error {
-	path := fmt.Sprintf("/organization/%s/user/%s/reset_password", organizationId, memberUserId)
-	_, err := h.doer.Do(ctx, "OrganizationUserPasswordReset", "POST", path, nil)
-	return err
-}
-func (h *handler) OrganizationUserRevokeToken(ctx context.Context, organizationId string, memberUserId string, tokenPrefix string) error {
-	path := fmt.Sprintf("/organization/%s/user/%s/access-token/%s", organizationId, memberUserId, tokenPrefix)
-	_, err := h.doer.Do(ctx, "OrganizationUserRevokeToken", "DELETE", path, nil)
-	return err
-}
-func (h *handler) OrganizationUserSet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserSetOut, error) {
-	path := fmt.Sprintf("/organization/%s/user/%s", organizationId, memberUserId)
-	b, err := h.doer.Do(ctx, "OrganizationUserSet", "PUT", path, nil)
-	out := new(OrganizationUserSetOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-func (h *handler) OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]TokenItem, error) {
-	path := fmt.Sprintf("/organization/%s/user/%s/access-tokens", organizationId, memberUserId)
-	b, err := h.doer.Do(ctx, "OrganizationUserTokensList", "GET", path, nil)
-	out := new(OrganizationUserTokensListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Tokens, nil
-}
-func (h *handler) OrganizationUserUpdate(ctx context.Context, organizationId string, memberUserId string, in *OrganizationUserUpdateIn) (*OrganizationUserUpdateOut, error) {
-	path := fmt.Sprintf("/organization/%s/user/%s", organizationId, memberUserId)
-	b, err := h.doer.Do(ctx, "OrganizationUserUpdate", "PATCH", path, in)
-	out := new(OrganizationUserUpdateOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
 func (h *handler) PasswordChange(ctx context.Context, in *PasswordChangeIn) (string, error) {
 	path := fmt.Sprintf("/me/password")
 	b, err := h.doer.Do(ctx, "UserPasswordChange", "PUT", path, in)
@@ -612,18 +492,6 @@ type AuthenticationMethod struct {
 	UpdateTime                    time.Time `json:"update_time"`
 	UserEmail                     string    `json:"user_email"`
 }
-type AuthenticationMethodItem struct {
-	IsEnabled2Fa     *bool      `json:"is_enabled_2fa,omitempty"`
-	LastUsedTime     *time.Time `json:"last_used_time,omitempty"`
-	LocalProviderId  string     `json:"local_provider_id,omitempty"`
-	MethodId         string     `json:"method_id,omitempty"`
-	Name             string     `json:"name,omitempty"`
-	OrganizationId   string     `json:"organization_id,omitempty"`
-	RemoteProviderId string     `json:"remote_provider_id"`
-	Type             string     `json:"type,omitempty"`
-	UserEmail        string     `json:"user_email,omitempty"`
-	UserId           string     `json:"user_id,omitempty"`
-}
 type AuthenticationMethodsListOut struct {
 	AuthenticationMethods []AuthenticationMethod `json:"authentication_methods"`
 }
@@ -707,44 +575,6 @@ const (
 type OrganizationMemberGroupsListOut struct {
 	UserGroups []UserGroup `json:"user_groups"`
 }
-type OrganizationUserAuthenticationMethodsListOut struct {
-	AuthenticationMethods []AuthenticationMethodItem `json:"authentication_methods"`
-}
-type OrganizationUserGetOut struct {
-	IsSuperAdmin     bool      `json:"is_super_admin"`
-	JoinTime         time.Time `json:"join_time"`
-	LastActivityTime time.Time `json:"last_activity_time"`
-	UserId           string    `json:"user_id"`
-	UserInfo         *UserInfo `json:"user_info,omitempty"`
-}
-type OrganizationUserListOut struct {
-	Users []UserItem `json:"users"`
-}
-type OrganizationUserSetOut struct {
-	IsSuperAdmin     bool      `json:"is_super_admin"`
-	JoinTime         time.Time `json:"join_time"`
-	LastActivityTime time.Time `json:"last_activity_time"`
-	UserId           string    `json:"user_id"`
-	UserInfo         *UserInfo `json:"user_info,omitempty"`
-}
-type OrganizationUserTokensListOut struct {
-	Tokens []TokenItem `json:"tokens"`
-}
-type OrganizationUserUpdateIn struct {
-	City         string `json:"city,omitempty"`
-	Country      string `json:"country,omitempty"`
-	Department   string `json:"department,omitempty"`
-	IsSuperAdmin *bool  `json:"is_super_admin,omitempty"`
-	JobTitle     string `json:"job_title,omitempty"`
-	RealName     string `json:"real_name,omitempty"`
-}
-type OrganizationUserUpdateOut struct {
-	IsSuperAdmin     bool      `json:"is_super_admin"`
-	JoinTime         time.Time `json:"join_time"`
-	LastActivityTime time.Time `json:"last_activity_time"`
-	UserId           string    `json:"user_id"`
-	UserInfo         *UserInfo `json:"user_info,omitempty"`
-}
 type PasswordChangeIn struct {
 	NewPassword string `json:"new_password"`
 	Password    string `json:"password"`
@@ -790,13 +620,6 @@ type Token struct {
 	MaxAgeSeconds              float64    `json:"max_age_seconds"`
 	TokenPrefix                string     `json:"token_prefix"`
 	Scopes                     []string   `json:"scopes"`
-}
-type TokenItem struct {
-	Description   string    `json:"description"`
-	LastIp        string    `json:"last_ip"`
-	LastUsedTime  time.Time `json:"last_used_time"`
-	LastUserAgent string    `json:"last_user_agent"`
-	TokenPrefix   string    `json:"token_prefix"`
 }
 type TwoFactorAuthConfigureIn struct {
 	Method   string `json:"method"`
@@ -873,26 +696,6 @@ type UserGroup struct {
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
 	UpdateTime    time.Time `json:"update_time"`
-}
-type UserInfo struct {
-	City                   string    `json:"city,omitempty"`
-	Country                string    `json:"country,omitempty"`
-	CreateTime             time.Time `json:"create_time"`
-	Department             string    `json:"department,omitempty"`
-	IsApplicationUser      bool      `json:"is_application_user"`
-	JobTitle               string    `json:"job_title,omitempty"`
-	ManagedByScim          bool      `json:"managed_by_scim"`
-	ManagingOrganizationId string    `json:"managing_organization_id,omitempty"`
-	RealName               string    `json:"real_name"`
-	State                  string    `json:"state"`
-	UserEmail              string    `json:"user_email"`
-}
-type UserItem struct {
-	IsSuperAdmin     bool      `json:"is_super_admin"`
-	JoinTime         time.Time `json:"join_time"`
-	LastActivityTime time.Time `json:"last_activity_time"`
-	UserId           string    `json:"user_id"`
-	UserInfo         *UserInfo `json:"user_info,omitempty"`
 }
 type VerifyEmailOut struct {
 	InviteDetails *InviteDetails `json:"invite_details"`

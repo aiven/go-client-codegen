@@ -24,6 +24,7 @@ import (
 	mysql "github.com/aiven/aiven-go-client-v2/handler/mysql"
 	opensearch "github.com/aiven/aiven-go-client-v2/handler/opensearch"
 	organization "github.com/aiven/aiven-go-client-v2/handler/organization"
+	organizationuser "github.com/aiven/aiven-go-client-v2/handler/organizationuser"
 	postgresql "github.com/aiven/aiven-go-client-v2/handler/postgresql"
 	privatelink "github.com/aiven/aiven-go-client-v2/handler/privatelink"
 	project "github.com/aiven/aiven-go-client-v2/handler/project"
@@ -63,6 +64,7 @@ func newClient(doer doer) *Client {
 		MySql:                      mysql.NewHandler(doer),
 		OpenSearch:                 opensearch.NewHandler(doer),
 		Organization:               organization.NewHandler(doer),
+		OrganizationUser:           organizationuser.NewHandler(doer),
 		PostgreSql:                 postgresql.NewHandler(doer),
 		Privatelink:                privatelink.NewHandler(doer),
 		Project:                    project.NewHandler(doer),
@@ -98,6 +100,7 @@ type Client struct {
 	MySql                      mysql.Handler
 	OpenSearch                 opensearch.Handler
 	Organization               organization.Handler
+	OrganizationUser           organizationuser.Handler
 	PostgreSql                 postgresql.Handler
 	Privatelink                privatelink.Handler
 	Project                    project.Handler

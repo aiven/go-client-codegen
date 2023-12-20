@@ -70,6 +70,10 @@ func exec() error {
 				pkg = "ServiceIntegrationEndpoint"
 			}
 
+			if strings.HasPrefix(p.ID, "OrganizationUser") {
+				pkg = "OrganizationUser"
+			}
+
 			if pkg == "Group" {
 				pkg = "UserGroup"
 			}
