@@ -124,6 +124,7 @@ const (
 	EndpointTypeExternalAwsCloudwatchLogs    EndpointType = "external_aws_cloudwatch_logs"
 	EndpointTypeExternalAwsCloudwatchMetrics EndpointType = "external_aws_cloudwatch_metrics"
 	EndpointTypeExternalAwsS3                EndpointType = "external_aws_s3"
+	EndpointTypeExternalClickhouse           EndpointType = "external_clickhouse"
 	EndpointTypeExternalElasticsearchLogs    EndpointType = "external_elasticsearch_logs"
 	EndpointTypeExternalGoogleCloudBigquery  EndpointType = "external_google_cloud_bigquery"
 	EndpointTypeExternalGoogleCloudLogging   EndpointType = "external_google_cloud_logging"
