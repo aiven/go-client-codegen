@@ -2,7 +2,7 @@
 # Negative lookbehind tries to find "= `" pattern to not affect go templates for code generation
 imports:
 	find . -type f -name '*.go' -exec sed -zi 's/(?<== `\s+)"\n\+\t"/"\n"/g' {} +
-	goimports -local "github.com/aiven/aiven-go-client-v2" -w .
+	goimports -local "github.com/aiven/aiven-go-client-v3" -w .
 
 go-generate:
 	rm -rf .handlers

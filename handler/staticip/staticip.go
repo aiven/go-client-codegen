@@ -9,71 +9,56 @@ import (
 )
 
 type Handler interface {
-	// Create create static IP address
-	// StaticIPCreate POST /project/{project}/static-ips
-	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPCreate
-	Create(ctx context.Context, project string, in *CreateIn) (*CreateOut, error)
-
-	// List list static IP addresses
-	// StaticIPList GET /project/{project}/static-ips
-	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPList
-	List(ctx context.Context, project string) ([]StaticIp, error)
-
 	// ProjectStaticIPAssociate associate a static IP address with a service
-	// ProjectStaticIPAssociate POST /project/{project}/static-ips/{static_ip_address_id}/association
+	// POST /project/{project}/static-ips/{static_ip_address_id}/association
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPAssociate
-	ProjectStaticIPAssociate(ctx context.Context, project string, addressId string, in *ProjectStaticIpassociateIn) (*ProjectStaticIpassociateOut, error)
+	ProjectStaticIPAssociate(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIpassociateIn) (*ProjectStaticIpassociateOut, error)
 
 	// ProjectStaticIPAvailabilityList list static IP address cloud availability and prices for a project
-	// ProjectStaticIPAvailabilityList GET /project/{project}/static-ip-availability
+	// GET /project/{project}/static-ip-availability
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPAvailabilityList
 	ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailability, error)
 
 	// ProjectStaticIPDissociate dissociate a static IP address from a service
-	// ProjectStaticIPDissociate DELETE /project/{project}/static-ips/{static_ip_address_id}/association
+	// DELETE /project/{project}/static-ips/{static_ip_address_id}/association
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPDissociate
-	ProjectStaticIPDissociate(ctx context.Context, project string, addressId string) (*ProjectStaticIpdissociateOut, error)
+	ProjectStaticIPDissociate(ctx context.Context, project string, staticIpAddressId string) (*ProjectStaticIpdissociateOut, error)
 
 	// ProjectStaticIPPatch update a static IP address configuration
-	// ProjectStaticIPPatch PATCH /project/{project}/static-ips/{static_ip_address_id}
+	// PATCH /project/{project}/static-ips/{static_ip_address_id}
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPPatch
-	ProjectStaticIPPatch(ctx context.Context, project string, addressId string, in *ProjectStaticIppatchIn) (*ProjectStaticIppatchOut, error)
+	ProjectStaticIPPatch(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIppatchIn) (*ProjectStaticIppatchOut, error)
+
+	// PublicStaticIPAvailabilityList list static IP clouds and prices
+	// GET /tenants/{tenant}/static-ip-availability
+	// https://api.aiven.io/doc/#tag/Cloud_platforms/operation/PublicStaticIPAvailabilityList
+	PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIpAddressAvailability, error)
+
+	// StaticIPCreate create static IP address
+	// POST /project/{project}/static-ips
+	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPCreate
+	StaticIPCreate(ctx context.Context, project string, in *StaticIpcreateIn) (*StaticIpcreateOut, error)
+
+	// StaticIPList list static IP addresses
+	// GET /project/{project}/static-ips
+	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPList
+	StaticIPList(ctx context.Context, project string) ([]StaticIp, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) StaticIPHandler {
+	return StaticIPHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type StaticIPHandler struct {
 	doer doer
 }
 
-func (h *handler) Create(ctx context.Context, project string, in *CreateIn) (*CreateOut, error) {
-	path := fmt.Sprintf("/project/%s/static-ips", project)
-	b, err := h.doer.Do(ctx, "StaticIPCreate", "POST", path, in)
-	out := new(CreateOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-func (h *handler) List(ctx context.Context, project string) ([]StaticIp, error) {
-	path := fmt.Sprintf("/project/%s/static-ips", project)
-	b, err := h.doer.Do(ctx, "StaticIPList", "GET", path, nil)
-	out := new(listOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.StaticIps, nil
-}
-func (h *handler) ProjectStaticIPAssociate(ctx context.Context, project string, addressId string, in *ProjectStaticIpassociateIn) (*ProjectStaticIpassociateOut, error) {
-	path := fmt.Sprintf("/project/%s/static-ips/%s/association", project, addressId)
+func (h *StaticIPHandler) ProjectStaticIPAssociate(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIpassociateIn) (*ProjectStaticIpassociateOut, error) {
+	path := fmt.Sprintf("/project/%s/static-ips/%s/association", project, staticIpAddressId)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPAssociate", "POST", path, in)
 	out := new(ProjectStaticIpassociateOut)
 	err = json.Unmarshal(b, out)
@@ -82,7 +67,7 @@ func (h *handler) ProjectStaticIPAssociate(ctx context.Context, project string, 
 	}
 	return out, nil
 }
-func (h *handler) ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailability, error) {
+func (h *StaticIPHandler) ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailability, error) {
 	path := fmt.Sprintf("/project/%s/static-ip-availability", project)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPAvailabilityList", "GET", path, nil)
 	out := new(projectStaticIpavailabilityListOut)
@@ -92,8 +77,8 @@ func (h *handler) ProjectStaticIPAvailabilityList(ctx context.Context, project s
 	}
 	return out.StaticIpAddressAvailability, nil
 }
-func (h *handler) ProjectStaticIPDissociate(ctx context.Context, project string, addressId string) (*ProjectStaticIpdissociateOut, error) {
-	path := fmt.Sprintf("/project/%s/static-ips/%s/association", project, addressId)
+func (h *StaticIPHandler) ProjectStaticIPDissociate(ctx context.Context, project string, staticIpAddressId string) (*ProjectStaticIpdissociateOut, error) {
+	path := fmt.Sprintf("/project/%s/static-ips/%s/association", project, staticIpAddressId)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPDissociate", "DELETE", path, nil)
 	out := new(ProjectStaticIpdissociateOut)
 	err = json.Unmarshal(b, out)
@@ -102,8 +87,8 @@ func (h *handler) ProjectStaticIPDissociate(ctx context.Context, project string,
 	}
 	return out, nil
 }
-func (h *handler) ProjectStaticIPPatch(ctx context.Context, project string, addressId string, in *ProjectStaticIppatchIn) (*ProjectStaticIppatchOut, error) {
-	path := fmt.Sprintf("/project/%s/static-ips/%s", project, addressId)
+func (h *StaticIPHandler) ProjectStaticIPPatch(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIppatchIn) (*ProjectStaticIppatchOut, error) {
+	path := fmt.Sprintf("/project/%s/static-ips/%s", project, staticIpAddressId)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPPatch", "PATCH", path, in)
 	out := new(ProjectStaticIppatchOut)
 	err = json.Unmarshal(b, out)
@@ -112,22 +97,37 @@ func (h *handler) ProjectStaticIPPatch(ctx context.Context, project string, addr
 	}
 	return out, nil
 }
+func (h *StaticIPHandler) PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIpAddressAvailability, error) {
+	path := fmt.Sprintf("/tenants/%s/static-ip-availability", tenant)
+	b, err := h.doer.Do(ctx, "PublicStaticIPAvailabilityList", "GET", path, nil)
+	out := new(publicStaticIpavailabilityListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.StaticIpAddressAvailability, nil
+}
+func (h *StaticIPHandler) StaticIPCreate(ctx context.Context, project string, in *StaticIpcreateIn) (*StaticIpcreateOut, error) {
+	path := fmt.Sprintf("/project/%s/static-ips", project)
+	b, err := h.doer.Do(ctx, "StaticIPCreate", "POST", path, in)
+	out := new(StaticIpcreateOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *StaticIPHandler) StaticIPList(ctx context.Context, project string) ([]StaticIp, error) {
+	path := fmt.Sprintf("/project/%s/static-ips", project)
+	b, err := h.doer.Do(ctx, "StaticIPList", "GET", path, nil)
+	out := new(staticIplistOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.StaticIps, nil
+}
 
-type CreateIn struct {
-	CloudName             string `json:"cloud_name"`
-	TerminationProtection *bool  `json:"termination_protection,omitempty"`
-}
-type CreateOut struct {
-	CloudName             string    `json:"cloud_name"`
-	IpAddress             string    `json:"ip_address"`
-	ServiceName           string    `json:"service_name"`
-	State                 StateType `json:"state"`
-	StaticIpAddressId     string    `json:"static_ip_address_id"`
-	TerminationProtection bool      `json:"termination_protection"`
-}
-type listOut struct {
-	StaticIps []StaticIp `json:"static_ips"`
-}
 type ProjectStaticIpassociateIn struct {
 	ServiceName string `json:"service_name"`
 }
@@ -161,6 +161,9 @@ type ProjectStaticIppatchOut struct {
 	StaticIpAddressId     string    `json:"static_ip_address_id"`
 	TerminationProtection bool      `json:"termination_protection"`
 }
+type publicStaticIpavailabilityListOut struct {
+	StaticIpAddressAvailability []StaticIpAddressAvailability `json:"static_ip_address_availability"`
+}
 type StateType string
 
 const (
@@ -173,14 +176,29 @@ const (
 )
 
 type StaticIp struct {
-	StaticIpAddressId     string    `json:"static_ip_address_id"`
 	CloudName             string    `json:"cloud_name"`
 	IpAddress             string    `json:"ip_address"`
 	ServiceName           string    `json:"service_name"`
 	State                 StateType `json:"state"`
+	StaticIpAddressId     string    `json:"static_ip_address_id"`
 	TerminationProtection bool      `json:"termination_protection"`
 }
 type StaticIpAddressAvailability struct {
 	CloudName string `json:"cloud_name"`
 	PriceUsd  string `json:"price_usd"`
+}
+type StaticIpcreateIn struct {
+	CloudName             string `json:"cloud_name"`
+	TerminationProtection *bool  `json:"termination_protection,omitempty"`
+}
+type StaticIpcreateOut struct {
+	CloudName             string    `json:"cloud_name"`
+	IpAddress             string    `json:"ip_address"`
+	ServiceName           string    `json:"service_name"`
+	State                 StateType `json:"state"`
+	StaticIpAddressId     string    `json:"static_ip_address_id"`
+	TerminationProtection bool      `json:"termination_protection"`
+}
+type staticIplistOut struct {
+	StaticIps []StaticIp `json:"static_ips"`
 }

@@ -11,24 +11,24 @@ import (
 
 type Handler interface {
 	// InvoiceGet get a single invoice
-	// InvoiceGet GET /invoices/{invoice_number}
+	// GET /invoices/{invoice_number}
 	// https://api.aiven.io/doc/#tag/Billing/operation/InvoiceGet
 	InvoiceGet(ctx context.Context, invoiceNumber string) (*Invoice, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) BillingHandler {
+	return BillingHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type BillingHandler struct {
 	doer doer
 }
 
-func (h *handler) InvoiceGet(ctx context.Context, invoiceNumber string) (*Invoice, error) {
+func (h *BillingHandler) InvoiceGet(ctx context.Context, invoiceNumber string) (*Invoice, error) {
 	path := fmt.Sprintf("/invoices/%s", invoiceNumber)
 	b, err := h.doer.Do(ctx, "InvoiceGet", "GET", path, nil)
 	out := new(invoiceGetOut)

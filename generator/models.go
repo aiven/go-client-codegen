@@ -67,7 +67,7 @@ func (p *Path) Comment() *jen.Statement {
 	// Lowers first letter
 	s := lowerFirst(p.Summary)
 	c := jen.Comment(fmt.Sprintf("%s %s", p.FuncName, s))
-	c.Line().Comment(fmt.Sprintf("%s %s %s", p.OperationID, p.Method, p.Path))
+	c.Line().Comment(fmt.Sprintf("%s %s", p.Method, p.Path))
 	if p.Tags[0] == "" {
 		c.Line().Comment(fmt.Sprintf("%s/#operation/%s", docSite, p.OperationID))
 	} else {
@@ -134,13 +134,6 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, prefix, name string) {
 	name = strings.ReplaceAll(name, `\`, "")
 	s.name = name
 	s.camelName = strcase.ToCamel(name)
-
-	pluralPrefix := prefix + "s"
-	switch s.camelName {
-	case prefix, pluralPrefix:
-	default:
-		s.camelName = trimPrefix(prefix, s.camelName)
-	}
 
 	if s.isEnum() && !strings.HasSuffix(s.camelName, "Type") {
 		s.camelName += "Type"

@@ -1,0 +1,321 @@
+AccountTeam:
+  - AccountTeamDelete
+  - AccountTeamGet
+  - AccountTeamInvitesList
+  - AccountTeamList
+  - AccountTeamProjectAssociate
+  - AccountTeamProjectDisassociate
+  - AccountTeamUpdate
+AccountTeamMember:
+  - AccountTeamMemberCancelInvite
+  - AccountTeamMemberVerifyInvite
+  - AccountTeamMembersInvite
+  - AccountTeamMembersList
+AccountAuthentication:
+  - AccountAuthenticationMethodCreate
+  - AccountAuthenticationMethodDelete
+  - AccountAuthenticationMethodGet
+  - AccountAuthenticationMethodUpdate
+  - AccountAuthenticationMethodsList
+Account:
+  - AccountAttachPaymentMethod
+  - AccountBillingGroupList
+  - AccountCreate
+  - AccountDelete
+  - AccountEventList
+  - AccountGet
+  - AccountList
+  - AccountMove
+  - AccountPaymentMethodDelete
+  - AccountPaymentMethodsList
+  - AccountProjectsList
+  - AccountUpdate
+  - AccountUserProjectsList
+  - AccountUsersSearch
+BillingGroup:
+  - BillingGroupCreate
+  - BillingGroupCreditsClaim
+  - BillingGroupCreditsList
+  - BillingGroupDelete
+  - BillingGroupEventList
+  - BillingGroupGet
+  - BillingGroupInvoiceDownload
+  - BillingGroupInvoiceLinesList
+  - BillingGroupInvoiceList
+  - BillingGroupList
+  - BillingGroupProjectAssign
+  - BillingGroupProjectList
+  - BillingGroupProjectsAssign
+  - BillingGroupUpdate
+ClickHouse:
+  - ServiceClickHouseDatabaseCreate
+  - ServiceClickHouseDatabaseDelete
+  - ServiceClickHouseQueryStats
+  - ServiceClickHouseTieredStorageSummary
+Cloud:
+  - ListClouds
+  - ListProjectClouds
+Domain:
+  - OrganizationDomainAdd
+  - OrganizationDomainUpdate
+  - OrganizationDomainVerify
+  - OrganizationDomainsList
+  - OrganizationDomainsRemove
+FlinkApplicationDeployment:
+  - ServiceFlinkCancelApplicationDeployment
+  - ServiceFlinkCreateApplicationDeployment
+  - ServiceFlinkDeleteApplicationDeployment
+  - ServiceFlinkGetApplicationDeployment
+  - ServiceFlinkListApplicationDeployments
+  - ServiceFlinkStopApplicationDeployment
+FlinkApplication:
+  - ServiceFlinkCreateApplication
+  - ServiceFlinkCreateApplicationVersion
+  - ServiceFlinkDeleteApplication
+  - ServiceFlinkDeleteApplicationVersion
+  - ServiceFlinkGetApplication
+  - ServiceFlinkGetApplicationVersion
+  - ServiceFlinkListApplications
+  - ServiceFlinkUpdateApplication
+  - ServiceFlinkValidateApplicationVersion
+FlinkJob:
+  - ServiceFlinkJobDetails
+  - ServiceFlinkJobsList
+Flink:
+  - ServiceFlinkOverview
+UserGroup:
+  - UserGroupCreate
+  - UserGroupDelete
+  - UserGroupGet
+  - UserGroupMemberList
+  - UserGroupMembersUpdate
+  - UserGroupUpdate
+  - UserGroupsList
+Kafka:
+  - ServiceKafkaAclAdd
+  - ServiceKafkaAclDelete
+  - ServiceKafkaAclList
+  - ServiceKafkaQuotaCreate
+  - ServiceKafkaQuotaDelete
+  - ServiceKafkaQuotaDescribe
+  - ServiceKafkaQuotaList
+  - ServiceKafkaTieredStorageStorageUsageByTopic
+  - ServiceKafkaTieredStorageStorageUsageTotal
+  - ServiceKafkaTieredStorageSummary
+KafkaConnect:
+  - ServiceKafkaConnectCreateConnector
+  - ServiceKafkaConnectDeleteConnector
+  - ServiceKafkaConnectEditConnector
+  - ServiceKafkaConnectGetAvailableConnectors
+  - ServiceKafkaConnectGetConnectorConfiguration
+  - ServiceKafkaConnectGetConnectorStatus
+  - ServiceKafkaConnectList
+  - ServiceKafkaConnectPauseConnector
+  - ServiceKafkaConnectRestartConnector
+  - ServiceKafkaConnectRestartConnectorTask
+  - ServiceKafkaConnectResumeConnector
+KafkaTopic:
+  - ServiceKafkaTopicCreate
+  - ServiceKafkaTopicDelete
+  - ServiceKafkaTopicGet
+  - ServiceKafkaTopicList
+  - ServiceKafkaTopicMessageList
+  - ServiceKafkaTopicMessageProduce
+  - ServiceKafkaTopicUpdate
+KafkaSchemaRegistry:
+  - ServiceSchemaRegistryAclAdd
+  - ServiceSchemaRegistryAclDelete
+  - ServiceSchemaRegistryAclList
+  - ServiceSchemaRegistryCompatibility
+  - ServiceSchemaRegistryGlobalConfigGet
+  - ServiceSchemaRegistryGlobalConfigPut
+  - ServiceSchemaRegistrySchemaGet
+  - ServiceSchemaRegistrySubjectConfigGet
+  - ServiceSchemaRegistrySubjectConfigPut
+  - ServiceSchemaRegistrySubjectDelete
+  - ServiceSchemaRegistrySubjectVersionDelete
+  - ServiceSchemaRegistrySubjectVersionGet
+  - ServiceSchemaRegistrySubjectVersionPost
+  - ServiceSchemaRegistrySubjectVersionsGet
+  - ServiceSchemaRegistrySubjects
+KafkaMirrorMaker:
+  - ServiceKafkaMirrorMakerCreateReplicationFlow
+  - ServiceKafkaMirrorMakerDeleteReplicationFlow
+  - ServiceKafkaMirrorMakerGetReplicationFlow
+  - ServiceKafkaMirrorMakerGetReplicationFlows
+  - ServiceKafkaMirrorMakerPatchReplicationFlow
+MySQL:
+  - MySQLServiceQueryStatistics
+OpenSearch:
+  - ServiceOpenSearchAclGet
+  - ServiceOpenSearchAclSet
+  - ServiceOpenSearchAclUpdate
+  - ServiceOpenSearchIndexDelete
+  - ServiceOpenSearchIndexList
+  - ServiceOpenSearchSecurityGet
+  - ServiceOpenSearchSecurityReset
+  - ServiceOpenSearchSecuritySet
+Organization:
+  - OrganizationAuthenticationConfigGet
+  - OrganizationAuthenticationConfigUpdate
+  - OrganizationGet
+  - OrganizationProjectsList
+  - OrganizationUpdate
+  - OrganizationUserInvitationAccept
+  - OrganizationUserInvitationDelete
+  - OrganizationUserInvitationsList
+  - OrganizationUserInvite
+  - UserOrganizationCreate
+  - UserOrganizationsList
+PostgreSQL:
+  - PGServiceAvailableExtensions
+  - PGServiceQueryStatistics
+  - ServicePGBouncerCreate
+  - ServicePGBouncerDelete
+  - ServicePGBouncerUpdate
+  - PgAvailableExtensions
+Project:
+  - ListProjectVpcPeeringConnectionTypes
+  - ProjectAlertsList
+  - ProjectCreate
+  - ProjectDelete
+  - ProjectDownloadSBOMReport
+  - ProjectGenerateSbomDownloadUrl
+  - ProjectGet
+  - ProjectGetEventLogs
+  - ProjectInvite
+  - ProjectInviteAccept
+  - ProjectInviteDelete
+  - ProjectList
+  - ProjectPrivatelinkAvailabilityList
+  - ProjectTagsList
+  - ProjectTagsReplace
+  - ProjectTagsUpdate
+  - ProjectUpdate
+  - ProjectUserList
+  - ProjectUserRemove
+  - ProjectUserUpdate
+Vpc:
+  - VpcCreate
+  - VpcDelete
+  - VpcGet
+  - VpcList
+  - VpcPeeringConnectionCreate
+  - VpcPeeringConnectionDelete
+  - VpcPeeringConnectionUpdate
+  - VpcPeeringConnectionWithRegionDelete
+  - VpcPeeringConnectionWithResourceGroupDelete
+ProjectBilling:
+  - ProjectCreditsClaim
+  - ProjectCreditsList
+  - ProjectInvoiceGet
+  - ProjectInvoiceList
+Service:
+  - ListProjectServiceTypes
+  - ListPublicServiceTypes
+  - ListServiceVersions
+  - ProjectGetServiceLogs
+  - ProjectServiceTagsList
+  - ProjectServiceTagsReplace
+  - ProjectServiceTagsUpdate
+  - ServiceAlertsList
+  - ServiceBackupToAnotherRegionReport
+  - ServiceBackupsGet
+  - ServiceCancelQuery
+  - ServiceCreate
+  - ServiceDatabaseCreate
+  - ServiceDatabaseDelete
+  - ServiceDatabaseList
+  - ServiceDelete
+  - ServiceEnableWrites
+  - ServiceGet
+  - ServiceGetMigrationStatus
+  - ServiceInfluxDBStats
+  - ServiceKmsGetCA
+  - ServiceKmsGetKeypair
+  - ServiceList
+  - ServiceMaintenanceStart
+  - ServiceMetricsFetch
+  - ServiceQueryActivity
+  - ServiceQueryStatisticsReset
+  - ServiceTaskCreate
+  - ServiceTaskGet
+  - ServiceUpdate
+  - ServiceUpdate
+Privatelink:
+  - ServicePrivatelinkAWSConnectionList
+  - ServicePrivatelinkAWSCreate
+  - ServicePrivatelinkAWSDelete
+  - ServicePrivatelinkAWSGet
+  - ServicePrivatelinkAWSUpdate
+  - ServicePrivatelinkAzureConnectionApproval
+  - ServicePrivatelinkAzureConnectionList
+  - ServicePrivatelinkAzureConnectionUpdate
+  - ServicePrivatelinkAzureCreate
+  - ServicePrivatelinkAzureDelete
+  - ServicePrivatelinkAzureGet
+  - ServicePrivatelinkAzureUpdate
+  - PublicPrivatelinkAvailabilityList
+ServiceUser:
+  - ServiceUserCreate
+  - ServiceUserCredentialsModify
+  - ServiceUserCredentialsReset
+  - ServiceUserDelete
+  - ServiceUserGet
+ServiceIntegration:
+  - ServiceIntegrationCreate
+  - ServiceIntegrationDelete
+  - ServiceIntegrationEndpointCreate
+  - ServiceIntegrationEndpointDelete
+  - ServiceIntegrationEndpointGet
+  - ServiceIntegrationEndpointList
+  - ServiceIntegrationEndpointTypes
+  - ServiceIntegrationEndpointUpdate
+  - ServiceIntegrationGet
+  - ServiceIntegrationList
+  - ServiceIntegrationTypes
+  - ServiceIntegrationUpdate
+StaticIP:
+  - ProjectStaticIPAssociate
+  - ProjectStaticIPAvailabilityList
+  - ProjectStaticIPDissociate
+  - ProjectStaticIPPatch
+  - StaticIPCreate
+  - StaticIPList
+  - PublicStaticIPAvailabilityList
+User:
+  - AccessTokenCreate
+  - AccessTokenList
+  - AccessTokenRevoke
+  - AccessTokenUpdate
+  - CheckPasswordStrengthExistingUser
+  - CheckPasswordStrengthNewUser
+  - OrganizationMemberGroupsList
+  - OrganizationUserAuthenticationMethodsList
+  - OrganizationUserDelete
+  - OrganizationUserGet
+  - OrganizationUserList
+  - OrganizationUserPasswordReset
+  - OrganizationUserRevokeToken
+  - OrganizationUserSet
+  - OrganizationUserTokensList
+  - OrganizationUserUpdate
+  - TwoFactorAuthConfigure
+  - TwoFactorAuthConfigureOTP
+  - UserAccountInvitesAccept
+  - UserAccountInvitesList
+  - UserAuth
+  - UserAuthLoginOptions
+  - UserAuthenticationMethodDelete
+  - UserAuthenticationMethodsList
+  - UserCreate
+  - UserExpireTokens
+  - UserInfo
+  - UserLogout
+  - UserPasswordChange
+  - UserPasswordReset
+  - UserPasswordResetRequest
+  - UserUpdate
+  - UserVerifyEmail
+  - ValidateCreditCode
+  - ValidateReferralCode

@@ -10,24 +10,24 @@ import (
 
 type Handler interface {
 	// ProjectKmsGetCA retrieve project CA certificate
-	// ProjectKmsGetCA GET /project/{project}/kms/ca
+	// GET /project/{project}/kms/ca
 	// https://api.aiven.io/doc/#tag/Project_Key_Management/operation/ProjectKmsGetCA
 	ProjectKmsGetCA(ctx context.Context, project string) (string, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) ProjectKeyManagementHandler {
+	return ProjectKeyManagementHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type ProjectKeyManagementHandler struct {
 	doer doer
 }
 
-func (h *handler) ProjectKmsGetCA(ctx context.Context, project string) (string, error) {
+func (h *ProjectKeyManagementHandler) ProjectKmsGetCA(ctx context.Context, project string) (string, error) {
 	path := fmt.Sprintf("/project/%s/kms/ca", project)
 	b, err := h.doer.Do(ctx, "ProjectKmsGetCA", "GET", path, nil)
 	out := new(projectKmsGetCaout)

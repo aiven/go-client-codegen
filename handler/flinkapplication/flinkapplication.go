@@ -10,88 +10,148 @@ import (
 )
 
 type Handler interface {
-	// Create create a Flink Application
-	// ServiceFlinkCreateApplication POST /project/{project}/service/{service_name}/flink/application
+	// ServiceFlinkCreateApplication create a Flink Application
+	// POST /project/{project}/service/{service_name}/flink/application
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCreateApplication
-	Create(ctx context.Context, project string, serviceName string, in *CreateIn) (*CreateOut, error)
+	ServiceFlinkCreateApplication(ctx context.Context, project string, serviceName string, in *ServiceFlinkCreateApplicationIn) (*ServiceFlinkCreateApplicationOut, error)
 
-	// Delete delete a Flink Application
-	// ServiceFlinkDeleteApplication DELETE /project/{project}/service/{service_name}/flink/application/{application_id}
+	// ServiceFlinkCreateApplicationVersion create a Flink ApplicationVersion
+	// POST /project/{project}/service/{service_name}/flink/application/{application_id}/version
+	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCreateApplicationVersion
+	ServiceFlinkCreateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateApplicationVersionIn) (*ServiceFlinkCreateApplicationVersionOut, error)
+
+	// ServiceFlinkDeleteApplication delete a Flink Application
+	// DELETE /project/{project}/service/{service_name}/flink/application/{application_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkDeleteApplication
-	Delete(ctx context.Context, project string, serviceName string, applicationId string) (*DeleteOut, error)
+	ServiceFlinkDeleteApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkDeleteApplicationOut, error)
 
-	// Get get a Flink Application
-	// ServiceFlinkGetApplication GET /project/{project}/service/{service_name}/flink/application/{application_id}
+	// ServiceFlinkDeleteApplicationVersion delete a Flink ApplicationVersion
+	// DELETE /project/{project}/service/{service_name}/flink/application/{application_id}/version/{application_version_id}
+	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkDeleteApplicationVersion
+	ServiceFlinkDeleteApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkDeleteApplicationVersionOut, error)
+
+	// ServiceFlinkGetApplication get a Flink Application
+	// GET /project/{project}/service/{service_name}/flink/application/{application_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkGetApplication
-	Get(ctx context.Context, project string, serviceName string, applicationId string) (*GetOut, error)
+	ServiceFlinkGetApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkGetApplicationOut, error)
 
-	// List get all Flink Applications
-	// ServiceFlinkListApplications GET /project/{project}/service/{service_name}/flink/application
+	// ServiceFlinkGetApplicationVersion get a Flink ApplicationVersion
+	// GET /project/{project}/service/{service_name}/flink/application/{application_id}/version/{application_version_id}
+	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkGetApplicationVersion
+	ServiceFlinkGetApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkGetApplicationVersionOut, error)
+
+	// ServiceFlinkListApplications get all Flink Applications
+	// GET /project/{project}/service/{service_name}/flink/application
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkListApplications
-	List(ctx context.Context, project string, serviceName string) ([]Application, error)
+	ServiceFlinkListApplications(ctx context.Context, project string, serviceName string) ([]Application, error)
 
-	// Update update a Flink Application
-	// ServiceFlinkUpdateApplication PUT /project/{project}/service/{service_name}/flink/application/{application_id}
+	// ServiceFlinkUpdateApplication update a Flink Application
+	// PUT /project/{project}/service/{service_name}/flink/application/{application_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkUpdateApplication
-	Update(ctx context.Context, project string, serviceName string, applicationId string, in *UpdateIn) (*UpdateOut, error)
+	ServiceFlinkUpdateApplication(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkUpdateApplicationIn) (*ServiceFlinkUpdateApplicationOut, error)
+
+	// ServiceFlinkValidateApplicationVersion validate a Flink ApplicationVersion
+	// POST /project/{project}/service/{service_name}/flink/application/{application_id}/version/validate
+	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkValidateApplicationVersion
+	ServiceFlinkValidateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkValidateApplicationVersionIn) (*ServiceFlinkValidateApplicationVersionOut, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) FlinkApplicationHandler {
+	return FlinkApplicationHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type FlinkApplicationHandler struct {
 	doer doer
 }
 
-func (h *handler) Create(ctx context.Context, project string, serviceName string, in *CreateIn) (*CreateOut, error) {
+func (h *FlinkApplicationHandler) ServiceFlinkCreateApplication(ctx context.Context, project string, serviceName string, in *ServiceFlinkCreateApplicationIn) (*ServiceFlinkCreateApplicationOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkCreateApplication", "POST", path, in)
-	out := new(CreateOut)
+	out := new(ServiceFlinkCreateApplicationOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) Delete(ctx context.Context, project string, serviceName string, applicationId string) (*DeleteOut, error) {
+func (h *FlinkApplicationHandler) ServiceFlinkCreateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateApplicationVersionIn) (*ServiceFlinkCreateApplicationVersionOut, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/version", project, serviceName, applicationId)
+	b, err := h.doer.Do(ctx, "ServiceFlinkCreateApplicationVersion", "POST", path, in)
+	out := new(ServiceFlinkCreateApplicationVersionOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *FlinkApplicationHandler) ServiceFlinkDeleteApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkDeleteApplicationOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkDeleteApplication", "DELETE", path, nil)
-	out := new(DeleteOut)
+	out := new(ServiceFlinkDeleteApplicationOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) Get(ctx context.Context, project string, serviceName string, applicationId string) (*GetOut, error) {
+func (h *FlinkApplicationHandler) ServiceFlinkDeleteApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkDeleteApplicationVersionOut, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/version/%s", project, serviceName, applicationId, applicationVersionId)
+	b, err := h.doer.Do(ctx, "ServiceFlinkDeleteApplicationVersion", "DELETE", path, nil)
+	out := new(ServiceFlinkDeleteApplicationVersionOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *FlinkApplicationHandler) ServiceFlinkGetApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkGetApplicationOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkGetApplication", "GET", path, nil)
-	out := new(GetOut)
+	out := new(ServiceFlinkGetApplicationOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) List(ctx context.Context, project string, serviceName string) ([]Application, error) {
+func (h *FlinkApplicationHandler) ServiceFlinkGetApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkGetApplicationVersionOut, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/version/%s", project, serviceName, applicationId, applicationVersionId)
+	b, err := h.doer.Do(ctx, "ServiceFlinkGetApplicationVersion", "GET", path, nil)
+	out := new(ServiceFlinkGetApplicationVersionOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *FlinkApplicationHandler) ServiceFlinkListApplications(ctx context.Context, project string, serviceName string) ([]Application, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplications", "GET", path, nil)
-	out := new(listOut)
+	out := new(serviceFlinkListApplicationsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Applications, nil
 }
-func (h *handler) Update(ctx context.Context, project string, serviceName string, applicationId string, in *UpdateIn) (*UpdateOut, error) {
+func (h *FlinkApplicationHandler) ServiceFlinkUpdateApplication(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkUpdateApplicationIn) (*ServiceFlinkUpdateApplicationOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkUpdateApplication", "PUT", path, in)
-	out := new(UpdateOut)
+	out := new(ServiceFlinkUpdateApplicationOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *FlinkApplicationHandler) ServiceFlinkValidateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkValidateApplicationVersionIn) (*ServiceFlinkValidateApplicationVersionOut, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/version/validate", project, serviceName, applicationId)
+	b, err := h.doer.Do(ctx, "ServiceFlinkValidateApplicationVersion", "POST", path, in)
+	out := new(ServiceFlinkValidateApplicationVersionOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -129,20 +189,6 @@ type Column struct {
 	Nullable  bool   `json:"nullable"`
 	Watermark string `json:"watermark,omitempty"`
 }
-type CreateIn struct {
-	ApplicationVersion *ApplicationVersion `json:"application_version,omitempty"`
-	Name               string              `json:"name"`
-}
-type CreateOut struct {
-	ApplicationVersions []ApplicationVersionItem `json:"application_versions"`
-	CreatedAt           time.Time                `json:"created_at"`
-	CreatedBy           string                   `json:"created_by"`
-	CurrentDeployment   *CurrentDeployment       `json:"current_deployment,omitempty"`
-	Id                  string                   `json:"id"`
-	Name                string                   `json:"name"`
-	UpdatedAt           time.Time                `json:"updated_at"`
-	UpdatedBy           string                   `json:"updated_by"`
-}
 type CurrentDeployment struct {
 	CreatedAt         time.Time  `json:"created_at"`
 	CreatedBy         string     `json:"created_by"`
@@ -156,7 +202,17 @@ type CurrentDeployment struct {
 	Status            StatusType `json:"status"`
 	VersionId         string     `json:"version_id"`
 }
-type DeleteOut struct {
+type Position struct {
+	CharacterNumber    int `json:"character_number"`
+	EndCharacterNumber int `json:"end_character_number"`
+	EndLineNumber      int `json:"end_line_number"`
+	LineNumber         int `json:"line_number"`
+}
+type ServiceFlinkCreateApplicationIn struct {
+	ApplicationVersion *ApplicationVersion `json:"application_version,omitempty"`
+	Name               string              `json:"name"`
+}
+type ServiceFlinkCreateApplicationOut struct {
 	ApplicationVersions []ApplicationVersionItem `json:"application_versions"`
 	CreatedAt           time.Time                `json:"created_at"`
 	CreatedBy           string                   `json:"created_by"`
@@ -166,7 +222,21 @@ type DeleteOut struct {
 	UpdatedAt           time.Time                `json:"updated_at"`
 	UpdatedBy           string                   `json:"updated_by"`
 }
-type GetOut struct {
+type ServiceFlinkCreateApplicationVersionIn struct {
+	Sinks     []Sink   `json:"sinks"`
+	Sources   []Source `json:"sources"`
+	Statement string   `json:"statement"`
+}
+type ServiceFlinkCreateApplicationVersionOut struct {
+	CreatedAt time.Time    `json:"created_at"`
+	CreatedBy string       `json:"created_by"`
+	Id        string       `json:"id"`
+	Sinks     []SinkItem   `json:"sinks"`
+	Sources   []SourceItem `json:"sources"`
+	Statement string       `json:"statement"`
+	Version   int          `json:"version"`
+}
+type ServiceFlinkDeleteApplicationOut struct {
 	ApplicationVersions []ApplicationVersionItem `json:"application_versions"`
 	CreatedAt           time.Time                `json:"created_at"`
 	CreatedBy           string                   `json:"created_by"`
@@ -176,8 +246,78 @@ type GetOut struct {
 	UpdatedAt           time.Time                `json:"updated_at"`
 	UpdatedBy           string                   `json:"updated_by"`
 }
-type listOut struct {
+type ServiceFlinkDeleteApplicationVersionOut struct {
+	CreatedAt time.Time    `json:"created_at"`
+	CreatedBy string       `json:"created_by"`
+	Id        string       `json:"id"`
+	Sinks     []SinkItem   `json:"sinks"`
+	Sources   []SourceItem `json:"sources"`
+	Statement string       `json:"statement"`
+	Version   int          `json:"version"`
+}
+type ServiceFlinkGetApplicationOut struct {
+	ApplicationVersions []ApplicationVersionItem `json:"application_versions"`
+	CreatedAt           time.Time                `json:"created_at"`
+	CreatedBy           string                   `json:"created_by"`
+	CurrentDeployment   *CurrentDeployment       `json:"current_deployment,omitempty"`
+	Id                  string                   `json:"id"`
+	Name                string                   `json:"name"`
+	UpdatedAt           time.Time                `json:"updated_at"`
+	UpdatedBy           string                   `json:"updated_by"`
+}
+type ServiceFlinkGetApplicationVersionOut struct {
+	CreatedAt time.Time    `json:"created_at"`
+	CreatedBy string       `json:"created_by"`
+	Id        string       `json:"id"`
+	Sinks     []SinkItem   `json:"sinks"`
+	Sources   []SourceItem `json:"sources"`
+	Statement string       `json:"statement"`
+	Version   int          `json:"version"`
+}
+type serviceFlinkListApplicationsOut struct {
 	Applications []Application `json:"applications"`
+}
+type ServiceFlinkUpdateApplicationIn struct {
+	Name string `json:"name"`
+}
+type ServiceFlinkUpdateApplicationOut struct {
+	ApplicationVersions []ApplicationVersionItem `json:"application_versions"`
+	CreatedAt           time.Time                `json:"created_at"`
+	CreatedBy           string                   `json:"created_by"`
+	CurrentDeployment   *CurrentDeployment       `json:"current_deployment,omitempty"`
+	Id                  string                   `json:"id"`
+	Name                string                   `json:"name"`
+	UpdatedAt           time.Time                `json:"updated_at"`
+	UpdatedBy           string                   `json:"updated_by"`
+}
+type ServiceFlinkValidateApplicationVersionIn struct {
+	Sinks     []Sink   `json:"sinks"`
+	Sources   []Source `json:"sources"`
+	Statement string   `json:"statement,omitempty"`
+}
+type ServiceFlinkValidateApplicationVersionOut struct {
+	Sinks          []ServiceFlinkValidateApplicationVersionOutSinkItem   `json:"sinks"`
+	Sources        []ServiceFlinkValidateApplicationVersionOutSourceItem `json:"sources"`
+	Statement      string                                                `json:"statement,omitempty"`
+	StatementError *StatementError                                       `json:"statement_error,omitempty"`
+}
+type ServiceFlinkValidateApplicationVersionOutSinkItem struct {
+	Columns       []Column       `json:"columns"`
+	CreateTable   string         `json:"create_table"`
+	IntegrationId string         `json:"integration_id,omitempty"`
+	Message       string         `json:"message,omitempty"`
+	Options       map[string]any `json:"options,omitempty"`
+	Position      *Position      `json:"position,omitempty"`
+	TableName     string         `json:"table_name,omitempty"`
+}
+type ServiceFlinkValidateApplicationVersionOutSourceItem struct {
+	Columns       []Column       `json:"columns"`
+	CreateTable   string         `json:"create_table"`
+	IntegrationId string         `json:"integration_id,omitempty"`
+	Message       string         `json:"message,omitempty"`
+	Options       map[string]any `json:"options,omitempty"`
+	Position      *Position      `json:"position,omitempty"`
+	TableName     string         `json:"table_name,omitempty"`
 }
 type Sink struct {
 	CreateTable   string `json:"create_table"`
@@ -203,6 +343,10 @@ type SourceItem struct {
 	TableId       string         `json:"table_id"`
 	TableName     string         `json:"table_name"`
 }
+type StatementError struct {
+	Message  string    `json:"message"`
+	Position *Position `json:"position,omitempty"`
+}
 type StatusType string
 
 const (
@@ -224,17 +368,3 @@ const (
 	StatusTypeDeleting               StatusType = "DELETING"
 	StatusTypeReconciling            StatusType = "RECONCILING"
 )
-
-type UpdateIn struct {
-	Name string `json:"name"`
-}
-type UpdateOut struct {
-	ApplicationVersions []ApplicationVersionItem `json:"application_versions"`
-	CreatedAt           time.Time                `json:"created_at"`
-	CreatedBy           string                   `json:"created_by"`
-	CurrentDeployment   *CurrentDeployment       `json:"current_deployment,omitempty"`
-	Id                  string                   `json:"id"`
-	Name                string                   `json:"name"`
-	UpdatedAt           time.Time                `json:"updated_at"`
-	UpdatedBy           string                   `json:"updated_by"`
-}

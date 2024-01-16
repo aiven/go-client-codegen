@@ -9,218 +9,218 @@ import (
 )
 
 type Handler interface {
-	// AclAdd add a Schema Registry ACL entry
-	// ServiceSchemaRegistryAclAdd POST /project/{project}/service/{service_name}/kafka/schema-registry/acl
+	// ServiceSchemaRegistryAclAdd add a Schema Registry ACL entry
+	// POST /project/{project}/service/{service_name}/kafka/schema-registry/acl
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryAclAdd
-	AclAdd(ctx context.Context, project string, serviceName string, in *AclAddIn) ([]Acl, error)
+	ServiceSchemaRegistryAclAdd(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryAclAddIn) ([]Acl, error)
 
-	// AclDelete delete a Schema Registry ACL entry
-	// ServiceSchemaRegistryAclDelete DELETE /project/{project}/service/{service_name}/kafka/schema-registry/acl/{schema_registry_acl_id}
+	// ServiceSchemaRegistryAclDelete delete a Schema Registry ACL entry
+	// DELETE /project/{project}/service/{service_name}/kafka/schema-registry/acl/{schema_registry_acl_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryAclDelete
-	AclDelete(ctx context.Context, project string, serviceName string, schemaRegistryAclId string) ([]Acl, error)
+	ServiceSchemaRegistryAclDelete(ctx context.Context, project string, serviceName string, schemaRegistryAclId string) ([]Acl, error)
 
-	// AclList list Schema Registry ACL entries
-	// ServiceSchemaRegistryAclList GET /project/{project}/service/{service_name}/kafka/schema-registry/acl
+	// ServiceSchemaRegistryAclList list Schema Registry ACL entries
+	// GET /project/{project}/service/{service_name}/kafka/schema-registry/acl
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryAclList
-	AclList(ctx context.Context, project string, serviceName string) ([]Acl, error)
+	ServiceSchemaRegistryAclList(ctx context.Context, project string, serviceName string) ([]Acl, error)
 
-	// Compatibility check compatibility of schema in Schema Registry
-	// ServiceSchemaRegistryCompatibility POST /project/{project}/service/{service_name}/kafka/schema/compatibility/subjects/{subject_name}/versions/{version_id:latest|\d+}
+	// ServiceSchemaRegistryCompatibility check compatibility of schema in Schema Registry
+	// POST /project/{project}/service/{service_name}/kafka/schema/compatibility/subjects/{subject_name}/versions/{version_id:latest|\d+}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryCompatibility
-	Compatibility(ctx context.Context, project string, serviceName string, subjectName string, versionId int, in *CompatibilityIn) (bool, error)
+	ServiceSchemaRegistryCompatibility(ctx context.Context, project string, serviceName string, subjectName string, versionId int, in *ServiceSchemaRegistryCompatibilityIn) (bool, error)
 
-	// GlobalConfigGet get global configuration for Schema Registry
-	// ServiceSchemaRegistryGlobalConfigGet GET /project/{project}/service/{service_name}/kafka/schema/config
+	// ServiceSchemaRegistryGlobalConfigGet get global configuration for Schema Registry
+	// GET /project/{project}/service/{service_name}/kafka/schema/config
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryGlobalConfigGet
-	GlobalConfigGet(ctx context.Context, project string, serviceName string) (CompatibilityLevelType, error)
+	ServiceSchemaRegistryGlobalConfigGet(ctx context.Context, project string, serviceName string) (CompatibilityLevelType, error)
 
-	// GlobalConfigPut edit global configuration for Schema Registry
-	// ServiceSchemaRegistryGlobalConfigPut PUT /project/{project}/service/{service_name}/kafka/schema/config
+	// ServiceSchemaRegistryGlobalConfigPut edit global configuration for Schema Registry
+	// PUT /project/{project}/service/{service_name}/kafka/schema/config
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryGlobalConfigPut
-	GlobalConfigPut(ctx context.Context, project string, serviceName string, in *GlobalConfigPutIn) (CompatibilityType, error)
+	ServiceSchemaRegistryGlobalConfigPut(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryGlobalConfigPutIn) (CompatibilityType, error)
 
-	// SchemaGet get schema in Schema Registry
-	// ServiceSchemaRegistrySchemaGet GET /project/{project}/service/{service_name}/kafka/schema/schemas/ids/{schema_id}
+	// ServiceSchemaRegistrySchemaGet get schema in Schema Registry
+	// GET /project/{project}/service/{service_name}/kafka/schema/schemas/ids/{schema_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySchemaGet
-	SchemaGet(ctx context.Context, project string, serviceName string, schemaId string) error
+	ServiceSchemaRegistrySchemaGet(ctx context.Context, project string, serviceName string, schemaId string) error
 
-	// SubjectConfigGet get configuration for Schema Registry subject
-	// ServiceSchemaRegistrySubjectConfigGet GET /project/{project}/service/{service_name}/kafka/schema/config/{subject_name}
+	// ServiceSchemaRegistrySubjectConfigGet get configuration for Schema Registry subject
+	// GET /project/{project}/service/{service_name}/kafka/schema/config/{subject_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectConfigGet
-	SubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string) (CompatibilityLevelType, error)
+	ServiceSchemaRegistrySubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string) (CompatibilityLevelType, error)
 
-	// SubjectConfigPut edit configuration for Schema Registry subject
-	// ServiceSchemaRegistrySubjectConfigPut PUT /project/{project}/service/{service_name}/kafka/schema/config/{subject_name}
+	// ServiceSchemaRegistrySubjectConfigPut edit configuration for Schema Registry subject
+	// PUT /project/{project}/service/{service_name}/kafka/schema/config/{subject_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectConfigPut
-	SubjectConfigPut(ctx context.Context, project string, serviceName string, subjectName string, in *SubjectConfigPutIn) (CompatibilityType, error)
+	ServiceSchemaRegistrySubjectConfigPut(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectConfigPutIn) (CompatibilityType, error)
 
-	// SubjectDelete delete Schema Registry subject
-	// ServiceSchemaRegistrySubjectDelete DELETE /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}
+	// ServiceSchemaRegistrySubjectDelete delete Schema Registry subject
+	// DELETE /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectDelete
-	SubjectDelete(ctx context.Context, project string, serviceName string, subjectName string) error
+	ServiceSchemaRegistrySubjectDelete(ctx context.Context, project string, serviceName string, subjectName string) error
 
-	// SubjectVersionDelete delete Schema Registry subject version
-	// ServiceSchemaRegistrySubjectVersionDelete DELETE /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id:latest|\d+}
+	// ServiceSchemaRegistrySubjectVersionDelete delete Schema Registry subject version
+	// DELETE /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id:latest|\d+}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionDelete
-	SubjectVersionDelete(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error
+	ServiceSchemaRegistrySubjectVersionDelete(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error
 
-	// SubjectVersionGet get Schema Registry Subject version
-	// ServiceSchemaRegistrySubjectVersionGet GET /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id:latest|\d+}
+	// ServiceSchemaRegistrySubjectVersionGet get Schema Registry Subject version
+	// GET /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id:latest|\d+}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionGet
-	SubjectVersionGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error
+	ServiceSchemaRegistrySubjectVersionGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error
 
-	// SubjectVersionPost register a new Schema in Schema Registry
-	// ServiceSchemaRegistrySubjectVersionPost POST /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions
+	// ServiceSchemaRegistrySubjectVersionPost register a new Schema in Schema Registry
+	// POST /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionPost
-	SubjectVersionPost(ctx context.Context, project string, serviceName string, subjectName string, in *SubjectVersionPostIn) (int, error)
+	ServiceSchemaRegistrySubjectVersionPost(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectVersionPostIn) (int, error)
 
-	// SubjectVersionsGet get Schema Registry subject versions
-	// ServiceSchemaRegistrySubjectVersionsGet GET /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions
+	// ServiceSchemaRegistrySubjectVersionsGet get Schema Registry subject versions
+	// GET /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionsGet
-	SubjectVersionsGet(ctx context.Context, project string, serviceName string, subjectName string) ([]int, error)
+	ServiceSchemaRegistrySubjectVersionsGet(ctx context.Context, project string, serviceName string, subjectName string) ([]int, error)
 
-	// Subjects lists Schema Registry subjects
-	// ServiceSchemaRegistrySubjects GET /project/{project}/service/{service_name}/kafka/schema/subjects
+	// ServiceSchemaRegistrySubjects lists Schema Registry subjects
+	// GET /project/{project}/service/{service_name}/kafka/schema/subjects
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjects
-	Subjects(ctx context.Context, project string, serviceName string) ([]string, error)
+	ServiceSchemaRegistrySubjects(ctx context.Context, project string, serviceName string) ([]string, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) KafkaSchemaRegistryHandler {
+	return KafkaSchemaRegistryHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type KafkaSchemaRegistryHandler struct {
 	doer doer
 }
 
-func (h *handler) AclAdd(ctx context.Context, project string, serviceName string, in *AclAddIn) ([]Acl, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclAdd(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryAclAddIn) ([]Acl, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema-registry/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryAclAdd", "POST", path, in)
-	out := new(aclAddOut)
+	out := new(serviceSchemaRegistryAclAddOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Acl, nil
 }
-func (h *handler) AclDelete(ctx context.Context, project string, serviceName string, schemaRegistryAclId string) ([]Acl, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclDelete(ctx context.Context, project string, serviceName string, schemaRegistryAclId string) ([]Acl, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema-registry/acl/%s", project, serviceName, schemaRegistryAclId)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryAclDelete", "DELETE", path, nil)
-	out := new(aclDeleteOut)
+	out := new(serviceSchemaRegistryAclDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Acl, nil
 }
-func (h *handler) AclList(ctx context.Context, project string, serviceName string) ([]Acl, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclList(ctx context.Context, project string, serviceName string) ([]Acl, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema-registry/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryAclList", "GET", path, nil)
-	out := new(aclListOut)
+	out := new(serviceSchemaRegistryAclListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Acl, nil
 }
-func (h *handler) Compatibility(ctx context.Context, project string, serviceName string, subjectName string, versionId int, in *CompatibilityIn) (bool, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryCompatibility(ctx context.Context, project string, serviceName string, subjectName string, versionId int, in *ServiceSchemaRegistryCompatibilityIn) (bool, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/compatibility/subjects/%s/versions/%d", project, serviceName, subjectName, versionId)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryCompatibility", "POST", path, in)
-	out := new(compatibilityOut)
+	out := new(serviceSchemaRegistryCompatibilityOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return false, err
 	}
 	return out.IsCompatible, nil
 }
-func (h *handler) GlobalConfigGet(ctx context.Context, project string, serviceName string) (CompatibilityLevelType, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryGlobalConfigGet(ctx context.Context, project string, serviceName string) (CompatibilityLevelType, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryGlobalConfigGet", "GET", path, nil)
-	out := new(globalConfigGetOut)
+	out := new(serviceSchemaRegistryGlobalConfigGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
 	}
 	return out.CompatibilityLevel, nil
 }
-func (h *handler) GlobalConfigPut(ctx context.Context, project string, serviceName string, in *GlobalConfigPutIn) (CompatibilityType, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryGlobalConfigPut(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryGlobalConfigPutIn) (CompatibilityType, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryGlobalConfigPut", "PUT", path, in)
-	out := new(globalConfigPutOut)
+	out := new(serviceSchemaRegistryGlobalConfigPutOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
 	}
 	return out.Compatibility, nil
 }
-func (h *handler) SchemaGet(ctx context.Context, project string, serviceName string, schemaId string) error {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySchemaGet(ctx context.Context, project string, serviceName string, schemaId string) error {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/schemas/ids/%s", project, serviceName, schemaId)
 	_, err := h.doer.Do(ctx, "ServiceSchemaRegistrySchemaGet", "GET", path, nil)
 	return err
 }
-func (h *handler) SubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string) (CompatibilityLevelType, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string) (CompatibilityLevelType, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config/%s", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectConfigGet", "GET", path, nil)
-	out := new(subjectConfigGetOut)
+	out := new(serviceSchemaRegistrySubjectConfigGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
 	}
 	return out.CompatibilityLevel, nil
 }
-func (h *handler) SubjectConfigPut(ctx context.Context, project string, serviceName string, subjectName string, in *SubjectConfigPutIn) (CompatibilityType, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectConfigPut(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectConfigPutIn) (CompatibilityType, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config/%s", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectConfigPut", "PUT", path, in)
-	out := new(subjectConfigPutOut)
+	out := new(serviceSchemaRegistrySubjectConfigPutOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
 	}
 	return out.Compatibility, nil
 }
-func (h *handler) SubjectDelete(ctx context.Context, project string, serviceName string, subjectName string) error {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectDelete(ctx context.Context, project string, serviceName string, subjectName string) error {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects/%s", project, serviceName, subjectName)
 	_, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectDelete", "DELETE", path, nil)
 	return err
 }
-func (h *handler) SubjectVersionDelete(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionDelete(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects/%s/versions/%d", project, serviceName, subjectName, versionId)
 	_, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionDelete", "DELETE", path, nil)
 	return err
 }
-func (h *handler) SubjectVersionGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects/%s/versions/%d", project, serviceName, subjectName, versionId)
 	_, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionGet", "GET", path, nil)
 	return err
 }
-func (h *handler) SubjectVersionPost(ctx context.Context, project string, serviceName string, subjectName string, in *SubjectVersionPostIn) (int, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionPost(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectVersionPostIn) (int, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects/%s/versions", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionPost", "POST", path, in)
-	out := new(subjectVersionPostOut)
+	out := new(serviceSchemaRegistrySubjectVersionPostOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return 0, err
 	}
 	return out.Id, nil
 }
-func (h *handler) SubjectVersionsGet(ctx context.Context, project string, serviceName string, subjectName string) ([]int, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionsGet(ctx context.Context, project string, serviceName string, subjectName string) ([]int, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects/%s/versions", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionsGet", "GET", path, nil)
-	out := new(subjectVersionsGetOut)
+	out := new(serviceSchemaRegistrySubjectVersionsGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Versions, nil
 }
-func (h *handler) Subjects(ctx context.Context, project string, serviceName string) ([]string, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjects(ctx context.Context, project string, serviceName string) ([]string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjects", "GET", path, nil)
-	out := new(subjectsOut)
+	out := new(serviceSchemaRegistrySubjectsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -234,24 +234,6 @@ type Acl struct {
 	Resource   string         `json:"resource"`
 	Username   string         `json:"username"`
 }
-type AclAddIn struct {
-	Permission PermissionType `json:"permission"`
-	Resource   string         `json:"resource"`
-	Username   string         `json:"username"`
-}
-type aclAddOut struct {
-	Acl []Acl `json:"acl"`
-}
-type aclDeleteOut struct {
-	Acl []Acl `json:"acl"`
-}
-type aclListOut struct {
-	Acl []Acl `json:"acl"`
-}
-type CompatibilityIn struct {
-	Schema     string     `json:"schema"`
-	SchemaType SchemaType `json:"schemaType,omitempty"`
-}
 type CompatibilityLevelType string
 
 const (
@@ -264,9 +246,6 @@ const (
 	CompatibilityLevelTypeNone               CompatibilityLevelType = "NONE"
 )
 
-type compatibilityOut struct {
-	IsCompatible bool `json:"is_compatible"`
-}
 type CompatibilityType string
 
 const (
@@ -279,15 +258,6 @@ const (
 	CompatibilityTypeNone               CompatibilityType = "NONE"
 )
 
-type globalConfigGetOut struct {
-	CompatibilityLevel CompatibilityLevelType `json:"compatibilityLevel"`
-}
-type GlobalConfigPutIn struct {
-	Compatibility CompatibilityType `json:"compatibility"`
-}
-type globalConfigPutOut struct {
-	Compatibility CompatibilityType `json:"compatibility"`
-}
 type PermissionType string
 
 const (
@@ -312,26 +282,56 @@ func SchemaTypeChoices() []string {
 	return []string{"AVRO", "JSON", "PROTOBUF"}
 }
 
-type subjectConfigGetOut struct {
+type ServiceSchemaRegistryAclAddIn struct {
+	Permission PermissionType `json:"permission"`
+	Resource   string         `json:"resource"`
+	Username   string         `json:"username"`
+}
+type serviceSchemaRegistryAclAddOut struct {
+	Acl []Acl `json:"acl"`
+}
+type serviceSchemaRegistryAclDeleteOut struct {
+	Acl []Acl `json:"acl"`
+}
+type serviceSchemaRegistryAclListOut struct {
+	Acl []Acl `json:"acl"`
+}
+type ServiceSchemaRegistryCompatibilityIn struct {
+	Schema     string     `json:"schema"`
+	SchemaType SchemaType `json:"schemaType,omitempty"`
+}
+type serviceSchemaRegistryCompatibilityOut struct {
+	IsCompatible bool `json:"is_compatible"`
+}
+type serviceSchemaRegistryGlobalConfigGetOut struct {
 	CompatibilityLevel CompatibilityLevelType `json:"compatibilityLevel"`
 }
-type SubjectConfigPutIn struct {
+type ServiceSchemaRegistryGlobalConfigPutIn struct {
 	Compatibility CompatibilityType `json:"compatibility"`
 }
-type subjectConfigPutOut struct {
+type serviceSchemaRegistryGlobalConfigPutOut struct {
 	Compatibility CompatibilityType `json:"compatibility"`
 }
-type SubjectVersionPostIn struct {
+type serviceSchemaRegistrySubjectConfigGetOut struct {
+	CompatibilityLevel CompatibilityLevelType `json:"compatibilityLevel"`
+}
+type ServiceSchemaRegistrySubjectConfigPutIn struct {
+	Compatibility CompatibilityType `json:"compatibility"`
+}
+type serviceSchemaRegistrySubjectConfigPutOut struct {
+	Compatibility CompatibilityType `json:"compatibility"`
+}
+type ServiceSchemaRegistrySubjectVersionPostIn struct {
 	References []Reference `json:"references"`
 	Schema     string      `json:"schema"`
 	SchemaType SchemaType  `json:"schemaType,omitempty"`
 }
-type subjectVersionPostOut struct {
+type serviceSchemaRegistrySubjectVersionPostOut struct {
 	Id int `json:"id"`
 }
-type subjectVersionsGetOut struct {
+type serviceSchemaRegistrySubjectVersionsGetOut struct {
 	Versions []int `json:"versions"`
 }
-type subjectsOut struct {
+type serviceSchemaRegistrySubjectsOut struct {
 	Subjects []string `json:"subjects"`
 }

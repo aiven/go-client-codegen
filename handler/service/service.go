@@ -10,345 +10,170 @@ import (
 )
 
 type Handler interface {
-	// AlertsList list active alerts for service
-	// ServiceAlertsList GET /project/{project}/service/{service_name}/alerts
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceAlertsList
-	AlertsList(ctx context.Context, project string, name string) ([]Alert, error)
-
-	// BackupToAnotherRegionReport get service's backup to another region information
-	// ServiceBackupToAnotherRegionReport POST /project/{project}/service/{service_name}/backup_to_another_region/report
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceBackupToAnotherRegionReport
-	BackupToAnotherRegionReport(ctx context.Context, project string, name string, in *BackupToAnotherRegionReportIn) (map[string]any, error)
-
-	// BackupsGet get service backup information
-	// ServiceBackupsGet GET /project/{project}/service/{service_name}/backups
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceBackupsGet
-	BackupsGet(ctx context.Context, project string, name string) ([]Backup, error)
-
-	// CancelQuery cancel specified query from service
-	// ServiceCancelQuery POST /project/{project}/service/{service_name}/query/cancel
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceCancelQuery
-	CancelQuery(ctx context.Context, project string, name string, in *CancelQueryIn) (bool, error)
-
-	// Create create a service
-	// ServiceCreate POST /project/{project}/service
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceCreate
-	Create(ctx context.Context, project string, in *CreateIn) (*Service, error)
-
-	// DatabaseCreate create a new logical database for service
-	// ServiceDatabaseCreate POST /project/{project}/service/{service_name}/db
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseCreate
-	DatabaseCreate(ctx context.Context, project string, name string, in *DatabaseCreateIn) error
-
-	// DatabaseDelete delete a logical database
-	// ServiceDatabaseDelete DELETE /project/{project}/service/{service_name}/db/{dbname}
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseDelete
-	DatabaseDelete(ctx context.Context, project string, name string, dbname string) error
-
-	// DatabaseList list service databases
-	// ServiceDatabaseList GET /project/{project}/service/{service_name}/db
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseList
-	DatabaseList(ctx context.Context, project string, name string) ([]Database, error)
-
-	// Delete terminate a service
-	// ServiceDelete DELETE /project/{project}/service/{service_name}
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDelete
-	Delete(ctx context.Context, project string, name string) error
-
-	// EnableWrites temporarily enable writes for a service in read-only mode. Will only work if disk usage is lower than 99.0%
-	// ServiceEnableWrites POST /project/{project}/service/{service_name}/enable-writes
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceEnableWrites
-	EnableWrites(ctx context.Context, project string, name string) (string, error)
-
-	// Get get service information
-	// ServiceGet GET /project/{project}/service/{service_name}
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceGet
-	Get(ctx context.Context, project string, name string) (*Service, error)
-
-	// GetMigrationStatus get migration status
-	// ServiceGetMigrationStatus GET /project/{project}/service/{service_name}/migration
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceGetMigrationStatus
-	GetMigrationStatus(ctx context.Context, project string, name string) (*GetMigrationStatusOut, error)
-
-	// InfluxDBStats list stats for influxdb
-	// ServiceInfluxDBStats GET /project/{project}/service/{service_name}/influxdb/stats
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceInfluxDBStats
-	InfluxDBStats(ctx context.Context, project string, name string) (map[string]any, error)
-
-	// KmsGetCA retrieve a service CA
-	// ServiceKmsGetCA GET /project/{project}/service/{service_name}/kms/ca/{ca_name}
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceKmsGetCA
-	KmsGetCA(ctx context.Context, project string, name string, caName string) (string, error)
-
-	// KmsGetKeypair retrieve service keypair
-	// ServiceKmsGetKeypair GET /project/{project}/service/{service_name}/kms/keypairs/{keypair_name}
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceKmsGetKeypair
-	KmsGetKeypair(ctx context.Context, project string, name string, keypairName string) (*KmsGetKeypairOut, error)
-
-	// List list services
-	// ServiceList GET /project/{project}/service
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceList
-	List(ctx context.Context, project string) ([]Service, error)
-
 	// ListProjectServiceTypes list service types for a project
-	// ListProjectServiceTypes GET /project/{project}/service_types
+	// GET /project/{project}/service_types
 	// https://api.aiven.io/doc/#tag/Service/operation/ListProjectServiceTypes
 	ListProjectServiceTypes(ctx context.Context, project string) (*ServiceTypes, error)
 
 	// ListPublicServiceTypes list publicly available service types
-	// ListPublicServiceTypes GET /service_types
+	// GET /service_types
 	// https://api.aiven.io/doc/#tag/Service/operation/ListPublicServiceTypes
 	ListPublicServiceTypes(ctx context.Context) (*ServiceTypes, error)
 
 	// ListServiceVersions list service versions
-	// ListServiceVersions GET /service_versions
+	// GET /service_versions
 	// https://api.aiven.io/doc/#tag/Service/operation/ListServiceVersions
 	ListServiceVersions(ctx context.Context) ([]ServiceVersion, error)
 
-	// MaintenanceStart start maintenance updates
-	// ServiceMaintenanceStart PUT /project/{project}/service/{service_name}/maintenance/start
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceMaintenanceStart
-	MaintenanceStart(ctx context.Context, project string, name string) error
-
-	// MetricsFetch fetch service metrics
-	// ServiceMetricsFetch POST /project/{project}/service/{service_name}/metrics
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceMetricsFetch
-	MetricsFetch(ctx context.Context, project string, name string, in *MetricsFetchIn) (map[string]any, error)
-
-	// PgAvailableExtensions list PostgreSQL extensions available for this tenant grouped by PG version
-	// PgAvailableExtensions GET /tenants/{tenant}/pg-available-extensions
-	// https://api.aiven.io/doc/#tag/Service/operation/PgAvailableExtensions
-	PgAvailableExtensions(ctx context.Context, tenant string) ([]Pg, error)
-
 	// ProjectGetServiceLogs get service log entries
-	// ProjectGetServiceLogs POST /project/{project}/service/{service_name}/logs
+	// POST /project/{project}/service/{service_name}/logs
 	// https://api.aiven.io/doc/#tag/Service/operation/ProjectGetServiceLogs
-	ProjectGetServiceLogs(ctx context.Context, project string, name string, in *ProjectGetServiceLogsIn) (*ProjectGetServiceLogsOut, error)
+	ProjectGetServiceLogs(ctx context.Context, project string, serviceName string, in *ProjectGetServiceLogsIn) (*ProjectGetServiceLogsOut, error)
 
 	// ProjectServiceTagsList list all tags attached to the service
-	// ProjectServiceTagsList GET /project/{project}/service/{service_name}/tags
+	// GET /project/{project}/service/{service_name}/tags
 	// https://api.aiven.io/doc/#tag/Service/operation/ProjectServiceTagsList
-	ProjectServiceTagsList(ctx context.Context, project string, name string) (map[string]string, error)
+	ProjectServiceTagsList(ctx context.Context, project string, serviceName string) (map[string]string, error)
 
 	// ProjectServiceTagsReplace replace all project tags with a new set of tags, deleting old ones
-	// ProjectServiceTagsReplace PUT /project/{project}/service/{service_name}/tags
+	// PUT /project/{project}/service/{service_name}/tags
 	// https://api.aiven.io/doc/#tag/Service/operation/ProjectServiceTagsReplace
-	ProjectServiceTagsReplace(ctx context.Context, project string, name string, in *ProjectServiceTagsReplaceIn) error
+	ProjectServiceTagsReplace(ctx context.Context, project string, serviceName string, in *ProjectServiceTagsReplaceIn) error
 
 	// ProjectServiceTagsUpdate update one or more tags, creating ones that don't exist, and deleting ones given NULL value
-	// ProjectServiceTagsUpdate PATCH /project/{project}/service/{service_name}/tags
+	// PATCH /project/{project}/service/{service_name}/tags
 	// https://api.aiven.io/doc/#tag/Service/operation/ProjectServiceTagsUpdate
-	ProjectServiceTagsUpdate(ctx context.Context, project string, name string, in *ProjectServiceTagsUpdateIn) error
+	ProjectServiceTagsUpdate(ctx context.Context, project string, serviceName string, in *ProjectServiceTagsUpdateIn) error
 
-	// QueryActivity fetch current queries for the service
-	// ServiceQueryActivity POST /project/{project}/service/{service_name}/query/activity
+	// ServiceAlertsList list active alerts for service
+	// GET /project/{project}/service/{service_name}/alerts
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceAlertsList
+	ServiceAlertsList(ctx context.Context, project string, serviceName string) ([]Alert, error)
+
+	// ServiceBackupToAnotherRegionReport get service's backup to another region information
+	// POST /project/{project}/service/{service_name}/backup_to_another_region/report
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceBackupToAnotherRegionReport
+	ServiceBackupToAnotherRegionReport(ctx context.Context, project string, serviceName string, in *ServiceBackupToAnotherRegionReportIn) (map[string]any, error)
+
+	// ServiceBackupsGet get service backup information
+	// GET /project/{project}/service/{service_name}/backups
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceBackupsGet
+	ServiceBackupsGet(ctx context.Context, project string, serviceName string) ([]Backup, error)
+
+	// ServiceCancelQuery cancel specified query from service
+	// POST /project/{project}/service/{service_name}/query/cancel
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceCancelQuery
+	ServiceCancelQuery(ctx context.Context, project string, serviceName string, in *ServiceCancelQueryIn) (bool, error)
+
+	// ServiceCreate create a service
+	// POST /project/{project}/service
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceCreate
+	ServiceCreate(ctx context.Context, project string, in *ServiceCreateIn) (*Service, error)
+
+	// ServiceDatabaseCreate create a new logical database for service
+	// POST /project/{project}/service/{service_name}/db
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseCreate
+	ServiceDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceDatabaseCreateIn) error
+
+	// ServiceDatabaseDelete delete a logical database
+	// DELETE /project/{project}/service/{service_name}/db/{dbname}
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseDelete
+	ServiceDatabaseDelete(ctx context.Context, project string, serviceName string, dbname string) error
+
+	// ServiceDatabaseList list service databases
+	// GET /project/{project}/service/{service_name}/db
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseList
+	ServiceDatabaseList(ctx context.Context, project string, serviceName string) ([]Database, error)
+
+	// ServiceDelete terminate a service
+	// DELETE /project/{project}/service/{service_name}
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDelete
+	ServiceDelete(ctx context.Context, project string, serviceName string) error
+
+	// ServiceEnableWrites temporarily enable writes for a service in read-only mode. Will only work if disk usage is lower than 99.0%
+	// POST /project/{project}/service/{service_name}/enable-writes
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceEnableWrites
+	ServiceEnableWrites(ctx context.Context, project string, serviceName string) (string, error)
+
+	// ServiceGet get service information
+	// GET /project/{project}/service/{service_name}
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceGet
+	ServiceGet(ctx context.Context, project string, serviceName string) (*Service, error)
+
+	// ServiceGetMigrationStatus get migration status
+	// GET /project/{project}/service/{service_name}/migration
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceGetMigrationStatus
+	ServiceGetMigrationStatus(ctx context.Context, project string, serviceName string) (*ServiceGetMigrationStatusOut, error)
+
+	// ServiceInfluxDBStats list stats for influxdb
+	// GET /project/{project}/service/{service_name}/influxdb/stats
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceInfluxDBStats
+	ServiceInfluxDBStats(ctx context.Context, project string, serviceName string) (map[string]any, error)
+
+	// ServiceKmsGetCA retrieve a service CA
+	// GET /project/{project}/service/{service_name}/kms/ca/{ca_name}
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceKmsGetCA
+	ServiceKmsGetCA(ctx context.Context, project string, serviceName string, caName string) (string, error)
+
+	// ServiceKmsGetKeypair retrieve service keypair
+	// GET /project/{project}/service/{service_name}/kms/keypairs/{keypair_name}
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceKmsGetKeypair
+	ServiceKmsGetKeypair(ctx context.Context, project string, serviceName string, keypairName string) (*ServiceKmsGetKeypairOut, error)
+
+	// ServiceList list services
+	// GET /project/{project}/service
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceList
+	ServiceList(ctx context.Context, project string) ([]Service, error)
+
+	// ServiceMaintenanceStart start maintenance updates
+	// PUT /project/{project}/service/{service_name}/maintenance/start
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceMaintenanceStart
+	ServiceMaintenanceStart(ctx context.Context, project string, serviceName string) error
+
+	// ServiceMetricsFetch fetch service metrics
+	// POST /project/{project}/service/{service_name}/metrics
+	// https://api.aiven.io/doc/#tag/Service/operation/ServiceMetricsFetch
+	ServiceMetricsFetch(ctx context.Context, project string, serviceName string, in *ServiceMetricsFetchIn) (map[string]any, error)
+
+	// ServiceQueryActivity fetch current queries for the service
+	// POST /project/{project}/service/{service_name}/query/activity
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceQueryActivity
-	QueryActivity(ctx context.Context, project string, name string, in *QueryActivityIn) ([]Query, error)
+	ServiceQueryActivity(ctx context.Context, project string, serviceName string, in *ServiceQueryActivityIn) ([]Query, error)
 
-	// QueryStatisticsReset reset service's query statistics
-	// ServiceQueryStatisticsReset PUT /project/{project}/service/{service_name}/query/stats/reset
+	// ServiceQueryStatisticsReset reset service's query statistics
+	// PUT /project/{project}/service/{service_name}/query/stats/reset
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceQueryStatisticsReset
-	QueryStatisticsReset(ctx context.Context, project string, name string) ([]map[string]any, error)
+	ServiceQueryStatisticsReset(ctx context.Context, project string, serviceName string) ([]map[string]any, error)
 
-	// TaskCreate create a new task for service
-	// ServiceTaskCreate POST /project/{project}/service/{service_name}/task
+	// ServiceTaskCreate create a new task for service
+	// POST /project/{project}/service/{service_name}/task
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceTaskCreate
-	TaskCreate(ctx context.Context, project string, name string, in *TaskCreateIn) (*Task, error)
+	ServiceTaskCreate(ctx context.Context, project string, serviceName string, in *ServiceTaskCreateIn) (*Task, error)
 
-	// TaskGet get task result
-	// ServiceTaskGet GET /project/{project}/service/{service_name}/task/{task_id}
+	// ServiceTaskGet get task result
+	// GET /project/{project}/service/{service_name}/task/{task_id}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceTaskGet
-	TaskGet(ctx context.Context, project string, name string, taskId string) (*Task, error)
+	ServiceTaskGet(ctx context.Context, project string, serviceName string, taskId string) (*Task, error)
 
-	// Update update service configuration
-	// ServiceUpdate PUT /project/{project}/service/{service_name}
+	// ServiceUpdate update service configuration
+	// PUT /project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUpdate
-	Update(ctx context.Context, project string, name string, in *UpdateIn) (*Service, error)
-
-	// UserCreate create a new (sub) user for service
-	// ServiceUserCreate POST /project/{project}/service/{service_name}/user
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserCreate
-	UserCreate(ctx context.Context, project string, name string, in *UserCreateIn) (*User, error)
-
-	// UserCredentialsModify modify service user credentials
-	// ServiceUserCredentialsModify PUT /project/{project}/service/{service_name}/user/{service_username}
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserCredentialsModify
-	UserCredentialsModify(ctx context.Context, project string, name string, username string, in *UserCredentialsModifyIn) (*Service, error)
-
-	// UserCredentialsReset reset service user credentials
-	// ServiceUserCredentialsReset PUT /project/{project}/service/{service_name}/user/{service_username}/credentials/reset
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserCredentialsReset
-	UserCredentialsReset(ctx context.Context, project string, name string, username string) (*Service, error)
-
-	// UserDelete delete a service user
-	// ServiceUserDelete DELETE /project/{project}/service/{service_name}/user/{service_username}
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserDelete
-	UserDelete(ctx context.Context, project string, name string, username string) error
-
-	// UserGet get details for a single user
-	// ServiceUserGet GET /project/{project}/service/{service_name}/user/{service_username}
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserGet
-	UserGet(ctx context.Context, project string, name string, username string) (*User, error)
+	ServiceUpdate(ctx context.Context, project string, serviceName string, allowUncleanPoweroff bool, in *ServiceUpdateIn) (*Service, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) ServiceHandler {
+	return ServiceHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type ServiceHandler struct {
 	doer doer
 }
 
-func (h *handler) AlertsList(ctx context.Context, project string, name string) ([]Alert, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/alerts", project, name)
-	b, err := h.doer.Do(ctx, "ServiceAlertsList", "GET", path, nil)
-	out := new(alertsListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Alerts, nil
-}
-func (h *handler) BackupToAnotherRegionReport(ctx context.Context, project string, name string, in *BackupToAnotherRegionReportIn) (map[string]any, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/backup_to_another_region/report", project, name)
-	b, err := h.doer.Do(ctx, "ServiceBackupToAnotherRegionReport", "POST", path, in)
-	out := new(backupToAnotherRegionReportOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Metrics, nil
-}
-func (h *handler) BackupsGet(ctx context.Context, project string, name string) ([]Backup, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/backups", project, name)
-	b, err := h.doer.Do(ctx, "ServiceBackupsGet", "GET", path, nil)
-	out := new(backupsGetOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Backups, nil
-}
-func (h *handler) CancelQuery(ctx context.Context, project string, name string, in *CancelQueryIn) (bool, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/query/cancel", project, name)
-	b, err := h.doer.Do(ctx, "ServiceCancelQuery", "POST", path, in)
-	out := new(cancelQueryOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return false, err
-	}
-	return out.Success, nil
-}
-func (h *handler) Create(ctx context.Context, project string, in *CreateIn) (*Service, error) {
-	path := fmt.Sprintf("/project/%s/service", project)
-	b, err := h.doer.Do(ctx, "ServiceCreate", "POST", path, in)
-	out := new(createOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Service, nil
-}
-func (h *handler) DatabaseCreate(ctx context.Context, project string, name string, in *DatabaseCreateIn) error {
-	path := fmt.Sprintf("/project/%s/service/%s/db", project, name)
-	_, err := h.doer.Do(ctx, "ServiceDatabaseCreate", "POST", path, in)
-	return err
-}
-func (h *handler) DatabaseDelete(ctx context.Context, project string, name string, dbname string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/db/%s", project, name, dbname)
-	_, err := h.doer.Do(ctx, "ServiceDatabaseDelete", "DELETE", path, nil)
-	return err
-}
-func (h *handler) DatabaseList(ctx context.Context, project string, name string) ([]Database, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/db", project, name)
-	b, err := h.doer.Do(ctx, "ServiceDatabaseList", "GET", path, nil)
-	out := new(databaseListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Databases, nil
-}
-func (h *handler) Delete(ctx context.Context, project string, name string) error {
-	path := fmt.Sprintf("/project/%s/service/%s", project, name)
-	_, err := h.doer.Do(ctx, "ServiceDelete", "DELETE", path, nil)
-	return err
-}
-func (h *handler) EnableWrites(ctx context.Context, project string, name string) (string, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/enable-writes", project, name)
-	b, err := h.doer.Do(ctx, "ServiceEnableWrites", "POST", path, nil)
-	out := new(enableWritesOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return "", err
-	}
-	return out.Until, nil
-}
-func (h *handler) Get(ctx context.Context, project string, name string) (*Service, error) {
-	path := fmt.Sprintf("/project/%s/service/%s", project, name)
-	b, err := h.doer.Do(ctx, "ServiceGet", "GET", path, nil)
-	out := new(getOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Service, nil
-}
-func (h *handler) GetMigrationStatus(ctx context.Context, project string, name string) (*GetMigrationStatusOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/migration", project, name)
-	b, err := h.doer.Do(ctx, "ServiceGetMigrationStatus", "GET", path, nil)
-	out := new(GetMigrationStatusOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-func (h *handler) InfluxDBStats(ctx context.Context, project string, name string) (map[string]any, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/influxdb/stats", project, name)
-	b, err := h.doer.Do(ctx, "ServiceInfluxDBStats", "GET", path, nil)
-	out := new(influxDbstatsOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.DbStats, nil
-}
-func (h *handler) KmsGetCA(ctx context.Context, project string, name string, caName string) (string, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/kms/ca/%s", project, name, caName)
-	b, err := h.doer.Do(ctx, "ServiceKmsGetCA", "GET", path, nil)
-	out := new(kmsGetCaout)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return "", err
-	}
-	return out.Certificate, nil
-}
-func (h *handler) KmsGetKeypair(ctx context.Context, project string, name string, keypairName string) (*KmsGetKeypairOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/kms/keypairs/%s", project, name, keypairName)
-	b, err := h.doer.Do(ctx, "ServiceKmsGetKeypair", "GET", path, nil)
-	out := new(KmsGetKeypairOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-func (h *handler) List(ctx context.Context, project string) ([]Service, error) {
-	path := fmt.Sprintf("/project/%s/service", project)
-	b, err := h.doer.Do(ctx, "ServiceList", "GET", path, nil)
-	out := new(listOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Services, nil
-}
-func (h *handler) ListProjectServiceTypes(ctx context.Context, project string) (*ServiceTypes, error) {
+func (h *ServiceHandler) ListProjectServiceTypes(ctx context.Context, project string) (*ServiceTypes, error) {
 	path := fmt.Sprintf("/project/%s/service_types", project)
 	b, err := h.doer.Do(ctx, "ListProjectServiceTypes", "GET", path, nil)
 	out := new(listProjectServiceTypesOut)
@@ -358,7 +183,7 @@ func (h *handler) ListProjectServiceTypes(ctx context.Context, project string) (
 	}
 	return out.ServiceTypes, nil
 }
-func (h *handler) ListPublicServiceTypes(ctx context.Context) (*ServiceTypes, error) {
+func (h *ServiceHandler) ListPublicServiceTypes(ctx context.Context) (*ServiceTypes, error) {
 	path := fmt.Sprintf("/service_types")
 	b, err := h.doer.Do(ctx, "ListPublicServiceTypes", "GET", path, nil)
 	out := new(listPublicServiceTypesOut)
@@ -368,7 +193,7 @@ func (h *handler) ListPublicServiceTypes(ctx context.Context) (*ServiceTypes, er
 	}
 	return out.ServiceTypes, nil
 }
-func (h *handler) ListServiceVersions(ctx context.Context) ([]ServiceVersion, error) {
+func (h *ServiceHandler) ListServiceVersions(ctx context.Context) ([]ServiceVersion, error) {
 	path := fmt.Sprintf("/service_versions")
 	b, err := h.doer.Do(ctx, "ListServiceVersions", "GET", path, nil)
 	out := new(listServiceVersionsOut)
@@ -378,33 +203,8 @@ func (h *handler) ListServiceVersions(ctx context.Context) ([]ServiceVersion, er
 	}
 	return out.ServiceVersions, nil
 }
-func (h *handler) MaintenanceStart(ctx context.Context, project string, name string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/maintenance/start", project, name)
-	_, err := h.doer.Do(ctx, "ServiceMaintenanceStart", "PUT", path, nil)
-	return err
-}
-func (h *handler) MetricsFetch(ctx context.Context, project string, name string, in *MetricsFetchIn) (map[string]any, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/metrics", project, name)
-	b, err := h.doer.Do(ctx, "ServiceMetricsFetch", "POST", path, in)
-	out := new(metricsFetchOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Metrics, nil
-}
-func (h *handler) PgAvailableExtensions(ctx context.Context, tenant string) ([]Pg, error) {
-	path := fmt.Sprintf("/tenants/%s/pg-available-extensions", tenant)
-	b, err := h.doer.Do(ctx, "PgAvailableExtensions", "GET", path, nil)
-	out := new(pgAvailableExtensionsOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Pg, nil
-}
-func (h *handler) ProjectGetServiceLogs(ctx context.Context, project string, name string, in *ProjectGetServiceLogsIn) (*ProjectGetServiceLogsOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/logs", project, name)
+func (h *ServiceHandler) ProjectGetServiceLogs(ctx context.Context, project string, serviceName string, in *ProjectGetServiceLogsIn) (*ProjectGetServiceLogsOut, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/logs", project, serviceName)
 	b, err := h.doer.Do(ctx, "ProjectGetServiceLogs", "POST", path, in)
 	out := new(ProjectGetServiceLogsOut)
 	err = json.Unmarshal(b, out)
@@ -413,8 +213,8 @@ func (h *handler) ProjectGetServiceLogs(ctx context.Context, project string, nam
 	}
 	return out, nil
 }
-func (h *handler) ProjectServiceTagsList(ctx context.Context, project string, name string) (map[string]string, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/tags", project, name)
+func (h *ServiceHandler) ProjectServiceTagsList(ctx context.Context, project string, serviceName string) (map[string]string, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/tags", project, serviceName)
 	b, err := h.doer.Do(ctx, "ProjectServiceTagsList", "GET", path, nil)
 	out := new(projectServiceTagsListOut)
 	err = json.Unmarshal(b, out)
@@ -423,110 +223,225 @@ func (h *handler) ProjectServiceTagsList(ctx context.Context, project string, na
 	}
 	return out.Tags, nil
 }
-func (h *handler) ProjectServiceTagsReplace(ctx context.Context, project string, name string, in *ProjectServiceTagsReplaceIn) error {
-	path := fmt.Sprintf("/project/%s/service/%s/tags", project, name)
+func (h *ServiceHandler) ProjectServiceTagsReplace(ctx context.Context, project string, serviceName string, in *ProjectServiceTagsReplaceIn) error {
+	path := fmt.Sprintf("/project/%s/service/%s/tags", project, serviceName)
 	_, err := h.doer.Do(ctx, "ProjectServiceTagsReplace", "PUT", path, in)
 	return err
 }
-func (h *handler) ProjectServiceTagsUpdate(ctx context.Context, project string, name string, in *ProjectServiceTagsUpdateIn) error {
-	path := fmt.Sprintf("/project/%s/service/%s/tags", project, name)
+func (h *ServiceHandler) ProjectServiceTagsUpdate(ctx context.Context, project string, serviceName string, in *ProjectServiceTagsUpdateIn) error {
+	path := fmt.Sprintf("/project/%s/service/%s/tags", project, serviceName)
 	_, err := h.doer.Do(ctx, "ProjectServiceTagsUpdate", "PATCH", path, in)
 	return err
 }
-func (h *handler) QueryActivity(ctx context.Context, project string, name string, in *QueryActivityIn) ([]Query, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/query/activity", project, name)
-	b, err := h.doer.Do(ctx, "ServiceQueryActivity", "POST", path, in)
-	out := new(queryActivityOut)
+func (h *ServiceHandler) ServiceAlertsList(ctx context.Context, project string, serviceName string) ([]Alert, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/alerts", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceAlertsList", "GET", path, nil)
+	out := new(serviceAlertsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.Queries, nil
+	return out.Alerts, nil
 }
-func (h *handler) QueryStatisticsReset(ctx context.Context, project string, name string) ([]map[string]any, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/query/stats/reset", project, name)
-	b, err := h.doer.Do(ctx, "ServiceQueryStatisticsReset", "PUT", path, nil)
-	out := new(queryStatisticsResetOut)
+func (h *ServiceHandler) ServiceBackupToAnotherRegionReport(ctx context.Context, project string, serviceName string, in *ServiceBackupToAnotherRegionReportIn) (map[string]any, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/backup_to_another_region/report", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceBackupToAnotherRegionReport", "POST", path, in)
+	out := new(serviceBackupToAnotherRegionReportOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.Queries, nil
+	return out.Metrics, nil
 }
-func (h *handler) TaskCreate(ctx context.Context, project string, name string, in *TaskCreateIn) (*Task, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/task", project, name)
-	b, err := h.doer.Do(ctx, "ServiceTaskCreate", "POST", path, in)
-	out := new(taskCreateOut)
+func (h *ServiceHandler) ServiceBackupsGet(ctx context.Context, project string, serviceName string) ([]Backup, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/backups", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceBackupsGet", "GET", path, nil)
+	out := new(serviceBackupsGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.Task, nil
+	return out.Backups, nil
 }
-func (h *handler) TaskGet(ctx context.Context, project string, name string, taskId string) (*Task, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/task/%s", project, name, taskId)
-	b, err := h.doer.Do(ctx, "ServiceTaskGet", "GET", path, nil)
-	out := new(taskGetOut)
+func (h *ServiceHandler) ServiceCancelQuery(ctx context.Context, project string, serviceName string, in *ServiceCancelQueryIn) (bool, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/query/cancel", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceCancelQuery", "POST", path, in)
+	out := new(serviceCancelQueryOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
-		return nil, err
+		return false, err
 	}
-	return out.Task, nil
+	return out.Success, nil
 }
-func (h *handler) Update(ctx context.Context, project string, name string, in *UpdateIn) (*Service, error) {
-	path := fmt.Sprintf("/project/%s/service/%s", project, name)
-	b, err := h.doer.Do(ctx, "ServiceUpdate", "PUT", path, in)
-	out := new(updateOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Service, nil
-}
-func (h *handler) UserCreate(ctx context.Context, project string, name string, in *UserCreateIn) (*User, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/user", project, name)
-	b, err := h.doer.Do(ctx, "ServiceUserCreate", "POST", path, in)
-	out := new(userCreateOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.User, nil
-}
-func (h *handler) UserCredentialsModify(ctx context.Context, project string, name string, username string, in *UserCredentialsModifyIn) (*Service, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, name, username)
-	b, err := h.doer.Do(ctx, "ServiceUserCredentialsModify", "PUT", path, in)
-	out := new(userCredentialsModifyOut)
+func (h *ServiceHandler) ServiceCreate(ctx context.Context, project string, in *ServiceCreateIn) (*Service, error) {
+	path := fmt.Sprintf("/project/%s/service", project)
+	b, err := h.doer.Do(ctx, "ServiceCreate", "POST", path, in)
+	out := new(serviceCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Service, nil
 }
-func (h *handler) UserCredentialsReset(ctx context.Context, project string, name string, username string) (*Service, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/user/%s/credentials/reset", project, name, username)
-	b, err := h.doer.Do(ctx, "ServiceUserCredentialsReset", "PUT", path, nil)
-	out := new(userCredentialsResetOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Service, nil
-}
-func (h *handler) UserDelete(ctx context.Context, project string, name string, username string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, name, username)
-	_, err := h.doer.Do(ctx, "ServiceUserDelete", "DELETE", path, nil)
+func (h *ServiceHandler) ServiceDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceDatabaseCreateIn) error {
+	path := fmt.Sprintf("/project/%s/service/%s/db", project, serviceName)
+	_, err := h.doer.Do(ctx, "ServiceDatabaseCreate", "POST", path, in)
 	return err
 }
-func (h *handler) UserGet(ctx context.Context, project string, name string, username string) (*User, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, name, username)
-	b, err := h.doer.Do(ctx, "ServiceUserGet", "GET", path, nil)
-	out := new(userGetOut)
+func (h *ServiceHandler) ServiceDatabaseDelete(ctx context.Context, project string, serviceName string, dbname string) error {
+	path := fmt.Sprintf("/project/%s/service/%s/db/%s", project, serviceName, dbname)
+	_, err := h.doer.Do(ctx, "ServiceDatabaseDelete", "DELETE", path, nil)
+	return err
+}
+func (h *ServiceHandler) ServiceDatabaseList(ctx context.Context, project string, serviceName string) ([]Database, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/db", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceDatabaseList", "GET", path, nil)
+	out := new(serviceDatabaseListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.User, nil
+	return out.Databases, nil
+}
+func (h *ServiceHandler) ServiceDelete(ctx context.Context, project string, serviceName string) error {
+	path := fmt.Sprintf("/project/%s/service/%s", project, serviceName)
+	_, err := h.doer.Do(ctx, "ServiceDelete", "DELETE", path, nil)
+	return err
+}
+func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string, serviceName string) (string, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/enable-writes", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceEnableWrites", "POST", path, nil)
+	out := new(serviceEnableWritesOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return "", err
+	}
+	return out.Until, nil
+}
+func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, serviceName string) (*Service, error) {
+	path := fmt.Sprintf("/project/%s/service/%s", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceGet", "GET", path, nil)
+	out := new(serviceGetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Service, nil
+}
+func (h *ServiceHandler) ServiceGetMigrationStatus(ctx context.Context, project string, serviceName string) (*ServiceGetMigrationStatusOut, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/migration", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceGetMigrationStatus", "GET", path, nil)
+	out := new(ServiceGetMigrationStatusOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *ServiceHandler) ServiceInfluxDBStats(ctx context.Context, project string, serviceName string) (map[string]any, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/influxdb/stats", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceInfluxDBStats", "GET", path, nil)
+	out := new(serviceInfluxDbstatsOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.DbStats, nil
+}
+func (h *ServiceHandler) ServiceKmsGetCA(ctx context.Context, project string, serviceName string, caName string) (string, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/kms/ca/%s", project, serviceName, caName)
+	b, err := h.doer.Do(ctx, "ServiceKmsGetCA", "GET", path, nil)
+	out := new(serviceKmsGetCaout)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return "", err
+	}
+	return out.Certificate, nil
+}
+func (h *ServiceHandler) ServiceKmsGetKeypair(ctx context.Context, project string, serviceName string, keypairName string) (*ServiceKmsGetKeypairOut, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/kms/keypairs/%s", project, serviceName, keypairName)
+	b, err := h.doer.Do(ctx, "ServiceKmsGetKeypair", "GET", path, nil)
+	out := new(ServiceKmsGetKeypairOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *ServiceHandler) ServiceList(ctx context.Context, project string) ([]Service, error) {
+	path := fmt.Sprintf("/project/%s/service", project)
+	b, err := h.doer.Do(ctx, "ServiceList", "GET", path, nil)
+	out := new(serviceListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Services, nil
+}
+func (h *ServiceHandler) ServiceMaintenanceStart(ctx context.Context, project string, serviceName string) error {
+	path := fmt.Sprintf("/project/%s/service/%s/maintenance/start", project, serviceName)
+	_, err := h.doer.Do(ctx, "ServiceMaintenanceStart", "PUT", path, nil)
+	return err
+}
+func (h *ServiceHandler) ServiceMetricsFetch(ctx context.Context, project string, serviceName string, in *ServiceMetricsFetchIn) (map[string]any, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/metrics", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceMetricsFetch", "POST", path, in)
+	out := new(serviceMetricsFetchOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Metrics, nil
+}
+func (h *ServiceHandler) ServiceQueryActivity(ctx context.Context, project string, serviceName string, in *ServiceQueryActivityIn) ([]Query, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/query/activity", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceQueryActivity", "POST", path, in)
+	out := new(serviceQueryActivityOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Queries, nil
+}
+func (h *ServiceHandler) ServiceQueryStatisticsReset(ctx context.Context, project string, serviceName string) ([]map[string]any, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/query/stats/reset", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceQueryStatisticsReset", "PUT", path, nil)
+	out := new(serviceQueryStatisticsResetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Queries, nil
+}
+func (h *ServiceHandler) ServiceTaskCreate(ctx context.Context, project string, serviceName string, in *ServiceTaskCreateIn) (*Task, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/task", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceTaskCreate", "POST", path, in)
+	out := new(serviceTaskCreateOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Task, nil
+}
+func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, serviceName string, taskId string) (*Task, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/task/%s", project, serviceName, taskId)
+	b, err := h.doer.Do(ctx, "ServiceTaskGet", "GET", path, nil)
+	out := new(serviceTaskGetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Task, nil
+}
+func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, allowUncleanPoweroff bool, in *ServiceUpdateIn) (*Service, error) {
+	path := fmt.Sprintf("/project/%s/service/%s", project, serviceName, allowUncleanPoweroff)
+	b, err := h.doer.Do(ctx, "ServiceUpdate", "PUT", path, in)
+	out := new(serviceUpdateOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Service, nil
 }
 
 type AccessControl struct {
@@ -558,9 +473,6 @@ type Alert struct {
 	ServiceType string    `json:"service_type,omitempty"`
 	Severity    string    `json:"severity"`
 }
-type alertsListOut struct {
-	Alerts []Alert `json:"alerts"`
-}
 type Any struct {
 	DefaultVersion         string         `json:"default_version,omitempty"`
 	Description            string         `json:"description"`
@@ -578,10 +490,10 @@ const (
 
 type Backup struct {
 	AdditionalRegions []AdditionalRegion `json:"additional_regions"`
-	DataSize          int                `json:"data_size"`
 	BackupName        string             `json:"backup_name"`
-	StorageLocation   string             `json:"storage_location,omitempty"`
 	BackupTime        time.Time          `json:"backup_time"`
+	DataSize          int                `json:"data_size"`
+	StorageLocation   string             `json:"storage_location,omitempty"`
 }
 type BackupConfig struct {
 	FrequentIntervalMinutes    *int             `json:"frequent_interval_minutes,omitempty"`
@@ -591,22 +503,6 @@ type BackupConfig struct {
 	Interval                   int              `json:"interval"`
 	MaxCount                   int              `json:"max_count"`
 	RecoveryMode               RecoveryModeType `json:"recovery_mode"`
-}
-type BackupToAnotherRegionReportIn struct {
-	Period PeriodType `json:"period,omitempty"`
-}
-type backupToAnotherRegionReportOut struct {
-	Metrics map[string]any `json:"metrics"`
-}
-type backupsGetOut struct {
-	Backups []Backup `json:"backups"`
-}
-type CancelQueryIn struct {
-	Pid       *int  `json:"pid,omitempty"`
-	Terminate *bool `json:"terminate,omitempty"`
-}
-type cancelQueryOut struct {
-	Success bool `json:"success"`
 }
 type Component struct {
 	Component                 string                        `json:"component"`
@@ -627,36 +523,8 @@ type ConnectionPool struct {
 	PoolSize      int          `json:"pool_size"`
 	Username      string       `json:"username,omitempty"`
 }
-type CreateIn struct {
-	Cloud                 string               `json:"cloud,omitempty"`
-	CopyTags              *bool                `json:"copy_tags,omitempty"`
-	DiskSpaceMb           *float64             `json:"disk_space_mb,omitempty"`
-	GroupName             string               `json:"group_name,omitempty"`
-	Maintenance           *Maintenance         `json:"maintenance,omitempty"`
-	Plan                  string               `json:"plan"`
-	ProjectVpcId          string               `json:"project_vpc_id,omitempty"`
-	ServiceIntegrations   []ServiceIntegration `json:"service_integrations"`
-	ServiceName           string               `json:"service_name"`
-	ServiceType           string               `json:"service_type"`
-	StaticIps             []string             `json:"static_ips"`
-	Tags                  map[string]string    `json:"tags,omitempty"`
-	TechEmails            []TechEmail          `json:"tech_emails"`
-	TerminationProtection *bool                `json:"termination_protection,omitempty"`
-	UserConfig            map[string]any       `json:"user_config,omitempty"`
-}
-type createOut struct {
-	Service *Service `json:"service"`
-}
 type Database struct {
 	DatabaseName string `json:"database_name"`
-}
-type DatabaseCreateIn struct {
-	Database  string `json:"database"`
-	LcCollate string `json:"lc_collate,omitempty"`
-	LcCtype   string `json:"lc_ctype,omitempty"`
-}
-type databaseListOut struct {
-	Databases []Database `json:"databases"`
 }
 type DatasetImport struct {
 	DatasetName DatasetNameType `json:"dataset_name"`
@@ -687,23 +555,6 @@ func DowTypeChoices() []string {
 	return []string{"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"}
 }
 
-type enableWritesOut struct {
-	Until string `json:"until,omitempty"`
-}
-type Extension struct {
-	Name     string   `json:"name"`
-	Versions []string `json:"versions"`
-}
-type GetMigrationStatusOut struct {
-	Migration       *Migration        `json:"migration"`
-	MigrationDetail []MigrationDetail `json:"migration_detail"`
-}
-type getOut struct {
-	Service *Service `json:"service"`
-}
-type influxDbstatsOut struct {
-	DbStats map[string]any `json:"db_stats"`
-}
 type IntegrationStatus struct {
 	State          *State `json:"state"`
 	StatusUserDesc string `json:"status_user_desc"`
@@ -763,13 +614,6 @@ const (
 	KafkaAuthenticationMethodTypeSasl        KafkaAuthenticationMethodType = "sasl"
 )
 
-type kmsGetCaout struct {
-	Certificate string `json:"certificate"`
-}
-type KmsGetKeypairOut struct {
-	Certificate string `json:"certificate"`
-	Key         string `json:"key"`
-}
 type LevelType string
 
 const (
@@ -787,9 +631,6 @@ const (
 	LikelyErrorCauseTypeUnknown     LikelyErrorCauseType = "unknown"
 )
 
-type listOut struct {
-	Services []Service `json:"services"`
-}
 type listProjectServiceTypesOut struct {
 	ServiceTypes *ServiceTypes `json:"service_types"`
 }
@@ -819,12 +660,6 @@ type MethodType string
 
 const ()
 
-type MetricsFetchIn struct {
-	Period PeriodType `json:"period,omitempty"`
-}
-type metricsFetchOut struct {
-	Metrics map[string]any `json:"metrics"`
-}
 type Migration struct {
 	Error                  string               `json:"error,omitempty"`
 	MasterLastIoSecondsAgo *int                 `json:"master_last_io_seconds_ago,omitempty"`
@@ -892,18 +727,6 @@ const (
 	NodeStateStateTypeUnknown     NodeStateStateType = "unknown"
 )
 
-type OperationType string
-
-const (
-	OperationTypeAcknowledgeRenewal OperationType = "acknowledge-renewal"
-	OperationTypeResetCredentials   OperationType = "reset-credentials"
-	OperationTypeSetAccessControl   OperationType = "set-access-control"
-)
-
-func OperationTypeChoices() []string {
-	return []string{"acknowledge-renewal", "reset-credentials", "set-access-control"}
-}
-
 type PeriodType string
 
 const (
@@ -927,13 +750,6 @@ const (
 	PermissionTypeWrite     PermissionType = "write"
 )
 
-type Pg struct {
-	Extensions []Extension `json:"extensions"`
-	Version    string      `json:"version"`
-}
-type pgAvailableExtensionsOut struct {
-	Pg []Pg `json:"pg"`
-}
 type PhaseType string
 
 const (
@@ -987,8 +803,6 @@ type Query struct {
 	BackendType                               string   `json:"backend_type,omitempty"`
 	BackendXid                                *int     `json:"backend_xid,omitempty"`
 	BackendXmin                               *int     `json:"backend_xmin,omitempty"`
-	QueryBuffer                               *int     `json:"query_buffer,omitempty"`
-	QueryBufferFree                           *int     `json:"query_buffer_free,omitempty"`
 	ClientAddr                                string   `json:"client_addr,omitempty"`
 	ClientHostname                            string   `json:"client_hostname,omitempty"`
 	ClientPort                                *int     `json:"client_port,omitempty"`
@@ -996,11 +810,9 @@ type Query struct {
 	ConnectionIdleSeconds                     *float64 `json:"connection_idle_seconds,omitempty"`
 	Datid                                     *int     `json:"datid,omitempty"`
 	Datname                                   string   `json:"datname,omitempty"`
-	QueryDuration                             *float64 `json:"query_duration,omitempty"`
 	Flags                                     []string `json:"flags"`
 	FlagsRaw                                  string   `json:"flags_raw,omitempty"`
 	Id                                        string   `json:"id,omitempty"`
-	QueryId                                   *int     `json:"query_id,omitempty"`
 	LeaderPid                                 *int     `json:"leader_pid,omitempty"`
 	MultiExecCommands                         *int     `json:"multi_exec_commands,omitempty"`
 	Name                                      string   `json:"name,omitempty"`
@@ -1009,6 +821,10 @@ type Query struct {
 	OutputListLength                          *int     `json:"output_list_length,omitempty"`
 	Pid                                       *int     `json:"pid,omitempty"`
 	Query                                     string   `json:"query,omitempty"`
+	QueryBuffer                               *int     `json:"query_buffer,omitempty"`
+	QueryBufferFree                           *int     `json:"query_buffer_free,omitempty"`
+	QueryDuration                             *float64 `json:"query_duration,omitempty"`
+	QueryId                                   *int     `json:"query_id,omitempty"`
 	QueryStart                                string   `json:"query_start,omitempty"`
 	State                                     string   `json:"state,omitempty"`
 	StateChange                               string   `json:"state_change,omitempty"`
@@ -1018,17 +834,6 @@ type Query struct {
 	WaitEventType                             string   `json:"wait_event_type,omitempty"`
 	Waiting                                   *bool    `json:"waiting,omitempty"`
 	XactStart                                 string   `json:"xact_start,omitempty"`
-}
-type QueryActivityIn struct {
-	Limit   *int   `json:"limit,omitempty"`
-	Offset  *int   `json:"offset,omitempty"`
-	OrderBy string `json:"order_by,omitempty"`
-}
-type queryActivityOut struct {
-	Queries []Query `json:"queries"`
-}
-type queryStatisticsResetOut struct {
-	Queries []map[string]any `json:"queries"`
 }
 type RecoveryModeType string
 
@@ -1084,30 +889,90 @@ type Service struct {
 	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`
 	Features               map[string]any           `json:"features,omitempty"`
 	GroupList              []string                 `json:"group_list"`
-	ServiceIntegrations    []ServiceIntegrationItem `json:"service_integrations"`
 	Metadata               map[string]any           `json:"metadata,omitempty"`
-	ServiceName            string                   `json:"service_name"`
 	NodeCount              *int                     `json:"node_count,omitempty"`
 	NodeCpuCount           *int                     `json:"node_cpu_count,omitempty"`
 	NodeMemoryMb           *float64                 `json:"node_memory_mb,omitempty"`
 	NodeStates             []NodeState              `json:"node_states"`
-	ServiceNotifications   []ServiceNotification    `json:"service_notifications"`
 	Plan                   string                   `json:"plan"`
 	ProjectVpcId           string                   `json:"project_vpc_id"`
 	SchemaRegistryAcl      []SchemaRegistryAcl      `json:"schema_registry_acl"`
+	ServiceIntegrations    []ServiceIntegrationItem `json:"service_integrations"`
 	Maintenance            *ServiceMaintenance      `json:"maintenance,omitempty"`
-	State                  StateType                `json:"state"`
+	ServiceName            string                   `json:"service_name"`
+	ServiceNotifications   []ServiceNotification    `json:"service_notifications"`
+	State                  ServiceStateType         `json:"state"`
+	ServiceType            string                   `json:"service_type"`
+	ServiceTypeDescription string                   `json:"service_type_description,omitempty"`
+	ServiceUri             string                   `json:"service_uri"`
+	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`
 	Tags                   map[string]string        `json:"tags,omitempty"`
 	TechEmails             []TechEmail              `json:"tech_emails"`
 	TerminationProtection  bool                     `json:"termination_protection"`
 	Topics                 []Topic                  `json:"topics"`
-	ServiceType            string                   `json:"service_type"`
-	ServiceTypeDescription string                   `json:"service_type_description,omitempty"`
 	UpdateTime             time.Time                `json:"update_time"`
-	ServiceUri             string                   `json:"service_uri"`
-	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`
 	UserConfig             map[string]any           `json:"user_config"`
 	Users                  []User                   `json:"users"`
+}
+type serviceAlertsListOut struct {
+	Alerts []Alert `json:"alerts"`
+}
+type ServiceBackupToAnotherRegionReportIn struct {
+	Period PeriodType `json:"period,omitempty"`
+}
+type serviceBackupToAnotherRegionReportOut struct {
+	Metrics map[string]any `json:"metrics"`
+}
+type serviceBackupsGetOut struct {
+	Backups []Backup `json:"backups"`
+}
+type ServiceCancelQueryIn struct {
+	Pid       *int  `json:"pid,omitempty"`
+	Terminate *bool `json:"terminate,omitempty"`
+}
+type serviceCancelQueryOut struct {
+	Success bool `json:"success"`
+}
+type ServiceCreateIn struct {
+	Cloud                 string               `json:"cloud,omitempty"`
+	CopyTags              *bool                `json:"copy_tags,omitempty"`
+	DiskSpaceMb           *float64             `json:"disk_space_mb,omitempty"`
+	GroupName             string               `json:"group_name,omitempty"`
+	Maintenance           *Maintenance         `json:"maintenance,omitempty"`
+	Plan                  string               `json:"plan"`
+	ProjectVpcId          string               `json:"project_vpc_id,omitempty"`
+	ServiceIntegrations   []ServiceIntegration `json:"service_integrations"`
+	ServiceName           string               `json:"service_name"`
+	ServiceType           string               `json:"service_type"`
+	StaticIps             []string             `json:"static_ips"`
+	Tags                  map[string]string    `json:"tags,omitempty"`
+	TechEmails            []TechEmail          `json:"tech_emails"`
+	TerminationProtection *bool                `json:"termination_protection,omitempty"`
+	UserConfig            map[string]any       `json:"user_config,omitempty"`
+}
+type serviceCreateOut struct {
+	Service *Service `json:"service"`
+}
+type ServiceDatabaseCreateIn struct {
+	Database  string `json:"database"`
+	LcCollate string `json:"lc_collate,omitempty"`
+	LcCtype   string `json:"lc_ctype,omitempty"`
+}
+type serviceDatabaseListOut struct {
+	Databases []Database `json:"databases"`
+}
+type serviceEnableWritesOut struct {
+	Until string `json:"until,omitempty"`
+}
+type ServiceGetMigrationStatusOut struct {
+	Migration       *Migration        `json:"migration"`
+	MigrationDetail []MigrationDetail `json:"migration_detail"`
+}
+type serviceGetOut struct {
+	Service *Service `json:"service"`
+}
+type serviceInfluxDbstatsOut struct {
+	DbStats map[string]any `json:"db_stats"`
 }
 type ServiceIntegration struct {
 	DestEndpointId   string          `json:"dest_endpoint_id,omitempty"`
@@ -1138,6 +1003,16 @@ type ServiceIntegrationItem struct {
 	SourceServiceType    string             `json:"source_service_type"`
 	UserConfig           map[string]any     `json:"user_config,omitempty"`
 }
+type serviceKmsGetCaout struct {
+	Certificate string `json:"certificate"`
+}
+type ServiceKmsGetKeypairOut struct {
+	Certificate string `json:"certificate"`
+	Key         string `json:"key"`
+}
+type serviceListOut struct {
+	Services []Service `json:"services"`
+}
 type ServiceMaintenance struct {
 	Dow     ServiceMaintenanceDowType `json:"dow"`
 	Time    time.Time                 `json:"time"`
@@ -1156,6 +1031,12 @@ const (
 	ServiceMaintenanceDowTypeNever     ServiceMaintenanceDowType = "never"
 )
 
+type ServiceMetricsFetchIn struct {
+	Period PeriodType `json:"period,omitempty"`
+}
+type serviceMetricsFetchOut struct {
+	Metrics map[string]any `json:"metrics"`
+}
 type ServiceNotification struct {
 	Level    LevelType                    `json:"level"`
 	Message  string                       `json:"message"`
@@ -1178,32 +1059,71 @@ type ServicePlan struct {
 	ServiceType      string         `json:"service_type"`
 	ShardCount       *int           `json:"shard_count,omitempty"`
 }
+type ServiceQueryActivityIn struct {
+	Limit   *int   `json:"limit,omitempty"`
+	Offset  *int   `json:"offset,omitempty"`
+	OrderBy string `json:"order_by,omitempty"`
+}
+type serviceQueryActivityOut struct {
+	Queries []Query `json:"queries"`
+}
+type serviceQueryStatisticsResetOut struct {
+	Queries []map[string]any `json:"queries"`
+}
+type ServiceStateType string
+
+const (
+	ServiceStateTypePoweroff    ServiceStateType = "POWEROFF"
+	ServiceStateTypeRebalancing ServiceStateType = "REBALANCING"
+	ServiceStateTypeRebuilding  ServiceStateType = "REBUILDING"
+	ServiceStateTypeRunning     ServiceStateType = "RUNNING"
+)
+
+type ServiceTaskCreateIn struct {
+	DatasetImport  *DatasetImport    `json:"dataset_import,omitempty"`
+	MigrationCheck *MigrationCheck   `json:"migration_check,omitempty"`
+	TargetVersion  TargetVersionType `json:"target_version,omitempty"`
+	TaskType       TaskType          `json:"task_type"`
+}
+type serviceTaskCreateOut struct {
+	Task *Task `json:"task"`
+}
+type serviceTaskGetOut struct {
+	Task *Task `json:"task"`
+}
 type ServiceTypes struct {
 	Any *Any `json:"ANY,omitempty"`
 }
-type ServiceVersion struct {
-	AivenEndOfLifeTime      *time.Time              `json:"aiven_end_of_life_time,omitempty"`
-	AvailabilityEndTime     *time.Time              `json:"availability_end_time,omitempty"`
-	AvailabilityStartTime   *time.Time              `json:"availability_start_time,omitempty"`
-	EndOfLifeHelpArticleUrl string                  `json:"end_of_life_help_article_url,omitempty"`
-	MajorVersion            string                  `json:"major_version,omitempty"`
-	ServiceType             string                  `json:"service_type,omitempty"`
-	State                   ServiceVersionStateType `json:"state,omitempty"`
-	TerminationTime         *time.Time              `json:"termination_time,omitempty"`
-	UpgradeToServiceType    string                  `json:"upgrade_to_service_type,omitempty"`
-	UpgradeToVersion        string                  `json:"upgrade_to_version,omitempty"`
-	UpstreamEndOfLifeTime   *time.Time              `json:"upstream_end_of_life_time,omitempty"`
+type ServiceUpdateIn struct {
+	Cloud                 string         `json:"cloud,omitempty"`
+	DiskSpaceMb           *float64       `json:"disk_space_mb,omitempty"`
+	GroupName             string         `json:"group_name,omitempty"`
+	Karapace              *bool          `json:"karapace,omitempty"`
+	Maintenance           *Maintenance   `json:"maintenance,omitempty"`
+	Plan                  string         `json:"plan,omitempty"`
+	Powered               *bool          `json:"powered,omitempty"`
+	ProjectVpcId          string         `json:"project_vpc_id,omitempty"`
+	SchemaRegistryAuthz   *bool          `json:"schema_registry_authz,omitempty"`
+	TechEmails            []TechEmail    `json:"tech_emails"`
+	TerminationProtection *bool          `json:"termination_protection,omitempty"`
+	UserConfig            map[string]any `json:"user_config,omitempty"`
 }
-type ServiceVersionStateType string
-
-const (
-	ServiceVersionStateTypeAvailable   ServiceVersionStateType = "available"
-	ServiceVersionStateTypeEol         ServiceVersionStateType = "eol"
-	ServiceVersionStateTypePreview     ServiceVersionStateType = "preview"
-	ServiceVersionStateTypeTerminated  ServiceVersionStateType = "terminated"
-	ServiceVersionStateTypeUnavailable ServiceVersionStateType = "unavailable"
-)
-
+type serviceUpdateOut struct {
+	Service *Service `json:"service"`
+}
+type ServiceVersion struct {
+	AivenEndOfLifeTime      *time.Time `json:"aiven_end_of_life_time,omitempty"`
+	AvailabilityEndTime     *time.Time `json:"availability_end_time,omitempty"`
+	AvailabilityStartTime   *time.Time `json:"availability_start_time,omitempty"`
+	EndOfLifeHelpArticleUrl string     `json:"end_of_life_help_article_url,omitempty"`
+	MajorVersion            string     `json:"major_version,omitempty"`
+	ServiceType             string     `json:"service_type,omitempty"`
+	State                   StateType  `json:"state,omitempty"`
+	TerminationTime         *time.Time `json:"termination_time,omitempty"`
+	UpgradeToServiceType    string     `json:"upgrade_to_service_type,omitempty"`
+	UpgradeToVersion        string     `json:"upgrade_to_version,omitempty"`
+	UpstreamEndOfLifeTime   *time.Time `json:"upstream_end_of_life_time,omitempty"`
+}
 type Shard struct {
 	Name     string `json:"name,omitempty"`
 	Position *int   `json:"position,omitempty"`
@@ -1228,10 +1148,11 @@ type State struct {
 type StateType string
 
 const (
-	StateTypePoweroff    StateType = "POWEROFF"
-	StateTypeRebalancing StateType = "REBALANCING"
-	StateTypeRebuilding  StateType = "REBUILDING"
-	StateTypeRunning     StateType = "RUNNING"
+	StateTypeAvailable   StateType = "available"
+	StateTypeEol         StateType = "eol"
+	StateTypePreview     StateType = "preview"
+	StateTypeTerminated  StateType = "terminated"
+	StateTypeUnavailable StateType = "unavailable"
 )
 
 type StatusType string
@@ -1260,23 +1181,11 @@ func TargetVersionTypeChoices() []string {
 
 type Task struct {
 	CreateTime  time.Time    `json:"create_time"`
-	TaskId      string       `json:"task_id"`
 	Result      string       `json:"result"`
 	ResultCodes []ResultCode `json:"result_codes"`
 	Success     bool         `json:"success"`
+	TaskId      string       `json:"task_id"`
 	TaskType    string       `json:"task_type"`
-}
-type TaskCreateIn struct {
-	DatasetImport  *DatasetImport    `json:"dataset_import,omitempty"`
-	MigrationCheck *MigrationCheck   `json:"migration_check,omitempty"`
-	TargetVersion  TargetVersionType `json:"target_version,omitempty"`
-	TaskType       TaskType          `json:"task_type"`
-}
-type taskCreateOut struct {
-	Task *Task `json:"task"`
-}
-type taskGetOut struct {
-	Task *Task `json:"task"`
 }
 type TaskType string
 
@@ -1296,11 +1205,11 @@ type TechEmail struct {
 type Topic struct {
 	CleanupPolicy     string         `json:"cleanup_policy"`
 	MinInsyncReplicas int            `json:"min_insync_replicas"`
-	TopicName         string         `json:"topic_name"`
 	Partitions        int            `json:"partitions"`
 	Replication       int            `json:"replication"`
 	RetentionBytes    int            `json:"retention_bytes"`
 	RetentionHours    int            `json:"retention_hours"`
+	TopicName         string         `json:"topic_name"`
 	State             TopicStateType `json:"state,omitempty"`
 }
 type TopicStateType string
@@ -1333,23 +1242,6 @@ type Update struct {
 	StartAfter  string     `json:"start_after,omitempty"`
 	StartAt     *time.Time `json:"start_at,omitempty"`
 }
-type UpdateIn struct {
-	Cloud                 string         `json:"cloud,omitempty"`
-	DiskSpaceMb           *float64       `json:"disk_space_mb,omitempty"`
-	GroupName             string         `json:"group_name,omitempty"`
-	Karapace              *bool          `json:"karapace,omitempty"`
-	Maintenance           *Maintenance   `json:"maintenance,omitempty"`
-	Plan                  string         `json:"plan,omitempty"`
-	Powered               *bool          `json:"powered,omitempty"`
-	ProjectVpcId          string         `json:"project_vpc_id,omitempty"`
-	SchemaRegistryAuthz   *bool          `json:"schema_registry_authz,omitempty"`
-	TechEmails            []TechEmail    `json:"tech_emails"`
-	TerminationProtection *bool          `json:"termination_protection,omitempty"`
-	UserConfig            map[string]any `json:"user_config,omitempty"`
-}
-type updateOut struct {
-	Service *Service `json:"service"`
-}
 type UsageType string
 
 const (
@@ -1358,7 +1250,6 @@ const (
 )
 
 type User struct {
-	Username                      string             `json:"username"`
 	AccessCert                    string             `json:"access_cert,omitempty"`
 	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`
 	AccessControl                 *AccessControl     `json:"access_control,omitempty"`
@@ -1367,27 +1258,5 @@ type User struct {
 	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"`
 	Password                      string             `json:"password"`
 	Type                          string             `json:"type"`
-}
-type UserCreateIn struct {
-	AccessControl  *AccessControl     `json:"access_control,omitempty"`
-	Authentication AuthenticationType `json:"authentication,omitempty"`
-	Username       string             `json:"username"`
-}
-type userCreateOut struct {
-	User *User `json:"user"`
-}
-type UserCredentialsModifyIn struct {
-	AccessControl  *AccessControl     `json:"access_control,omitempty"`
-	Authentication AuthenticationType `json:"authentication,omitempty"`
-	NewPassword    string             `json:"new_password,omitempty"`
-	Operation      OperationType      `json:"operation"`
-}
-type userCredentialsModifyOut struct {
-	Service *Service `json:"service"`
-}
-type userCredentialsResetOut struct {
-	Service *Service `json:"service"`
-}
-type userGetOut struct {
-	User *User `json:"user"`
+	Username                      string             `json:"username"`
 }

@@ -9,78 +9,78 @@ import (
 )
 
 type Handler interface {
-	// CreateReplicationFlow create a replication flow
-	// ServiceKafkaMirrorMakerCreateReplicationFlow POST /project/{project}/service/{service_name}/mirrormaker/replication-flows
+	// ServiceKafkaMirrorMakerCreateReplicationFlow create a replication flow
+	// POST /project/{project}/service/{service_name}/mirrormaker/replication-flows
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerCreateReplicationFlow
-	CreateReplicationFlow(ctx context.Context, project string, serviceName string, in *CreateReplicationFlowIn) error
+	ServiceKafkaMirrorMakerCreateReplicationFlow(ctx context.Context, project string, serviceName string, in *ServiceKafkaMirrorMakerCreateReplicationFlowIn) error
 
-	// DeleteReplicationFlow delete a replication flow
-	// ServiceKafkaMirrorMakerDeleteReplicationFlow DELETE /project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
+	// ServiceKafkaMirrorMakerDeleteReplicationFlow delete a replication flow
+	// DELETE /project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerDeleteReplicationFlow
-	DeleteReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) error
+	ServiceKafkaMirrorMakerDeleteReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) error
 
-	// GetReplicationFlow get a replication flow
-	// ServiceKafkaMirrorMakerGetReplicationFlow GET /project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
+	// ServiceKafkaMirrorMakerGetReplicationFlow get a replication flow
+	// GET /project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerGetReplicationFlow
-	GetReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) (*ReplicationFlow, error)
+	ServiceKafkaMirrorMakerGetReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) (*ReplicationFlow, error)
 
-	// GetReplicationFlows get replication flows
-	// ServiceKafkaMirrorMakerGetReplicationFlows GET /project/{project}/service/{service_name}/mirrormaker/replication-flows
+	// ServiceKafkaMirrorMakerGetReplicationFlows get replication flows
+	// GET /project/{project}/service/{service_name}/mirrormaker/replication-flows
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerGetReplicationFlows
-	GetReplicationFlows(ctx context.Context, project string, serviceName string) ([]ReplicationFlow, error)
+	ServiceKafkaMirrorMakerGetReplicationFlows(ctx context.Context, project string, serviceName string) ([]ReplicationFlow, error)
 
-	// PatchReplicationFlow update a replication flow
-	// ServiceKafkaMirrorMakerPatchReplicationFlow PUT /project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
+	// ServiceKafkaMirrorMakerPatchReplicationFlow update a replication flow
+	// PUT /project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerPatchReplicationFlow
-	PatchReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string, in *PatchReplicationFlowIn) (*ReplicationFlow, error)
+	ServiceKafkaMirrorMakerPatchReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string, in *ServiceKafkaMirrorMakerPatchReplicationFlowIn) (*ReplicationFlow, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) KafkaMirrorMakerHandler {
+	return KafkaMirrorMakerHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type KafkaMirrorMakerHandler struct {
 	doer doer
 }
 
-func (h *handler) CreateReplicationFlow(ctx context.Context, project string, serviceName string, in *CreateReplicationFlowIn) error {
+func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerCreateReplicationFlow(ctx context.Context, project string, serviceName string, in *ServiceKafkaMirrorMakerCreateReplicationFlowIn) error {
 	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows", project, serviceName)
 	_, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerCreateReplicationFlow", "POST", path, in)
 	return err
 }
-func (h *handler) DeleteReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) error {
+func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerDeleteReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) error {
 	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
 	_, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerDeleteReplicationFlow", "DELETE", path, nil)
 	return err
 }
-func (h *handler) GetReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) (*ReplicationFlow, error) {
+func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) (*ReplicationFlow, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerGetReplicationFlow", "GET", path, nil)
-	out := new(getReplicationFlowOut)
+	out := new(serviceKafkaMirrorMakerGetReplicationFlowOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.ReplicationFlow, nil
 }
-func (h *handler) GetReplicationFlows(ctx context.Context, project string, serviceName string) ([]ReplicationFlow, error) {
+func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlows(ctx context.Context, project string, serviceName string) ([]ReplicationFlow, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerGetReplicationFlows", "GET", path, nil)
-	out := new(getReplicationFlowsOut)
+	out := new(serviceKafkaMirrorMakerGetReplicationFlowsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.ReplicationFlows, nil
 }
-func (h *handler) PatchReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string, in *PatchReplicationFlowIn) (*ReplicationFlow, error) {
+func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerPatchReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string, in *ServiceKafkaMirrorMakerPatchReplicationFlowIn) (*ReplicationFlow, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerPatchReplicationFlow", "PUT", path, in)
-	out := new(patchReplicationFlowOut)
+	out := new(serviceKafkaMirrorMakerPatchReplicationFlowOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -88,27 +88,6 @@ func (h *handler) PatchReplicationFlow(ctx context.Context, project string, serv
 	return out.ReplicationFlow, nil
 }
 
-type CreateReplicationFlowIn struct {
-	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
-	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
-	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
-	Enabled                         bool                         `json:"enabled"`
-	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
-	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
-	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
-	SourceCluster                   string                       `json:"source_cluster"`
-	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
-	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
-	TargetCluster                   string                       `json:"target_cluster"`
-	Topics                          []string                     `json:"topics"`
-	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
-}
-type getReplicationFlowOut struct {
-	ReplicationFlow *ReplicationFlow `json:"replication_flow"`
-}
-type getReplicationFlowsOut struct {
-	ReplicationFlows []ReplicationFlow `json:"replication_flows"`
-}
 type OffsetSyncsTopicLocationType string
 
 const (
@@ -116,22 +95,6 @@ const (
 	OffsetSyncsTopicLocationTypeTarget OffsetSyncsTopicLocationType = "target"
 )
 
-type PatchReplicationFlowIn struct {
-	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
-	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
-	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
-	Enabled                         *bool                        `json:"enabled,omitempty"`
-	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
-	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
-	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
-	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
-	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
-	Topics                          []string                     `json:"topics"`
-	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
-}
-type patchReplicationFlowOut struct {
-	ReplicationFlow *ReplicationFlow `json:"replication_flow"`
-}
 type ReplicationFlow struct {
 	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
@@ -153,3 +116,41 @@ const (
 	ReplicationPolicyClassTypeDefault  ReplicationPolicyClassType = "org.apache.kafka.connect.mirror.DefaultReplicationPolicy"
 	ReplicationPolicyClassTypeIdentity ReplicationPolicyClassType = "org.apache.kafka.connect.mirror.IdentityReplicationPolicy"
 )
+
+type ServiceKafkaMirrorMakerCreateReplicationFlowIn struct {
+	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
+	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
+	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
+	Enabled                         bool                         `json:"enabled"`
+	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
+	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
+	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
+	SourceCluster                   string                       `json:"source_cluster"`
+	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
+	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
+	TargetCluster                   string                       `json:"target_cluster"`
+	Topics                          []string                     `json:"topics"`
+	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
+}
+type serviceKafkaMirrorMakerGetReplicationFlowOut struct {
+	ReplicationFlow *ReplicationFlow `json:"replication_flow"`
+}
+type serviceKafkaMirrorMakerGetReplicationFlowsOut struct {
+	ReplicationFlows []ReplicationFlow `json:"replication_flows"`
+}
+type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
+	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
+	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
+	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
+	Enabled                         *bool                        `json:"enabled,omitempty"`
+	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
+	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
+	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
+	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
+	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
+	Topics                          []string                     `json:"topics"`
+	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
+}
+type serviceKafkaMirrorMakerPatchReplicationFlowOut struct {
+	ReplicationFlow *ReplicationFlow `json:"replication_flow"`
+}

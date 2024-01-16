@@ -10,423 +10,213 @@ import (
 )
 
 type Handler interface {
-	// AttachPaymentMethod attach payment method for account
-	// AccountAttachPaymentMethod POST /account/{account_id}/payment_methods
+	// AccountAttachPaymentMethod attach payment method for account
+	// POST /account/{account_id}/payment_methods
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAttachPaymentMethod
-	AttachPaymentMethod(ctx context.Context, id string, in *AttachPaymentMethodIn) (*Card, error)
+	AccountAttachPaymentMethod(ctx context.Context, accountId string, in *AccountAttachPaymentMethodIn) (*Card, error)
 
-	// AuthenticationMethodCreate create a new authentication method
-	// AccountAuthenticationMethodCreate POST /account/{account_id}/authentication
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodCreate
-	AuthenticationMethodCreate(ctx context.Context, id string, in *AuthenticationMethodCreateIn) (*AuthenticationMethod, error)
-
-	// AuthenticationMethodDelete delete authentication method
-	// AccountAuthenticationMethodDelete DELETE /account/{account_id}/authentication/{account_authentication_method_id}
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodDelete
-	AuthenticationMethodDelete(ctx context.Context, id string, authenticationMethodId string) error
-
-	// AuthenticationMethodGet get details of a single authentication method
-	// AccountAuthenticationMethodGet GET /account/{account_id}/authentication/{account_authentication_method_id}
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodGet
-	AuthenticationMethodGet(ctx context.Context, id string, authenticationMethodId string) (*AuthenticationMethod, error)
-
-	// AuthenticationMethodUpdate update authentication method
-	// AccountAuthenticationMethodUpdate PUT /account/{account_id}/authentication/{account_authentication_method_id}
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodUpdate
-	AuthenticationMethodUpdate(ctx context.Context, id string, authenticationMethodId string, in *AuthenticationMethodUpdateIn) (*AuthenticationMethod, error)
-
-	// AuthenticationMethodsList list authentication methods
-	// AccountAuthenticationMethodsList GET /account/{account_id}/authentication
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodsList
-	AuthenticationMethodsList(ctx context.Context, id string) ([]AuthenticationMethod, error)
-
-	// BillingGroupList list account billing groups
-	// AccountBillingGroupList GET /account/{account_id}/billing-group
+	// AccountBillingGroupList list account billing groups
+	// GET /account/{account_id}/billing-group
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountBillingGroupList
-	BillingGroupList(ctx context.Context, id string) ([]AccountBillingGroup, error)
+	AccountBillingGroupList(ctx context.Context, accountId string) ([]AccountBillingGroup, error)
 
-	// Create create a new account
-	// AccountCreate POST /account
+	// AccountCreate create a new account
+	// POST /account
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountCreate
-	Create(ctx context.Context, in *CreateIn) (*Account, error)
+	AccountCreate(ctx context.Context, in *AccountCreateIn) (*Account, error)
 
-	// Delete delete empty account
-	// AccountDelete DELETE /account/{account_id}
+	// AccountDelete delete empty account
+	// DELETE /account/{account_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountDelete
-	Delete(ctx context.Context, id string) error
+	AccountDelete(ctx context.Context, accountId string) error
 
-	// EventList list account events
-	// AccountEventList GET /account/{account_id}/events
+	// AccountEventList list account events
+	// GET /account/{account_id}/events
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountEventList
-	EventList(ctx context.Context, id string) ([]Event, error)
+	AccountEventList(ctx context.Context, accountId string) ([]Event, error)
 
-	// Get get account details
-	// AccountGet GET /account/{account_id}
+	// AccountGet get account details
+	// GET /account/{account_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountGet
-	Get(ctx context.Context, id string) (*Account, error)
+	AccountGet(ctx context.Context, accountId string) (*Account, error)
 
-	// List list accounts you have access to
-	// AccountList GET /account
+	// AccountList list accounts you have access to
+	// GET /account
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountList
-	List(ctx context.Context) ([]Account, error)
+	AccountList(ctx context.Context) ([]Account, error)
 
-	// Move move an existing organization unitself
-	// AccountMove PUT /account/{account_id}/parent_account
+	// AccountMove move an existing organization unitself
+	// PUT /account/{account_id}/parent_account
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountMove
-	Move(ctx context.Context, id string, in *MoveIn) (*Account, error)
+	AccountMove(ctx context.Context, accountId string, in *AccountMoveIn) (*Account, error)
 
-	// PaymentMethodDelete delete credit card attached to the account as a payment method
-	// AccountPaymentMethodDelete DELETE /account/{account_id}/payment_method/{card_id}
+	// AccountPaymentMethodDelete delete credit card attached to the account as a payment method
+	// DELETE /account/{account_id}/payment_method/{card_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountPaymentMethodDelete
-	PaymentMethodDelete(ctx context.Context, id string, cardId string) error
+	AccountPaymentMethodDelete(ctx context.Context, accountId string, cardId string) error
 
-	// PaymentMethodsList list credit cards attached as a payment method to the account
-	// AccountPaymentMethodsList GET /account/{account_id}/payment_methods
+	// AccountPaymentMethodsList list credit cards attached as a payment method to the account
+	// GET /account/{account_id}/payment_methods
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountPaymentMethodsList
-	PaymentMethodsList(ctx context.Context, id string) ([]CardItem, error)
+	AccountPaymentMethodsList(ctx context.Context, accountId string) ([]CardItem, error)
 
-	// ProjectsList list projects belonging to account
-	// AccountProjectsList GET /account/{account_id}/projects
+	// AccountProjectsList list projects belonging to account
+	// GET /account/{account_id}/projects
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountProjectsList
-	ProjectsList(ctx context.Context, id string) (*ProjectsListOut, error)
+	AccountProjectsList(ctx context.Context, accountId string) (*AccountProjectsListOut, error)
 
-	// TeamDelete delete a team
-	// AccountTeamDelete DELETE /account/{account_id}/team/{team_id}
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamDelete
-	TeamDelete(ctx context.Context, id string, teamId string) error
-
-	// TeamGet get details for a single team
-	// AccountTeamGet GET /account/{account_id}/team/{team_id}
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamGet
-	TeamGet(ctx context.Context, id string, teamId string) (*Team, error)
-
-	// TeamInvitesList list pending invites
-	// AccountTeamInvitesList GET /account/{account_id}/team/{team_id}/invites
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamInvitesList
-	TeamInvitesList(ctx context.Context, id string, teamId string) ([]AccountInvite, error)
-
-	// TeamList list teams belonging to an account
-	// AccountTeamList GET /account/{account_id}/teams
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamList
-	TeamList(ctx context.Context, id string) ([]Team, error)
-
-	// TeamMemberCancelInvite cancel pending user invite
-	// AccountTeamMemberCancelInvite DELETE /account/{account_id}/team/{team_id}/invites/{user_email}
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberCancelInvite
-	TeamMemberCancelInvite(ctx context.Context, id string, teamId string, userEmail string) error
-
-	// TeamMemberVerifyInvite confirm account team invite
-	// AccountTeamMemberVerifyInvite POST /account/{account_id}/invite/{invite_verification_code}
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberVerifyInvite
-	TeamMemberVerifyInvite(ctx context.Context, id string, inviteVerificationCode string) (*InviteDetails, error)
-
-	// TeamMembersInvite invite a new member to join the team
-	// AccountTeamMembersInvite POST /account/{account_id}/team/{team_id}/members
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersInvite
-	TeamMembersInvite(ctx context.Context, id string, teamId string, in *TeamMembersInviteIn) error
-
-	// TeamMembersList list members of a single team
-	// AccountTeamMembersList GET /account/{account_id}/team/{team_id}/members
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersList
-	TeamMembersList(ctx context.Context, id string, teamId string) ([]Member, error)
-
-	// TeamProjectAssociate associate team to a project
-	// AccountTeamProjectAssociate POST /account/{account_id}/team/{team_id}/project/{project}
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectAssociate
-	TeamProjectAssociate(ctx context.Context, id string, teamId string, project string, in *TeamProjectAssociateIn) error
-
-	// TeamProjectDisassociate disassociate team from a project
-	// AccountTeamProjectDisassociate DELETE /account/{account_id}/team/{team_id}/project/{project}
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectDisassociate
-	TeamProjectDisassociate(ctx context.Context, id string, teamId string, project string) error
-
-	// TeamUpdate update team details
-	// AccountTeamUpdate PUT /account/{account_id}/team/{team_id}
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamUpdate
-	TeamUpdate(ctx context.Context, id string, teamId string, in *TeamUpdateIn) (*Team, error)
-
-	// Update update existing account
-	// AccountUpdate PUT /account/{account_id}
+	// AccountUpdate update existing account
+	// PUT /account/{account_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUpdate
-	Update(ctx context.Context, id string, in *UpdateIn) (*Account, error)
+	AccountUpdate(ctx context.Context, accountId string, in *AccountUpdateIn) (*Account, error)
 
-	// UserProjectsList list projects associated with this account that user has access to
-	// AccountUserProjectsList GET /account/{account_id}/user/{user_id}/projects
+	// AccountUserProjectsList list projects associated with this account that user has access to
+	// GET /account/{account_id}/user/{user_id}/projects
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUserProjectsList
-	UserProjectsList(ctx context.Context, id string, userId string) ([]UserProject, error)
+	AccountUserProjectsList(ctx context.Context, accountId string, userId string) ([]UserProject, error)
 
-	// UsersSearch list/search users who are members of any team on this account
-	// AccountUsersSearch POST /account/{account_id}/users/search
+	// AccountUsersSearch list/search users who are members of any team on this account
+	// POST /account/{account_id}/users/search
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUsersSearch
-	UsersSearch(ctx context.Context, id string, in *UsersSearchIn) ([]User, error)
+	AccountUsersSearch(ctx context.Context, accountId string, in *AccountUsersSearchIn) ([]User, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) AccountHandler {
+	return AccountHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type AccountHandler struct {
 	doer doer
 }
 
-func (h *handler) AttachPaymentMethod(ctx context.Context, id string, in *AttachPaymentMethodIn) (*Card, error) {
-	path := fmt.Sprintf("/account/%s/payment_methods", id)
+func (h *AccountHandler) AccountAttachPaymentMethod(ctx context.Context, accountId string, in *AccountAttachPaymentMethodIn) (*Card, error) {
+	path := fmt.Sprintf("/account/%s/payment_methods", accountId)
 	b, err := h.doer.Do(ctx, "AccountAttachPaymentMethod", "POST", path, in)
-	out := new(attachPaymentMethodOut)
+	out := new(accountAttachPaymentMethodOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Card, nil
 }
-func (h *handler) AuthenticationMethodCreate(ctx context.Context, id string, in *AuthenticationMethodCreateIn) (*AuthenticationMethod, error) {
-	path := fmt.Sprintf("/account/%s/authentication", id)
-	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodCreate", "POST", path, in)
-	out := new(authenticationMethodCreateOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.AuthenticationMethod, nil
-}
-func (h *handler) AuthenticationMethodDelete(ctx context.Context, id string, authenticationMethodId string) error {
-	path := fmt.Sprintf("/account/%s/authentication/%s", id, authenticationMethodId)
-	_, err := h.doer.Do(ctx, "AccountAuthenticationMethodDelete", "DELETE", path, nil)
-	return err
-}
-func (h *handler) AuthenticationMethodGet(ctx context.Context, id string, authenticationMethodId string) (*AuthenticationMethod, error) {
-	path := fmt.Sprintf("/account/%s/authentication/%s", id, authenticationMethodId)
-	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodGet", "GET", path, nil)
-	out := new(authenticationMethodGetOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.AuthenticationMethod, nil
-}
-func (h *handler) AuthenticationMethodUpdate(ctx context.Context, id string, authenticationMethodId string, in *AuthenticationMethodUpdateIn) (*AuthenticationMethod, error) {
-	path := fmt.Sprintf("/account/%s/authentication/%s", id, authenticationMethodId)
-	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodUpdate", "PUT", path, in)
-	out := new(authenticationMethodUpdateOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.AuthenticationMethod, nil
-}
-func (h *handler) AuthenticationMethodsList(ctx context.Context, id string) ([]AuthenticationMethod, error) {
-	path := fmt.Sprintf("/account/%s/authentication", id)
-	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodsList", "GET", path, nil)
-	out := new(authenticationMethodsListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.AuthenticationMethods, nil
-}
-func (h *handler) BillingGroupList(ctx context.Context, id string) ([]AccountBillingGroup, error) {
-	path := fmt.Sprintf("/account/%s/billing-group", id)
+func (h *AccountHandler) AccountBillingGroupList(ctx context.Context, accountId string) ([]AccountBillingGroup, error) {
+	path := fmt.Sprintf("/account/%s/billing-group", accountId)
 	b, err := h.doer.Do(ctx, "AccountBillingGroupList", "GET", path, nil)
-	out := new(billingGroupListOut)
+	out := new(accountBillingGroupListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.AccountBillingGroups, nil
 }
-func (h *handler) Create(ctx context.Context, in *CreateIn) (*Account, error) {
+func (h *AccountHandler) AccountCreate(ctx context.Context, in *AccountCreateIn) (*Account, error) {
 	path := fmt.Sprintf("/account")
 	b, err := h.doer.Do(ctx, "AccountCreate", "POST", path, in)
-	out := new(createOut)
+	out := new(accountCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Account, nil
 }
-func (h *handler) Delete(ctx context.Context, id string) error {
-	path := fmt.Sprintf("/account/%s", id)
+func (h *AccountHandler) AccountDelete(ctx context.Context, accountId string) error {
+	path := fmt.Sprintf("/account/%s", accountId)
 	_, err := h.doer.Do(ctx, "AccountDelete", "DELETE", path, nil)
 	return err
 }
-func (h *handler) EventList(ctx context.Context, id string) ([]Event, error) {
-	path := fmt.Sprintf("/account/%s/events", id)
+func (h *AccountHandler) AccountEventList(ctx context.Context, accountId string) ([]Event, error) {
+	path := fmt.Sprintf("/account/%s/events", accountId)
 	b, err := h.doer.Do(ctx, "AccountEventList", "GET", path, nil)
-	out := new(eventListOut)
+	out := new(accountEventListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Events, nil
 }
-func (h *handler) Get(ctx context.Context, id string) (*Account, error) {
-	path := fmt.Sprintf("/account/%s", id)
+func (h *AccountHandler) AccountGet(ctx context.Context, accountId string) (*Account, error) {
+	path := fmt.Sprintf("/account/%s", accountId)
 	b, err := h.doer.Do(ctx, "AccountGet", "GET", path, nil)
-	out := new(getOut)
+	out := new(accountGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Account, nil
 }
-func (h *handler) List(ctx context.Context) ([]Account, error) {
+func (h *AccountHandler) AccountList(ctx context.Context) ([]Account, error) {
 	path := fmt.Sprintf("/account")
 	b, err := h.doer.Do(ctx, "AccountList", "GET", path, nil)
-	out := new(listOut)
+	out := new(accountListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Accounts, nil
 }
-func (h *handler) Move(ctx context.Context, id string, in *MoveIn) (*Account, error) {
-	path := fmt.Sprintf("/account/%s/parent_account", id)
+func (h *AccountHandler) AccountMove(ctx context.Context, accountId string, in *AccountMoveIn) (*Account, error) {
+	path := fmt.Sprintf("/account/%s/parent_account", accountId)
 	b, err := h.doer.Do(ctx, "AccountMove", "PUT", path, in)
-	out := new(moveOut)
+	out := new(accountMoveOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Account, nil
 }
-func (h *handler) PaymentMethodDelete(ctx context.Context, id string, cardId string) error {
-	path := fmt.Sprintf("/account/%s/payment_method/%s", id, cardId)
+func (h *AccountHandler) AccountPaymentMethodDelete(ctx context.Context, accountId string, cardId string) error {
+	path := fmt.Sprintf("/account/%s/payment_method/%s", accountId, cardId)
 	_, err := h.doer.Do(ctx, "AccountPaymentMethodDelete", "DELETE", path, nil)
 	return err
 }
-func (h *handler) PaymentMethodsList(ctx context.Context, id string) ([]CardItem, error) {
-	path := fmt.Sprintf("/account/%s/payment_methods", id)
+func (h *AccountHandler) AccountPaymentMethodsList(ctx context.Context, accountId string) ([]CardItem, error) {
+	path := fmt.Sprintf("/account/%s/payment_methods", accountId)
 	b, err := h.doer.Do(ctx, "AccountPaymentMethodsList", "GET", path, nil)
-	out := new(paymentMethodsListOut)
+	out := new(accountPaymentMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Cards, nil
 }
-func (h *handler) ProjectsList(ctx context.Context, id string) (*ProjectsListOut, error) {
-	path := fmt.Sprintf("/account/%s/projects", id)
+func (h *AccountHandler) AccountProjectsList(ctx context.Context, accountId string) (*AccountProjectsListOut, error) {
+	path := fmt.Sprintf("/account/%s/projects", accountId)
 	b, err := h.doer.Do(ctx, "AccountProjectsList", "GET", path, nil)
-	out := new(ProjectsListOut)
+	out := new(AccountProjectsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) TeamDelete(ctx context.Context, id string, teamId string) error {
-	path := fmt.Sprintf("/account/%s/team/%s", id, teamId)
-	_, err := h.doer.Do(ctx, "AccountTeamDelete", "DELETE", path, nil)
-	return err
-}
-func (h *handler) TeamGet(ctx context.Context, id string, teamId string) (*Team, error) {
-	path := fmt.Sprintf("/account/%s/team/%s", id, teamId)
-	b, err := h.doer.Do(ctx, "AccountTeamGet", "GET", path, nil)
-	out := new(teamGetOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Team, nil
-}
-func (h *handler) TeamInvitesList(ctx context.Context, id string, teamId string) ([]AccountInvite, error) {
-	path := fmt.Sprintf("/account/%s/team/%s/invites", id, teamId)
-	b, err := h.doer.Do(ctx, "AccountTeamInvitesList", "GET", path, nil)
-	out := new(teamInvitesListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.AccountInvites, nil
-}
-func (h *handler) TeamList(ctx context.Context, id string) ([]Team, error) {
-	path := fmt.Sprintf("/account/%s/teams", id)
-	b, err := h.doer.Do(ctx, "AccountTeamList", "GET", path, nil)
-	out := new(teamListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Teams, nil
-}
-func (h *handler) TeamMemberCancelInvite(ctx context.Context, id string, teamId string, userEmail string) error {
-	path := fmt.Sprintf("/account/%s/team/%s/invites/%s", id, teamId, userEmail)
-	_, err := h.doer.Do(ctx, "AccountTeamMemberCancelInvite", "DELETE", path, nil)
-	return err
-}
-func (h *handler) TeamMemberVerifyInvite(ctx context.Context, id string, inviteVerificationCode string) (*InviteDetails, error) {
-	path := fmt.Sprintf("/account/%s/invite/%s", id, inviteVerificationCode)
-	b, err := h.doer.Do(ctx, "AccountTeamMemberVerifyInvite", "POST", path, nil)
-	out := new(teamMemberVerifyInviteOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.InviteDetails, nil
-}
-func (h *handler) TeamMembersInvite(ctx context.Context, id string, teamId string, in *TeamMembersInviteIn) error {
-	path := fmt.Sprintf("/account/%s/team/%s/members", id, teamId)
-	_, err := h.doer.Do(ctx, "AccountTeamMembersInvite", "POST", path, in)
-	return err
-}
-func (h *handler) TeamMembersList(ctx context.Context, id string, teamId string) ([]Member, error) {
-	path := fmt.Sprintf("/account/%s/team/%s/members", id, teamId)
-	b, err := h.doer.Do(ctx, "AccountTeamMembersList", "GET", path, nil)
-	out := new(teamMembersListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Members, nil
-}
-func (h *handler) TeamProjectAssociate(ctx context.Context, id string, teamId string, project string, in *TeamProjectAssociateIn) error {
-	path := fmt.Sprintf("/account/%s/team/%s/project/%s", id, teamId, project)
-	_, err := h.doer.Do(ctx, "AccountTeamProjectAssociate", "POST", path, in)
-	return err
-}
-func (h *handler) TeamProjectDisassociate(ctx context.Context, id string, teamId string, project string) error {
-	path := fmt.Sprintf("/account/%s/team/%s/project/%s", id, teamId, project)
-	_, err := h.doer.Do(ctx, "AccountTeamProjectDisassociate", "DELETE", path, nil)
-	return err
-}
-func (h *handler) TeamUpdate(ctx context.Context, id string, teamId string, in *TeamUpdateIn) (*Team, error) {
-	path := fmt.Sprintf("/account/%s/team/%s", id, teamId)
-	b, err := h.doer.Do(ctx, "AccountTeamUpdate", "PUT", path, in)
-	out := new(teamUpdateOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Team, nil
-}
-func (h *handler) Update(ctx context.Context, id string, in *UpdateIn) (*Account, error) {
-	path := fmt.Sprintf("/account/%s", id)
+func (h *AccountHandler) AccountUpdate(ctx context.Context, accountId string, in *AccountUpdateIn) (*Account, error) {
+	path := fmt.Sprintf("/account/%s", accountId)
 	b, err := h.doer.Do(ctx, "AccountUpdate", "PUT", path, in)
-	out := new(updateOut)
+	out := new(accountUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Account, nil
 }
-func (h *handler) UserProjectsList(ctx context.Context, id string, userId string) ([]UserProject, error) {
-	path := fmt.Sprintf("/account/%s/user/%s/projects", id, userId)
+func (h *AccountHandler) AccountUserProjectsList(ctx context.Context, accountId string, userId string) ([]UserProject, error) {
+	path := fmt.Sprintf("/account/%s/user/%s/projects", accountId, userId)
 	b, err := h.doer.Do(ctx, "AccountUserProjectsList", "GET", path, nil)
-	out := new(userProjectsListOut)
+	out := new(accountUserProjectsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.UserProjects, nil
 }
-func (h *handler) UsersSearch(ctx context.Context, id string, in *UsersSearchIn) ([]User, error) {
-	path := fmt.Sprintf("/account/%s/users/search", id)
+func (h *AccountHandler) AccountUsersSearch(ctx context.Context, accountId string, in *AccountUsersSearchIn) ([]User, error) {
+	path := fmt.Sprintf("/account/%s/users/search", accountId)
 	b, err := h.doer.Do(ctx, "AccountUsersSearch", "POST", path, in)
-	out := new(usersSearchOut)
+	out := new(accountUsersSearchOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -445,19 +235,25 @@ const (
 
 type Account struct {
 	AccessSource          AccessSourceType `json:"access_source,omitempty"`
+	AccountId             string           `json:"account_id"`
+	AccountName           string           `json:"account_name"`
+	AccountOwnerTeamId    string           `json:"account_owner_team_id"`
 	CreateTime            time.Time        `json:"create_time"`
 	Features              map[string]any   `json:"features,omitempty"`
-	AccountId             string           `json:"account_id"`
 	IsAccountMember       *bool            `json:"is_account_member,omitempty"`
 	IsAccountOwner        bool             `json:"is_account_owner"`
-	AccountName           string           `json:"account_name"`
 	OrganizationId        string           `json:"organization_id"`
-	AccountOwnerTeamId    string           `json:"account_owner_team_id"`
 	ParentAccountId       string           `json:"parent_account_id,omitempty"`
 	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`
 	RootAccountId         string           `json:"root_account_id"`
 	TenantId              string           `json:"tenant_id,omitempty"`
 	UpdateTime            time.Time        `json:"update_time"`
+}
+type AccountAttachPaymentMethodIn struct {
+	PaymentMethodId string `json:"payment_method_id"`
+}
+type accountAttachPaymentMethodOut struct {
+	Card *Card `json:"card"`
 }
 type AccountBillingGroup struct {
 	AccountId             string              `json:"account_id"`
@@ -481,111 +277,56 @@ type AccountBillingGroup struct {
 	VatId                 string              `json:"vat_id"`
 	ZipCode               string              `json:"zip_code"`
 }
-type AccountInvite struct {
-	AccountId          string    `json:"account_id"`
-	AccountName        string    `json:"account_name"`
-	CreateTime         time.Time `json:"create_time"`
-	InvitedByUserEmail string    `json:"invited_by_user_email"`
-	TeamId             string    `json:"team_id"`
-	TeamName           string    `json:"team_name"`
-	UserEmail          string    `json:"user_email"`
+type accountBillingGroupListOut struct {
+	AccountBillingGroups []AccountBillingGroup `json:"account_billing_groups"`
 }
-type AttachPaymentMethodIn struct {
-	PaymentMethodId string `json:"payment_method_id"`
+type AccountCreateIn struct {
+	AccountName           string `json:"account_name"`
+	ParentAccountId       string `json:"parent_account_id,omitempty"`
+	PrimaryBillingGroupId string `json:"primary_billing_group_id,omitempty"`
 }
-type attachPaymentMethodOut struct {
-	Card *Card `json:"card"`
+type accountCreateOut struct {
+	Account *Account `json:"account"`
 }
-type AuthenticationMethod struct {
-	AccountId                        string                     `json:"account_id"`
-	AutoJoinTeamId                   string                     `json:"auto_join_team_id"`
-	AutoJoinUserGroupId              string                     `json:"auto_join_user_group_id"`
-	CreateTime                       time.Time                  `json:"create_time"`
-	DeleteTime                       time.Time                  `json:"delete_time"`
-	AuthenticationMethodEnabled      bool                       `json:"authentication_method_enabled"`
-	AuthenticationMethodId           string                     `json:"authentication_method_id"`
-	AuthenticationMethodName         string                     `json:"authentication_method_name,omitempty"`
-	OrganizationId                   string                     `json:"organization_id,omitempty"`
-	SamlAcsUrl                       string                     `json:"saml_acs_url,omitempty"`
-	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`
-	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`
-	SamlCert                         SamlCertType               `json:"saml_cert,omitempty"`
-	SamlCertificate                  string                     `json:"saml_certificate,omitempty"`
-	SamlCertificateIssuer            string                     `json:"saml_certificate_issuer,omitempty"`
-	SamlCertificateNotValidAfter     string                     `json:"saml_certificate_not_valid_after,omitempty"`
-	SamlCertificateNotValidBefore    string                     `json:"saml_certificate_not_valid_before,omitempty"`
-	SamlCertificateSubject           string                     `json:"saml_certificate_subject,omitempty"`
-	SamlDigestAlgorithm              SamlDigestAlgorithmType    `json:"saml_digest_algorithm,omitempty"`
-	SamlEntityId                     string                     `json:"saml_entity_id,omitempty"`
-	SamlFieldMapping                 *SamlFieldMapping          `json:"saml_field_mapping,omitempty"`
-	SamlIdpLoginAllowed              *bool                      `json:"saml_idp_login_allowed,omitempty"`
-	SamlIdpUrl                       string                     `json:"saml_idp_url,omitempty"`
-	SamlMetadataUrl                  string                     `json:"saml_metadata_url,omitempty"`
-	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"`
-	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
-	SamlSpCertificate                string                     `json:"saml_sp_certificate,omitempty"`
-	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
-	State                            StateType                  `json:"state"`
-	AuthenticationMethodType         Type                       `json:"authentication_method_type"`
-	UpdateTime                       time.Time                  `json:"update_time"`
+type accountEventListOut struct {
+	Events []Event `json:"events"`
 }
-type AuthenticationMethodCreateIn struct {
-	AuthenticationMethodName         string                     `json:"authentication_method_name"`
-	AuthenticationMethodType         AuthenticationMethodType   `json:"authentication_method_type"`
-	AutoJoinTeamId                   string                     `json:"auto_join_team_id,omitempty"`
-	AutoJoinUserGroupId              string                     `json:"auto_join_user_group_id,omitempty"`
-	LinkedDomains                    []LinkedDomain             `json:"linked_domains"`
-	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`
-	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`
-	SamlCertificate                  string                     `json:"saml_certificate,omitempty"`
-	SamlDigestAlgorithm              SamlDigestAlgorithmType    `json:"saml_digest_algorithm,omitempty"`
-	SamlEntityId                     string                     `json:"saml_entity_id,omitempty"`
-	SamlFieldMapping                 *SamlFieldMapping          `json:"saml_field_mapping,omitempty"`
-	SamlIdpLoginAllowed              *bool                      `json:"saml_idp_login_allowed,omitempty"`
-	SamlIdpUrl                       string                     `json:"saml_idp_url,omitempty"`
-	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"`
-	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
-	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
+type accountGetOut struct {
+	Account *Account `json:"account"`
 }
-type authenticationMethodCreateOut struct {
-	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
+type accountListOut struct {
+	Accounts []Account `json:"accounts"`
 }
-type authenticationMethodGetOut struct {
-	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
+type AccountMoveIn struct {
+	ParentAccountId string `json:"parent_account_id"`
 }
-type AuthenticationMethodType string
-
-const (
-	AuthenticationMethodTypeInternal AuthenticationMethodType = "internal"
-	AuthenticationMethodTypeSaml     AuthenticationMethodType = "saml"
-)
-
-func AuthenticationMethodTypeChoices() []string {
-	return []string{"internal", "saml"}
+type accountMoveOut struct {
+	Account *Account `json:"account"`
 }
-
-type AuthenticationMethodUpdateIn struct {
-	AuthenticationMethodEnabled      *bool                      `json:"authentication_method_enabled,omitempty"`
-	AuthenticationMethodName         string                     `json:"authentication_method_name,omitempty"`
-	AutoJoinTeamId                   string                     `json:"auto_join_team_id,omitempty"`
-	AutoJoinUserGroupId              string                     `json:"auto_join_user_group_id,omitempty"`
-	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`
-	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`
-	SamlCertificate                  string                     `json:"saml_certificate,omitempty"`
-	SamlDigestAlgorithm              SamlDigestAlgorithmType    `json:"saml_digest_algorithm,omitempty"`
-	SamlEntityId                     string                     `json:"saml_entity_id,omitempty"`
-	SamlFieldMapping                 *SamlFieldMapping          `json:"saml_field_mapping,omitempty"`
-	SamlIdpLoginAllowed              *bool                      `json:"saml_idp_login_allowed,omitempty"`
-	SamlIdpUrl                       string                     `json:"saml_idp_url,omitempty"`
-	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"`
-	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
-	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
+type accountPaymentMethodsListOut struct {
+	Cards []CardItem `json:"cards"`
 }
-type authenticationMethodUpdateOut struct {
-	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
+type AccountProjectsListOut struct {
+	Projects          []Project `json:"projects"`
+	TotalProjectCount *int      `json:"total_project_count,omitempty"`
 }
-type authenticationMethodsListOut struct {
-	AuthenticationMethods []AuthenticationMethod `json:"authentication_methods"`
+type AccountUpdateIn struct {
+	AccountName           string `json:"account_name,omitempty"`
+	PrimaryBillingGroupId string `json:"primary_billing_group_id,omitempty"`
+}
+type accountUpdateOut struct {
+	Account *Account `json:"account"`
+}
+type accountUserProjectsListOut struct {
+	UserProjects []UserProject `json:"user_projects"`
+}
+type AccountUsersSearchIn struct {
+	Limit   *int        `json:"limit,omitempty"`
+	OrderBy OrderByType `json:"order_by,omitempty"`
+	Query   string      `json:"query,omitempty"`
+}
+type accountUsersSearchOut struct {
+	Users []User `json:"users"`
 }
 type BillingCurrencyType string
 
@@ -607,16 +348,13 @@ const (
 type BillingEmail struct {
 	Email string `json:"email"`
 }
-type billingGroupListOut struct {
-	AccountBillingGroups []AccountBillingGroup `json:"account_billing_groups"`
-}
 type Card struct {
 	Brand          string   `json:"brand"`
+	CardId         string   `json:"card_id"`
 	Country        string   `json:"country"`
 	CountryCode    string   `json:"country_code"`
 	ExpMonth       int      `json:"exp_month"`
 	ExpYear        int      `json:"exp_year"`
-	CardId         string   `json:"card_id"`
 	Last4          string   `json:"last4"`
 	Name           string   `json:"name"`
 	OrganizationId string   `json:"organization_id,omitempty"`
@@ -643,14 +381,6 @@ type CardItem struct {
 	Last4       string `json:"last4"`
 	Name        string `json:"name"`
 }
-type CreateIn struct {
-	AccountName           string `json:"account_name"`
-	ParentAccountId       string `json:"parent_account_id,omitempty"`
-	PrimaryBillingGroupId string `json:"primary_billing_group_id,omitempty"`
-}
-type createOut struct {
-	Account *Account `json:"account"`
-}
 type Elasticsearch struct {
 	EolDate string `json:"eol_date"`
 	Version string `json:"version"`
@@ -668,30 +398,6 @@ type Event struct {
 	LogEntryId        int       `json:"log_entry_id"`
 	TeamId            string    `json:"team_id"`
 }
-type eventListOut struct {
-	Events []Event `json:"events"`
-}
-type getOut struct {
-	Account *Account `json:"account"`
-}
-type InviteDetails struct {
-	UserEmail string `json:"user_email"`
-}
-type LinkedDomain struct {
-	DomainId string `json:"domain_id"`
-}
-type listOut struct {
-	Accounts []Account `json:"accounts"`
-}
-type Member struct {
-	CreateTime time.Time `json:"create_time"`
-	RealName   string    `json:"real_name"`
-	TeamId     string    `json:"team_id"`
-	TeamName   string    `json:"team_name"`
-	UpdateTime time.Time `json:"update_time"`
-	UserEmail  string    `json:"user_email"`
-	UserId     string    `json:"user_id"`
-}
 type MemberType string
 
 const (
@@ -701,12 +407,6 @@ const (
 	MemberTypeReadOnly  MemberType = "read_only"
 )
 
-type MoveIn struct {
-	ParentAccountId string `json:"parent_account_id"`
-}
-type moveOut struct {
-	Account *Account `json:"account"`
-}
 type OrderByType string
 
 const (
@@ -733,9 +433,6 @@ const (
 	PaymentMethodTypePartner           PaymentMethodType = "partner"
 )
 
-type paymentMethodsListOut struct {
-	Cards []CardItem `json:"cards"`
-}
 type Project struct {
 	AccountId             string              `json:"account_id"`
 	AccountName           string              `json:"account_name,omitempty"`
@@ -757,9 +454,9 @@ type Project struct {
 	EstimatedBalance      string              `json:"estimated_balance"`
 	EstimatedBalanceLocal string              `json:"estimated_balance_local,omitempty"`
 	Features              map[string]any      `json:"features,omitempty"`
-	ProjectName           string              `json:"project_name"`
 	OrganizationId        string              `json:"organization_id"`
 	PaymentMethod         string              `json:"payment_method"`
+	ProjectName           string              `json:"project_name"`
 	State                 string              `json:"state,omitempty"`
 	Tags                  map[string]string   `json:"tags,omitempty"`
 	TechEmails            []TechEmail         `json:"tech_emails"`
@@ -768,124 +465,13 @@ type Project struct {
 	VatId                 string              `json:"vat_id"`
 	ZipCode               string              `json:"zip_code,omitempty"`
 }
-type ProjectsListOut struct {
-	Projects          []Project `json:"projects"`
-	TotalProjectCount *int      `json:"total_project_count,omitempty"`
-}
-type SamlCertType string
-
-const (
-	SamlCertTypeAdfs SamlCertType = "adfs"
-)
-
-type SamlDigestAlgorithmType string
-
-const (
-	SamlDigestAlgorithmTypeSha1   SamlDigestAlgorithmType = "sha1"
-	SamlDigestAlgorithmTypeSha256 SamlDigestAlgorithmType = "sha256"
-	SamlDigestAlgorithmTypeSha384 SamlDigestAlgorithmType = "sha384"
-	SamlDigestAlgorithmTypeSha512 SamlDigestAlgorithmType = "sha512"
-)
-
-type SamlFieldMapping struct {
-	Email     string `json:"email,omitempty"`
-	FirstName string `json:"first_name,omitempty"`
-	Identity  string `json:"identity,omitempty"`
-	LastName  string `json:"last_name,omitempty"`
-	RealName  string `json:"real_name,omitempty"`
-}
-type SamlSignatureAlgorithmType string
-
-const (
-	SamlSignatureAlgorithmTypeRsaSha1   SamlSignatureAlgorithmType = "rsa-sha1"
-	SamlSignatureAlgorithmTypeDsaSha1   SamlSignatureAlgorithmType = "dsa-sha1"
-	SamlSignatureAlgorithmTypeRsaSha256 SamlSignatureAlgorithmType = "rsa-sha256"
-	SamlSignatureAlgorithmTypeRsaSha384 SamlSignatureAlgorithmType = "rsa-sha384"
-	SamlSignatureAlgorithmTypeRsaSha512 SamlSignatureAlgorithmType = "rsa-sha512"
-)
-
-type SamlVariantType string
-
-const (
-	SamlVariantTypeAdfs SamlVariantType = "adfs"
-)
-
-type StateType string
-
-const (
-	StateTypeActive               StateType = "active"
-	StateTypeDeleted              StateType = "deleted"
-	StateTypePendingConfiguration StateType = "pending_configuration"
-)
-
-type Team struct {
-	AccountId  string     `json:"account_id,omitempty"`
-	CreateTime *time.Time `json:"create_time,omitempty"`
-	TeamId     string     `json:"team_id"`
-	TeamName   string     `json:"team_name"`
-	UpdateTime *time.Time `json:"update_time,omitempty"`
-}
-type teamGetOut struct {
-	Team *Team `json:"team"`
-}
-type teamInvitesListOut struct {
-	AccountInvites []AccountInvite `json:"account_invites"`
-}
-type teamListOut struct {
-	Teams []Team `json:"teams"`
-}
-type teamMemberVerifyInviteOut struct {
-	InviteDetails *InviteDetails `json:"invite_details"`
-}
-type TeamMembersInviteIn struct {
-	Email string `json:"email"`
-}
-type teamMembersListOut struct {
-	Members []Member `json:"members"`
-}
-type TeamProjectAssociateIn struct {
-	TeamType TeamType `json:"team_type"`
-}
-type TeamType string
-
-const (
-	TeamTypeAdmin     TeamType = "admin"
-	TeamTypeOperator  TeamType = "operator"
-	TeamTypeDeveloper TeamType = "developer"
-	TeamTypeReadOnly  TeamType = "read_only"
-)
-
-func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only"}
-}
-
-type TeamUpdateIn struct {
-	TeamName string `json:"team_name"`
-}
-type teamUpdateOut struct {
-	Team *Team `json:"team"`
-}
 type TechEmail struct {
 	Email string `json:"email"`
 }
-type Type string
-
-const (
-	TypeInternal Type = "internal"
-	TypeSaml     Type = "saml"
-)
-
-type UpdateIn struct {
-	AccountName           string `json:"account_name,omitempty"`
-	PrimaryBillingGroupId string `json:"primary_billing_group_id,omitempty"`
-}
-type updateOut struct {
-	Account *Account `json:"account"`
-}
 type User struct {
+	RealName  string `json:"real_name"`
 	UserEmail string `json:"user_email"`
 	UserId    string `json:"user_id"`
-	RealName  string `json:"real_name"`
 }
 type UserProject struct {
 	AccessType  string     `json:"access_type,omitempty"`
@@ -897,15 +483,4 @@ type UserProject struct {
 	TeamId      string     `json:"team_id"`
 	TeamName    string     `json:"team_name"`
 	UserEmail   string     `json:"user_email"`
-}
-type userProjectsListOut struct {
-	UserProjects []UserProject `json:"user_projects"`
-}
-type UsersSearchIn struct {
-	Limit   *int        `json:"limit,omitempty"`
-	OrderBy OrderByType `json:"order_by,omitempty"`
-	Query   string      `json:"query,omitempty"`
-}
-type usersSearchOut struct {
-	Users []User `json:"users"`
 }

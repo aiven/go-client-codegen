@@ -10,178 +10,178 @@ import (
 )
 
 type Handler interface {
-	// AuthenticationMethodsList list authentication methods for a user in the organization
-	// OrganizationUserAuthenticationMethodsList GET /organization/{organization_id}/user/{member_user_id}/authentication_methods
+	// OrganizationUserAuthenticationMethodsList list authentication methods for a user in the organization
+	// GET /organization/{organization_id}/user/{member_user_id}/authentication_methods
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserAuthenticationMethodsList
-	AuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethod, error)
+	OrganizationUserAuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethod, error)
 
-	// Delete remove a user from the organization
-	// OrganizationUserDelete DELETE /organization/{organization_id}/user/{member_user_id}
+	// OrganizationUserDelete remove a user from the organization
+	// DELETE /organization/{organization_id}/user/{member_user_id}
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserDelete
-	Delete(ctx context.Context, organizationId string, memberUserId string) error
+	OrganizationUserDelete(ctx context.Context, organizationId string, memberUserId string) error
 
-	// Get get details on a user of the organization
-	// OrganizationUserGet GET /organization/{organization_id}/user/{member_user_id}
+	// OrganizationUserGet get details on a user of the organization
+	// GET /organization/{organization_id}/user/{member_user_id}
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserGet
-	Get(ctx context.Context, organizationId string, memberUserId string) (*GetOut, error)
+	OrganizationUserGet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserGetOut, error)
 
-	// InvitationAccept accept a user invitation to the organization
-	// OrganizationUserInvitationAccept POST /organization/{organization_id}/invitation/{user_email}
+	// OrganizationUserInvitationAccept accept a user invitation to the organization
+	// POST /organization/{organization_id}/invitation/{user_email}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationAccept
-	InvitationAccept(ctx context.Context, organizationId string, userEmail string, in *InvitationAcceptIn) error
+	OrganizationUserInvitationAccept(ctx context.Context, organizationId string, userEmail string, in *OrganizationUserInvitationAcceptIn) error
 
-	// InvitationDelete remove an invitation to the organization
-	// OrganizationUserInvitationDelete DELETE /organization/{organization_id}/invitation/{user_email}
+	// OrganizationUserInvitationDelete remove an invitation to the organization
+	// DELETE /organization/{organization_id}/invitation/{user_email}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationDelete
-	InvitationDelete(ctx context.Context, organizationId string, userEmail string) error
+	OrganizationUserInvitationDelete(ctx context.Context, organizationId string, userEmail string) error
 
-	// InvitationsList list user invitations to the organization
-	// OrganizationUserInvitationsList GET /organization/{organization_id}/invitation
+	// OrganizationUserInvitationsList list user invitations to the organization
+	// GET /organization/{organization_id}/invitation
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationsList
-	InvitationsList(ctx context.Context, organizationId string) ([]Invitation, error)
+	OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]Invitation, error)
 
-	// Invite invite a user to the organization
-	// OrganizationUserInvite POST /organization/{organization_id}/invitation
+	// OrganizationUserInvite invite a user to the organization
+	// POST /organization/{organization_id}/invitation
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvite
-	Invite(ctx context.Context, organizationId string, in *InviteIn) error
+	OrganizationUserInvite(ctx context.Context, organizationId string, in *OrganizationUserInviteIn) error
 
-	// List list users of the organization
-	// OrganizationUserList GET /organization/{organization_id}/user
+	// OrganizationUserList list users of the organization
+	// GET /organization/{organization_id}/user
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserList
-	List(ctx context.Context, organizationId string) ([]User, error)
+	OrganizationUserList(ctx context.Context, organizationId string) ([]User, error)
 
-	// PasswordReset reset the password of a managed user in the organization
-	// OrganizationUserPasswordReset POST /organization/{organization_id}/user/{member_user_id}/reset_password
+	// OrganizationUserPasswordReset reset the password of a managed user in the organization
+	// POST /organization/{organization_id}/user/{member_user_id}/reset_password
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserPasswordReset
-	PasswordReset(ctx context.Context, organizationId string, memberUserId string) error
+	OrganizationUserPasswordReset(ctx context.Context, organizationId string, memberUserId string) error
 
-	// RevokeToken revoke the token of a managed user in the organization
-	// OrganizationUserRevokeToken DELETE /organization/{organization_id}/user/{member_user_id}/access-token/{token_prefix}
+	// OrganizationUserRevokeToken revoke the token of a managed user in the organization
+	// DELETE /organization/{organization_id}/user/{member_user_id}/access-token/{token_prefix}
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserRevokeToken
-	RevokeToken(ctx context.Context, organizationId string, memberUserId string, tokenPrefix string) error
+	OrganizationUserRevokeToken(ctx context.Context, organizationId string, memberUserId string, tokenPrefix string) error
 
-	// Set add or modify a user of the organization
-	// OrganizationUserSet PUT /organization/{organization_id}/user/{member_user_id}
+	// OrganizationUserSet add or modify a user of the organization
+	// PUT /organization/{organization_id}/user/{member_user_id}
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserSet
-	Set(ctx context.Context, organizationId string, memberUserId string) (*SetOut, error)
+	OrganizationUserSet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserSetOut, error)
 
-	// TokensList list tokens from an organization's member
-	// OrganizationUserTokensList GET /organization/{organization_id}/user/{member_user_id}/access-tokens
+	// OrganizationUserTokensList list tokens from an organization's member
+	// GET /organization/{organization_id}/user/{member_user_id}/access-tokens
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserTokensList
-	TokensList(ctx context.Context, organizationId string, memberUserId string) ([]Token, error)
+	OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]Token, error)
 
-	// Update update details on a user of the organization
-	// OrganizationUserUpdate PATCH /organization/{organization_id}/user/{member_user_id}
+	// OrganizationUserUpdate update details on a user of the organization
+	// PATCH /organization/{organization_id}/user/{member_user_id}
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserUpdate
-	Update(ctx context.Context, organizationId string, memberUserId string, in *UpdateIn) (*UpdateOut, error)
+	OrganizationUserUpdate(ctx context.Context, organizationId string, memberUserId string, in *OrganizationUserUpdateIn) (*OrganizationUserUpdateOut, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) OrganizationUserHandler {
+	return OrganizationUserHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type OrganizationUserHandler struct {
 	doer doer
 }
 
-func (h *handler) AuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethod, error) {
+func (h *OrganizationUserHandler) OrganizationUserAuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethod, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s/authentication_methods", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserAuthenticationMethodsList", "GET", path, nil)
-	out := new(authenticationMethodsListOut)
+	out := new(organizationUserAuthenticationMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.AuthenticationMethods, nil
 }
-func (h *handler) Delete(ctx context.Context, organizationId string, memberUserId string) error {
+func (h *OrganizationUserHandler) OrganizationUserDelete(ctx context.Context, organizationId string, memberUserId string) error {
 	path := fmt.Sprintf("/organization/%s/user/%s", organizationId, memberUserId)
 	_, err := h.doer.Do(ctx, "OrganizationUserDelete", "DELETE", path, nil)
 	return err
 }
-func (h *handler) Get(ctx context.Context, organizationId string, memberUserId string) (*GetOut, error) {
+func (h *OrganizationUserHandler) OrganizationUserGet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserGetOut, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserGet", "GET", path, nil)
-	out := new(GetOut)
+	out := new(OrganizationUserGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) InvitationAccept(ctx context.Context, organizationId string, userEmail string, in *InvitationAcceptIn) error {
+func (h *OrganizationUserHandler) OrganizationUserInvitationAccept(ctx context.Context, organizationId string, userEmail string, in *OrganizationUserInvitationAcceptIn) error {
 	path := fmt.Sprintf("/organization/%s/invitation/%s", organizationId, userEmail)
 	_, err := h.doer.Do(ctx, "OrganizationUserInvitationAccept", "POST", path, in)
 	return err
 }
-func (h *handler) InvitationDelete(ctx context.Context, organizationId string, userEmail string) error {
+func (h *OrganizationUserHandler) OrganizationUserInvitationDelete(ctx context.Context, organizationId string, userEmail string) error {
 	path := fmt.Sprintf("/organization/%s/invitation/%s", organizationId, userEmail)
 	_, err := h.doer.Do(ctx, "OrganizationUserInvitationDelete", "DELETE", path, nil)
 	return err
 }
-func (h *handler) InvitationsList(ctx context.Context, organizationId string) ([]Invitation, error) {
+func (h *OrganizationUserHandler) OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]Invitation, error) {
 	path := fmt.Sprintf("/organization/%s/invitation", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationUserInvitationsList", "GET", path, nil)
-	out := new(invitationsListOut)
+	out := new(organizationUserInvitationsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Invitations, nil
 }
-func (h *handler) Invite(ctx context.Context, organizationId string, in *InviteIn) error {
+func (h *OrganizationUserHandler) OrganizationUserInvite(ctx context.Context, organizationId string, in *OrganizationUserInviteIn) error {
 	path := fmt.Sprintf("/organization/%s/invitation", organizationId)
 	_, err := h.doer.Do(ctx, "OrganizationUserInvite", "POST", path, in)
 	return err
 }
-func (h *handler) List(ctx context.Context, organizationId string) ([]User, error) {
+func (h *OrganizationUserHandler) OrganizationUserList(ctx context.Context, organizationId string) ([]User, error) {
 	path := fmt.Sprintf("/organization/%s/user", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationUserList", "GET", path, nil)
-	out := new(listOut)
+	out := new(organizationUserListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Users, nil
 }
-func (h *handler) PasswordReset(ctx context.Context, organizationId string, memberUserId string) error {
+func (h *OrganizationUserHandler) OrganizationUserPasswordReset(ctx context.Context, organizationId string, memberUserId string) error {
 	path := fmt.Sprintf("/organization/%s/user/%s/reset_password", organizationId, memberUserId)
 	_, err := h.doer.Do(ctx, "OrganizationUserPasswordReset", "POST", path, nil)
 	return err
 }
-func (h *handler) RevokeToken(ctx context.Context, organizationId string, memberUserId string, tokenPrefix string) error {
+func (h *OrganizationUserHandler) OrganizationUserRevokeToken(ctx context.Context, organizationId string, memberUserId string, tokenPrefix string) error {
 	path := fmt.Sprintf("/organization/%s/user/%s/access-token/%s", organizationId, memberUserId, tokenPrefix)
 	_, err := h.doer.Do(ctx, "OrganizationUserRevokeToken", "DELETE", path, nil)
 	return err
 }
-func (h *handler) Set(ctx context.Context, organizationId string, memberUserId string) (*SetOut, error) {
+func (h *OrganizationUserHandler) OrganizationUserSet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserSetOut, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserSet", "PUT", path, nil)
-	out := new(SetOut)
+	out := new(OrganizationUserSetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) TokensList(ctx context.Context, organizationId string, memberUserId string) ([]Token, error) {
+func (h *OrganizationUserHandler) OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]Token, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s/access-tokens", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserTokensList", "GET", path, nil)
-	out := new(tokensListOut)
+	out := new(organizationUserTokensListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Tokens, nil
 }
-func (h *handler) Update(ctx context.Context, organizationId string, memberUserId string, in *UpdateIn) (*UpdateOut, error) {
+func (h *OrganizationUserHandler) OrganizationUserUpdate(ctx context.Context, organizationId string, memberUserId string, in *OrganizationUserUpdateIn) (*OrganizationUserUpdateOut, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserUpdate", "PATCH", path, in)
-	out := new(UpdateOut)
+	out := new(OrganizationUserUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -211,48 +211,54 @@ type AuthenticationMethod struct {
 	UserEmail        string     `json:"user_email,omitempty"`
 	UserId           string     `json:"user_id,omitempty"`
 }
-type authenticationMethodsListOut struct {
-	AuthenticationMethods []AuthenticationMethod `json:"authentication_methods"`
-}
-type GetOut struct {
-	IsSuperAdmin     bool      `json:"is_super_admin"`
-	JoinTime         time.Time `json:"join_time"`
-	LastActivityTime time.Time `json:"last_activity_time"`
-	UserId           string    `json:"user_id"`
-	UserInfo         *UserInfo `json:"user_info"`
-}
-type Info struct {
-	City                   string    `json:"city,omitempty"`
-	Country                string    `json:"country,omitempty"`
-	CreateTime             time.Time `json:"create_time"`
-	Department             string    `json:"department,omitempty"`
-	IsApplicationUser      bool      `json:"is_application_user"`
-	JobTitle               string    `json:"job_title,omitempty"`
-	ManagedByScim          bool      `json:"managed_by_scim"`
-	ManagingOrganizationId string    `json:"managing_organization_id,omitempty"`
-	RealName               string    `json:"real_name"`
-	State                  string    `json:"state"`
-	UserEmail              string    `json:"user_email"`
-}
 type Invitation struct {
 	CreateTime time.Time `json:"create_time"`
 	ExpiryTime time.Time `json:"expiry_time"`
 	InvitedBy  string    `json:"invited_by"`
 	UserEmail  string    `json:"user_email"`
 }
-type InvitationAcceptIn struct {
+type organizationUserAuthenticationMethodsListOut struct {
+	AuthenticationMethods []AuthenticationMethod `json:"authentication_methods"`
+}
+type OrganizationUserGetOut struct {
+	IsSuperAdmin     bool      `json:"is_super_admin"`
+	JoinTime         time.Time `json:"join_time"`
+	LastActivityTime time.Time `json:"last_activity_time"`
+	UserId           string    `json:"user_id"`
+	UserInfo         *UserInfo `json:"user_info"`
+}
+type OrganizationUserInvitationAcceptIn struct {
 	Action ActionType `json:"action,omitempty"`
 }
-type invitationsListOut struct {
+type organizationUserInvitationsListOut struct {
 	Invitations []Invitation `json:"invitations"`
 }
-type InviteIn struct {
+type OrganizationUserInviteIn struct {
 	UserEmail string `json:"user_email"`
 }
-type listOut struct {
+type organizationUserListOut struct {
 	Users []User `json:"users"`
 }
-type SetOut struct {
+type OrganizationUserSetOut struct {
+	IsSuperAdmin     bool      `json:"is_super_admin"`
+	JoinTime         time.Time `json:"join_time"`
+	LastActivityTime time.Time `json:"last_activity_time"`
+	UserId           string    `json:"user_id"`
+	UserInfo         *UserInfo `json:"user_info"`
+}
+type organizationUserTokensListOut struct {
+	Tokens []Token `json:"tokens"`
+}
+type OrganizationUserUpdateIn struct {
+	City         string    `json:"city,omitempty"`
+	Country      string    `json:"country,omitempty"`
+	Department   string    `json:"department,omitempty"`
+	IsSuperAdmin *bool     `json:"is_super_admin,omitempty"`
+	JobTitle     string    `json:"job_title,omitempty"`
+	RealName     string    `json:"real_name,omitempty"`
+	State        StateType `json:"state,omitempty"`
+}
+type OrganizationUserUpdateOut struct {
 	IsSuperAdmin     bool      `json:"is_super_admin"`
 	JoinTime         time.Time `json:"join_time"`
 	LastActivityTime time.Time `json:"last_activity_time"`
@@ -278,31 +284,12 @@ type Token struct {
 	LastUserAgent string    `json:"last_user_agent"`
 	TokenPrefix   string    `json:"token_prefix"`
 }
-type tokensListOut struct {
-	Tokens []Token `json:"tokens"`
-}
-type UpdateIn struct {
-	City         string    `json:"city,omitempty"`
-	Country      string    `json:"country,omitempty"`
-	Department   string    `json:"department,omitempty"`
-	IsSuperAdmin *bool     `json:"is_super_admin,omitempty"`
-	JobTitle     string    `json:"job_title,omitempty"`
-	RealName     string    `json:"real_name,omitempty"`
-	State        StateType `json:"state,omitempty"`
-}
-type UpdateOut struct {
+type User struct {
 	IsSuperAdmin     bool      `json:"is_super_admin"`
 	JoinTime         time.Time `json:"join_time"`
 	LastActivityTime time.Time `json:"last_activity_time"`
 	UserId           string    `json:"user_id"`
 	UserInfo         *UserInfo `json:"user_info"`
-}
-type User struct {
-	UserId           string    `json:"user_id"`
-	UserInfo         *Info     `json:"user_info"`
-	IsSuperAdmin     bool      `json:"is_super_admin"`
-	JoinTime         time.Time `json:"join_time"`
-	LastActivityTime time.Time `json:"last_activity_time"`
 }
 type UserInfo struct {
 	City                   string    `json:"city,omitempty"`

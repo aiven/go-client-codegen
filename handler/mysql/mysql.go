@@ -9,28 +9,28 @@ import (
 )
 
 type Handler interface {
-	// ServiceQueryStatistics fetch MySQL service query statistics
-	// MySQLServiceQueryStatistics POST /project/{project}/service/{service_name}/mysql/query/stats
+	// MySQLServiceQueryStatistics fetch MySQL service query statistics
+	// POST /project/{project}/service/{service_name}/mysql/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_MySQL/operation/MySQLServiceQueryStatistics
-	ServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *ServiceQueryStatisticsIn) ([]Query, error)
+	MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]Query, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) MySQLHandler {
+	return MySQLHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type MySQLHandler struct {
 	doer doer
 }
 
-func (h *handler) ServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *ServiceQueryStatisticsIn) ([]Query, error) {
+func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]Query, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mysql/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "MySQLServiceQueryStatistics", "POST", path, in)
-	out := new(serviceQueryStatisticsOut)
+	out := new(mySqlserviceQueryStatisticsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -38,6 +38,14 @@ func (h *handler) ServiceQueryStatistics(ctx context.Context, project string, se
 	return out.Queries, nil
 }
 
+type MySqlserviceQueryStatisticsIn struct {
+	Limit   *int   `json:"limit,omitempty"`
+	Offset  *int   `json:"offset,omitempty"`
+	OrderBy string `json:"order_by,omitempty"`
+}
+type mySqlserviceQueryStatisticsOut struct {
+	Queries []Query `json:"queries"`
+}
 type Query struct {
 	AvgTimerWait            *float64 `json:"avg_timer_wait,omitempty"`
 	CountStar               *float64 `json:"count_star,omitempty"`
@@ -74,12 +82,4 @@ type Query struct {
 	SumSortScan             *float64 `json:"sum_sort_scan,omitempty"`
 	SumTimerWait            *float64 `json:"sum_timer_wait,omitempty"`
 	SumWarnings             *float64 `json:"sum_warnings,omitempty"`
-}
-type ServiceQueryStatisticsIn struct {
-	Limit   *int   `json:"limit,omitempty"`
-	Offset  *int   `json:"offset,omitempty"`
-	OrderBy string `json:"order_by,omitempty"`
-}
-type serviceQueryStatisticsOut struct {
-	Queries []Query `json:"queries"`
 }

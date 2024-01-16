@@ -9,43 +9,43 @@ import (
 )
 
 type Handler interface {
-	// Details get a Flink job info
-	// ServiceFlinkJobDetails GET /project/{project}/service/{service_name}/flink/job/{job_id}
+	// ServiceFlinkJobDetails get a Flink job info
+	// GET /project/{project}/service/{service_name}/flink/job/{job_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkJobDetails
-	Details(ctx context.Context, project string, serviceName string, jobId string) (*DetailsOut, error)
+	ServiceFlinkJobDetails(ctx context.Context, project string, serviceName string, jobId string) (*ServiceFlinkJobDetailsOut, error)
 
-	// List get all Flink jobs
-	// ServiceFlinkJobsList GET /project/{project}/service/{service_name}/flink/job
+	// ServiceFlinkJobsList get all Flink jobs
+	// GET /project/{project}/service/{service_name}/flink/job
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkJobsList
-	List(ctx context.Context, project string, serviceName string) ([]Job, error)
+	ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]Job, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) FlinkJobHandler {
+	return FlinkJobHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type FlinkJobHandler struct {
 	doer doer
 }
 
-func (h *handler) Details(ctx context.Context, project string, serviceName string, jobId string) (*DetailsOut, error) {
+func (h *FlinkJobHandler) ServiceFlinkJobDetails(ctx context.Context, project string, serviceName string, jobId string) (*ServiceFlinkJobDetailsOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/job/%s", project, serviceName, jobId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkJobDetails", "GET", path, nil)
-	out := new(DetailsOut)
+	out := new(ServiceFlinkJobDetailsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) List(ctx context.Context, project string, serviceName string) ([]Job, error) {
+func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]Job, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/job", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkJobsList", "GET", path, nil)
-	out := new(listOut)
+	out := new(serviceFlinkJobsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -53,7 +53,11 @@ func (h *handler) List(ctx context.Context, project string, serviceName string) 
 	return out.Jobs, nil
 }
 
-type DetailsOut struct {
+type Job struct {
+	Id     string     `json:"id,omitempty"`
+	Status StatusType `json:"status,omitempty"`
+}
+type ServiceFlinkJobDetailsOut struct {
 	Duration       *int             `json:"duration,omitempty"`
 	EndTime        *int             `json:"end-time,omitempty"`
 	IsStoppable    *bool            `json:"isStoppable,omitempty"`
@@ -68,11 +72,7 @@ type DetailsOut struct {
 	Timestamps     map[string]any   `json:"timestamps,omitempty"`
 	Vertices       []map[string]any `json:"vertices"`
 }
-type Job struct {
-	Id     string     `json:"id,omitempty"`
-	Status StatusType `json:"status,omitempty"`
-}
-type listOut struct {
+type serviceFlinkJobsListOut struct {
 	Jobs []Job `json:"jobs"`
 }
 type StateType string

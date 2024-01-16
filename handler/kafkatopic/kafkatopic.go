@@ -9,105 +9,105 @@ import (
 )
 
 type Handler interface {
-	// Create create a Kafka topic
-	// ServiceKafkaTopicCreate POST /project/{project}/service/{service_name}/topic
+	// ServiceKafkaTopicCreate create a Kafka topic
+	// POST /project/{project}/service/{service_name}/topic
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicCreate
-	Create(ctx context.Context, project string, serviceName string, in *CreateIn) error
+	ServiceKafkaTopicCreate(ctx context.Context, project string, serviceName string, in *ServiceKafkaTopicCreateIn) error
 
-	// Delete delete a Kafka topic
-	// ServiceKafkaTopicDelete DELETE /project/{project}/service/{service_name}/topic/{topic_name}
+	// ServiceKafkaTopicDelete delete a Kafka topic
+	// DELETE /project/{project}/service/{service_name}/topic/{topic_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicDelete
-	Delete(ctx context.Context, project string, serviceName string, topicName string) error
+	ServiceKafkaTopicDelete(ctx context.Context, project string, serviceName string, topicName string) error
 
-	// Get get Kafka topic info
-	// ServiceKafkaTopicGet GET /project/{project}/service/{service_name}/topic/{topic_name}
+	// ServiceKafkaTopicGet get Kafka topic info
+	// GET /project/{project}/service/{service_name}/topic/{topic_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicGet
-	Get(ctx context.Context, project string, serviceName string, topicName string) (*Topic, error)
+	ServiceKafkaTopicGet(ctx context.Context, project string, serviceName string, topicName string) (*Topic, error)
 
-	// List get Kafka topic list
-	// ServiceKafkaTopicList GET /project/{project}/service/{service_name}/topic
+	// ServiceKafkaTopicList get Kafka topic list
+	// GET /project/{project}/service/{service_name}/topic
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicList
-	List(ctx context.Context, project string, serviceName string) ([]TopicItem, error)
+	ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicItem, error)
 
-	// MessageList list kafka topic messages
-	// ServiceKafkaTopicMessageList POST /project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/messages
+	// ServiceKafkaTopicMessageList list kafka topic messages
+	// POST /project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/messages
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicMessageList
-	MessageList(ctx context.Context, project string, serviceName string, topicName string, in *MessageListIn) ([]Message, error)
+	ServiceKafkaTopicMessageList(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageListIn) ([]Message, error)
 
-	// MessageProduce produce message into a kafka topic
-	// ServiceKafkaTopicMessageProduce POST /project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/produce
+	// ServiceKafkaTopicMessageProduce produce message into a kafka topic
+	// POST /project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/produce
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicMessageProduce
-	MessageProduce(ctx context.Context, project string, serviceName string, topicName string, in *MessageProduceIn) (*MessageProduceOut, error)
+	ServiceKafkaTopicMessageProduce(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageProduceIn) (*ServiceKafkaTopicMessageProduceOut, error)
 
-	// Update update a Kafka topic
-	// ServiceKafkaTopicUpdate PUT /project/{project}/service/{service_name}/topic/{topic_name}
+	// ServiceKafkaTopicUpdate update a Kafka topic
+	// PUT /project/{project}/service/{service_name}/topic/{topic_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicUpdate
-	Update(ctx context.Context, project string, serviceName string, topicName string, in *UpdateIn) error
+	ServiceKafkaTopicUpdate(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicUpdateIn) error
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) KafkaTopicHandler {
+	return KafkaTopicHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type KafkaTopicHandler struct {
 	doer doer
 }
 
-func (h *handler) Create(ctx context.Context, project string, serviceName string, in *CreateIn) error {
+func (h *KafkaTopicHandler) ServiceKafkaTopicCreate(ctx context.Context, project string, serviceName string, in *ServiceKafkaTopicCreateIn) error {
 	path := fmt.Sprintf("/project/%s/service/%s/topic", project, serviceName)
 	_, err := h.doer.Do(ctx, "ServiceKafkaTopicCreate", "POST", path, in)
 	return err
 }
-func (h *handler) Delete(ctx context.Context, project string, serviceName string, topicName string) error {
+func (h *KafkaTopicHandler) ServiceKafkaTopicDelete(ctx context.Context, project string, serviceName string, topicName string) error {
 	path := fmt.Sprintf("/project/%s/service/%s/topic/%s", project, serviceName, topicName)
 	_, err := h.doer.Do(ctx, "ServiceKafkaTopicDelete", "DELETE", path, nil)
 	return err
 }
-func (h *handler) Get(ctx context.Context, project string, serviceName string, topicName string) (*Topic, error) {
+func (h *KafkaTopicHandler) ServiceKafkaTopicGet(ctx context.Context, project string, serviceName string, topicName string) (*Topic, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/topic/%s", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicGet", "GET", path, nil)
-	out := new(getOut)
+	out := new(serviceKafkaTopicGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Topic, nil
 }
-func (h *handler) List(ctx context.Context, project string, serviceName string) ([]TopicItem, error) {
+func (h *KafkaTopicHandler) ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicItem, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/topic", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicList", "GET", path, nil)
-	out := new(listOut)
+	out := new(serviceKafkaTopicListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Topics, nil
 }
-func (h *handler) MessageList(ctx context.Context, project string, serviceName string, topicName string, in *MessageListIn) ([]Message, error) {
+func (h *KafkaTopicHandler) ServiceKafkaTopicMessageList(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageListIn) ([]Message, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/rest/topics/%s/messages", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicMessageList", "POST", path, in)
-	out := new(messageListOut)
+	out := new(serviceKafkaTopicMessageListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Messages, nil
 }
-func (h *handler) MessageProduce(ctx context.Context, project string, serviceName string, topicName string, in *MessageProduceIn) (*MessageProduceOut, error) {
+func (h *KafkaTopicHandler) ServiceKafkaTopicMessageProduce(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageProduceIn) (*ServiceKafkaTopicMessageProduceOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/rest/topics/%s/produce", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicMessageProduce", "POST", path, in)
-	out := new(MessageProduceOut)
+	out := new(ServiceKafkaTopicMessageProduceOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) Update(ctx context.Context, project string, serviceName string, topicName string, in *UpdateIn) error {
+func (h *KafkaTopicHandler) ServiceKafkaTopicUpdate(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicUpdateIn) error {
 	path := fmt.Sprintf("/project/%s/service/%s/topic/%s", project, serviceName, topicName)
 	_, err := h.doer.Do(ctx, "ServiceKafkaTopicUpdate", "PUT", path, in)
 	return err
@@ -178,17 +178,6 @@ type ConsumerGroup struct {
 	GroupName string `json:"group_name"`
 	Offset    int    `json:"offset"`
 }
-type CreateIn struct {
-	CleanupPolicy     CleanupPolicyType `json:"cleanup_policy,omitempty"`
-	Config            *Config           `json:"config,omitempty"`
-	MinInsyncReplicas *int              `json:"min_insync_replicas,omitempty"`
-	Partitions        *int              `json:"partitions,omitempty"`
-	Replication       *int              `json:"replication,omitempty"`
-	RetentionBytes    *int              `json:"retention_bytes,omitempty"`
-	RetentionHours    *int              `json:"retention_hours,omitempty"`
-	Tags              []Tag             `json:"tags"`
-	TopicName         string            `json:"topic_name"`
-}
 type DeleteRetentionMs struct {
 	Source   SourceType `json:"source,omitempty"`
 	Synonyms []Synonym  `json:"synonyms"`
@@ -223,16 +212,10 @@ func FormatTypeChoices() []string {
 	return []string{"binary", "json", "avro", "protobuf", "jsonschema"}
 }
 
-type getOut struct {
-	Topic *Topic `json:"topic"`
-}
 type IndexIntervalBytes struct {
 	Source   SourceType `json:"source,omitempty"`
 	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
-}
-type listOut struct {
-	Topics []TopicItem `json:"topics"`
 }
 type LocalRetentionBytes struct {
 	Source   SourceType `json:"source,omitempty"`
@@ -425,28 +408,6 @@ const (
 	MessageFormatVersionValueType36Iv2   MessageFormatVersionValueType = "3.6-IV2"
 )
 
-type MessageListIn struct {
-	Format     FormatType     `json:"format,omitempty"`
-	MaxBytes   *int           `json:"max_bytes,omitempty"`
-	Partitions map[string]any `json:"partitions"`
-	Timeout    *int           `json:"timeout,omitempty"`
-}
-type messageListOut struct {
-	Messages []Message `json:"messages"`
-}
-type MessageProduceIn struct {
-	Format        FormatType `json:"format"`
-	KeySchema     string     `json:"key_schema,omitempty"`
-	KeySchemaId   *int       `json:"key_schema_id,omitempty"`
-	Records       []Record   `json:"records"`
-	ValueSchema   string     `json:"value_schema,omitempty"`
-	ValueSchemaId *int       `json:"value_schema_id,omitempty"`
-}
-type MessageProduceOut struct {
-	KeySchemaId   *int     `json:"key_schema_id,omitempty"`
-	Offsets       []Offset `json:"offsets"`
-	ValueSchemaId *int     `json:"value_schema_id,omitempty"`
-}
 type MessageTimestampDifferenceMaxMs struct {
 	Source   SourceType `json:"source,omitempty"`
 	Synonyms []Synonym  `json:"synonyms"`
@@ -537,6 +498,54 @@ type SegmentMs struct {
 	Synonyms []Synonym  `json:"synonyms"`
 	Value    *int       `json:"value,omitempty"`
 }
+type ServiceKafkaTopicCreateIn struct {
+	CleanupPolicy     CleanupPolicyType `json:"cleanup_policy,omitempty"`
+	Config            *Config           `json:"config,omitempty"`
+	MinInsyncReplicas *int              `json:"min_insync_replicas,omitempty"`
+	Partitions        *int              `json:"partitions,omitempty"`
+	Replication       *int              `json:"replication,omitempty"`
+	RetentionBytes    *int              `json:"retention_bytes,omitempty"`
+	RetentionHours    *int              `json:"retention_hours,omitempty"`
+	Tags              []Tag             `json:"tags"`
+	TopicName         string            `json:"topic_name"`
+}
+type serviceKafkaTopicGetOut struct {
+	Topic *Topic `json:"topic"`
+}
+type serviceKafkaTopicListOut struct {
+	Topics []TopicItem `json:"topics"`
+}
+type ServiceKafkaTopicMessageListIn struct {
+	Format     FormatType     `json:"format,omitempty"`
+	MaxBytes   *int           `json:"max_bytes,omitempty"`
+	Partitions map[string]any `json:"partitions"`
+	Timeout    *int           `json:"timeout,omitempty"`
+}
+type serviceKafkaTopicMessageListOut struct {
+	Messages []Message `json:"messages"`
+}
+type ServiceKafkaTopicMessageProduceIn struct {
+	Format        FormatType `json:"format"`
+	KeySchema     string     `json:"key_schema,omitempty"`
+	KeySchemaId   *int       `json:"key_schema_id,omitempty"`
+	Records       []Record   `json:"records"`
+	ValueSchema   string     `json:"value_schema,omitempty"`
+	ValueSchemaId *int       `json:"value_schema_id,omitempty"`
+}
+type ServiceKafkaTopicMessageProduceOut struct {
+	KeySchemaId   *int     `json:"key_schema_id,omitempty"`
+	Offsets       []Offset `json:"offsets"`
+	ValueSchemaId *int     `json:"value_schema_id,omitempty"`
+}
+type ServiceKafkaTopicUpdateIn struct {
+	Config            *Config `json:"config,omitempty"`
+	MinInsyncReplicas *int    `json:"min_insync_replicas,omitempty"`
+	Partitions        *int    `json:"partitions,omitempty"`
+	Replication       *int    `json:"replication,omitempty"`
+	RetentionBytes    *int    `json:"retention_bytes,omitempty"`
+	RetentionHours    *int    `json:"retention_hours,omitempty"`
+	Tags              []Tag   `json:"tags"`
+}
 type SourceType string
 
 const (
@@ -569,7 +578,6 @@ type Tag struct {
 type Topic struct {
 	CleanupPolicy     string       `json:"cleanup_policy"`
 	MinInsyncReplicas int          `json:"min_insync_replicas"`
-	TopicName         string       `json:"topic_name"`
 	Partitions        []Partition  `json:"partitions"`
 	Replication       int          `json:"replication"`
 	RetentionBytes    int          `json:"retention_bytes"`
@@ -577,6 +585,7 @@ type Topic struct {
 	State             StateType    `json:"state"`
 	Tags              []Tag        `json:"tags"`
 	Config            *TopicConfig `json:"config"`
+	TopicName         string       `json:"topic_name"`
 }
 type TopicConfig struct {
 	CleanupPolicy                   *CleanupPolicy                   `json:"cleanup_policy,omitempty"`
@@ -640,15 +649,6 @@ type UncleanLeaderElectionEnable struct {
 	Source   SourceType `json:"source,omitempty"`
 	Synonyms []Synonym  `json:"synonyms"`
 	Value    *bool      `json:"value,omitempty"`
-}
-type UpdateIn struct {
-	Config            *Config `json:"config,omitempty"`
-	MinInsyncReplicas *int    `json:"min_insync_replicas,omitempty"`
-	Partitions        *int    `json:"partitions,omitempty"`
-	Replication       *int    `json:"replication,omitempty"`
-	RetentionBytes    *int    `json:"retention_bytes,omitempty"`
-	RetentionHours    *int    `json:"retention_hours,omitempty"`
-	Tags              []Tag   `json:"tags"`
 }
 type ValueType string
 

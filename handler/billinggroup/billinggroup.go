@@ -10,193 +10,193 @@ import (
 )
 
 type Handler interface {
-	// Create create a billing group
-	// BillingGroupCreate POST /billing-group
+	// BillingGroupCreate create a billing group
+	// POST /billing-group
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupCreate
-	Create(ctx context.Context, in *CreateIn) (*BillingGroup, error)
+	BillingGroupCreate(ctx context.Context, in *BillingGroupCreateIn) (*BillingGroup, error)
 
-	// CreditsClaim claim a credit code
-	// BillingGroupCreditsClaim POST /billing-group/{billing_group_id}/credits
+	// BillingGroupCreditsClaim claim a credit code
+	// POST /billing-group/{billing_group_id}/credits
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupCreditsClaim
-	CreditsClaim(ctx context.Context, id string, in *CreditsClaimIn) (*Credit, error)
+	BillingGroupCreditsClaim(ctx context.Context, billingGroupId string, in *BillingGroupCreditsClaimIn) (*Credit, error)
 
-	// CreditsList list billing group credits
-	// BillingGroupCreditsList GET /billing-group/{billing_group_id}/credits
+	// BillingGroupCreditsList list billing group credits
+	// GET /billing-group/{billing_group_id}/credits
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupCreditsList
-	CreditsList(ctx context.Context, id string) ([]Credit, error)
+	BillingGroupCreditsList(ctx context.Context, billingGroupId string) ([]Credit, error)
 
-	// Delete delete billing group
-	// BillingGroupDelete DELETE /billing-group/{billing_group_id}
+	// BillingGroupDelete delete billing group
+	// DELETE /billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupDelete
-	Delete(ctx context.Context, id string) error
+	BillingGroupDelete(ctx context.Context, billingGroupId string) error
 
-	// EventList list billing group events
-	// BillingGroupEventList GET /billing-group/{billing_group_id}/events
+	// BillingGroupEventList list billing group events
+	// GET /billing-group/{billing_group_id}/events
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupEventList
-	EventList(ctx context.Context, id string) ([]Event, error)
+	BillingGroupEventList(ctx context.Context, billingGroupId string) ([]Event, error)
 
-	// Get get billing group details
-	// BillingGroupGet GET /billing-group/{billing_group_id}
+	// BillingGroupGet get billing group details
+	// GET /billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupGet
-	Get(ctx context.Context, id string) (*BillingGroup, error)
+	BillingGroupGet(ctx context.Context, billingGroupId string) (*BillingGroup, error)
 
-	// InvoiceLinesList get invoice lines for a single invoice
-	// BillingGroupInvoiceLinesList GET /billing-group/{billing_group_id}/invoice/{invoice_number}/lines
+	// BillingGroupInvoiceLinesList get invoice lines for a single invoice
+	// GET /billing-group/{billing_group_id}/invoice/{invoice_number}/lines
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupInvoiceLinesList
-	InvoiceLinesList(ctx context.Context, id string, invoiceNumber string) ([]Line, error)
+	BillingGroupInvoiceLinesList(ctx context.Context, billingGroupId string, invoiceNumber string) ([]Line, error)
 
-	// InvoiceList get invoices generated for billing group
-	// BillingGroupInvoiceList GET /billing-group/{billing_group_id}/invoice
+	// BillingGroupInvoiceList get invoices generated for billing group
+	// GET /billing-group/{billing_group_id}/invoice
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupInvoiceList
-	InvoiceList(ctx context.Context, id string) ([]Invoice, error)
+	BillingGroupInvoiceList(ctx context.Context, billingGroupId string) ([]Invoice, error)
 
-	// List list billing groups
-	// BillingGroupList GET /billing-group
+	// BillingGroupList list billing groups
+	// GET /billing-group
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupList
-	List(ctx context.Context) ([]BillingGroup, error)
+	BillingGroupList(ctx context.Context) ([]BillingGroup, error)
 
-	// ProjectAssign assign project to billing group
-	// BillingGroupProjectAssign POST /billing-group/{billing_group_id}/project-assign/{project}
+	// BillingGroupProjectAssign assign project to billing group
+	// POST /billing-group/{billing_group_id}/project-assign/{project}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectAssign
-	ProjectAssign(ctx context.Context, id string, project string) error
+	BillingGroupProjectAssign(ctx context.Context, billingGroupId string, project string) error
 
-	// ProjectList get projects assigned to billing group
-	// BillingGroupProjectList GET /billing-group/{billing_group_id}/projects
+	// BillingGroupProjectList get projects assigned to billing group
+	// GET /billing-group/{billing_group_id}/projects
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectList
-	ProjectList(ctx context.Context, id string) ([]Project, error)
+	BillingGroupProjectList(ctx context.Context, billingGroupId string) ([]Project, error)
 
-	// ProjectsAssign assign projects to billing group
-	// BillingGroupProjectsAssign POST /billing-group/{billing_group_id}/projects-assign
+	// BillingGroupProjectsAssign assign projects to billing group
+	// POST /billing-group/{billing_group_id}/projects-assign
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectsAssign
-	ProjectsAssign(ctx context.Context, id string, in *ProjectsAssignIn) error
+	BillingGroupProjectsAssign(ctx context.Context, billingGroupId string, in *BillingGroupProjectsAssignIn) error
 
-	// Update update billing group
-	// BillingGroupUpdate PUT /billing-group/{billing_group_id}
+	// BillingGroupUpdate update billing group
+	// PUT /billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupUpdate
-	Update(ctx context.Context, id string, in *UpdateIn) (*BillingGroup, error)
+	BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroup, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) BillingGroupHandler {
+	return BillingGroupHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type BillingGroupHandler struct {
 	doer doer
 }
 
-func (h *handler) Create(ctx context.Context, in *CreateIn) (*BillingGroup, error) {
+func (h *BillingGroupHandler) BillingGroupCreate(ctx context.Context, in *BillingGroupCreateIn) (*BillingGroup, error) {
 	path := fmt.Sprintf("/billing-group")
 	b, err := h.doer.Do(ctx, "BillingGroupCreate", "POST", path, in)
-	out := new(createOut)
+	out := new(billingGroupCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.BillingGroup, nil
 }
-func (h *handler) CreditsClaim(ctx context.Context, id string, in *CreditsClaimIn) (*Credit, error) {
-	path := fmt.Sprintf("/billing-group/%s/credits", id)
+func (h *BillingGroupHandler) BillingGroupCreditsClaim(ctx context.Context, billingGroupId string, in *BillingGroupCreditsClaimIn) (*Credit, error) {
+	path := fmt.Sprintf("/billing-group/%s/credits", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsClaim", "POST", path, in)
-	out := new(creditsClaimOut)
+	out := new(billingGroupCreditsClaimOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Credit, nil
 }
-func (h *handler) CreditsList(ctx context.Context, id string) ([]Credit, error) {
-	path := fmt.Sprintf("/billing-group/%s/credits", id)
+func (h *BillingGroupHandler) BillingGroupCreditsList(ctx context.Context, billingGroupId string) ([]Credit, error) {
+	path := fmt.Sprintf("/billing-group/%s/credits", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsList", "GET", path, nil)
-	out := new(creditsListOut)
+	out := new(billingGroupCreditsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Credits, nil
 }
-func (h *handler) Delete(ctx context.Context, id string) error {
-	path := fmt.Sprintf("/billing-group/%s", id)
+func (h *BillingGroupHandler) BillingGroupDelete(ctx context.Context, billingGroupId string) error {
+	path := fmt.Sprintf("/billing-group/%s", billingGroupId)
 	_, err := h.doer.Do(ctx, "BillingGroupDelete", "DELETE", path, nil)
 	return err
 }
-func (h *handler) EventList(ctx context.Context, id string) ([]Event, error) {
-	path := fmt.Sprintf("/billing-group/%s/events", id)
+func (h *BillingGroupHandler) BillingGroupEventList(ctx context.Context, billingGroupId string) ([]Event, error) {
+	path := fmt.Sprintf("/billing-group/%s/events", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupEventList", "GET", path, nil)
-	out := new(eventListOut)
+	out := new(billingGroupEventListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Events, nil
 }
-func (h *handler) Get(ctx context.Context, id string) (*BillingGroup, error) {
-	path := fmt.Sprintf("/billing-group/%s", id)
+func (h *BillingGroupHandler) BillingGroupGet(ctx context.Context, billingGroupId string) (*BillingGroup, error) {
+	path := fmt.Sprintf("/billing-group/%s", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupGet", "GET", path, nil)
-	out := new(getOut)
+	out := new(billingGroupGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.BillingGroup, nil
 }
-func (h *handler) InvoiceLinesList(ctx context.Context, id string, invoiceNumber string) ([]Line, error) {
-	path := fmt.Sprintf("/billing-group/%s/invoice/%s/lines", id, invoiceNumber)
+func (h *BillingGroupHandler) BillingGroupInvoiceLinesList(ctx context.Context, billingGroupId string, invoiceNumber string) ([]Line, error) {
+	path := fmt.Sprintf("/billing-group/%s/invoice/%s/lines", billingGroupId, invoiceNumber)
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceLinesList", "GET", path, nil)
-	out := new(invoiceLinesListOut)
+	out := new(billingGroupInvoiceLinesListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Lines, nil
 }
-func (h *handler) InvoiceList(ctx context.Context, id string) ([]Invoice, error) {
-	path := fmt.Sprintf("/billing-group/%s/invoice", id)
+func (h *BillingGroupHandler) BillingGroupInvoiceList(ctx context.Context, billingGroupId string) ([]Invoice, error) {
+	path := fmt.Sprintf("/billing-group/%s/invoice", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceList", "GET", path, nil)
-	out := new(invoiceListOut)
+	out := new(billingGroupInvoiceListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Invoices, nil
 }
-func (h *handler) List(ctx context.Context) ([]BillingGroup, error) {
+func (h *BillingGroupHandler) BillingGroupList(ctx context.Context) ([]BillingGroup, error) {
 	path := fmt.Sprintf("/billing-group")
 	b, err := h.doer.Do(ctx, "BillingGroupList", "GET", path, nil)
-	out := new(listOut)
+	out := new(billingGroupListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.BillingGroups, nil
 }
-func (h *handler) ProjectAssign(ctx context.Context, id string, project string) error {
-	path := fmt.Sprintf("/billing-group/%s/project-assign/%s", id, project)
+func (h *BillingGroupHandler) BillingGroupProjectAssign(ctx context.Context, billingGroupId string, project string) error {
+	path := fmt.Sprintf("/billing-group/%s/project-assign/%s", billingGroupId, project)
 	_, err := h.doer.Do(ctx, "BillingGroupProjectAssign", "POST", path, nil)
 	return err
 }
-func (h *handler) ProjectList(ctx context.Context, id string) ([]Project, error) {
-	path := fmt.Sprintf("/billing-group/%s/projects", id)
+func (h *BillingGroupHandler) BillingGroupProjectList(ctx context.Context, billingGroupId string) ([]Project, error) {
+	path := fmt.Sprintf("/billing-group/%s/projects", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupProjectList", "GET", path, nil)
-	out := new(projectListOut)
+	out := new(billingGroupProjectListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Projects, nil
 }
-func (h *handler) ProjectsAssign(ctx context.Context, id string, in *ProjectsAssignIn) error {
-	path := fmt.Sprintf("/billing-group/%s/projects-assign", id)
+func (h *BillingGroupHandler) BillingGroupProjectsAssign(ctx context.Context, billingGroupId string, in *BillingGroupProjectsAssignIn) error {
+	path := fmt.Sprintf("/billing-group/%s/projects-assign", billingGroupId)
 	_, err := h.doer.Do(ctx, "BillingGroupProjectsAssign", "POST", path, in)
 	return err
 }
-func (h *handler) Update(ctx context.Context, id string, in *UpdateIn) (*BillingGroup, error) {
-	path := fmt.Sprintf("/billing-group/%s", id)
+func (h *BillingGroupHandler) BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroup, error) {
+	path := fmt.Sprintf("/billing-group/%s", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupUpdate", "PUT", path, in)
-	out := new(updateOut)
+	out := new(billingGroupUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -232,6 +232,8 @@ type BillingGroup struct {
 	BillingCurrency       BillingCurrencyType `json:"billing_currency"`
 	BillingEmails         []BillingEmail      `json:"billing_emails"`
 	BillingExtraText      string              `json:"billing_extra_text"`
+	BillingGroupId        string              `json:"billing_group_id"`
+	BillingGroupName      string              `json:"billing_group_name"`
 	CardInfo              *CardInfo           `json:"card_info"`
 	City                  string              `json:"city"`
 	Company               string              `json:"company"`
@@ -239,32 +241,12 @@ type BillingGroup struct {
 	CountryCode           string              `json:"country_code"`
 	EstimatedBalanceLocal string              `json:"estimated_balance_local"`
 	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`
-	BillingGroupId        string              `json:"billing_group_id"`
-	BillingGroupName      string              `json:"billing_group_name"`
 	PaymentMethod         PaymentMethodType   `json:"payment_method"`
 	State                 string              `json:"state"`
 	VatId                 string              `json:"vat_id"`
 	ZipCode               string              `json:"zip_code"`
 }
-type BillingGroupStateType string
-
-const (
-	BillingGroupStateTypeActive  BillingGroupStateType = "active"
-	BillingGroupStateTypeDeleted BillingGroupStateType = "deleted"
-)
-
-type CardInfo struct {
-	Brand       string `json:"brand"`
-	CardId      string `json:"card_id"`
-	Country     string `json:"country"`
-	CountryCode string `json:"country_code"`
-	ExpMonth    int    `json:"exp_month"`
-	ExpYear     int    `json:"exp_year"`
-	Last4       string `json:"last4"`
-	Name        string `json:"name"`
-	UserEmail   string `json:"user_email"`
-}
-type CreateIn struct {
+type BillingGroupCreateIn struct {
 	AccountId            string              `json:"account_id,omitempty"`
 	AddressLines         []string            `json:"address_lines"`
 	BillingCurrency      BillingCurrencyType `json:"billing_currency,omitempty"`
@@ -280,8 +262,74 @@ type CreateIn struct {
 	VatId                string              `json:"vat_id,omitempty"`
 	ZipCode              string              `json:"zip_code,omitempty"`
 }
-type createOut struct {
+type billingGroupCreateOut struct {
 	BillingGroup *BillingGroup `json:"billing_group"`
+}
+type BillingGroupCreditsClaimIn struct {
+	Code string `json:"code"`
+}
+type billingGroupCreditsClaimOut struct {
+	Credit *Credit `json:"credit"`
+}
+type billingGroupCreditsListOut struct {
+	Credits []Credit `json:"credits"`
+}
+type billingGroupEventListOut struct {
+	Events []Event `json:"events"`
+}
+type billingGroupGetOut struct {
+	BillingGroup *BillingGroup `json:"billing_group"`
+}
+type billingGroupInvoiceLinesListOut struct {
+	Lines []Line `json:"lines"`
+}
+type billingGroupInvoiceListOut struct {
+	Invoices []Invoice `json:"invoices"`
+}
+type billingGroupListOut struct {
+	BillingGroups []BillingGroup `json:"billing_groups"`
+}
+type billingGroupProjectListOut struct {
+	Projects []Project `json:"projects"`
+}
+type BillingGroupProjectsAssignIn struct {
+	ProjectsNames []string `json:"projects_names"`
+}
+type BillingGroupStateType string
+
+const (
+	BillingGroupStateTypeActive  BillingGroupStateType = "active"
+	BillingGroupStateTypeDeleted BillingGroupStateType = "deleted"
+)
+
+type BillingGroupUpdateIn struct {
+	AccountId        string              `json:"account_id,omitempty"`
+	AddressLines     []string            `json:"address_lines"`
+	BillingCurrency  BillingCurrencyType `json:"billing_currency,omitempty"`
+	BillingEmails    []BillingEmail      `json:"billing_emails"`
+	BillingExtraText string              `json:"billing_extra_text,omitempty"`
+	BillingGroupName string              `json:"billing_group_name,omitempty"`
+	CardId           string              `json:"card_id,omitempty"`
+	City             string              `json:"city,omitempty"`
+	Company          string              `json:"company,omitempty"`
+	CountryCode      string              `json:"country_code,omitempty"`
+	State            string              `json:"state,omitempty"`
+	VatId            string              `json:"vat_id,omitempty"`
+	ZipCode          string              `json:"zip_code,omitempty"`
+}
+type billingGroupUpdateOut struct {
+	BillingGroup *BillingGroup `json:"billing_group"`
+}
+type CardInfo struct {
+	Brand       string `json:"brand"`
+	CardId      string `json:"card_id"`
+	Country     string `json:"country"`
+	CountryCode string `json:"country_code"`
+	ExpMonth    int    `json:"exp_month"`
+	ExpYear     int    `json:"exp_year"`
+	Last4       string `json:"last4"`
+	Name        string `json:"name"`
+	UserEmail   string `json:"user_email"`
 }
 type Credit struct {
 	Code           string     `json:"code,omitempty"`
@@ -290,15 +338,6 @@ type Credit struct {
 	StartTime      *time.Time `json:"start_time,omitempty"`
 	Type           Type       `json:"type,omitempty"`
 	Value          string     `json:"value,omitempty"`
-}
-type CreditsClaimIn struct {
-	Code string `json:"code"`
-}
-type creditsClaimOut struct {
-	Credit *Credit `json:"credit"`
-}
-type creditsListOut struct {
-	Credits []Credit `json:"credits"`
 }
 type CurrencyType string
 
@@ -322,16 +361,10 @@ type Event struct {
 	BillingGroupId string     `json:"billing_group_id,omitempty"`
 	CreateTime     *time.Time `json:"create_time,omitempty"`
 	EventDesc      string     `json:"event_desc,omitempty"`
+	EventType      string     `json:"event_type,omitempty"`
 	LogEntryId     *int       `json:"log_entry_id,omitempty"`
 	ProjectId      string     `json:"project_id,omitempty"`
 	ProjectName    string     `json:"project_name,omitempty"`
-	EventType      string     `json:"event_type,omitempty"`
-}
-type eventListOut struct {
-	Events []Event `json:"events"`
-}
-type getOut struct {
-	BillingGroup *BillingGroup `json:"billing_group"`
 }
 type Invoice struct {
 	BillingGroupId    string                `json:"billing_group_id"`
@@ -347,19 +380,15 @@ type Invoice struct {
 	TotalIncVat       string                `json:"total_inc_vat"`
 	TotalVatZero      string                `json:"total_vat_zero"`
 }
-type invoiceLinesListOut struct {
-	Lines []Line `json:"lines"`
-}
-type invoiceListOut struct {
-	Invoices []Invoice `json:"invoices"`
-}
 type Line struct {
 	CloudName            string            `json:"cloud_name,omitempty"`
 	CommitmentName       string            `json:"commitment_name,omitempty"`
 	Description          string            `json:"description"`
+	LinePreDiscountLocal string            `json:"line_pre_discount_local,omitempty"`
+	LineTotalLocal       string            `json:"line_total_local,omitempty"`
+	LineTotalUsd         string            `json:"line_total_usd"`
 	LineType             LineType          `json:"line_type"`
 	LocalCurrency        string            `json:"local_currency,omitempty"`
-	LinePreDiscountLocal string            `json:"line_pre_discount_local,omitempty"`
 	ProjectName          string            `json:"project_name,omitempty"`
 	ServiceName          string            `json:"service_name,omitempty"`
 	ServicePlan          string            `json:"service_plan,omitempty"`
@@ -367,8 +396,6 @@ type Line struct {
 	Tags                 map[string]string `json:"tags,omitempty"`
 	TimestampBegin       string            `json:"timestamp_begin,omitempty"`
 	TimestampEnd         string            `json:"timestamp_end,omitempty"`
-	LineTotalLocal       string            `json:"line_total_local,omitempty"`
-	LineTotalUsd         string            `json:"line_total_usd"`
 }
 type LineType string
 
@@ -383,9 +410,6 @@ const (
 	LineTypeSupportCharge     LineType = "support_charge"
 )
 
-type listOut struct {
-	BillingGroups []BillingGroup `json:"billing_groups"`
-}
 type PaymentMethodType string
 
 const (
@@ -401,12 +425,6 @@ type Project struct {
 	AvailableCredits string `json:"available_credits"`
 	EstimatedBalance string `json:"estimated_balance"`
 	ProjectName      string `json:"project_name"`
-}
-type projectListOut struct {
-	Projects []Project `json:"projects"`
-}
-type ProjectsAssignIn struct {
-	ProjectsNames []string `json:"projects_names"`
 }
 type ServiceType string
 
@@ -473,22 +491,3 @@ const (
 	TypeTrial       Type = "trial"
 	TypeTrialOver   Type = "trial_over"
 )
-
-type UpdateIn struct {
-	AccountId        string              `json:"account_id,omitempty"`
-	AddressLines     []string            `json:"address_lines"`
-	BillingCurrency  BillingCurrencyType `json:"billing_currency,omitempty"`
-	BillingEmails    []BillingEmail      `json:"billing_emails"`
-	BillingExtraText string              `json:"billing_extra_text,omitempty"`
-	BillingGroupName string              `json:"billing_group_name,omitempty"`
-	CardId           string              `json:"card_id,omitempty"`
-	City             string              `json:"city,omitempty"`
-	Company          string              `json:"company,omitempty"`
-	CountryCode      string              `json:"country_code,omitempty"`
-	State            string              `json:"state,omitempty"`
-	VatId            string              `json:"vat_id,omitempty"`
-	ZipCode          string              `json:"zip_code,omitempty"`
-}
-type updateOut struct {
-	BillingGroup *BillingGroup `json:"billing_group"`
-}

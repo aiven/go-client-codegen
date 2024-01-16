@@ -17,7 +17,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func NewClient(opts ...Option) (*Client, error) {
+func NewClient(opts ...Option) (Client, error) {
 	d := new(Doer)
 	err := envconfig.Process("", d)
 	if err != nil {

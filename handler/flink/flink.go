@@ -9,28 +9,28 @@ import (
 )
 
 type Handler interface {
-	// Overview get a cluster overview
-	// ServiceFlinkOverview GET /project/{project}/service/{service_name}/flink/overview
+	// ServiceFlinkOverview get a cluster overview
+	// GET /project/{project}/service/{service_name}/flink/overview
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkOverview
-	Overview(ctx context.Context, project string, serviceName string) (*OverviewOut, error)
+	ServiceFlinkOverview(ctx context.Context, project string, serviceName string) (*ServiceFlinkOverviewOut, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) FlinkHandler {
+	return FlinkHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type FlinkHandler struct {
 	doer doer
 }
 
-func (h *handler) Overview(ctx context.Context, project string, serviceName string) (*OverviewOut, error) {
+func (h *FlinkHandler) ServiceFlinkOverview(ctx context.Context, project string, serviceName string) (*ServiceFlinkOverviewOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/overview", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkOverview", "GET", path, nil)
-	out := new(OverviewOut)
+	out := new(ServiceFlinkOverviewOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -38,7 +38,7 @@ func (h *handler) Overview(ctx context.Context, project string, serviceName stri
 	return out, nil
 }
 
-type OverviewOut struct {
+type ServiceFlinkOverviewOut struct {
 	FlinkCommit    string `json:"flink-commit,omitempty"`
 	FlinkVersion   string `json:"flink-version,omitempty"`
 	JobsCancelled  *int   `json:"jobs-cancelled,omitempty"`

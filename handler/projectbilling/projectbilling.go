@@ -11,34 +11,34 @@ import (
 
 type Handler interface {
 	// ProjectCreditsClaim claim a credit code
-	// ProjectCreditsClaim POST /project/{project}/credits
+	// POST /project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsClaim
 	ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*Credit, error)
 
 	// ProjectCreditsList list project credits
-	// ProjectCreditsList GET /project/{project}/credits
+	// GET /project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsList
 	ProjectCreditsList(ctx context.Context, project string) ([]Credit, error)
 
 	// ProjectInvoiceList list project invoices
-	// ProjectInvoiceList GET /project/{project}/invoice
+	// GET /project/{project}/invoice
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectInvoiceList
 	ProjectInvoiceList(ctx context.Context, project string) ([]Invoice, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) ProjectBillingHandler {
+	return ProjectBillingHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type ProjectBillingHandler struct {
 	doer doer
 }
 
-func (h *handler) ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*Credit, error) {
+func (h *ProjectBillingHandler) ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*Credit, error) {
 	path := fmt.Sprintf("/project/%s/credits", project)
 	b, err := h.doer.Do(ctx, "ProjectCreditsClaim", "POST", path, in)
 	out := new(projectCreditsClaimOut)
@@ -48,7 +48,7 @@ func (h *handler) ProjectCreditsClaim(ctx context.Context, project string, in *P
 	}
 	return out.Credit, nil
 }
-func (h *handler) ProjectCreditsList(ctx context.Context, project string) ([]Credit, error) {
+func (h *ProjectBillingHandler) ProjectCreditsList(ctx context.Context, project string) ([]Credit, error) {
 	path := fmt.Sprintf("/project/%s/credits", project)
 	b, err := h.doer.Do(ctx, "ProjectCreditsList", "GET", path, nil)
 	out := new(projectCreditsListOut)
@@ -58,7 +58,7 @@ func (h *handler) ProjectCreditsList(ctx context.Context, project string) ([]Cre
 	}
 	return out.Credits, nil
 }
-func (h *handler) ProjectInvoiceList(ctx context.Context, project string) ([]Invoice, error) {
+func (h *ProjectBillingHandler) ProjectInvoiceList(ctx context.Context, project string) ([]Invoice, error) {
 	path := fmt.Sprintf("/project/%s/invoice", project)
 	b, err := h.doer.Do(ctx, "ProjectInvoiceList", "GET", path, nil)
 	out := new(projectInvoiceListOut)

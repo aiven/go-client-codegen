@@ -10,105 +10,150 @@ import (
 )
 
 type Handler interface {
-	// AuthenticationConfigGet retrieve authentication configuration
-	// OrganizationAuthenticationConfigGet GET /organization/{organization_id}/config/authentication
+	// OrganizationAuthenticationConfigGet retrieve authentication configuration
+	// GET /organization/{organization_id}/config/authentication
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationAuthenticationConfigGet
-	AuthenticationConfigGet(ctx context.Context, id string) (*AuthenticationConfigGetOut, error)
+	OrganizationAuthenticationConfigGet(ctx context.Context, organizationId string) (*OrganizationAuthenticationConfigGetOut, error)
 
-	// AuthenticationConfigUpdate update authentication configuration
-	// OrganizationAuthenticationConfigUpdate PATCH /organization/{organization_id}/config/authentication
+	// OrganizationAuthenticationConfigUpdate update authentication configuration
+	// PATCH /organization/{organization_id}/config/authentication
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationAuthenticationConfigUpdate
-	AuthenticationConfigUpdate(ctx context.Context, id string, in *AuthenticationConfigUpdateIn) (*AuthenticationConfigUpdateOut, error)
+	OrganizationAuthenticationConfigUpdate(ctx context.Context, organizationId string, in *OrganizationAuthenticationConfigUpdateIn) (*OrganizationAuthenticationConfigUpdateOut, error)
 
-	// Get get information about an organization
-	// OrganizationGet GET /organization/{organization_id}
+	// OrganizationGet get information about an organization
+	// GET /organization/{organization_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationGet
-	Get(ctx context.Context, id string) (*GetOut, error)
+	OrganizationGet(ctx context.Context, organizationId string) (*OrganizationGetOut, error)
 
-	// ProjectsList list projects under the organization
-	// OrganizationProjectsList GET /organization/{organization_id}/projects
+	// OrganizationProjectsList list projects under the organization
+	// GET /organization/{organization_id}/projects
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsList
-	ProjectsList(ctx context.Context, id string) (*ProjectsListOut, error)
+	OrganizationProjectsList(ctx context.Context, organizationId string) (*OrganizationProjectsListOut, error)
 
-	// Update update organization's details
-	// OrganizationUpdate PATCH /organization/{organization_id}
+	// OrganizationUpdate update organization's details
+	// PATCH /organization/{organization_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUpdate
-	Update(ctx context.Context, id string, in *UpdateIn) (*UpdateOut, error)
+	OrganizationUpdate(ctx context.Context, organizationId string, in *OrganizationUpdateIn) (*OrganizationUpdateOut, error)
+
+	// OrganizationUserInvitationAccept accept a user invitation to the organization
+	// POST /organization/{organization_id}/invitation/{user_email}
+	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationAccept
+	OrganizationUserInvitationAccept(ctx context.Context, organizationId string, userEmail string, in *OrganizationUserInvitationAcceptIn) error
+
+	// OrganizationUserInvitationDelete remove an invitation to the organization
+	// DELETE /organization/{organization_id}/invitation/{user_email}
+	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationDelete
+	OrganizationUserInvitationDelete(ctx context.Context, organizationId string, userEmail string) error
+
+	// OrganizationUserInvitationsList list user invitations to the organization
+	// GET /organization/{organization_id}/invitation
+	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationsList
+	OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]Invitation, error)
+
+	// OrganizationUserInvite invite a user to the organization
+	// POST /organization/{organization_id}/invitation
+	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvite
+	OrganizationUserInvite(ctx context.Context, organizationId string, in *OrganizationUserInviteIn) error
 
 	// UserOrganizationCreate create an organization
-	// UserOrganizationCreate POST /organizations
+	// POST /organizations
 	// https://api.aiven.io/doc/#tag/Organizations/operation/UserOrganizationCreate
 	UserOrganizationCreate(ctx context.Context, in *UserOrganizationCreateIn) (*UserOrganizationCreateOut, error)
 
 	// UserOrganizationsList list organizations the user belongs to
-	// UserOrganizationsList GET /organizations
+	// GET /organizations
 	// https://api.aiven.io/doc/#tag/Organizations/operation/UserOrganizationsList
 	UserOrganizationsList(ctx context.Context) ([]Organization, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) OrganizationHandler {
+	return OrganizationHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type OrganizationHandler struct {
 	doer doer
 }
 
-func (h *handler) AuthenticationConfigGet(ctx context.Context, id string) (*AuthenticationConfigGetOut, error) {
-	path := fmt.Sprintf("/organization/%s/config/authentication", id)
+func (h *OrganizationHandler) OrganizationAuthenticationConfigGet(ctx context.Context, organizationId string) (*OrganizationAuthenticationConfigGetOut, error) {
+	path := fmt.Sprintf("/organization/%s/config/authentication", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationAuthenticationConfigGet", "GET", path, nil)
-	out := new(AuthenticationConfigGetOut)
+	out := new(OrganizationAuthenticationConfigGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) AuthenticationConfigUpdate(ctx context.Context, id string, in *AuthenticationConfigUpdateIn) (*AuthenticationConfigUpdateOut, error) {
-	path := fmt.Sprintf("/organization/%s/config/authentication", id)
+func (h *OrganizationHandler) OrganizationAuthenticationConfigUpdate(ctx context.Context, organizationId string, in *OrganizationAuthenticationConfigUpdateIn) (*OrganizationAuthenticationConfigUpdateOut, error) {
+	path := fmt.Sprintf("/organization/%s/config/authentication", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationAuthenticationConfigUpdate", "PATCH", path, in)
-	out := new(AuthenticationConfigUpdateOut)
+	out := new(OrganizationAuthenticationConfigUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) Get(ctx context.Context, id string) (*GetOut, error) {
-	path := fmt.Sprintf("/organization/%s", id)
+func (h *OrganizationHandler) OrganizationGet(ctx context.Context, organizationId string) (*OrganizationGetOut, error) {
+	path := fmt.Sprintf("/organization/%s", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationGet", "GET", path, nil)
-	out := new(GetOut)
+	out := new(OrganizationGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) ProjectsList(ctx context.Context, id string) (*ProjectsListOut, error) {
-	path := fmt.Sprintf("/organization/%s/projects", id)
+func (h *OrganizationHandler) OrganizationProjectsList(ctx context.Context, organizationId string) (*OrganizationProjectsListOut, error) {
+	path := fmt.Sprintf("/organization/%s/projects", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationProjectsList", "GET", path, nil)
-	out := new(ProjectsListOut)
+	out := new(OrganizationProjectsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) Update(ctx context.Context, id string, in *UpdateIn) (*UpdateOut, error) {
-	path := fmt.Sprintf("/organization/%s", id)
+func (h *OrganizationHandler) OrganizationUpdate(ctx context.Context, organizationId string, in *OrganizationUpdateIn) (*OrganizationUpdateOut, error) {
+	path := fmt.Sprintf("/organization/%s", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationUpdate", "PATCH", path, in)
-	out := new(UpdateOut)
+	out := new(OrganizationUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *handler) UserOrganizationCreate(ctx context.Context, in *UserOrganizationCreateIn) (*UserOrganizationCreateOut, error) {
+func (h *OrganizationHandler) OrganizationUserInvitationAccept(ctx context.Context, organizationId string, userEmail string, in *OrganizationUserInvitationAcceptIn) error {
+	path := fmt.Sprintf("/organization/%s/invitation/%s", organizationId, userEmail)
+	_, err := h.doer.Do(ctx, "OrganizationUserInvitationAccept", "POST", path, in)
+	return err
+}
+func (h *OrganizationHandler) OrganizationUserInvitationDelete(ctx context.Context, organizationId string, userEmail string) error {
+	path := fmt.Sprintf("/organization/%s/invitation/%s", organizationId, userEmail)
+	_, err := h.doer.Do(ctx, "OrganizationUserInvitationDelete", "DELETE", path, nil)
+	return err
+}
+func (h *OrganizationHandler) OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]Invitation, error) {
+	path := fmt.Sprintf("/organization/%s/invitation", organizationId)
+	b, err := h.doer.Do(ctx, "OrganizationUserInvitationsList", "GET", path, nil)
+	out := new(organizationUserInvitationsListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Invitations, nil
+}
+func (h *OrganizationHandler) OrganizationUserInvite(ctx context.Context, organizationId string, in *OrganizationUserInviteIn) error {
+	path := fmt.Sprintf("/organization/%s/invitation", organizationId)
+	_, err := h.doer.Do(ctx, "OrganizationUserInvite", "POST", path, in)
+	return err
+}
+func (h *OrganizationHandler) UserOrganizationCreate(ctx context.Context, in *UserOrganizationCreateIn) (*UserOrganizationCreateOut, error) {
 	path := fmt.Sprintf("/organizations")
 	b, err := h.doer.Do(ctx, "UserOrganizationCreate", "POST", path, in)
 	out := new(UserOrganizationCreateOut)
@@ -118,7 +163,7 @@ func (h *handler) UserOrganizationCreate(ctx context.Context, in *UserOrganizati
 	}
 	return out, nil
 }
-func (h *handler) UserOrganizationsList(ctx context.Context) ([]Organization, error) {
+func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]Organization, error) {
 	path := fmt.Sprintf("/organizations")
 	b, err := h.doer.Do(ctx, "UserOrganizationsList", "GET", path, nil)
 	out := new(userOrganizationsListOut)
@@ -129,24 +174,16 @@ func (h *handler) UserOrganizationsList(ctx context.Context) ([]Organization, er
 	return out.Organizations, nil
 }
 
-type AuthenticationConfigGetOut struct {
-	OauthEnabled        *bool `json:"oauth_enabled,omitempty"`
-	PasswordAuthEnabled *bool `json:"password_auth_enabled,omitempty"`
-	SamlEnabled         *bool `json:"saml_enabled,omitempty"`
-	TwoFactorRequired   *bool `json:"two_factor_required,omitempty"`
+type ActionType string
+
+const (
+	ActionTypeAccept ActionType = "accept"
+)
+
+func ActionTypeChoices() []string {
+	return []string{"accept"}
 }
-type AuthenticationConfigUpdateIn struct {
-	OauthEnabled        *bool `json:"oauth_enabled,omitempty"`
-	PasswordAuthEnabled *bool `json:"password_auth_enabled,omitempty"`
-	SamlEnabled         *bool `json:"saml_enabled,omitempty"`
-	TwoFactorRequired   *bool `json:"two_factor_required,omitempty"`
-}
-type AuthenticationConfigUpdateOut struct {
-	OauthEnabled        *bool `json:"oauth_enabled,omitempty"`
-	PasswordAuthEnabled *bool `json:"password_auth_enabled,omitempty"`
-	SamlEnabled         *bool `json:"saml_enabled,omitempty"`
-	TwoFactorRequired   *bool `json:"two_factor_required,omitempty"`
-}
+
 type BillingCurrencyType string
 
 const (
@@ -185,13 +222,11 @@ type Elasticsearch struct {
 type EndOfLifeExtension struct {
 	Elasticsearch *Elasticsearch `json:"elasticsearch,omitempty"`
 }
-type GetOut struct {
-	AccountId        string    `json:"account_id"`
-	CreateTime       time.Time `json:"create_time"`
-	OrganizationId   string    `json:"organization_id"`
-	OrganizationName string    `json:"organization_name"`
-	Tier             TierType  `json:"tier"`
-	UpdateTime       time.Time `json:"update_time"`
+type Invitation struct {
+	CreateTime time.Time `json:"create_time"`
+	ExpiryTime time.Time `json:"expiry_time"`
+	InvitedBy  string    `json:"invited_by"`
+	UserEmail  string    `json:"user_email"`
 }
 type Organization struct {
 	AccountId        string    `json:"account_id"`
@@ -200,6 +235,57 @@ type Organization struct {
 	OrganizationName string    `json:"organization_name"`
 	Tier             TierType  `json:"tier"`
 	UpdateTime       time.Time `json:"update_time"`
+}
+type OrganizationAuthenticationConfigGetOut struct {
+	OauthEnabled        *bool `json:"oauth_enabled,omitempty"`
+	PasswordAuthEnabled *bool `json:"password_auth_enabled,omitempty"`
+	SamlEnabled         *bool `json:"saml_enabled,omitempty"`
+	TwoFactorRequired   *bool `json:"two_factor_required,omitempty"`
+}
+type OrganizationAuthenticationConfigUpdateIn struct {
+	OauthEnabled        *bool `json:"oauth_enabled,omitempty"`
+	PasswordAuthEnabled *bool `json:"password_auth_enabled,omitempty"`
+	SamlEnabled         *bool `json:"saml_enabled,omitempty"`
+	TwoFactorRequired   *bool `json:"two_factor_required,omitempty"`
+}
+type OrganizationAuthenticationConfigUpdateOut struct {
+	OauthEnabled        *bool `json:"oauth_enabled,omitempty"`
+	PasswordAuthEnabled *bool `json:"password_auth_enabled,omitempty"`
+	SamlEnabled         *bool `json:"saml_enabled,omitempty"`
+	TwoFactorRequired   *bool `json:"two_factor_required,omitempty"`
+}
+type OrganizationGetOut struct {
+	AccountId        string    `json:"account_id"`
+	CreateTime       time.Time `json:"create_time"`
+	OrganizationId   string    `json:"organization_id"`
+	OrganizationName string    `json:"organization_name"`
+	Tier             TierType  `json:"tier"`
+	UpdateTime       time.Time `json:"update_time"`
+}
+type OrganizationProjectsListOut struct {
+	Projects          []Project `json:"projects"`
+	TotalProjectCount *int      `json:"total_project_count,omitempty"`
+}
+type OrganizationUpdateIn struct {
+	Name string   `json:"name,omitempty"`
+	Tier TierType `json:"tier,omitempty"`
+}
+type OrganizationUpdateOut struct {
+	AccountId        string    `json:"account_id"`
+	CreateTime       time.Time `json:"create_time"`
+	OrganizationId   string    `json:"organization_id"`
+	OrganizationName string    `json:"organization_name"`
+	Tier             TierType  `json:"tier"`
+	UpdateTime       time.Time `json:"update_time"`
+}
+type OrganizationUserInvitationAcceptIn struct {
+	Action ActionType `json:"action,omitempty"`
+}
+type organizationUserInvitationsListOut struct {
+	Invitations []Invitation `json:"invitations"`
+}
+type OrganizationUserInviteIn struct {
+	UserEmail string `json:"user_email"`
 }
 type Project struct {
 	AccountId             string              `json:"account_id"`
@@ -222,9 +308,9 @@ type Project struct {
 	EstimatedBalance      string              `json:"estimated_balance"`
 	EstimatedBalanceLocal string              `json:"estimated_balance_local,omitempty"`
 	Features              map[string]any      `json:"features,omitempty"`
-	ProjectName           string              `json:"project_name"`
 	OrganizationId        string              `json:"organization_id"`
 	PaymentMethod         string              `json:"payment_method"`
+	ProjectName           string              `json:"project_name"`
 	State                 string              `json:"state,omitempty"`
 	Tags                  map[string]string   `json:"tags,omitempty"`
 	TechEmails            []TechEmail         `json:"tech_emails"`
@@ -232,10 +318,6 @@ type Project struct {
 	TrialExpirationTime   *time.Time          `json:"trial_expiration_time,omitempty"`
 	VatId                 string              `json:"vat_id"`
 	ZipCode               string              `json:"zip_code,omitempty"`
-}
-type ProjectsListOut struct {
-	Projects          []Project `json:"projects"`
-	TotalProjectCount *int      `json:"total_project_count,omitempty"`
 }
 type TechEmail struct {
 	Email string `json:"email"`
@@ -247,18 +329,6 @@ const (
 	TierTypePersonal TierType = "personal"
 )
 
-type UpdateIn struct {
-	Name string   `json:"name,omitempty"`
-	Tier TierType `json:"tier,omitempty"`
-}
-type UpdateOut struct {
-	AccountId        string    `json:"account_id"`
-	CreateTime       time.Time `json:"create_time"`
-	OrganizationId   string    `json:"organization_id"`
-	OrganizationName string    `json:"organization_name"`
-	Tier             TierType  `json:"tier"`
-	UpdateTime       time.Time `json:"update_time"`
-}
 type UserOrganizationCreateIn struct {
 	OrganizationName      string   `json:"organization_name"`
 	PrimaryBillingGroupId string   `json:"primary_billing_group_id,omitempty"`

@@ -9,63 +9,63 @@ import (
 )
 
 type Handler interface {
-	// DatabaseCreate create a database
-	// ServiceClickHouseDatabaseCreate POST /project/{project}/service/{service_name}/clickhouse/db
+	// ServiceClickHouseDatabaseCreate create a database
+	// POST /project/{project}/service/{service_name}/clickhouse/db
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseDatabaseCreate
-	DatabaseCreate(ctx context.Context, project string, serviceName string, in *DatabaseCreateIn) error
+	ServiceClickHouseDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceClickHouseDatabaseCreateIn) error
 
-	// DatabaseDelete delete a database
-	// ServiceClickHouseDatabaseDelete DELETE /project/{project}/service/{service_name}/clickhouse/db/{database}
+	// ServiceClickHouseDatabaseDelete delete a database
+	// DELETE /project/{project}/service/{service_name}/clickhouse/db/{database}
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseDatabaseDelete
-	DatabaseDelete(ctx context.Context, project string, serviceName string, database string) error
+	ServiceClickHouseDatabaseDelete(ctx context.Context, project string, serviceName string, database string) error
 
-	// QueryStats return statistics on recent queries
-	// ServiceClickHouseQueryStats GET /project/{project}/service/{service_name}/clickhouse/query/stats
+	// ServiceClickHouseQueryStats return statistics on recent queries
+	// GET /project/{project}/service/{service_name}/clickhouse/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQueryStats
-	QueryStats(ctx context.Context, project string, serviceName string) ([]Query, error)
+	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, limit int, offset int, orderByType OrderByType) ([]Query, error)
 
-	// TieredStorageSummary get the ClickHouse tiered storage summary
-	// ServiceClickHouseTieredStorageSummary GET /project/{project}/service/{service_name}/clickhouse/tiered-storage/summary
+	// ServiceClickHouseTieredStorageSummary get the ClickHouse tiered storage summary
+	// GET /project/{project}/service/{service_name}/clickhouse/tiered-storage/summary
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseTieredStorageSummary
-	TieredStorageSummary(ctx context.Context, project string, serviceName string) (*TieredStorageSummaryOut, error)
+	ServiceClickHouseTieredStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceClickHouseTieredStorageSummaryOut, error)
 }
 
-func NewHandler(doer doer) Handler {
-	return &handler{doer}
+func NewHandler(doer doer) ClickHouseHandler {
+	return ClickHouseHandler{doer}
 }
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-type handler struct {
+type ClickHouseHandler struct {
 	doer doer
 }
 
-func (h *handler) DatabaseCreate(ctx context.Context, project string, serviceName string, in *DatabaseCreateIn) error {
+func (h *ClickHouseHandler) ServiceClickHouseDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceClickHouseDatabaseCreateIn) error {
 	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/db", project, serviceName)
 	_, err := h.doer.Do(ctx, "ServiceClickHouseDatabaseCreate", "POST", path, in)
 	return err
 }
-func (h *handler) DatabaseDelete(ctx context.Context, project string, serviceName string, database string) error {
+func (h *ClickHouseHandler) ServiceClickHouseDatabaseDelete(ctx context.Context, project string, serviceName string, database string) error {
 	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/db/%s", project, serviceName, database)
 	_, err := h.doer.Do(ctx, "ServiceClickHouseDatabaseDelete", "DELETE", path, nil)
 	return err
 }
-func (h *handler) QueryStats(ctx context.Context, project string, serviceName string) ([]Query, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/query/stats", project, serviceName)
+func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, limit int, offset int, orderByType OrderByType) ([]Query, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/query/stats", project, serviceName, limit, offset, orderByType)
 	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil)
-	out := new(queryStatsOut)
+	out := new(serviceClickHouseQueryStatsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Queries, nil
 }
-func (h *handler) TieredStorageSummary(ctx context.Context, project string, serviceName string) (*TieredStorageSummaryOut, error) {
+func (h *ClickHouseHandler) ServiceClickHouseTieredStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceClickHouseTieredStorageSummaryOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/tiered-storage/summary", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceClickHouseTieredStorageSummary", "GET", path, nil)
-	out := new(TieredStorageSummaryOut)
+	out := new(ServiceClickHouseTieredStorageSummaryOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -73,14 +73,34 @@ func (h *handler) TieredStorageSummary(ctx context.Context, project string, serv
 	return out, nil
 }
 
-type DatabaseCreateIn struct {
-	Database string `json:"database"`
-}
 type Hourly struct {
 	EstimatedCost   string `json:"estimated_cost,omitempty"`
 	HourStart       string `json:"hour_start"`
 	PeakStoredBytes int    `json:"peak_stored_bytes"`
 }
+type OrderByType string
+
+const (
+	OrderByTypeCallsasc       OrderByType = "calls:asc"
+	OrderByTypeCallsdesc      OrderByType = "calls:desc"
+	OrderByTypeMinTimeasc     OrderByType = "min_time:asc"
+	OrderByTypeMinTimedesc    OrderByType = "min_time:desc"
+	OrderByTypeMaxTimeasc     OrderByType = "max_time:asc"
+	OrderByTypeMaxTimedesc    OrderByType = "max_time:desc"
+	OrderByTypeMeanTimeasc    OrderByType = "mean_time:asc"
+	OrderByTypeMeanTimedesc   OrderByType = "mean_time:desc"
+	OrderByTypeP95Timeasc     OrderByType = "p95_time:asc"
+	OrderByTypeP95Timedesc    OrderByType = "p95_time:desc"
+	OrderByTypeStddevTimeasc  OrderByType = "stddev_time:asc"
+	OrderByTypeStddevTimedesc OrderByType = "stddev_time:desc"
+	OrderByTypeTotalTimeasc   OrderByType = "total_time:asc"
+	OrderByTypeTotalTimedesc  OrderByType = "total_time:desc"
+)
+
+func OrderByTypeChoices() []string {
+	return []string{"calls:asc", "calls:desc", "min_time:asc", "min_time:desc", "max_time:asc", "max_time:desc", "mean_time:asc", "mean_time:desc", "p95_time:asc", "p95_time:desc", "stddev_time:asc", "stddev_time:desc", "total_time:asc", "total_time:desc"}
+}
+
 type Query struct {
 	Calls      *int     `json:"calls,omitempty"`
 	Database   string   `json:"database,omitempty"`
@@ -93,15 +113,18 @@ type Query struct {
 	StddevTime *int     `json:"stddev_time,omitempty"`
 	TotalTime  *int     `json:"total_time,omitempty"`
 }
-type queryStatsOut struct {
+type ServiceClickHouseDatabaseCreateIn struct {
+	Database string `json:"database"`
+}
+type serviceClickHouseQueryStatsOut struct {
 	Queries []Query `json:"queries"`
 }
-type StorageUsageHistory struct {
-	Hourly []Hourly `json:"hourly"`
-}
-type TieredStorageSummaryOut struct {
+type ServiceClickHouseTieredStorageSummaryOut struct {
 	CurrentCost         string               `json:"current_cost"`
 	ForecastedCost      string               `json:"forecasted_cost"`
 	StorageUsageHistory *StorageUsageHistory `json:"storage_usage_history"`
 	TotalStorageUsage   int                  `json:"total_storage_usage"`
+}
+type StorageUsageHistory struct {
+	Hourly []Hourly `json:"hourly"`
 }

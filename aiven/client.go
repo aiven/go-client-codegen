@@ -5,109 +5,142 @@ package aiven
 import (
 	"context"
 
-	account "github.com/aiven/aiven-go-client-v2/handler/account"
-	billing "github.com/aiven/aiven-go-client-v2/handler/billing"
-	billinggroup "github.com/aiven/aiven-go-client-v2/handler/billinggroup"
-	clickhouse "github.com/aiven/aiven-go-client-v2/handler/clickhouse"
-	cloudplatform "github.com/aiven/aiven-go-client-v2/handler/cloudplatform"
-	domain "github.com/aiven/aiven-go-client-v2/handler/domain"
-	flink "github.com/aiven/aiven-go-client-v2/handler/flink"
-	flinkapplication "github.com/aiven/aiven-go-client-v2/handler/flinkapplication"
-	flinkapplicationdeployment "github.com/aiven/aiven-go-client-v2/handler/flinkapplicationdeployment"
-	flinkapplicationversion "github.com/aiven/aiven-go-client-v2/handler/flinkapplicationversion"
-	flinkjob "github.com/aiven/aiven-go-client-v2/handler/flinkjob"
-	kafka "github.com/aiven/aiven-go-client-v2/handler/kafka"
-	kafkaconnect "github.com/aiven/aiven-go-client-v2/handler/kafkaconnect"
-	kafkamirrormaker "github.com/aiven/aiven-go-client-v2/handler/kafkamirrormaker"
-	kafkaschemaregistry "github.com/aiven/aiven-go-client-v2/handler/kafkaschemaregistry"
-	kafkatopic "github.com/aiven/aiven-go-client-v2/handler/kafkatopic"
-	mysql "github.com/aiven/aiven-go-client-v2/handler/mysql"
-	opensearch "github.com/aiven/aiven-go-client-v2/handler/opensearch"
-	organization "github.com/aiven/aiven-go-client-v2/handler/organization"
-	organizationuser "github.com/aiven/aiven-go-client-v2/handler/organizationuser"
-	postgresql "github.com/aiven/aiven-go-client-v2/handler/postgresql"
-	privatelink "github.com/aiven/aiven-go-client-v2/handler/privatelink"
-	project "github.com/aiven/aiven-go-client-v2/handler/project"
-	projectbilling "github.com/aiven/aiven-go-client-v2/handler/projectbilling"
-	projectkeymanagement "github.com/aiven/aiven-go-client-v2/handler/projectkeymanagement"
-	service "github.com/aiven/aiven-go-client-v2/handler/service"
-	serviceintegration "github.com/aiven/aiven-go-client-v2/handler/serviceintegration"
-	serviceintegrationendpoint "github.com/aiven/aiven-go-client-v2/handler/serviceintegrationendpoint"
-	staticip "github.com/aiven/aiven-go-client-v2/handler/staticip"
-	user "github.com/aiven/aiven-go-client-v2/handler/user"
-	usergroup "github.com/aiven/aiven-go-client-v2/handler/usergroup"
+	account "github.com/aiven/aiven-go-client-v3/handler/account"
+	accountauthentication "github.com/aiven/aiven-go-client-v3/handler/accountauthentication"
+	accountteam "github.com/aiven/aiven-go-client-v3/handler/accountteam"
+	accountteammember "github.com/aiven/aiven-go-client-v3/handler/accountteammember"
+	billinggroup "github.com/aiven/aiven-go-client-v3/handler/billinggroup"
+	clickhouse "github.com/aiven/aiven-go-client-v3/handler/clickhouse"
+	cloud "github.com/aiven/aiven-go-client-v3/handler/cloud"
+	domain "github.com/aiven/aiven-go-client-v3/handler/domain"
+	flink "github.com/aiven/aiven-go-client-v3/handler/flink"
+	flinkapplication "github.com/aiven/aiven-go-client-v3/handler/flinkapplication"
+	flinkapplicationdeployment "github.com/aiven/aiven-go-client-v3/handler/flinkapplicationdeployment"
+	flinkjob "github.com/aiven/aiven-go-client-v3/handler/flinkjob"
+	kafka "github.com/aiven/aiven-go-client-v3/handler/kafka"
+	kafkaconnect "github.com/aiven/aiven-go-client-v3/handler/kafkaconnect"
+	kafkamirrormaker "github.com/aiven/aiven-go-client-v3/handler/kafkamirrormaker"
+	kafkaschemaregistry "github.com/aiven/aiven-go-client-v3/handler/kafkaschemaregistry"
+	kafkatopic "github.com/aiven/aiven-go-client-v3/handler/kafkatopic"
+	mysql "github.com/aiven/aiven-go-client-v3/handler/mysql"
+	opensearch "github.com/aiven/aiven-go-client-v3/handler/opensearch"
+	organization "github.com/aiven/aiven-go-client-v3/handler/organization"
+	postgresql "github.com/aiven/aiven-go-client-v3/handler/postgresql"
+	privatelink "github.com/aiven/aiven-go-client-v3/handler/privatelink"
+	project "github.com/aiven/aiven-go-client-v3/handler/project"
+	projectbilling "github.com/aiven/aiven-go-client-v3/handler/projectbilling"
+	service "github.com/aiven/aiven-go-client-v3/handler/service"
+	serviceintegration "github.com/aiven/aiven-go-client-v3/handler/serviceintegration"
+	serviceuser "github.com/aiven/aiven-go-client-v3/handler/serviceuser"
+	staticip "github.com/aiven/aiven-go-client-v3/handler/staticip"
+	user "github.com/aiven/aiven-go-client-v3/handler/user"
+	usergroup "github.com/aiven/aiven-go-client-v3/handler/usergroup"
+	vpc "github.com/aiven/aiven-go-client-v3/handler/vpc"
 )
 
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
-func newClient(doer doer) *Client {
-	return &Client{
-		Account:                    account.NewHandler(doer),
-		Billing:                    billing.NewHandler(doer),
-		BillingGroup:               billinggroup.NewHandler(doer),
-		ClickHouse:                 clickhouse.NewHandler(doer),
-		CloudPlatform:              cloudplatform.NewHandler(doer),
-		Domain:                     domain.NewHandler(doer),
-		Flink:                      flink.NewHandler(doer),
-		FlinkApplication:           flinkapplication.NewHandler(doer),
-		FlinkApplicationDeployment: flinkapplicationdeployment.NewHandler(doer),
-		FlinkApplicationVersion:    flinkapplicationversion.NewHandler(doer),
-		FlinkJob:                   flinkjob.NewHandler(doer),
-		Kafka:                      kafka.NewHandler(doer),
-		KafkaConnect:               kafkaconnect.NewHandler(doer),
-		KafkaMirrorMaker:           kafkamirrormaker.NewHandler(doer),
-		KafkaSchemaRegistry:        kafkaschemaregistry.NewHandler(doer),
-		KafkaTopic:                 kafkatopic.NewHandler(doer),
-		MySql:                      mysql.NewHandler(doer),
-		OpenSearch:                 opensearch.NewHandler(doer),
-		Organization:               organization.NewHandler(doer),
-		OrganizationUser:           organizationuser.NewHandler(doer),
-		PostgreSql:                 postgresql.NewHandler(doer),
-		Privatelink:                privatelink.NewHandler(doer),
-		Project:                    project.NewHandler(doer),
-		ProjectBilling:             projectbilling.NewHandler(doer),
-		ProjectKeyManagement:       projectkeymanagement.NewHandler(doer),
-		Service:                    service.NewHandler(doer),
-		ServiceIntegration:         serviceintegration.NewHandler(doer),
-		ServiceIntegrationEndpoint: serviceintegrationendpoint.NewHandler(doer),
-		StaticIp:                   staticip.NewHandler(doer),
-		User:                       user.NewHandler(doer),
-		UserGroup:                  usergroup.NewHandler(doer),
+func newClient(doer doer) Client {
+	return &client{
+		AccountAuthenticationHandler:      accountauthentication.NewHandler(doer),
+		AccountHandler:                    account.NewHandler(doer),
+		AccountTeamHandler:                accountteam.NewHandler(doer),
+		AccountTeamMemberHandler:          accountteammember.NewHandler(doer),
+		BillingGroupHandler:               billinggroup.NewHandler(doer),
+		ClickHouseHandler:                 clickhouse.NewHandler(doer),
+		CloudHandler:                      cloud.NewHandler(doer),
+		DomainHandler:                     domain.NewHandler(doer),
+		FlinkApplicationDeploymentHandler: flinkapplicationdeployment.NewHandler(doer),
+		FlinkApplicationHandler:           flinkapplication.NewHandler(doer),
+		FlinkHandler:                      flink.NewHandler(doer),
+		FlinkJobHandler:                   flinkjob.NewHandler(doer),
+		KafkaConnectHandler:               kafkaconnect.NewHandler(doer),
+		KafkaHandler:                      kafka.NewHandler(doer),
+		KafkaMirrorMakerHandler:           kafkamirrormaker.NewHandler(doer),
+		KafkaSchemaRegistryHandler:        kafkaschemaregistry.NewHandler(doer),
+		KafkaTopicHandler:                 kafkatopic.NewHandler(doer),
+		MySQLHandler:                      mysql.NewHandler(doer),
+		OpenSearchHandler:                 opensearch.NewHandler(doer),
+		OrganizationHandler:               organization.NewHandler(doer),
+		PostgreSQLHandler:                 postgresql.NewHandler(doer),
+		PrivatelinkHandler:                privatelink.NewHandler(doer),
+		ProjectBillingHandler:             projectbilling.NewHandler(doer),
+		ProjectHandler:                    project.NewHandler(doer),
+		ServiceHandler:                    service.NewHandler(doer),
+		ServiceIntegrationHandler:         serviceintegration.NewHandler(doer),
+		ServiceUserHandler:                serviceuser.NewHandler(doer),
+		StaticIPHandler:                   staticip.NewHandler(doer),
+		UserGroupHandler:                  usergroup.NewHandler(doer),
+		UserHandler:                       user.NewHandler(doer),
+		VpcHandler:                        vpc.NewHandler(doer),
 	}
 }
 
-type Client struct {
-	Account                    account.Handler
-	Billing                    billing.Handler
-	BillingGroup               billinggroup.Handler
-	ClickHouse                 clickhouse.Handler
-	CloudPlatform              cloudplatform.Handler
-	Domain                     domain.Handler
-	Flink                      flink.Handler
-	FlinkApplication           flinkapplication.Handler
-	FlinkApplicationDeployment flinkapplicationdeployment.Handler
-	FlinkApplicationVersion    flinkapplicationversion.Handler
-	FlinkJob                   flinkjob.Handler
-	Kafka                      kafka.Handler
-	KafkaConnect               kafkaconnect.Handler
-	KafkaMirrorMaker           kafkamirrormaker.Handler
-	KafkaSchemaRegistry        kafkaschemaregistry.Handler
-	KafkaTopic                 kafkatopic.Handler
-	MySql                      mysql.Handler
-	OpenSearch                 opensearch.Handler
-	Organization               organization.Handler
-	OrganizationUser           organizationuser.Handler
-	PostgreSql                 postgresql.Handler
-	Privatelink                privatelink.Handler
-	Project                    project.Handler
-	ProjectBilling             projectbilling.Handler
-	ProjectKeyManagement       projectkeymanagement.Handler
-	Service                    service.Handler
-	ServiceIntegration         serviceintegration.Handler
-	ServiceIntegrationEndpoint serviceintegrationendpoint.Handler
-	StaticIp                   staticip.Handler
-	User                       user.Handler
-	UserGroup                  usergroup.Handler
+type client struct {
+	account.AccountHandler
+	accountauthentication.AccountAuthenticationHandler
+	accountteam.AccountTeamHandler
+	accountteammember.AccountTeamMemberHandler
+	billinggroup.BillingGroupHandler
+	clickhouse.ClickHouseHandler
+	cloud.CloudHandler
+	domain.DomainHandler
+	flink.FlinkHandler
+	flinkapplication.FlinkApplicationHandler
+	flinkapplicationdeployment.FlinkApplicationDeploymentHandler
+	flinkjob.FlinkJobHandler
+	kafka.KafkaHandler
+	kafkaconnect.KafkaConnectHandler
+	kafkamirrormaker.KafkaMirrorMakerHandler
+	kafkaschemaregistry.KafkaSchemaRegistryHandler
+	kafkatopic.KafkaTopicHandler
+	mysql.MySQLHandler
+	opensearch.OpenSearchHandler
+	organization.OrganizationHandler
+	postgresql.PostgreSQLHandler
+	privatelink.PrivatelinkHandler
+	project.ProjectHandler
+	projectbilling.ProjectBillingHandler
+	service.ServiceHandler
+	serviceintegration.ServiceIntegrationHandler
+	serviceuser.ServiceUserHandler
+	staticip.StaticIPHandler
+	user.UserHandler
+	usergroup.UserGroupHandler
+	vpc.VpcHandler
+}
+type Client interface {
+	account.Handler
+	accountauthentication.Handler
+	accountteam.Handler
+	accountteammember.Handler
+	billinggroup.Handler
+	clickhouse.Handler
+	cloud.Handler
+	domain.Handler
+	flink.Handler
+	flinkapplication.Handler
+	flinkapplicationdeployment.Handler
+	flinkjob.Handler
+	kafka.Handler
+	kafkaconnect.Handler
+	kafkamirrormaker.Handler
+	kafkaschemaregistry.Handler
+	kafkatopic.Handler
+	mysql.Handler
+	opensearch.Handler
+	organization.Handler
+	postgresql.Handler
+	privatelink.Handler
+	project.Handler
+	projectbilling.Handler
+	service.Handler
+	serviceintegration.Handler
+	serviceuser.Handler
+	staticip.Handler
+	user.Handler
+	usergroup.Handler
+	vpc.Handler
 }
