@@ -51,7 +51,7 @@ type AccountAuthenticationHandler struct {
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodCreate(ctx context.Context, accountId string, in *AccountAuthenticationMethodCreateIn) (*AuthenticationMethod, error) {
 	path := fmt.Sprintf("/account/%s/authentication", accountId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodCreate", "POST", path, in)
-	out := new(accountAuthenticationMethodCreateOut)
+	out := new(AccountAuthenticationMethodCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodDelete(ctx con
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodGet(ctx context.Context, accountId string, accountAuthenticationMethodId string) (*AuthenticationMethod, error) {
 	path := fmt.Sprintf("/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodGet", "GET", path, nil)
-	out := new(accountAuthenticationMethodGetOut)
+	out := new(AccountAuthenticationMethodGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodGet(ctx contex
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodUpdate(ctx context.Context, accountId string, accountAuthenticationMethodId string, in *AccountAuthenticationMethodUpdateIn) (*AuthenticationMethod, error) {
 	path := fmt.Sprintf("/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodUpdate", "PUT", path, in)
-	out := new(accountAuthenticationMethodUpdateOut)
+	out := new(AccountAuthenticationMethodUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodUpdate(ctx con
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodsList(ctx context.Context, accountId string) ([]AuthenticationMethod, error) {
 	path := fmt.Sprintf("/account/%s/authentication", accountId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodsList", "GET", path, nil)
-	out := new(accountAuthenticationMethodsListOut)
+	out := new(AccountAuthenticationMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -112,10 +112,10 @@ type AccountAuthenticationMethodCreateIn struct {
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
 }
-type accountAuthenticationMethodCreateOut struct {
+type AccountAuthenticationMethodCreateOut struct {
 	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
 }
-type accountAuthenticationMethodGetOut struct {
+type AccountAuthenticationMethodGetOut struct {
 	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
 }
 type AccountAuthenticationMethodUpdateIn struct {
@@ -135,10 +135,10 @@ type AccountAuthenticationMethodUpdateIn struct {
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
 }
-type accountAuthenticationMethodUpdateOut struct {
+type AccountAuthenticationMethodUpdateOut struct {
 	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
 }
-type accountAuthenticationMethodsListOut struct {
+type AccountAuthenticationMethodsListOut struct {
 	AuthenticationMethods []AuthenticationMethod `json:"authentication_methods"`
 }
 type AuthenticationMethod struct {
@@ -155,7 +155,7 @@ type AuthenticationMethod struct {
 	SamlAcsUrl                       string                     `json:"saml_acs_url,omitempty"`
 	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`
 	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`
-	SamlCert                         SamlCertType               `json:"saml_cert,omitempty"`
+	SamlCert                         SamlVariantType            `json:"saml_cert,omitempty"`
 	SamlCertificate                  string                     `json:"saml_certificate,omitempty"`
 	SamlCertificateIssuer            string                     `json:"saml_certificate_issuer,omitempty"`
 	SamlCertificateNotValidAfter     string                     `json:"saml_certificate_not_valid_after,omitempty"`
@@ -181,15 +181,13 @@ const (
 	AuthenticationMethodTypeSaml     AuthenticationMethodType = "saml"
 )
 
+func AuthenticationMethodTypeChoices() []string {
+	return []string{"internal", "saml"}
+}
+
 type LinkedDomain struct {
 	DomainId string `json:"domain_id"`
 }
-type SamlCertType string
-
-const (
-	SamlCertTypeAdfs SamlCertType = "adfs"
-)
-
 type SamlDigestAlgorithmType string
 
 const (
@@ -198,6 +196,10 @@ const (
 	SamlDigestAlgorithmTypeSha384 SamlDigestAlgorithmType = "sha384"
 	SamlDigestAlgorithmTypeSha512 SamlDigestAlgorithmType = "sha512"
 )
+
+func SamlDigestAlgorithmTypeChoices() []string {
+	return []string{"sha1", "sha256", "sha384", "sha512"}
+}
 
 type SamlFieldMapping struct {
 	Email     string `json:"email,omitempty"`
@@ -216,11 +218,19 @@ const (
 	SamlSignatureAlgorithmTypeRsaSha512 SamlSignatureAlgorithmType = "rsa-sha512"
 )
 
+func SamlSignatureAlgorithmTypeChoices() []string {
+	return []string{"rsa-sha1", "dsa-sha1", "rsa-sha256", "rsa-sha384", "rsa-sha512"}
+}
+
 type SamlVariantType string
 
 const (
 	SamlVariantTypeAdfs SamlVariantType = "adfs"
 )
+
+func SamlVariantTypeChoices() []string {
+	return []string{"adfs"}
+}
 
 type StateType string
 

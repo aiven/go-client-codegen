@@ -69,15 +69,16 @@ FlinkApplicationDeployment:
   - ServiceFlinkListApplicationDeployments
   - ServiceFlinkStopApplicationDeployment
 FlinkApplication:
-  - ServiceFlinkCreateApplication
   - ServiceFlinkCreateApplicationVersion
-  - ServiceFlinkDeleteApplication
   - ServiceFlinkDeleteApplicationVersion
-  - ServiceFlinkGetApplication
   - ServiceFlinkGetApplicationVersion
+  - ServiceFlinkValidateApplicationVersion
+FlinkApplicationVersion:
+  - ServiceFlinkCreateApplication
+  - ServiceFlinkDeleteApplication
+  - ServiceFlinkGetApplication
   - ServiceFlinkListApplications
   - ServiceFlinkUpdateApplication
-  - ServiceFlinkValidateApplicationVersion
 FlinkJob:
   - ServiceFlinkJobDetails
   - ServiceFlinkJobsList
@@ -243,6 +244,7 @@ Service:
   - ServiceUpdate
   - ServiceUpdate
 Privatelink:
+  - PublicPrivatelinkAvailabilityList
   - ServicePrivatelinkAWSConnectionList
   - ServicePrivatelinkAWSCreate
   - ServicePrivatelinkAWSDelete
@@ -255,7 +257,6 @@ Privatelink:
   - ServicePrivatelinkAzureDelete
   - ServicePrivatelinkAzureGet
   - ServicePrivatelinkAzureUpdate
-  - PublicPrivatelinkAvailabilityList
 ServiceUser:
   - ServiceUserCreate
   - ServiceUserCredentialsModify
@@ -280,9 +281,9 @@ StaticIP:
   - ProjectStaticIPAvailabilityList
   - ProjectStaticIPDissociate
   - ProjectStaticIPPatch
+  - PublicStaticIPAvailabilityList
   - StaticIPCreate
   - StaticIPList
-  - PublicStaticIPAvailabilityList
 User:
   - AccessTokenCreate
   - AccessTokenList

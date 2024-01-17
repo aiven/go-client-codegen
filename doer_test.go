@@ -16,11 +16,11 @@ func TestNewClient(t *testing.T) {
 		t.Skip("token is required for the test")
 	}
 
-	client, err := NewClient(DebugOpt())
+	c, err := NewClient(DebugOpt())
 	require.NoError(t, err)
 
 	ctx := context.Background()
-	tokens, err := client.User.AccessTokenList(ctx)
+	tokens, err := c.AccessTokenList(ctx)
 	require.NoError(t, err)
 
 	found := 0

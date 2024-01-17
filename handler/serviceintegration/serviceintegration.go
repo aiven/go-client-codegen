@@ -85,7 +85,7 @@ type ServiceIntegrationHandler struct {
 func (h *ServiceIntegrationHandler) ServiceIntegrationCreate(ctx context.Context, project string, in *ServiceIntegrationCreateIn) (*ServiceIntegration, error) {
 	path := fmt.Sprintf("/project/%s/integration", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationCreate", "POST", path, in)
-	out := new(serviceIntegrationCreateOut)
+	out := new(ServiceIntegrationCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -100,7 +100,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationDelete(ctx context.Context
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointCreate(ctx context.Context, project string, in *ServiceIntegrationEndpointCreateIn) (*ServiceIntegrationEndpoint, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointCreate", "POST", path, in)
-	out := new(serviceIntegrationEndpointCreateOut)
+	out := new(ServiceIntegrationEndpointCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -115,7 +115,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointDelete(ctx context
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string) (*ServiceIntegrationEndpoint, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint/%s", project, integrationEndpointId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointGet", "GET", path, nil)
-	out := new(serviceIntegrationEndpointGetOut)
+	out := new(ServiceIntegrationEndpointGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -125,7 +125,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointGet(ctx context.Co
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointList(ctx context.Context, project string) ([]ServiceIntegrationEndpoint, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointList", "GET", path, nil)
-	out := new(serviceIntegrationEndpointListOut)
+	out := new(ServiceIntegrationEndpointListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -135,7 +135,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointList(ctx context.C
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointTypes(ctx context.Context, project string) ([]EndpointTypeItem, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint_types", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointTypes", "GET", path, nil)
-	out := new(serviceIntegrationEndpointTypesOut)
+	out := new(ServiceIntegrationEndpointTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -145,7 +145,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointTypes(ctx context.
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointUpdate(ctx context.Context, project string, integrationEndpointId string, in *ServiceIntegrationEndpointUpdateIn) (*ServiceIntegrationEndpoint, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint/%s", project, integrationEndpointId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointUpdate", "PUT", path, in)
-	out := new(serviceIntegrationEndpointUpdateOut)
+	out := new(ServiceIntegrationEndpointUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -155,7 +155,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointUpdate(ctx context
 func (h *ServiceIntegrationHandler) ServiceIntegrationGet(ctx context.Context, project string, integrationId string) (*ServiceIntegration, error) {
 	path := fmt.Sprintf("/project/%s/integration/%s", project, integrationId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationGet", "GET", path, nil)
-	out := new(serviceIntegrationGetOut)
+	out := new(ServiceIntegrationGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -165,7 +165,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationGet(ctx context.Context, p
 func (h *ServiceIntegrationHandler) ServiceIntegrationList(ctx context.Context, project string, serviceName string) ([]ServiceIntegration, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/integration", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationList", "GET", path, nil)
-	out := new(serviceIntegrationListOut)
+	out := new(ServiceIntegrationListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -175,7 +175,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationList(ctx context.Context, 
 func (h *ServiceIntegrationHandler) ServiceIntegrationTypes(ctx context.Context, project string) ([]IntegrationTypeItem, error) {
 	path := fmt.Sprintf("/project/%s/integration_types", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationTypes", "GET", path, nil)
-	out := new(serviceIntegrationTypesOut)
+	out := new(ServiceIntegrationTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -185,7 +185,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationTypes(ctx context.Context,
 func (h *ServiceIntegrationHandler) ServiceIntegrationUpdate(ctx context.Context, project string, integrationId string, in *ServiceIntegrationUpdateIn) (*ServiceIntegration, error) {
 	path := fmt.Sprintf("/project/%s/integration/%s", project, integrationId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationUpdate", "PUT", path, in)
-	out := new(serviceIntegrationUpdateOut)
+	out := new(ServiceIntegrationUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -215,6 +215,10 @@ const (
 	EndpointTypePrometheus                   EndpointType = "prometheus"
 	EndpointTypeRsyslog                      EndpointType = "rsyslog"
 )
+
+func EndpointTypeChoices() []string {
+	return []string{"autoscaler", "datadog", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_aws_s3", "external_clickhouse", "external_elasticsearch_logs", "external_google_cloud_bigquery", "external_google_cloud_logging", "external_kafka", "external_mysql", "external_opensearch_logs", "external_postgresql", "external_redis", "external_schema_registry", "jolokia", "prometheus", "rsyslog"}
+}
 
 type EndpointTypeItem struct {
 	EndpointType     string         `json:"endpoint_type"`
@@ -322,7 +326,7 @@ type ServiceIntegrationCreateIn struct {
 	SourceService    string          `json:"source_service,omitempty"`
 	UserConfig       map[string]any  `json:"user_config,omitempty"`
 }
-type serviceIntegrationCreateOut struct {
+type ServiceIntegrationCreateOut struct {
 	ServiceIntegration *ServiceIntegration `json:"service_integration"`
 }
 type ServiceIntegrationEndpoint struct {
@@ -337,37 +341,37 @@ type ServiceIntegrationEndpointCreateIn struct {
 	EndpointType EndpointType   `json:"endpoint_type"`
 	UserConfig   map[string]any `json:"user_config"`
 }
-type serviceIntegrationEndpointCreateOut struct {
+type ServiceIntegrationEndpointCreateOut struct {
 	ServiceIntegrationEndpoint *ServiceIntegrationEndpoint `json:"service_integration_endpoint"`
 }
-type serviceIntegrationEndpointGetOut struct {
+type ServiceIntegrationEndpointGetOut struct {
 	ServiceIntegrationEndpoint *ServiceIntegrationEndpoint `json:"service_integration_endpoint"`
 }
-type serviceIntegrationEndpointListOut struct {
+type ServiceIntegrationEndpointListOut struct {
 	ServiceIntegrationEndpoints []ServiceIntegrationEndpoint `json:"service_integration_endpoints"`
 }
-type serviceIntegrationEndpointTypesOut struct {
+type ServiceIntegrationEndpointTypesOut struct {
 	EndpointTypes []EndpointTypeItem `json:"endpoint_types"`
 }
 type ServiceIntegrationEndpointUpdateIn struct {
 	UserConfig map[string]any `json:"user_config"`
 }
-type serviceIntegrationEndpointUpdateOut struct {
+type ServiceIntegrationEndpointUpdateOut struct {
 	ServiceIntegrationEndpoint *ServiceIntegrationEndpoint `json:"service_integration_endpoint"`
 }
-type serviceIntegrationGetOut struct {
+type ServiceIntegrationGetOut struct {
 	ServiceIntegration *ServiceIntegration `json:"service_integration"`
 }
-type serviceIntegrationListOut struct {
+type ServiceIntegrationListOut struct {
 	ServiceIntegrations []ServiceIntegration `json:"service_integrations"`
 }
-type serviceIntegrationTypesOut struct {
+type ServiceIntegrationTypesOut struct {
 	IntegrationTypes []IntegrationTypeItem `json:"integration_types"`
 }
 type ServiceIntegrationUpdateIn struct {
 	UserConfig map[string]any `json:"user_config"`
 }
-type serviceIntegrationUpdateOut struct {
+type ServiceIntegrationUpdateOut struct {
 	ServiceIntegration *ServiceIntegration `json:"service_integration"`
 }
 type State struct {

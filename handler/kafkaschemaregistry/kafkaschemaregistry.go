@@ -37,7 +37,7 @@ type Handler interface {
 	// ServiceSchemaRegistryGlobalConfigPut edit global configuration for Schema Registry
 	// PUT /project/{project}/service/{service_name}/kafka/schema/config
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryGlobalConfigPut
-	ServiceSchemaRegistryGlobalConfigPut(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryGlobalConfigPutIn) (CompatibilityType, error)
+	ServiceSchemaRegistryGlobalConfigPut(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryGlobalConfigPutIn) (CompatibilityLevelType, error)
 
 	// ServiceSchemaRegistrySchemaGet get schema in Schema Registry
 	// GET /project/{project}/service/{service_name}/kafka/schema/schemas/ids/{schema_id}
@@ -52,7 +52,7 @@ type Handler interface {
 	// ServiceSchemaRegistrySubjectConfigPut edit configuration for Schema Registry subject
 	// PUT /project/{project}/service/{service_name}/kafka/schema/config/{subject_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectConfigPut
-	ServiceSchemaRegistrySubjectConfigPut(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectConfigPutIn) (CompatibilityType, error)
+	ServiceSchemaRegistrySubjectConfigPut(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectConfigPutIn) (CompatibilityLevelType, error)
 
 	// ServiceSchemaRegistrySubjectDelete delete Schema Registry subject
 	// DELETE /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}
@@ -100,7 +100,7 @@ type KafkaSchemaRegistryHandler struct {
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclAdd(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryAclAddIn) ([]Acl, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema-registry/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryAclAdd", "POST", path, in)
-	out := new(serviceSchemaRegistryAclAddOut)
+	out := new(ServiceSchemaRegistryAclAddOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -110,7 +110,7 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclAdd(ctx context.Con
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclDelete(ctx context.Context, project string, serviceName string, schemaRegistryAclId string) ([]Acl, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema-registry/acl/%s", project, serviceName, schemaRegistryAclId)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryAclDelete", "DELETE", path, nil)
-	out := new(serviceSchemaRegistryAclDeleteOut)
+	out := new(ServiceSchemaRegistryAclDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -120,7 +120,7 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclDelete(ctx context.
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclList(ctx context.Context, project string, serviceName string) ([]Acl, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema-registry/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryAclList", "GET", path, nil)
-	out := new(serviceSchemaRegistryAclListOut)
+	out := new(ServiceSchemaRegistryAclListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -130,7 +130,7 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclList(ctx context.Co
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryCompatibility(ctx context.Context, project string, serviceName string, subjectName string, versionId int, in *ServiceSchemaRegistryCompatibilityIn) (bool, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/compatibility/subjects/%s/versions/%d", project, serviceName, subjectName, versionId)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryCompatibility", "POST", path, in)
-	out := new(serviceSchemaRegistryCompatibilityOut)
+	out := new(ServiceSchemaRegistryCompatibilityOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return false, err
@@ -140,17 +140,17 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryCompatibility(ctx cont
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryGlobalConfigGet(ctx context.Context, project string, serviceName string) (CompatibilityLevelType, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryGlobalConfigGet", "GET", path, nil)
-	out := new(serviceSchemaRegistryGlobalConfigGetOut)
+	out := new(ServiceSchemaRegistryGlobalConfigGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
 	}
 	return out.CompatibilityLevel, nil
 }
-func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryGlobalConfigPut(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryGlobalConfigPutIn) (CompatibilityType, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryGlobalConfigPut(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryGlobalConfigPutIn) (CompatibilityLevelType, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryGlobalConfigPut", "PUT", path, in)
-	out := new(serviceSchemaRegistryGlobalConfigPutOut)
+	out := new(ServiceSchemaRegistryGlobalConfigPutOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -165,17 +165,17 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySchemaGet(ctx context.
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string) (CompatibilityLevelType, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config/%s", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectConfigGet", "GET", path, nil)
-	out := new(serviceSchemaRegistrySubjectConfigGetOut)
+	out := new(ServiceSchemaRegistrySubjectConfigGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
 	}
 	return out.CompatibilityLevel, nil
 }
-func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectConfigPut(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectConfigPutIn) (CompatibilityType, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectConfigPut(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectConfigPutIn) (CompatibilityLevelType, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config/%s", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectConfigPut", "PUT", path, in)
-	out := new(serviceSchemaRegistrySubjectConfigPutOut)
+	out := new(ServiceSchemaRegistrySubjectConfigPutOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -200,7 +200,7 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionGet(ctx 
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionPost(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectVersionPostIn) (int, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects/%s/versions", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionPost", "POST", path, in)
-	out := new(serviceSchemaRegistrySubjectVersionPostOut)
+	out := new(ServiceSchemaRegistrySubjectVersionPostOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return 0, err
@@ -210,7 +210,7 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionPost(ctx
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionsGet(ctx context.Context, project string, serviceName string, subjectName string) ([]int, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects/%s/versions", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionsGet", "GET", path, nil)
-	out := new(serviceSchemaRegistrySubjectVersionsGetOut)
+	out := new(ServiceSchemaRegistrySubjectVersionsGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -220,7 +220,7 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionsGet(ctx
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjects(ctx context.Context, project string, serviceName string) ([]string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjects", "GET", path, nil)
-	out := new(serviceSchemaRegistrySubjectsOut)
+	out := new(ServiceSchemaRegistrySubjectsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -246,24 +246,16 @@ const (
 	CompatibilityLevelTypeNone               CompatibilityLevelType = "NONE"
 )
 
-type CompatibilityType string
-
-const (
-	CompatibilityTypeBackward           CompatibilityType = "BACKWARD"
-	CompatibilityTypeBackwardTransitive CompatibilityType = "BACKWARD_TRANSITIVE"
-	CompatibilityTypeForward            CompatibilityType = "FORWARD"
-	CompatibilityTypeForwardTransitive  CompatibilityType = "FORWARD_TRANSITIVE"
-	CompatibilityTypeFull               CompatibilityType = "FULL"
-	CompatibilityTypeFullTransitive     CompatibilityType = "FULL_TRANSITIVE"
-	CompatibilityTypeNone               CompatibilityType = "NONE"
-)
-
 type PermissionType string
 
 const (
 	PermissionTypeSchemaRegistryRead  PermissionType = "schema_registry_read"
 	PermissionTypeSchemaRegistryWrite PermissionType = "schema_registry_write"
 )
+
+func PermissionTypeChoices() []string {
+	return []string{"schema_registry_read", "schema_registry_write"}
+}
 
 type Reference struct {
 	Name    string `json:"name"`
@@ -287,51 +279,51 @@ type ServiceSchemaRegistryAclAddIn struct {
 	Resource   string         `json:"resource"`
 	Username   string         `json:"username"`
 }
-type serviceSchemaRegistryAclAddOut struct {
+type ServiceSchemaRegistryAclAddOut struct {
 	Acl []Acl `json:"acl"`
 }
-type serviceSchemaRegistryAclDeleteOut struct {
+type ServiceSchemaRegistryAclDeleteOut struct {
 	Acl []Acl `json:"acl"`
 }
-type serviceSchemaRegistryAclListOut struct {
+type ServiceSchemaRegistryAclListOut struct {
 	Acl []Acl `json:"acl"`
 }
 type ServiceSchemaRegistryCompatibilityIn struct {
 	Schema     string     `json:"schema"`
 	SchemaType SchemaType `json:"schemaType,omitempty"`
 }
-type serviceSchemaRegistryCompatibilityOut struct {
+type ServiceSchemaRegistryCompatibilityOut struct {
 	IsCompatible bool `json:"is_compatible"`
 }
-type serviceSchemaRegistryGlobalConfigGetOut struct {
+type ServiceSchemaRegistryGlobalConfigGetOut struct {
 	CompatibilityLevel CompatibilityLevelType `json:"compatibilityLevel"`
 }
 type ServiceSchemaRegistryGlobalConfigPutIn struct {
-	Compatibility CompatibilityType `json:"compatibility"`
+	Compatibility CompatibilityLevelType `json:"compatibility"`
 }
-type serviceSchemaRegistryGlobalConfigPutOut struct {
-	Compatibility CompatibilityType `json:"compatibility"`
+type ServiceSchemaRegistryGlobalConfigPutOut struct {
+	Compatibility CompatibilityLevelType `json:"compatibility"`
 }
-type serviceSchemaRegistrySubjectConfigGetOut struct {
+type ServiceSchemaRegistrySubjectConfigGetOut struct {
 	CompatibilityLevel CompatibilityLevelType `json:"compatibilityLevel"`
 }
 type ServiceSchemaRegistrySubjectConfigPutIn struct {
-	Compatibility CompatibilityType `json:"compatibility"`
+	Compatibility CompatibilityLevelType `json:"compatibility"`
 }
-type serviceSchemaRegistrySubjectConfigPutOut struct {
-	Compatibility CompatibilityType `json:"compatibility"`
+type ServiceSchemaRegistrySubjectConfigPutOut struct {
+	Compatibility CompatibilityLevelType `json:"compatibility"`
 }
 type ServiceSchemaRegistrySubjectVersionPostIn struct {
 	References []Reference `json:"references"`
 	Schema     string      `json:"schema"`
 	SchemaType SchemaType  `json:"schemaType,omitempty"`
 }
-type serviceSchemaRegistrySubjectVersionPostOut struct {
+type ServiceSchemaRegistrySubjectVersionPostOut struct {
 	Id int `json:"id"`
 }
-type serviceSchemaRegistrySubjectVersionsGetOut struct {
+type ServiceSchemaRegistrySubjectVersionsGetOut struct {
 	Versions []int `json:"versions"`
 }
-type serviceSchemaRegistrySubjectsOut struct {
+type ServiceSchemaRegistrySubjectsOut struct {
 	Subjects []string `json:"subjects"`
 }

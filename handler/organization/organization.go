@@ -63,7 +63,7 @@ type Handler interface {
 	// UserOrganizationsList list organizations the user belongs to
 	// GET /organizations
 	// https://api.aiven.io/doc/#tag/Organizations/operation/UserOrganizationsList
-	UserOrganizationsList(ctx context.Context) ([]Organization, error)
+	UserOrganizationsList(ctx context.Context) ([]OrganizationGetOut, error)
 }
 
 func NewHandler(doer doer) OrganizationHandler {
@@ -141,7 +141,7 @@ func (h *OrganizationHandler) OrganizationUserInvitationDelete(ctx context.Conte
 func (h *OrganizationHandler) OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]Invitation, error) {
 	path := fmt.Sprintf("/organization/%s/invitation", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationUserInvitationsList", "GET", path, nil)
-	out := new(organizationUserInvitationsListOut)
+	out := new(OrganizationUserInvitationsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -163,10 +163,10 @@ func (h *OrganizationHandler) UserOrganizationCreate(ctx context.Context, in *Us
 	}
 	return out, nil
 }
-func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]Organization, error) {
+func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]OrganizationGetOut, error) {
 	path := fmt.Sprintf("/organizations")
 	b, err := h.doer.Do(ctx, "UserOrganizationsList", "GET", path, nil)
-	out := new(userOrganizationsListOut)
+	out := new(UserOrganizationsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -228,14 +228,6 @@ type Invitation struct {
 	InvitedBy  string    `json:"invited_by"`
 	UserEmail  string    `json:"user_email"`
 }
-type Organization struct {
-	AccountId        string    `json:"account_id"`
-	CreateTime       time.Time `json:"create_time"`
-	OrganizationId   string    `json:"organization_id"`
-	OrganizationName string    `json:"organization_name"`
-	Tier             TierType  `json:"tier"`
-	UpdateTime       time.Time `json:"update_time"`
-}
 type OrganizationAuthenticationConfigGetOut struct {
 	OauthEnabled        *bool `json:"oauth_enabled,omitempty"`
 	PasswordAuthEnabled *bool `json:"password_auth_enabled,omitempty"`
@@ -268,7 +260,7 @@ type OrganizationProjectsListOut struct {
 }
 type OrganizationUpdateIn struct {
 	Name string   `json:"name,omitempty"`
-	Tier TierType `json:"tier,omitempty"`
+	Tier TierType `json:"tier"`
 }
 type OrganizationUpdateOut struct {
 	AccountId        string    `json:"account_id"`
@@ -281,7 +273,7 @@ type OrganizationUpdateOut struct {
 type OrganizationUserInvitationAcceptIn struct {
 	Action ActionType `json:"action,omitempty"`
 }
-type organizationUserInvitationsListOut struct {
+type OrganizationUserInvitationsListOut struct {
 	Invitations []Invitation `json:"invitations"`
 }
 type OrganizationUserInviteIn struct {
@@ -313,14 +305,11 @@ type Project struct {
 	ProjectName           string              `json:"project_name"`
 	State                 string              `json:"state,omitempty"`
 	Tags                  map[string]string   `json:"tags,omitempty"`
-	TechEmails            []TechEmail         `json:"tech_emails"`
+	TechEmails            []BillingEmail      `json:"tech_emails"`
 	TenantId              string              `json:"tenant_id,omitempty"`
 	TrialExpirationTime   *time.Time          `json:"trial_expiration_time,omitempty"`
 	VatId                 string              `json:"vat_id"`
 	ZipCode               string              `json:"zip_code,omitempty"`
-}
-type TechEmail struct {
-	Email string `json:"email"`
 }
 type TierType string
 
@@ -342,6 +331,6 @@ type UserOrganizationCreateOut struct {
 	Tier             TierType  `json:"tier"`
 	UpdateTime       time.Time `json:"update_time"`
 }
-type userOrganizationsListOut struct {
-	Organizations []Organization `json:"organizations"`
+type UserOrganizationsListOut struct {
+	Organizations []OrganizationGetOut `json:"organizations"`
 }

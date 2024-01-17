@@ -121,7 +121,7 @@ type ProjectHandler struct {
 func (h *ProjectHandler) ListProjectVpcPeeringConnectionTypes(ctx context.Context, project string) ([]VpcPeeringConnectionType, error) {
 	path := fmt.Sprintf("/project/%s/vpc-peering-connection-types", project)
 	b, err := h.doer.Do(ctx, "ListProjectVpcPeeringConnectionTypes", "GET", path, nil)
-	out := new(listProjectVpcPeeringConnectionTypesOut)
+	out := new(ListProjectVpcPeeringConnectionTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -131,7 +131,7 @@ func (h *ProjectHandler) ListProjectVpcPeeringConnectionTypes(ctx context.Contex
 func (h *ProjectHandler) ProjectAlertsList(ctx context.Context, project string) ([]Alert, error) {
 	path := fmt.Sprintf("/project/%s/alerts", project)
 	b, err := h.doer.Do(ctx, "ProjectAlertsList", "GET", path, nil)
-	out := new(projectAlertsListOut)
+	out := new(ProjectAlertsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -141,7 +141,7 @@ func (h *ProjectHandler) ProjectAlertsList(ctx context.Context, project string) 
 func (h *ProjectHandler) ProjectCreate(ctx context.Context, in *ProjectCreateIn) (*Project, error) {
 	path := fmt.Sprintf("/project")
 	b, err := h.doer.Do(ctx, "ProjectCreate", "POST", path, in)
-	out := new(projectCreateOut)
+	out := new(ProjectCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (h *ProjectHandler) ProjectDelete(ctx context.Context, project string) erro
 func (h *ProjectHandler) ProjectGenerateSbomDownloadUrl(ctx context.Context, project string, fileFormat string) (string, error) {
 	path := fmt.Sprintf("/project/%s/generate-sbom-download-url/%s", project, fileFormat)
 	b, err := h.doer.Do(ctx, "ProjectGenerateSbomDownloadUrl", "GET", path, nil)
-	out := new(projectGenerateSbomDownloadUrlOut)
+	out := new(ProjectGenerateSbomDownloadUrlOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -166,7 +166,7 @@ func (h *ProjectHandler) ProjectGenerateSbomDownloadUrl(ctx context.Context, pro
 func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*Project, error) {
 	path := fmt.Sprintf("/project/%s", project)
 	b, err := h.doer.Do(ctx, "ProjectGet", "GET", path, nil)
-	out := new(projectGetOut)
+	out := new(ProjectGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -176,7 +176,7 @@ func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*Proje
 func (h *ProjectHandler) ProjectGetEventLogs(ctx context.Context, project string) ([]Event, error) {
 	path := fmt.Sprintf("/project/%s/events", project)
 	b, err := h.doer.Do(ctx, "ProjectGetEventLogs", "GET", path, nil)
-	out := new(projectGetEventLogsOut)
+	out := new(ProjectGetEventLogsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -191,7 +191,7 @@ func (h *ProjectHandler) ProjectInvite(ctx context.Context, project string, in *
 func (h *ProjectHandler) ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*InviteDetails, error) {
 	path := fmt.Sprintf("/project/%s/invite/%s", project, inviteVerificationCode)
 	b, err := h.doer.Do(ctx, "ProjectInviteAccept", "POST", path, nil)
-	out := new(projectInviteAcceptOut)
+	out := new(ProjectInviteAcceptOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -216,7 +216,7 @@ func (h *ProjectHandler) ProjectList(ctx context.Context) (*ProjectListOut, erro
 func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context, project string) ([]PrivatelinkAvailability, error) {
 	path := fmt.Sprintf("/project/%s/privatelink-availability", project)
 	b, err := h.doer.Do(ctx, "ProjectPrivatelinkAvailabilityList", "GET", path, nil)
-	out := new(projectPrivatelinkAvailabilityListOut)
+	out := new(ProjectPrivatelinkAvailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -226,7 +226,7 @@ func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context,
 func (h *ProjectHandler) ProjectTagsList(ctx context.Context, project string) (map[string]string, error) {
 	path := fmt.Sprintf("/project/%s/tags", project)
 	b, err := h.doer.Do(ctx, "ProjectTagsList", "GET", path, nil)
-	out := new(projectTagsListOut)
+	out := new(ProjectTagsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -246,7 +246,7 @@ func (h *ProjectHandler) ProjectTagsUpdate(ctx context.Context, project string, 
 func (h *ProjectHandler) ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*Project, error) {
 	path := fmt.Sprintf("/project/%s", project)
 	b, err := h.doer.Do(ctx, "ProjectUpdate", "PUT", path, in)
-	out := new(projectUpdateOut)
+	out := new(ProjectUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -283,15 +283,6 @@ type Alert struct {
 	ServiceType string    `json:"service_type,omitempty"`
 	Severity    string    `json:"severity"`
 }
-type AnyType string
-
-const (
-	AnyTypeAdmin     AnyType = "admin"
-	AnyTypeDeveloper AnyType = "developer"
-	AnyTypeOperator  AnyType = "operator"
-	AnyTypeReadOnly  AnyType = "read_only"
-)
-
 type BillingCurrencyType string
 
 const (
@@ -308,6 +299,10 @@ const (
 	BillingCurrencyTypeSgd BillingCurrencyType = "SGD"
 	BillingCurrencyTypeUsd BillingCurrencyType = "USD"
 )
+
+func BillingCurrencyTypeChoices() []string {
+	return []string{"AUD", "CAD", "CHF", "DKK", "EUR", "GBP", "JPY", "NOK", "NZD", "SEK", "SGD", "USD"}
+}
 
 type BillingEmail struct {
 	Email string `json:"email"`
@@ -339,7 +334,7 @@ type Event struct {
 	Time        time.Time `json:"time"`
 }
 type GroupUser struct {
-	MemberType  MemberType `json:"member_type"`
+	MemberType  MemberType `json:"member_type,omitempty"`
 	RealName    string     `json:"real_name"`
 	UserEmail   string     `json:"user_email"`
 	UserGroupId string     `json:"user_group_id"`
@@ -348,12 +343,12 @@ type Invitation struct {
 	InviteTime        time.Time  `json:"invite_time"`
 	InvitedUserEmail  string     `json:"invited_user_email"`
 	InvitingUserEmail string     `json:"inviting_user_email"`
-	MemberType        MemberType `json:"member_type"`
+	MemberType        MemberType `json:"member_type,omitempty"`
 }
 type InviteDetails struct {
 	UserEmail string `json:"user_email"`
 }
-type listProjectVpcPeeringConnectionTypesOut struct {
+type ListProjectVpcPeeringConnectionTypesOut struct {
 	VpcPeeringConnectionTypes []VpcPeeringConnectionType `json:"vpc_peering_connection_types"`
 }
 type MemberType string
@@ -399,13 +394,13 @@ type Project struct {
 	ProjectName           string              `json:"project_name"`
 	State                 string              `json:"state,omitempty"`
 	Tags                  map[string]string   `json:"tags,omitempty"`
-	TechEmails            []TechEmail         `json:"tech_emails"`
+	TechEmails            []BillingEmail      `json:"tech_emails"`
 	TenantId              string              `json:"tenant_id,omitempty"`
 	TrialExpirationTime   *time.Time          `json:"trial_expiration_time,omitempty"`
 	VatId                 string              `json:"vat_id"`
 	ZipCode               string              `json:"zip_code,omitempty"`
 }
-type projectAlertsListOut struct {
+type ProjectAlertsListOut struct {
 	Alerts []Alert `json:"alerts"`
 }
 type ProjectCreateIn struct {
@@ -427,24 +422,24 @@ type ProjectCreateIn struct {
 	Project                      string              `json:"project"`
 	State                        string              `json:"state,omitempty"`
 	Tags                         map[string]string   `json:"tags,omitempty"`
-	TechEmails                   []TechEmail         `json:"tech_emails"`
+	TechEmails                   []BillingEmail      `json:"tech_emails"`
 	UseSourceProjectBillingGroup *bool               `json:"use_source_project_billing_group,omitempty"`
 	VatId                        string              `json:"vat_id,omitempty"`
 	ZipCode                      string              `json:"zip_code,omitempty"`
 }
-type projectCreateOut struct {
+type ProjectCreateOut struct {
 	Project *Project `json:"project"`
 }
-type projectGenerateSbomDownloadUrlOut struct {
+type ProjectGenerateSbomDownloadUrlOut struct {
 	DownloadUrl string `json:"download_url"`
 }
-type projectGetEventLogsOut struct {
+type ProjectGetEventLogsOut struct {
 	Events []Event `json:"events"`
 }
-type projectGetOut struct {
+type ProjectGetOut struct {
 	Project *Project `json:"project"`
 }
-type projectInviteAcceptOut struct {
+type ProjectInviteAcceptOut struct {
 	InviteDetails *InviteDetails `json:"invite_details"`
 }
 type ProjectInviteIn struct {
@@ -457,15 +452,15 @@ type ProjectListOut struct {
 	Projects           []Project           `json:"projects"`
 }
 type ProjectMembership struct {
-	Any AnyType `json:"ANY,omitempty"`
+	Any MemberType `json:"ANY,omitempty"`
 }
 type ProjectMemberships struct {
 	Any []string `json:"ANY"`
 }
-type projectPrivatelinkAvailabilityListOut struct {
+type ProjectPrivatelinkAvailabilityListOut struct {
 	PrivatelinkAvailability []PrivatelinkAvailability `json:"privatelink_availability"`
 }
-type projectTagsListOut struct {
+type ProjectTagsListOut struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 type ProjectTagsReplaceIn struct {
@@ -491,11 +486,11 @@ type ProjectUpdateIn struct {
 	ProjectName                 string              `json:"project_name,omitempty"`
 	State                       string              `json:"state,omitempty"`
 	Tags                        map[string]string   `json:"tags,omitempty"`
-	TechEmails                  []TechEmail         `json:"tech_emails"`
+	TechEmails                  []BillingEmail      `json:"tech_emails"`
 	VatId                       string              `json:"vat_id,omitempty"`
 	ZipCode                     string              `json:"zip_code,omitempty"`
 }
-type projectUpdateOut struct {
+type ProjectUpdateOut struct {
 	Project *Project `json:"project"`
 }
 type ProjectUserListOut struct {
@@ -504,16 +499,13 @@ type ProjectUserListOut struct {
 	Users       []User       `json:"users"`
 }
 type ProjectUserUpdateIn struct {
-	MemberType MemberType `json:"member_type"`
-}
-type TechEmail struct {
-	Email string `json:"email"`
+	MemberType MemberType `json:"member_type,omitempty"`
 }
 type User struct {
 	Auth           []string   `json:"auth"`
 	BillingContact bool       `json:"billing_contact"`
 	CreateTime     time.Time  `json:"create_time"`
-	MemberType     MemberType `json:"member_type"`
+	MemberType     MemberType `json:"member_type,omitempty"`
 	RealName       string     `json:"real_name,omitempty"`
 	TeamId         string     `json:"team_id"`
 	TeamName       string     `json:"team_name"`

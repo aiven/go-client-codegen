@@ -33,7 +33,7 @@ type Handler interface {
 	// ServiceFlinkListApplicationDeployments get all ApplicationDeployments
 	// GET /project/{project}/service/{service_name}/flink/application/{application_id}/deployment
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkListApplicationDeployments
-	ServiceFlinkListApplicationDeployments(ctx context.Context, project string, serviceName string, applicationId string) ([]Deployment, error)
+	ServiceFlinkListApplicationDeployments(ctx context.Context, project string, serviceName string, applicationId string) ([]ServiceFlinkCancelApplicationDeploymentOut, error)
 
 	// ServiceFlinkStopApplicationDeployment stop an ApplicationDeployment
 	// POST /project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}/stop
@@ -93,10 +93,10 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkGetApplicationDeployment
 	}
 	return out, nil
 }
-func (h *FlinkApplicationDeploymentHandler) ServiceFlinkListApplicationDeployments(ctx context.Context, project string, serviceName string, applicationId string) ([]Deployment, error) {
+func (h *FlinkApplicationDeploymentHandler) ServiceFlinkListApplicationDeployments(ctx context.Context, project string, serviceName string, applicationId string) ([]ServiceFlinkCancelApplicationDeploymentOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplicationDeployments", "GET", path, nil)
-	out := new(serviceFlinkListApplicationDeploymentsOut)
+	out := new(ServiceFlinkListApplicationDeploymentsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -114,19 +114,6 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkStopApplicationDeploymen
 	return out, nil
 }
 
-type Deployment struct {
-	CreatedAt         time.Time  `json:"created_at"`
-	CreatedBy         string     `json:"created_by"`
-	ErrorMsg          string     `json:"error_msg,omitempty"`
-	Id                string     `json:"id"`
-	JobId             string     `json:"job_id,omitempty"`
-	LastSavepoint     string     `json:"last_savepoint,omitempty"`
-	Parallelism       int        `json:"parallelism"`
-	RestartEnabled    bool       `json:"restart_enabled"`
-	StartingSavepoint string     `json:"starting_savepoint,omitempty"`
-	Status            StatusType `json:"status"`
-	VersionId         string     `json:"version_id"`
-}
 type ServiceFlinkCancelApplicationDeploymentOut struct {
 	CreatedAt         time.Time  `json:"created_at"`
 	CreatedBy         string     `json:"created_by"`
@@ -185,8 +172,8 @@ type ServiceFlinkGetApplicationDeploymentOut struct {
 	Status            StatusType `json:"status"`
 	VersionId         string     `json:"version_id"`
 }
-type serviceFlinkListApplicationDeploymentsOut struct {
-	Deployments []Deployment `json:"deployments"`
+type ServiceFlinkListApplicationDeploymentsOut struct {
+	Deployments []ServiceFlinkCancelApplicationDeploymentOut `json:"deployments"`
 }
 type ServiceFlinkStopApplicationDeploymentOut struct {
 	CreatedAt         time.Time  `json:"created_at"`

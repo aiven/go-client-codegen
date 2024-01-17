@@ -66,7 +66,7 @@ func (h *AccountTeamHandler) AccountTeamDelete(ctx context.Context, accountId st
 func (h *AccountTeamHandler) AccountTeamGet(ctx context.Context, accountId string, teamId string) (*Team, error) {
 	path := fmt.Sprintf("/account/%s/team/%s", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamGet", "GET", path, nil)
-	out := new(accountTeamGetOut)
+	out := new(AccountTeamGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (h *AccountTeamHandler) AccountTeamGet(ctx context.Context, accountId strin
 func (h *AccountTeamHandler) AccountTeamInvitesList(ctx context.Context, accountId string, teamId string) ([]AccountInvite, error) {
 	path := fmt.Sprintf("/account/%s/team/%s/invites", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamInvitesList", "GET", path, nil)
-	out := new(accountTeamInvitesListOut)
+	out := new(AccountTeamInvitesListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (h *AccountTeamHandler) AccountTeamInvitesList(ctx context.Context, account
 func (h *AccountTeamHandler) AccountTeamList(ctx context.Context, accountId string) ([]Team, error) {
 	path := fmt.Sprintf("/account/%s/teams", accountId)
 	b, err := h.doer.Do(ctx, "AccountTeamList", "GET", path, nil)
-	out := new(accountTeamListOut)
+	out := new(AccountTeamListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -106,7 +106,7 @@ func (h *AccountTeamHandler) AccountTeamProjectDisassociate(ctx context.Context,
 func (h *AccountTeamHandler) AccountTeamUpdate(ctx context.Context, accountId string, teamId string, in *AccountTeamUpdateIn) (*Team, error) {
 	path := fmt.Sprintf("/account/%s/team/%s", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamUpdate", "PUT", path, in)
-	out := new(accountTeamUpdateOut)
+	out := new(AccountTeamUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -123,13 +123,13 @@ type AccountInvite struct {
 	TeamName           string    `json:"team_name"`
 	UserEmail          string    `json:"user_email"`
 }
-type accountTeamGetOut struct {
+type AccountTeamGetOut struct {
 	Team *Team `json:"team"`
 }
-type accountTeamInvitesListOut struct {
+type AccountTeamInvitesListOut struct {
 	AccountInvites []AccountInvite `json:"account_invites"`
 }
-type accountTeamListOut struct {
+type AccountTeamListOut struct {
 	Teams []Team `json:"teams"`
 }
 type AccountTeamProjectAssociateIn struct {
@@ -138,7 +138,7 @@ type AccountTeamProjectAssociateIn struct {
 type AccountTeamUpdateIn struct {
 	TeamName string `json:"team_name"`
 }
-type accountTeamUpdateOut struct {
+type AccountTeamUpdateOut struct {
 	Team *Team `json:"team"`
 }
 type Team struct {

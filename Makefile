@@ -5,7 +5,7 @@ imports:
 	goimports -local "github.com/aiven/aiven-go-client-v3" -w .
 
 go-generate:
-	rm -rf .handlers
+	rm -rf ./handler
 	go run ./generator/...
 
 generate: go-generate imports

@@ -16,6 +16,7 @@ import (
 	flink "github.com/aiven/aiven-go-client-v3/handler/flink"
 	flinkapplication "github.com/aiven/aiven-go-client-v3/handler/flinkapplication"
 	flinkapplicationdeployment "github.com/aiven/aiven-go-client-v3/handler/flinkapplicationdeployment"
+	flinkapplicationversion "github.com/aiven/aiven-go-client-v3/handler/flinkapplicationversion"
 	flinkjob "github.com/aiven/aiven-go-client-v3/handler/flinkjob"
 	kafka "github.com/aiven/aiven-go-client-v3/handler/kafka"
 	kafkaconnect "github.com/aiven/aiven-go-client-v3/handler/kafkaconnect"
@@ -54,6 +55,7 @@ func newClient(doer doer) Client {
 		DomainHandler:                     domain.NewHandler(doer),
 		FlinkApplicationDeploymentHandler: flinkapplicationdeployment.NewHandler(doer),
 		FlinkApplicationHandler:           flinkapplication.NewHandler(doer),
+		FlinkApplicationVersionHandler:    flinkapplicationversion.NewHandler(doer),
 		FlinkHandler:                      flink.NewHandler(doer),
 		FlinkJobHandler:                   flinkjob.NewHandler(doer),
 		KafkaConnectHandler:               kafkaconnect.NewHandler(doer),
@@ -90,6 +92,7 @@ type client struct {
 	flink.FlinkHandler
 	flinkapplication.FlinkApplicationHandler
 	flinkapplicationdeployment.FlinkApplicationDeploymentHandler
+	flinkapplicationversion.FlinkApplicationVersionHandler
 	flinkjob.FlinkJobHandler
 	kafka.KafkaHandler
 	kafkaconnect.KafkaConnectHandler
@@ -123,6 +126,7 @@ type Client interface {
 	flink.Handler
 	flinkapplication.Handler
 	flinkapplicationdeployment.Handler
+	flinkapplicationversion.Handler
 	flinkjob.Handler
 	kafka.Handler
 	kafkaconnect.Handler

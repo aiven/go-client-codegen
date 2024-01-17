@@ -23,6 +23,8 @@
 ## via constructor options
 
 ```go
+import "github.com/aiven/aiven-go-client-v3"
+
 client, err := aiven.NewClient(func(d *aiven.Doer){
 	d.Debug = true
 	d.UserAgent = "Smith"

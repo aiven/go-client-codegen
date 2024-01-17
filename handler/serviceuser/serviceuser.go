@@ -51,7 +51,7 @@ type ServiceUserHandler struct {
 func (h *ServiceUserHandler) ServiceUserCreate(ctx context.Context, project string, serviceName string, in *ServiceUserCreateIn) (*User, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceUserCreate", "POST", path, in)
-	out := new(serviceUserCreateOut)
+	out := new(ServiceUserCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -61,7 +61,7 @@ func (h *ServiceUserHandler) ServiceUserCreate(ctx context.Context, project stri
 func (h *ServiceUserHandler) ServiceUserCredentialsModify(ctx context.Context, project string, serviceName string, serviceUsername string, in *ServiceUserCredentialsModifyIn) (*Service, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
 	b, err := h.doer.Do(ctx, "ServiceUserCredentialsModify", "PUT", path, in)
-	out := new(serviceUserCredentialsModifyOut)
+	out := new(ServiceUserCredentialsModifyOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (h *ServiceUserHandler) ServiceUserCredentialsModify(ctx context.Context, p
 func (h *ServiceUserHandler) ServiceUserCredentialsReset(ctx context.Context, project string, serviceName string, serviceUsername string) (*Service, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user/%s/credentials/reset", project, serviceName, serviceUsername)
 	b, err := h.doer.Do(ctx, "ServiceUserCredentialsReset", "PUT", path, nil)
-	out := new(serviceUserCredentialsResetOut)
+	out := new(ServiceUserCredentialsResetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (h *ServiceUserHandler) ServiceUserDelete(ctx context.Context, project stri
 func (h *ServiceUserHandler) ServiceUserGet(ctx context.Context, project string, serviceName string, serviceUsername string) (*User, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
 	b, err := h.doer.Do(ctx, "ServiceUserGet", "GET", path, nil)
-	out := new(serviceUserGetOut)
+	out := new(ServiceUserGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -121,6 +121,10 @@ const (
 	AuthenticationTypeCachingSha2Password AuthenticationType = "caching_sha2_password"
 	AuthenticationTypeMysqlNativePassword AuthenticationType = "mysql_native_password"
 )
+
+func AuthenticationTypeChoices() []string {
+	return []string{"null", "caching_sha2_password", "mysql_native_password"}
+}
 
 type Backup struct {
 	AdditionalRegions []AdditionalRegion `json:"additional_regions"`
@@ -194,24 +198,20 @@ type Maintenance struct {
 	Time    time.Time `json:"time"`
 	Updates []Update  `json:"updates"`
 }
-type NodeState struct {
-	Name            string             `json:"name"`
-	State           NodeStateStateType `json:"state"`
-	ProgressUpdates []ProgressUpdate   `json:"progress_updates"`
-	Role            RoleType           `json:"role,omitempty"`
-	Shard           *Shard             `json:"shard,omitempty"`
+type Metadata struct {
+	EndOfLifeHelpArticleUrl string     `json:"end_of_life_help_article_url,omitempty"`
+	EndOfLifePolicyUrl      string     `json:"end_of_life_policy_url,omitempty"`
+	ServiceEndOfLifeTime    *time.Time `json:"service_end_of_life_time,omitempty"`
+	UpgradeToServiceType    string     `json:"upgrade_to_service_type,omitempty"`
+	UpgradeToVersion        string     `json:"upgrade_to_version,omitempty"`
 }
-type NodeStateStateType string
-
-const (
-	NodeStateStateTypeLeaving     NodeStateStateType = "leaving"
-	NodeStateStateTypeRunning     NodeStateStateType = "running"
-	NodeStateStateTypeSettingUpVm NodeStateStateType = "setting_up_vm"
-	NodeStateStateTypeSyncingData NodeStateStateType = "syncing_data"
-	NodeStateStateTypeTimingOut   NodeStateStateType = "timing_out"
-	NodeStateStateTypeUnknown     NodeStateStateType = "unknown"
-)
-
+type NodeState struct {
+	Name            string           `json:"name"`
+	ProgressUpdates []ProgressUpdate `json:"progress_updates"`
+	Role            RoleType         `json:"role,omitempty"`
+	Shard           *Shard           `json:"shard,omitempty"`
+	State           StateType        `json:"state"`
+}
 type OperationType string
 
 const (
@@ -277,8 +277,8 @@ const (
 
 type SchemaRegistryAcl struct {
 	Id         string                          `json:"id,omitempty"`
-	Resource   string                          `json:"resource"`
 	Permission SchemaRegistryAclPermissionType `json:"permission"`
+	Resource   string                          `json:"resource"`
 	Username   string                          `json:"username"`
 }
 type SchemaRegistryAclPermissionType string
@@ -317,7 +317,7 @@ type Service struct {
 	ServiceTypeDescription string                `json:"service_type_description,omitempty"`
 	ServiceUri             string                `json:"service_uri"`
 	ServiceUriParams       map[string]any        `json:"service_uri_params,omitempty"`
-	State                  StateType             `json:"state"`
+	State                  ServiceStateType      `json:"state"`
 	Tags                   map[string]string     `json:"tags,omitempty"`
 	TechEmails             []TechEmail           `json:"tech_emails"`
 	TerminationProtection  bool                  `json:"termination_protection"`
@@ -346,24 +346,26 @@ type ServiceIntegration struct {
 	UserConfig           map[string]any     `json:"user_config,omitempty"`
 }
 type ServiceNotification struct {
-	Level    LevelType                    `json:"level"`
-	Message  string                       `json:"message"`
-	Metadata *ServiceNotificationMetadata `json:"metadata"`
-	Type     Type                         `json:"type"`
+	Level    LevelType `json:"level"`
+	Message  string    `json:"message"`
+	Metadata *Metadata `json:"metadata"`
+	Type     Type      `json:"type"`
 }
-type ServiceNotificationMetadata struct {
-	EndOfLifeHelpArticleUrl string     `json:"end_of_life_help_article_url,omitempty"`
-	EndOfLifePolicyUrl      string     `json:"end_of_life_policy_url,omitempty"`
-	ServiceEndOfLifeTime    *time.Time `json:"service_end_of_life_time,omitempty"`
-	UpgradeToServiceType    string     `json:"upgrade_to_service_type,omitempty"`
-	UpgradeToVersion        string     `json:"upgrade_to_version,omitempty"`
-}
+type ServiceStateType string
+
+const (
+	ServiceStateTypePoweroff    ServiceStateType = "POWEROFF"
+	ServiceStateTypeRebalancing ServiceStateType = "REBALANCING"
+	ServiceStateTypeRebuilding  ServiceStateType = "REBUILDING"
+	ServiceStateTypeRunning     ServiceStateType = "RUNNING"
+)
+
 type ServiceUserCreateIn struct {
 	AccessControl  *AccessControl     `json:"access_control,omitempty"`
 	Authentication AuthenticationType `json:"authentication,omitempty"`
 	Username       string             `json:"username"`
 }
-type serviceUserCreateOut struct {
+type ServiceUserCreateOut struct {
 	User *User `json:"user"`
 }
 type ServiceUserCredentialsModifyIn struct {
@@ -372,13 +374,13 @@ type ServiceUserCredentialsModifyIn struct {
 	NewPassword    string             `json:"new_password,omitempty"`
 	Operation      OperationType      `json:"operation"`
 }
-type serviceUserCredentialsModifyOut struct {
+type ServiceUserCredentialsModifyOut struct {
 	Service *Service `json:"service"`
 }
-type serviceUserCredentialsResetOut struct {
+type ServiceUserCredentialsResetOut struct {
 	Service *Service `json:"service"`
 }
-type serviceUserGetOut struct {
+type ServiceUserGetOut struct {
 	User *User `json:"user"`
 }
 type Shard struct {
@@ -394,10 +396,12 @@ type State struct {
 type StateType string
 
 const (
-	StateTypePoweroff    StateType = "POWEROFF"
-	StateTypeRebalancing StateType = "REBALANCING"
-	StateTypeRebuilding  StateType = "REBUILDING"
-	StateTypeRunning     StateType = "RUNNING"
+	StateTypeLeaving     StateType = "leaving"
+	StateTypeRunning     StateType = "running"
+	StateTypeSettingUpVm StateType = "setting_up_vm"
+	StateTypeSyncingData StateType = "syncing_data"
+	StateTypeTimingOut   StateType = "timing_out"
+	StateTypeUnknown     StateType = "unknown"
 )
 
 type StatusType string
@@ -420,8 +424,8 @@ type Topic struct {
 	Replication       int            `json:"replication"`
 	RetentionBytes    int            `json:"retention_bytes"`
 	RetentionHours    int            `json:"retention_hours"`
-	TopicName         string         `json:"topic_name"`
 	State             TopicStateType `json:"state,omitempty"`
+	TopicName         string         `json:"topic_name"`
 }
 type TopicStateType string
 

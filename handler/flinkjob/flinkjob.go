@@ -45,7 +45,7 @@ func (h *FlinkJobHandler) ServiceFlinkJobDetails(ctx context.Context, project st
 func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]Job, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/job", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkJobsList", "GET", path, nil)
-	out := new(serviceFlinkJobsListOut)
+	out := new(ServiceFlinkJobsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -54,8 +54,8 @@ func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project stri
 }
 
 type Job struct {
-	Id     string     `json:"id,omitempty"`
-	Status StatusType `json:"status,omitempty"`
+	Id     string    `json:"id,omitempty"`
+	Status StateType `json:"status,omitempty"`
 }
 type ServiceFlinkJobDetailsOut struct {
 	Duration       *int             `json:"duration,omitempty"`
@@ -72,7 +72,7 @@ type ServiceFlinkJobDetailsOut struct {
 	Timestamps     map[string]any   `json:"timestamps,omitempty"`
 	Vertices       []map[string]any `json:"vertices"`
 }
-type serviceFlinkJobsListOut struct {
+type ServiceFlinkJobsListOut struct {
 	Jobs []Job `json:"jobs"`
 }
 type StateType string
@@ -103,18 +103,3 @@ type StatusCounts struct {
 	Running      *int `json:"RUNNING,omitempty"`
 	Scheduled    *int `json:"SCHEDULED,omitempty"`
 }
-type StatusType string
-
-const (
-	StatusTypeInitializing StatusType = "INITIALIZING"
-	StatusTypeCreated      StatusType = "CREATED"
-	StatusTypeRunning      StatusType = "RUNNING"
-	StatusTypeFailing      StatusType = "FAILING"
-	StatusTypeFailed       StatusType = "FAILED"
-	StatusTypeCancelling   StatusType = "CANCELLING"
-	StatusTypeCanceled     StatusType = "CANCELED"
-	StatusTypeFinished     StatusType = "FINISHED"
-	StatusTypeRestarting   StatusType = "RESTARTING"
-	StatusTypeSuspended    StatusType = "SUSPENDED"
-	StatusTypeReconciling  StatusType = "RECONCILING"
-)

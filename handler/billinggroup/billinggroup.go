@@ -91,7 +91,7 @@ type BillingGroupHandler struct {
 func (h *BillingGroupHandler) BillingGroupCreate(ctx context.Context, in *BillingGroupCreateIn) (*BillingGroup, error) {
 	path := fmt.Sprintf("/billing-group")
 	b, err := h.doer.Do(ctx, "BillingGroupCreate", "POST", path, in)
-	out := new(billingGroupCreateOut)
+	out := new(BillingGroupCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -101,7 +101,7 @@ func (h *BillingGroupHandler) BillingGroupCreate(ctx context.Context, in *Billin
 func (h *BillingGroupHandler) BillingGroupCreditsClaim(ctx context.Context, billingGroupId string, in *BillingGroupCreditsClaimIn) (*Credit, error) {
 	path := fmt.Sprintf("/billing-group/%s/credits", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsClaim", "POST", path, in)
-	out := new(billingGroupCreditsClaimOut)
+	out := new(BillingGroupCreditsClaimOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -111,7 +111,7 @@ func (h *BillingGroupHandler) BillingGroupCreditsClaim(ctx context.Context, bill
 func (h *BillingGroupHandler) BillingGroupCreditsList(ctx context.Context, billingGroupId string) ([]Credit, error) {
 	path := fmt.Sprintf("/billing-group/%s/credits", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsList", "GET", path, nil)
-	out := new(billingGroupCreditsListOut)
+	out := new(BillingGroupCreditsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -126,7 +126,7 @@ func (h *BillingGroupHandler) BillingGroupDelete(ctx context.Context, billingGro
 func (h *BillingGroupHandler) BillingGroupEventList(ctx context.Context, billingGroupId string) ([]Event, error) {
 	path := fmt.Sprintf("/billing-group/%s/events", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupEventList", "GET", path, nil)
-	out := new(billingGroupEventListOut)
+	out := new(BillingGroupEventListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -136,7 +136,7 @@ func (h *BillingGroupHandler) BillingGroupEventList(ctx context.Context, billing
 func (h *BillingGroupHandler) BillingGroupGet(ctx context.Context, billingGroupId string) (*BillingGroup, error) {
 	path := fmt.Sprintf("/billing-group/%s", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupGet", "GET", path, nil)
-	out := new(billingGroupGetOut)
+	out := new(BillingGroupGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -146,7 +146,7 @@ func (h *BillingGroupHandler) BillingGroupGet(ctx context.Context, billingGroupI
 func (h *BillingGroupHandler) BillingGroupInvoiceLinesList(ctx context.Context, billingGroupId string, invoiceNumber string) ([]Line, error) {
 	path := fmt.Sprintf("/billing-group/%s/invoice/%s/lines", billingGroupId, invoiceNumber)
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceLinesList", "GET", path, nil)
-	out := new(billingGroupInvoiceLinesListOut)
+	out := new(BillingGroupInvoiceLinesListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (h *BillingGroupHandler) BillingGroupInvoiceLinesList(ctx context.Context, 
 func (h *BillingGroupHandler) BillingGroupInvoiceList(ctx context.Context, billingGroupId string) ([]Invoice, error) {
 	path := fmt.Sprintf("/billing-group/%s/invoice", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceList", "GET", path, nil)
-	out := new(billingGroupInvoiceListOut)
+	out := new(BillingGroupInvoiceListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -166,7 +166,7 @@ func (h *BillingGroupHandler) BillingGroupInvoiceList(ctx context.Context, billi
 func (h *BillingGroupHandler) BillingGroupList(ctx context.Context) ([]BillingGroup, error) {
 	path := fmt.Sprintf("/billing-group")
 	b, err := h.doer.Do(ctx, "BillingGroupList", "GET", path, nil)
-	out := new(billingGroupListOut)
+	out := new(BillingGroupListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -181,7 +181,7 @@ func (h *BillingGroupHandler) BillingGroupProjectAssign(ctx context.Context, bil
 func (h *BillingGroupHandler) BillingGroupProjectList(ctx context.Context, billingGroupId string) ([]Project, error) {
 	path := fmt.Sprintf("/billing-group/%s/projects", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupProjectList", "GET", path, nil)
-	out := new(billingGroupProjectListOut)
+	out := new(BillingGroupProjectListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -196,7 +196,7 @@ func (h *BillingGroupHandler) BillingGroupProjectsAssign(ctx context.Context, bi
 func (h *BillingGroupHandler) BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroup, error) {
 	path := fmt.Sprintf("/billing-group/%s", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupUpdate", "PUT", path, in)
-	out := new(billingGroupUpdateOut)
+	out := new(BillingGroupUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -221,6 +221,10 @@ const (
 	BillingCurrencyTypeUsd BillingCurrencyType = "USD"
 )
 
+func BillingCurrencyTypeChoices() []string {
+	return []string{"AUD", "CAD", "CHF", "DKK", "EUR", "GBP", "JPY", "NOK", "NZD", "SEK", "SGD", "USD"}
+}
+
 type BillingEmail struct {
 	Email string `json:"email"`
 }
@@ -229,7 +233,7 @@ type BillingGroup struct {
 	AccountName           string              `json:"account_name"`
 	AddressLines          []string            `json:"address_lines"`
 	BillingAddress        string              `json:"billing_address,omitempty"`
-	BillingCurrency       BillingCurrencyType `json:"billing_currency"`
+	BillingCurrency       BillingCurrencyType `json:"billing_currency,omitempty"`
 	BillingEmails         []BillingEmail      `json:"billing_emails"`
 	BillingExtraText      string              `json:"billing_extra_text"`
 	BillingGroupId        string              `json:"billing_group_id"`
@@ -262,34 +266,34 @@ type BillingGroupCreateIn struct {
 	VatId                string              `json:"vat_id,omitempty"`
 	ZipCode              string              `json:"zip_code,omitempty"`
 }
-type billingGroupCreateOut struct {
+type BillingGroupCreateOut struct {
 	BillingGroup *BillingGroup `json:"billing_group"`
 }
 type BillingGroupCreditsClaimIn struct {
 	Code string `json:"code"`
 }
-type billingGroupCreditsClaimOut struct {
+type BillingGroupCreditsClaimOut struct {
 	Credit *Credit `json:"credit"`
 }
-type billingGroupCreditsListOut struct {
+type BillingGroupCreditsListOut struct {
 	Credits []Credit `json:"credits"`
 }
-type billingGroupEventListOut struct {
+type BillingGroupEventListOut struct {
 	Events []Event `json:"events"`
 }
-type billingGroupGetOut struct {
+type BillingGroupGetOut struct {
 	BillingGroup *BillingGroup `json:"billing_group"`
 }
-type billingGroupInvoiceLinesListOut struct {
+type BillingGroupInvoiceLinesListOut struct {
 	Lines []Line `json:"lines"`
 }
-type billingGroupInvoiceListOut struct {
+type BillingGroupInvoiceListOut struct {
 	Invoices []Invoice `json:"invoices"`
 }
-type billingGroupListOut struct {
+type BillingGroupListOut struct {
 	BillingGroups []BillingGroup `json:"billing_groups"`
 }
-type billingGroupProjectListOut struct {
+type BillingGroupProjectListOut struct {
 	Projects []Project `json:"projects"`
 }
 type BillingGroupProjectsAssignIn struct {
@@ -317,7 +321,7 @@ type BillingGroupUpdateIn struct {
 	VatId            string              `json:"vat_id,omitempty"`
 	ZipCode          string              `json:"zip_code,omitempty"`
 }
-type billingGroupUpdateOut struct {
+type BillingGroupUpdateOut struct {
 	BillingGroup *BillingGroup `json:"billing_group"`
 }
 type CardInfo struct {
@@ -339,23 +343,6 @@ type Credit struct {
 	Type           Type       `json:"type,omitempty"`
 	Value          string     `json:"value,omitempty"`
 }
-type CurrencyType string
-
-const (
-	CurrencyTypeAud CurrencyType = "AUD"
-	CurrencyTypeCad CurrencyType = "CAD"
-	CurrencyTypeChf CurrencyType = "CHF"
-	CurrencyTypeDkk CurrencyType = "DKK"
-	CurrencyTypeEur CurrencyType = "EUR"
-	CurrencyTypeGbp CurrencyType = "GBP"
-	CurrencyTypeJpy CurrencyType = "JPY"
-	CurrencyTypeNok CurrencyType = "NOK"
-	CurrencyTypeNzd CurrencyType = "NZD"
-	CurrencyTypeSek CurrencyType = "SEK"
-	CurrencyTypeSgd CurrencyType = "SGD"
-	CurrencyTypeUsd CurrencyType = "USD"
-)
-
 type Event struct {
 	Actor          string     `json:"actor,omitempty"`
 	BillingGroupId string     `json:"billing_group_id,omitempty"`
@@ -370,7 +357,7 @@ type Invoice struct {
 	BillingGroupId    string                `json:"billing_group_id"`
 	BillingGroupName  string                `json:"billing_group_name"`
 	BillingGroupState BillingGroupStateType `json:"billing_group_state"`
-	Currency          CurrencyType          `json:"currency"`
+	Currency          BillingCurrencyType   `json:"currency,omitempty"`
 	DownloadCookie    string                `json:"download_cookie"`
 	GeneratedAt       *time.Time            `json:"generated_at,omitempty"`
 	InvoiceNumber     string                `json:"invoice_number"`

@@ -35,7 +35,7 @@ type CloudHandler struct {
 func (h *CloudHandler) ListClouds(ctx context.Context) ([]Cloud, error) {
 	path := fmt.Sprintf("/clouds")
 	b, err := h.doer.Do(ctx, "ListClouds", "GET", path, nil)
-	out := new(listCloudsOut)
+	out := new(ListCloudsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (h *CloudHandler) ListClouds(ctx context.Context) ([]Cloud, error) {
 func (h *CloudHandler) ListProjectClouds(ctx context.Context, project string) ([]Cloud, error) {
 	path := fmt.Sprintf("/project/%s/clouds", project)
 	b, err := h.doer.Do(ctx, "ListProjectClouds", "GET", path, nil)
-	out := new(listProjectCloudsOut)
+	out := new(ListProjectCloudsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -62,9 +62,9 @@ type Cloud struct {
 	Provider            string   `json:"provider,omitempty"`
 	ProviderDescription string   `json:"provider_description,omitempty"`
 }
-type listCloudsOut struct {
+type ListCloudsOut struct {
 	Clouds []Cloud `json:"clouds"`
 }
-type listProjectCloudsOut struct {
+type ListProjectCloudsOut struct {
 	Clouds []Cloud `json:"clouds"`
 }

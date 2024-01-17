@@ -3,12 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"slices"
 	"sort"
 	"strings"
 
 	"github.com/dave/jennifer/jen"
 	"github.com/iancoleman/strcase"
-	"github.com/samber/lo"
+	"golang.org/x/exp/maps"
 )
 
 const docSite = "https://api.aiven.io/doc"
@@ -116,7 +117,7 @@ type Schema struct {
 	hash          string
 	name          string
 	camelName     string
-	properties    []*Schema
+	propertyNames []string
 	parent        *Schema
 	in, out       bool // Request or Response DTO
 }
@@ -130,13 +131,11 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, prefix, name string) {
 		*s = *other
 	}
 
-	s.hash = mustMarshal(s)
-	name = strings.ReplaceAll(name, `\`, "")
-	s.name = name
-	s.camelName = strcase.ToCamel(name)
-
-	if s.isEnum() && !strings.HasSuffix(s.camelName, "Type") {
-		s.camelName += "Type"
+	for _, k := range s.RequiredProps {
+		p, ok := s.Properties[k]
+		if ok {
+			p.required = true
+		}
 	}
 
 	if s.out {
@@ -144,18 +143,31 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, prefix, name string) {
 		delete(s.Properties, "message")
 	}
 
-	if s.isObject() || s.isEnum() {
-		for _, k := range s.RequiredProps {
-			p, ok := s.Properties[k]
-			if ok {
-				p.required = true
-			}
-		}
+	s.name = name
+	s.hash = mustMarshal(s)
 
-		for {
-			other, ok := scope[s.camelName]
-			if !ok || s.hash == other.hash {
+	s.camelName = strcase.ToCamel(s.name)
+	if s.isEnum() && !strings.HasSuffix(s.camelName, "Type") {
+		s.camelName += "Type"
+	}
+
+	if s.isObject() || s.isEnum() {
+		for _, k := range sortedKeys(scope) {
+			other := scope[k]
+			if s.parent == nil {
 				break
+			}
+
+			if s.hash == other.hash {
+				// fixme: need some "deep copy" here
+				*s = *other
+				// Must preserve the name, because this is how the parent field is called
+				s.name = name
+				return
+			}
+
+			if s.camelName != other.camelName {
+				continue
 			}
 
 			parent := s.parent
@@ -186,26 +198,28 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, prefix, name string) {
 		}
 	}
 
-	keys := lo.Keys(s.Properties)
-	sort.Slice(keys, func(i, j int) bool {
-		return len(keys[i]) < len(keys[j])
-	})
-
-	s.properties = make([]*Schema, 0, len(s.Properties))
-	for _, k := range keys {
+	s.propertyNames = sortedKeys(s.Properties)
+	for _, k := range s.propertyNames {
 		p := s.Properties[k]
 		p.parent = s
 		p.init(doc, scope, s.camelName, k)
-		s.properties = append(s.properties, p)
 	}
 
-	sort.SliceStable(s.properties, func(i, j int) bool {
-		return s.properties[i].camelName < s.properties[j].camelName
-	})
+	// KafkaTopicConfig hacks.
+	// Because of deduplication in the scope, each field gets the first rendered type.
+	// For example, each int field becomes DeleteRetentionMs
+	if s.isObject() && slices.Equal(s.propertyNames, []string{"source", "synonyms", "value"}) {
+		p := s.Properties["value"]
+		if p.Enum == nil {
+			delete(scope, s.camelName)
+			s.camelName = "TopicConfig" + upperFirst(string(p.Type))
+			scope[s.camelName] = s
+		}
+	}
 }
 
 func (s *Schema) isObject() bool {
-	return s.Type == SchemaTypeObject
+	return s.Type == SchemaTypeObject && len(s.Properties) != 0
 }
 
 func (s *Schema) isArray() bool {
@@ -222,7 +236,7 @@ func (s *Schema) isScalar() bool {
 
 // isMap schemaless map
 func (s *Schema) isMap() bool {
-	return s.isObject() && len(s.Properties) == 0
+	return s.Type == SchemaTypeObject && len(s.Properties) == 0
 }
 
 func (s *Schema) isEnum() bool {
@@ -273,19 +287,18 @@ func getType(s *Schema) *jen.Statement {
 	switch {
 	case s.isArray():
 		a := jen.Index()
-		if len(s.Items.properties) != 0 {
+		if len(s.Items.Properties) != 0 {
 			return a.Id(s.Items.camelName)
 		}
 		return a.Add(getType(s.Items))
 	case s.isObject():
-		if s.isMap() {
-			if isMapString(s) {
-				return jen.Map(jen.String()).String()
-			} else {
-				return jen.Map(jen.String()).Any()
-			}
-		}
 		return jen.Id("*" + s.camelName)
+	case s.isMap():
+		if isMapString(s) {
+			return jen.Map(jen.String()).String()
+		} else {
+			return jen.Map(jen.String()).Any()
+		}
 	default:
 		panic(fmt.Errorf("unknown type %q for %q and parent %q", s.Type, s.name, s.parent.name))
 	}
@@ -306,4 +319,14 @@ func isMapString(s *Schema) bool {
 
 func lowerFirst(s string) string {
 	return strings.ToLower(s[:1]) + s[1:]
+}
+
+func upperFirst(s string) string {
+	return strings.ToUpper(s[:1]) + s[1:]
+}
+
+func sortedKeys[T any](m map[string]T) []string {
+	keys := maps.Keys(m)
+	sort.Strings(keys)
+	return keys
 }

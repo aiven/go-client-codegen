@@ -66,7 +66,7 @@ type OpenSearchHandler struct {
 func (h *OpenSearchHandler) ServiceOpenSearchAclGet(ctx context.Context, project string, serviceName string) (*OpensearchAclConfig, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclGet", "GET", path, nil)
-	out := new(serviceOpenSearchAclGetOut)
+	out := new(ServiceOpenSearchAclGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclGet(ctx context.Context, project
 func (h *OpenSearchHandler) ServiceOpenSearchAclSet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclSetIn) (*OpensearchAclConfig, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclSet", "POST", path, in)
-	out := new(serviceOpenSearchAclSetOut)
+	out := new(ServiceOpenSearchAclSetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclSet(ctx context.Context, project
 func (h *OpenSearchHandler) ServiceOpenSearchAclUpdate(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclUpdateIn) (*OpensearchAclConfig, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclUpdate", "PUT", path, in)
-	out := new(serviceOpenSearchAclUpdateOut)
+	out := new(ServiceOpenSearchAclUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -101,7 +101,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchIndexDelete(ctx context.Context, pr
 func (h *OpenSearchHandler) ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]Indexe, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/index", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchIndexList", "GET", path, nil)
-	out := new(serviceOpenSearchIndexListOut)
+	out := new(ServiceOpenSearchIndexListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -188,13 +188,13 @@ type Rule struct {
 	Index      string         `json:"index"`
 	Permission PermissionType `json:"permission"`
 }
-type serviceOpenSearchAclGetOut struct {
+type ServiceOpenSearchAclGetOut struct {
 	OpensearchAclConfig *OpensearchAclConfig `json:"opensearch_acl_config"`
 }
 type ServiceOpenSearchAclSetIn struct {
 	OpensearchAclConfig *OpensearchAclConfig `json:"opensearch_acl_config"`
 }
-type serviceOpenSearchAclSetOut struct {
+type ServiceOpenSearchAclSetOut struct {
 	OpensearchAclConfig *OpensearchAclConfig `json:"opensearch_acl_config"`
 }
 type ServiceOpenSearchAclUpdateIn struct {
@@ -204,10 +204,10 @@ type ServiceOpenSearchAclUpdateInOpensearchAclConfig struct {
 	Acls    []Acl `json:"acls"`
 	Enabled *bool `json:"enabled,omitempty"`
 }
-type serviceOpenSearchAclUpdateOut struct {
+type ServiceOpenSearchAclUpdateOut struct {
 	OpensearchAclConfig *OpensearchAclConfig `json:"opensearch_acl_config"`
 }
-type serviceOpenSearchIndexListOut struct {
+type ServiceOpenSearchIndexListOut struct {
 	Indexes []Indexe `json:"indexes"`
 }
 type ServiceOpenSearchSecurityGetOut struct {

@@ -55,7 +55,7 @@ type PostgreSQLHandler struct {
 func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, project string, serviceName string) ([]Extension, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/pg/available-extensions", project, serviceName)
 	b, err := h.doer.Do(ctx, "PGServiceAvailableExtensions", "GET", path, nil)
-	out := new(pgserviceAvailableExtensionsOut)
+	out := new(PgserviceAvailableExtensionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, pr
 func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]Query, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/pg/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "PGServiceQueryStatistics", "POST", path, in)
-	out := new(pgserviceQueryStatisticsOut)
+	out := new(PgserviceQueryStatisticsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, projec
 func (h *PostgreSQLHandler) PgAvailableExtensions(ctx context.Context, tenant string) ([]Pg, error) {
 	path := fmt.Sprintf("/tenants/%s/pg-available-extensions", tenant)
 	b, err := h.doer.Do(ctx, "PgAvailableExtensions", "GET", path, nil)
-	out := new(pgAvailableExtensionsOut)
+	out := new(PgAvailableExtensionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -106,10 +106,10 @@ type Pg struct {
 	Extensions []Extension `json:"extensions"`
 	Version    string      `json:"version"`
 }
-type pgAvailableExtensionsOut struct {
+type PgAvailableExtensionsOut struct {
 	Pg []Pg `json:"pg"`
 }
-type pgserviceAvailableExtensionsOut struct {
+type PgserviceAvailableExtensionsOut struct {
 	Extensions []Extension `json:"extensions"`
 }
 type PgserviceQueryStatisticsIn struct {
@@ -117,7 +117,7 @@ type PgserviceQueryStatisticsIn struct {
 	Offset  *int   `json:"offset,omitempty"`
 	OrderBy string `json:"order_by,omitempty"`
 }
-type pgserviceQueryStatisticsOut struct {
+type PgserviceQueryStatisticsOut struct {
 	Queries []Query `json:"queries"`
 }
 type PoolModeType string

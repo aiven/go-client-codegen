@@ -28,7 +28,7 @@ type Handler interface {
 	// OrganizationDomainsList list domains
 	// GET /organization/{organization_id}/domains
 	// https://api.aiven.io/doc/#tag/Domains/operation/OrganizationDomainsList
-	OrganizationDomainsList(ctx context.Context, organizationId string) ([]Domain, error)
+	OrganizationDomainsList(ctx context.Context, organizationId string) ([]OrganizationDomainAddOut, error)
 
 	// OrganizationDomainsRemove delete a domain
 	// DELETE /organization/{organization_id}/domains/{domain_id}
@@ -78,10 +78,10 @@ func (h *DomainHandler) OrganizationDomainVerify(ctx context.Context, organizati
 	}
 	return out, nil
 }
-func (h *DomainHandler) OrganizationDomainsList(ctx context.Context, organizationId string) ([]Domain, error) {
+func (h *DomainHandler) OrganizationDomainsList(ctx context.Context, organizationId string) ([]OrganizationDomainAddOut, error) {
 	path := fmt.Sprintf("/organization/%s/domains", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationDomainsList", "GET", path, nil)
-	out := new(organizationDomainsListOut)
+	out := new(OrganizationDomainsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -94,15 +94,6 @@ func (h *DomainHandler) OrganizationDomainsRemove(ctx context.Context, organizat
 	return err
 }
 
-type Domain struct {
-	ChallengeToken   string           `json:"challenge_token"`
-	CreateTime       time.Time        `json:"create_time"`
-	DomainId         string           `json:"domain_id"`
-	DomainName       string           `json:"domain_name"`
-	OrganizationId   string           `json:"organization_id"`
-	State            StateType        `json:"state"`
-	VerificationType VerificationType `json:"verification_type"`
-}
 type OrganizationDomainAddIn struct {
 	DomainName       string           `json:"domain_name"`
 	VerificationType VerificationType `json:"verification_type"`
@@ -117,7 +108,7 @@ type OrganizationDomainAddOut struct {
 	VerificationType VerificationType `json:"verification_type"`
 }
 type OrganizationDomainUpdateIn struct {
-	VerificationType VerificationType `json:"verification_type,omitempty"`
+	VerificationType VerificationType `json:"verification_type"`
 }
 type OrganizationDomainUpdateOut struct {
 	ChallengeToken   string           `json:"challenge_token"`
@@ -137,8 +128,8 @@ type OrganizationDomainVerifyOut struct {
 	State            StateType        `json:"state"`
 	VerificationType VerificationType `json:"verification_type"`
 }
-type organizationDomainsListOut struct {
-	Domains []Domain `json:"domains"`
+type OrganizationDomainsListOut struct {
+	Domains []OrganizationDomainAddOut `json:"domains"`
 }
 type StateType string
 
@@ -154,3 +145,7 @@ const (
 	VerificationTypeDns  VerificationType = "dns"
 	VerificationTypeHttp VerificationType = "http"
 )
+
+func VerificationTypeChoices() []string {
+	return []string{"dns", "http"}
+}
