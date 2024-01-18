@@ -16,7 +16,7 @@ func TestNewClient(t *testing.T) {
 		t.Skip("token is required for the test")
 	}
 
-	c, err := NewClient(DebugOpt())
+	c, err := NewClient(DebugOpt(true))
 	require.NoError(t, err)
 
 	ctx := context.Background()

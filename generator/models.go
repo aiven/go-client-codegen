@@ -1,3 +1,5 @@
+//go:build generator
+
 package main
 
 import (
@@ -287,7 +289,8 @@ func getType(s *Schema) *jen.Statement {
 	switch {
 	case s.isArray():
 		a := jen.Index()
-		if len(s.Items.Properties) != 0 {
+		// No pointers for complex objects
+		if s.Items.isObject() || s.Items.isArray() {
 			return a.Id(s.Items.camelName)
 		}
 		return a.Add(getType(s.Items))

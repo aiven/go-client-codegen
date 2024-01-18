@@ -30,3 +30,12 @@ func IsAlreadyExists(err error) bool {
 	var e Error
 	return errors.As(err, &e) && strings.Contains(e.Message, "already exists") && e.Status == http.StatusConflict
 }
+
+// OmitNotFound sometimes 404 is expected, and not an error.
+// For instance, when a resource is deleted in a retry loop.
+func OmitNotFound(err error) error {
+	if IsNotFound(err) {
+		return nil
+	}
+	return err
+}
