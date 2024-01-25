@@ -202,6 +202,7 @@ const (
 	StateTypeDeleted               StateType = "DELETED"
 	StateTypeDeletedByPeer         StateType = "DELETED_BY_PEER"
 	StateTypeDeleting              StateType = "DELETING"
+	StateTypeError                 StateType = "ERROR"
 	StateTypeInvalidSpecification  StateType = "INVALID_SPECIFICATION"
 	StateTypePendingPeer           StateType = "PENDING_PEER"
 	StateTypeRejectedByPeer        StateType = "REJECTED_BY_PEER"
@@ -211,6 +212,7 @@ type Type string
 
 const (
 	TypeOverlappingPeerVpcIpRanges Type = "overlapping-peer-vpc-ip-ranges"
+	TypeUpcloudPeeringInError      Type = "upcloud-peering-in-error"
 )
 
 type Vpc struct {

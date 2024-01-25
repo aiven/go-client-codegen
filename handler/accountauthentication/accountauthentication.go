@@ -95,6 +95,8 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodsList(ctx cont
 }
 
 type AccountAuthenticationMethodCreateIn struct {
+	AuthTokenExtendWhenUsed          *bool                      `json:"auth_token_extend_when_used,omitempty"`
+	AuthTokenMaxAgeSeconds           *int                       `json:"auth_token_max_age_seconds,omitempty"`
 	AuthenticationMethodName         string                     `json:"authentication_method_name"`
 	AuthenticationMethodType         AuthenticationMethodType   `json:"authentication_method_type"`
 	AutoJoinTeamId                   string                     `json:"auto_join_team_id,omitempty"`
@@ -119,6 +121,8 @@ type accountAuthenticationMethodGetOut struct {
 	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
 }
 type AccountAuthenticationMethodUpdateIn struct {
+	AuthTokenExtendWhenUsed          *bool                      `json:"auth_token_extend_when_used,omitempty"`
+	AuthTokenMaxAgeSeconds           *int                       `json:"auth_token_max_age_seconds,omitempty"`
 	AuthenticationMethodEnabled      *bool                      `json:"authentication_method_enabled,omitempty"`
 	AuthenticationMethodName         string                     `json:"authentication_method_name,omitempty"`
 	AutoJoinTeamId                   string                     `json:"auto_join_team_id,omitempty"`
@@ -143,6 +147,8 @@ type accountAuthenticationMethodsListOut struct {
 }
 type AuthenticationMethod struct {
 	AccountId                        string                     `json:"account_id"`
+	AuthTokenExtendWhenUsed          *bool                      `json:"auth_token_extend_when_used,omitempty"`
+	AuthTokenMaxAgeSeconds           *int                       `json:"auth_token_max_age_seconds,omitempty"`
 	AuthenticationMethodEnabled      bool                       `json:"authentication_method_enabled"`
 	AuthenticationMethodId           string                     `json:"authentication_method_id"`
 	AuthenticationMethodName         string                     `json:"authentication_method_name,omitempty"`
