@@ -141,7 +141,7 @@ func (h *OrganizationHandler) OrganizationUserInvitationDelete(ctx context.Conte
 func (h *OrganizationHandler) OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]Invitation, error) {
 	path := fmt.Sprintf("/organization/%s/invitation", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationUserInvitationsList", "GET", path, nil)
-	out := new(OrganizationUserInvitationsListOut)
+	out := new(organizationUserInvitationsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -166,7 +166,7 @@ func (h *OrganizationHandler) UserOrganizationCreate(ctx context.Context, in *Us
 func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]OrganizationGetOut, error) {
 	path := fmt.Sprintf("/organizations")
 	b, err := h.doer.Do(ctx, "UserOrganizationsList", "GET", path, nil)
-	out := new(UserOrganizationsListOut)
+	out := new(userOrganizationsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -273,7 +273,7 @@ type OrganizationUpdateOut struct {
 type OrganizationUserInvitationAcceptIn struct {
 	Action ActionType `json:"action,omitempty"`
 }
-type OrganizationUserInvitationsListOut struct {
+type organizationUserInvitationsListOut struct {
 	Invitations []Invitation `json:"invitations"`
 }
 type OrganizationUserInviteIn struct {
@@ -331,6 +331,6 @@ type UserOrganizationCreateOut struct {
 	Tier             TierType  `json:"tier"`
 	UpdateTime       time.Time `json:"update_time"`
 }
-type UserOrganizationsListOut struct {
+type userOrganizationsListOut struct {
 	Organizations []OrganizationGetOut `json:"organizations"`
 }

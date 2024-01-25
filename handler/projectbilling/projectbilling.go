@@ -41,7 +41,7 @@ type ProjectBillingHandler struct {
 func (h *ProjectBillingHandler) ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*Credit, error) {
 	path := fmt.Sprintf("/project/%s/credits", project)
 	b, err := h.doer.Do(ctx, "ProjectCreditsClaim", "POST", path, in)
-	out := new(ProjectCreditsClaimOut)
+	out := new(projectCreditsClaimOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func (h *ProjectBillingHandler) ProjectCreditsClaim(ctx context.Context, project
 func (h *ProjectBillingHandler) ProjectCreditsList(ctx context.Context, project string) ([]Credit, error) {
 	path := fmt.Sprintf("/project/%s/credits", project)
 	b, err := h.doer.Do(ctx, "ProjectCreditsList", "GET", path, nil)
-	out := new(ProjectCreditsListOut)
+	out := new(projectCreditsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -61,7 +61,7 @@ func (h *ProjectBillingHandler) ProjectCreditsList(ctx context.Context, project 
 func (h *ProjectBillingHandler) ProjectInvoiceList(ctx context.Context, project string) ([]Invoice, error) {
 	path := fmt.Sprintf("/project/%s/invoice", project)
 	b, err := h.doer.Do(ctx, "ProjectInvoiceList", "GET", path, nil)
-	out := new(ProjectInvoiceListOut)
+	out := new(projectInvoiceListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -118,13 +118,13 @@ type Invoice struct {
 type ProjectCreditsClaimIn struct {
 	Code string `json:"code"`
 }
-type ProjectCreditsClaimOut struct {
+type projectCreditsClaimOut struct {
 	Credit *Credit `json:"credit"`
 }
-type ProjectCreditsListOut struct {
+type projectCreditsListOut struct {
 	Credits []Credit `json:"credits"`
 }
-type ProjectInvoiceListOut struct {
+type projectInvoiceListOut struct {
 	Invoices []Invoice `json:"invoices"`
 }
 type StateType string

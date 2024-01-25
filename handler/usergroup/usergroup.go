@@ -86,7 +86,7 @@ func (h *UserGroupHandler) UserGroupGet(ctx context.Context, organizationId stri
 func (h *UserGroupHandler) UserGroupMemberList(ctx context.Context, organizationId string, userGroupId string) ([]Member, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups/%s/members", organizationId, userGroupId)
 	b, err := h.doer.Do(ctx, "UserGroupMemberList", "GET", path, nil)
-	out := new(UserGroupMemberListOut)
+	out := new(userGroupMemberListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -111,7 +111,7 @@ func (h *UserGroupHandler) UserGroupUpdate(ctx context.Context, organizationId s
 func (h *UserGroupHandler) UserGroupsList(ctx context.Context, organizationId string) ([]UserGroup, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups", organizationId)
 	b, err := h.doer.Do(ctx, "UserGroupsList", "GET", path, nil)
-	out := new(UserGroupsListOut)
+	out := new(userGroupsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -161,7 +161,7 @@ type UserGroupGetOut struct {
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
 }
-type UserGroupMemberListOut struct {
+type userGroupMemberListOut struct {
 	Members []Member `json:"members"`
 }
 type UserGroupMembersUpdateIn struct {
@@ -179,7 +179,7 @@ type UserGroupUpdateOut struct {
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
 }
-type UserGroupsListOut struct {
+type userGroupsListOut struct {
 	UserGroups []UserGroup `json:"user_groups"`
 }
 type UserInfo struct {

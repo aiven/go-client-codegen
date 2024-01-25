@@ -101,7 +101,7 @@ func (h *VpcHandler) VpcGet(ctx context.Context, project string, projectVpcId st
 func (h *VpcHandler) VpcList(ctx context.Context, project string) ([]Vpc, error) {
 	path := fmt.Sprintf("/project/%s/vpcs", project)
 	b, err := h.doer.Do(ctx, "VpcList", "GET", path, nil)
-	out := new(VpcListOut)
+	out := new(vpcListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -265,7 +265,7 @@ type VpcGetOut struct {
 	State                              VpcCreateOutStateType   `json:"state"`
 	UpdateTime                         time.Time               `json:"update_time"`
 }
-type VpcListOut struct {
+type vpcListOut struct {
 	Vpcs []Vpc `json:"vpcs"`
 }
 type VpcPeeringConnectionCreateIn struct {

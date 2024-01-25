@@ -51,7 +51,7 @@ type ServiceUserHandler struct {
 func (h *ServiceUserHandler) ServiceUserCreate(ctx context.Context, project string, serviceName string, in *ServiceUserCreateIn) (*User, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceUserCreate", "POST", path, in)
-	out := new(ServiceUserCreateOut)
+	out := new(serviceUserCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -61,7 +61,7 @@ func (h *ServiceUserHandler) ServiceUserCreate(ctx context.Context, project stri
 func (h *ServiceUserHandler) ServiceUserCredentialsModify(ctx context.Context, project string, serviceName string, serviceUsername string, in *ServiceUserCredentialsModifyIn) (*Service, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
 	b, err := h.doer.Do(ctx, "ServiceUserCredentialsModify", "PUT", path, in)
-	out := new(ServiceUserCredentialsModifyOut)
+	out := new(serviceUserCredentialsModifyOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (h *ServiceUserHandler) ServiceUserCredentialsModify(ctx context.Context, p
 func (h *ServiceUserHandler) ServiceUserCredentialsReset(ctx context.Context, project string, serviceName string, serviceUsername string) (*Service, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user/%s/credentials/reset", project, serviceName, serviceUsername)
 	b, err := h.doer.Do(ctx, "ServiceUserCredentialsReset", "PUT", path, nil)
-	out := new(ServiceUserCredentialsResetOut)
+	out := new(serviceUserCredentialsResetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (h *ServiceUserHandler) ServiceUserDelete(ctx context.Context, project stri
 func (h *ServiceUserHandler) ServiceUserGet(ctx context.Context, project string, serviceName string, serviceUsername string) (*User, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
 	b, err := h.doer.Do(ctx, "ServiceUserGet", "GET", path, nil)
-	out := new(ServiceUserGetOut)
+	out := new(serviceUserGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -365,7 +365,7 @@ type ServiceUserCreateIn struct {
 	Authentication AuthenticationType `json:"authentication,omitempty"`
 	Username       string             `json:"username"`
 }
-type ServiceUserCreateOut struct {
+type serviceUserCreateOut struct {
 	User *User `json:"user"`
 }
 type ServiceUserCredentialsModifyIn struct {
@@ -374,13 +374,13 @@ type ServiceUserCredentialsModifyIn struct {
 	NewPassword    string             `json:"new_password,omitempty"`
 	Operation      OperationType      `json:"operation"`
 }
-type ServiceUserCredentialsModifyOut struct {
+type serviceUserCredentialsModifyOut struct {
 	Service *Service `json:"service"`
 }
-type ServiceUserCredentialsResetOut struct {
+type serviceUserCredentialsResetOut struct {
 	Service *Service `json:"service"`
 }
-type ServiceUserGetOut struct {
+type serviceUserGetOut struct {
 	User *User `json:"user"`
 }
 type Shard struct {

@@ -96,7 +96,7 @@ type AccountHandler struct {
 func (h *AccountHandler) AccountAttachPaymentMethod(ctx context.Context, accountId string, in *AccountAttachPaymentMethodIn) (*Card, error) {
 	path := fmt.Sprintf("/account/%s/payment_methods", accountId)
 	b, err := h.doer.Do(ctx, "AccountAttachPaymentMethod", "POST", path, in)
-	out := new(AccountAttachPaymentMethodOut)
+	out := new(accountAttachPaymentMethodOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -106,7 +106,7 @@ func (h *AccountHandler) AccountAttachPaymentMethod(ctx context.Context, account
 func (h *AccountHandler) AccountBillingGroupList(ctx context.Context, accountId string) ([]AccountBillingGroup, error) {
 	path := fmt.Sprintf("/account/%s/billing-group", accountId)
 	b, err := h.doer.Do(ctx, "AccountBillingGroupList", "GET", path, nil)
-	out := new(AccountBillingGroupListOut)
+	out := new(accountBillingGroupListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -116,7 +116,7 @@ func (h *AccountHandler) AccountBillingGroupList(ctx context.Context, accountId 
 func (h *AccountHandler) AccountCreate(ctx context.Context, in *AccountCreateIn) (*Account, error) {
 	path := fmt.Sprintf("/account")
 	b, err := h.doer.Do(ctx, "AccountCreate", "POST", path, in)
-	out := new(AccountCreateOut)
+	out := new(accountCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -131,7 +131,7 @@ func (h *AccountHandler) AccountDelete(ctx context.Context, accountId string) er
 func (h *AccountHandler) AccountEventList(ctx context.Context, accountId string) ([]Event, error) {
 	path := fmt.Sprintf("/account/%s/events", accountId)
 	b, err := h.doer.Do(ctx, "AccountEventList", "GET", path, nil)
-	out := new(AccountEventListOut)
+	out := new(accountEventListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -141,7 +141,7 @@ func (h *AccountHandler) AccountEventList(ctx context.Context, accountId string)
 func (h *AccountHandler) AccountGet(ctx context.Context, accountId string) (*Account, error) {
 	path := fmt.Sprintf("/account/%s", accountId)
 	b, err := h.doer.Do(ctx, "AccountGet", "GET", path, nil)
-	out := new(AccountGetOut)
+	out := new(accountGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -151,7 +151,7 @@ func (h *AccountHandler) AccountGet(ctx context.Context, accountId string) (*Acc
 func (h *AccountHandler) AccountList(ctx context.Context) ([]Account, error) {
 	path := fmt.Sprintf("/account")
 	b, err := h.doer.Do(ctx, "AccountList", "GET", path, nil)
-	out := new(AccountListOut)
+	out := new(accountListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -161,7 +161,7 @@ func (h *AccountHandler) AccountList(ctx context.Context) ([]Account, error) {
 func (h *AccountHandler) AccountMove(ctx context.Context, accountId string, in *AccountMoveIn) (*Account, error) {
 	path := fmt.Sprintf("/account/%s/parent_account", accountId)
 	b, err := h.doer.Do(ctx, "AccountMove", "PUT", path, in)
-	out := new(AccountMoveOut)
+	out := new(accountMoveOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -176,7 +176,7 @@ func (h *AccountHandler) AccountPaymentMethodDelete(ctx context.Context, account
 func (h *AccountHandler) AccountPaymentMethodsList(ctx context.Context, accountId string) ([]CardItem, error) {
 	path := fmt.Sprintf("/account/%s/payment_methods", accountId)
 	b, err := h.doer.Do(ctx, "AccountPaymentMethodsList", "GET", path, nil)
-	out := new(AccountPaymentMethodsListOut)
+	out := new(accountPaymentMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -196,7 +196,7 @@ func (h *AccountHandler) AccountProjectsList(ctx context.Context, accountId stri
 func (h *AccountHandler) AccountUpdate(ctx context.Context, accountId string, in *AccountUpdateIn) (*Account, error) {
 	path := fmt.Sprintf("/account/%s", accountId)
 	b, err := h.doer.Do(ctx, "AccountUpdate", "PUT", path, in)
-	out := new(AccountUpdateOut)
+	out := new(accountUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -206,7 +206,7 @@ func (h *AccountHandler) AccountUpdate(ctx context.Context, accountId string, in
 func (h *AccountHandler) AccountUserProjectsList(ctx context.Context, accountId string, userId string) ([]UserProject, error) {
 	path := fmt.Sprintf("/account/%s/user/%s/projects", accountId, userId)
 	b, err := h.doer.Do(ctx, "AccountUserProjectsList", "GET", path, nil)
-	out := new(AccountUserProjectsListOut)
+	out := new(accountUserProjectsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -216,7 +216,7 @@ func (h *AccountHandler) AccountUserProjectsList(ctx context.Context, accountId 
 func (h *AccountHandler) AccountUsersSearch(ctx context.Context, accountId string, in *AccountUsersSearchIn) ([]User, error) {
 	path := fmt.Sprintf("/account/%s/users/search", accountId)
 	b, err := h.doer.Do(ctx, "AccountUsersSearch", "POST", path, in)
-	out := new(AccountUsersSearchOut)
+	out := new(accountUsersSearchOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -252,7 +252,7 @@ type Account struct {
 type AccountAttachPaymentMethodIn struct {
 	PaymentMethodId string `json:"payment_method_id"`
 }
-type AccountAttachPaymentMethodOut struct {
+type accountAttachPaymentMethodOut struct {
 	Card *Card `json:"card"`
 }
 type AccountBillingGroup struct {
@@ -277,7 +277,7 @@ type AccountBillingGroup struct {
 	VatId                 string              `json:"vat_id"`
 	ZipCode               string              `json:"zip_code"`
 }
-type AccountBillingGroupListOut struct {
+type accountBillingGroupListOut struct {
 	AccountBillingGroups []AccountBillingGroup `json:"account_billing_groups"`
 }
 type AccountCreateIn struct {
@@ -285,25 +285,25 @@ type AccountCreateIn struct {
 	ParentAccountId       string `json:"parent_account_id,omitempty"`
 	PrimaryBillingGroupId string `json:"primary_billing_group_id,omitempty"`
 }
-type AccountCreateOut struct {
+type accountCreateOut struct {
 	Account *Account `json:"account"`
 }
-type AccountEventListOut struct {
+type accountEventListOut struct {
 	Events []Event `json:"events"`
 }
-type AccountGetOut struct {
+type accountGetOut struct {
 	Account *Account `json:"account"`
 }
-type AccountListOut struct {
+type accountListOut struct {
 	Accounts []Account `json:"accounts"`
 }
 type AccountMoveIn struct {
 	ParentAccountId string `json:"parent_account_id"`
 }
-type AccountMoveOut struct {
+type accountMoveOut struct {
 	Account *Account `json:"account"`
 }
-type AccountPaymentMethodsListOut struct {
+type accountPaymentMethodsListOut struct {
 	Cards []CardItem `json:"cards"`
 }
 type AccountProjectsListOut struct {
@@ -314,10 +314,10 @@ type AccountUpdateIn struct {
 	AccountName           string `json:"account_name,omitempty"`
 	PrimaryBillingGroupId string `json:"primary_billing_group_id,omitempty"`
 }
-type AccountUpdateOut struct {
+type accountUpdateOut struct {
 	Account *Account `json:"account"`
 }
-type AccountUserProjectsListOut struct {
+type accountUserProjectsListOut struct {
 	UserProjects []UserProject `json:"user_projects"`
 }
 type AccountUsersSearchIn struct {
@@ -325,7 +325,7 @@ type AccountUsersSearchIn struct {
 	OrderBy OrderByType `json:"order_by,omitempty"`
 	Query   string      `json:"query,omitempty"`
 }
-type AccountUsersSearchOut struct {
+type accountUsersSearchOut struct {
 	Users []User `json:"users"`
 }
 type BillingCurrencyType string

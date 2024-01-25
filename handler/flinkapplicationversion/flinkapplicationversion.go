@@ -81,7 +81,7 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkGetApplication(ctx context.
 func (h *FlinkApplicationVersionHandler) ServiceFlinkListApplications(ctx context.Context, project string, serviceName string) ([]Application, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplications", "GET", path, nil)
-	out := new(ServiceFlinkListApplicationsOut)
+	out := new(serviceFlinkListApplicationsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -176,7 +176,7 @@ type ServiceFlinkGetApplicationOut struct {
 	UpdatedAt           time.Time                `json:"updated_at"`
 	UpdatedBy           string                   `json:"updated_by"`
 }
-type ServiceFlinkListApplicationsOut struct {
+type serviceFlinkListApplicationsOut struct {
 	Applications []Application `json:"applications"`
 }
 type ServiceFlinkUpdateApplicationIn struct {

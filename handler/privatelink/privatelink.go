@@ -90,7 +90,7 @@ type PrivatelinkHandler struct {
 func (h *PrivatelinkHandler) PublicPrivatelinkAvailabilityList(ctx context.Context, tenant string) ([]PrivatelinkAvailability, error) {
 	path := fmt.Sprintf("/tenants/%s/privatelink-availability", tenant)
 	b, err := h.doer.Do(ctx, "PublicPrivatelinkAvailabilityList", "GET", path, nil)
-	out := new(PublicPrivatelinkAvailabilityListOut)
+	out := new(publicPrivatelinkAvailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -100,7 +100,7 @@ func (h *PrivatelinkHandler) PublicPrivatelinkAvailabilityList(ctx context.Conte
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSConnectionList(ctx context.Context, project string, serviceName string) ([]Connection, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/aws/connections", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSConnectionList", "GET", path, nil)
-	out := new(ServicePrivatelinkAwsconnectionListOut)
+	out := new(servicePrivatelinkAwsconnectionListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -160,7 +160,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionApproval(ctx conte
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionList(ctx context.Context, project string, serviceName string) ([]ServicePrivatelinkAzureConnectionApprovalOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure/connections", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureConnectionList", "GET", path, nil)
-	out := new(ServicePrivatelinkAzureConnectionListOut)
+	out := new(servicePrivatelinkAzureConnectionListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -228,10 +228,10 @@ type PrivatelinkAvailability struct {
 	CloudName string `json:"cloud_name"`
 	PriceUsd  string `json:"price_usd"`
 }
-type PublicPrivatelinkAvailabilityListOut struct {
+type publicPrivatelinkAvailabilityListOut struct {
 	PrivatelinkAvailability []PrivatelinkAvailability `json:"privatelink_availability"`
 }
-type ServicePrivatelinkAwsconnectionListOut struct {
+type servicePrivatelinkAwsconnectionListOut struct {
 	Connections []Connection `json:"connections"`
 }
 type ServicePrivatelinkAwscreateIn struct {
@@ -278,7 +278,7 @@ type ServicePrivatelinkAzureConnectionApprovalOut struct {
 	State                   StateType `json:"state"`
 	UserIpAddress           string    `json:"user_ip_address"`
 }
-type ServicePrivatelinkAzureConnectionListOut struct {
+type servicePrivatelinkAzureConnectionListOut struct {
 	Connections []ServicePrivatelinkAzureConnectionApprovalOut `json:"connections"`
 }
 type ServicePrivatelinkAzureConnectionUpdateIn struct {

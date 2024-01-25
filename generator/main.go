@@ -413,6 +413,8 @@ func getResponse(s *Schema) *Schema {
 	case 1:
 		// If the schema has just one field, then uses it as out dto.
 		// That makes code simpler.
+		// Then we don't need the original response object to be exposed.
+		s.camelName = lowerFirst(s.camelName)
 		return s.Properties[s.propertyNames[0]]
 	case 0:
 		return nil

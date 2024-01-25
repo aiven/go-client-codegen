@@ -70,7 +70,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicDelete(ctx context.Context, project
 func (h *KafkaTopicHandler) ServiceKafkaTopicGet(ctx context.Context, project string, serviceName string, topicName string) (*Topic, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/topic/%s", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicGet", "GET", path, nil)
-	out := new(ServiceKafkaTopicGetOut)
+	out := new(serviceKafkaTopicGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicGet(ctx context.Context, project st
 func (h *KafkaTopicHandler) ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicItem, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/topic", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicList", "GET", path, nil)
-	out := new(ServiceKafkaTopicListOut)
+	out := new(serviceKafkaTopicListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicList(ctx context.Context, project s
 func (h *KafkaTopicHandler) ServiceKafkaTopicMessageList(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageListIn) ([]Message, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/rest/topics/%s/messages", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicMessageList", "POST", path, in)
-	out := new(ServiceKafkaTopicMessageListOut)
+	out := new(serviceKafkaTopicMessageListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -319,10 +319,10 @@ type ServiceKafkaTopicCreateIn struct {
 	Tags              []Tag             `json:"tags"`
 	TopicName         string            `json:"topic_name"`
 }
-type ServiceKafkaTopicGetOut struct {
+type serviceKafkaTopicGetOut struct {
 	Topic *Topic `json:"topic"`
 }
-type ServiceKafkaTopicListOut struct {
+type serviceKafkaTopicListOut struct {
 	Topics []TopicItem `json:"topics"`
 }
 type ServiceKafkaTopicMessageListIn struct {
@@ -331,7 +331,7 @@ type ServiceKafkaTopicMessageListIn struct {
 	Partitions map[string]any `json:"partitions"`
 	Timeout    *int           `json:"timeout,omitempty"`
 }
-type ServiceKafkaTopicMessageListOut struct {
+type serviceKafkaTopicMessageListOut struct {
 	Messages []Message `json:"messages"`
 }
 type ServiceKafkaTopicMessageProduceIn struct {

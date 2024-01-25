@@ -30,7 +30,7 @@ type MySQLHandler struct {
 func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]Query, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mysql/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "MySQLServiceQueryStatistics", "POST", path, in)
-	out := new(MySqlserviceQueryStatisticsOut)
+	out := new(mySqlserviceQueryStatisticsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -43,7 +43,7 @@ type MySqlserviceQueryStatisticsIn struct {
 	Offset  *int   `json:"offset,omitempty"`
 	OrderBy string `json:"order_by,omitempty"`
 }
-type MySqlserviceQueryStatisticsOut struct {
+type mySqlserviceQueryStatisticsOut struct {
 	Queries []Query `json:"queries"`
 }
 type Query struct {

@@ -85,7 +85,7 @@ type ServiceIntegrationHandler struct {
 func (h *ServiceIntegrationHandler) ServiceIntegrationCreate(ctx context.Context, project string, in *ServiceIntegrationCreateIn) (*ServiceIntegration, error) {
 	path := fmt.Sprintf("/project/%s/integration", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationCreate", "POST", path, in)
-	out := new(ServiceIntegrationCreateOut)
+	out := new(serviceIntegrationCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -100,7 +100,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationDelete(ctx context.Context
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointCreate(ctx context.Context, project string, in *ServiceIntegrationEndpointCreateIn) (*ServiceIntegrationEndpoint, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointCreate", "POST", path, in)
-	out := new(ServiceIntegrationEndpointCreateOut)
+	out := new(serviceIntegrationEndpointCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -115,7 +115,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointDelete(ctx context
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string) (*ServiceIntegrationEndpoint, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint/%s", project, integrationEndpointId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointGet", "GET", path, nil)
-	out := new(ServiceIntegrationEndpointGetOut)
+	out := new(serviceIntegrationEndpointGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -125,7 +125,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointGet(ctx context.Co
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointList(ctx context.Context, project string) ([]ServiceIntegrationEndpoint, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointList", "GET", path, nil)
-	out := new(ServiceIntegrationEndpointListOut)
+	out := new(serviceIntegrationEndpointListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -135,7 +135,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointList(ctx context.C
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointTypes(ctx context.Context, project string) ([]EndpointTypeItem, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint_types", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointTypes", "GET", path, nil)
-	out := new(ServiceIntegrationEndpointTypesOut)
+	out := new(serviceIntegrationEndpointTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -145,7 +145,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointTypes(ctx context.
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointUpdate(ctx context.Context, project string, integrationEndpointId string, in *ServiceIntegrationEndpointUpdateIn) (*ServiceIntegrationEndpoint, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint/%s", project, integrationEndpointId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointUpdate", "PUT", path, in)
-	out := new(ServiceIntegrationEndpointUpdateOut)
+	out := new(serviceIntegrationEndpointUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -155,7 +155,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointUpdate(ctx context
 func (h *ServiceIntegrationHandler) ServiceIntegrationGet(ctx context.Context, project string, integrationId string) (*ServiceIntegration, error) {
 	path := fmt.Sprintf("/project/%s/integration/%s", project, integrationId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationGet", "GET", path, nil)
-	out := new(ServiceIntegrationGetOut)
+	out := new(serviceIntegrationGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -165,7 +165,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationGet(ctx context.Context, p
 func (h *ServiceIntegrationHandler) ServiceIntegrationList(ctx context.Context, project string, serviceName string) ([]ServiceIntegration, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/integration", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationList", "GET", path, nil)
-	out := new(ServiceIntegrationListOut)
+	out := new(serviceIntegrationListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -175,7 +175,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationList(ctx context.Context, 
 func (h *ServiceIntegrationHandler) ServiceIntegrationTypes(ctx context.Context, project string) ([]IntegrationTypeItem, error) {
 	path := fmt.Sprintf("/project/%s/integration_types", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationTypes", "GET", path, nil)
-	out := new(ServiceIntegrationTypesOut)
+	out := new(serviceIntegrationTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -185,7 +185,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationTypes(ctx context.Context,
 func (h *ServiceIntegrationHandler) ServiceIntegrationUpdate(ctx context.Context, project string, integrationId string, in *ServiceIntegrationUpdateIn) (*ServiceIntegration, error) {
 	path := fmt.Sprintf("/project/%s/integration/%s", project, integrationId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationUpdate", "PUT", path, in)
-	out := new(ServiceIntegrationUpdateOut)
+	out := new(serviceIntegrationUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -326,7 +326,7 @@ type ServiceIntegrationCreateIn struct {
 	SourceService    string          `json:"source_service,omitempty"`
 	UserConfig       map[string]any  `json:"user_config,omitempty"`
 }
-type ServiceIntegrationCreateOut struct {
+type serviceIntegrationCreateOut struct {
 	ServiceIntegration *ServiceIntegration `json:"service_integration"`
 }
 type ServiceIntegrationEndpoint struct {
@@ -341,37 +341,37 @@ type ServiceIntegrationEndpointCreateIn struct {
 	EndpointType EndpointType   `json:"endpoint_type"`
 	UserConfig   map[string]any `json:"user_config"`
 }
-type ServiceIntegrationEndpointCreateOut struct {
+type serviceIntegrationEndpointCreateOut struct {
 	ServiceIntegrationEndpoint *ServiceIntegrationEndpoint `json:"service_integration_endpoint"`
 }
-type ServiceIntegrationEndpointGetOut struct {
+type serviceIntegrationEndpointGetOut struct {
 	ServiceIntegrationEndpoint *ServiceIntegrationEndpoint `json:"service_integration_endpoint"`
 }
-type ServiceIntegrationEndpointListOut struct {
+type serviceIntegrationEndpointListOut struct {
 	ServiceIntegrationEndpoints []ServiceIntegrationEndpoint `json:"service_integration_endpoints"`
 }
-type ServiceIntegrationEndpointTypesOut struct {
+type serviceIntegrationEndpointTypesOut struct {
 	EndpointTypes []EndpointTypeItem `json:"endpoint_types"`
 }
 type ServiceIntegrationEndpointUpdateIn struct {
 	UserConfig map[string]any `json:"user_config"`
 }
-type ServiceIntegrationEndpointUpdateOut struct {
+type serviceIntegrationEndpointUpdateOut struct {
 	ServiceIntegrationEndpoint *ServiceIntegrationEndpoint `json:"service_integration_endpoint"`
 }
-type ServiceIntegrationGetOut struct {
+type serviceIntegrationGetOut struct {
 	ServiceIntegration *ServiceIntegration `json:"service_integration"`
 }
-type ServiceIntegrationListOut struct {
+type serviceIntegrationListOut struct {
 	ServiceIntegrations []ServiceIntegration `json:"service_integrations"`
 }
-type ServiceIntegrationTypesOut struct {
+type serviceIntegrationTypesOut struct {
 	IntegrationTypes []IntegrationTypeItem `json:"integration_types"`
 }
 type ServiceIntegrationUpdateIn struct {
 	UserConfig map[string]any `json:"user_config"`
 }
-type ServiceIntegrationUpdateOut struct {
+type serviceIntegrationUpdateOut struct {
 	ServiceIntegration *ServiceIntegration `json:"service_integration"`
 }
 type State struct {

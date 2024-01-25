@@ -55,7 +55,7 @@ func (h *ClickHouseHandler) ServiceClickHouseDatabaseDelete(ctx context.Context,
 func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, limit int, offset int, orderByType OrderByType) ([]Query, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/query/stats", project, serviceName, limit, offset, orderByType)
 	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil)
-	out := new(ServiceClickHouseQueryStatsOut)
+	out := new(serviceClickHouseQueryStatsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -116,7 +116,7 @@ type Query struct {
 type ServiceClickHouseDatabaseCreateIn struct {
 	Database string `json:"database"`
 }
-type ServiceClickHouseQueryStatsOut struct {
+type serviceClickHouseQueryStatsOut struct {
 	Queries []Query `json:"queries"`
 }
 type ServiceClickHouseTieredStorageSummaryOut struct {

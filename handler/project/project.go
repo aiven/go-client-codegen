@@ -121,7 +121,7 @@ type ProjectHandler struct {
 func (h *ProjectHandler) ListProjectVpcPeeringConnectionTypes(ctx context.Context, project string) ([]VpcPeeringConnectionType, error) {
 	path := fmt.Sprintf("/project/%s/vpc-peering-connection-types", project)
 	b, err := h.doer.Do(ctx, "ListProjectVpcPeeringConnectionTypes", "GET", path, nil)
-	out := new(ListProjectVpcPeeringConnectionTypesOut)
+	out := new(listProjectVpcPeeringConnectionTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -131,7 +131,7 @@ func (h *ProjectHandler) ListProjectVpcPeeringConnectionTypes(ctx context.Contex
 func (h *ProjectHandler) ProjectAlertsList(ctx context.Context, project string) ([]Alert, error) {
 	path := fmt.Sprintf("/project/%s/alerts", project)
 	b, err := h.doer.Do(ctx, "ProjectAlertsList", "GET", path, nil)
-	out := new(ProjectAlertsListOut)
+	out := new(projectAlertsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -141,7 +141,7 @@ func (h *ProjectHandler) ProjectAlertsList(ctx context.Context, project string) 
 func (h *ProjectHandler) ProjectCreate(ctx context.Context, in *ProjectCreateIn) (*Project, error) {
 	path := fmt.Sprintf("/project")
 	b, err := h.doer.Do(ctx, "ProjectCreate", "POST", path, in)
-	out := new(ProjectCreateOut)
+	out := new(projectCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (h *ProjectHandler) ProjectDelete(ctx context.Context, project string) erro
 func (h *ProjectHandler) ProjectGenerateSbomDownloadUrl(ctx context.Context, project string, fileFormat string) (string, error) {
 	path := fmt.Sprintf("/project/%s/generate-sbom-download-url/%s", project, fileFormat)
 	b, err := h.doer.Do(ctx, "ProjectGenerateSbomDownloadUrl", "GET", path, nil)
-	out := new(ProjectGenerateSbomDownloadUrlOut)
+	out := new(projectGenerateSbomDownloadUrlOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -166,7 +166,7 @@ func (h *ProjectHandler) ProjectGenerateSbomDownloadUrl(ctx context.Context, pro
 func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*Project, error) {
 	path := fmt.Sprintf("/project/%s", project)
 	b, err := h.doer.Do(ctx, "ProjectGet", "GET", path, nil)
-	out := new(ProjectGetOut)
+	out := new(projectGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -176,7 +176,7 @@ func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*Proje
 func (h *ProjectHandler) ProjectGetEventLogs(ctx context.Context, project string) ([]Event, error) {
 	path := fmt.Sprintf("/project/%s/events", project)
 	b, err := h.doer.Do(ctx, "ProjectGetEventLogs", "GET", path, nil)
-	out := new(ProjectGetEventLogsOut)
+	out := new(projectGetEventLogsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -191,7 +191,7 @@ func (h *ProjectHandler) ProjectInvite(ctx context.Context, project string, in *
 func (h *ProjectHandler) ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*InviteDetails, error) {
 	path := fmt.Sprintf("/project/%s/invite/%s", project, inviteVerificationCode)
 	b, err := h.doer.Do(ctx, "ProjectInviteAccept", "POST", path, nil)
-	out := new(ProjectInviteAcceptOut)
+	out := new(projectInviteAcceptOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -216,7 +216,7 @@ func (h *ProjectHandler) ProjectList(ctx context.Context) (*ProjectListOut, erro
 func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context, project string) ([]PrivatelinkAvailability, error) {
 	path := fmt.Sprintf("/project/%s/privatelink-availability", project)
 	b, err := h.doer.Do(ctx, "ProjectPrivatelinkAvailabilityList", "GET", path, nil)
-	out := new(ProjectPrivatelinkAvailabilityListOut)
+	out := new(projectPrivatelinkAvailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -226,7 +226,7 @@ func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context,
 func (h *ProjectHandler) ProjectTagsList(ctx context.Context, project string) (map[string]string, error) {
 	path := fmt.Sprintf("/project/%s/tags", project)
 	b, err := h.doer.Do(ctx, "ProjectTagsList", "GET", path, nil)
-	out := new(ProjectTagsListOut)
+	out := new(projectTagsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -246,7 +246,7 @@ func (h *ProjectHandler) ProjectTagsUpdate(ctx context.Context, project string, 
 func (h *ProjectHandler) ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*Project, error) {
 	path := fmt.Sprintf("/project/%s", project)
 	b, err := h.doer.Do(ctx, "ProjectUpdate", "PUT", path, in)
-	out := new(ProjectUpdateOut)
+	out := new(projectUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -348,7 +348,7 @@ type Invitation struct {
 type InviteDetails struct {
 	UserEmail string `json:"user_email"`
 }
-type ListProjectVpcPeeringConnectionTypesOut struct {
+type listProjectVpcPeeringConnectionTypesOut struct {
 	VpcPeeringConnectionTypes []VpcPeeringConnectionType `json:"vpc_peering_connection_types"`
 }
 type MemberType string
@@ -400,7 +400,7 @@ type Project struct {
 	VatId                 string              `json:"vat_id"`
 	ZipCode               string              `json:"zip_code,omitempty"`
 }
-type ProjectAlertsListOut struct {
+type projectAlertsListOut struct {
 	Alerts []Alert `json:"alerts"`
 }
 type ProjectCreateIn struct {
@@ -427,19 +427,19 @@ type ProjectCreateIn struct {
 	VatId                        string              `json:"vat_id,omitempty"`
 	ZipCode                      string              `json:"zip_code,omitempty"`
 }
-type ProjectCreateOut struct {
+type projectCreateOut struct {
 	Project *Project `json:"project"`
 }
-type ProjectGenerateSbomDownloadUrlOut struct {
+type projectGenerateSbomDownloadUrlOut struct {
 	DownloadUrl string `json:"download_url"`
 }
-type ProjectGetEventLogsOut struct {
+type projectGetEventLogsOut struct {
 	Events []Event `json:"events"`
 }
-type ProjectGetOut struct {
+type projectGetOut struct {
 	Project *Project `json:"project"`
 }
-type ProjectInviteAcceptOut struct {
+type projectInviteAcceptOut struct {
 	InviteDetails *InviteDetails `json:"invite_details"`
 }
 type ProjectInviteIn struct {
@@ -457,10 +457,10 @@ type ProjectMembership struct {
 type ProjectMemberships struct {
 	Any []string `json:"ANY"`
 }
-type ProjectPrivatelinkAvailabilityListOut struct {
+type projectPrivatelinkAvailabilityListOut struct {
 	PrivatelinkAvailability []PrivatelinkAvailability `json:"privatelink_availability"`
 }
-type ProjectTagsListOut struct {
+type projectTagsListOut struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 type ProjectTagsReplaceIn struct {
@@ -490,7 +490,7 @@ type ProjectUpdateIn struct {
 	VatId                       string              `json:"vat_id,omitempty"`
 	ZipCode                     string              `json:"zip_code,omitempty"`
 }
-type ProjectUpdateOut struct {
+type projectUpdateOut struct {
 	Project *Project `json:"project"`
 }
 type ProjectUserListOut struct {
