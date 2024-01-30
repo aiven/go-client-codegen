@@ -12,7 +12,7 @@ type Handler interface {
 	// MySQLServiceQueryStatistics fetch MySQL service query statistics
 	// POST /project/{project}/service/{service_name}/mysql/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_MySQL/operation/MySQLServiceQueryStatistics
-	MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]Query, error)
+	MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]QueryOut, error)
 }
 
 func NewHandler(doer doer) MySQLHandler {
@@ -27,10 +27,10 @@ type MySQLHandler struct {
 	doer doer
 }
 
-func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]Query, error) {
+func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]QueryOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mysql/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "MySQLServiceQueryStatistics", "POST", path, in)
-	out := new(mySqlserviceQueryStatisticsOut)
+	out := new(MySqlserviceQueryStatisticsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -43,10 +43,10 @@ type MySqlserviceQueryStatisticsIn struct {
 	Offset  *int   `json:"offset,omitempty"`
 	OrderBy string `json:"order_by,omitempty"`
 }
-type mySqlserviceQueryStatisticsOut struct {
-	Queries []Query `json:"queries"`
+type MySqlserviceQueryStatisticsOut struct {
+	Queries []QueryOut `json:"queries"`
 }
-type Query struct {
+type QueryOut struct {
 	AvgTimerWait            *float64 `json:"avg_timer_wait,omitempty"`
 	CountStar               *float64 `json:"count_star,omitempty"`
 	Digest                  string   `json:"digest,omitempty"`

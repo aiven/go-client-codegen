@@ -13,7 +13,7 @@ type Handler interface {
 	// AccountAuthenticationMethodCreate create a new authentication method
 	// POST /account/{account_id}/authentication
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodCreate
-	AccountAuthenticationMethodCreate(ctx context.Context, accountId string, in *AccountAuthenticationMethodCreateIn) (*AuthenticationMethod, error)
+	AccountAuthenticationMethodCreate(ctx context.Context, accountId string, in *AccountAuthenticationMethodCreateIn) (*AuthenticationMethodOut, error)
 
 	// AccountAuthenticationMethodDelete delete authentication method
 	// DELETE /account/{account_id}/authentication/{account_authentication_method_id}
@@ -23,17 +23,17 @@ type Handler interface {
 	// AccountAuthenticationMethodGet get details of a single authentication method
 	// GET /account/{account_id}/authentication/{account_authentication_method_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodGet
-	AccountAuthenticationMethodGet(ctx context.Context, accountId string, accountAuthenticationMethodId string) (*AuthenticationMethod, error)
+	AccountAuthenticationMethodGet(ctx context.Context, accountId string, accountAuthenticationMethodId string) (*AuthenticationMethodOut, error)
 
 	// AccountAuthenticationMethodUpdate update authentication method
 	// PUT /account/{account_id}/authentication/{account_authentication_method_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodUpdate
-	AccountAuthenticationMethodUpdate(ctx context.Context, accountId string, accountAuthenticationMethodId string, in *AccountAuthenticationMethodUpdateIn) (*AuthenticationMethod, error)
+	AccountAuthenticationMethodUpdate(ctx context.Context, accountId string, accountAuthenticationMethodId string, in *AccountAuthenticationMethodUpdateIn) (*AuthenticationMethodOut, error)
 
 	// AccountAuthenticationMethodsList list authentication methods
 	// GET /account/{account_id}/authentication
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodsList
-	AccountAuthenticationMethodsList(ctx context.Context, accountId string) ([]AuthenticationMethod, error)
+	AccountAuthenticationMethodsList(ctx context.Context, accountId string) ([]AuthenticationMethodOut, error)
 }
 
 func NewHandler(doer doer) AccountAuthenticationHandler {
@@ -48,45 +48,45 @@ type AccountAuthenticationHandler struct {
 	doer doer
 }
 
-func (h *AccountAuthenticationHandler) AccountAuthenticationMethodCreate(ctx context.Context, accountId string, in *AccountAuthenticationMethodCreateIn) (*AuthenticationMethod, error) {
+func (h *AccountAuthenticationHandler) AccountAuthenticationMethodCreate(ctx context.Context, accountId string, in *AccountAuthenticationMethodCreateIn) (*AuthenticationMethodOut, error) {
 	path := fmt.Sprintf("/account/%s/authentication", accountId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodCreate", "POST", path, in)
-	out := new(accountAuthenticationMethodCreateOut)
+	out := new(AccountAuthenticationMethodCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.AuthenticationMethod, nil
+	return &out.AuthenticationMethod, nil
 }
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodDelete(ctx context.Context, accountId string, accountAuthenticationMethodId string) error {
 	path := fmt.Sprintf("/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
 	_, err := h.doer.Do(ctx, "AccountAuthenticationMethodDelete", "DELETE", path, nil)
 	return err
 }
-func (h *AccountAuthenticationHandler) AccountAuthenticationMethodGet(ctx context.Context, accountId string, accountAuthenticationMethodId string) (*AuthenticationMethod, error) {
+func (h *AccountAuthenticationHandler) AccountAuthenticationMethodGet(ctx context.Context, accountId string, accountAuthenticationMethodId string) (*AuthenticationMethodOut, error) {
 	path := fmt.Sprintf("/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodGet", "GET", path, nil)
-	out := new(accountAuthenticationMethodGetOut)
+	out := new(AccountAuthenticationMethodGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.AuthenticationMethod, nil
+	return &out.AuthenticationMethod, nil
 }
-func (h *AccountAuthenticationHandler) AccountAuthenticationMethodUpdate(ctx context.Context, accountId string, accountAuthenticationMethodId string, in *AccountAuthenticationMethodUpdateIn) (*AuthenticationMethod, error) {
+func (h *AccountAuthenticationHandler) AccountAuthenticationMethodUpdate(ctx context.Context, accountId string, accountAuthenticationMethodId string, in *AccountAuthenticationMethodUpdateIn) (*AuthenticationMethodOut, error) {
 	path := fmt.Sprintf("/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodUpdate", "PUT", path, in)
-	out := new(accountAuthenticationMethodUpdateOut)
+	out := new(AccountAuthenticationMethodUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.AuthenticationMethod, nil
+	return &out.AuthenticationMethod, nil
 }
-func (h *AccountAuthenticationHandler) AccountAuthenticationMethodsList(ctx context.Context, accountId string) ([]AuthenticationMethod, error) {
+func (h *AccountAuthenticationHandler) AccountAuthenticationMethodsList(ctx context.Context, accountId string) ([]AuthenticationMethodOut, error) {
 	path := fmt.Sprintf("/account/%s/authentication", accountId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodsList", "GET", path, nil)
-	out := new(accountAuthenticationMethodsListOut)
+	out := new(AccountAuthenticationMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -101,7 +101,7 @@ type AccountAuthenticationMethodCreateIn struct {
 	AuthenticationMethodType         AuthenticationMethodType   `json:"authentication_method_type"`
 	AutoJoinTeamId                   string                     `json:"auto_join_team_id,omitempty"`
 	AutoJoinUserGroupId              string                     `json:"auto_join_user_group_id,omitempty"`
-	LinkedDomains                    []LinkedDomain             `json:"linked_domains"`
+	LinkedDomains                    *[]LinkedDomain            `json:"linked_domains,omitempty"`
 	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`
 	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`
 	SamlCertificate                  string                     `json:"saml_certificate,omitempty"`
@@ -114,11 +114,11 @@ type AccountAuthenticationMethodCreateIn struct {
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
 }
-type accountAuthenticationMethodCreateOut struct {
-	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
+type AccountAuthenticationMethodCreateOut struct {
+	AuthenticationMethod AuthenticationMethodOut `json:"authentication_method"`
 }
-type accountAuthenticationMethodGetOut struct {
-	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
+type AccountAuthenticationMethodGetOut struct {
+	AuthenticationMethod AuthenticationMethodOut `json:"authentication_method"`
 }
 type AccountAuthenticationMethodUpdateIn struct {
 	AuthTokenExtendWhenUsed          *bool                      `json:"auth_token_extend_when_used,omitempty"`
@@ -139,13 +139,13 @@ type AccountAuthenticationMethodUpdateIn struct {
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
 }
-type accountAuthenticationMethodUpdateOut struct {
-	AuthenticationMethod *AuthenticationMethod `json:"authentication_method"`
+type AccountAuthenticationMethodUpdateOut struct {
+	AuthenticationMethod AuthenticationMethodOut `json:"authentication_method"`
 }
-type accountAuthenticationMethodsListOut struct {
-	AuthenticationMethods []AuthenticationMethod `json:"authentication_methods"`
+type AccountAuthenticationMethodsListOut struct {
+	AuthenticationMethods []AuthenticationMethodOut `json:"authentication_methods"`
 }
-type AuthenticationMethod struct {
+type AuthenticationMethodOut struct {
 	AccountId                        string                     `json:"account_id"`
 	AuthTokenExtendWhenUsed          *bool                      `json:"auth_token_extend_when_used,omitempty"`
 	AuthTokenMaxAgeSeconds           *int                       `json:"auth_token_max_age_seconds,omitempty"`

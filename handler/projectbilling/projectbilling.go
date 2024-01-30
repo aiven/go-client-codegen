@@ -13,17 +13,17 @@ type Handler interface {
 	// ProjectCreditsClaim claim a credit code
 	// POST /project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsClaim
-	ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*Credit, error)
+	ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*CreditOut, error)
 
 	// ProjectCreditsList list project credits
 	// GET /project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsList
-	ProjectCreditsList(ctx context.Context, project string) ([]Credit, error)
+	ProjectCreditsList(ctx context.Context, project string) ([]CreditOut, error)
 
 	// ProjectInvoiceList list project invoices
 	// GET /project/{project}/invoice
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectInvoiceList
-	ProjectInvoiceList(ctx context.Context, project string) ([]Invoice, error)
+	ProjectInvoiceList(ctx context.Context, project string) ([]InvoiceOut, error)
 }
 
 func NewHandler(doer doer) ProjectBillingHandler {
@@ -38,30 +38,30 @@ type ProjectBillingHandler struct {
 	doer doer
 }
 
-func (h *ProjectBillingHandler) ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*Credit, error) {
+func (h *ProjectBillingHandler) ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*CreditOut, error) {
 	path := fmt.Sprintf("/project/%s/credits", project)
 	b, err := h.doer.Do(ctx, "ProjectCreditsClaim", "POST", path, in)
-	out := new(projectCreditsClaimOut)
+	out := new(ProjectCreditsClaimOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.Credit, nil
+	return &out.Credit, nil
 }
-func (h *ProjectBillingHandler) ProjectCreditsList(ctx context.Context, project string) ([]Credit, error) {
+func (h *ProjectBillingHandler) ProjectCreditsList(ctx context.Context, project string) ([]CreditOut, error) {
 	path := fmt.Sprintf("/project/%s/credits", project)
 	b, err := h.doer.Do(ctx, "ProjectCreditsList", "GET", path, nil)
-	out := new(projectCreditsListOut)
+	out := new(ProjectCreditsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Credits, nil
 }
-func (h *ProjectBillingHandler) ProjectInvoiceList(ctx context.Context, project string) ([]Invoice, error) {
+func (h *ProjectBillingHandler) ProjectInvoiceList(ctx context.Context, project string) ([]InvoiceOut, error) {
 	path := fmt.Sprintf("/project/%s/invoice", project)
 	b, err := h.doer.Do(ctx, "ProjectInvoiceList", "GET", path, nil)
-	out := new(projectInvoiceListOut)
+	out := new(ProjectInvoiceListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ const (
 	BillingGroupStateTypeDeleted BillingGroupStateType = "deleted"
 )
 
-type Credit struct {
+type CreditOut struct {
 	Code           string     `json:"code,omitempty"`
 	ExpireTime     *time.Time `json:"expire_time,omitempty"`
 	RemainingValue string     `json:"remaining_value,omitempty"`
@@ -101,7 +101,7 @@ const (
 	CurrencyTypeUsd CurrencyType = "USD"
 )
 
-type Invoice struct {
+type InvoiceOut struct {
 	BillingGroupId    string                `json:"billing_group_id"`
 	BillingGroupName  string                `json:"billing_group_name"`
 	BillingGroupState BillingGroupStateType `json:"billing_group_state"`
@@ -118,14 +118,14 @@ type Invoice struct {
 type ProjectCreditsClaimIn struct {
 	Code string `json:"code"`
 }
-type projectCreditsClaimOut struct {
-	Credit *Credit `json:"credit"`
+type ProjectCreditsClaimOut struct {
+	Credit CreditOut `json:"credit"`
 }
-type projectCreditsListOut struct {
-	Credits []Credit `json:"credits"`
+type ProjectCreditsListOut struct {
+	Credits []CreditOut `json:"credits"`
 }
-type projectInvoiceListOut struct {
-	Invoices []Invoice `json:"invoices"`
+type ProjectInvoiceListOut struct {
+	Invoices []InvoiceOut `json:"invoices"`
 }
 type StateType string
 

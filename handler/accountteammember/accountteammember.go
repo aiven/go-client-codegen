@@ -18,7 +18,7 @@ type Handler interface {
 	// AccountTeamMemberVerifyInvite confirm account team invite
 	// POST /account/{account_id}/invite/{invite_verification_code}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberVerifyInvite
-	AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*InviteDetails, error)
+	AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*InviteDetailsOut, error)
 
 	// AccountTeamMembersInvite invite a new member to join the team
 	// POST /account/{account_id}/team/{team_id}/members
@@ -28,7 +28,7 @@ type Handler interface {
 	// AccountTeamMembersList list members of a single team
 	// GET /account/{account_id}/team/{team_id}/members
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersList
-	AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]Member, error)
+	AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error)
 }
 
 func NewHandler(doer doer) AccountTeamMemberHandler {
@@ -48,25 +48,25 @@ func (h *AccountTeamMemberHandler) AccountTeamMemberCancelInvite(ctx context.Con
 	_, err := h.doer.Do(ctx, "AccountTeamMemberCancelInvite", "DELETE", path, nil)
 	return err
 }
-func (h *AccountTeamMemberHandler) AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*InviteDetails, error) {
+func (h *AccountTeamMemberHandler) AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*InviteDetailsOut, error) {
 	path := fmt.Sprintf("/account/%s/invite/%s", accountId, inviteVerificationCode)
 	b, err := h.doer.Do(ctx, "AccountTeamMemberVerifyInvite", "POST", path, nil)
-	out := new(accountTeamMemberVerifyInviteOut)
+	out := new(AccountTeamMemberVerifyInviteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.InviteDetails, nil
+	return &out.InviteDetails, nil
 }
 func (h *AccountTeamMemberHandler) AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string, in *AccountTeamMembersInviteIn) error {
 	path := fmt.Sprintf("/account/%s/team/%s/members", accountId, teamId)
 	_, err := h.doer.Do(ctx, "AccountTeamMembersInvite", "POST", path, in)
 	return err
 }
-func (h *AccountTeamMemberHandler) AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]Member, error) {
+func (h *AccountTeamMemberHandler) AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error) {
 	path := fmt.Sprintf("/account/%s/team/%s/members", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamMembersList", "GET", path, nil)
-	out := new(accountTeamMembersListOut)
+	out := new(AccountTeamMembersListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -74,19 +74,19 @@ func (h *AccountTeamMemberHandler) AccountTeamMembersList(ctx context.Context, a
 	return out.Members, nil
 }
 
-type accountTeamMemberVerifyInviteOut struct {
-	InviteDetails *InviteDetails `json:"invite_details"`
+type AccountTeamMemberVerifyInviteOut struct {
+	InviteDetails InviteDetailsOut `json:"invite_details"`
 }
 type AccountTeamMembersInviteIn struct {
 	Email string `json:"email"`
 }
-type accountTeamMembersListOut struct {
-	Members []Member `json:"members"`
+type AccountTeamMembersListOut struct {
+	Members []MemberOut `json:"members"`
 }
-type InviteDetails struct {
+type InviteDetailsOut struct {
 	UserEmail string `json:"user_email"`
 }
-type Member struct {
+type MemberOut struct {
 	CreateTime time.Time `json:"create_time"`
 	RealName   string    `json:"real_name"`
 	TeamId     string    `json:"team_id"`

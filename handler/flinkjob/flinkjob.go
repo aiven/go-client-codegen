@@ -17,7 +17,7 @@ type Handler interface {
 	// ServiceFlinkJobsList get all Flink jobs
 	// GET /project/{project}/service/{service_name}/flink/job
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkJobsList
-	ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]Job, error)
+	ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]JobOut, error)
 }
 
 func NewHandler(doer doer) FlinkJobHandler {
@@ -42,10 +42,10 @@ func (h *FlinkJobHandler) ServiceFlinkJobDetails(ctx context.Context, project st
 	}
 	return out, nil
 }
-func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]Job, error) {
+func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]JobOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/job", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkJobsList", "GET", path, nil)
-	out := new(serviceFlinkJobsListOut)
+	out := new(ServiceFlinkJobsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project stri
 	return out.Jobs, nil
 }
 
-type Job struct {
+type JobOut struct {
 	Id     string    `json:"id,omitempty"`
 	Status StateType `json:"status,omitempty"`
 }
@@ -68,12 +68,12 @@ type ServiceFlinkJobDetailsOut struct {
 	Plan           map[string]any   `json:"plan,omitempty"`
 	StartTime      *int             `json:"start-time,omitempty"`
 	State          StateType        `json:"state,omitempty"`
-	StatusCounts   *StatusCounts    `json:"status-counts,omitempty"`
+	StatusCounts   *StatusCountsOut `json:"status-counts,omitempty"`
 	Timestamps     map[string]any   `json:"timestamps,omitempty"`
-	Vertices       []map[string]any `json:"vertices"`
+	Vertices       []map[string]any `json:"vertices,omitempty"`
 }
-type serviceFlinkJobsListOut struct {
-	Jobs []Job `json:"jobs"`
+type ServiceFlinkJobsListOut struct {
+	Jobs []JobOut `json:"jobs,omitempty"`
 }
 type StateType string
 
@@ -91,7 +91,7 @@ const (
 	StateTypeReconciling  StateType = "RECONCILING"
 )
 
-type StatusCounts struct {
+type StatusCountsOut struct {
 	Canceled     *int `json:"CANCELED,omitempty"`
 	Canceling    *int `json:"CANCELING,omitempty"`
 	Created      *int `json:"CREATED,omitempty"`

@@ -12,7 +12,7 @@ type Handler interface {
 	// ServiceIntegrationCreate create a new service integration
 	// POST /project/{project}/integration
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationCreate
-	ServiceIntegrationCreate(ctx context.Context, project string, in *ServiceIntegrationCreateIn) (*ServiceIntegration, error)
+	ServiceIntegrationCreate(ctx context.Context, project string, in *ServiceIntegrationCreateIn) (*ServiceIntegrationOut, error)
 
 	// ServiceIntegrationDelete delete a service integration
 	// DELETE /project/{project}/integration/{integration_id}
@@ -22,7 +22,7 @@ type Handler interface {
 	// ServiceIntegrationEndpointCreate create a new service integration endpoint
 	// POST /project/{project}/integration_endpoint
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointCreate
-	ServiceIntegrationEndpointCreate(ctx context.Context, project string, in *ServiceIntegrationEndpointCreateIn) (*ServiceIntegrationEndpoint, error)
+	ServiceIntegrationEndpointCreate(ctx context.Context, project string, in *ServiceIntegrationEndpointCreateIn) (*ServiceIntegrationEndpointOut, error)
 
 	// ServiceIntegrationEndpointDelete delete a service integration endpoint
 	// DELETE /project/{project}/integration_endpoint/{integration_endpoint_id}
@@ -32,42 +32,42 @@ type Handler interface {
 	// ServiceIntegrationEndpointGet get service integration endpoint
 	// GET /project/{project}/integration_endpoint/{integration_endpoint_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointGet
-	ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string) (*ServiceIntegrationEndpoint, error)
+	ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string) (*ServiceIntegrationEndpointOut, error)
 
 	// ServiceIntegrationEndpointList list available integration endpoints for project
 	// GET /project/{project}/integration_endpoint
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointList
-	ServiceIntegrationEndpointList(ctx context.Context, project string) ([]ServiceIntegrationEndpoint, error)
+	ServiceIntegrationEndpointList(ctx context.Context, project string) ([]ServiceIntegrationEndpointOut, error)
 
 	// ServiceIntegrationEndpointTypes list available service integration endpoint types
 	// GET /project/{project}/integration_endpoint_types
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointTypes
-	ServiceIntegrationEndpointTypes(ctx context.Context, project string) ([]EndpointTypeItem, error)
+	ServiceIntegrationEndpointTypes(ctx context.Context, project string) ([]EndpointTypeOut, error)
 
 	// ServiceIntegrationEndpointUpdate update service integration endpoint
 	// PUT /project/{project}/integration_endpoint/{integration_endpoint_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointUpdate
-	ServiceIntegrationEndpointUpdate(ctx context.Context, project string, integrationEndpointId string, in *ServiceIntegrationEndpointUpdateIn) (*ServiceIntegrationEndpoint, error)
+	ServiceIntegrationEndpointUpdate(ctx context.Context, project string, integrationEndpointId string, in *ServiceIntegrationEndpointUpdateIn) (*ServiceIntegrationEndpointOut, error)
 
 	// ServiceIntegrationGet get service integration
 	// GET /project/{project}/integration/{integration_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationGet
-	ServiceIntegrationGet(ctx context.Context, project string, integrationId string) (*ServiceIntegration, error)
+	ServiceIntegrationGet(ctx context.Context, project string, integrationId string) (*ServiceIntegrationOut, error)
 
 	// ServiceIntegrationList list available integrations for a service
 	// GET /project/{project}/service/{service_name}/integration
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationList
-	ServiceIntegrationList(ctx context.Context, project string, serviceName string) ([]ServiceIntegration, error)
+	ServiceIntegrationList(ctx context.Context, project string, serviceName string) ([]ServiceIntegrationOut, error)
 
 	// ServiceIntegrationTypes list available service integration types
 	// GET /project/{project}/integration_types
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationTypes
-	ServiceIntegrationTypes(ctx context.Context, project string) ([]IntegrationTypeItem, error)
+	ServiceIntegrationTypes(ctx context.Context, project string) ([]IntegrationTypeOut, error)
 
 	// ServiceIntegrationUpdate update a service integration
 	// PUT /project/{project}/integration/{integration_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationUpdate
-	ServiceIntegrationUpdate(ctx context.Context, project string, integrationId string, in *ServiceIntegrationUpdateIn) (*ServiceIntegration, error)
+	ServiceIntegrationUpdate(ctx context.Context, project string, integrationId string, in *ServiceIntegrationUpdateIn) (*ServiceIntegrationOut, error)
 }
 
 func NewHandler(doer doer) ServiceIntegrationHandler {
@@ -82,115 +82,115 @@ type ServiceIntegrationHandler struct {
 	doer doer
 }
 
-func (h *ServiceIntegrationHandler) ServiceIntegrationCreate(ctx context.Context, project string, in *ServiceIntegrationCreateIn) (*ServiceIntegration, error) {
+func (h *ServiceIntegrationHandler) ServiceIntegrationCreate(ctx context.Context, project string, in *ServiceIntegrationCreateIn) (*ServiceIntegrationOut, error) {
 	path := fmt.Sprintf("/project/%s/integration", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationCreate", "POST", path, in)
-	out := new(serviceIntegrationCreateOut)
+	out := new(ServiceIntegrationCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.ServiceIntegration, nil
+	return &out.ServiceIntegration, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationDelete(ctx context.Context, project string, integrationId string) error {
 	path := fmt.Sprintf("/project/%s/integration/%s", project, integrationId)
 	_, err := h.doer.Do(ctx, "ServiceIntegrationDelete", "DELETE", path, nil)
 	return err
 }
-func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointCreate(ctx context.Context, project string, in *ServiceIntegrationEndpointCreateIn) (*ServiceIntegrationEndpoint, error) {
+func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointCreate(ctx context.Context, project string, in *ServiceIntegrationEndpointCreateIn) (*ServiceIntegrationEndpointOut, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointCreate", "POST", path, in)
-	out := new(serviceIntegrationEndpointCreateOut)
+	out := new(ServiceIntegrationEndpointCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.ServiceIntegrationEndpoint, nil
+	return &out.ServiceIntegrationEndpoint, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointDelete(ctx context.Context, project string, integrationEndpointId string) error {
 	path := fmt.Sprintf("/project/%s/integration_endpoint/%s", project, integrationEndpointId)
 	_, err := h.doer.Do(ctx, "ServiceIntegrationEndpointDelete", "DELETE", path, nil)
 	return err
 }
-func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string) (*ServiceIntegrationEndpoint, error) {
+func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string) (*ServiceIntegrationEndpointOut, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint/%s", project, integrationEndpointId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointGet", "GET", path, nil)
-	out := new(serviceIntegrationEndpointGetOut)
+	out := new(ServiceIntegrationEndpointGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.ServiceIntegrationEndpoint, nil
+	return &out.ServiceIntegrationEndpoint, nil
 }
-func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointList(ctx context.Context, project string) ([]ServiceIntegrationEndpoint, error) {
+func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointList(ctx context.Context, project string) ([]ServiceIntegrationEndpointOut, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointList", "GET", path, nil)
-	out := new(serviceIntegrationEndpointListOut)
+	out := new(ServiceIntegrationEndpointListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.ServiceIntegrationEndpoints, nil
 }
-func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointTypes(ctx context.Context, project string) ([]EndpointTypeItem, error) {
+func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointTypes(ctx context.Context, project string) ([]EndpointTypeOut, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint_types", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointTypes", "GET", path, nil)
-	out := new(serviceIntegrationEndpointTypesOut)
+	out := new(ServiceIntegrationEndpointTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.EndpointTypes, nil
 }
-func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointUpdate(ctx context.Context, project string, integrationEndpointId string, in *ServiceIntegrationEndpointUpdateIn) (*ServiceIntegrationEndpoint, error) {
+func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointUpdate(ctx context.Context, project string, integrationEndpointId string, in *ServiceIntegrationEndpointUpdateIn) (*ServiceIntegrationEndpointOut, error) {
 	path := fmt.Sprintf("/project/%s/integration_endpoint/%s", project, integrationEndpointId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointUpdate", "PUT", path, in)
-	out := new(serviceIntegrationEndpointUpdateOut)
+	out := new(ServiceIntegrationEndpointUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.ServiceIntegrationEndpoint, nil
+	return &out.ServiceIntegrationEndpoint, nil
 }
-func (h *ServiceIntegrationHandler) ServiceIntegrationGet(ctx context.Context, project string, integrationId string) (*ServiceIntegration, error) {
+func (h *ServiceIntegrationHandler) ServiceIntegrationGet(ctx context.Context, project string, integrationId string) (*ServiceIntegrationOut, error) {
 	path := fmt.Sprintf("/project/%s/integration/%s", project, integrationId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationGet", "GET", path, nil)
-	out := new(serviceIntegrationGetOut)
+	out := new(ServiceIntegrationGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.ServiceIntegration, nil
+	return &out.ServiceIntegration, nil
 }
-func (h *ServiceIntegrationHandler) ServiceIntegrationList(ctx context.Context, project string, serviceName string) ([]ServiceIntegration, error) {
+func (h *ServiceIntegrationHandler) ServiceIntegrationList(ctx context.Context, project string, serviceName string) ([]ServiceIntegrationOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/integration", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationList", "GET", path, nil)
-	out := new(serviceIntegrationListOut)
+	out := new(ServiceIntegrationListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.ServiceIntegrations, nil
 }
-func (h *ServiceIntegrationHandler) ServiceIntegrationTypes(ctx context.Context, project string) ([]IntegrationTypeItem, error) {
+func (h *ServiceIntegrationHandler) ServiceIntegrationTypes(ctx context.Context, project string) ([]IntegrationTypeOut, error) {
 	path := fmt.Sprintf("/project/%s/integration_types", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationTypes", "GET", path, nil)
-	out := new(serviceIntegrationTypesOut)
+	out := new(ServiceIntegrationTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.IntegrationTypes, nil
 }
-func (h *ServiceIntegrationHandler) ServiceIntegrationUpdate(ctx context.Context, project string, integrationId string, in *ServiceIntegrationUpdateIn) (*ServiceIntegration, error) {
+func (h *ServiceIntegrationHandler) ServiceIntegrationUpdate(ctx context.Context, project string, integrationId string, in *ServiceIntegrationUpdateIn) (*ServiceIntegrationOut, error) {
 	path := fmt.Sprintf("/project/%s/integration/%s", project, integrationId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationUpdate", "PUT", path, in)
-	out := new(serviceIntegrationUpdateOut)
+	out := new(ServiceIntegrationUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.ServiceIntegration, nil
+	return &out.ServiceIntegration, nil
 }
 
 type EndpointType string
@@ -220,15 +220,15 @@ func EndpointTypeChoices() []string {
 	return []string{"autoscaler", "datadog", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_aws_s3", "external_clickhouse", "external_elasticsearch_logs", "external_google_cloud_bigquery", "external_google_cloud_logging", "external_kafka", "external_mysql", "external_opensearch_logs", "external_postgresql", "external_redis", "external_schema_registry", "jolokia", "prometheus", "rsyslog"}
 }
 
-type EndpointTypeItem struct {
+type EndpointTypeOut struct {
 	EndpointType     string         `json:"endpoint_type"`
 	ServiceTypes     []string       `json:"service_types"`
 	Title            string         `json:"title"`
 	UserConfigSchema map[string]any `json:"user_config_schema"`
 }
-type IntegrationStatus struct {
-	State          *State `json:"state"`
-	StatusUserDesc string `json:"status_user_desc"`
+type IntegrationStatusOut struct {
+	State          StateOut `json:"state"`
+	StatusUserDesc string   `json:"status_user_desc"`
 }
 type IntegrationType string
 
@@ -278,7 +278,7 @@ func IntegrationTypeChoices() []string {
 	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "internal_connectivity", "jolokia", "kafka_connect", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
 }
 
-type IntegrationTypeItem struct {
+type IntegrationTypeOut struct {
 	DestDescription    string         `json:"dest_description"`
 	DestServiceType    string         `json:"dest_service_type"`
 	DestServiceTypes   []string       `json:"dest_service_types"`
@@ -297,25 +297,6 @@ const (
 	LikelyErrorCauseTypeUnknown     LikelyErrorCauseType = "unknown"
 )
 
-type ServiceIntegration struct {
-	Active               bool               `json:"active"`
-	Description          string             `json:"description"`
-	DestEndpoint         string             `json:"dest_endpoint,omitempty"`
-	DestEndpointId       string             `json:"dest_endpoint_id,omitempty"`
-	DestProject          string             `json:"dest_project"`
-	DestService          string             `json:"dest_service,omitempty"`
-	DestServiceType      string             `json:"dest_service_type"`
-	Enabled              bool               `json:"enabled"`
-	IntegrationStatus    *IntegrationStatus `json:"integration_status,omitempty"`
-	IntegrationType      string             `json:"integration_type"`
-	ServiceIntegrationId string             `json:"service_integration_id"`
-	SourceEndpoint       string             `json:"source_endpoint,omitempty"`
-	SourceEndpointId     string             `json:"source_endpoint_id,omitempty"`
-	SourceProject        string             `json:"source_project"`
-	SourceService        string             `json:"source_service"`
-	SourceServiceType    string             `json:"source_service_type"`
-	UserConfig           map[string]any     `json:"user_config,omitempty"`
-}
 type ServiceIntegrationCreateIn struct {
 	DestEndpointId   string          `json:"dest_endpoint_id,omitempty"`
 	DestProject      string          `json:"dest_project,omitempty"`
@@ -324,57 +305,76 @@ type ServiceIntegrationCreateIn struct {
 	SourceEndpointId string          `json:"source_endpoint_id,omitempty"`
 	SourceProject    string          `json:"source_project,omitempty"`
 	SourceService    string          `json:"source_service,omitempty"`
-	UserConfig       map[string]any  `json:"user_config,omitempty"`
+	UserConfig       *map[string]any `json:"user_config,omitempty"`
 }
-type serviceIntegrationCreateOut struct {
-	ServiceIntegration *ServiceIntegration `json:"service_integration"`
-}
-type ServiceIntegrationEndpoint struct {
-	EndpointConfig map[string]any `json:"endpoint_config"`
-	EndpointId     string         `json:"endpoint_id"`
-	EndpointName   string         `json:"endpoint_name"`
-	EndpointType   EndpointType   `json:"endpoint_type"`
-	UserConfig     map[string]any `json:"user_config"`
+type ServiceIntegrationCreateOut struct {
+	ServiceIntegration ServiceIntegrationOut `json:"service_integration"`
 }
 type ServiceIntegrationEndpointCreateIn struct {
 	EndpointName string         `json:"endpoint_name"`
 	EndpointType EndpointType   `json:"endpoint_type"`
 	UserConfig   map[string]any `json:"user_config"`
 }
-type serviceIntegrationEndpointCreateOut struct {
-	ServiceIntegrationEndpoint *ServiceIntegrationEndpoint `json:"service_integration_endpoint"`
+type ServiceIntegrationEndpointCreateOut struct {
+	ServiceIntegrationEndpoint ServiceIntegrationEndpointOut `json:"service_integration_endpoint"`
 }
-type serviceIntegrationEndpointGetOut struct {
-	ServiceIntegrationEndpoint *ServiceIntegrationEndpoint `json:"service_integration_endpoint"`
+type ServiceIntegrationEndpointGetOut struct {
+	ServiceIntegrationEndpoint ServiceIntegrationEndpointOut `json:"service_integration_endpoint"`
 }
-type serviceIntegrationEndpointListOut struct {
-	ServiceIntegrationEndpoints []ServiceIntegrationEndpoint `json:"service_integration_endpoints"`
+type ServiceIntegrationEndpointListOut struct {
+	ServiceIntegrationEndpoints []ServiceIntegrationEndpointOut `json:"service_integration_endpoints"`
 }
-type serviceIntegrationEndpointTypesOut struct {
-	EndpointTypes []EndpointTypeItem `json:"endpoint_types"`
+type ServiceIntegrationEndpointOut struct {
+	EndpointConfig map[string]any `json:"endpoint_config"`
+	EndpointId     string         `json:"endpoint_id"`
+	EndpointName   string         `json:"endpoint_name"`
+	EndpointType   EndpointType   `json:"endpoint_type"`
+	UserConfig     map[string]any `json:"user_config"`
+}
+type ServiceIntegrationEndpointTypesOut struct {
+	EndpointTypes []EndpointTypeOut `json:"endpoint_types"`
 }
 type ServiceIntegrationEndpointUpdateIn struct {
 	UserConfig map[string]any `json:"user_config"`
 }
-type serviceIntegrationEndpointUpdateOut struct {
-	ServiceIntegrationEndpoint *ServiceIntegrationEndpoint `json:"service_integration_endpoint"`
+type ServiceIntegrationEndpointUpdateOut struct {
+	ServiceIntegrationEndpoint ServiceIntegrationEndpointOut `json:"service_integration_endpoint"`
 }
-type serviceIntegrationGetOut struct {
-	ServiceIntegration *ServiceIntegration `json:"service_integration"`
+type ServiceIntegrationGetOut struct {
+	ServiceIntegration ServiceIntegrationOut `json:"service_integration"`
 }
-type serviceIntegrationListOut struct {
-	ServiceIntegrations []ServiceIntegration `json:"service_integrations"`
+type ServiceIntegrationListOut struct {
+	ServiceIntegrations []ServiceIntegrationOut `json:"service_integrations"`
 }
-type serviceIntegrationTypesOut struct {
-	IntegrationTypes []IntegrationTypeItem `json:"integration_types"`
+type ServiceIntegrationOut struct {
+	Active               bool                  `json:"active"`
+	Description          string                `json:"description"`
+	DestEndpoint         string                `json:"dest_endpoint,omitempty"`
+	DestEndpointId       string                `json:"dest_endpoint_id,omitempty"`
+	DestProject          string                `json:"dest_project"`
+	DestService          string                `json:"dest_service,omitempty"`
+	DestServiceType      string                `json:"dest_service_type"`
+	Enabled              bool                  `json:"enabled"`
+	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"`
+	IntegrationType      string                `json:"integration_type"`
+	ServiceIntegrationId string                `json:"service_integration_id"`
+	SourceEndpoint       string                `json:"source_endpoint,omitempty"`
+	SourceEndpointId     string                `json:"source_endpoint_id,omitempty"`
+	SourceProject        string                `json:"source_project"`
+	SourceService        string                `json:"source_service"`
+	SourceServiceType    string                `json:"source_service_type"`
+	UserConfig           map[string]any        `json:"user_config,omitempty"`
+}
+type ServiceIntegrationTypesOut struct {
+	IntegrationTypes []IntegrationTypeOut `json:"integration_types"`
 }
 type ServiceIntegrationUpdateIn struct {
 	UserConfig map[string]any `json:"user_config"`
 }
-type serviceIntegrationUpdateOut struct {
-	ServiceIntegration *ServiceIntegration `json:"service_integration"`
+type ServiceIntegrationUpdateOut struct {
+	ServiceIntegration ServiceIntegrationOut `json:"service_integration"`
 }
-type State struct {
+type StateOut struct {
 	Errors           []string             `json:"errors"`
 	LikelyErrorCause LikelyErrorCauseType `json:"likely_error_cause,omitempty"`
 	Nodes            map[string]any       `json:"nodes"`

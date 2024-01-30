@@ -13,17 +13,17 @@ type Handler interface {
 	// ServiceOpenSearchAclGet show OpenSearch ACL configuration
 	// GET /project/{project}/service/{service_name}/opensearch/acl
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchAclGet
-	ServiceOpenSearchAclGet(ctx context.Context, project string, serviceName string) (*OpensearchAclConfig, error)
+	ServiceOpenSearchAclGet(ctx context.Context, project string, serviceName string) (*OpensearchAclConfigOut, error)
 
 	// ServiceOpenSearchAclSet set OpenSearch ACL configuration
 	// POST /project/{project}/service/{service_name}/opensearch/acl
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchAclSet
-	ServiceOpenSearchAclSet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclSetIn) (*OpensearchAclConfig, error)
+	ServiceOpenSearchAclSet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclSetIn) (*OpensearchAclConfigOut, error)
 
 	// ServiceOpenSearchAclUpdate update OpenSearch ACL configuration
 	// PUT /project/{project}/service/{service_name}/opensearch/acl
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchAclUpdate
-	ServiceOpenSearchAclUpdate(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclUpdateIn) (*OpensearchAclConfig, error)
+	ServiceOpenSearchAclUpdate(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclUpdateIn) (*OpensearchAclConfigOut, error)
 
 	// ServiceOpenSearchIndexDelete delete an OpenSearch index
 	// DELETE /project/{project}/service/{service_name}/index/{index_name}
@@ -33,7 +33,7 @@ type Handler interface {
 	// ServiceOpenSearchIndexList list OpenSearch indexes
 	// GET /project/{project}/service/{service_name}/index
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchIndexList
-	ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]Indexe, error)
+	ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]IndexeOut, error)
 
 	// ServiceOpenSearchSecurityGet show Opensearch security configuration status
 	// GET /project/{project}/service/{service_name}/opensearch/security
@@ -63,45 +63,45 @@ type OpenSearchHandler struct {
 	doer doer
 }
 
-func (h *OpenSearchHandler) ServiceOpenSearchAclGet(ctx context.Context, project string, serviceName string) (*OpensearchAclConfig, error) {
+func (h *OpenSearchHandler) ServiceOpenSearchAclGet(ctx context.Context, project string, serviceName string) (*OpensearchAclConfigOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclGet", "GET", path, nil)
-	out := new(serviceOpenSearchAclGetOut)
+	out := new(ServiceOpenSearchAclGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.OpensearchAclConfig, nil
+	return &out.OpensearchAclConfig, nil
 }
-func (h *OpenSearchHandler) ServiceOpenSearchAclSet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclSetIn) (*OpensearchAclConfig, error) {
+func (h *OpenSearchHandler) ServiceOpenSearchAclSet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclSetIn) (*OpensearchAclConfigOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclSet", "POST", path, in)
-	out := new(serviceOpenSearchAclSetOut)
+	out := new(ServiceOpenSearchAclSetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.OpensearchAclConfig, nil
+	return &out.OpensearchAclConfig, nil
 }
-func (h *OpenSearchHandler) ServiceOpenSearchAclUpdate(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclUpdateIn) (*OpensearchAclConfig, error) {
+func (h *OpenSearchHandler) ServiceOpenSearchAclUpdate(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclUpdateIn) (*OpensearchAclConfigOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclUpdate", "PUT", path, in)
-	out := new(serviceOpenSearchAclUpdateOut)
+	out := new(ServiceOpenSearchAclUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.OpensearchAclConfig, nil
+	return &out.OpensearchAclConfig, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchIndexDelete(ctx context.Context, project string, serviceName string, indexName string) error {
 	path := fmt.Sprintf("/project/%s/service/%s/index/%s", project, serviceName, indexName)
 	_, err := h.doer.Do(ctx, "ServiceOpenSearchIndexDelete", "DELETE", path, nil)
 	return err
 }
-func (h *OpenSearchHandler) ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]Indexe, error) {
+func (h *OpenSearchHandler) ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]IndexeOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/index", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchIndexList", "GET", path, nil)
-	out := new(serviceOpenSearchIndexListOut)
+	out := new(ServiceOpenSearchIndexListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -139,9 +139,9 @@ func (h *OpenSearchHandler) ServiceOpenSearchSecuritySet(ctx context.Context, pr
 	return out, nil
 }
 
-type Acl struct {
-	Rules    []Rule `json:"rules"`
-	Username string `json:"username"`
+type AclOut struct {
+	Rules    []RuleOut `json:"rules"`
+	Username string    `json:"username"`
 }
 type HealthType string
 
@@ -153,21 +153,25 @@ const (
 	HealthTypeUnknown     HealthType = "unknown"
 )
 
-type Indexe struct {
-	CreateTime          time.Time    `json:"create_time"`
-	Docs                *int         `json:"docs,omitempty"`
-	Health              HealthType   `json:"health,omitempty"`
-	IndexName           string       `json:"index_name"`
-	NumberOfReplicas    int          `json:"number_of_replicas"`
-	NumberOfShards      int          `json:"number_of_shards"`
-	ReadOnlyAllowDelete *bool        `json:"read_only_allow_delete,omitempty"`
-	Replication         *Replication `json:"replication,omitempty"`
-	Size                *int         `json:"size,omitempty"`
-	Status              StatusType   `json:"status,omitempty"`
+type IndexeOut struct {
+	CreateTime          time.Time       `json:"create_time"`
+	Docs                *int            `json:"docs,omitempty"`
+	Health              HealthType      `json:"health,omitempty"`
+	IndexName           string          `json:"index_name"`
+	NumberOfReplicas    int             `json:"number_of_replicas"`
+	NumberOfShards      int             `json:"number_of_shards"`
+	ReadOnlyAllowDelete *bool           `json:"read_only_allow_delete,omitempty"`
+	Replication         *ReplicationOut `json:"replication,omitempty"`
+	Size                *int            `json:"size,omitempty"`
+	Status              StatusType      `json:"status,omitempty"`
 }
 type OpensearchAclConfig struct {
-	Acls    []Acl `json:"acls"`
-	Enabled bool  `json:"enabled"`
+	Acls    *[]AclOut `json:"acls,omitempty"`
+	Enabled *bool     `json:"enabled,omitempty"`
+}
+type OpensearchAclConfigOut struct {
+	Acls    []AclOut `json:"acls"`
+	Enabled bool     `json:"enabled"`
 }
 type PermissionType string
 
@@ -179,36 +183,32 @@ const (
 	PermissionTypeWrite     PermissionType = "write"
 )
 
-type Replication struct {
+type ReplicationOut struct {
 	LeaderIndex   string `json:"leader_index,omitempty"`
 	LeaderProject string `json:"leader_project,omitempty"`
 	LeaderService string `json:"leader_service,omitempty"`
 }
-type Rule struct {
+type RuleOut struct {
 	Index      string         `json:"index"`
 	Permission PermissionType `json:"permission"`
 }
-type serviceOpenSearchAclGetOut struct {
-	OpensearchAclConfig *OpensearchAclConfig `json:"opensearch_acl_config"`
+type ServiceOpenSearchAclGetOut struct {
+	OpensearchAclConfig OpensearchAclConfigOut `json:"opensearch_acl_config"`
 }
 type ServiceOpenSearchAclSetIn struct {
-	OpensearchAclConfig *OpensearchAclConfig `json:"opensearch_acl_config"`
+	OpensearchAclConfig OpensearchAclConfigOut `json:"opensearch_acl_config"`
 }
-type serviceOpenSearchAclSetOut struct {
-	OpensearchAclConfig *OpensearchAclConfig `json:"opensearch_acl_config"`
+type ServiceOpenSearchAclSetOut struct {
+	OpensearchAclConfig OpensearchAclConfigOut `json:"opensearch_acl_config"`
 }
 type ServiceOpenSearchAclUpdateIn struct {
-	OpensearchAclConfig *ServiceOpenSearchAclUpdateInOpensearchAclConfig `json:"opensearch_acl_config"`
+	OpensearchAclConfig OpensearchAclConfig `json:"opensearch_acl_config"`
 }
-type ServiceOpenSearchAclUpdateInOpensearchAclConfig struct {
-	Acls    []Acl `json:"acls"`
-	Enabled *bool `json:"enabled,omitempty"`
+type ServiceOpenSearchAclUpdateOut struct {
+	OpensearchAclConfig OpensearchAclConfigOut `json:"opensearch_acl_config"`
 }
-type serviceOpenSearchAclUpdateOut struct {
-	OpensearchAclConfig *OpensearchAclConfig `json:"opensearch_acl_config"`
-}
-type serviceOpenSearchIndexListOut struct {
-	Indexes []Indexe `json:"indexes"`
+type ServiceOpenSearchIndexListOut struct {
+	Indexes []IndexeOut `json:"indexes"`
 }
 type ServiceOpenSearchSecurityGetOut struct {
 	SecurityPluginAdminEnabled bool  `json:"security_plugin_admin_enabled"`

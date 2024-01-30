@@ -28,7 +28,7 @@ type Handler interface {
 	// UserGroupMemberList list group members
 	// GET /organization/{organization_id}/user-groups/{user_group_id}/members
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupMemberList
-	UserGroupMemberList(ctx context.Context, organizationId string, userGroupId string) ([]Member, error)
+	UserGroupMemberList(ctx context.Context, organizationId string, userGroupId string) ([]MemberOut, error)
 
 	// UserGroupMembersUpdate add or remove group members
 	// PATCH /organization/{organization_id}/user-groups/{user_group_id}/members
@@ -43,7 +43,7 @@ type Handler interface {
 	// UserGroupsList list groups
 	// GET /organization/{organization_id}/user-groups
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupsList
-	UserGroupsList(ctx context.Context, organizationId string) ([]UserGroup, error)
+	UserGroupsList(ctx context.Context, organizationId string) ([]UserGroupOut, error)
 }
 
 func NewHandler(doer doer) UserGroupHandler {
@@ -83,10 +83,10 @@ func (h *UserGroupHandler) UserGroupGet(ctx context.Context, organizationId stri
 	}
 	return out, nil
 }
-func (h *UserGroupHandler) UserGroupMemberList(ctx context.Context, organizationId string, userGroupId string) ([]Member, error) {
+func (h *UserGroupHandler) UserGroupMemberList(ctx context.Context, organizationId string, userGroupId string) ([]MemberOut, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups/%s/members", organizationId, userGroupId)
 	b, err := h.doer.Do(ctx, "UserGroupMemberList", "GET", path, nil)
-	out := new(userGroupMemberListOut)
+	out := new(UserGroupMemberListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -108,10 +108,10 @@ func (h *UserGroupHandler) UserGroupUpdate(ctx context.Context, organizationId s
 	}
 	return out, nil
 }
-func (h *UserGroupHandler) UserGroupsList(ctx context.Context, organizationId string) ([]UserGroup, error) {
+func (h *UserGroupHandler) UserGroupsList(ctx context.Context, organizationId string) ([]UserGroupOut, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups", organizationId)
 	b, err := h.doer.Do(ctx, "UserGroupsList", "GET", path, nil)
-	out := new(userGroupsListOut)
+	out := new(UserGroupsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -119,10 +119,10 @@ func (h *UserGroupHandler) UserGroupsList(ctx context.Context, organizationId st
 	return out.UserGroups, nil
 }
 
-type Member struct {
-	LastActivityTime *time.Time `json:"last_activity_time,omitempty"`
-	UserId           string     `json:"user_id"`
-	UserInfo         *UserInfo  `json:"user_info"`
+type MemberOut struct {
+	LastActivityTime *time.Time  `json:"last_activity_time,omitempty"`
+	UserId           string      `json:"user_id"`
+	UserInfo         UserInfoOut `json:"user_info"`
 }
 type OperationType string
 
@@ -135,14 +135,6 @@ func OperationTypeChoices() []string {
 	return []string{"add_members", "remove_members"}
 }
 
-type UserGroup struct {
-	CreateTime    time.Time `json:"create_time"`
-	Description   string    `json:"description"`
-	MemberCount   int       `json:"member_count"`
-	UpdateTime    time.Time `json:"update_time"`
-	UserGroupId   string    `json:"user_group_id"`
-	UserGroupName string    `json:"user_group_name"`
-}
 type UserGroupCreateIn struct {
 	Description   string `json:"description"`
 	UserGroupName string `json:"user_group_name"`
@@ -161,12 +153,20 @@ type UserGroupGetOut struct {
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
 }
-type userGroupMemberListOut struct {
-	Members []Member `json:"members"`
+type UserGroupMemberListOut struct {
+	Members []MemberOut `json:"members"`
 }
 type UserGroupMembersUpdateIn struct {
 	MemberIds []string      `json:"member_ids"`
 	Operation OperationType `json:"operation"`
+}
+type UserGroupOut struct {
+	CreateTime    time.Time `json:"create_time"`
+	Description   string    `json:"description"`
+	MemberCount   int       `json:"member_count"`
+	UpdateTime    time.Time `json:"update_time"`
+	UserGroupId   string    `json:"user_group_id"`
+	UserGroupName string    `json:"user_group_name"`
 }
 type UserGroupUpdateIn struct {
 	Description   string `json:"description,omitempty"`
@@ -179,10 +179,10 @@ type UserGroupUpdateOut struct {
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
 }
-type userGroupsListOut struct {
-	UserGroups []UserGroup `json:"user_groups"`
+type UserGroupsListOut struct {
+	UserGroups []UserGroupOut `json:"user_groups"`
 }
-type UserInfo struct {
+type UserInfoOut struct {
 	City                   string    `json:"city,omitempty"`
 	Country                string    `json:"country,omitempty"`
 	CreateTime             time.Time `json:"create_time"`

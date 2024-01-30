@@ -18,17 +18,17 @@ type Handler interface {
 	// AccountTeamGet get details for a single team
 	// GET /account/{account_id}/team/{team_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamGet
-	AccountTeamGet(ctx context.Context, accountId string, teamId string) (*Team, error)
+	AccountTeamGet(ctx context.Context, accountId string, teamId string) (*TeamOut, error)
 
 	// AccountTeamInvitesList list pending invites
 	// GET /account/{account_id}/team/{team_id}/invites
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamInvitesList
-	AccountTeamInvitesList(ctx context.Context, accountId string, teamId string) ([]AccountInvite, error)
+	AccountTeamInvitesList(ctx context.Context, accountId string, teamId string) ([]AccountInviteOut, error)
 
 	// AccountTeamList list teams belonging to an account
 	// GET /account/{account_id}/teams
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamList
-	AccountTeamList(ctx context.Context, accountId string) ([]Team, error)
+	AccountTeamList(ctx context.Context, accountId string) ([]TeamOut, error)
 
 	// AccountTeamProjectAssociate associate team to a project
 	// POST /account/{account_id}/team/{team_id}/project/{project}
@@ -43,7 +43,7 @@ type Handler interface {
 	// AccountTeamUpdate update team details
 	// PUT /account/{account_id}/team/{team_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamUpdate
-	AccountTeamUpdate(ctx context.Context, accountId string, teamId string, in *AccountTeamUpdateIn) (*Team, error)
+	AccountTeamUpdate(ctx context.Context, accountId string, teamId string, in *AccountTeamUpdateIn) (*TeamOut, error)
 }
 
 func NewHandler(doer doer) AccountTeamHandler {
@@ -63,30 +63,30 @@ func (h *AccountTeamHandler) AccountTeamDelete(ctx context.Context, accountId st
 	_, err := h.doer.Do(ctx, "AccountTeamDelete", "DELETE", path, nil)
 	return err
 }
-func (h *AccountTeamHandler) AccountTeamGet(ctx context.Context, accountId string, teamId string) (*Team, error) {
+func (h *AccountTeamHandler) AccountTeamGet(ctx context.Context, accountId string, teamId string) (*TeamOut, error) {
 	path := fmt.Sprintf("/account/%s/team/%s", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamGet", "GET", path, nil)
-	out := new(accountTeamGetOut)
+	out := new(AccountTeamGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.Team, nil
+	return &out.Team, nil
 }
-func (h *AccountTeamHandler) AccountTeamInvitesList(ctx context.Context, accountId string, teamId string) ([]AccountInvite, error) {
+func (h *AccountTeamHandler) AccountTeamInvitesList(ctx context.Context, accountId string, teamId string) ([]AccountInviteOut, error) {
 	path := fmt.Sprintf("/account/%s/team/%s/invites", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamInvitesList", "GET", path, nil)
-	out := new(accountTeamInvitesListOut)
+	out := new(AccountTeamInvitesListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.AccountInvites, nil
 }
-func (h *AccountTeamHandler) AccountTeamList(ctx context.Context, accountId string) ([]Team, error) {
+func (h *AccountTeamHandler) AccountTeamList(ctx context.Context, accountId string) ([]TeamOut, error) {
 	path := fmt.Sprintf("/account/%s/teams", accountId)
 	b, err := h.doer.Do(ctx, "AccountTeamList", "GET", path, nil)
-	out := new(accountTeamListOut)
+	out := new(AccountTeamListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -103,18 +103,18 @@ func (h *AccountTeamHandler) AccountTeamProjectDisassociate(ctx context.Context,
 	_, err := h.doer.Do(ctx, "AccountTeamProjectDisassociate", "DELETE", path, nil)
 	return err
 }
-func (h *AccountTeamHandler) AccountTeamUpdate(ctx context.Context, accountId string, teamId string, in *AccountTeamUpdateIn) (*Team, error) {
+func (h *AccountTeamHandler) AccountTeamUpdate(ctx context.Context, accountId string, teamId string, in *AccountTeamUpdateIn) (*TeamOut, error) {
 	path := fmt.Sprintf("/account/%s/team/%s", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamUpdate", "PUT", path, in)
-	out := new(accountTeamUpdateOut)
+	out := new(AccountTeamUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.Team, nil
+	return &out.Team, nil
 }
 
-type AccountInvite struct {
+type AccountInviteOut struct {
 	AccountId          string    `json:"account_id"`
 	AccountName        string    `json:"account_name"`
 	CreateTime         time.Time `json:"create_time"`
@@ -123,14 +123,14 @@ type AccountInvite struct {
 	TeamName           string    `json:"team_name"`
 	UserEmail          string    `json:"user_email"`
 }
-type accountTeamGetOut struct {
-	Team *Team `json:"team"`
+type AccountTeamGetOut struct {
+	Team TeamOut `json:"team"`
 }
-type accountTeamInvitesListOut struct {
-	AccountInvites []AccountInvite `json:"account_invites"`
+type AccountTeamInvitesListOut struct {
+	AccountInvites []AccountInviteOut `json:"account_invites"`
 }
-type accountTeamListOut struct {
-	Teams []Team `json:"teams"`
+type AccountTeamListOut struct {
+	Teams []TeamOut `json:"teams"`
 }
 type AccountTeamProjectAssociateIn struct {
 	TeamType TeamType `json:"team_type"`
@@ -138,10 +138,10 @@ type AccountTeamProjectAssociateIn struct {
 type AccountTeamUpdateIn struct {
 	TeamName string `json:"team_name"`
 }
-type accountTeamUpdateOut struct {
-	Team *Team `json:"team"`
+type AccountTeamUpdateOut struct {
+	Team TeamOut `json:"team"`
 }
-type Team struct {
+type TeamOut struct {
 	AccountId  string     `json:"account_id,omitempty"`
 	CreateTime *time.Time `json:"create_time,omitempty"`
 	TeamId     string     `json:"team_id"`

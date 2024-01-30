@@ -96,7 +96,7 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkGetApplicationDeployment
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkListApplicationDeployments(ctx context.Context, project string, serviceName string, applicationId string) ([]ServiceFlinkCancelApplicationDeploymentOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplicationDeployments", "GET", path, nil)
-	out := new(serviceFlinkListApplicationDeploymentsOut)
+	out := new(ServiceFlinkListApplicationDeploymentsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -172,7 +172,7 @@ type ServiceFlinkGetApplicationDeploymentOut struct {
 	Status            StatusType `json:"status"`
 	VersionId         string     `json:"version_id"`
 }
-type serviceFlinkListApplicationDeploymentsOut struct {
+type ServiceFlinkListApplicationDeploymentsOut struct {
 	Deployments []ServiceFlinkCancelApplicationDeploymentOut `json:"deployments"`
 }
 type ServiceFlinkStopApplicationDeploymentOut struct {

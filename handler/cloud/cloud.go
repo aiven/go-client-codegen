@@ -12,12 +12,12 @@ type Handler interface {
 	// ListClouds list cloud platforms
 	// GET /clouds
 	// https://api.aiven.io/doc/#tag/Cloud_platforms/operation/ListClouds
-	ListClouds(ctx context.Context) ([]Cloud, error)
+	ListClouds(ctx context.Context) ([]CloudOut, error)
 
 	// ListProjectClouds list cloud platforms for a project
 	// GET /project/{project}/clouds
 	// https://api.aiven.io/doc/#tag/Cloud_platforms/operation/ListProjectClouds
-	ListProjectClouds(ctx context.Context, project string) ([]Cloud, error)
+	ListProjectClouds(ctx context.Context, project string) ([]CloudOut, error)
 }
 
 func NewHandler(doer doer) CloudHandler {
@@ -32,20 +32,20 @@ type CloudHandler struct {
 	doer doer
 }
 
-func (h *CloudHandler) ListClouds(ctx context.Context) ([]Cloud, error) {
+func (h *CloudHandler) ListClouds(ctx context.Context) ([]CloudOut, error) {
 	path := fmt.Sprintf("/clouds")
 	b, err := h.doer.Do(ctx, "ListClouds", "GET", path, nil)
-	out := new(listCloudsOut)
+	out := new(ListCloudsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Clouds, nil
 }
-func (h *CloudHandler) ListProjectClouds(ctx context.Context, project string) ([]Cloud, error) {
+func (h *CloudHandler) ListProjectClouds(ctx context.Context, project string) ([]CloudOut, error) {
 	path := fmt.Sprintf("/project/%s/clouds", project)
 	b, err := h.doer.Do(ctx, "ListProjectClouds", "GET", path, nil)
-	out := new(listProjectCloudsOut)
+	out := new(ListProjectCloudsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func (h *CloudHandler) ListProjectClouds(ctx context.Context, project string) ([
 	return out.Clouds, nil
 }
 
-type Cloud struct {
+type CloudOut struct {
 	CloudDescription    string   `json:"cloud_description,omitempty"`
 	CloudName           string   `json:"cloud_name"`
 	GeoLatitude         *float64 `json:"geo_latitude,omitempty"`
@@ -62,9 +62,9 @@ type Cloud struct {
 	Provider            string   `json:"provider,omitempty"`
 	ProviderDescription string   `json:"provider_description,omitempty"`
 }
-type listCloudsOut struct {
-	Clouds []Cloud `json:"clouds"`
+type ListCloudsOut struct {
+	Clouds []CloudOut `json:"clouds"`
 }
-type listProjectCloudsOut struct {
-	Clouds []Cloud `json:"clouds"`
+type ListProjectCloudsOut struct {
+	Clouds []CloudOut `json:"clouds"`
 }

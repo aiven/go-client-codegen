@@ -48,7 +48,7 @@ type Handler interface {
 	// OrganizationUserInvitationsList list user invitations to the organization
 	// GET /organization/{organization_id}/invitation
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationsList
-	OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]Invitation, error)
+	OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]InvitationOut, error)
 
 	// OrganizationUserInvite invite a user to the organization
 	// POST /organization/{organization_id}/invitation
@@ -138,10 +138,10 @@ func (h *OrganizationHandler) OrganizationUserInvitationDelete(ctx context.Conte
 	_, err := h.doer.Do(ctx, "OrganizationUserInvitationDelete", "DELETE", path, nil)
 	return err
 }
-func (h *OrganizationHandler) OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]Invitation, error) {
+func (h *OrganizationHandler) OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]InvitationOut, error) {
 	path := fmt.Sprintf("/organization/%s/invitation", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationUserInvitationsList", "GET", path, nil)
-	out := new(organizationUserInvitationsListOut)
+	out := new(OrganizationUserInvitationsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -166,7 +166,7 @@ func (h *OrganizationHandler) UserOrganizationCreate(ctx context.Context, in *Us
 func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]OrganizationGetOut, error) {
 	path := fmt.Sprintf("/organizations")
 	b, err := h.doer.Do(ctx, "UserOrganizationsList", "GET", path, nil)
-	out := new(userOrganizationsListOut)
+	out := new(UserOrganizationsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -201,10 +201,10 @@ const (
 	BillingCurrencyTypeUsd BillingCurrencyType = "USD"
 )
 
-type BillingEmail struct {
+type BillingEmailOut struct {
 	Email string `json:"email"`
 }
-type CardInfo struct {
+type CardInfoOut struct {
 	Brand       string `json:"brand"`
 	CardId      string `json:"card_id"`
 	Country     string `json:"country"`
@@ -215,14 +215,14 @@ type CardInfo struct {
 	Name        string `json:"name"`
 	UserEmail   string `json:"user_email"`
 }
-type Elasticsearch struct {
+type ElasticsearchOut struct {
 	EolDate string `json:"eol_date"`
 	Version string `json:"version"`
 }
-type EndOfLifeExtension struct {
-	Elasticsearch *Elasticsearch `json:"elasticsearch,omitempty"`
+type EndOfLifeExtensionOut struct {
+	Elasticsearch *ElasticsearchOut `json:"elasticsearch,omitempty"`
 }
-type Invitation struct {
+type InvitationOut struct {
 	CreateTime time.Time `json:"create_time"`
 	ExpiryTime time.Time `json:"expiry_time"`
 	InvitedBy  string    `json:"invited_by"`
@@ -255,8 +255,8 @@ type OrganizationGetOut struct {
 	UpdateTime       time.Time `json:"update_time"`
 }
 type OrganizationProjectsListOut struct {
-	Projects          []Project `json:"projects"`
-	TotalProjectCount *int      `json:"total_project_count,omitempty"`
+	Projects          []ProjectOut `json:"projects"`
+	TotalProjectCount *int         `json:"total_project_count,omitempty"`
 }
 type OrganizationUpdateIn struct {
 	Name string   `json:"name,omitempty"`
@@ -273,43 +273,43 @@ type OrganizationUpdateOut struct {
 type OrganizationUserInvitationAcceptIn struct {
 	Action ActionType `json:"action,omitempty"`
 }
-type organizationUserInvitationsListOut struct {
-	Invitations []Invitation `json:"invitations"`
+type OrganizationUserInvitationsListOut struct {
+	Invitations []InvitationOut `json:"invitations"`
 }
 type OrganizationUserInviteIn struct {
 	UserEmail string `json:"user_email"`
 }
-type Project struct {
-	AccountId             string              `json:"account_id"`
-	AccountName           string              `json:"account_name,omitempty"`
-	AddressLines          []string            `json:"address_lines"`
-	AvailableCredits      string              `json:"available_credits,omitempty"`
-	BillingAddress        string              `json:"billing_address"`
-	BillingCurrency       BillingCurrencyType `json:"billing_currency,omitempty"`
-	BillingEmails         []BillingEmail      `json:"billing_emails"`
-	BillingExtraText      string              `json:"billing_extra_text,omitempty"`
-	BillingGroupId        string              `json:"billing_group_id"`
-	BillingGroupName      string              `json:"billing_group_name"`
-	CardInfo              *CardInfo           `json:"card_info,omitempty"`
-	City                  string              `json:"city,omitempty"`
-	Company               string              `json:"company,omitempty"`
-	Country               string              `json:"country"`
-	CountryCode           string              `json:"country_code"`
-	DefaultCloud          string              `json:"default_cloud"`
-	EndOfLifeExtension    *EndOfLifeExtension `json:"end_of_life_extension,omitempty"`
-	EstimatedBalance      string              `json:"estimated_balance"`
-	EstimatedBalanceLocal string              `json:"estimated_balance_local,omitempty"`
-	Features              map[string]any      `json:"features,omitempty"`
-	OrganizationId        string              `json:"organization_id"`
-	PaymentMethod         string              `json:"payment_method"`
-	ProjectName           string              `json:"project_name"`
-	State                 string              `json:"state,omitempty"`
-	Tags                  map[string]string   `json:"tags,omitempty"`
-	TechEmails            []BillingEmail      `json:"tech_emails"`
-	TenantId              string              `json:"tenant_id,omitempty"`
-	TrialExpirationTime   *time.Time          `json:"trial_expiration_time,omitempty"`
-	VatId                 string              `json:"vat_id"`
-	ZipCode               string              `json:"zip_code,omitempty"`
+type ProjectOut struct {
+	AccountId             string                 `json:"account_id"`
+	AccountName           string                 `json:"account_name,omitempty"`
+	AddressLines          []string               `json:"address_lines,omitempty"`
+	AvailableCredits      string                 `json:"available_credits,omitempty"`
+	BillingAddress        string                 `json:"billing_address"`
+	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`
+	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
+	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
+	BillingGroupId        string                 `json:"billing_group_id"`
+	BillingGroupName      string                 `json:"billing_group_name"`
+	CardInfo              *CardInfoOut           `json:"card_info,omitempty"`
+	City                  string                 `json:"city,omitempty"`
+	Company               string                 `json:"company,omitempty"`
+	Country               string                 `json:"country"`
+	CountryCode           string                 `json:"country_code"`
+	DefaultCloud          string                 `json:"default_cloud"`
+	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`
+	EstimatedBalance      string                 `json:"estimated_balance"`
+	EstimatedBalanceLocal string                 `json:"estimated_balance_local,omitempty"`
+	Features              map[string]any         `json:"features,omitempty"`
+	OrganizationId        string                 `json:"organization_id"`
+	PaymentMethod         string                 `json:"payment_method"`
+	ProjectName           string                 `json:"project_name"`
+	State                 string                 `json:"state,omitempty"`
+	Tags                  map[string]string      `json:"tags,omitempty"`
+	TechEmails            []BillingEmailOut      `json:"tech_emails,omitempty"`
+	TenantId              string                 `json:"tenant_id,omitempty"`
+	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
+	VatId                 string                 `json:"vat_id"`
+	ZipCode               string                 `json:"zip_code,omitempty"`
 }
 type TierType string
 
@@ -331,6 +331,6 @@ type UserOrganizationCreateOut struct {
 	Tier             TierType  `json:"tier"`
 	UpdateTime       time.Time `json:"update_time"`
 }
-type userOrganizationsListOut struct {
+type UserOrganizationsListOut struct {
 	Organizations []OrganizationGetOut `json:"organizations"`
 }

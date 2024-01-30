@@ -22,17 +22,17 @@ type Handler interface {
 	// ServiceKafkaTopicGet get Kafka topic info
 	// GET /project/{project}/service/{service_name}/topic/{topic_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicGet
-	ServiceKafkaTopicGet(ctx context.Context, project string, serviceName string, topicName string) (*Topic, error)
+	ServiceKafkaTopicGet(ctx context.Context, project string, serviceName string, topicName string) (*TopicOut, error)
 
 	// ServiceKafkaTopicList get Kafka topic list
 	// GET /project/{project}/service/{service_name}/topic
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicList
-	ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicItem, error)
+	ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicOutItem, error)
 
 	// ServiceKafkaTopicMessageList list kafka topic messages
 	// POST /project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/messages
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicMessageList
-	ServiceKafkaTopicMessageList(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageListIn) ([]Message, error)
+	ServiceKafkaTopicMessageList(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageListIn) ([]MessageOut, error)
 
 	// ServiceKafkaTopicMessageProduce produce message into a kafka topic
 	// POST /project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/produce
@@ -67,30 +67,30 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicDelete(ctx context.Context, project
 	_, err := h.doer.Do(ctx, "ServiceKafkaTopicDelete", "DELETE", path, nil)
 	return err
 }
-func (h *KafkaTopicHandler) ServiceKafkaTopicGet(ctx context.Context, project string, serviceName string, topicName string) (*Topic, error) {
+func (h *KafkaTopicHandler) ServiceKafkaTopicGet(ctx context.Context, project string, serviceName string, topicName string) (*TopicOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/topic/%s", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicGet", "GET", path, nil)
-	out := new(serviceKafkaTopicGetOut)
+	out := new(ServiceKafkaTopicGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.Topic, nil
+	return &out.Topic, nil
 }
-func (h *KafkaTopicHandler) ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicItem, error) {
+func (h *KafkaTopicHandler) ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicOutItem, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/topic", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicList", "GET", path, nil)
-	out := new(serviceKafkaTopicListOut)
+	out := new(ServiceKafkaTopicListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Topics, nil
 }
-func (h *KafkaTopicHandler) ServiceKafkaTopicMessageList(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageListIn) ([]Message, error) {
+func (h *KafkaTopicHandler) ServiceKafkaTopicMessageList(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageListIn) ([]MessageOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/rest/topics/%s/messages", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicMessageList", "POST", path, in)
-	out := new(serviceKafkaTopicMessageListOut)
+	out := new(ServiceKafkaTopicMessageListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -140,6 +140,11 @@ func CompressionTypeChoices() []string {
 	return []string{"snappy", "gzip", "lz4", "producer", "uncompressed", "zstd"}
 }
 
+type CompressionTypeOut struct {
+	Source   SourceType      `json:"source,omitempty"`
+	Synonyms []SynonymOut    `json:"synonyms,omitempty"`
+	Value    CompressionType `json:"value,omitempty"`
+}
 type Config struct {
 	CleanupPolicy                   CleanupPolicyType        `json:"cleanup_policy,omitempty"`
 	CompressionType                 CompressionType          `json:"compression_type,omitempty"`
@@ -169,7 +174,36 @@ type Config struct {
 	SegmentMs                       *int                     `json:"segment_ms,omitempty"`
 	UncleanLeaderElectionEnable     *bool                    `json:"unclean_leader_election_enable,omitempty"`
 }
-type ConsumerGroup struct {
+type ConfigOut struct {
+	CleanupPolicy                   *TopicConfigString       `json:"cleanup_policy,omitempty"`
+	CompressionType                 *CompressionTypeOut      `json:"compression_type,omitempty"`
+	DeleteRetentionMs               *TopicConfigInteger      `json:"delete_retention_ms,omitempty"`
+	FileDeleteDelayMs               *TopicConfigInteger      `json:"file_delete_delay_ms,omitempty"`
+	FlushMessages                   *TopicConfigInteger      `json:"flush_messages,omitempty"`
+	FlushMs                         *TopicConfigInteger      `json:"flush_ms,omitempty"`
+	IndexIntervalBytes              *TopicConfigInteger      `json:"index_interval_bytes,omitempty"`
+	LocalRetentionBytes             *TopicConfigInteger      `json:"local_retention_bytes,omitempty"`
+	LocalRetentionMs                *TopicConfigInteger      `json:"local_retention_ms,omitempty"`
+	MaxCompactionLagMs              *TopicConfigInteger      `json:"max_compaction_lag_ms,omitempty"`
+	MaxMessageBytes                 *TopicConfigInteger      `json:"max_message_bytes,omitempty"`
+	MessageDownconversionEnable     *TopicConfigBoolean      `json:"message_downconversion_enable,omitempty"`
+	MessageFormatVersion            *MessageFormatVersionOut `json:"message_format_version,omitempty"`
+	MessageTimestampDifferenceMaxMs *TopicConfigInteger      `json:"message_timestamp_difference_max_ms,omitempty"`
+	MessageTimestampType            *MessageTimestampTypeOut `json:"message_timestamp_type,omitempty"`
+	MinCleanableDirtyRatio          *TopicConfigNumber       `json:"min_cleanable_dirty_ratio,omitempty"`
+	MinCompactionLagMs              *TopicConfigInteger      `json:"min_compaction_lag_ms,omitempty"`
+	MinInsyncReplicas               *TopicConfigInteger      `json:"min_insync_replicas,omitempty"`
+	Preallocate                     *TopicConfigBoolean      `json:"preallocate,omitempty"`
+	RemoteStorageEnable             *TopicConfigBoolean      `json:"remote_storage_enable,omitempty"`
+	RetentionBytes                  *TopicConfigInteger      `json:"retention_bytes,omitempty"`
+	RetentionMs                     *TopicConfigInteger      `json:"retention_ms,omitempty"`
+	SegmentBytes                    *TopicConfigInteger      `json:"segment_bytes,omitempty"`
+	SegmentIndexBytes               *TopicConfigInteger      `json:"segment_index_bytes,omitempty"`
+	SegmentJitterMs                 *TopicConfigInteger      `json:"segment_jitter_ms,omitempty"`
+	SegmentMs                       *TopicConfigInteger      `json:"segment_ms,omitempty"`
+	UncleanLeaderElectionEnable     *TopicConfigBoolean      `json:"unclean_leader_election_enable,omitempty"`
+}
+type ConsumerGroupOut struct {
 	GroupName string `json:"group_name"`
 	Offset    int    `json:"offset"`
 }
@@ -187,16 +221,9 @@ func FormatTypeChoices() []string {
 	return []string{"binary", "json", "avro", "protobuf", "jsonschema"}
 }
 
-type Message struct {
-	Key       map[string]any `json:"key,omitempty"`
-	Offset    *int           `json:"offset,omitempty"`
-	Partition *int           `json:"partition,omitempty"`
-	Topic     string         `json:"topic,omitempty"`
-	Value     map[string]any `json:"value,omitempty"`
-}
-type MessageFormatVersion struct {
+type MessageFormatVersionOut struct {
 	Source   SourceType               `json:"source,omitempty"`
-	Synonyms []Synonym                `json:"synonyms"`
+	Synonyms []SynonymOut             `json:"synonyms,omitempty"`
 	Value    MessageFormatVersionType `json:"value,omitempty"`
 }
 type MessageFormatVersionType string
@@ -278,6 +305,13 @@ func MessageFormatVersionTypeChoices() []string {
 	return []string{"0.8.0", "0.8.1", "0.8.2", "0.9.0", "0.10.0", "0.10.0-IV0", "0.10.0-IV1", "0.10.1", "0.10.1-IV0", "0.10.1-IV1", "0.10.1-IV2", "0.10.2", "0.10.2-IV0", "0.11.0", "0.11.0-IV0", "0.11.0-IV1", "0.11.0-IV2", "1.0", "1.0-IV0", "1.1", "1.1-IV0", "2.0", "2.0-IV0", "2.0-IV1", "2.1", "2.1-IV0", "2.1-IV1", "2.1-IV2", "2.2", "2.2-IV0", "2.2-IV1", "2.3", "2.3-IV0", "2.3-IV1", "2.4", "2.4-IV0", "2.4-IV1", "2.5", "2.5-IV0", "2.6", "2.6-IV0", "2.7", "2.7-IV0", "2.7-IV1", "2.7-IV2", "2.8", "2.8-IV0", "2.8-IV1", "3.0", "3.0-IV0", "3.0-IV1", "3.1", "3.1-IV0", "3.2", "3.2-IV0", "3.3", "3.3-IV0", "3.3-IV1", "3.3-IV2", "3.3-IV3", "3.4", "3.4-IV0", "3.5", "3.5-IV0", "3.5-IV1", "3.5-IV2", "3.6", "3.6-IV0", "3.6-IV1", "3.6-IV2"}
 }
 
+type MessageOut struct {
+	Key       map[string]any `json:"key,omitempty"`
+	Offset    *int           `json:"offset,omitempty"`
+	Partition *int           `json:"partition,omitempty"`
+	Topic     string         `json:"topic,omitempty"`
+	Value     map[string]any `json:"value,omitempty"`
+}
 type MessageTimestampType string
 
 const (
@@ -289,24 +323,29 @@ func MessageTimestampTypeChoices() []string {
 	return []string{"CreateTime", "LogAppendTime"}
 }
 
-type Offset struct {
+type MessageTimestampTypeOut struct {
+	Source   SourceType           `json:"source,omitempty"`
+	Synonyms []SynonymOut         `json:"synonyms,omitempty"`
+	Value    MessageTimestampType `json:"value,omitempty"`
+}
+type OffsetOut struct {
 	Error     string `json:"error,omitempty"`
 	ErrorCode *int   `json:"error_code,omitempty"`
 	Offset    *int   `json:"offset,omitempty"`
 	Partition *int   `json:"partition,omitempty"`
 }
-type Partition struct {
-	ConsumerGroups []ConsumerGroup `json:"consumer_groups"`
-	EarliestOffset int             `json:"earliest_offset"`
-	Isr            int             `json:"isr"`
-	LatestOffset   int             `json:"latest_offset"`
-	Partition      int             `json:"partition"`
-	Size           int             `json:"size"`
+type PartitionOut struct {
+	ConsumerGroups []ConsumerGroupOut `json:"consumer_groups"`
+	EarliestOffset int                `json:"earliest_offset"`
+	Isr            int                `json:"isr"`
+	LatestOffset   int                `json:"latest_offset"`
+	Partition      int                `json:"partition"`
+	Size           int                `json:"size"`
 }
 type Record struct {
-	Key       map[string]any `json:"key,omitempty"`
-	Partition *int           `json:"partition,omitempty"`
-	Value     map[string]any `json:"value,omitempty"`
+	Key       *map[string]any `json:"key,omitempty"`
+	Partition *int            `json:"partition,omitempty"`
+	Value     *map[string]any `json:"value,omitempty"`
 }
 type ServiceKafkaTopicCreateIn struct {
 	CleanupPolicy     CleanupPolicyType `json:"cleanup_policy,omitempty"`
@@ -316,14 +355,14 @@ type ServiceKafkaTopicCreateIn struct {
 	Replication       *int              `json:"replication,omitempty"`
 	RetentionBytes    *int              `json:"retention_bytes,omitempty"`
 	RetentionHours    *int              `json:"retention_hours,omitempty"`
-	Tags              []Tag             `json:"tags"`
+	Tags              *[]Tag            `json:"tags,omitempty"`
 	TopicName         string            `json:"topic_name"`
 }
-type serviceKafkaTopicGetOut struct {
-	Topic *Topic `json:"topic"`
+type ServiceKafkaTopicGetOut struct {
+	Topic TopicOut `json:"topic"`
 }
-type serviceKafkaTopicListOut struct {
-	Topics []TopicItem `json:"topics"`
+type ServiceKafkaTopicListOut struct {
+	Topics []TopicOutItem `json:"topics"`
 }
 type ServiceKafkaTopicMessageListIn struct {
 	Format     FormatType     `json:"format,omitempty"`
@@ -331,8 +370,8 @@ type ServiceKafkaTopicMessageListIn struct {
 	Partitions map[string]any `json:"partitions"`
 	Timeout    *int           `json:"timeout,omitempty"`
 }
-type serviceKafkaTopicMessageListOut struct {
-	Messages []Message `json:"messages"`
+type ServiceKafkaTopicMessageListOut struct {
+	Messages []MessageOut `json:"messages,omitempty"`
 }
 type ServiceKafkaTopicMessageProduceIn struct {
 	Format        FormatType `json:"format,omitempty"`
@@ -343,9 +382,9 @@ type ServiceKafkaTopicMessageProduceIn struct {
 	ValueSchemaId *int       `json:"value_schema_id,omitempty"`
 }
 type ServiceKafkaTopicMessageProduceOut struct {
-	KeySchemaId   *int     `json:"key_schema_id,omitempty"`
-	Offsets       []Offset `json:"offsets"`
-	ValueSchemaId *int     `json:"value_schema_id,omitempty"`
+	KeySchemaId   *int        `json:"key_schema_id,omitempty"`
+	Offsets       []OffsetOut `json:"offsets,omitempty"`
+	ValueSchemaId *int        `json:"value_schema_id,omitempty"`
 }
 type ServiceKafkaTopicUpdateIn struct {
 	Config            *Config `json:"config,omitempty"`
@@ -354,7 +393,7 @@ type ServiceKafkaTopicUpdateIn struct {
 	Replication       *int    `json:"replication,omitempty"`
 	RetentionBytes    *int    `json:"retention_bytes,omitempty"`
 	RetentionHours    *int    `json:"retention_hours,omitempty"`
-	Tags              []Tag   `json:"tags"`
+	Tags              *[]Tag  `json:"tags,omitempty"`
 }
 type SourceType string
 
@@ -376,7 +415,7 @@ const (
 	StateTypeDeleting    StateType = "DELETING"
 )
 
-type Synonym struct {
+type SynonymOut struct {
 	Name   string     `json:"name,omitempty"`
 	Source SourceType `json:"source,omitempty"`
 	Value  *bool      `json:"value,omitempty"`
@@ -385,78 +424,39 @@ type Tag struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
-type Topic struct {
-	CleanupPolicy     string       `json:"cleanup_policy"`
-	Config            *TopicConfig `json:"config"`
-	MinInsyncReplicas int          `json:"min_insync_replicas"`
-	Partitions        []Partition  `json:"partitions"`
-	Replication       int          `json:"replication"`
-	RetentionBytes    int          `json:"retention_bytes"`
-	RetentionHours    int          `json:"retention_hours"`
-	State             StateType    `json:"state"`
-	Tags              []Tag        `json:"tags"`
-	TopicName         string       `json:"topic_name"`
-}
-type TopicConfig struct {
-	CleanupPolicy                   *TopicConfigString               `json:"cleanup_policy,omitempty"`
-	CompressionType                 *TopicConfigCompressionType      `json:"compression_type,omitempty"`
-	DeleteRetentionMs               *TopicConfigInteger              `json:"delete_retention_ms,omitempty"`
-	FileDeleteDelayMs               *TopicConfigInteger              `json:"file_delete_delay_ms,omitempty"`
-	FlushMessages                   *TopicConfigInteger              `json:"flush_messages,omitempty"`
-	FlushMs                         *TopicConfigInteger              `json:"flush_ms,omitempty"`
-	IndexIntervalBytes              *TopicConfigInteger              `json:"index_interval_bytes,omitempty"`
-	LocalRetentionBytes             *TopicConfigInteger              `json:"local_retention_bytes,omitempty"`
-	LocalRetentionMs                *TopicConfigInteger              `json:"local_retention_ms,omitempty"`
-	MaxCompactionLagMs              *TopicConfigInteger              `json:"max_compaction_lag_ms,omitempty"`
-	MaxMessageBytes                 *TopicConfigInteger              `json:"max_message_bytes,omitempty"`
-	MessageDownconversionEnable     *TopicConfigBoolean              `json:"message_downconversion_enable,omitempty"`
-	MessageFormatVersion            *MessageFormatVersion            `json:"message_format_version,omitempty"`
-	MessageTimestampDifferenceMaxMs *TopicConfigInteger              `json:"message_timestamp_difference_max_ms,omitempty"`
-	MessageTimestampType            *TopicConfigMessageTimestampType `json:"message_timestamp_type,omitempty"`
-	MinCleanableDirtyRatio          *TopicConfigNumber               `json:"min_cleanable_dirty_ratio,omitempty"`
-	MinCompactionLagMs              *TopicConfigInteger              `json:"min_compaction_lag_ms,omitempty"`
-	MinInsyncReplicas               *TopicConfigInteger              `json:"min_insync_replicas,omitempty"`
-	Preallocate                     *TopicConfigBoolean              `json:"preallocate,omitempty"`
-	RemoteStorageEnable             *TopicConfigBoolean              `json:"remote_storage_enable,omitempty"`
-	RetentionBytes                  *TopicConfigInteger              `json:"retention_bytes,omitempty"`
-	RetentionMs                     *TopicConfigInteger              `json:"retention_ms,omitempty"`
-	SegmentBytes                    *TopicConfigInteger              `json:"segment_bytes,omitempty"`
-	SegmentIndexBytes               *TopicConfigInteger              `json:"segment_index_bytes,omitempty"`
-	SegmentJitterMs                 *TopicConfigInteger              `json:"segment_jitter_ms,omitempty"`
-	SegmentMs                       *TopicConfigInteger              `json:"segment_ms,omitempty"`
-	UncleanLeaderElectionEnable     *TopicConfigBoolean              `json:"unclean_leader_election_enable,omitempty"`
-}
 type TopicConfigBoolean struct {
-	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms"`
-	Value    *bool      `json:"value,omitempty"`
-}
-type TopicConfigCompressionType struct {
-	Source   SourceType      `json:"source,omitempty"`
-	Synonyms []Synonym       `json:"synonyms"`
-	Value    CompressionType `json:"value,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
+	Synonyms []SynonymOut `json:"synonyms,omitempty"`
+	Value    *bool        `json:"value,omitempty"`
 }
 type TopicConfigInteger struct {
-	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms"`
-	Value    *int       `json:"value,omitempty"`
-}
-type TopicConfigMessageTimestampType struct {
-	Source   SourceType           `json:"source,omitempty"`
-	Synonyms []Synonym            `json:"synonyms"`
-	Value    MessageTimestampType `json:"value,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
+	Synonyms []SynonymOut `json:"synonyms,omitempty"`
+	Value    *int         `json:"value,omitempty"`
 }
 type TopicConfigNumber struct {
-	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms"`
-	Value    *float64   `json:"value,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
+	Synonyms []SynonymOut `json:"synonyms,omitempty"`
+	Value    *float64     `json:"value,omitempty"`
 }
 type TopicConfigString struct {
-	Source   SourceType `json:"source,omitempty"`
-	Synonyms []Synonym  `json:"synonyms"`
-	Value    string     `json:"value,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
+	Synonyms []SynonymOut `json:"synonyms,omitempty"`
+	Value    string       `json:"value,omitempty"`
 }
-type TopicItem struct {
+type TopicOut struct {
+	CleanupPolicy     string         `json:"cleanup_policy"`
+	Config            ConfigOut      `json:"config"`
+	MinInsyncReplicas int            `json:"min_insync_replicas"`
+	Partitions        []PartitionOut `json:"partitions"`
+	Replication       int            `json:"replication"`
+	RetentionBytes    int            `json:"retention_bytes"`
+	RetentionHours    int            `json:"retention_hours"`
+	State             StateType      `json:"state"`
+	Tags              []Tag          `json:"tags"`
+	TopicName         string         `json:"topic_name"`
+}
+type TopicOutItem struct {
 	CleanupPolicy       string    `json:"cleanup_policy"`
 	MinInsyncReplicas   int       `json:"min_insync_replicas"`
 	Partitions          int       `json:"partitions"`

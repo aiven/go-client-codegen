@@ -28,7 +28,7 @@ type Handler interface {
 	// VpcList list VPCs for a project
 	// GET /project/{project}/vpcs
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcList
-	VpcList(ctx context.Context, project string) ([]Vpc, error)
+	VpcList(ctx context.Context, project string) ([]VpcOut, error)
 
 	// VpcPeeringConnectionCreate create a peering connection for a project VPC
 	// POST /project/{project}/vpcs/{project_vpc_id}/peering-connections
@@ -98,10 +98,10 @@ func (h *VpcHandler) VpcGet(ctx context.Context, project string, projectVpcId st
 	}
 	return out, nil
 }
-func (h *VpcHandler) VpcList(ctx context.Context, project string) ([]Vpc, error) {
+func (h *VpcHandler) VpcList(ctx context.Context, project string) ([]VpcOut, error) {
 	path := fmt.Sprintf("/project/%s/vpcs", project)
 	b, err := h.doer.Do(ctx, "VpcList", "GET", path, nil)
-	out := new(vpcListOut)
+	out := new(VpcListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -166,15 +166,15 @@ type Add struct {
 	PeerVpc           string `json:"peer_vpc"`
 }
 type PeeringConnection struct {
-	PeerAzureAppId       string   `json:"peer_azure_app_id,omitempty"`
-	PeerAzureTenantId    string   `json:"peer_azure_tenant_id,omitempty"`
-	PeerCloudAccount     string   `json:"peer_cloud_account"`
-	PeerRegion           string   `json:"peer_region,omitempty"`
-	PeerResourceGroup    string   `json:"peer_resource_group,omitempty"`
-	PeerVpc              string   `json:"peer_vpc"`
-	UserPeerNetworkCidrs []string `json:"user_peer_network_cidrs"`
+	PeerAzureAppId       string    `json:"peer_azure_app_id,omitempty"`
+	PeerAzureTenantId    string    `json:"peer_azure_tenant_id,omitempty"`
+	PeerCloudAccount     string    `json:"peer_cloud_account"`
+	PeerRegion           string    `json:"peer_region,omitempty"`
+	PeerResourceGroup    string    `json:"peer_resource_group,omitempty"`
+	PeerVpc              string    `json:"peer_vpc"`
+	UserPeerNetworkCidrs *[]string `json:"user_peer_network_cidrs,omitempty"`
 }
-type PeeringConnectionItem struct {
+type PeeringConnectionOut struct {
 	CreateTime               time.Time                `json:"create_time"`
 	PeerAzureAppId           string                   `json:"peer_azure_app_id"`
 	PeerAzureTenantId        string                   `json:"peer_azure_tenant_id"`
@@ -183,15 +183,15 @@ type PeeringConnectionItem struct {
 	PeerResourceGroup        string                   `json:"peer_resource_group"`
 	PeerVpc                  string                   `json:"peer_vpc"`
 	State                    StateType                `json:"state"`
-	StateInfo                *StateInfo               `json:"state_info"`
+	StateInfo                StateInfoOut             `json:"state_info"`
 	UpdateTime               time.Time                `json:"update_time"`
 	UserPeerNetworkCidrs     []string                 `json:"user_peer_network_cidrs"`
 	VpcPeeringConnectionType VpcPeeringConnectionType `json:"vpc_peering_connection_type"`
 }
-type StateInfo struct {
-	Message  string    `json:"message"`
-	Type     string    `json:"type"`
-	Warnings []Warning `json:"warnings"`
+type StateInfoOut struct {
+	Message  string       `json:"message"`
+	Type     string       `json:"type"`
+	Warnings []WarningOut `json:"warnings,omitempty"`
 }
 type StateType string
 
@@ -215,69 +215,69 @@ const (
 	TypeUpcloudPeeringInError      Type = "upcloud-peering-in-error"
 )
 
-type Vpc struct {
-	CloudName    string                `json:"cloud_name"`
-	CreateTime   time.Time             `json:"create_time"`
-	NetworkCidr  string                `json:"network_cidr"`
-	ProjectVpcId string                `json:"project_vpc_id"`
-	State        VpcCreateOutStateType `json:"state"`
-	UpdateTime   time.Time             `json:"update_time"`
-}
 type VpcCreateIn struct {
 	CloudName          string              `json:"cloud_name"`
 	NetworkCidr        string              `json:"network_cidr"`
 	PeeringConnections []PeeringConnection `json:"peering_connections"`
 }
 type VpcCreateOut struct {
-	CloudName                          string                  `json:"cloud_name"`
-	CreateTime                         time.Time               `json:"create_time"`
-	NetworkCidr                        string                  `json:"network_cidr"`
-	PeeringConnections                 []PeeringConnectionItem `json:"peering_connections"`
-	PendingBuildOnlyPeeringConnections string                  `json:"pending_build_only_peering_connections,omitempty"`
-	ProjectVpcId                       string                  `json:"project_vpc_id"`
-	State                              VpcCreateOutStateType   `json:"state"`
-	UpdateTime                         time.Time               `json:"update_time"`
+	CloudName                          string                 `json:"cloud_name"`
+	CreateTime                         time.Time              `json:"create_time"`
+	NetworkCidr                        string                 `json:"network_cidr"`
+	PeeringConnections                 []PeeringConnectionOut `json:"peering_connections"`
+	PendingBuildOnlyPeeringConnections string                 `json:"pending_build_only_peering_connections,omitempty"`
+	ProjectVpcId                       string                 `json:"project_vpc_id"`
+	State                              VpcCreateStateType     `json:"state"`
+	UpdateTime                         time.Time              `json:"update_time"`
 }
-type VpcCreateOutStateType string
+type VpcCreateStateType string
 
 const (
-	VpcCreateOutStateTypeActive   VpcCreateOutStateType = "ACTIVE"
-	VpcCreateOutStateTypeApproved VpcCreateOutStateType = "APPROVED"
-	VpcCreateOutStateTypeDeleted  VpcCreateOutStateType = "DELETED"
-	VpcCreateOutStateTypeDeleting VpcCreateOutStateType = "DELETING"
+	VpcCreateStateTypeActive   VpcCreateStateType = "ACTIVE"
+	VpcCreateStateTypeApproved VpcCreateStateType = "APPROVED"
+	VpcCreateStateTypeDeleted  VpcCreateStateType = "DELETED"
+	VpcCreateStateTypeDeleting VpcCreateStateType = "DELETING"
 )
 
 type VpcDeleteOut struct {
-	CloudName                          string                  `json:"cloud_name"`
-	CreateTime                         time.Time               `json:"create_time"`
-	NetworkCidr                        string                  `json:"network_cidr"`
-	PeeringConnections                 []PeeringConnectionItem `json:"peering_connections"`
-	PendingBuildOnlyPeeringConnections string                  `json:"pending_build_only_peering_connections,omitempty"`
-	ProjectVpcId                       string                  `json:"project_vpc_id"`
-	State                              VpcCreateOutStateType   `json:"state"`
-	UpdateTime                         time.Time               `json:"update_time"`
+	CloudName                          string                 `json:"cloud_name"`
+	CreateTime                         time.Time              `json:"create_time"`
+	NetworkCidr                        string                 `json:"network_cidr"`
+	PeeringConnections                 []PeeringConnectionOut `json:"peering_connections"`
+	PendingBuildOnlyPeeringConnections string                 `json:"pending_build_only_peering_connections,omitempty"`
+	ProjectVpcId                       string                 `json:"project_vpc_id"`
+	State                              VpcCreateStateType     `json:"state"`
+	UpdateTime                         time.Time              `json:"update_time"`
 }
 type VpcGetOut struct {
-	CloudName                          string                  `json:"cloud_name"`
-	CreateTime                         time.Time               `json:"create_time"`
-	NetworkCidr                        string                  `json:"network_cidr"`
-	PeeringConnections                 []PeeringConnectionItem `json:"peering_connections"`
-	PendingBuildOnlyPeeringConnections string                  `json:"pending_build_only_peering_connections,omitempty"`
-	ProjectVpcId                       string                  `json:"project_vpc_id"`
-	State                              VpcCreateOutStateType   `json:"state"`
-	UpdateTime                         time.Time               `json:"update_time"`
+	CloudName                          string                 `json:"cloud_name"`
+	CreateTime                         time.Time              `json:"create_time"`
+	NetworkCidr                        string                 `json:"network_cidr"`
+	PeeringConnections                 []PeeringConnectionOut `json:"peering_connections"`
+	PendingBuildOnlyPeeringConnections string                 `json:"pending_build_only_peering_connections,omitempty"`
+	ProjectVpcId                       string                 `json:"project_vpc_id"`
+	State                              VpcCreateStateType     `json:"state"`
+	UpdateTime                         time.Time              `json:"update_time"`
 }
-type vpcListOut struct {
-	Vpcs []Vpc `json:"vpcs"`
+type VpcListOut struct {
+	Vpcs []VpcOut `json:"vpcs"`
+}
+type VpcOut struct {
+	CloudName    string             `json:"cloud_name"`
+	CreateTime   time.Time          `json:"create_time"`
+	NetworkCidr  string             `json:"network_cidr"`
+	ProjectVpcId string             `json:"project_vpc_id"`
+	State        VpcCreateStateType `json:"state"`
+	UpdateTime   time.Time          `json:"update_time"`
 }
 type VpcPeeringConnectionCreateIn struct {
-	PeerAzureAppId       string   `json:"peer_azure_app_id,omitempty"`
-	PeerAzureTenantId    string   `json:"peer_azure_tenant_id,omitempty"`
-	PeerCloudAccount     string   `json:"peer_cloud_account"`
-	PeerRegion           string   `json:"peer_region,omitempty"`
-	PeerResourceGroup    string   `json:"peer_resource_group,omitempty"`
-	PeerVpc              string   `json:"peer_vpc"`
-	UserPeerNetworkCidrs []string `json:"user_peer_network_cidrs"`
+	PeerAzureAppId       string    `json:"peer_azure_app_id,omitempty"`
+	PeerAzureTenantId    string    `json:"peer_azure_tenant_id,omitempty"`
+	PeerCloudAccount     string    `json:"peer_cloud_account"`
+	PeerRegion           string    `json:"peer_region,omitempty"`
+	PeerResourceGroup    string    `json:"peer_resource_group,omitempty"`
+	PeerVpc              string    `json:"peer_vpc"`
+	UserPeerNetworkCidrs *[]string `json:"user_peer_network_cidrs,omitempty"`
 }
 type VpcPeeringConnectionCreateOut struct {
 	CreateTime               time.Time                `json:"create_time"`
@@ -288,7 +288,7 @@ type VpcPeeringConnectionCreateOut struct {
 	PeerResourceGroup        string                   `json:"peer_resource_group"`
 	PeerVpc                  string                   `json:"peer_vpc"`
 	State                    StateType                `json:"state"`
-	StateInfo                *StateInfo               `json:"state_info"`
+	StateInfo                StateInfoOut             `json:"state_info"`
 	UpdateTime               time.Time                `json:"update_time"`
 	UserPeerNetworkCidrs     []string                 `json:"user_peer_network_cidrs"`
 	VpcPeeringConnectionType VpcPeeringConnectionType `json:"vpc_peering_connection_type"`
@@ -302,7 +302,7 @@ type VpcPeeringConnectionDeleteOut struct {
 	PeerResourceGroup        string                   `json:"peer_resource_group"`
 	PeerVpc                  string                   `json:"peer_vpc"`
 	State                    StateType                `json:"state"`
-	StateInfo                *StateInfo               `json:"state_info"`
+	StateInfo                StateInfoOut             `json:"state_info"`
 	UpdateTime               time.Time                `json:"update_time"`
 	UserPeerNetworkCidrs     []string                 `json:"user_peer_network_cidrs"`
 	VpcPeeringConnectionType VpcPeeringConnectionType `json:"vpc_peering_connection_type"`
@@ -318,18 +318,18 @@ const (
 )
 
 type VpcPeeringConnectionUpdateIn struct {
-	Add    []Add    `json:"add"`
-	Delete []string `json:"delete"`
+	Add    *[]Add    `json:"add,omitempty"`
+	Delete *[]string `json:"delete,omitempty"`
 }
 type VpcPeeringConnectionUpdateOut struct {
-	CloudName                          string                  `json:"cloud_name"`
-	CreateTime                         time.Time               `json:"create_time"`
-	NetworkCidr                        string                  `json:"network_cidr"`
-	PeeringConnections                 []PeeringConnectionItem `json:"peering_connections"`
-	PendingBuildOnlyPeeringConnections string                  `json:"pending_build_only_peering_connections,omitempty"`
-	ProjectVpcId                       string                  `json:"project_vpc_id"`
-	State                              VpcCreateOutStateType   `json:"state"`
-	UpdateTime                         time.Time               `json:"update_time"`
+	CloudName                          string                 `json:"cloud_name"`
+	CreateTime                         time.Time              `json:"create_time"`
+	NetworkCidr                        string                 `json:"network_cidr"`
+	PeeringConnections                 []PeeringConnectionOut `json:"peering_connections"`
+	PendingBuildOnlyPeeringConnections string                 `json:"pending_build_only_peering_connections,omitempty"`
+	ProjectVpcId                       string                 `json:"project_vpc_id"`
+	State                              VpcCreateStateType     `json:"state"`
+	UpdateTime                         time.Time              `json:"update_time"`
 }
 type VpcPeeringConnectionWithRegionDeleteOut struct {
 	CreateTime               time.Time                `json:"create_time"`
@@ -340,7 +340,7 @@ type VpcPeeringConnectionWithRegionDeleteOut struct {
 	PeerResourceGroup        string                   `json:"peer_resource_group"`
 	PeerVpc                  string                   `json:"peer_vpc"`
 	State                    StateType                `json:"state"`
-	StateInfo                *StateInfo               `json:"state_info"`
+	StateInfo                StateInfoOut             `json:"state_info"`
 	UpdateTime               time.Time                `json:"update_time"`
 	UserPeerNetworkCidrs     []string                 `json:"user_peer_network_cidrs"`
 	VpcPeeringConnectionType VpcPeeringConnectionType `json:"vpc_peering_connection_type"`
@@ -354,12 +354,12 @@ type VpcPeeringConnectionWithResourceGroupDeleteOut struct {
 	PeerResourceGroup        string                   `json:"peer_resource_group"`
 	PeerVpc                  string                   `json:"peer_vpc"`
 	State                    StateType                `json:"state"`
-	StateInfo                *StateInfo               `json:"state_info"`
+	StateInfo                StateInfoOut             `json:"state_info"`
 	UpdateTime               time.Time                `json:"update_time"`
 	UserPeerNetworkCidrs     []string                 `json:"user_peer_network_cidrs"`
 	VpcPeeringConnectionType VpcPeeringConnectionType `json:"vpc_peering_connection_type"`
 }
-type Warning struct {
+type WarningOut struct {
 	ConflictingAwsAccountId              string `json:"conflicting_aws_account_id,omitempty"`
 	ConflictingAwsVpcId                  string `json:"conflicting_aws_vpc_id,omitempty"`
 	ConflictingAwsVpcPeeringConnectionId string `json:"conflicting_aws_vpc_peering_connection_id,omitempty"`

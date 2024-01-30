@@ -39,16 +39,15 @@ if err != nil {
 services, err := client.ServiceList(ctx, "my-project")
 ```
 
-## Design
+## Design decisions
 
-The `aiven.Client` exposes all Aiven methods by operation id.
-For instance, [`ServiceList`](https://api.aiven.io/doc/#tag/Service/operation/ServiceList) is literally just:
+### Al-in-one interface
 
-```go
-client.ServiceList(ctx, "my-project")
-```
+The `aiven.Client` exposes all Aiven methods by OperationID instead of providing with scoped/grouped handlers. 
+This approach has several benefits:
 
-This approach allows the creation of custom methods subsets that might be helpful with testing and mocking.
+1. The OperationID is immutable, means the interface should not dramatically change if spec is changed
+2. Easier mocking/testing, as it is possible to create a subset of client methods:
 
 ```go
 type sweeperClient interface {
@@ -61,3 +60,36 @@ func sweeper(client serviceShredderClient) error {
 	... // sweep
 }
 ```
+
+### Pointers for reference types
+
+The Aiven API distinguishes between cases when the field is missing or has a zero-value.  
+In some cases, we must avoid sending empty arrays or objects even if that works as expected.
+For instance, sending `tech_emails` triggers creation of an additional event log entry in Console.
+As a universal solution, the client takes `nil` as "missing".
+
+## `[]Foo`, not `[]*Foo`
+
+The generator doesn't create pointers for array elements.
+Because technically that means it might contain `nil` values.
+Therefore `nil` checks _must_ be performed.
+
+## Response objects
+
+Request and response objects are separated and do not share code, except enums.
+Even though if they look similar:
+
+```go
+type UserIn struct {
+	Name string `json:"name"`
+}
+
+type UserOut struct {
+	Name string `json:"name"`
+}
+```
+
+That's made on purpose, so if a request or response object has been changed, hence `UserIn != UserOut` 
+it won't generate a new struct.
+Which in turn might regenerate other objects because of the name collision.
+Keeping things separate makes generated code more durable.

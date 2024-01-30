@@ -22,7 +22,7 @@ type Handler interface {
 	// ServiceClickHouseQueryStats return statistics on recent queries
 	// GET /project/{project}/service/{service_name}/clickhouse/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQueryStats
-	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, limit int, offset int, orderByType OrderByType) ([]Query, error)
+	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, limit int, offset int, orderByType OrderByType) ([]QueryOut, error)
 
 	// ServiceClickHouseTieredStorageSummary get the ClickHouse tiered storage summary
 	// GET /project/{project}/service/{service_name}/clickhouse/tiered-storage/summary
@@ -52,10 +52,10 @@ func (h *ClickHouseHandler) ServiceClickHouseDatabaseDelete(ctx context.Context,
 	_, err := h.doer.Do(ctx, "ServiceClickHouseDatabaseDelete", "DELETE", path, nil)
 	return err
 }
-func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, limit int, offset int, orderByType OrderByType) ([]Query, error) {
+func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, limit int, offset int, orderByType OrderByType) ([]QueryOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/query/stats", project, serviceName, limit, offset, orderByType)
 	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil)
-	out := new(serviceClickHouseQueryStatsOut)
+	out := new(ServiceClickHouseQueryStatsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -73,7 +73,7 @@ func (h *ClickHouseHandler) ServiceClickHouseTieredStorageSummary(ctx context.Co
 	return out, nil
 }
 
-type Hourly struct {
+type HourlyOut struct {
 	EstimatedCost   string `json:"estimated_cost,omitempty"`
 	HourStart       string `json:"hour_start"`
 	PeakStoredBytes int    `json:"peak_stored_bytes"`
@@ -101,7 +101,7 @@ func OrderByTypeChoices() []string {
 	return []string{"calls:asc", "calls:desc", "min_time:asc", "min_time:desc", "max_time:asc", "max_time:desc", "mean_time:asc", "mean_time:desc", "p95_time:asc", "p95_time:desc", "stddev_time:asc", "stddev_time:desc", "total_time:asc", "total_time:desc"}
 }
 
-type Query struct {
+type QueryOut struct {
 	Calls      *int     `json:"calls,omitempty"`
 	Database   string   `json:"database,omitempty"`
 	MaxTime    *int     `json:"max_time,omitempty"`
@@ -116,15 +116,15 @@ type Query struct {
 type ServiceClickHouseDatabaseCreateIn struct {
 	Database string `json:"database"`
 }
-type serviceClickHouseQueryStatsOut struct {
-	Queries []Query `json:"queries"`
+type ServiceClickHouseQueryStatsOut struct {
+	Queries []QueryOut `json:"queries"`
 }
 type ServiceClickHouseTieredStorageSummaryOut struct {
-	CurrentCost         string               `json:"current_cost"`
-	ForecastedCost      string               `json:"forecasted_cost"`
-	StorageUsageHistory *StorageUsageHistory `json:"storage_usage_history"`
-	TotalStorageUsage   int                  `json:"total_storage_usage"`
+	CurrentCost         string                 `json:"current_cost"`
+	ForecastedCost      string                 `json:"forecasted_cost"`
+	StorageUsageHistory StorageUsageHistoryOut `json:"storage_usage_history"`
+	TotalStorageUsage   int                    `json:"total_storage_usage"`
 }
-type StorageUsageHistory struct {
-	Hourly []Hourly `json:"hourly"`
+type StorageUsageHistoryOut struct {
+	Hourly []HourlyOut `json:"hourly"`
 }

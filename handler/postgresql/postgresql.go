@@ -12,17 +12,17 @@ type Handler interface {
 	// PGServiceAvailableExtensions list PostgreSQL extensions that can be loaded with CREATE EXTENSION in this service
 	// GET /project/{project}/service/{service_name}/pg/available-extensions
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/PGServiceAvailableExtensions
-	PGServiceAvailableExtensions(ctx context.Context, project string, serviceName string) ([]Extension, error)
+	PGServiceAvailableExtensions(ctx context.Context, project string, serviceName string) ([]ExtensionOut, error)
 
 	// PGServiceQueryStatistics fetch PostgreSQL service query statistics
 	// POST /project/{project}/service/{service_name}/pg/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/PGServiceQueryStatistics
-	PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]Query, error)
+	PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]QueryOut, error)
 
 	// PgAvailableExtensions list PostgreSQL extensions available for this tenant grouped by PG version
 	// GET /tenants/{tenant}/pg-available-extensions
 	// https://api.aiven.io/doc/#tag/Service/operation/PgAvailableExtensions
-	PgAvailableExtensions(ctx context.Context, tenant string) ([]Pg, error)
+	PgAvailableExtensions(ctx context.Context, tenant string) ([]PgOut, error)
 
 	// ServicePGBouncerCreate create a new connection pool for service
 	// POST /project/{project}/service/{service_name}/connection_pool
@@ -52,30 +52,30 @@ type PostgreSQLHandler struct {
 	doer doer
 }
 
-func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, project string, serviceName string) ([]Extension, error) {
+func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, project string, serviceName string) ([]ExtensionOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/pg/available-extensions", project, serviceName)
 	b, err := h.doer.Do(ctx, "PGServiceAvailableExtensions", "GET", path, nil)
-	out := new(pgserviceAvailableExtensionsOut)
+	out := new(PgserviceAvailableExtensionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Extensions, nil
 }
-func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]Query, error) {
+func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]QueryOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/pg/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "PGServiceQueryStatistics", "POST", path, in)
-	out := new(pgserviceQueryStatisticsOut)
+	out := new(PgserviceQueryStatisticsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Queries, nil
 }
-func (h *PostgreSQLHandler) PgAvailableExtensions(ctx context.Context, tenant string) ([]Pg, error) {
+func (h *PostgreSQLHandler) PgAvailableExtensions(ctx context.Context, tenant string) ([]PgOut, error) {
 	path := fmt.Sprintf("/tenants/%s/pg-available-extensions", tenant)
 	b, err := h.doer.Do(ctx, "PgAvailableExtensions", "GET", path, nil)
-	out := new(pgAvailableExtensionsOut)
+	out := new(PgAvailableExtensionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -98,27 +98,27 @@ func (h *PostgreSQLHandler) ServicePGBouncerUpdate(ctx context.Context, project 
 	return err
 }
 
-type Extension struct {
+type ExtensionOut struct {
 	Name     string   `json:"name"`
-	Versions []string `json:"versions"`
+	Versions []string `json:"versions,omitempty"`
 }
-type Pg struct {
-	Extensions []Extension `json:"extensions"`
-	Version    string      `json:"version"`
+type PgAvailableExtensionsOut struct {
+	Pg []PgOut `json:"pg,omitempty"`
 }
-type pgAvailableExtensionsOut struct {
-	Pg []Pg `json:"pg"`
+type PgOut struct {
+	Extensions []ExtensionOut `json:"extensions"`
+	Version    string         `json:"version"`
 }
-type pgserviceAvailableExtensionsOut struct {
-	Extensions []Extension `json:"extensions"`
+type PgserviceAvailableExtensionsOut struct {
+	Extensions []ExtensionOut `json:"extensions"`
 }
 type PgserviceQueryStatisticsIn struct {
 	Limit   *int   `json:"limit,omitempty"`
 	Offset  *int   `json:"offset,omitempty"`
 	OrderBy string `json:"order_by,omitempty"`
 }
-type pgserviceQueryStatisticsOut struct {
-	Queries []Query `json:"queries"`
+type PgserviceQueryStatisticsOut struct {
+	Queries []QueryOut `json:"queries"`
 }
 type PoolModeType string
 
@@ -132,7 +132,7 @@ func PoolModeTypeChoices() []string {
 	return []string{"session", "transaction", "statement"}
 }
 
-type Query struct {
+type QueryOut struct {
 	BlkReadTime       *float64 `json:"blk_read_time,omitempty"`
 	BlkWriteTime      *float64 `json:"blk_write_time,omitempty"`
 	Calls             *float64 `json:"calls,omitempty"`

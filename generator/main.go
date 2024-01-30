@@ -206,12 +206,19 @@ func exec() error {
 					return err
 				}
 				schemaOut.out = true
-				schemaOut.init(doc, scope, "", path.FuncName+"Out")
+				schemaOut.init(doc, scope, "", path.FuncName)
 				rsp = getResponse(schemaOut)
 			}
 
+			// forcePointer Required objects must be returned by a pointer for consistency
+			forcePointer := rsp != nil && rsp.required && rsp.isObject()
+
 			if rsp != nil {
 				ret := jen.List(getType(rsp), jen.Error())
+				if forcePointer {
+					// foo() (*Foo, err)
+					ret = jen.List(jen.Id("*"+rsp.camelName), jen.Error())
+				}
 				typeMeth.Parens(ret)
 				structMeth.Parens(ret)
 			} else {
@@ -283,6 +290,11 @@ func exec() error {
 					// Takes original name and turns to camel.
 					// "camelName" field might have been modified because of name collisions
 					outReturn.Dot(strcase.ToCamel(rsp.name))
+
+					if forcePointer {
+						// return &out.Foo
+						outReturn = jen.Id("&").Add(outReturn)
+					}
 				}
 
 				block = append(
@@ -388,18 +400,8 @@ func writeStruct(f *jen.File, s *Schema) error {
 		field := jen.Id(strcase.ToCamel(k)).Add(getType(p))
 		tag := k
 		if !p.required {
-			if !p.isArray() {
-				tag += ",omitempty"
-			} else {
-				if p.MinItems > 0 || p.Default != nil {
-					// Slices never omitted.
-					// But we must make sure they don't have default values or min items constraint.
-					// So no default value will be overriden, and validation is OK with an empty list.
-					return fmt.Errorf("%q has minItems=%d and default=%v", k, p.MinItems, p.Default)
-				}
-			}
+			tag += ",omitempty"
 		}
-
 		field = field.Tag(map[string]string{"json": strings.ReplaceAll(tag, `\`, "")})
 		fields = append(fields, field)
 	}
@@ -413,8 +415,6 @@ func getResponse(s *Schema) *Schema {
 	case 1:
 		// If the schema has just one field, then uses it as out dto.
 		// That makes code simpler.
-		// Then we don't need the original response object to be exposed.
-		s.camelName = lowerFirst(s.camelName)
 		return s.Properties[s.propertyNames[0]]
 	case 0:
 		return nil

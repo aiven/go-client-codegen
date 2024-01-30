@@ -146,13 +146,19 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, prefix, name string) {
 	}
 
 	s.name = name
-	s.hash = mustMarshal(s)
-
 	s.camelName = strcase.ToCamel(s.name)
-	if s.isEnum() && !strings.HasSuffix(s.camelName, "Type") {
-		s.camelName += "Type"
+
+	if s.isEnum() {
+		if !strings.HasSuffix(s.camelName, "Type") {
+			s.camelName += "Type"
+		}
 	}
 
+	if s.isObject() && s.isOut() {
+		s.camelName += "Out"
+	}
+
+	s.hash = mustMarshal(s)
 	if s.isObject() || s.isEnum() {
 		for _, k := range sortedKeys(scope) {
 			other := scope[k]
@@ -182,6 +188,9 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, prefix, name string) {
 			}
 
 			s.camelName = parent.camelName + s.camelName
+			if s.isOut() {
+				s.camelName = strings.ReplaceAll(s.camelName, "Out", "")
+			}
 		}
 		scope[s.camelName] = s
 	}
@@ -253,7 +262,7 @@ func (s *Schema) isOut() bool {
 		}
 		p = p.parent
 	}
-	return false
+	return s.out
 }
 
 func getScalarType(s *Schema) *jen.Statement {
@@ -273,6 +282,7 @@ func getScalarType(s *Schema) *jen.Statement {
 	}
 }
 
+// getType returns go type with/wo a pointer
 func getType(s *Schema) *jen.Statement {
 	if s.isEnum() {
 		return jen.Id(s.camelName)
@@ -289,18 +299,29 @@ func getType(s *Schema) *jen.Statement {
 	switch {
 	case s.isArray():
 		a := jen.Index()
+		if !(s.required || s.isOut()) {
+			a = jen.Op("*").Index()
+		}
+
 		// No pointers for complex objects
 		if s.Items.isObject() || s.Items.isArray() {
 			return a.Id(s.Items.camelName)
 		}
 		return a.Add(getType(s.Items))
 	case s.isObject():
-		return jen.Id("*" + s.camelName)
+		if !s.required {
+			return jen.Id("*" + s.camelName)
+		}
+		return jen.Id(s.camelName)
 	case s.isMap():
+		a := jen.Map(jen.String())
+		if !(s.required || s.isOut()) {
+			a = jen.Op("*").Map(jen.String())
+		}
 		if isMapString(s) {
-			return jen.Map(jen.String()).String()
+			return a.String()
 		} else {
-			return jen.Map(jen.String()).Any()
+			return a.Any()
 		}
 	default:
 		panic(fmt.Errorf("unknown type %q for %q and parent %q", s.Type, s.name, s.parent.name))

@@ -17,7 +17,7 @@ type Handler interface {
 	// ProjectStaticIPAvailabilityList list static IP address cloud availability and prices for a project
 	// GET /project/{project}/static-ip-availability
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPAvailabilityList
-	ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailability, error)
+	ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailabilityOut, error)
 
 	// ProjectStaticIPDissociate dissociate a static IP address from a service
 	// DELETE /project/{project}/static-ips/{static_ip_address_id}/association
@@ -32,7 +32,7 @@ type Handler interface {
 	// PublicStaticIPAvailabilityList list static IP clouds and prices
 	// GET /tenants/{tenant}/static-ip-availability
 	// https://api.aiven.io/doc/#tag/Cloud_platforms/operation/PublicStaticIPAvailabilityList
-	PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIpAddressAvailability, error)
+	PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIpAddressAvailabilityOut, error)
 
 	// StaticIPCreate create static IP address
 	// POST /project/{project}/static-ips
@@ -67,10 +67,10 @@ func (h *StaticIPHandler) ProjectStaticIPAssociate(ctx context.Context, project 
 	}
 	return out, nil
 }
-func (h *StaticIPHandler) ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailability, error) {
+func (h *StaticIPHandler) ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailabilityOut, error) {
 	path := fmt.Sprintf("/project/%s/static-ip-availability", project)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPAvailabilityList", "GET", path, nil)
-	out := new(projectStaticIpavailabilityListOut)
+	out := new(ProjectStaticIpavailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -97,10 +97,10 @@ func (h *StaticIPHandler) ProjectStaticIPPatch(ctx context.Context, project stri
 	}
 	return out, nil
 }
-func (h *StaticIPHandler) PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIpAddressAvailability, error) {
+func (h *StaticIPHandler) PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIpAddressAvailabilityOut, error) {
 	path := fmt.Sprintf("/tenants/%s/static-ip-availability", tenant)
 	b, err := h.doer.Do(ctx, "PublicStaticIPAvailabilityList", "GET", path, nil)
-	out := new(publicStaticIpavailabilityListOut)
+	out := new(PublicStaticIpavailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -120,7 +120,7 @@ func (h *StaticIPHandler) StaticIPCreate(ctx context.Context, project string, in
 func (h *StaticIPHandler) StaticIPList(ctx context.Context, project string) ([]ProjectStaticIpassociateOut, error) {
 	path := fmt.Sprintf("/project/%s/static-ips", project)
 	b, err := h.doer.Do(ctx, "StaticIPList", "GET", path, nil)
-	out := new(staticIplistOut)
+	out := new(StaticIplistOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -139,8 +139,8 @@ type ProjectStaticIpassociateOut struct {
 	StaticIpAddressId     string    `json:"static_ip_address_id"`
 	TerminationProtection bool      `json:"termination_protection"`
 }
-type projectStaticIpavailabilityListOut struct {
-	StaticIpAddressAvailability []StaticIpAddressAvailability `json:"static_ip_address_availability"`
+type ProjectStaticIpavailabilityListOut struct {
+	StaticIpAddressAvailability []StaticIpAddressAvailabilityOut `json:"static_ip_address_availability"`
 }
 type ProjectStaticIpdissociateOut struct {
 	CloudName             string    `json:"cloud_name"`
@@ -161,8 +161,8 @@ type ProjectStaticIppatchOut struct {
 	StaticIpAddressId     string    `json:"static_ip_address_id"`
 	TerminationProtection bool      `json:"termination_protection"`
 }
-type publicStaticIpavailabilityListOut struct {
-	StaticIpAddressAvailability []StaticIpAddressAvailability `json:"static_ip_address_availability"`
+type PublicStaticIpavailabilityListOut struct {
+	StaticIpAddressAvailability []StaticIpAddressAvailabilityOut `json:"static_ip_address_availability"`
 }
 type StateType string
 
@@ -175,7 +175,7 @@ const (
 	StateTypeDeleted   StateType = "deleted"
 )
 
-type StaticIpAddressAvailability struct {
+type StaticIpAddressAvailabilityOut struct {
 	CloudName string `json:"cloud_name"`
 	PriceUsd  string `json:"price_usd"`
 }
@@ -191,6 +191,6 @@ type StaticIpcreateOut struct {
 	StaticIpAddressId     string    `json:"static_ip_address_id"`
 	TerminationProtection bool      `json:"termination_protection"`
 }
-type staticIplistOut struct {
+type StaticIplistOut struct {
 	StaticIps []ProjectStaticIpassociateOut `json:"static_ips"`
 }

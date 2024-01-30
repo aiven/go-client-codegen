@@ -18,7 +18,7 @@ type Handler interface {
 	// AccessTokenList list all valid access tokens
 	// GET /access_token
 	// https://api.aiven.io/doc/#tag/Users/operation/AccessTokenList
-	AccessTokenList(ctx context.Context) ([]Token, error)
+	AccessTokenList(ctx context.Context) ([]TokenOut, error)
 
 	// AccessTokenRevoke revoke an access token
 	// DELETE /access_token/{token_prefix}
@@ -33,22 +33,22 @@ type Handler interface {
 	// CheckPasswordStrengthExistingUser check password strength for an existing user
 	// POST /me/password_strength
 	// https://api.aiven.io/doc/#tag/Users/operation/CheckPasswordStrengthExistingUser
-	CheckPasswordStrengthExistingUser(ctx context.Context, in *CheckPasswordStrengthExistingUserIn) (*PasswordStrength, error)
+	CheckPasswordStrengthExistingUser(ctx context.Context, in *CheckPasswordStrengthExistingUserIn) (*PasswordStrengthOut, error)
 
 	// CheckPasswordStrengthNewUser check password strength for a new user
 	// POST /user/password_strength
 	// https://api.aiven.io/doc/#tag/Users/operation/CheckPasswordStrengthNewUser
-	CheckPasswordStrengthNewUser(ctx context.Context, in *CheckPasswordStrengthNewUserIn) (*PasswordStrength, error)
+	CheckPasswordStrengthNewUser(ctx context.Context, in *CheckPasswordStrengthNewUserIn) (*PasswordStrengthOut, error)
 
 	// OrganizationMemberGroupsList list user groups of the organization's member
 	// GET /organization/{organization_id}/user/{member_user_id}/user-groups
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationMemberGroupsList
-	OrganizationMemberGroupsList(ctx context.Context, organizationId string, memberUserId string) ([]UserGroup, error)
+	OrganizationMemberGroupsList(ctx context.Context, organizationId string, memberUserId string) ([]UserGroupOut, error)
 
 	// OrganizationUserAuthenticationMethodsList list authentication methods for a user in the organization
 	// GET /organization/{organization_id}/user/{member_user_id}/authentication_methods
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserAuthenticationMethodsList
-	OrganizationUserAuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethod, error)
+	OrganizationUserAuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethodOut, error)
 
 	// OrganizationUserDelete remove a user from the organization
 	// DELETE /organization/{organization_id}/user/{member_user_id}
@@ -83,7 +83,7 @@ type Handler interface {
 	// OrganizationUserTokensList list tokens from an organization's member
 	// GET /organization/{organization_id}/user/{member_user_id}/access-tokens
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserTokensList
-	OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]TokenItem, error)
+	OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]TokenOutItem, error)
 
 	// OrganizationUserUpdate update details on a user of the organization
 	// PATCH /organization/{organization_id}/user/{member_user_id}
@@ -98,17 +98,17 @@ type Handler interface {
 	// TwoFactorAuthConfigureOTP complete one-time password configuration
 	// PUT /me/2fa/otp
 	// https://api.aiven.io/doc/#tag/Users/operation/TwoFactorAuthConfigureOTP
-	TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFactorAuthConfigureOtpin) (*TwoFactorAuthConfigureOtpout, error)
+	TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFactorAuthConfigureOtpin) (*TwoFactorAuthConfigureOtpOut, error)
 
 	// UserAccountInvitesAccept accept all invites for a single account
 	// POST /me/account/invites/accept
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountInvitesAccept
-	UserAccountInvitesAccept(ctx context.Context, in *UserAccountInvitesAcceptIn) ([]AccountInvite, error)
+	UserAccountInvitesAccept(ctx context.Context, in *UserAccountInvitesAcceptIn) ([]AccountInviteOut, error)
 
 	// UserAccountInvitesList list pending account invites
 	// GET /me/account/invites
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountInvitesList
-	UserAccountInvitesList(ctx context.Context) ([]AccountInvite, error)
+	UserAccountInvitesList(ctx context.Context) ([]AccountInviteOut, error)
 
 	// UserAuth authenticate user
 	// POST /userauth
@@ -128,7 +128,7 @@ type Handler interface {
 	// UserAuthenticationMethodsList list linked authentication methods
 	// GET /me/authentication_methods
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAuthenticationMethodsList
-	UserAuthenticationMethodsList(ctx context.Context) ([]AuthenticationMethodItem, error)
+	UserAuthenticationMethodsList(ctx context.Context) ([]AuthenticationMethodOutItem, error)
 
 	// UserCreate create a user
 	// POST /user
@@ -143,7 +143,7 @@ type Handler interface {
 	// UserInfo get information for the current session's user
 	// GET /me
 	// https://api.aiven.io/doc/#tag/Users/operation/UserInfo
-	UserInfo(ctx context.Context) (*UserInfoOutUser, error)
+	UserInfo(ctx context.Context) (*UserInfoUser, error)
 
 	// UserLogout logout user, removing current authentication token
 	// POST /me/logout
@@ -168,12 +168,12 @@ type Handler interface {
 	// UserUpdate edit profile
 	// PATCH /me
 	// https://api.aiven.io/doc/#tag/Users/operation/UserUpdate
-	UserUpdate(ctx context.Context, in *UserUpdateIn) (*UserInfoOutUser, error)
+	UserUpdate(ctx context.Context, in *UserUpdateIn) (*UserInfoUser, error)
 
 	// UserVerifyEmail confirm user email address
 	// POST /user/verify_email/{verification_code}
 	// https://api.aiven.io/doc/#tag/Users/operation/UserVerifyEmail
-	UserVerifyEmail(ctx context.Context, verificationCode string) (*InviteDetails, error)
+	UserVerifyEmail(ctx context.Context, verificationCode string) (*InviteDetailsOut, error)
 
 	// ValidateCreditCode validate campaign credit code
 	// GET /user/credit_code/{credit_code}
@@ -208,10 +208,10 @@ func (h *UserHandler) AccessTokenCreate(ctx context.Context, in *AccessTokenCrea
 	}
 	return out, nil
 }
-func (h *UserHandler) AccessTokenList(ctx context.Context) ([]Token, error) {
+func (h *UserHandler) AccessTokenList(ctx context.Context) ([]TokenOut, error) {
 	path := fmt.Sprintf("/access_token")
 	b, err := h.doer.Do(ctx, "AccessTokenList", "GET", path, nil)
-	out := new(accessTokenListOut)
+	out := new(AccessTokenListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -233,40 +233,40 @@ func (h *UserHandler) AccessTokenUpdate(ctx context.Context, tokenPrefix string,
 	}
 	return out, nil
 }
-func (h *UserHandler) CheckPasswordStrengthExistingUser(ctx context.Context, in *CheckPasswordStrengthExistingUserIn) (*PasswordStrength, error) {
+func (h *UserHandler) CheckPasswordStrengthExistingUser(ctx context.Context, in *CheckPasswordStrengthExistingUserIn) (*PasswordStrengthOut, error) {
 	path := fmt.Sprintf("/me/password_strength")
 	b, err := h.doer.Do(ctx, "CheckPasswordStrengthExistingUser", "POST", path, in)
-	out := new(checkPasswordStrengthExistingUserOut)
+	out := new(CheckPasswordStrengthExistingUserOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.PasswordStrength, nil
+	return &out.PasswordStrength, nil
 }
-func (h *UserHandler) CheckPasswordStrengthNewUser(ctx context.Context, in *CheckPasswordStrengthNewUserIn) (*PasswordStrength, error) {
+func (h *UserHandler) CheckPasswordStrengthNewUser(ctx context.Context, in *CheckPasswordStrengthNewUserIn) (*PasswordStrengthOut, error) {
 	path := fmt.Sprintf("/user/password_strength")
 	b, err := h.doer.Do(ctx, "CheckPasswordStrengthNewUser", "POST", path, in)
-	out := new(checkPasswordStrengthNewUserOut)
+	out := new(CheckPasswordStrengthNewUserOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.PasswordStrength, nil
+	return &out.PasswordStrength, nil
 }
-func (h *UserHandler) OrganizationMemberGroupsList(ctx context.Context, organizationId string, memberUserId string) ([]UserGroup, error) {
+func (h *UserHandler) OrganizationMemberGroupsList(ctx context.Context, organizationId string, memberUserId string) ([]UserGroupOut, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s/user-groups", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationMemberGroupsList", "GET", path, nil)
-	out := new(organizationMemberGroupsListOut)
+	out := new(OrganizationMemberGroupsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.UserGroups, nil
 }
-func (h *UserHandler) OrganizationUserAuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethod, error) {
+func (h *UserHandler) OrganizationUserAuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethodOut, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s/authentication_methods", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserAuthenticationMethodsList", "GET", path, nil)
-	out := new(organizationUserAuthenticationMethodsListOut)
+	out := new(OrganizationUserAuthenticationMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -291,7 +291,7 @@ func (h *UserHandler) OrganizationUserGet(ctx context.Context, organizationId st
 func (h *UserHandler) OrganizationUserList(ctx context.Context, organizationId string) ([]OrganizationUserGetOut, error) {
 	path := fmt.Sprintf("/organization/%s/user", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationUserList", "GET", path, nil)
-	out := new(organizationUserListOut)
+	out := new(OrganizationUserListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -318,10 +318,10 @@ func (h *UserHandler) OrganizationUserSet(ctx context.Context, organizationId st
 	}
 	return out, nil
 }
-func (h *UserHandler) OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]TokenItem, error) {
+func (h *UserHandler) OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]TokenOutItem, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s/access-tokens", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserTokensList", "GET", path, nil)
-	out := new(organizationUserTokensListOut)
+	out := new(OrganizationUserTokensListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -348,30 +348,30 @@ func (h *UserHandler) TwoFactorAuthConfigure(ctx context.Context, in *TwoFactorA
 	}
 	return out, nil
 }
-func (h *UserHandler) TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFactorAuthConfigureOtpin) (*TwoFactorAuthConfigureOtpout, error) {
+func (h *UserHandler) TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFactorAuthConfigureOtpin) (*TwoFactorAuthConfigureOtpOut, error) {
 	path := fmt.Sprintf("/me/2fa/otp")
 	b, err := h.doer.Do(ctx, "TwoFactorAuthConfigureOTP", "PUT", path, in)
-	out := new(TwoFactorAuthConfigureOtpout)
+	out := new(TwoFactorAuthConfigureOtpOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *UserHandler) UserAccountInvitesAccept(ctx context.Context, in *UserAccountInvitesAcceptIn) ([]AccountInvite, error) {
+func (h *UserHandler) UserAccountInvitesAccept(ctx context.Context, in *UserAccountInvitesAcceptIn) ([]AccountInviteOut, error) {
 	path := fmt.Sprintf("/me/account/invites/accept")
 	b, err := h.doer.Do(ctx, "UserAccountInvitesAccept", "POST", path, in)
-	out := new(userAccountInvitesAcceptOut)
+	out := new(UserAccountInvitesAcceptOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.AccountInvites, nil
 }
-func (h *UserHandler) UserAccountInvitesList(ctx context.Context) ([]AccountInvite, error) {
+func (h *UserHandler) UserAccountInvitesList(ctx context.Context) ([]AccountInviteOut, error) {
 	path := fmt.Sprintf("/me/account/invites")
 	b, err := h.doer.Do(ctx, "UserAccountInvitesList", "GET", path, nil)
-	out := new(userAccountInvitesListOut)
+	out := new(UserAccountInvitesListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -403,10 +403,10 @@ func (h *UserHandler) UserAuthenticationMethodDelete(ctx context.Context, userAu
 	_, err := h.doer.Do(ctx, "UserAuthenticationMethodDelete", "DELETE", path, nil)
 	return err
 }
-func (h *UserHandler) UserAuthenticationMethodsList(ctx context.Context) ([]AuthenticationMethodItem, error) {
+func (h *UserHandler) UserAuthenticationMethodsList(ctx context.Context) ([]AuthenticationMethodOutItem, error) {
 	path := fmt.Sprintf("/me/authentication_methods")
 	b, err := h.doer.Do(ctx, "UserAuthenticationMethodsList", "GET", path, nil)
-	out := new(userAuthenticationMethodsListOut)
+	out := new(UserAuthenticationMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -428,15 +428,15 @@ func (h *UserHandler) UserExpireTokens(ctx context.Context) error {
 	_, err := h.doer.Do(ctx, "UserExpireTokens", "POST", path, nil)
 	return err
 }
-func (h *UserHandler) UserInfo(ctx context.Context) (*UserInfoOutUser, error) {
+func (h *UserHandler) UserInfo(ctx context.Context) (*UserInfoUser, error) {
 	path := fmt.Sprintf("/me")
 	b, err := h.doer.Do(ctx, "UserInfo", "GET", path, nil)
-	out := new(userInfoOut)
+	out := new(UserInfoOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.User, nil
+	return &out.User, nil
 }
 func (h *UserHandler) UserLogout(ctx context.Context) error {
 	path := fmt.Sprintf("/me/logout")
@@ -446,7 +446,7 @@ func (h *UserHandler) UserLogout(ctx context.Context) error {
 func (h *UserHandler) UserPasswordChange(ctx context.Context, in *UserPasswordChangeIn) (string, error) {
 	path := fmt.Sprintf("/me/password")
 	b, err := h.doer.Do(ctx, "UserPasswordChange", "PUT", path, in)
-	out := new(userPasswordChangeOut)
+	out := new(UserPasswordChangeOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
@@ -463,25 +463,25 @@ func (h *UserHandler) UserPasswordResetRequest(ctx context.Context, in *UserPass
 	_, err := h.doer.Do(ctx, "UserPasswordResetRequest", "POST", path, in)
 	return err
 }
-func (h *UserHandler) UserUpdate(ctx context.Context, in *UserUpdateIn) (*UserInfoOutUser, error) {
+func (h *UserHandler) UserUpdate(ctx context.Context, in *UserUpdateIn) (*UserInfoUser, error) {
 	path := fmt.Sprintf("/me")
 	b, err := h.doer.Do(ctx, "UserUpdate", "PATCH", path, in)
-	out := new(userUpdateOut)
+	out := new(UserUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.User, nil
+	return &out.User, nil
 }
-func (h *UserHandler) UserVerifyEmail(ctx context.Context, verificationCode string) (*InviteDetails, error) {
+func (h *UserHandler) UserVerifyEmail(ctx context.Context, verificationCode string) (*InviteDetailsOut, error) {
 	path := fmt.Sprintf("/user/verify_email/%s", verificationCode)
 	b, err := h.doer.Do(ctx, "UserVerifyEmail", "POST", path, nil)
-	out := new(userVerifyEmailOut)
+	out := new(UserVerifyEmailOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.InviteDetails, nil
+	return &out.InviteDetails, nil
 }
 func (h *UserHandler) ValidateCreditCode(ctx context.Context, creditCode string) error {
 	path := fmt.Sprintf("/user/credit_code/%s", creditCode)
@@ -495,10 +495,10 @@ func (h *UserHandler) ValidateReferralCode(ctx context.Context, referralCode str
 }
 
 type AccessTokenCreateIn struct {
-	Description    string   `json:"description"`
-	ExtendWhenUsed *bool    `json:"extend_when_used,omitempty"`
-	MaxAgeSeconds  *float64 `json:"max_age_seconds,omitempty"`
-	Scopes         []string `json:"scopes"`
+	Description    string    `json:"description"`
+	ExtendWhenUsed *bool     `json:"extend_when_used,omitempty"`
+	MaxAgeSeconds  *float64  `json:"max_age_seconds,omitempty"`
+	Scopes         *[]string `json:"scopes,omitempty"`
 }
 type AccessTokenCreateOut struct {
 	CreateTime                 time.Time  `json:"create_time"`
@@ -513,11 +513,11 @@ type AccessTokenCreateOut struct {
 	LastUserAgent              string     `json:"last_user_agent,omitempty"`
 	LastUserAgentHumanReadable string     `json:"last_user_agent_human_readable,omitempty"`
 	MaxAgeSeconds              float64    `json:"max_age_seconds"`
-	Scopes                     []string   `json:"scopes"`
+	Scopes                     []string   `json:"scopes,omitempty"`
 	TokenPrefix                string     `json:"token_prefix"`
 }
-type accessTokenListOut struct {
-	Tokens []Token `json:"tokens"`
+type AccessTokenListOut struct {
+	Tokens []TokenOut `json:"tokens"`
 }
 type AccessTokenUpdateIn struct {
 	Description string `json:"description"`
@@ -534,10 +534,10 @@ type AccessTokenUpdateOut struct {
 	LastUserAgent              string     `json:"last_user_agent,omitempty"`
 	LastUserAgentHumanReadable string     `json:"last_user_agent_human_readable,omitempty"`
 	MaxAgeSeconds              float64    `json:"max_age_seconds"`
-	Scopes                     []string   `json:"scopes"`
+	Scopes                     []string   `json:"scopes,omitempty"`
 	TokenPrefix                string     `json:"token_prefix"`
 }
-type AccountInvite struct {
+type AccountInviteOut struct {
 	AccountId          string    `json:"account_id"`
 	AccountName        string    `json:"account_name"`
 	CreateTime         time.Time `json:"create_time"`
@@ -567,7 +567,14 @@ const (
 	AnyTypeReadOnly  AnyType = "read_only"
 )
 
-type AuthenticationMethod struct {
+type AuthenticationMethodItemStateType string
+
+const (
+	AuthenticationMethodItemStateTypeActive  AuthenticationMethodItemStateType = "active"
+	AuthenticationMethodItemStateTypeDeleted AuthenticationMethodItemStateType = "deleted"
+)
+
+type AuthenticationMethodOut struct {
 	IsEnabled2Fa     *bool      `json:"is_enabled_2fa,omitempty"`
 	LastUsedTime     *time.Time `json:"last_used_time,omitempty"`
 	LocalProviderId  string     `json:"local_provider_id,omitempty"`
@@ -579,7 +586,7 @@ type AuthenticationMethod struct {
 	UserEmail        string     `json:"user_email,omitempty"`
 	UserId           string     `json:"user_id,omitempty"`
 }
-type AuthenticationMethodItem struct {
+type AuthenticationMethodOutItem struct {
 	AuthenticationMethodAccountId string                            `json:"authentication_method_account_id"`
 	CreateTime                    time.Time                         `json:"create_time"`
 	CurrentlyActive               bool                              `json:"currently_active"`
@@ -593,39 +600,32 @@ type AuthenticationMethodItem struct {
 	UpdateTime                    time.Time                         `json:"update_time"`
 	UserEmail                     string                            `json:"user_email"`
 }
-type AuthenticationMethodItemStateType string
-
-const (
-	AuthenticationMethodItemStateTypeActive  AuthenticationMethodItemStateType = "active"
-	AuthenticationMethodItemStateTypeDeleted AuthenticationMethodItemStateType = "deleted"
-)
-
 type CheckPasswordStrengthExistingUserIn struct {
 	NewPassword string `json:"new_password"`
 	OldPassword string `json:"old_password"`
 }
-type checkPasswordStrengthExistingUserOut struct {
-	PasswordStrength *PasswordStrength `json:"password_strength"`
+type CheckPasswordStrengthExistingUserOut struct {
+	PasswordStrength PasswordStrengthOut `json:"password_strength"`
 }
 type CheckPasswordStrengthNewUserIn struct {
 	Email    string `json:"email,omitempty"`
 	Password string `json:"password"`
 	RealName string `json:"real_name,omitempty"`
 }
-type checkPasswordStrengthNewUserOut struct {
-	PasswordStrength *PasswordStrength `json:"password_strength"`
+type CheckPasswordStrengthNewUserOut struct {
+	PasswordStrength PasswordStrengthOut `json:"password_strength"`
 }
-type Intercom struct {
+type IntercomOut struct {
 	AppId string `json:"app_id"`
 	Hmac  string `json:"hmac"`
 }
-type Invitation struct {
+type InvitationOut struct {
 	InviteCode        string    `json:"invite_code"`
 	InviteTime        time.Time `json:"invite_time"`
 	InvitingUserEmail string    `json:"inviting_user_email"`
 	ProjectName       string    `json:"project_name"`
 }
-type InviteDetails struct {
+type InviteDetailsOut struct {
 	UserEmail string `json:"user_email"`
 }
 type MethodType string
@@ -635,31 +635,31 @@ const (
 	MethodTypeGet  MethodType = "GET"
 )
 
-type organizationMemberGroupsListOut struct {
-	UserGroups []UserGroup `json:"user_groups"`
+type OrganizationMemberGroupsListOut struct {
+	UserGroups []UserGroupOut `json:"user_groups"`
 }
-type organizationUserAuthenticationMethodsListOut struct {
-	AuthenticationMethods []AuthenticationMethod `json:"authentication_methods"`
+type OrganizationUserAuthenticationMethodsListOut struct {
+	AuthenticationMethods []AuthenticationMethodOut `json:"authentication_methods"`
 }
 type OrganizationUserGetOut struct {
-	IsSuperAdmin     bool      `json:"is_super_admin"`
-	JoinTime         time.Time `json:"join_time"`
-	LastActivityTime time.Time `json:"last_activity_time"`
-	UserId           string    `json:"user_id"`
-	UserInfo         *UserInfo `json:"user_info"`
+	IsSuperAdmin     bool        `json:"is_super_admin"`
+	JoinTime         time.Time   `json:"join_time"`
+	LastActivityTime time.Time   `json:"last_activity_time"`
+	UserId           string      `json:"user_id"`
+	UserInfo         UserInfoOut `json:"user_info"`
 }
-type organizationUserListOut struct {
+type OrganizationUserListOut struct {
 	Users []OrganizationUserGetOut `json:"users"`
 }
 type OrganizationUserSetOut struct {
-	IsSuperAdmin     bool      `json:"is_super_admin"`
-	JoinTime         time.Time `json:"join_time"`
-	LastActivityTime time.Time `json:"last_activity_time"`
-	UserId           string    `json:"user_id"`
-	UserInfo         *UserInfo `json:"user_info"`
+	IsSuperAdmin     bool        `json:"is_super_admin"`
+	JoinTime         time.Time   `json:"join_time"`
+	LastActivityTime time.Time   `json:"last_activity_time"`
+	UserId           string      `json:"user_id"`
+	UserInfo         UserInfoOut `json:"user_info"`
 }
-type organizationUserTokensListOut struct {
-	Tokens []TokenItem `json:"tokens"`
+type OrganizationUserTokensListOut struct {
+	Tokens []TokenOutItem `json:"tokens"`
 }
 type OrganizationUserUpdateIn struct {
 	City         string    `json:"city,omitempty"`
@@ -671,22 +671,22 @@ type OrganizationUserUpdateIn struct {
 	State        StateType `json:"state,omitempty"`
 }
 type OrganizationUserUpdateOut struct {
-	IsSuperAdmin     bool      `json:"is_super_admin"`
-	JoinTime         time.Time `json:"join_time"`
-	LastActivityTime time.Time `json:"last_activity_time"`
-	UserId           string    `json:"user_id"`
-	UserInfo         *UserInfo `json:"user_info"`
+	IsSuperAdmin     bool        `json:"is_super_admin"`
+	JoinTime         time.Time   `json:"join_time"`
+	LastActivityTime time.Time   `json:"last_activity_time"`
+	UserId           string      `json:"user_id"`
+	UserInfo         UserInfoOut `json:"user_info"`
 }
-type PasswordStrength struct {
+type PasswordStrengthOut struct {
 	IsAcceptable *bool  `json:"is_acceptable,omitempty"`
 	Message      string `json:"message"`
 	Score        int    `json:"score"`
 }
-type ProjectMembership struct {
+type ProjectMembershipOut struct {
 	Any AnyType `json:"ANY,omitempty"`
 }
-type ProjectMemberships struct {
-	Any []string `json:"ANY"`
+type ProjectMembershipsOut struct {
+	Any []string `json:"ANY,omitempty"`
 }
 type StateType string
 
@@ -700,7 +700,7 @@ func StateTypeChoices() []string {
 	return []string{"active", "deactivated", "deleted"}
 }
 
-type Token struct {
+type TokenOut struct {
 	CreateTime                 time.Time  `json:"create_time"`
 	CreatedManually            bool       `json:"created_manually"`
 	CurrentlyActive            *bool      `json:"currently_active,omitempty"`
@@ -712,10 +712,10 @@ type Token struct {
 	LastUserAgent              string     `json:"last_user_agent,omitempty"`
 	LastUserAgentHumanReadable string     `json:"last_user_agent_human_readable,omitempty"`
 	MaxAgeSeconds              float64    `json:"max_age_seconds"`
-	Scopes                     []string   `json:"scopes"`
+	Scopes                     []string   `json:"scopes,omitempty"`
 	TokenPrefix                string     `json:"token_prefix"`
 }
-type TokenItem struct {
+type TokenOutItem struct {
 	Description   string    `json:"description"`
 	LastIp        string    `json:"last_ip"`
 	LastUsedTime  time.Time `json:"last_used_time"`
@@ -726,49 +726,29 @@ type TwoFactorAuthConfigureIn struct {
 	Method   string `json:"method"`
 	Password string `json:"password"`
 }
+type TwoFactorAuthConfigureOtpOut struct {
+	Method string `json:"method"`
+	Token  string `json:"token"`
+}
 type TwoFactorAuthConfigureOtpin struct {
 	Otp      string `json:"otp"`
 	Password string `json:"password"`
 	Uri      string `json:"uri"`
-}
-type TwoFactorAuthConfigureOtpout struct {
-	Method string `json:"method"`
-	Token  string `json:"token"`
 }
 type TwoFactorAuthConfigureOut struct {
 	Method string `json:"method"`
 	Qrcode string `json:"qrcode,omitempty"`
 	Uri    string `json:"uri,omitempty"`
 }
-type User struct {
-	Auth                   []string            `json:"auth"`
-	City                   string              `json:"city,omitempty"`
-	Country                string              `json:"country,omitempty"`
-	CreateTime             *time.Time          `json:"create_time,omitempty"`
-	Department             string              `json:"department,omitempty"`
-	Features               map[string]any      `json:"features,omitempty"`
-	Invitations            []Invitation        `json:"invitations"`
-	JobTitle               string              `json:"job_title,omitempty"`
-	ManagedByScim          *bool               `json:"managed_by_scim,omitempty"`
-	ManagingOrganizationId string              `json:"managing_organization_id,omitempty"`
-	ProjectMembership      *ProjectMembership  `json:"project_membership"`
-	ProjectMemberships     *ProjectMemberships `json:"project_memberships,omitempty"`
-	Projects               []string            `json:"projects"`
-	RealName               string              `json:"real_name"`
-	State                  string              `json:"state"`
-	TokenValidityBegin     string              `json:"token_validity_begin,omitempty"`
-	User                   string              `json:"user"`
-	UserId                 string              `json:"user_id"`
-}
 type UserAccountInvitesAcceptIn struct {
 	AccountId string `json:"account_id"`
 	TeamId    string `json:"team_id,omitempty"`
 }
-type userAccountInvitesAcceptOut struct {
-	AccountInvites []AccountInvite `json:"account_invites"`
+type UserAccountInvitesAcceptOut struct {
+	AccountInvites []AccountInviteOut `json:"account_invites"`
 }
-type userAccountInvitesListOut struct {
-	AccountInvites []AccountInvite `json:"account_invites"`
+type UserAccountInvitesListOut struct {
+	AccountInvites []AccountInviteOut `json:"account_invites"`
 }
 type UserAuthIn struct {
 	Email    string `json:"email"`
@@ -779,7 +759,7 @@ type UserAuthLoginOptionsIn struct {
 	Email string `json:"email,omitempty"`
 }
 type UserAuthLoginOptionsOut struct {
-	None        []map[string]any `json:"None"`
+	None        []map[string]any `json:"None,omitempty"`
 	Action      ActionType       `json:"action"`
 	Method      MethodType       `json:"method,omitempty"`
 	Name        string           `json:"name,omitempty"`
@@ -791,76 +771,83 @@ type UserAuthOut struct {
 	Token     string `json:"token"`
 	UserEmail string `json:"user_email"`
 }
-type userAuthenticationMethodsListOut struct {
-	AuthenticationMethods []AuthenticationMethodItem `json:"authentication_methods"`
+type UserAuthenticationMethodsListOut struct {
+	AuthenticationMethods []AuthenticationMethodOutItem `json:"authentication_methods"`
 }
 type UserCreateIn struct {
-	Company                      string   `json:"company,omitempty"`
-	CountryCode                  string   `json:"country_code,omitempty"`
-	CreditCode                   string   `json:"credit_code,omitempty"`
-	Email                        string   `json:"email"`
-	EmailCommunicationCategories []string `json:"email_communication_categories"`
-	Origin                       string   `json:"origin,omitempty"`
-	Password                     string   `json:"password,omitempty"`
-	RealName                     string   `json:"real_name"`
-	State                        string   `json:"state,omitempty"`
-	Token                        string   `json:"token,omitempty"`
+	Company                      string    `json:"company,omitempty"`
+	CountryCode                  string    `json:"country_code,omitempty"`
+	CreditCode                   string    `json:"credit_code,omitempty"`
+	Email                        string    `json:"email"`
+	EmailCommunicationCategories *[]string `json:"email_communication_categories,omitempty"`
+	Origin                       string    `json:"origin,omitempty"`
+	Password                     string    `json:"password,omitempty"`
+	RealName                     string    `json:"real_name"`
+	State                        string    `json:"state,omitempty"`
+	Token                        string    `json:"token,omitempty"`
 }
 type UserCreateOut struct {
-	State     string `json:"state"`
-	Token     string `json:"token"`
-	User      *User  `json:"user"`
-	UserEmail string `json:"user_email"`
+	State     string  `json:"state"`
+	Token     string  `json:"token"`
+	User      UserOut `json:"user"`
+	UserEmail string  `json:"user_email"`
 }
-type UserGroup struct {
+type UserGroupOut struct {
 	CreateTime    time.Time `json:"create_time"`
 	Description   string    `json:"description"`
 	UpdateTime    time.Time `json:"update_time"`
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
 }
-type UserInfo struct {
-	City                   string    `json:"city,omitempty"`
-	Country                string    `json:"country,omitempty"`
-	CreateTime             time.Time `json:"create_time"`
-	Department             string    `json:"department,omitempty"`
-	IsApplicationUser      bool      `json:"is_application_user"`
-	JobTitle               string    `json:"job_title,omitempty"`
-	ManagedByScim          bool      `json:"managed_by_scim"`
-	ManagingOrganizationId string    `json:"managing_organization_id,omitempty"`
-	RealName               string    `json:"real_name"`
-	State                  string    `json:"state"`
-	UserEmail              string    `json:"user_email"`
+type UserInfoOut struct {
+	User UserInfoUser `json:"user"`
 }
-type userInfoOut struct {
-	User *UserInfoOutUser `json:"user"`
+type UserInfoUser struct {
+	Auth                   []string               `json:"auth"`
+	City                   string                 `json:"city,omitempty"`
+	Country                string                 `json:"country,omitempty"`
+	CreateTime             *time.Time             `json:"create_time,omitempty"`
+	Department             string                 `json:"department,omitempty"`
+	Features               map[string]any         `json:"features,omitempty"`
+	Intercom               IntercomOut            `json:"intercom"`
+	Invitations            []InvitationOut        `json:"invitations"`
+	JobTitle               string                 `json:"job_title,omitempty"`
+	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`
+	ManagingOrganizationId string                 `json:"managing_organization_id,omitempty"`
+	ProjectMembership      ProjectMembershipOut   `json:"project_membership"`
+	ProjectMemberships     *ProjectMembershipsOut `json:"project_memberships,omitempty"`
+	Projects               []string               `json:"projects"`
+	RealName               string                 `json:"real_name"`
+	State                  string                 `json:"state"`
+	TokenValidityBegin     string                 `json:"token_validity_begin,omitempty"`
+	User                   string                 `json:"user"`
+	UserId                 string                 `json:"user_id"`
 }
-type UserInfoOutUser struct {
-	Auth                   []string            `json:"auth"`
-	City                   string              `json:"city,omitempty"`
-	Country                string              `json:"country,omitempty"`
-	CreateTime             *time.Time          `json:"create_time,omitempty"`
-	Department             string              `json:"department,omitempty"`
-	Features               map[string]any      `json:"features,omitempty"`
-	Intercom               *Intercom           `json:"intercom"`
-	Invitations            []Invitation        `json:"invitations"`
-	JobTitle               string              `json:"job_title,omitempty"`
-	ManagedByScim          *bool               `json:"managed_by_scim,omitempty"`
-	ManagingOrganizationId string              `json:"managing_organization_id,omitempty"`
-	ProjectMembership      *ProjectMembership  `json:"project_membership"`
-	ProjectMemberships     *ProjectMemberships `json:"project_memberships,omitempty"`
-	Projects               []string            `json:"projects"`
-	RealName               string              `json:"real_name"`
-	State                  string              `json:"state"`
-	TokenValidityBegin     string              `json:"token_validity_begin,omitempty"`
-	User                   string              `json:"user"`
-	UserId                 string              `json:"user_id"`
+type UserOut struct {
+	Auth                   []string               `json:"auth"`
+	City                   string                 `json:"city,omitempty"`
+	Country                string                 `json:"country,omitempty"`
+	CreateTime             *time.Time             `json:"create_time,omitempty"`
+	Department             string                 `json:"department,omitempty"`
+	Features               map[string]any         `json:"features,omitempty"`
+	Invitations            []InvitationOut        `json:"invitations"`
+	JobTitle               string                 `json:"job_title,omitempty"`
+	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`
+	ManagingOrganizationId string                 `json:"managing_organization_id,omitempty"`
+	ProjectMembership      ProjectMembershipOut   `json:"project_membership"`
+	ProjectMemberships     *ProjectMembershipsOut `json:"project_memberships,omitempty"`
+	Projects               []string               `json:"projects"`
+	RealName               string                 `json:"real_name"`
+	State                  string                 `json:"state"`
+	TokenValidityBegin     string                 `json:"token_validity_begin,omitempty"`
+	User                   string                 `json:"user"`
+	UserId                 string                 `json:"user_id"`
 }
 type UserPasswordChangeIn struct {
 	NewPassword string `json:"new_password"`
 	Password    string `json:"password"`
 }
-type userPasswordChangeOut struct {
+type UserPasswordChangeOut struct {
 	Token string `json:"token"`
 }
 type UserPasswordResetIn struct {
@@ -876,9 +863,9 @@ type UserUpdateIn struct {
 	JobTitle   string `json:"job_title,omitempty"`
 	RealName   string `json:"real_name"`
 }
-type userUpdateOut struct {
-	User *UserInfoOutUser `json:"user"`
+type UserUpdateOut struct {
+	User UserInfoUser `json:"user"`
 }
-type userVerifyEmailOut struct {
-	InviteDetails *InviteDetails `json:"invite_details"`
+type UserVerifyEmailOut struct {
+	InviteDetails InviteDetailsOut `json:"invite_details"`
 }

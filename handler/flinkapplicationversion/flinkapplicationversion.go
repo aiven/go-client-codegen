@@ -28,7 +28,7 @@ type Handler interface {
 	// ServiceFlinkListApplications get all Flink Applications
 	// GET /project/{project}/service/{service_name}/flink/application
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkListApplications
-	ServiceFlinkListApplications(ctx context.Context, project string, serviceName string) ([]Application, error)
+	ServiceFlinkListApplications(ctx context.Context, project string, serviceName string) ([]ApplicationOut, error)
 
 	// ServiceFlinkUpdateApplication update a Flink Application
 	// PUT /project/{project}/service/{service_name}/flink/application/{application_id}
@@ -78,10 +78,10 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkGetApplication(ctx context.
 	}
 	return out, nil
 }
-func (h *FlinkApplicationVersionHandler) ServiceFlinkListApplications(ctx context.Context, project string, serviceName string) ([]Application, error) {
+func (h *FlinkApplicationVersionHandler) ServiceFlinkListApplications(ctx context.Context, project string, serviceName string) ([]ApplicationOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplications", "GET", path, nil)
-	out := new(serviceFlinkListApplicationsOut)
+	out := new(ServiceFlinkListApplicationsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -99,7 +99,7 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkUpdateApplication(ctx conte
 	return out, nil
 }
 
-type Application struct {
+type ApplicationOut struct {
 	CreatedAt *time.Time `json:"created_at,omitempty"`
 	CreatedBy string     `json:"created_by,omitempty"`
 	Id        string     `json:"id"`
@@ -112,16 +112,16 @@ type ApplicationVersion struct {
 	Sources   []Sink `json:"sources"`
 	Statement string `json:"statement"`
 }
-type ApplicationVersionItem struct {
-	CreatedAt time.Time  `json:"created_at"`
-	CreatedBy string     `json:"created_by"`
-	Id        string     `json:"id"`
-	Sinks     []SinkItem `json:"sinks"`
-	Sources   []SinkItem `json:"sources"`
-	Statement string     `json:"statement"`
-	Version   int        `json:"version"`
+type ApplicationVersionOut struct {
+	CreatedAt time.Time `json:"created_at"`
+	CreatedBy string    `json:"created_by"`
+	Id        string    `json:"id"`
+	Sinks     []SinkOut `json:"sinks"`
+	Sources   []SinkOut `json:"sources"`
+	Statement string    `json:"statement"`
+	Version   int       `json:"version"`
 }
-type Column struct {
+type ColumnOut struct {
 	DataType  string `json:"data_type"`
 	Extras    string `json:"extras,omitempty"`
 	Key       string `json:"key,omitempty"`
@@ -129,7 +129,7 @@ type Column struct {
 	Nullable  bool   `json:"nullable"`
 	Watermark string `json:"watermark,omitempty"`
 }
-type CurrentDeployment struct {
+type CurrentDeploymentOut struct {
 	CreatedAt         time.Time  `json:"created_at"`
 	CreatedBy         string     `json:"created_by"`
 	ErrorMsg          string     `json:"error_msg,omitempty"`
@@ -147,57 +147,57 @@ type ServiceFlinkCreateApplicationIn struct {
 	Name               string              `json:"name"`
 }
 type ServiceFlinkCreateApplicationOut struct {
-	ApplicationVersions []ApplicationVersionItem `json:"application_versions"`
-	CreatedAt           time.Time                `json:"created_at"`
-	CreatedBy           string                   `json:"created_by"`
-	CurrentDeployment   *CurrentDeployment       `json:"current_deployment,omitempty"`
-	Id                  string                   `json:"id"`
-	Name                string                   `json:"name"`
-	UpdatedAt           time.Time                `json:"updated_at"`
-	UpdatedBy           string                   `json:"updated_by"`
+	ApplicationVersions []ApplicationVersionOut `json:"application_versions"`
+	CreatedAt           time.Time               `json:"created_at"`
+	CreatedBy           string                  `json:"created_by"`
+	CurrentDeployment   *CurrentDeploymentOut   `json:"current_deployment,omitempty"`
+	Id                  string                  `json:"id"`
+	Name                string                  `json:"name"`
+	UpdatedAt           time.Time               `json:"updated_at"`
+	UpdatedBy           string                  `json:"updated_by"`
 }
 type ServiceFlinkDeleteApplicationOut struct {
-	ApplicationVersions []ApplicationVersionItem `json:"application_versions"`
-	CreatedAt           time.Time                `json:"created_at"`
-	CreatedBy           string                   `json:"created_by"`
-	CurrentDeployment   *CurrentDeployment       `json:"current_deployment,omitempty"`
-	Id                  string                   `json:"id"`
-	Name                string                   `json:"name"`
-	UpdatedAt           time.Time                `json:"updated_at"`
-	UpdatedBy           string                   `json:"updated_by"`
+	ApplicationVersions []ApplicationVersionOut `json:"application_versions"`
+	CreatedAt           time.Time               `json:"created_at"`
+	CreatedBy           string                  `json:"created_by"`
+	CurrentDeployment   *CurrentDeploymentOut   `json:"current_deployment,omitempty"`
+	Id                  string                  `json:"id"`
+	Name                string                  `json:"name"`
+	UpdatedAt           time.Time               `json:"updated_at"`
+	UpdatedBy           string                  `json:"updated_by"`
 }
 type ServiceFlinkGetApplicationOut struct {
-	ApplicationVersions []ApplicationVersionItem `json:"application_versions"`
-	CreatedAt           time.Time                `json:"created_at"`
-	CreatedBy           string                   `json:"created_by"`
-	CurrentDeployment   *CurrentDeployment       `json:"current_deployment,omitempty"`
-	Id                  string                   `json:"id"`
-	Name                string                   `json:"name"`
-	UpdatedAt           time.Time                `json:"updated_at"`
-	UpdatedBy           string                   `json:"updated_by"`
+	ApplicationVersions []ApplicationVersionOut `json:"application_versions"`
+	CreatedAt           time.Time               `json:"created_at"`
+	CreatedBy           string                  `json:"created_by"`
+	CurrentDeployment   *CurrentDeploymentOut   `json:"current_deployment,omitempty"`
+	Id                  string                  `json:"id"`
+	Name                string                  `json:"name"`
+	UpdatedAt           time.Time               `json:"updated_at"`
+	UpdatedBy           string                  `json:"updated_by"`
 }
-type serviceFlinkListApplicationsOut struct {
-	Applications []Application `json:"applications"`
+type ServiceFlinkListApplicationsOut struct {
+	Applications []ApplicationOut `json:"applications"`
 }
 type ServiceFlinkUpdateApplicationIn struct {
 	Name string `json:"name"`
 }
 type ServiceFlinkUpdateApplicationOut struct {
-	ApplicationVersions []ApplicationVersionItem `json:"application_versions"`
-	CreatedAt           time.Time                `json:"created_at"`
-	CreatedBy           string                   `json:"created_by"`
-	CurrentDeployment   *CurrentDeployment       `json:"current_deployment,omitempty"`
-	Id                  string                   `json:"id"`
-	Name                string                   `json:"name"`
-	UpdatedAt           time.Time                `json:"updated_at"`
-	UpdatedBy           string                   `json:"updated_by"`
+	ApplicationVersions []ApplicationVersionOut `json:"application_versions"`
+	CreatedAt           time.Time               `json:"created_at"`
+	CreatedBy           string                  `json:"created_by"`
+	CurrentDeployment   *CurrentDeploymentOut   `json:"current_deployment,omitempty"`
+	Id                  string                  `json:"id"`
+	Name                string                  `json:"name"`
+	UpdatedAt           time.Time               `json:"updated_at"`
+	UpdatedBy           string                  `json:"updated_by"`
 }
 type Sink struct {
 	CreateTable   string `json:"create_table"`
 	IntegrationId string `json:"integration_id,omitempty"`
 }
-type SinkItem struct {
-	Columns       []Column       `json:"columns"`
+type SinkOut struct {
+	Columns       []ColumnOut    `json:"columns"`
 	CreateTable   string         `json:"create_table"`
 	IntegrationId string         `json:"integration_id,omitempty"`
 	Options       map[string]any `json:"options"`
