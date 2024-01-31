@@ -99,49 +99,49 @@ type PositionOut struct {
 	LineNumber         int `json:"line_number"`
 }
 type ServiceFlinkCreateApplicationVersionIn struct {
-	Sinks     []Sink `json:"sinks"`
-	Sources   []Sink `json:"sources"`
-	Statement string `json:"statement"`
+	Sinks     []SinkIn   `json:"sinks"`
+	Sources   []SourceIn `json:"sources"`
+	Statement string     `json:"statement"`
 }
 type ServiceFlinkCreateApplicationVersionOut struct {
-	CreatedAt time.Time `json:"created_at"`
-	CreatedBy string    `json:"created_by"`
-	Id        string    `json:"id"`
-	Sinks     []SinkOut `json:"sinks"`
-	Sources   []SinkOut `json:"sources"`
-	Statement string    `json:"statement"`
-	Version   int       `json:"version"`
+	CreatedAt time.Time   `json:"created_at"`
+	CreatedBy string      `json:"created_by"`
+	Id        string      `json:"id"`
+	Sinks     []SinkOut   `json:"sinks"`
+	Sources   []SourceOut `json:"sources"`
+	Statement string      `json:"statement"`
+	Version   int         `json:"version"`
 }
 type ServiceFlinkDeleteApplicationVersionOut struct {
-	CreatedAt time.Time `json:"created_at"`
-	CreatedBy string    `json:"created_by"`
-	Id        string    `json:"id"`
-	Sinks     []SinkOut `json:"sinks"`
-	Sources   []SinkOut `json:"sources"`
-	Statement string    `json:"statement"`
-	Version   int       `json:"version"`
+	CreatedAt time.Time   `json:"created_at"`
+	CreatedBy string      `json:"created_by"`
+	Id        string      `json:"id"`
+	Sinks     []SinkOut   `json:"sinks"`
+	Sources   []SourceOut `json:"sources"`
+	Statement string      `json:"statement"`
+	Version   int         `json:"version"`
 }
 type ServiceFlinkGetApplicationVersionOut struct {
-	CreatedAt time.Time `json:"created_at"`
-	CreatedBy string    `json:"created_by"`
-	Id        string    `json:"id"`
-	Sinks     []SinkOut `json:"sinks"`
-	Sources   []SinkOut `json:"sources"`
-	Statement string    `json:"statement"`
-	Version   int       `json:"version"`
+	CreatedAt time.Time   `json:"created_at"`
+	CreatedBy string      `json:"created_by"`
+	Id        string      `json:"id"`
+	Sinks     []SinkOut   `json:"sinks"`
+	Sources   []SourceOut `json:"sources"`
+	Statement string      `json:"statement"`
+	Version   int         `json:"version"`
 }
 type ServiceFlinkValidateApplicationVersionIn struct {
-	Sinks     []Sink `json:"sinks"`
-	Sources   []Sink `json:"sources"`
-	Statement string `json:"statement,omitempty"`
+	Sinks     []SinkIn   `json:"sinks"`
+	Sources   []SourceIn `json:"sources"`
+	Statement string     `json:"statement,omitempty"`
 }
 type ServiceFlinkValidateApplicationVersionOut struct {
-	Sinks          []SinkOutItem      `json:"sinks"`
-	Sources        []SinkOutItem      `json:"sources"`
+	Sinks          []SinkOutAlt       `json:"sinks"`
+	Sources        []SourceOutAlt     `json:"sources"`
 	Statement      string             `json:"statement,omitempty"`
 	StatementError *StatementErrorOut `json:"statement_error,omitempty"`
 }
-type Sink struct {
+type SinkIn struct {
 	CreateTable   string `json:"create_table"`
 	IntegrationId string `json:"integration_id,omitempty"`
 }
@@ -153,7 +153,28 @@ type SinkOut struct {
 	TableId       string         `json:"table_id"`
 	TableName     string         `json:"table_name"`
 }
-type SinkOutItem struct {
+type SinkOutAlt struct {
+	Columns       []ColumnOut    `json:"columns,omitempty"`
+	CreateTable   string         `json:"create_table"`
+	IntegrationId string         `json:"integration_id,omitempty"`
+	Message       string         `json:"message,omitempty"`
+	Options       map[string]any `json:"options,omitempty"`
+	Position      *PositionOut   `json:"position,omitempty"`
+	TableName     string         `json:"table_name,omitempty"`
+}
+type SourceIn struct {
+	CreateTable   string `json:"create_table"`
+	IntegrationId string `json:"integration_id,omitempty"`
+}
+type SourceOut struct {
+	Columns       []ColumnOut    `json:"columns"`
+	CreateTable   string         `json:"create_table"`
+	IntegrationId string         `json:"integration_id,omitempty"`
+	Options       map[string]any `json:"options"`
+	TableId       string         `json:"table_id"`
+	TableName     string         `json:"table_name"`
+}
+type SourceOutAlt struct {
 	Columns       []ColumnOut    `json:"columns,omitempty"`
 	CreateTable   string         `json:"create_table"`
 	IntegrationId string         `json:"integration_id,omitempty"`

@@ -35,26 +35,6 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUpdate
 	OrganizationUpdate(ctx context.Context, organizationId string, in *OrganizationUpdateIn) (*OrganizationUpdateOut, error)
 
-	// OrganizationUserInvitationAccept accept a user invitation to the organization
-	// POST /organization/{organization_id}/invitation/{user_email}
-	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationAccept
-	OrganizationUserInvitationAccept(ctx context.Context, organizationId string, userEmail string, in *OrganizationUserInvitationAcceptIn) error
-
-	// OrganizationUserInvitationDelete remove an invitation to the organization
-	// DELETE /organization/{organization_id}/invitation/{user_email}
-	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationDelete
-	OrganizationUserInvitationDelete(ctx context.Context, organizationId string, userEmail string) error
-
-	// OrganizationUserInvitationsList list user invitations to the organization
-	// GET /organization/{organization_id}/invitation
-	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationsList
-	OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]InvitationOut, error)
-
-	// OrganizationUserInvite invite a user to the organization
-	// POST /organization/{organization_id}/invitation
-	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvite
-	OrganizationUserInvite(ctx context.Context, organizationId string, in *OrganizationUserInviteIn) error
-
 	// UserOrganizationCreate create an organization
 	// POST /organizations
 	// https://api.aiven.io/doc/#tag/Organizations/operation/UserOrganizationCreate
@@ -63,7 +43,7 @@ type Handler interface {
 	// UserOrganizationsList list organizations the user belongs to
 	// GET /organizations
 	// https://api.aiven.io/doc/#tag/Organizations/operation/UserOrganizationsList
-	UserOrganizationsList(ctx context.Context) ([]OrganizationGetOut, error)
+	UserOrganizationsList(ctx context.Context) ([]OrganizationOut, error)
 }
 
 func NewHandler(doer doer) OrganizationHandler {
@@ -128,31 +108,6 @@ func (h *OrganizationHandler) OrganizationUpdate(ctx context.Context, organizati
 	}
 	return out, nil
 }
-func (h *OrganizationHandler) OrganizationUserInvitationAccept(ctx context.Context, organizationId string, userEmail string, in *OrganizationUserInvitationAcceptIn) error {
-	path := fmt.Sprintf("/organization/%s/invitation/%s", organizationId, userEmail)
-	_, err := h.doer.Do(ctx, "OrganizationUserInvitationAccept", "POST", path, in)
-	return err
-}
-func (h *OrganizationHandler) OrganizationUserInvitationDelete(ctx context.Context, organizationId string, userEmail string) error {
-	path := fmt.Sprintf("/organization/%s/invitation/%s", organizationId, userEmail)
-	_, err := h.doer.Do(ctx, "OrganizationUserInvitationDelete", "DELETE", path, nil)
-	return err
-}
-func (h *OrganizationHandler) OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]InvitationOut, error) {
-	path := fmt.Sprintf("/organization/%s/invitation", organizationId)
-	b, err := h.doer.Do(ctx, "OrganizationUserInvitationsList", "GET", path, nil)
-	out := new(OrganizationUserInvitationsListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Invitations, nil
-}
-func (h *OrganizationHandler) OrganizationUserInvite(ctx context.Context, organizationId string, in *OrganizationUserInviteIn) error {
-	path := fmt.Sprintf("/organization/%s/invitation", organizationId)
-	_, err := h.doer.Do(ctx, "OrganizationUserInvite", "POST", path, in)
-	return err
-}
 func (h *OrganizationHandler) UserOrganizationCreate(ctx context.Context, in *UserOrganizationCreateIn) (*UserOrganizationCreateOut, error) {
 	path := fmt.Sprintf("/organizations")
 	b, err := h.doer.Do(ctx, "UserOrganizationCreate", "POST", path, in)
@@ -163,43 +118,16 @@ func (h *OrganizationHandler) UserOrganizationCreate(ctx context.Context, in *Us
 	}
 	return out, nil
 }
-func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]OrganizationGetOut, error) {
+func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]OrganizationOut, error) {
 	path := fmt.Sprintf("/organizations")
 	b, err := h.doer.Do(ctx, "UserOrganizationsList", "GET", path, nil)
-	out := new(UserOrganizationsListOut)
+	out := new(userOrganizationsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Organizations, nil
 }
-
-type ActionType string
-
-const (
-	ActionTypeAccept ActionType = "accept"
-)
-
-func ActionTypeChoices() []string {
-	return []string{"accept"}
-}
-
-type BillingCurrencyType string
-
-const (
-	BillingCurrencyTypeAud BillingCurrencyType = "AUD"
-	BillingCurrencyTypeCad BillingCurrencyType = "CAD"
-	BillingCurrencyTypeChf BillingCurrencyType = "CHF"
-	BillingCurrencyTypeDkk BillingCurrencyType = "DKK"
-	BillingCurrencyTypeEur BillingCurrencyType = "EUR"
-	BillingCurrencyTypeGbp BillingCurrencyType = "GBP"
-	BillingCurrencyTypeJpy BillingCurrencyType = "JPY"
-	BillingCurrencyTypeNok BillingCurrencyType = "NOK"
-	BillingCurrencyTypeNzd BillingCurrencyType = "NZD"
-	BillingCurrencyTypeSek BillingCurrencyType = "SEK"
-	BillingCurrencyTypeSgd BillingCurrencyType = "SGD"
-	BillingCurrencyTypeUsd BillingCurrencyType = "USD"
-)
 
 type BillingEmailOut struct {
 	Email string `json:"email"`
@@ -221,12 +149,6 @@ type ElasticsearchOut struct {
 }
 type EndOfLifeExtensionOut struct {
 	Elasticsearch *ElasticsearchOut `json:"elasticsearch,omitempty"`
-}
-type InvitationOut struct {
-	CreateTime time.Time `json:"create_time"`
-	ExpiryTime time.Time `json:"expiry_time"`
-	InvitedBy  string    `json:"invited_by"`
-	UserEmail  string    `json:"user_email"`
 }
 type OrganizationAuthenticationConfigGetOut struct {
 	OauthEnabled        *bool `json:"oauth_enabled,omitempty"`
@@ -251,7 +173,15 @@ type OrganizationGetOut struct {
 	CreateTime       time.Time `json:"create_time"`
 	OrganizationId   string    `json:"organization_id"`
 	OrganizationName string    `json:"organization_name"`
-	Tier             TierType  `json:"tier"`
+	Tier             string    `json:"tier"`
+	UpdateTime       time.Time `json:"update_time"`
+}
+type OrganizationOut struct {
+	AccountId        string    `json:"account_id"`
+	CreateTime       time.Time `json:"create_time"`
+	OrganizationId   string    `json:"organization_id"`
+	OrganizationName string    `json:"organization_name"`
+	Tier             string    `json:"tier"`
 	UpdateTime       time.Time `json:"update_time"`
 }
 type OrganizationProjectsListOut struct {
@@ -260,24 +190,15 @@ type OrganizationProjectsListOut struct {
 }
 type OrganizationUpdateIn struct {
 	Name string   `json:"name,omitempty"`
-	Tier TierType `json:"tier"`
+	Tier TierType `json:"tier,omitempty"`
 }
 type OrganizationUpdateOut struct {
 	AccountId        string    `json:"account_id"`
 	CreateTime       time.Time `json:"create_time"`
 	OrganizationId   string    `json:"organization_id"`
 	OrganizationName string    `json:"organization_name"`
-	Tier             TierType  `json:"tier"`
+	Tier             string    `json:"tier"`
 	UpdateTime       time.Time `json:"update_time"`
-}
-type OrganizationUserInvitationAcceptIn struct {
-	Action ActionType `json:"action,omitempty"`
-}
-type OrganizationUserInvitationsListOut struct {
-	Invitations []InvitationOut `json:"invitations"`
-}
-type OrganizationUserInviteIn struct {
-	UserEmail string `json:"user_email"`
 }
 type ProjectOut struct {
 	AccountId             string                 `json:"account_id"`
@@ -285,7 +206,7 @@ type ProjectOut struct {
 	AddressLines          []string               `json:"address_lines,omitempty"`
 	AvailableCredits      string                 `json:"available_credits,omitempty"`
 	BillingAddress        string                 `json:"billing_address"`
-	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`
+	BillingCurrency       string                 `json:"billing_currency,omitempty"`
 	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
 	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
 	BillingGroupId        string                 `json:"billing_group_id"`
@@ -305,11 +226,14 @@ type ProjectOut struct {
 	ProjectName           string                 `json:"project_name"`
 	State                 string                 `json:"state,omitempty"`
 	Tags                  map[string]string      `json:"tags,omitempty"`
-	TechEmails            []BillingEmailOut      `json:"tech_emails,omitempty"`
+	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
 	TenantId              string                 `json:"tenant_id,omitempty"`
 	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
 	VatId                 string                 `json:"vat_id"`
 	ZipCode               string                 `json:"zip_code,omitempty"`
+}
+type TechEmailOut struct {
+	Email string `json:"email"`
 }
 type TierType string
 
@@ -317,6 +241,10 @@ const (
 	TierTypeBusiness TierType = "business"
 	TierTypePersonal TierType = "personal"
 )
+
+func TierTypeChoices() []string {
+	return []string{"business", "personal"}
+}
 
 type UserOrganizationCreateIn struct {
 	OrganizationName      string   `json:"organization_name"`
@@ -328,9 +256,9 @@ type UserOrganizationCreateOut struct {
 	CreateTime       time.Time `json:"create_time"`
 	OrganizationId   string    `json:"organization_id"`
 	OrganizationName string    `json:"organization_name"`
-	Tier             TierType  `json:"tier"`
+	Tier             string    `json:"tier"`
 	UpdateTime       time.Time `json:"update_time"`
 }
-type UserOrganizationsListOut struct {
-	Organizations []OrganizationGetOut `json:"organizations"`
+type userOrganizationsListOut struct {
+	Organizations []OrganizationOut `json:"organizations"`
 }

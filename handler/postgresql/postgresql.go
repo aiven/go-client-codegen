@@ -55,7 +55,7 @@ type PostgreSQLHandler struct {
 func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, project string, serviceName string) ([]ExtensionOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/pg/available-extensions", project, serviceName)
 	b, err := h.doer.Do(ctx, "PGServiceAvailableExtensions", "GET", path, nil)
-	out := new(PgserviceAvailableExtensionsOut)
+	out := new(pgserviceAvailableExtensionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, pr
 func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]QueryOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/pg/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "PGServiceQueryStatistics", "POST", path, in)
-	out := new(PgserviceQueryStatisticsOut)
+	out := new(pgserviceQueryStatisticsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, projec
 func (h *PostgreSQLHandler) PgAvailableExtensions(ctx context.Context, tenant string) ([]PgOut, error) {
 	path := fmt.Sprintf("/tenants/%s/pg-available-extensions", tenant)
 	b, err := h.doer.Do(ctx, "PgAvailableExtensions", "GET", path, nil)
-	out := new(PgAvailableExtensionsOut)
+	out := new(pgAvailableExtensionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -102,23 +102,14 @@ type ExtensionOut struct {
 	Name     string   `json:"name"`
 	Versions []string `json:"versions,omitempty"`
 }
-type PgAvailableExtensionsOut struct {
-	Pg []PgOut `json:"pg,omitempty"`
-}
 type PgOut struct {
 	Extensions []ExtensionOut `json:"extensions"`
 	Version    string         `json:"version"`
-}
-type PgserviceAvailableExtensionsOut struct {
-	Extensions []ExtensionOut `json:"extensions"`
 }
 type PgserviceQueryStatisticsIn struct {
 	Limit   *int   `json:"limit,omitempty"`
 	Offset  *int   `json:"offset,omitempty"`
 	OrderBy string `json:"order_by,omitempty"`
-}
-type PgserviceQueryStatisticsOut struct {
-	Queries []QueryOut `json:"queries"`
 }
 type PoolModeType string
 
@@ -182,4 +173,13 @@ type ServicePgbouncerUpdateIn struct {
 	PoolMode PoolModeType `json:"pool_mode,omitempty"`
 	PoolSize *int         `json:"pool_size,omitempty"`
 	Username string       `json:"username,omitempty"`
+}
+type pgAvailableExtensionsOut struct {
+	Pg []PgOut `json:"pg,omitempty"`
+}
+type pgserviceAvailableExtensionsOut struct {
+	Extensions []ExtensionOut `json:"extensions"`
+}
+type pgserviceQueryStatisticsOut struct {
+	Queries []QueryOut `json:"queries"`
 }

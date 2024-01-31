@@ -18,7 +18,7 @@ type Handler interface {
 	// AccountTeamMemberVerifyInvite confirm account team invite
 	// POST /account/{account_id}/invite/{invite_verification_code}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberVerifyInvite
-	AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*InviteDetailsOut, error)
+	AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*AccountTeamMemberVerifyInviteOut, error)
 
 	// AccountTeamMembersInvite invite a new member to join the team
 	// POST /account/{account_id}/team/{team_id}/members
@@ -48,10 +48,10 @@ func (h *AccountTeamMemberHandler) AccountTeamMemberCancelInvite(ctx context.Con
 	_, err := h.doer.Do(ctx, "AccountTeamMemberCancelInvite", "DELETE", path, nil)
 	return err
 }
-func (h *AccountTeamMemberHandler) AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*InviteDetailsOut, error) {
+func (h *AccountTeamMemberHandler) AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*AccountTeamMemberVerifyInviteOut, error) {
 	path := fmt.Sprintf("/account/%s/invite/%s", accountId, inviteVerificationCode)
 	b, err := h.doer.Do(ctx, "AccountTeamMemberVerifyInvite", "POST", path, nil)
-	out := new(AccountTeamMemberVerifyInviteOut)
+	out := new(accountTeamMemberVerifyInviteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (h *AccountTeamMemberHandler) AccountTeamMembersInvite(ctx context.Context,
 func (h *AccountTeamMemberHandler) AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error) {
 	path := fmt.Sprintf("/account/%s/team/%s/members", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamMembersList", "GET", path, nil)
-	out := new(AccountTeamMembersListOut)
+	out := new(accountTeamMembersListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -75,16 +75,10 @@ func (h *AccountTeamMemberHandler) AccountTeamMembersList(ctx context.Context, a
 }
 
 type AccountTeamMemberVerifyInviteOut struct {
-	InviteDetails InviteDetailsOut `json:"invite_details"`
+	UserEmail string `json:"user_email"`
 }
 type AccountTeamMembersInviteIn struct {
 	Email string `json:"email"`
-}
-type AccountTeamMembersListOut struct {
-	Members []MemberOut `json:"members"`
-}
-type InviteDetailsOut struct {
-	UserEmail string `json:"user_email"`
 }
 type MemberOut struct {
 	CreateTime time.Time `json:"create_time"`
@@ -94,4 +88,10 @@ type MemberOut struct {
 	UpdateTime time.Time `json:"update_time"`
 	UserEmail  string    `json:"user_email"`
 	UserId     string    `json:"user_id"`
+}
+type accountTeamMemberVerifyInviteOut struct {
+	InviteDetails AccountTeamMemberVerifyInviteOut `json:"invite_details"`
+}
+type accountTeamMembersListOut struct {
+	Members []MemberOut `json:"members"`
 }

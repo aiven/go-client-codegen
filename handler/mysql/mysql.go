@@ -30,7 +30,7 @@ type MySQLHandler struct {
 func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]QueryOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mysql/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "MySQLServiceQueryStatistics", "POST", path, in)
-	out := new(MySqlserviceQueryStatisticsOut)
+	out := new(mySqlserviceQueryStatisticsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -42,9 +42,6 @@ type MySqlserviceQueryStatisticsIn struct {
 	Limit   *int   `json:"limit,omitempty"`
 	Offset  *int   `json:"offset,omitempty"`
 	OrderBy string `json:"order_by,omitempty"`
-}
-type MySqlserviceQueryStatisticsOut struct {
-	Queries []QueryOut `json:"queries"`
 }
 type QueryOut struct {
 	AvgTimerWait            *float64 `json:"avg_timer_wait,omitempty"`
@@ -82,4 +79,7 @@ type QueryOut struct {
 	SumSortScan             *float64 `json:"sum_sort_scan,omitempty"`
 	SumTimerWait            *float64 `json:"sum_timer_wait,omitempty"`
 	SumWarnings             *float64 `json:"sum_warnings,omitempty"`
+}
+type mySqlserviceQueryStatisticsOut struct {
+	Queries []QueryOut `json:"queries"`
 }

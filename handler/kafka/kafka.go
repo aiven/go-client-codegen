@@ -37,7 +37,7 @@ type Handler interface {
 	// ServiceKafkaQuotaDescribe describe Specific Kafka quotas
 	// GET /project/{project}/service/{service_name}/quota/describe
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaQuotaDescribe
-	ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string) (*QuotaOut, error)
+	ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string) (*ServiceKafkaQuotaDescribeOut, error)
 
 	// ServiceKafkaQuotaList list Kafka quotas
 	// GET /project/{project}/service/{service_name}/quota
@@ -75,7 +75,7 @@ type KafkaHandler struct {
 func (h *KafkaHandler) ServiceKafkaAclAdd(ctx context.Context, project string, serviceName string, in *ServiceKafkaAclAddIn) ([]AclOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclAdd", "POST", path, in)
-	out := new(ServiceKafkaAclAddOut)
+	out := new(serviceKafkaAclAddOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -85,7 +85,7 @@ func (h *KafkaHandler) ServiceKafkaAclAdd(ctx context.Context, project string, s
 func (h *KafkaHandler) ServiceKafkaAclDelete(ctx context.Context, project string, serviceName string, kafkaAclId string) ([]AclOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/acl/%s", project, serviceName, kafkaAclId)
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclDelete", "DELETE", path, nil)
-	out := new(ServiceKafkaAclDeleteOut)
+	out := new(serviceKafkaAclDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -95,7 +95,7 @@ func (h *KafkaHandler) ServiceKafkaAclDelete(ctx context.Context, project string
 func (h *KafkaHandler) ServiceKafkaAclList(ctx context.Context, project string, serviceName string) ([]AclOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclList", "GET", path, nil)
-	out := new(ServiceKafkaAclListOut)
+	out := new(serviceKafkaAclListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -112,10 +112,10 @@ func (h *KafkaHandler) ServiceKafkaQuotaDelete(ctx context.Context, project stri
 	_, err := h.doer.Do(ctx, "ServiceKafkaQuotaDelete", "DELETE", path, nil)
 	return err
 }
-func (h *KafkaHandler) ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string) (*QuotaOut, error) {
+func (h *KafkaHandler) ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string) (*ServiceKafkaQuotaDescribeOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/quota/describe", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaQuotaDescribe", "GET", path, nil)
-	out := new(ServiceKafkaQuotaDescribeOut)
+	out := new(serviceKafkaQuotaDescribeOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -125,7 +125,7 @@ func (h *KafkaHandler) ServiceKafkaQuotaDescribe(ctx context.Context, project st
 func (h *KafkaHandler) ServiceKafkaQuotaList(ctx context.Context, project string, serviceName string) ([]QuotaOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/quota", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaQuotaList", "GET", path, nil)
-	out := new(ServiceKafkaQuotaListOut)
+	out := new(serviceKafkaQuotaListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -135,7 +135,7 @@ func (h *KafkaHandler) ServiceKafkaQuotaList(ctx context.Context, project string
 func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageByTopic(ctx context.Context, project string, serviceName string) (map[string]any, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/tiered-storage/storage-usage/by-topic", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTieredStorageStorageUsageByTopic", "GET", path, nil)
-	out := new(ServiceKafkaTieredStorageStorageUsageByTopicOut)
+	out := new(serviceKafkaTieredStorageStorageUsageByTopicOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -145,7 +145,7 @@ func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageByTopic(ctx context.
 func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageTotal(ctx context.Context, project string, serviceName string) (int, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/tiered-storage/storage-usage/total", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTieredStorageStorageUsageTotal", "GET", path, nil)
-	out := new(ServiceKafkaTieredStorageStorageUsageTotalOut)
+	out := new(serviceKafkaTieredStorageStorageUsageTotalOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return 0, err
@@ -164,10 +164,10 @@ func (h *KafkaHandler) ServiceKafkaTieredStorageSummary(ctx context.Context, pro
 }
 
 type AclOut struct {
-	Id         string         `json:"id,omitempty"`
-	Permission PermissionType `json:"permission"`
-	Topic      string         `json:"topic"`
-	Username   string         `json:"username"`
+	Id         string `json:"id,omitempty"`
+	Permission string `json:"permission"`
+	Topic      string `json:"topic"`
+	Username   string `json:"username"`
 }
 type HourlyOut struct {
 	EstimatedCost   string `json:"estimated_cost,omitempty"`
@@ -199,15 +199,6 @@ type ServiceKafkaAclAddIn struct {
 	Topic      string         `json:"topic"`
 	Username   string         `json:"username"`
 }
-type ServiceKafkaAclAddOut struct {
-	Acl []AclOut `json:"acl"`
-}
-type ServiceKafkaAclDeleteOut struct {
-	Acl []AclOut `json:"acl"`
-}
-type ServiceKafkaAclListOut struct {
-	Acl []AclOut `json:"acl"`
-}
 type ServiceKafkaQuotaCreateIn struct {
 	ClientId          string   `json:"client-id,omitempty"`
 	ConsumerByteRate  *float64 `json:"consumer_byte_rate,omitempty"`
@@ -216,16 +207,11 @@ type ServiceKafkaQuotaCreateIn struct {
 	User              string   `json:"user,omitempty"`
 }
 type ServiceKafkaQuotaDescribeOut struct {
-	Quota QuotaOut `json:"quota"`
-}
-type ServiceKafkaQuotaListOut struct {
-	Quotas []QuotaOut `json:"quotas"`
-}
-type ServiceKafkaTieredStorageStorageUsageByTopicOut struct {
-	StorageUsage map[string]any `json:"storage_usage"`
-}
-type ServiceKafkaTieredStorageStorageUsageTotalOut struct {
-	TotalStorageUsage int `json:"total_storage_usage"`
+	ClientId          string  `json:"client-id,omitempty"`
+	ConsumerByteRate  float64 `json:"consumer_byte_rate"`
+	ProducerByteRate  float64 `json:"producer_byte_rate"`
+	RequestPercentage float64 `json:"request_percentage"`
+	User              string  `json:"user"`
 }
 type ServiceKafkaTieredStorageSummaryOut struct {
 	CurrentCost         string                 `json:"current_cost"`
@@ -235,4 +221,25 @@ type ServiceKafkaTieredStorageSummaryOut struct {
 }
 type StorageUsageHistoryOut struct {
 	Hourly []HourlyOut `json:"hourly"`
+}
+type serviceKafkaAclAddOut struct {
+	Acl []AclOut `json:"acl"`
+}
+type serviceKafkaAclDeleteOut struct {
+	Acl []AclOut `json:"acl"`
+}
+type serviceKafkaAclListOut struct {
+	Acl []AclOut `json:"acl"`
+}
+type serviceKafkaQuotaDescribeOut struct {
+	Quota ServiceKafkaQuotaDescribeOut `json:"quota"`
+}
+type serviceKafkaQuotaListOut struct {
+	Quotas []QuotaOut `json:"quotas"`
+}
+type serviceKafkaTieredStorageStorageUsageByTopicOut struct {
+	StorageUsage map[string]any `json:"storage_usage"`
+}
+type serviceKafkaTieredStorageStorageUsageTotalOut struct {
+	TotalStorageUsage int `json:"total_storage_usage"`
 }

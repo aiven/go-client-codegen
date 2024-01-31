@@ -86,7 +86,7 @@ func (h *UserGroupHandler) UserGroupGet(ctx context.Context, organizationId stri
 func (h *UserGroupHandler) UserGroupMemberList(ctx context.Context, organizationId string, userGroupId string) ([]MemberOut, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups/%s/members", organizationId, userGroupId)
 	b, err := h.doer.Do(ctx, "UserGroupMemberList", "GET", path, nil)
-	out := new(UserGroupMemberListOut)
+	out := new(userGroupMemberListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -111,7 +111,7 @@ func (h *UserGroupHandler) UserGroupUpdate(ctx context.Context, organizationId s
 func (h *UserGroupHandler) UserGroupsList(ctx context.Context, organizationId string) ([]UserGroupOut, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups", organizationId)
 	b, err := h.doer.Do(ctx, "UserGroupsList", "GET", path, nil)
-	out := new(UserGroupsListOut)
+	out := new(userGroupsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -153,9 +153,6 @@ type UserGroupGetOut struct {
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
 }
-type UserGroupMemberListOut struct {
-	Members []MemberOut `json:"members"`
-}
 type UserGroupMembersUpdateIn struct {
 	MemberIds []string      `json:"member_ids"`
 	Operation OperationType `json:"operation"`
@@ -179,9 +176,6 @@ type UserGroupUpdateOut struct {
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
 }
-type UserGroupsListOut struct {
-	UserGroups []UserGroupOut `json:"user_groups"`
-}
 type UserInfoOut struct {
 	City                   string    `json:"city,omitempty"`
 	Country                string    `json:"country,omitempty"`
@@ -194,4 +188,10 @@ type UserInfoOut struct {
 	RealName               string    `json:"real_name"`
 	State                  string    `json:"state"`
 	UserEmail              string    `json:"user_email"`
+}
+type userGroupMemberListOut struct {
+	Members []MemberOut `json:"members"`
+}
+type userGroupsListOut struct {
+	UserGroups []UserGroupOut `json:"user_groups"`
 }

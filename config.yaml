@@ -162,10 +162,6 @@ Organization:
   - OrganizationGet
   - OrganizationProjectsList
   - OrganizationUpdate
-  - OrganizationUserInvitationAccept
-  - OrganizationUserInvitationDelete
-  - OrganizationUserInvitationsList
-  - OrganizationUserInvite
   - UserOrganizationCreate
   - UserOrganizationsList
 PostgreSQL:
@@ -284,6 +280,20 @@ StaticIP:
   - PublicStaticIPAvailabilityList
   - StaticIPCreate
   - StaticIPList
+OrganizationUser:
+  - OrganizationUserAuthenticationMethodsList
+  - OrganizationUserDelete
+  - OrganizationUserGet
+  - OrganizationUserInvitationAccept
+  - OrganizationUserInvitationDelete
+  - OrganizationUserInvitationsList
+  - OrganizationUserInvite
+  - OrganizationUserList
+  - OrganizationUserPasswordReset
+  - OrganizationUserRevokeToken
+  - OrganizationUserSet
+  - OrganizationUserTokensList
+  - OrganizationUserUpdate
 User:
   - AccessTokenCreate
   - AccessTokenList
@@ -292,15 +302,6 @@ User:
   - CheckPasswordStrengthExistingUser
   - CheckPasswordStrengthNewUser
   - OrganizationMemberGroupsList
-  - OrganizationUserAuthenticationMethodsList
-  - OrganizationUserDelete
-  - OrganizationUserGet
-  - OrganizationUserList
-  - OrganizationUserPasswordReset
-  - OrganizationUserRevokeToken
-  - OrganizationUserSet
-  - OrganizationUserTokensList
-  - OrganizationUserUpdate
   - TwoFactorAuthConfigure
   - TwoFactorAuthConfigureOTP
   - UserAccountInvitesAccept

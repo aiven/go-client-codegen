@@ -15,6 +15,7 @@ import (
 	"github.com/dave/jennifer/jen"
 	"github.com/iancoleman/strcase"
 	"github.com/kelseyhightower/envconfig"
+	"golang.org/x/exp/maps"
 	"gopkg.in/yaml.v3"
 )
 
@@ -166,22 +167,23 @@ func exec() error {
 		file.Type().Id(handlerName).Struct(jen.Id(doerName).Id(doerName))
 		typeMethods := make([]jen.Code, len(paths))
 		for _, path := range paths {
-			schemas := make([]*Schema, 0)
-			params := make([]jen.Code, 0, len(path.Parameters))
-			params = append(params, ctx)
-			for _, p := range path.Parameters {
-				p.Schema.required = true
-				p.Schema.init(doc, scope, pkg, p.Name)
-				schemas = append(schemas, p.Schema)
-				param := jen.Id(strcase.ToLowerCamel(p.Schema.camelName)).Add(getType(p.Schema))
-				params = append(params, param)
-			}
-
 			// todo: support 204
 			out := path.Out.OK.Content["application/json"]
 			if out == nil && path.Out.NoContent.Content == nil {
 				log.Printf("%q has no json response. Skipping", path.OperationID)
 				continue
+			}
+
+			schemas := make([]*Schema, 0)
+			params := make([]jen.Code, 0, len(path.Parameters))
+			params = append(params, ctx)
+			for _, p := range path.Parameters {
+				p.Schema.in = true
+				p.Schema.required = true
+				p.Schema.init(doc, scope, p.Name)
+				schemas = append(schemas, p.Schema)
+				param := jen.Id(strcase.ToLowerCamel(p.Schema.CamelName)).Add(getType(p.Schema))
+				params = append(params, param)
 			}
 
 			in := path.In.Content["application/json"]
@@ -191,9 +193,9 @@ func exec() error {
 					return err
 				}
 				schemaIn.in = true
-				schemaIn.init(doc, scope, "", path.FuncName+"In")
+				schemaIn.init(doc, scope, path.FuncName)
 				schemas = append(schemas, schemaIn)
-				params = append(params, jen.Id("in").Id("*"+schemaIn.camelName))
+				params = append(params, jen.Id("in").Id("*"+schemaIn.CamelName))
 			}
 
 			typeMeth := jen.Id(path.FuncName).Params(params...)
@@ -206,7 +208,7 @@ func exec() error {
 					return err
 				}
 				schemaOut.out = true
-				schemaOut.init(doc, scope, "", path.FuncName)
+				schemaOut.init(doc, scope, path.FuncName)
 				rsp = getResponse(schemaOut)
 			}
 
@@ -217,7 +219,7 @@ func exec() error {
 				ret := jen.List(getType(rsp), jen.Error())
 				if forcePointer {
 					// foo() (*Foo, err)
-					ret = jen.List(jen.Id("*"+rsp.camelName), jen.Error())
+					ret = jen.List(jen.Id("*"+rsp.CamelName), jen.Error())
 				}
 				typeMeth.Parens(ret)
 				structMeth.Parens(ret)
@@ -248,7 +250,7 @@ func exec() error {
 					inObj = jen.Id("in")
 					continue
 				}
-				urlParams = append(urlParams, jen.Id(strcase.ToLowerCamel(s.camelName)))
+				urlParams = append(urlParams, jen.Id(strcase.ToLowerCamel(s.CamelName)))
 			}
 
 			outObj := jen.Id("_")
@@ -286,9 +288,9 @@ func exec() error {
 				block = append(block, jen.Return(jen.Err()))
 			} else {
 				outReturn := jen.Id("out")
-				if rsp.camelName != schemaOut.camelName {
+				if rsp.CamelName != schemaOut.CamelName {
 					// Takes original name and turns to camel.
-					// "camelName" field might have been modified because of name collisions
+					// "CamelName" field might have been modified because of name collisions
 					outReturn.Dot(strcase.ToCamel(rsp.name))
 
 					if forcePointer {
@@ -299,7 +301,7 @@ func exec() error {
 
 				block = append(
 					block,
-					jen.Id("out").Op(":=").New(jen.Id(schemaOut.camelName)),
+					jen.Id("out").Op(":=").New(jen.Id(schemaOut.CamelName)),
 					jen.Err().Op("=").Qual("encoding/json", "Unmarshal").Call(jen.Id("b"), jen.Id("out")),
 					jen.If(jen.Err().Op("!=").Nil()).Block(returnErr),
 					jen.Return(outReturn, jen.Nil()),
@@ -309,8 +311,12 @@ func exec() error {
 			file.Add(structMeth.Block(block...))
 		}
 
-		for _, k := range sortedKeys(scope) {
-			err = writeStruct(file, scope[k])
+		scopeValues := maps.Values(scope)
+		sort.Slice(scopeValues, func(i, j int) bool {
+			return scopeValues[i].CamelName < scopeValues[j].CamelName
+		})
+		for _, v := range scopeValues {
+			err = writeStruct(file, v)
 			if err != nil {
 				return err
 			}
@@ -355,28 +361,28 @@ func writeStruct(f *jen.File, s *Schema) error {
 
 	if s.isEnum() {
 		kind := getScalarType(s)
-		o := f.Type().Id(s.camelName)
+		o := f.Type().Id(s.CamelName)
 		o.Add(kind)
-		enums := make([]jen.Code, len(s.Enum))
-		values := make([]jen.Code, len(s.Enum))
+		enums := make([]jen.Code, 0)
+		values := make([]jen.Code, 0)
 		for _, e := range s.Enum {
 			literal := fmt.Sprint(e)
 			if !reMakesSense.MatchString(literal) {
 				continue
 			}
 
-			constant := s.camelName + strcase.ToCamel(literal)
+			constant := s.CamelName + strcase.ToCamel(literal)
 
 			// KafkaMirror ReplicationPolicyClassType makes bad generated name
 			if strings.HasPrefix(literal, "org.apache.kafka.connect.mirror.") {
-				constant = s.camelName + literal[32:len(literal)-17]
+				constant = s.CamelName + literal[32:len(literal)-17]
 			}
 
 			// OpenSearch HealthType has value "red*"
 			if strings.HasSuffix(literal, "*") {
 				constant += "Asterisk"
 			}
-			enums = append(enums, jen.Id(constant).Op(s.camelName).Op("=").Lit(literal))
+			enums = append(enums, jen.Id(constant).Op(s.CamelName).Op("=").Lit(literal))
 			values = append(values, jen.Lit(literal))
 		}
 
@@ -387,7 +393,7 @@ func writeStruct(f *jen.File, s *Schema) error {
 		o.Line().Const().Defs(enums...)
 
 		if !s.isOut() {
-			o.Line().Func().Id(s.camelName + "Choices").Params().Index().Add(kind).Block(
+			o.Line().Func().Id(s.CamelName + "Choices").Params().Index().Add(kind).Block(
 				jen.Return(jen.Index().Add(kind).Values(values...)),
 			)
 		}
@@ -406,7 +412,7 @@ func writeStruct(f *jen.File, s *Schema) error {
 		fields = append(fields, field)
 	}
 
-	f.Type().Id(s.camelName).Struct(fields...)
+	f.Type().Id(s.CamelName).Struct(fields...)
 	return nil
 }
 

@@ -5,7 +5,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"slices"
 	"sort"
 	"strings"
 
@@ -115,16 +114,15 @@ type Schema struct {
 	Default       any                `json:"default"`
 	MinItems      int                `json:"minItems"`
 	Ref           string             `json:"$ref"`
+	CamelName     string             `json:"for-hash-only!"`
 	required      bool
-	hash          string
 	name          string
-	camelName     string
 	propertyNames []string
 	parent        *Schema
 	in, out       bool // Request or Response DTO
 }
 
-func (s *Schema) init(doc *Doc, scope map[string]*Schema, prefix, name string) {
+func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 	if s.Ref != "" {
 		other, err := doc.getSchema(s.Ref)
 		if err != nil {
@@ -140,65 +138,42 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, prefix, name string) {
 		}
 	}
 
+	// Removes fields that are managed by the client,
+	// and converted to a golang err object.
+	// We don't need to expose them in DTO
 	if s.out {
 		delete(s.Properties, "errors")
 		delete(s.Properties, "message")
 	}
 
 	s.name = name
-	s.camelName = strcase.ToCamel(s.name)
-
+	s.CamelName = strcase.ToCamel(s.name)
 	if s.isEnum() {
-		if !strings.HasSuffix(s.camelName, "Type") {
-			s.camelName += "Type"
+		if !strings.HasSuffix(s.CamelName, "Type") {
+			s.CamelName += "Type"
+		}
+
+		// When it is just "Type" it is useless
+		if s.CamelName == "Type" {
+			s.CamelName = s.parent.CamelName + s.CamelName
 		}
 	}
 
-	if s.isObject() && s.isOut() {
-		s.camelName += "Out"
-	}
-
-	s.hash = mustMarshal(s)
-	if s.isObject() || s.isEnum() {
-		for _, k := range sortedKeys(scope) {
-			other := scope[k]
-			if s.parent == nil {
-				break
-			}
-
-			if s.hash == other.hash {
-				// fixme: need some "deep copy" here
-				*s = *other
-				// Must preserve the name, because this is how the parent field is called
-				s.name = name
-				return
-			}
-
-			if s.camelName != other.camelName {
-				continue
-			}
-
-			parent := s.parent
-			if parent.isArray() {
-				parent = parent.parent
-				if !strings.HasSuffix(s.camelName, "Item") {
-					s.camelName += "Item"
-					continue
-				}
-			}
-
-			s.camelName = parent.camelName + s.camelName
-			if s.isOut() {
-				s.camelName = strings.ReplaceAll(s.camelName, "Out", "")
-			}
+	if s.isObject() {
+		switch {
+		case s.isIn():
+			s.CamelName += "In"
+		case s.isOut():
+			s.CamelName += "Out"
 		}
-		scope[s.camelName] = s
 	}
 
-	if s.isArray() {
-		s.Items.parent = s
-		s.Items.required = true // a workaround to not have slices with pointers
-		s.Items.init(doc, scope, s.camelName, toSingle(name))
+	if s.isPrivate() {
+		s.CamelName = lowerFirst(s.CamelName)
+	}
+
+	if s.parent != nil && s.parent.isPrivate() {
+		s.CamelName = strcase.ToCamel(s.parent.CamelName)
 	}
 
 	if s.Type == SchemaTypeString {
@@ -209,24 +184,63 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, prefix, name string) {
 		}
 	}
 
-	s.propertyNames = sortedKeys(s.Properties)
-	for _, k := range s.propertyNames {
-		p := s.Properties[k]
-		p.parent = s
-		p.init(doc, scope, s.camelName, k)
+	if s.isArray() {
+		s.Items.parent = s
+		s.Items.required = true // a workaround to not have slices with pointers
+		s.Items.init(doc, scope, toSingle(name))
 	}
 
-	// KafkaTopicConfig hacks.
-	// Because of deduplication in the scope, each field gets the first rendered type.
-	// For example, each int field becomes DeleteRetentionMs
-	if s.isObject() && slices.Equal(s.propertyNames, []string{"source", "synonyms", "value"}) {
-		p := s.Properties["value"]
-		if p.Enum == nil {
-			delete(scope, s.camelName)
-			s.camelName = "TopicConfig" + upperFirst(string(p.Type))
-			scope[s.camelName] = s
+	if s.isObject() {
+		s.propertyNames = sortedKeys(s.Properties)
+		for _, k := range s.propertyNames {
+			p := s.Properties[k]
+			p.parent = s
+			p.init(doc, scope, k)
 		}
 	}
+
+	if s.isObject() {
+		keys := sortedKeys(scope)
+	outer:
+		for len(keys) > 0 {
+			for _, k := range keys {
+				other := scope[k]
+				if other.hash() == s.hash() {
+					continue
+				}
+
+				// A duplicate
+				if other.CamelName == s.CamelName {
+					s.CamelName += "Alt"
+					continue outer
+				}
+			}
+			break outer
+		}
+		scope[s.hash()] = s
+	}
+
+	if s.isEnum() {
+		// Enums compared by enum list
+		// In case if they are equal, they must have the same name
+		other, ok := scope[s.hash()]
+		if ok {
+			s.CamelName = other.CamelName
+		} else {
+			scope[s.hash()] = s
+		}
+	}
+}
+
+func (s *Schema) isPrivate() bool {
+	return s.parent == nil && s.out && len(s.Properties) == 1
+}
+
+func (s *Schema) hash() string {
+	if s.isEnum() {
+		return mustMarshal(s.Enum)
+	}
+	return mustMarshal(s)
 }
 
 func (s *Schema) isObject() bool {
@@ -251,18 +265,22 @@ func (s *Schema) isMap() bool {
 }
 
 func (s *Schema) isEnum() bool {
-	return len(s.Enum) != 0
+	return len(s.Enum) != 0 && s.isIn()
+}
+
+func (s *Schema) root() *Schema {
+	if s.parent == nil {
+		return s
+	}
+	return s.parent.root()
+}
+
+func (s *Schema) isIn() bool {
+	return s.root().in
 }
 
 func (s *Schema) isOut() bool {
-	p := s.parent
-	for p != nil {
-		if p.out {
-			return true
-		}
-		p = p.parent
-	}
-	return s.out
+	return s.root().out
 }
 
 func getScalarType(s *Schema) *jen.Statement {
@@ -285,7 +303,7 @@ func getScalarType(s *Schema) *jen.Statement {
 // getType returns go type with/wo a pointer
 func getType(s *Schema) *jen.Statement {
 	if s.isEnum() {
-		return jen.Id(s.camelName)
+		return jen.Id(s.CamelName)
 	}
 
 	if s.isScalar() {
@@ -305,14 +323,14 @@ func getType(s *Schema) *jen.Statement {
 
 		// No pointers for complex objects
 		if s.Items.isObject() || s.Items.isArray() {
-			return a.Id(s.Items.camelName)
+			return a.Id(s.Items.CamelName)
 		}
 		return a.Add(getType(s.Items))
 	case s.isObject():
 		if !s.required {
-			return jen.Id("*" + s.camelName)
+			return jen.Id("*" + s.CamelName)
 		}
-		return jen.Id(s.camelName)
+		return jen.Id(s.CamelName)
 	case s.isMap():
 		a := jen.Map(jen.String())
 		if !(s.required || s.isOut()) {
@@ -328,10 +346,10 @@ func getType(s *Schema) *jen.Statement {
 	}
 }
 
-func mustMarshal(s *Schema) string {
+func mustMarshal(s any) string {
 	b, err := json.Marshal(s)
 	if err != nil {
-		panic(fmt.Errorf("err marshal %q: %w", s.name, err))
+		panic(err)
 	}
 	return string(b)
 }

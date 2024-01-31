@@ -23,7 +23,7 @@ type Handler interface {
 	// ProjectCreate create a project
 	// POST /project
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectCreate
-	ProjectCreate(ctx context.Context, in *ProjectCreateIn) (*ProjectOut, error)
+	ProjectCreate(ctx context.Context, in *ProjectCreateIn) (*ProjectCreateOut, error)
 
 	// ProjectDelete delete project
 	// DELETE /project/{project}
@@ -38,7 +38,7 @@ type Handler interface {
 	// ProjectGet get project details
 	// GET /project/{project}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectGet
-	ProjectGet(ctx context.Context, project string) (*ProjectOut, error)
+	ProjectGet(ctx context.Context, project string) (*ProjectGetOut, error)
 
 	// ProjectGetEventLogs get project event log entries
 	// GET /project/{project}/events
@@ -53,7 +53,7 @@ type Handler interface {
 	// ProjectInviteAccept confirm project invite
 	// POST /project/{project}/invite/{invite_verification_code}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInviteAccept
-	ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*InviteDetailsOut, error)
+	ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*ProjectInviteAcceptOut, error)
 
 	// ProjectInviteDelete delete an invitation to a project
 	// DELETE /project/{project}/invite/{invited_email}
@@ -88,7 +88,7 @@ type Handler interface {
 	// ProjectUpdate update project
 	// PUT /project/{project}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUpdate
-	ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*ProjectOut, error)
+	ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*ProjectUpdateOut, error)
 
 	// ProjectUserList list users with access to the project. May contain same user multiple times if they belong to multiple teams associated to the project
 	// GET /project/{project}/users
@@ -121,7 +121,7 @@ type ProjectHandler struct {
 func (h *ProjectHandler) ListProjectVpcPeeringConnectionTypes(ctx context.Context, project string) ([]VpcPeeringConnectionTypeOut, error) {
 	path := fmt.Sprintf("/project/%s/vpc-peering-connection-types", project)
 	b, err := h.doer.Do(ctx, "ListProjectVpcPeeringConnectionTypes", "GET", path, nil)
-	out := new(ListProjectVpcPeeringConnectionTypesOut)
+	out := new(listProjectVpcPeeringConnectionTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -131,17 +131,17 @@ func (h *ProjectHandler) ListProjectVpcPeeringConnectionTypes(ctx context.Contex
 func (h *ProjectHandler) ProjectAlertsList(ctx context.Context, project string) ([]AlertOut, error) {
 	path := fmt.Sprintf("/project/%s/alerts", project)
 	b, err := h.doer.Do(ctx, "ProjectAlertsList", "GET", path, nil)
-	out := new(ProjectAlertsListOut)
+	out := new(projectAlertsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Alerts, nil
 }
-func (h *ProjectHandler) ProjectCreate(ctx context.Context, in *ProjectCreateIn) (*ProjectOut, error) {
+func (h *ProjectHandler) ProjectCreate(ctx context.Context, in *ProjectCreateIn) (*ProjectCreateOut, error) {
 	path := fmt.Sprintf("/project")
 	b, err := h.doer.Do(ctx, "ProjectCreate", "POST", path, in)
-	out := new(ProjectCreateOut)
+	out := new(projectCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -156,17 +156,17 @@ func (h *ProjectHandler) ProjectDelete(ctx context.Context, project string) erro
 func (h *ProjectHandler) ProjectGenerateSbomDownloadUrl(ctx context.Context, project string, fileFormat string) (string, error) {
 	path := fmt.Sprintf("/project/%s/generate-sbom-download-url/%s", project, fileFormat)
 	b, err := h.doer.Do(ctx, "ProjectGenerateSbomDownloadUrl", "GET", path, nil)
-	out := new(ProjectGenerateSbomDownloadUrlOut)
+	out := new(projectGenerateSbomDownloadUrlOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return "", err
 	}
 	return out.DownloadUrl, nil
 }
-func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*ProjectOut, error) {
+func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*ProjectGetOut, error) {
 	path := fmt.Sprintf("/project/%s", project)
 	b, err := h.doer.Do(ctx, "ProjectGet", "GET", path, nil)
-	out := new(ProjectGetOut)
+	out := new(projectGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -176,7 +176,7 @@ func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*Proje
 func (h *ProjectHandler) ProjectGetEventLogs(ctx context.Context, project string) ([]EventOut, error) {
 	path := fmt.Sprintf("/project/%s/events", project)
 	b, err := h.doer.Do(ctx, "ProjectGetEventLogs", "GET", path, nil)
-	out := new(ProjectGetEventLogsOut)
+	out := new(projectGetEventLogsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -188,10 +188,10 @@ func (h *ProjectHandler) ProjectInvite(ctx context.Context, project string, in *
 	_, err := h.doer.Do(ctx, "ProjectInvite", "POST", path, in)
 	return err
 }
-func (h *ProjectHandler) ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*InviteDetailsOut, error) {
+func (h *ProjectHandler) ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*ProjectInviteAcceptOut, error) {
 	path := fmt.Sprintf("/project/%s/invite/%s", project, inviteVerificationCode)
 	b, err := h.doer.Do(ctx, "ProjectInviteAccept", "POST", path, nil)
-	out := new(ProjectInviteAcceptOut)
+	out := new(projectInviteAcceptOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -216,7 +216,7 @@ func (h *ProjectHandler) ProjectList(ctx context.Context) (*ProjectListOut, erro
 func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context, project string) ([]PrivatelinkAvailabilityOut, error) {
 	path := fmt.Sprintf("/project/%s/privatelink-availability", project)
 	b, err := h.doer.Do(ctx, "ProjectPrivatelinkAvailabilityList", "GET", path, nil)
-	out := new(ProjectPrivatelinkAvailabilityListOut)
+	out := new(projectPrivatelinkAvailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -226,7 +226,7 @@ func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context,
 func (h *ProjectHandler) ProjectTagsList(ctx context.Context, project string) (map[string]string, error) {
 	path := fmt.Sprintf("/project/%s/tags", project)
 	b, err := h.doer.Do(ctx, "ProjectTagsList", "GET", path, nil)
-	out := new(ProjectTagsListOut)
+	out := new(projectTagsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -243,10 +243,10 @@ func (h *ProjectHandler) ProjectTagsUpdate(ctx context.Context, project string, 
 	_, err := h.doer.Do(ctx, "ProjectTagsUpdate", "PATCH", path, in)
 	return err
 }
-func (h *ProjectHandler) ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*ProjectOut, error) {
+func (h *ProjectHandler) ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*ProjectUpdateOut, error) {
 	path := fmt.Sprintf("/project/%s", project)
 	b, err := h.doer.Do(ctx, "ProjectUpdate", "PUT", path, in)
-	out := new(ProjectUpdateOut)
+	out := new(projectUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -304,7 +304,10 @@ func BillingCurrencyTypeChoices() []string {
 	return []string{"AUD", "CAD", "CHF", "DKK", "EUR", "GBP", "JPY", "NOK", "NZD", "SEK", "SGD", "USD"}
 }
 
-type BillingEmail struct {
+type BillingEmailIn struct {
+	Email string `json:"email"`
+}
+type BillingEmailOut struct {
 	Email string `json:"email"`
 }
 type CardInfoOut struct {
@@ -334,22 +337,16 @@ type EventOut struct {
 	Time        time.Time `json:"time"`
 }
 type GroupUserOut struct {
-	MemberType  MemberType `json:"member_type,omitempty"`
-	RealName    string     `json:"real_name"`
-	UserEmail   string     `json:"user_email"`
-	UserGroupId string     `json:"user_group_id"`
+	MemberType  string `json:"member_type"`
+	RealName    string `json:"real_name"`
+	UserEmail   string `json:"user_email"`
+	UserGroupId string `json:"user_group_id"`
 }
 type InvitationOut struct {
-	InviteTime        time.Time  `json:"invite_time"`
-	InvitedUserEmail  string     `json:"invited_user_email"`
-	InvitingUserEmail string     `json:"inviting_user_email"`
-	MemberType        MemberType `json:"member_type,omitempty"`
-}
-type InviteDetailsOut struct {
-	UserEmail string `json:"user_email"`
-}
-type ListProjectVpcPeeringConnectionTypesOut struct {
-	VpcPeeringConnectionTypes []VpcPeeringConnectionTypeOut `json:"vpc_peering_connection_types"`
+	InviteTime        time.Time `json:"invite_time"`
+	InvitedUserEmail  string    `json:"invited_user_email"`
+	InvitingUserEmail string    `json:"inviting_user_email"`
+	MemberType        string    `json:"member_type"`
 }
 type MemberType string
 
@@ -368,16 +365,13 @@ type PrivatelinkAvailabilityOut struct {
 	CloudName string `json:"cloud_name"`
 	PriceUsd  string `json:"price_usd"`
 }
-type ProjectAlertsListOut struct {
-	Alerts []AlertOut `json:"alerts"`
-}
 type ProjectCreateIn struct {
 	AccountId                    string              `json:"account_id,omitempty"`
 	AddAccountOwnersAdminAccess  *bool               `json:"add_account_owners_admin_access,omitempty"`
 	AddressLines                 *[]string           `json:"address_lines,omitempty"`
 	BillingAddress               string              `json:"billing_address,omitempty"`
 	BillingCurrency              BillingCurrencyType `json:"billing_currency,omitempty"`
-	BillingEmails                *[]BillingEmail     `json:"billing_emails,omitempty"`
+	BillingEmails                *[]BillingEmailIn   `json:"billing_emails,omitempty"`
 	BillingExtraText             string              `json:"billing_extra_text,omitempty"`
 	BillingGroupId               string              `json:"billing_group_id,omitempty"`
 	CardId                       string              `json:"card_id,omitempty"`
@@ -390,49 +384,19 @@ type ProjectCreateIn struct {
 	Project                      string              `json:"project"`
 	State                        string              `json:"state,omitempty"`
 	Tags                         *map[string]string  `json:"tags,omitempty"`
-	TechEmails                   *[]BillingEmail     `json:"tech_emails,omitempty"`
+	TechEmails                   *[]TechEmailIn      `json:"tech_emails,omitempty"`
 	UseSourceProjectBillingGroup *bool               `json:"use_source_project_billing_group,omitempty"`
 	VatId                        string              `json:"vat_id,omitempty"`
 	ZipCode                      string              `json:"zip_code,omitempty"`
 }
 type ProjectCreateOut struct {
-	Project ProjectOut `json:"project"`
-}
-type ProjectGenerateSbomDownloadUrlOut struct {
-	DownloadUrl string `json:"download_url"`
-}
-type ProjectGetEventLogsOut struct {
-	Events []EventOut `json:"events"`
-}
-type ProjectGetOut struct {
-	Project ProjectOut `json:"project"`
-}
-type ProjectInviteAcceptOut struct {
-	InviteDetails InviteDetailsOut `json:"invite_details"`
-}
-type ProjectInviteIn struct {
-	MemberType MemberType `json:"member_type,omitempty"`
-	UserEmail  string     `json:"user_email"`
-}
-type ProjectListOut struct {
-	ProjectMembership  ProjectMembershipOut   `json:"project_membership"`
-	ProjectMemberships *ProjectMembershipsOut `json:"project_memberships,omitempty"`
-	Projects           []ProjectOut           `json:"projects"`
-}
-type ProjectMembershipOut struct {
-	Any MemberType `json:"ANY,omitempty"`
-}
-type ProjectMembershipsOut struct {
-	Any []string `json:"ANY,omitempty"`
-}
-type ProjectOut struct {
 	AccountId             string                 `json:"account_id"`
 	AccountName           string                 `json:"account_name,omitempty"`
 	AddressLines          []string               `json:"address_lines,omitempty"`
 	AvailableCredits      string                 `json:"available_credits,omitempty"`
 	BillingAddress        string                 `json:"billing_address"`
-	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`
-	BillingEmails         []BillingEmail         `json:"billing_emails"`
+	BillingCurrency       string                 `json:"billing_currency,omitempty"`
+	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
 	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
 	BillingGroupId        string                 `json:"billing_group_id"`
 	BillingGroupName      string                 `json:"billing_group_name"`
@@ -451,17 +415,93 @@ type ProjectOut struct {
 	ProjectName           string                 `json:"project_name"`
 	State                 string                 `json:"state,omitempty"`
 	Tags                  map[string]string      `json:"tags,omitempty"`
-	TechEmails            []BillingEmail         `json:"tech_emails,omitempty"`
+	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
 	TenantId              string                 `json:"tenant_id,omitempty"`
 	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
 	VatId                 string                 `json:"vat_id"`
 	ZipCode               string                 `json:"zip_code,omitempty"`
 }
-type ProjectPrivatelinkAvailabilityListOut struct {
-	PrivatelinkAvailability []PrivatelinkAvailabilityOut `json:"privatelink_availability"`
+type ProjectGetOut struct {
+	AccountId             string                 `json:"account_id"`
+	AccountName           string                 `json:"account_name,omitempty"`
+	AddressLines          []string               `json:"address_lines,omitempty"`
+	AvailableCredits      string                 `json:"available_credits,omitempty"`
+	BillingAddress        string                 `json:"billing_address"`
+	BillingCurrency       string                 `json:"billing_currency,omitempty"`
+	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
+	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
+	BillingGroupId        string                 `json:"billing_group_id"`
+	BillingGroupName      string                 `json:"billing_group_name"`
+	CardInfo              *CardInfoOut           `json:"card_info,omitempty"`
+	City                  string                 `json:"city,omitempty"`
+	Company               string                 `json:"company,omitempty"`
+	Country               string                 `json:"country"`
+	CountryCode           string                 `json:"country_code"`
+	DefaultCloud          string                 `json:"default_cloud"`
+	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`
+	EstimatedBalance      string                 `json:"estimated_balance"`
+	EstimatedBalanceLocal string                 `json:"estimated_balance_local,omitempty"`
+	Features              map[string]any         `json:"features,omitempty"`
+	OrganizationId        string                 `json:"organization_id"`
+	PaymentMethod         string                 `json:"payment_method"`
+	ProjectName           string                 `json:"project_name"`
+	State                 string                 `json:"state,omitempty"`
+	Tags                  map[string]string      `json:"tags,omitempty"`
+	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
+	TenantId              string                 `json:"tenant_id,omitempty"`
+	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
+	VatId                 string                 `json:"vat_id"`
+	ZipCode               string                 `json:"zip_code,omitempty"`
 }
-type ProjectTagsListOut struct {
-	Tags map[string]string `json:"tags,omitempty"`
+type ProjectInviteAcceptOut struct {
+	UserEmail string `json:"user_email"`
+}
+type ProjectInviteIn struct {
+	MemberType MemberType `json:"member_type,omitempty"`
+	UserEmail  string     `json:"user_email"`
+}
+type ProjectListOut struct {
+	ProjectMembership  ProjectMembershipOut   `json:"project_membership"`
+	ProjectMemberships *ProjectMembershipsOut `json:"project_memberships,omitempty"`
+	Projects           []ProjectOut           `json:"projects"`
+}
+type ProjectMembershipOut struct {
+	Any string `json:"ANY,omitempty"`
+}
+type ProjectMembershipsOut struct {
+	Any []string `json:"ANY,omitempty"`
+}
+type ProjectOut struct {
+	AccountId             string                 `json:"account_id"`
+	AccountName           string                 `json:"account_name,omitempty"`
+	AddressLines          []string               `json:"address_lines,omitempty"`
+	AvailableCredits      string                 `json:"available_credits,omitempty"`
+	BillingAddress        string                 `json:"billing_address"`
+	BillingCurrency       string                 `json:"billing_currency,omitempty"`
+	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
+	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
+	BillingGroupId        string                 `json:"billing_group_id"`
+	BillingGroupName      string                 `json:"billing_group_name"`
+	CardInfo              *CardInfoOut           `json:"card_info,omitempty"`
+	City                  string                 `json:"city,omitempty"`
+	Company               string                 `json:"company,omitempty"`
+	Country               string                 `json:"country"`
+	CountryCode           string                 `json:"country_code"`
+	DefaultCloud          string                 `json:"default_cloud"`
+	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`
+	EstimatedBalance      string                 `json:"estimated_balance"`
+	EstimatedBalanceLocal string                 `json:"estimated_balance_local,omitempty"`
+	Features              map[string]any         `json:"features,omitempty"`
+	OrganizationId        string                 `json:"organization_id"`
+	PaymentMethod         string                 `json:"payment_method"`
+	ProjectName           string                 `json:"project_name"`
+	State                 string                 `json:"state,omitempty"`
+	Tags                  map[string]string      `json:"tags,omitempty"`
+	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
+	TenantId              string                 `json:"tenant_id,omitempty"`
+	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
+	VatId                 string                 `json:"vat_id"`
+	ZipCode               string                 `json:"zip_code,omitempty"`
 }
 type ProjectTagsReplaceIn struct {
 	Tags *map[string]string `json:"tags,omitempty"`
@@ -475,7 +515,7 @@ type ProjectUpdateIn struct {
 	AddressLines                *[]string           `json:"address_lines,omitempty"`
 	BillingAddress              string              `json:"billing_address,omitempty"`
 	BillingCurrency             BillingCurrencyType `json:"billing_currency,omitempty"`
-	BillingEmails               *[]BillingEmail     `json:"billing_emails,omitempty"`
+	BillingEmails               *[]BillingEmailIn   `json:"billing_emails,omitempty"`
 	BillingExtraText            string              `json:"billing_extra_text,omitempty"`
 	BillingGroupId              string              `json:"billing_group_id,omitempty"`
 	CardId                      string              `json:"card_id,omitempty"`
@@ -486,12 +526,41 @@ type ProjectUpdateIn struct {
 	ProjectName                 string              `json:"project_name,omitempty"`
 	State                       string              `json:"state,omitempty"`
 	Tags                        *map[string]string  `json:"tags,omitempty"`
-	TechEmails                  *[]BillingEmail     `json:"tech_emails,omitempty"`
+	TechEmails                  *[]TechEmailIn      `json:"tech_emails,omitempty"`
 	VatId                       string              `json:"vat_id,omitempty"`
 	ZipCode                     string              `json:"zip_code,omitempty"`
 }
 type ProjectUpdateOut struct {
-	Project ProjectOut `json:"project"`
+	AccountId             string                 `json:"account_id"`
+	AccountName           string                 `json:"account_name,omitempty"`
+	AddressLines          []string               `json:"address_lines,omitempty"`
+	AvailableCredits      string                 `json:"available_credits,omitempty"`
+	BillingAddress        string                 `json:"billing_address"`
+	BillingCurrency       string                 `json:"billing_currency,omitempty"`
+	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
+	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
+	BillingGroupId        string                 `json:"billing_group_id"`
+	BillingGroupName      string                 `json:"billing_group_name"`
+	CardInfo              *CardInfoOut           `json:"card_info,omitempty"`
+	City                  string                 `json:"city,omitempty"`
+	Company               string                 `json:"company,omitempty"`
+	Country               string                 `json:"country"`
+	CountryCode           string                 `json:"country_code"`
+	DefaultCloud          string                 `json:"default_cloud"`
+	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`
+	EstimatedBalance      string                 `json:"estimated_balance"`
+	EstimatedBalanceLocal string                 `json:"estimated_balance_local,omitempty"`
+	Features              map[string]any         `json:"features,omitempty"`
+	OrganizationId        string                 `json:"organization_id"`
+	PaymentMethod         string                 `json:"payment_method"`
+	ProjectName           string                 `json:"project_name"`
+	State                 string                 `json:"state,omitempty"`
+	Tags                  map[string]string      `json:"tags,omitempty"`
+	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
+	TenantId              string                 `json:"tenant_id,omitempty"`
+	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
+	VatId                 string                 `json:"vat_id"`
+	ZipCode               string                 `json:"zip_code,omitempty"`
 }
 type ProjectUserListOut struct {
 	GroupUsers  []GroupUserOut  `json:"group_users"`
@@ -499,30 +568,56 @@ type ProjectUserListOut struct {
 	Users       []UserOut       `json:"users"`
 }
 type ProjectUserUpdateIn struct {
-	MemberType MemberType `json:"member_type,omitempty"`
+	MemberType MemberType `json:"member_type"`
+}
+type TechEmailIn struct {
+	Email string `json:"email"`
+}
+type TechEmailOut struct {
+	Email string `json:"email"`
 }
 type UserOut struct {
-	Auth           []string   `json:"auth"`
-	BillingContact bool       `json:"billing_contact"`
-	CreateTime     time.Time  `json:"create_time"`
-	MemberType     MemberType `json:"member_type,omitempty"`
-	RealName       string     `json:"real_name,omitempty"`
-	TeamId         string     `json:"team_id"`
-	TeamName       string     `json:"team_name"`
-	UserEmail      string     `json:"user_email"`
+	Auth           []string  `json:"auth"`
+	BillingContact bool      `json:"billing_contact"`
+	CreateTime     time.Time `json:"create_time"`
+	MemberType     string    `json:"member_type"`
+	RealName       string    `json:"real_name,omitempty"`
+	TeamId         string    `json:"team_id"`
+	TeamName       string    `json:"team_name"`
+	UserEmail      string    `json:"user_email"`
 }
-type VpcPeeringConnectionType string
-
-const (
-	VpcPeeringConnectionTypeAwsTgwVpcAttachment     VpcPeeringConnectionType = "aws-tgw-vpc-attachment"
-	VpcPeeringConnectionTypeAwsVpcPeeringConnection VpcPeeringConnectionType = "aws-vpc-peering-connection"
-	VpcPeeringConnectionTypeAzureVnetPeering        VpcPeeringConnectionType = "azure-vnet-peering"
-	VpcPeeringConnectionTypeGoogleVpcPeering        VpcPeeringConnectionType = "google-vpc-peering"
-	VpcPeeringConnectionTypeUpcloudVpcPeering       VpcPeeringConnectionType = "upcloud-vpc-peering"
-)
-
 type VpcPeeringConnectionTypeOut struct {
-	CloudName                string                   `json:"cloud_name"`
-	PriceUsd                 string                   `json:"price_usd"`
-	VpcPeeringConnectionType VpcPeeringConnectionType `json:"vpc_peering_connection_type"`
+	CloudName                string `json:"cloud_name"`
+	PriceUsd                 string `json:"price_usd"`
+	VpcPeeringConnectionType string `json:"vpc_peering_connection_type"`
+}
+type listProjectVpcPeeringConnectionTypesOut struct {
+	VpcPeeringConnectionTypes []VpcPeeringConnectionTypeOut `json:"vpc_peering_connection_types"`
+}
+type projectAlertsListOut struct {
+	Alerts []AlertOut `json:"alerts"`
+}
+type projectCreateOut struct {
+	Project ProjectCreateOut `json:"project"`
+}
+type projectGenerateSbomDownloadUrlOut struct {
+	DownloadUrl string `json:"download_url"`
+}
+type projectGetEventLogsOut struct {
+	Events []EventOut `json:"events"`
+}
+type projectGetOut struct {
+	Project ProjectGetOut `json:"project"`
+}
+type projectInviteAcceptOut struct {
+	InviteDetails ProjectInviteAcceptOut `json:"invite_details"`
+}
+type projectPrivatelinkAvailabilityListOut struct {
+	PrivatelinkAvailability []PrivatelinkAvailabilityOut `json:"privatelink_availability"`
+}
+type projectTagsListOut struct {
+	Tags map[string]string `json:"tags,omitempty"`
+}
+type projectUpdateOut struct {
+	Project ProjectUpdateOut `json:"project"`
 }

@@ -45,7 +45,7 @@ func (h *FlinkJobHandler) ServiceFlinkJobDetails(ctx context.Context, project st
 func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]JobOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/job", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkJobsList", "GET", path, nil)
-	out := new(ServiceFlinkJobsListOut)
+	out := new(serviceFlinkJobsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -54,8 +54,8 @@ func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project stri
 }
 
 type JobOut struct {
-	Id     string    `json:"id,omitempty"`
-	Status StateType `json:"status,omitempty"`
+	Id     string `json:"id,omitempty"`
+	Status string `json:"status,omitempty"`
 }
 type ServiceFlinkJobDetailsOut struct {
 	Duration       *int             `json:"duration,omitempty"`
@@ -67,30 +67,11 @@ type ServiceFlinkJobDetailsOut struct {
 	Now            *int             `json:"now,omitempty"`
 	Plan           map[string]any   `json:"plan,omitempty"`
 	StartTime      *int             `json:"start-time,omitempty"`
-	State          StateType        `json:"state,omitempty"`
+	State          string           `json:"state,omitempty"`
 	StatusCounts   *StatusCountsOut `json:"status-counts,omitempty"`
 	Timestamps     map[string]any   `json:"timestamps,omitempty"`
 	Vertices       []map[string]any `json:"vertices,omitempty"`
 }
-type ServiceFlinkJobsListOut struct {
-	Jobs []JobOut `json:"jobs,omitempty"`
-}
-type StateType string
-
-const (
-	StateTypeInitializing StateType = "INITIALIZING"
-	StateTypeCreated      StateType = "CREATED"
-	StateTypeRunning      StateType = "RUNNING"
-	StateTypeFailing      StateType = "FAILING"
-	StateTypeFailed       StateType = "FAILED"
-	StateTypeCancelling   StateType = "CANCELLING"
-	StateTypeCanceled     StateType = "CANCELED"
-	StateTypeFinished     StateType = "FINISHED"
-	StateTypeRestarting   StateType = "RESTARTING"
-	StateTypeSuspended    StateType = "SUSPENDED"
-	StateTypeReconciling  StateType = "RECONCILING"
-)
-
 type StatusCountsOut struct {
 	Canceled     *int `json:"CANCELED,omitempty"`
 	Canceling    *int `json:"CANCELING,omitempty"`
@@ -102,4 +83,7 @@ type StatusCountsOut struct {
 	Reconciling  *int `json:"RECONCILING,omitempty"`
 	Running      *int `json:"RUNNING,omitempty"`
 	Scheduled    *int `json:"SCHEDULED,omitempty"`
+}
+type serviceFlinkJobsListOut struct {
+	Jobs []JobOut `json:"jobs,omitempty"`
 }

@@ -13,12 +13,12 @@ type Handler interface {
 	// BillingGroupCreate create a billing group
 	// POST /billing-group
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupCreate
-	BillingGroupCreate(ctx context.Context, in *BillingGroupCreateIn) (*BillingGroupOut, error)
+	BillingGroupCreate(ctx context.Context, in *BillingGroupCreateIn) (*BillingGroupCreateOut, error)
 
 	// BillingGroupCreditsClaim claim a credit code
 	// POST /billing-group/{billing_group_id}/credits
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupCreditsClaim
-	BillingGroupCreditsClaim(ctx context.Context, billingGroupId string, in *BillingGroupCreditsClaimIn) (*CreditOut, error)
+	BillingGroupCreditsClaim(ctx context.Context, billingGroupId string, in *BillingGroupCreditsClaimIn) (*BillingGroupCreditsClaimOut, error)
 
 	// BillingGroupCreditsList list billing group credits
 	// GET /billing-group/{billing_group_id}/credits
@@ -38,7 +38,7 @@ type Handler interface {
 	// BillingGroupGet get billing group details
 	// GET /billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupGet
-	BillingGroupGet(ctx context.Context, billingGroupId string) (*BillingGroupOut, error)
+	BillingGroupGet(ctx context.Context, billingGroupId string) (*BillingGroupGetOut, error)
 
 	// BillingGroupInvoiceLinesList get invoice lines for a single invoice
 	// GET /billing-group/{billing_group_id}/invoice/{invoice_number}/lines
@@ -73,7 +73,7 @@ type Handler interface {
 	// BillingGroupUpdate update billing group
 	// PUT /billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupUpdate
-	BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroupOut, error)
+	BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroupUpdateOut, error)
 }
 
 func NewHandler(doer doer) BillingGroupHandler {
@@ -88,20 +88,20 @@ type BillingGroupHandler struct {
 	doer doer
 }
 
-func (h *BillingGroupHandler) BillingGroupCreate(ctx context.Context, in *BillingGroupCreateIn) (*BillingGroupOut, error) {
+func (h *BillingGroupHandler) BillingGroupCreate(ctx context.Context, in *BillingGroupCreateIn) (*BillingGroupCreateOut, error) {
 	path := fmt.Sprintf("/billing-group")
 	b, err := h.doer.Do(ctx, "BillingGroupCreate", "POST", path, in)
-	out := new(BillingGroupCreateOut)
+	out := new(billingGroupCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return &out.BillingGroup, nil
 }
-func (h *BillingGroupHandler) BillingGroupCreditsClaim(ctx context.Context, billingGroupId string, in *BillingGroupCreditsClaimIn) (*CreditOut, error) {
+func (h *BillingGroupHandler) BillingGroupCreditsClaim(ctx context.Context, billingGroupId string, in *BillingGroupCreditsClaimIn) (*BillingGroupCreditsClaimOut, error) {
 	path := fmt.Sprintf("/billing-group/%s/credits", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsClaim", "POST", path, in)
-	out := new(BillingGroupCreditsClaimOut)
+	out := new(billingGroupCreditsClaimOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -111,7 +111,7 @@ func (h *BillingGroupHandler) BillingGroupCreditsClaim(ctx context.Context, bill
 func (h *BillingGroupHandler) BillingGroupCreditsList(ctx context.Context, billingGroupId string) ([]CreditOut, error) {
 	path := fmt.Sprintf("/billing-group/%s/credits", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsList", "GET", path, nil)
-	out := new(BillingGroupCreditsListOut)
+	out := new(billingGroupCreditsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -126,17 +126,17 @@ func (h *BillingGroupHandler) BillingGroupDelete(ctx context.Context, billingGro
 func (h *BillingGroupHandler) BillingGroupEventList(ctx context.Context, billingGroupId string) ([]EventOut, error) {
 	path := fmt.Sprintf("/billing-group/%s/events", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupEventList", "GET", path, nil)
-	out := new(BillingGroupEventListOut)
+	out := new(billingGroupEventListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Events, nil
 }
-func (h *BillingGroupHandler) BillingGroupGet(ctx context.Context, billingGroupId string) (*BillingGroupOut, error) {
+func (h *BillingGroupHandler) BillingGroupGet(ctx context.Context, billingGroupId string) (*BillingGroupGetOut, error) {
 	path := fmt.Sprintf("/billing-group/%s", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupGet", "GET", path, nil)
-	out := new(BillingGroupGetOut)
+	out := new(billingGroupGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -146,7 +146,7 @@ func (h *BillingGroupHandler) BillingGroupGet(ctx context.Context, billingGroupI
 func (h *BillingGroupHandler) BillingGroupInvoiceLinesList(ctx context.Context, billingGroupId string, invoiceNumber string) ([]LineOut, error) {
 	path := fmt.Sprintf("/billing-group/%s/invoice/%s/lines", billingGroupId, invoiceNumber)
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceLinesList", "GET", path, nil)
-	out := new(BillingGroupInvoiceLinesListOut)
+	out := new(billingGroupInvoiceLinesListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (h *BillingGroupHandler) BillingGroupInvoiceLinesList(ctx context.Context, 
 func (h *BillingGroupHandler) BillingGroupInvoiceList(ctx context.Context, billingGroupId string) ([]InvoiceOut, error) {
 	path := fmt.Sprintf("/billing-group/%s/invoice", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceList", "GET", path, nil)
-	out := new(BillingGroupInvoiceListOut)
+	out := new(billingGroupInvoiceListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -166,7 +166,7 @@ func (h *BillingGroupHandler) BillingGroupInvoiceList(ctx context.Context, billi
 func (h *BillingGroupHandler) BillingGroupList(ctx context.Context) ([]BillingGroupOut, error) {
 	path := fmt.Sprintf("/billing-group")
 	b, err := h.doer.Do(ctx, "BillingGroupList", "GET", path, nil)
-	out := new(BillingGroupListOut)
+	out := new(billingGroupListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -181,7 +181,7 @@ func (h *BillingGroupHandler) BillingGroupProjectAssign(ctx context.Context, bil
 func (h *BillingGroupHandler) BillingGroupProjectList(ctx context.Context, billingGroupId string) ([]ProjectOut, error) {
 	path := fmt.Sprintf("/billing-group/%s/projects", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupProjectList", "GET", path, nil)
-	out := new(BillingGroupProjectListOut)
+	out := new(billingGroupProjectListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -193,10 +193,10 @@ func (h *BillingGroupHandler) BillingGroupProjectsAssign(ctx context.Context, bi
 	_, err := h.doer.Do(ctx, "BillingGroupProjectsAssign", "POST", path, in)
 	return err
 }
-func (h *BillingGroupHandler) BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroupOut, error) {
+func (h *BillingGroupHandler) BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroupUpdateOut, error) {
 	path := fmt.Sprintf("/billing-group/%s", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupUpdate", "PUT", path, in)
-	out := new(BillingGroupUpdateOut)
+	out := new(billingGroupUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -225,14 +225,17 @@ func BillingCurrencyTypeChoices() []string {
 	return []string{"AUD", "CAD", "CHF", "DKK", "EUR", "GBP", "JPY", "NOK", "NZD", "SEK", "SGD", "USD"}
 }
 
-type BillingEmail struct {
+type BillingEmailIn struct {
+	Email string `json:"email"`
+}
+type BillingEmailOut struct {
 	Email string `json:"email"`
 }
 type BillingGroupCreateIn struct {
 	AccountId            string              `json:"account_id,omitempty"`
 	AddressLines         *[]string           `json:"address_lines,omitempty"`
 	BillingCurrency      BillingCurrencyType `json:"billing_currency,omitempty"`
-	BillingEmails        *[]BillingEmail     `json:"billing_emails,omitempty"`
+	BillingEmails        *[]BillingEmailIn   `json:"billing_emails,omitempty"`
 	BillingExtraText     string              `json:"billing_extra_text,omitempty"`
 	BillingGroupName     string              `json:"billing_group_name"`
 	CardId               string              `json:"card_id,omitempty"`
@@ -245,72 +248,90 @@ type BillingGroupCreateIn struct {
 	ZipCode              string              `json:"zip_code,omitempty"`
 }
 type BillingGroupCreateOut struct {
-	BillingGroup BillingGroupOut `json:"billing_group"`
+	AccountId             string            `json:"account_id"`
+	AccountName           string            `json:"account_name"`
+	AddressLines          []string          `json:"address_lines"`
+	BillingAddress        string            `json:"billing_address,omitempty"`
+	BillingCurrency       string            `json:"billing_currency"`
+	BillingEmails         []BillingEmailOut `json:"billing_emails"`
+	BillingExtraText      string            `json:"billing_extra_text"`
+	BillingGroupId        string            `json:"billing_group_id"`
+	BillingGroupName      string            `json:"billing_group_name"`
+	CardInfo              CardInfoOut       `json:"card_info"`
+	City                  string            `json:"city"`
+	Company               string            `json:"company"`
+	Country               string            `json:"country"`
+	CountryCode           string            `json:"country_code"`
+	EstimatedBalanceLocal string            `json:"estimated_balance_local"`
+	EstimatedBalanceUsd   string            `json:"estimated_balance_usd"`
+	PaymentMethod         string            `json:"payment_method"`
+	State                 string            `json:"state"`
+	VatId                 string            `json:"vat_id"`
+	ZipCode               string            `json:"zip_code"`
 }
 type BillingGroupCreditsClaimIn struct {
 	Code string `json:"code"`
 }
 type BillingGroupCreditsClaimOut struct {
-	Credit CreditOut `json:"credit"`
-}
-type BillingGroupCreditsListOut struct {
-	Credits []CreditOut `json:"credits"`
-}
-type BillingGroupEventListOut struct {
-	Events []EventOut `json:"events"`
+	Code           string     `json:"code,omitempty"`
+	ExpireTime     *time.Time `json:"expire_time,omitempty"`
+	RemainingValue string     `json:"remaining_value,omitempty"`
+	StartTime      *time.Time `json:"start_time,omitempty"`
+	Type           string     `json:"type,omitempty"`
+	Value          string     `json:"value,omitempty"`
 }
 type BillingGroupGetOut struct {
-	BillingGroup BillingGroupOut `json:"billing_group"`
-}
-type BillingGroupInvoiceLinesListOut struct {
-	Lines []LineOut `json:"lines,omitempty"`
-}
-type BillingGroupInvoiceListOut struct {
-	Invoices []InvoiceOut `json:"invoices"`
-}
-type BillingGroupListOut struct {
-	BillingGroups []BillingGroupOut `json:"billing_groups"`
+	AccountId             string            `json:"account_id"`
+	AccountName           string            `json:"account_name"`
+	AddressLines          []string          `json:"address_lines"`
+	BillingAddress        string            `json:"billing_address,omitempty"`
+	BillingCurrency       string            `json:"billing_currency"`
+	BillingEmails         []BillingEmailOut `json:"billing_emails"`
+	BillingExtraText      string            `json:"billing_extra_text"`
+	BillingGroupId        string            `json:"billing_group_id"`
+	BillingGroupName      string            `json:"billing_group_name"`
+	CardInfo              CardInfoOut       `json:"card_info"`
+	City                  string            `json:"city"`
+	Company               string            `json:"company"`
+	Country               string            `json:"country"`
+	CountryCode           string            `json:"country_code"`
+	EstimatedBalanceLocal string            `json:"estimated_balance_local"`
+	EstimatedBalanceUsd   string            `json:"estimated_balance_usd"`
+	PaymentMethod         string            `json:"payment_method"`
+	State                 string            `json:"state"`
+	VatId                 string            `json:"vat_id"`
+	ZipCode               string            `json:"zip_code"`
 }
 type BillingGroupOut struct {
-	AccountId             string              `json:"account_id"`
-	AccountName           string              `json:"account_name"`
-	AddressLines          []string            `json:"address_lines"`
-	BillingAddress        string              `json:"billing_address,omitempty"`
-	BillingCurrency       BillingCurrencyType `json:"billing_currency,omitempty"`
-	BillingEmails         []BillingEmail      `json:"billing_emails"`
-	BillingExtraText      string              `json:"billing_extra_text"`
-	BillingGroupId        string              `json:"billing_group_id"`
-	BillingGroupName      string              `json:"billing_group_name"`
-	CardInfo              CardInfoOut         `json:"card_info"`
-	City                  string              `json:"city"`
-	Company               string              `json:"company"`
-	Country               string              `json:"country"`
-	CountryCode           string              `json:"country_code"`
-	EstimatedBalanceLocal string              `json:"estimated_balance_local"`
-	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`
-	PaymentMethod         PaymentMethodType   `json:"payment_method"`
-	State                 string              `json:"state"`
-	VatId                 string              `json:"vat_id"`
-	ZipCode               string              `json:"zip_code"`
-}
-type BillingGroupProjectListOut struct {
-	Projects []ProjectOut `json:"projects"`
+	AccountId             string            `json:"account_id"`
+	AccountName           string            `json:"account_name"`
+	AddressLines          []string          `json:"address_lines"`
+	BillingAddress        string            `json:"billing_address,omitempty"`
+	BillingCurrency       string            `json:"billing_currency"`
+	BillingEmails         []BillingEmailOut `json:"billing_emails"`
+	BillingExtraText      string            `json:"billing_extra_text"`
+	BillingGroupId        string            `json:"billing_group_id"`
+	BillingGroupName      string            `json:"billing_group_name"`
+	CardInfo              CardInfoOut       `json:"card_info"`
+	City                  string            `json:"city"`
+	Company               string            `json:"company"`
+	Country               string            `json:"country"`
+	CountryCode           string            `json:"country_code"`
+	EstimatedBalanceLocal string            `json:"estimated_balance_local"`
+	EstimatedBalanceUsd   string            `json:"estimated_balance_usd"`
+	PaymentMethod         string            `json:"payment_method"`
+	State                 string            `json:"state"`
+	VatId                 string            `json:"vat_id"`
+	ZipCode               string            `json:"zip_code"`
 }
 type BillingGroupProjectsAssignIn struct {
 	ProjectsNames []string `json:"projects_names"`
 }
-type BillingGroupStateType string
-
-const (
-	BillingGroupStateTypeActive  BillingGroupStateType = "active"
-	BillingGroupStateTypeDeleted BillingGroupStateType = "deleted"
-)
-
 type BillingGroupUpdateIn struct {
 	AccountId        string              `json:"account_id,omitempty"`
 	AddressLines     *[]string           `json:"address_lines,omitempty"`
 	BillingCurrency  BillingCurrencyType `json:"billing_currency,omitempty"`
-	BillingEmails    *[]BillingEmail     `json:"billing_emails,omitempty"`
+	BillingEmails    *[]BillingEmailIn   `json:"billing_emails,omitempty"`
 	BillingExtraText string              `json:"billing_extra_text,omitempty"`
 	BillingGroupName string              `json:"billing_group_name,omitempty"`
 	CardId           string              `json:"card_id,omitempty"`
@@ -322,7 +343,26 @@ type BillingGroupUpdateIn struct {
 	ZipCode          string              `json:"zip_code,omitempty"`
 }
 type BillingGroupUpdateOut struct {
-	BillingGroup BillingGroupOut `json:"billing_group"`
+	AccountId             string            `json:"account_id"`
+	AccountName           string            `json:"account_name"`
+	AddressLines          []string          `json:"address_lines"`
+	BillingAddress        string            `json:"billing_address,omitempty"`
+	BillingCurrency       string            `json:"billing_currency"`
+	BillingEmails         []BillingEmailOut `json:"billing_emails"`
+	BillingExtraText      string            `json:"billing_extra_text"`
+	BillingGroupId        string            `json:"billing_group_id"`
+	BillingGroupName      string            `json:"billing_group_name"`
+	CardInfo              CardInfoOut       `json:"card_info"`
+	City                  string            `json:"city"`
+	Company               string            `json:"company"`
+	Country               string            `json:"country"`
+	CountryCode           string            `json:"country_code"`
+	EstimatedBalanceLocal string            `json:"estimated_balance_local"`
+	EstimatedBalanceUsd   string            `json:"estimated_balance_usd"`
+	PaymentMethod         string            `json:"payment_method"`
+	State                 string            `json:"state"`
+	VatId                 string            `json:"vat_id"`
+	ZipCode               string            `json:"zip_code"`
 }
 type CardInfoOut struct {
 	Brand       string `json:"brand"`
@@ -340,7 +380,7 @@ type CreditOut struct {
 	ExpireTime     *time.Time `json:"expire_time,omitempty"`
 	RemainingValue string     `json:"remaining_value,omitempty"`
 	StartTime      *time.Time `json:"start_time,omitempty"`
-	Type           Type       `json:"type,omitempty"`
+	Type           string     `json:"type,omitempty"`
 	Value          string     `json:"value,omitempty"`
 }
 type EventOut struct {
@@ -354,18 +394,18 @@ type EventOut struct {
 	ProjectName    string     `json:"project_name,omitempty"`
 }
 type InvoiceOut struct {
-	BillingGroupId    string                `json:"billing_group_id"`
-	BillingGroupName  string                `json:"billing_group_name"`
-	BillingGroupState BillingGroupStateType `json:"billing_group_state"`
-	Currency          BillingCurrencyType   `json:"currency,omitempty"`
-	DownloadCookie    string                `json:"download_cookie"`
-	GeneratedAt       *time.Time            `json:"generated_at,omitempty"`
-	InvoiceNumber     string                `json:"invoice_number"`
-	PeriodBegin       string                `json:"period_begin"`
-	PeriodEnd         string                `json:"period_end"`
-	State             StateType             `json:"state"`
-	TotalIncVat       string                `json:"total_inc_vat"`
-	TotalVatZero      string                `json:"total_vat_zero"`
+	BillingGroupId    string     `json:"billing_group_id"`
+	BillingGroupName  string     `json:"billing_group_name"`
+	BillingGroupState string     `json:"billing_group_state"`
+	Currency          string     `json:"currency"`
+	DownloadCookie    string     `json:"download_cookie"`
+	GeneratedAt       *time.Time `json:"generated_at,omitempty"`
+	InvoiceNumber     string     `json:"invoice_number"`
+	PeriodBegin       string     `json:"period_begin"`
+	PeriodEnd         string     `json:"period_end"`
+	State             string     `json:"state"`
+	TotalIncVat       string     `json:"total_inc_vat"`
+	TotalVatZero      string     `json:"total_vat_zero"`
 }
 type LineOut struct {
 	CloudName            string            `json:"cloud_name,omitempty"`
@@ -374,107 +414,48 @@ type LineOut struct {
 	LinePreDiscountLocal string            `json:"line_pre_discount_local,omitempty"`
 	LineTotalLocal       string            `json:"line_total_local,omitempty"`
 	LineTotalUsd         string            `json:"line_total_usd"`
-	LineType             LineType          `json:"line_type"`
+	LineType             string            `json:"line_type"`
 	LocalCurrency        string            `json:"local_currency,omitempty"`
 	ProjectName          string            `json:"project_name,omitempty"`
 	ServiceName          string            `json:"service_name,omitempty"`
 	ServicePlan          string            `json:"service_plan,omitempty"`
-	ServiceType          ServiceType       `json:"service_type,omitempty"`
+	ServiceType          string            `json:"service_type,omitempty"`
 	Tags                 map[string]string `json:"tags,omitempty"`
 	TimestampBegin       string            `json:"timestamp_begin,omitempty"`
 	TimestampEnd         string            `json:"timestamp_end,omitempty"`
 }
-type LineType string
-
-const (
-	LineTypeCommitmentFee     LineType = "commitment_fee"
-	LineTypeCreditConsumption LineType = "credit_consumption"
-	LineTypeExtraCharge       LineType = "extra_charge"
-	LineTypeMultiplier        LineType = "multiplier"
-	LineTypeOtherEvent        LineType = "other_event"
-	LineTypeRounding          LineType = "rounding"
-	LineTypeServiceCharge     LineType = "service_charge"
-	LineTypeSupportCharge     LineType = "support_charge"
-)
-
-type PaymentMethodType string
-
-const (
-	PaymentMethodTypeAccrual           PaymentMethodType = "accrual"
-	PaymentMethodTypeCard              PaymentMethodType = "card"
-	PaymentMethodTypeDisabled          PaymentMethodType = "disabled"
-	PaymentMethodTypeEmail             PaymentMethodType = "email"
-	PaymentMethodTypeNoPaymentExpected PaymentMethodType = "no_payment_expected"
-	PaymentMethodTypePartner           PaymentMethodType = "partner"
-)
-
 type ProjectOut struct {
 	AvailableCredits string `json:"available_credits"`
 	EstimatedBalance string `json:"estimated_balance"`
 	ProjectName      string `json:"project_name"`
 }
-type ServiceType string
-
-const (
-	ServiceTypeAlertmanager     ServiceType = "alertmanager"
-	ServiceTypeCassandra        ServiceType = "cassandra"
-	ServiceTypeClickhouse       ServiceType = "clickhouse"
-	ServiceTypeDragonfly        ServiceType = "dragonfly"
-	ServiceTypeElasticsearch    ServiceType = "elasticsearch"
-	ServiceTypeFlink            ServiceType = "flink"
-	ServiceTypeGrafana          ServiceType = "grafana"
-	ServiceTypeInfluxdb         ServiceType = "influxdb"
-	ServiceTypeKafka            ServiceType = "kafka"
-	ServiceTypeKafkaConnect     ServiceType = "kafka_connect"
-	ServiceTypeKafkaMirrormaker ServiceType = "kafka_mirrormaker"
-	ServiceTypeM3Aggregator     ServiceType = "m3aggregator"
-	ServiceTypeM3Db             ServiceType = "m3db"
-	ServiceTypeMysql            ServiceType = "mysql"
-	ServiceTypeOpensearch       ServiceType = "opensearch"
-	ServiceTypePg               ServiceType = "pg"
-	ServiceTypeRedis            ServiceType = "redis"
-	ServiceTypeStresstester     ServiceType = "stresstester"
-	ServiceTypeSw               ServiceType = "sw"
-	ServiceTypeThanos           ServiceType = "thanos"
-	ServiceTypeThanoscompactor  ServiceType = "thanoscompactor"
-	ServiceTypeThanosquery      ServiceType = "thanosquery"
-	ServiceTypeThanosreceiver   ServiceType = "thanosreceiver"
-	ServiceTypeThanosstore      ServiceType = "thanosstore"
-	ServiceTypeVector           ServiceType = "vector"
-	ServiceTypeVmalert          ServiceType = "vmalert"
-)
-
-type StateType string
-
-const (
-	StateTypeAccrual                StateType = "accrual"
-	StateTypeConsolidated           StateType = "consolidated"
-	StateTypeDue                    StateType = "due"
-	StateTypeEstimate               StateType = "estimate"
-	StateTypeFailedCreditCardCharge StateType = "failed_credit_card_charge"
-	StateTypeFailedNoCreditCard     StateType = "failed_no_credit_card"
-	StateTypeMailed                 StateType = "mailed"
-	StateTypeNoPaymentExpected      StateType = "no_payment_expected"
-	StateTypePaid                   StateType = "paid"
-	StateTypePartnerMetering        StateType = "partner_metering"
-	StateTypeUncollectible          StateType = "uncollectible"
-	StateTypeWaived                 StateType = "waived"
-)
-
-type Type string
-
-const (
-	TypeDiscount    Type = "discount"
-	TypeEmployee    Type = "employee"
-	TypeEvaluation  Type = "evaluation"
-	TypeInternal    Type = "internal"
-	TypeOther       Type = "other"
-	TypeOutage      Type = "outage"
-	TypePartner     Type = "partner"
-	TypePromotion   Type = "promotion"
-	TypePurchase    Type = "purchase"
-	TypeReferral    Type = "referral"
-	TypeSponsorship Type = "sponsorship"
-	TypeTrial       Type = "trial"
-	TypeTrialOver   Type = "trial_over"
-)
+type billingGroupCreateOut struct {
+	BillingGroup BillingGroupCreateOut `json:"billing_group"`
+}
+type billingGroupCreditsClaimOut struct {
+	Credit BillingGroupCreditsClaimOut `json:"credit"`
+}
+type billingGroupCreditsListOut struct {
+	Credits []CreditOut `json:"credits"`
+}
+type billingGroupEventListOut struct {
+	Events []EventOut `json:"events"`
+}
+type billingGroupGetOut struct {
+	BillingGroup BillingGroupGetOut `json:"billing_group"`
+}
+type billingGroupInvoiceLinesListOut struct {
+	Lines []LineOut `json:"lines,omitempty"`
+}
+type billingGroupInvoiceListOut struct {
+	Invoices []InvoiceOut `json:"invoices"`
+}
+type billingGroupListOut struct {
+	BillingGroups []BillingGroupOut `json:"billing_groups"`
+}
+type billingGroupProjectListOut struct {
+	Projects []ProjectOut `json:"projects"`
+}
+type billingGroupUpdateOut struct {
+	BillingGroup BillingGroupUpdateOut `json:"billing_group"`
+}
