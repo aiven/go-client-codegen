@@ -16,7 +16,7 @@ go get github.com/aiven/aiven-go-client-v3
 
 ## Configuration and usage
 
-## via env vars
+### via env vars
 
 | Name               | Type     | Description            |
 |--------------------|:---------|------------------------|
@@ -26,7 +26,7 @@ go get github.com/aiven/aiven-go-client-v3
 | `AIVEN_DEBUG`      | `bool`   | Enables Stderr logging |
 
 
-## via constructor options
+### via constructor options
 
 ```go
 import "github.com/aiven/aiven-go-client-v3"
@@ -68,13 +68,13 @@ In some cases, we must avoid sending empty arrays or objects even if that works 
 For instance, sending `tech_emails` triggers creation of an additional event log entry in Console.
 As a universal solution, the client takes `nil` as "missing".
 
-## `[]Foo`, not `[]*Foo`
+### `[]Foo`, not `[]*Foo`
 
 The generator doesn't create pointers for array elements.
 Because technically that means it might contain `nil` values.
 Therefore `nil` checks _must_ be performed.
 
-## Response objects
+### Response objects
 
 Request and response objects are separated and do not share code, except enums.
 Even though if they look similar:
