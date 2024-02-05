@@ -69,16 +69,16 @@ FlinkApplicationDeployment:
   - ServiceFlinkListApplicationDeployments
   - ServiceFlinkStopApplicationDeployment
 FlinkApplication:
-  - ServiceFlinkCreateApplicationVersion
-  - ServiceFlinkDeleteApplicationVersion
-  - ServiceFlinkGetApplicationVersion
-  - ServiceFlinkValidateApplicationVersion
-FlinkApplicationVersion:
   - ServiceFlinkCreateApplication
   - ServiceFlinkDeleteApplication
   - ServiceFlinkGetApplication
   - ServiceFlinkListApplications
   - ServiceFlinkUpdateApplication
+FlinkApplicationVersion:
+  - ServiceFlinkCreateApplicationVersion
+  - ServiceFlinkDeleteApplicationVersion
+  - ServiceFlinkGetApplicationVersion
+  - ServiceFlinkValidateApplicationVersion
 FlinkJob:
   - ServiceFlinkJobDetails
   - ServiceFlinkJobsList
