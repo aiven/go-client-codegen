@@ -24,11 +24,11 @@ jobs:
       github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-go@v4
-        with:
-          go-version-file: go.mod
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
       - uses: arduino/setup-task@v1
       - run: task test
