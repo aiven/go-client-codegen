@@ -22,7 +22,7 @@ type Handler interface {
 	// ServiceClickHouseQueryStats return statistics on recent queries
 	// GET /project/{project}/service/{service_name}/clickhouse/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQueryStats
-	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, limit int, offset int, orderByType OrderByType) ([]QueryOut, error)
+	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOut, error)
 
 	// ServiceClickHouseTieredStorageSummary get the ClickHouse tiered storage summary
 	// GET /project/{project}/service/{service_name}/clickhouse/tiered-storage/summary
@@ -52,8 +52,8 @@ func (h *ClickHouseHandler) ServiceClickHouseDatabaseDelete(ctx context.Context,
 	_, err := h.doer.Do(ctx, "ServiceClickHouseDatabaseDelete", "DELETE", path, nil)
 	return err
 }
-func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, limit int, offset int, orderByType OrderByType) ([]QueryOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/query/stats", project, serviceName, limit, offset, orderByType)
+func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOut, error) {
+	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil)
 	out := new(serviceClickHouseQueryStatsOut)
 	err = json.Unmarshal(b, out)
@@ -78,29 +78,6 @@ type HourlyOut struct {
 	HourStart       string `json:"hour_start"`
 	PeakStoredBytes int    `json:"peak_stored_bytes"`
 }
-type OrderByType string
-
-const (
-	OrderByTypeCallsasc       OrderByType = "calls:asc"
-	OrderByTypeCallsdesc      OrderByType = "calls:desc"
-	OrderByTypeMinTimeasc     OrderByType = "min_time:asc"
-	OrderByTypeMinTimedesc    OrderByType = "min_time:desc"
-	OrderByTypeMaxTimeasc     OrderByType = "max_time:asc"
-	OrderByTypeMaxTimedesc    OrderByType = "max_time:desc"
-	OrderByTypeMeanTimeasc    OrderByType = "mean_time:asc"
-	OrderByTypeMeanTimedesc   OrderByType = "mean_time:desc"
-	OrderByTypeP95Timeasc     OrderByType = "p95_time:asc"
-	OrderByTypeP95Timedesc    OrderByType = "p95_time:desc"
-	OrderByTypeStddevTimeasc  OrderByType = "stddev_time:asc"
-	OrderByTypeStddevTimedesc OrderByType = "stddev_time:desc"
-	OrderByTypeTotalTimeasc   OrderByType = "total_time:asc"
-	OrderByTypeTotalTimedesc  OrderByType = "total_time:desc"
-)
-
-func OrderByTypeChoices() []string {
-	return []string{"calls:asc", "calls:desc", "min_time:asc", "min_time:desc", "max_time:asc", "max_time:desc", "mean_time:asc", "mean_time:desc", "p95_time:asc", "p95_time:desc", "stddev_time:asc", "stddev_time:desc", "total_time:asc", "total_time:desc"}
-}
-
 type QueryOut struct {
 	Calls      *int     `json:"calls,omitempty"`
 	Database   string   `json:"database,omitempty"`

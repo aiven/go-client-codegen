@@ -158,7 +158,7 @@ type Handler interface {
 	// ServiceUpdate update service configuration
 	// PUT /project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUpdate
-	ServiceUpdate(ctx context.Context, project string, serviceName string, allowUncleanPoweroff bool, in *ServiceUpdateIn) (*ServiceUpdateOut, error)
+	ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn) (*ServiceUpdateOut, error)
 }
 
 func NewHandler(doer doer) ServiceHandler {
@@ -433,8 +433,8 @@ func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, ser
 	}
 	return &out.Task, nil
 }
-func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, allowUncleanPoweroff bool, in *ServiceUpdateIn) (*ServiceUpdateOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s", project, serviceName, allowUncleanPoweroff)
+func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn) (*ServiceUpdateOut, error) {
+	path := fmt.Sprintf("/project/%s/service/%s", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceUpdate", "PUT", path, in)
 	out := new(serviceUpdateOut)
 	err = json.Unmarshal(b, out)
