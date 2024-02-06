@@ -121,6 +121,7 @@ func exec() error {
 
 				if param.In != ParameterInPath {
 					log.Printf("%q param %s in %q", p.OperationID, param.Name, param.In)
+
 					continue
 				}
 
