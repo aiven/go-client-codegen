@@ -1,3 +1,4 @@
+// Package aiven provides a client for interacting with the Aiven API.
 package aiven
 
 import (
@@ -24,10 +25,12 @@ func TestNewClient(t *testing.T) {
 	require.NoError(t, err)
 
 	found := 0
+
 	for _, to := range tokens {
 		if strings.HasPrefix(token, to.TokenPrefix) {
 			found++
 		}
 	}
+
 	assert.Equal(t, 1, found)
 }

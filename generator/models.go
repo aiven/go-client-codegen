@@ -15,6 +15,7 @@ import (
 
 const docSite = "https://api.aiven.io/doc"
 
+// Doc represents a parsed OpenAPI document.
 type Doc struct {
 	Paths      map[string]map[string]*Path `json:"paths"`
 	Components struct {
@@ -25,20 +26,25 @@ type Doc struct {
 
 func (d *Doc) getSchema(path string) (*Schema, error) {
 	name := strings.Split(path, "/")[3]
+
 	schema := d.Components.Schemas[name]
 	if schema == nil {
 		return nil, fmt.Errorf("schema %q not found", path)
 	}
+
 	schema.name = name
+
 	return schema, nil
 }
 
+// Content represents a request or response body.
 type Content map[string]*struct {
 	Schema struct {
 		Ref string `json:"$ref"`
 	} `json:"schema"`
 }
 
+// Path represents a parsed OpenAPI path.
 type Path struct {
 	ID          string
 	Path        string
@@ -62,6 +68,7 @@ type Path struct {
 	} `json:"responses"`
 }
 
+// Comment returns a comment for the path.
 func (p *Path) Comment() *jen.Statement {
 	// IDE highlights any coincidence method names
 	// For instance, there is always "List" method and that's a common verb
@@ -70,20 +77,25 @@ func (p *Path) Comment() *jen.Statement {
 	s := lowerFirst(p.Summary)
 	c := jen.Comment(fmt.Sprintf("%s %s", p.FuncName, s))
 	c.Line().Comment(fmt.Sprintf("%s %s", p.Method, p.Path))
+
 	if p.Tags[0] == "" {
 		c.Line().Comment(fmt.Sprintf("%s/#operation/%s", docSite, p.OperationID))
 	} else {
 		c.Line().Comment(fmt.Sprintf("%s/#tag/%s/operation/%s", docSite, p.Tags[0], p.OperationID))
 	}
+
 	return c
 }
 
+// ParameterIn represents a parameter location.
 type ParameterIn string
 
 const (
+	// ParameterInPath represents a path parameter location.
 	ParameterInPath ParameterIn = "path"
 )
 
+// Parameter represents a parsed OpenAPI parameter.
 type Parameter struct {
 	Ref         string      `json:"$ref"`
 	In          ParameterIn `json:"in"`
@@ -93,18 +105,27 @@ type Parameter struct {
 	Schema      *Schema     `json:"schema"`
 }
 
+// SchemaType represents a schema type.
 type SchemaType string
 
 const (
-	SchemaTypeObject  = "object"
-	SchemaTypeArray   = "array"
-	SchemaTypeString  = "string"
+	// SchemaTypeObject represents an object schema type.
+	SchemaTypeObject = "object"
+	// SchemaTypeArray represents an array schema type.
+	SchemaTypeArray = "array"
+	// SchemaTypeString represents a string schema type.
+	SchemaTypeString = "string"
+	// SchemaTypeInteger represents an integer schema type.
 	SchemaTypeInteger = "integer"
-	SchemaTypeNumber  = "number"
+	// SchemaTypeNumber represents a number schema type.
+	SchemaTypeNumber = "number"
+	// SchemaTypeBoolean represents a boolean schema type.
 	SchemaTypeBoolean = "boolean"
-	SchemaTypeTime    = "time"
+	// SchemaTypeTime represents a time schema type.
+	SchemaTypeTime = "time"
 )
 
+// Schema represents a parsed OpenAPI schema.
 type Schema struct {
 	Type          SchemaType         `json:"type"`
 	Properties    map[string]*Schema `json:"properties"`
@@ -122,12 +143,14 @@ type Schema struct {
 	in, out       bool // Request or Response DTO
 }
 
+// nolint:funlen,gocognit // It is easy to maintain and read, we don't need to split it
 func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 	if s.Ref != "" {
 		other, err := doc.getSchema(s.Ref)
 		if err != nil {
 			panic(err)
 		}
+
 		*s = *other
 	}
 
@@ -148,13 +171,16 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 
 	s.name = name
 	s.CamelName = strcase.ToCamel(s.name)
+
 	if s.isEnum() {
-		if !strings.HasSuffix(s.CamelName, "Type") {
-			s.CamelName += "Type"
+		const enumTypeSuffix = "Type"
+
+		if !strings.HasSuffix(s.CamelName, enumTypeSuffix) {
+			s.CamelName += enumTypeSuffix
 		}
 
 		// When it is just "Type" it is useless
-		if s.CamelName == "Type" {
+		if s.CamelName == enumTypeSuffix {
 			s.CamelName = s.parent.CamelName + s.CamelName
 		}
 	}
@@ -212,11 +238,14 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 				// A duplicate
 				if other.CamelName == s.CamelName {
 					s.CamelName += "Alt"
+
 					continue outer
 				}
 			}
+
 			break outer
 		}
+
 		scope[s.hash()] = s
 	}
 
@@ -240,6 +269,7 @@ func (s *Schema) hash() string {
 	if s.isEnum() {
 		return mustMarshal(s.Enum)
 	}
+
 	return mustMarshal(s)
 }
 
@@ -256,6 +286,7 @@ func (s *Schema) isScalar() bool {
 	case SchemaTypeString, SchemaTypeInteger, SchemaTypeNumber, SchemaTypeBoolean, SchemaTypeTime:
 		return true
 	}
+
 	return false
 }
 
@@ -272,6 +303,7 @@ func (s *Schema) root() *Schema {
 	if s.parent == nil {
 		return s
 	}
+
 	return s.parent.root()
 }
 
@@ -311,6 +343,7 @@ func getType(s *Schema) *jen.Statement {
 		if !s.required && s.Type != SchemaTypeString {
 			return jen.Op("*").Add(scalar)
 		}
+
 		return scalar
 	}
 
@@ -325,17 +358,20 @@ func getType(s *Schema) *jen.Statement {
 		if s.Items.isObject() || s.Items.isArray() {
 			return a.Id(s.Items.CamelName)
 		}
+
 		return a.Add(getType(s.Items))
 	case s.isObject():
 		if !s.required {
 			return jen.Id("*" + s.CamelName)
 		}
+
 		return jen.Id(s.CamelName)
 	case s.isMap():
 		a := jen.Map(jen.String())
 		if !(s.required || s.isOut()) {
 			a = jen.Op("*").Map(jen.String())
 		}
+
 		if isMapString(s) {
 			return a.String()
 		} else {
@@ -351,6 +387,7 @@ func mustMarshal(s any) string {
 	if err != nil {
 		panic(err)
 	}
+
 	return string(b)
 }
 
@@ -363,12 +400,9 @@ func lowerFirst(s string) string {
 	return strings.ToLower(s[:1]) + s[1:]
 }
 
-func upperFirst(s string) string {
-	return strings.ToUpper(s[:1]) + s[1:]
-}
-
 func sortedKeys[T any](m map[string]T) []string {
 	keys := maps.Keys(m)
 	sort.Strings(keys)
+
 	return keys
 }

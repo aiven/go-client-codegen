@@ -1,5 +1,7 @@
+// Package aiven provides a client for interacting with the Aiven API.
 package aiven
 
+// Option is a function that configures the client.
 type Option func(*aivenClient)
 
 // DebugOpt whether should the client run in debug mode.

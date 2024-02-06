@@ -1,0 +1,21 @@
+version: 3
+
+vars:
+  GEN_OUT_DIR: handler
+
+tasks:
+  fmt-imports:
+    cmds:
+      - find . -type f -name '*.go' -exec sed -zi 's/(?<== `\s+)"\n\+\t"/"\n"/g' {} +
+      - goimports -local "github.com/aiven/go-client-codegen" -w .
+  go-generate:
+    cmds:
+      - rm -rf {{.GEN_OUT_DIR}}
+      - GEN_OUT_DIR={{.GEN_OUT_DIR}} go run -tags=generator ./generator/...
+  generate:
+    cmds:
+      - task: go-generate
+      - task: fmt-imports
+  test:
+    cmds:
+      - go test -v ./...

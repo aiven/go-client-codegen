@@ -1,0 +1,44 @@
+name: CodeQL
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
+      - unlabeled
+  push:
+    branches:
+      - main
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  codeql:
+    runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'skip workflows')) ||
+      github.event_name == 'push'
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+          - go
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: "${{ matrix.language }}"
+      - uses: github/codeql-action/autobuild@v3
+      - uses: github/codeql-action/analyze@v3

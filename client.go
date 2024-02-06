@@ -1,3 +1,4 @@
+// Package aiven provides a client for interacting with the Aiven API.
 package aiven
 
 import (
@@ -17,10 +18,14 @@ import (
 	"github.com/rs/zerolog"
 )
 
-var errTokenIsRequired = errors.New("token is required. See https://api.aiven.io/doc/#section/Get-started/Authentication")
+var errTokenIsRequired = errors.New(
+	"token is required. See https://api.aiven.io/doc/#section/Get-started/Authentication",
+)
 
+// NewClient creates a new Aiven client.
 func NewClient(opts ...Option) (Client, error) {
 	d := new(aivenClient)
+
 	err := envconfig.Process("", d)
 	if err != nil {
 		return nil, err
@@ -57,23 +62,28 @@ type aivenClient struct {
 	doer      Doer
 }
 
+// OperationIDKey is the key used to store the operation ID in the context.
 type OperationIDKey struct{}
 
 func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error) {
 	ctx = context.WithValue(ctx, OperationIDKey{}, operationID)
 
 	var rsp *http.Response
+
 	var err error
+
 	if d.Debug {
 		start := time.Now()
 		defer func() {
 			end := time.Since(start)
+
 			var event *zerolog.Event
 			if err != nil {
 				event = d.logger.Error().Err(err)
 			} else {
 				event = d.logger.Info().Str("status", rsp.Status)
 			}
+
 			event.Ctx(ctx).
 				Stringer("took", end).
 				Str("operationID", operationID).
@@ -102,11 +112,13 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 
 func (d *aivenClient) do(ctx context.Context, method, path string, v any) (*http.Response, error) {
 	var body io.Reader
+
 	if !(v == nil || isEmpty(v)) {
 		b, err := json.Marshal(v)
 		if err != nil {
 			return nil, err
 		}
+
 		body = bytes.NewBuffer(b)
 	}
 
@@ -125,11 +137,13 @@ func (d *aivenClient) do(ctx context.Context, method, path string, v any) (*http
 	query := req.URL.Query()
 	query.Add("limit", "999")
 	req.URL.RawQuery = query.Encode()
+
 	return d.doer.Do(req)
 }
 
 func isEmpty(a any) bool {
 	v := reflect.ValueOf(a)
+
 	return !v.IsZero() || v.Kind() == reflect.Ptr && v.IsNil()
 }
 

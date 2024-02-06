@@ -1,95 +1,48 @@
-# Code-generated Aiven Go Client
+# go-client-codegen
 
-## Known limitations
+go-client-codegen is an automatically code generated Aiven Go Client. It is generated from the Aiven API specification.
 
-- doesn't support query params
-- doesn't support custom certificates
-- `string` type is never a pointer, as it is not expected to send `""`
-- authorization is by token only
-- slices never omitted (always sent), as it makes development much easier
+## Setup
 
-## Installation
-
-``` shell
-go get github.com/aiven/aiven-go-client-v3
+```bash
+go get github.com/aiven/go-client-codegen
 ```
 
-## Configuration and usage
+### Configuration and Usage
 
-### via env vars
+#### Via Environment Variables
 
-| Name               | Type     | Description            |
-|--------------------|:---------|------------------------|
-| `AIVEN_TOKEN`      | `string` | API auth token         |
-| `AIVEN_WEB_URL`    | `string` | API Server location    |
-| `AIVEN_USER_AGENT` | `string` | Client user agent      |
-| `AIVEN_DEBUG`      | `bool`   | Enables Stderr logging |
+| Name               | Type     | Description                    |
+| ------------------ | :------- | ------------------------------ |
+| `AIVEN_TOKEN`      | `string` | Aiven API Authentication Token |
+| `AIVEN_WEB_URL`    | `string` | Aiven API URL                  |
+| `AIVEN_USER_AGENT` | `string` | User Agent                     |
+| `AIVEN_DEBUG`      | `bool`   | Debug Output Flag (stderr)     |
 
-
-### via constructor options
+#### Via Constructor Options
 
 ```go
-import "github.com/aiven/aiven-go-client-v3"
+import "github.com/aiven/go-client-codegen"
 
-client, err := aiven.NewClient(DebugOpt(true), UserAgentOpt("smith"))
+client, err := aiven.NewClient(DebugOpt(true), UserAgentOpt("foo"))
 if err != nil {
 	return err
 }
 
-services, err := client.ServiceList(ctx, "my-project")
+services, err := client.ServiceList(ctx, "bar-project")
 ```
 
-## Design decisions
+See [CONTRIBUTING.md](CONTRIBUTING.md) for instructions on how to contribute to the development of go-client-codegen.
 
-### Al-in-one interface
+## License
 
-The `aiven.Client` exposes all Aiven methods by OperationID instead of providing with scoped/grouped handlers. 
-This approach has several benefits:
+go-client-codegen is licensed under the Apache license, version 2.0. Full license text is available in the
+[LICENSE](LICENSE) file.
 
-1. The OperationID is immutable, means the interface should not dramatically change if spec is changed
-2. Easier mocking/testing, as it is possible to create a subset of client methods:
+Please note that the project explicitly does not require a CLA (Contributor License Agreement) from its contributors.
 
-```go
-type sweeperClient interface {
-    ServiceDelete(ctx context.Context, project string, serviceName string) error
-    ServiceUserDelete(ctx context.Context, project string, serviceName string, serviceUsername string) error
-    VpcDelete(ctx context.Context, project string, projectVpcId string) (*vpc.VpcDeleteOut, error)
-}
+## Contact
 
-func sweeper(client serviceShredderClient) error {
-	... // sweep
-}
-```
-
-### Pointers for reference types
-
-The Aiven API distinguishes between cases when the field is missing or has a zero-value.  
-In some cases, we must avoid sending empty arrays or objects even if that works as expected.
-For instance, sending `tech_emails` triggers creation of an additional event log entry in Console.
-As a universal solution, the client takes `nil` as "missing".
-
-### `[]Foo`, not `[]*Foo`
-
-The generator doesn't create pointers for array elements.
-Because technically that means it might contain `nil` values.
-Therefore `nil` checks _must_ be performed.
-
-### Response objects
-
-Request and response objects are separated and do not share code, except enums.
-Even though if they look similar:
-
-```go
-type UserIn struct {
-	Name string `json:"name"`
-}
-
-type UserOut struct {
-	Name string `json:"name"`
-}
-```
-
-That's made on purpose, so if a request or response object has been changed, hence `UserIn != UserOut` 
-it won't generate a new struct.
-Which in turn might regenerate other objects because of the name collision.
-Keeping things separate makes generated code more durable.
+Bug reports and patches are very welcome, please post them as GitHub issues and pull requests at
+https://github.com/aiven/go-client-codegen. To report any possible vulnerabilities or other serious issues please see
+our [security](SECURITY.md) policy.

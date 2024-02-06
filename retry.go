@@ -1,3 +1,4 @@
+// Package aiven provides a client for interacting with the Aiven API.
 package aiven
 
 import (
@@ -17,6 +18,7 @@ import (
 // Suspends errors, cause that's what retryablehttp.DefaultRetryPolicy does
 func checkRetry(ctx context.Context, rsp *http.Response, err error) (bool, error) {
 	shouldRetry, err := retryablehttp.ErrorPropagatedRetryPolicy(ctx, rsp, err)
+
 	return shouldRetry || err == nil && isRetryable(rsp), nil
 }
 
@@ -39,7 +41,13 @@ func isRetryable(rsp *http.Response) bool {
 	case http.StatusNotFound:
 		// We need to restore the body
 		body := rsp.Body
-		defer body.Close()
+
+		defer func(body io.ReadCloser) {
+			err := body.Close()
+			if err != nil {
+				panic(err)
+			}
+		}(body)
 
 		// Shouldn't be there much of data, ReadAll is ok
 		b, err := io.ReadAll(body)
@@ -58,6 +66,7 @@ func isRetryable(rsp *http.Response) bool {
 			}
 		}
 	}
+
 	return false
 }
 

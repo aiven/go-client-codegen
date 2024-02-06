@@ -1,3 +1,4 @@
+// Package aiven provides a client for interacting with the Aiven API.
 package aiven
 
 import (

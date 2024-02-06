@@ -1,3 +1,4 @@
+// Package aiven provides a client for interacting with the Aiven API.
 package aiven
 
 import (
@@ -22,12 +23,14 @@ func (e Error) Error() string {
 // IsNotFound returns true if the specified error has status 404
 func IsNotFound(err error) bool {
 	var e Error
+
 	return errors.As(err, &e) && e.Status == http.StatusNotFound
 }
 
 // IsAlreadyExists returns true if the error message and error code that indicates that entity already exists
 func IsAlreadyExists(err error) bool {
 	var e Error
+
 	return errors.As(err, &e) && strings.Contains(e.Message, "already exists") && e.Status == http.StatusConflict
 }
 
@@ -37,5 +40,6 @@ func OmitNotFound(err error) error {
 	if IsNotFound(err) {
 		return nil
 	}
+
 	return err
 }
