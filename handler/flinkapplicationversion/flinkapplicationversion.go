@@ -46,6 +46,9 @@ type FlinkApplicationVersionHandler struct {
 func (h *FlinkApplicationVersionHandler) ServiceFlinkCreateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateApplicationVersionIn) (*ServiceFlinkCreateApplicationVersionOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/version", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkCreateApplicationVersion", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkCreateApplicationVersionOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -56,6 +59,9 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkCreateApplicationVersion(ct
 func (h *FlinkApplicationVersionHandler) ServiceFlinkDeleteApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkDeleteApplicationVersionOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/version/%s", project, serviceName, applicationId, applicationVersionId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkDeleteApplicationVersion", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkDeleteApplicationVersionOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -66,6 +72,9 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkDeleteApplicationVersion(ct
 func (h *FlinkApplicationVersionHandler) ServiceFlinkGetApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkGetApplicationVersionOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/version/%s", project, serviceName, applicationId, applicationVersionId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkGetApplicationVersion", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkGetApplicationVersionOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -76,6 +85,9 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkGetApplicationVersion(ctx c
 func (h *FlinkApplicationVersionHandler) ServiceFlinkValidateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkValidateApplicationVersionIn) (*ServiceFlinkValidateApplicationVersionOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/version/validate", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkValidateApplicationVersion", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkValidateApplicationVersionOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

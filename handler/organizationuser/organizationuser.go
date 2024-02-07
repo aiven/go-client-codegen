@@ -91,6 +91,9 @@ type OrganizationUserHandler struct {
 func (h *OrganizationUserHandler) OrganizationUserAuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethodOut, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s/authentication_methods", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserAuthenticationMethodsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(organizationUserAuthenticationMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -106,6 +109,9 @@ func (h *OrganizationUserHandler) OrganizationUserDelete(ctx context.Context, or
 func (h *OrganizationUserHandler) OrganizationUserGet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserGetOut, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(OrganizationUserGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -126,6 +132,9 @@ func (h *OrganizationUserHandler) OrganizationUserInvitationDelete(ctx context.C
 func (h *OrganizationUserHandler) OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]InvitationOut, error) {
 	path := fmt.Sprintf("/organization/%s/invitation", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationUserInvitationsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(organizationUserInvitationsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -141,6 +150,9 @@ func (h *OrganizationUserHandler) OrganizationUserInvite(ctx context.Context, or
 func (h *OrganizationUserHandler) OrganizationUserList(ctx context.Context, organizationId string) ([]UserOut, error) {
 	path := fmt.Sprintf("/organization/%s/user", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationUserList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(organizationUserListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -161,6 +173,9 @@ func (h *OrganizationUserHandler) OrganizationUserRevokeToken(ctx context.Contex
 func (h *OrganizationUserHandler) OrganizationUserSet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserSetOut, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserSet", "PUT", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(OrganizationUserSetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -171,6 +186,9 @@ func (h *OrganizationUserHandler) OrganizationUserSet(ctx context.Context, organ
 func (h *OrganizationUserHandler) OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]TokenOut, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s/access-tokens", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserTokensList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(organizationUserTokensListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -181,6 +199,9 @@ func (h *OrganizationUserHandler) OrganizationUserTokensList(ctx context.Context
 func (h *OrganizationUserHandler) OrganizationUserUpdate(ctx context.Context, organizationId string, memberUserId string, in *OrganizationUserUpdateIn) (*OrganizationUserUpdateOut, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserUpdate", "PATCH", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(OrganizationUserUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

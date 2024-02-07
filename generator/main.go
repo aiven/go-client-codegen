@@ -314,9 +314,11 @@ func exec() error {
 				),
 			}
 
+			ifErr := jen.If(jen.Err().Op("!=").Nil()).Block(returnErr)
 			if rsp == nil {
 				block = append(block, jen.Return(jen.Err()))
 			} else {
+				block = append(block, ifErr)
 				outReturn := jen.Id("out")
 				if rsp.CamelName != schemaOut.CamelName {
 					// Takes original name and turns to camel.
@@ -333,7 +335,7 @@ func exec() error {
 					block,
 					jen.Id("out").Op(":=").New(jen.Id(schemaOut.CamelName)),
 					jen.Err().Op("=").Qual("encoding/json", "Unmarshal").Call(jen.Id("b"), jen.Id("out")),
-					jen.If(jen.Err().Op("!=").Nil()).Block(returnErr),
+					ifErr,
 					jen.Return(outReturn, jen.Nil()),
 				)
 			}

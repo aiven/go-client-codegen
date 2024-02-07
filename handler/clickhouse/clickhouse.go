@@ -55,6 +55,9 @@ func (h *ClickHouseHandler) ServiceClickHouseDatabaseDelete(ctx context.Context,
 func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceClickHouseQueryStatsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -65,6 +68,9 @@ func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, pro
 func (h *ClickHouseHandler) ServiceClickHouseTieredStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceClickHouseTieredStorageSummaryOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/tiered-storage/summary", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceClickHouseTieredStorageSummary", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceClickHouseTieredStorageSummaryOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

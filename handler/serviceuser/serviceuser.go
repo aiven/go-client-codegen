@@ -51,6 +51,9 @@ type ServiceUserHandler struct {
 func (h *ServiceUserHandler) ServiceUserCreate(ctx context.Context, project string, serviceName string, in *ServiceUserCreateIn) (*ServiceUserCreateOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceUserCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceUserCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -61,6 +64,9 @@ func (h *ServiceUserHandler) ServiceUserCreate(ctx context.Context, project stri
 func (h *ServiceUserHandler) ServiceUserCredentialsModify(ctx context.Context, project string, serviceName string, serviceUsername string, in *ServiceUserCredentialsModifyIn) (*ServiceUserCredentialsModifyOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
 	b, err := h.doer.Do(ctx, "ServiceUserCredentialsModify", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceUserCredentialsModifyOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -71,6 +77,9 @@ func (h *ServiceUserHandler) ServiceUserCredentialsModify(ctx context.Context, p
 func (h *ServiceUserHandler) ServiceUserCredentialsReset(ctx context.Context, project string, serviceName string, serviceUsername string) (*ServiceUserCredentialsResetOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user/%s/credentials/reset", project, serviceName, serviceUsername)
 	b, err := h.doer.Do(ctx, "ServiceUserCredentialsReset", "PUT", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceUserCredentialsResetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -86,6 +95,9 @@ func (h *ServiceUserHandler) ServiceUserDelete(ctx context.Context, project stri
 func (h *ServiceUserHandler) ServiceUserGet(ctx context.Context, project string, serviceName string, serviceUsername string) (*ServiceUserGetOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
 	b, err := h.doer.Do(ctx, "ServiceUserGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceUserGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

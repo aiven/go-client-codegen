@@ -55,6 +55,9 @@ type PostgreSQLHandler struct {
 func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, project string, serviceName string) ([]ExtensionOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/pg/available-extensions", project, serviceName)
 	b, err := h.doer.Do(ctx, "PGServiceAvailableExtensions", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(pgserviceAvailableExtensionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -65,6 +68,9 @@ func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, pr
 func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]QueryOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/pg/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "PGServiceQueryStatistics", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(pgserviceQueryStatisticsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -75,6 +81,9 @@ func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, projec
 func (h *PostgreSQLHandler) PgAvailableExtensions(ctx context.Context, tenant string) ([]PgOut, error) {
 	path := fmt.Sprintf("/tenants/%s/pg-available-extensions", tenant)
 	b, err := h.doer.Do(ctx, "PgAvailableExtensions", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(pgAvailableExtensionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

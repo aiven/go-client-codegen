@@ -56,6 +56,9 @@ type FlinkApplicationDeploymentHandler struct {
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkCancelApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkCancelApplicationDeploymentOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment/%s/cancel", project, serviceName, applicationId, deploymentId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkCancelApplicationDeployment", "POST", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkCancelApplicationDeploymentOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -66,6 +69,9 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkCancelApplicationDeploym
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkCreateApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateApplicationDeploymentIn) (*ServiceFlinkCreateApplicationDeploymentOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkCreateApplicationDeployment", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkCreateApplicationDeploymentOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -76,6 +82,9 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkCreateApplicationDeploym
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkDeleteApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkDeleteApplicationDeploymentOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment/%s", project, serviceName, applicationId, deploymentId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkDeleteApplicationDeployment", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkDeleteApplicationDeploymentOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -86,6 +95,9 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkDeleteApplicationDeploym
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkGetApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkGetApplicationDeploymentOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment/%s", project, serviceName, applicationId, deploymentId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkGetApplicationDeployment", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkGetApplicationDeploymentOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -96,6 +108,9 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkGetApplicationDeployment
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkListApplicationDeployments(ctx context.Context, project string, serviceName string, applicationId string) ([]DeploymentOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplicationDeployments", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceFlinkListApplicationDeploymentsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -106,6 +121,9 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkListApplicationDeploymen
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkStopApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkStopApplicationDeploymentOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment/%s/stop", project, serviceName, applicationId, deploymentId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkStopApplicationDeployment", "POST", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkStopApplicationDeploymentOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

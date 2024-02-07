@@ -176,6 +176,9 @@ type ServiceHandler struct {
 func (h *ServiceHandler) ListProjectServiceTypes(ctx context.Context, project string) (*ListProjectServiceTypesOut, error) {
 	path := fmt.Sprintf("/project/%s/service_types", project)
 	b, err := h.doer.Do(ctx, "ListProjectServiceTypes", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(listProjectServiceTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -186,6 +189,9 @@ func (h *ServiceHandler) ListProjectServiceTypes(ctx context.Context, project st
 func (h *ServiceHandler) ListPublicServiceTypes(ctx context.Context) (*ListPublicServiceTypesOut, error) {
 	path := fmt.Sprintf("/service_types")
 	b, err := h.doer.Do(ctx, "ListPublicServiceTypes", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(listPublicServiceTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -196,6 +202,9 @@ func (h *ServiceHandler) ListPublicServiceTypes(ctx context.Context) (*ListPubli
 func (h *ServiceHandler) ListServiceVersions(ctx context.Context) ([]ServiceVersionOut, error) {
 	path := fmt.Sprintf("/service_versions")
 	b, err := h.doer.Do(ctx, "ListServiceVersions", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(listServiceVersionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -206,6 +215,9 @@ func (h *ServiceHandler) ListServiceVersions(ctx context.Context) ([]ServiceVers
 func (h *ServiceHandler) ProjectGetServiceLogs(ctx context.Context, project string, serviceName string, in *ProjectGetServiceLogsIn) (*ProjectGetServiceLogsOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/logs", project, serviceName)
 	b, err := h.doer.Do(ctx, "ProjectGetServiceLogs", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ProjectGetServiceLogsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -216,6 +228,9 @@ func (h *ServiceHandler) ProjectGetServiceLogs(ctx context.Context, project stri
 func (h *ServiceHandler) ProjectServiceTagsList(ctx context.Context, project string, serviceName string) (map[string]string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/tags", project, serviceName)
 	b, err := h.doer.Do(ctx, "ProjectServiceTagsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(projectServiceTagsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -236,6 +251,9 @@ func (h *ServiceHandler) ProjectServiceTagsUpdate(ctx context.Context, project s
 func (h *ServiceHandler) ServiceAlertsList(ctx context.Context, project string, serviceName string) ([]AlertOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/alerts", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceAlertsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceAlertsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -246,6 +264,9 @@ func (h *ServiceHandler) ServiceAlertsList(ctx context.Context, project string, 
 func (h *ServiceHandler) ServiceBackupToAnotherRegionReport(ctx context.Context, project string, serviceName string, in *ServiceBackupToAnotherRegionReportIn) (map[string]any, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/backup_to_another_region/report", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceBackupToAnotherRegionReport", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceBackupToAnotherRegionReportOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -256,6 +277,9 @@ func (h *ServiceHandler) ServiceBackupToAnotherRegionReport(ctx context.Context,
 func (h *ServiceHandler) ServiceBackupsGet(ctx context.Context, project string, serviceName string) ([]BackupOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/backups", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceBackupsGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceBackupsGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -266,6 +290,9 @@ func (h *ServiceHandler) ServiceBackupsGet(ctx context.Context, project string, 
 func (h *ServiceHandler) ServiceCancelQuery(ctx context.Context, project string, serviceName string, in *ServiceCancelQueryIn) (bool, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/query/cancel", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceCancelQuery", "POST", path, in)
+	if err != nil {
+		return false, err
+	}
 	out := new(serviceCancelQueryOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -276,6 +303,9 @@ func (h *ServiceHandler) ServiceCancelQuery(ctx context.Context, project string,
 func (h *ServiceHandler) ServiceCreate(ctx context.Context, project string, in *ServiceCreateIn) (*ServiceCreateOut, error) {
 	path := fmt.Sprintf("/project/%s/service", project)
 	b, err := h.doer.Do(ctx, "ServiceCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -296,6 +326,9 @@ func (h *ServiceHandler) ServiceDatabaseDelete(ctx context.Context, project stri
 func (h *ServiceHandler) ServiceDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/db", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceDatabaseList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceDatabaseListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -311,6 +344,9 @@ func (h *ServiceHandler) ServiceDelete(ctx context.Context, project string, serv
 func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string, serviceName string) (string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/enable-writes", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceEnableWrites", "POST", path, nil)
+	if err != nil {
+		return "", err
+	}
 	out := new(serviceEnableWritesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -321,6 +357,9 @@ func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string
 func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, serviceName string) (*ServiceGetOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -331,6 +370,9 @@ func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, service
 func (h *ServiceHandler) ServiceGetMigrationStatus(ctx context.Context, project string, serviceName string) (*ServiceGetMigrationStatusOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/migration", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceGetMigrationStatus", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceGetMigrationStatusOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -341,6 +383,9 @@ func (h *ServiceHandler) ServiceGetMigrationStatus(ctx context.Context, project 
 func (h *ServiceHandler) ServiceInfluxDBStats(ctx context.Context, project string, serviceName string) (map[string]any, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/influxdb/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceInfluxDBStats", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceInfluxDbstatsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -351,6 +396,9 @@ func (h *ServiceHandler) ServiceInfluxDBStats(ctx context.Context, project strin
 func (h *ServiceHandler) ServiceKmsGetCA(ctx context.Context, project string, serviceName string, caName string) (string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kms/ca/%s", project, serviceName, caName)
 	b, err := h.doer.Do(ctx, "ServiceKmsGetCA", "GET", path, nil)
+	if err != nil {
+		return "", err
+	}
 	out := new(serviceKmsGetCaOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -361,6 +409,9 @@ func (h *ServiceHandler) ServiceKmsGetCA(ctx context.Context, project string, se
 func (h *ServiceHandler) ServiceKmsGetKeypair(ctx context.Context, project string, serviceName string, keypairName string) (*ServiceKmsGetKeypairOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kms/keypairs/%s", project, serviceName, keypairName)
 	b, err := h.doer.Do(ctx, "ServiceKmsGetKeypair", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceKmsGetKeypairOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -371,6 +422,9 @@ func (h *ServiceHandler) ServiceKmsGetKeypair(ctx context.Context, project strin
 func (h *ServiceHandler) ServiceList(ctx context.Context, project string) ([]ServiceOut, error) {
 	path := fmt.Sprintf("/project/%s/service", project)
 	b, err := h.doer.Do(ctx, "ServiceList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -386,6 +440,9 @@ func (h *ServiceHandler) ServiceMaintenanceStart(ctx context.Context, project st
 func (h *ServiceHandler) ServiceMetricsFetch(ctx context.Context, project string, serviceName string, in *ServiceMetricsFetchIn) (map[string]any, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/metrics", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceMetricsFetch", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceMetricsFetchOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -396,6 +453,9 @@ func (h *ServiceHandler) ServiceMetricsFetch(ctx context.Context, project string
 func (h *ServiceHandler) ServiceQueryActivity(ctx context.Context, project string, serviceName string, in *ServiceQueryActivityIn) ([]QueryOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/query/activity", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceQueryActivity", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceQueryActivityOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -406,6 +466,9 @@ func (h *ServiceHandler) ServiceQueryActivity(ctx context.Context, project strin
 func (h *ServiceHandler) ServiceQueryStatisticsReset(ctx context.Context, project string, serviceName string) ([]map[string]any, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/query/stats/reset", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceQueryStatisticsReset", "PUT", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceQueryStatisticsResetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -416,6 +479,9 @@ func (h *ServiceHandler) ServiceQueryStatisticsReset(ctx context.Context, projec
 func (h *ServiceHandler) ServiceTaskCreate(ctx context.Context, project string, serviceName string, in *ServiceTaskCreateIn) (*ServiceTaskCreateOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/task", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceTaskCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceTaskCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -426,6 +492,9 @@ func (h *ServiceHandler) ServiceTaskCreate(ctx context.Context, project string, 
 func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, serviceName string, taskId string) (*ServiceTaskGetOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/task/%s", project, serviceName, taskId)
 	b, err := h.doer.Do(ctx, "ServiceTaskGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceTaskGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -436,6 +505,9 @@ func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, ser
 func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn) (*ServiceUpdateOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

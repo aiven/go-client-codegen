@@ -51,6 +51,9 @@ func (h *AccountTeamMemberHandler) AccountTeamMemberCancelInvite(ctx context.Con
 func (h *AccountTeamMemberHandler) AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*AccountTeamMemberVerifyInviteOut, error) {
 	path := fmt.Sprintf("/account/%s/invite/%s", accountId, inviteVerificationCode)
 	b, err := h.doer.Do(ctx, "AccountTeamMemberVerifyInvite", "POST", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountTeamMemberVerifyInviteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -66,6 +69,9 @@ func (h *AccountTeamMemberHandler) AccountTeamMembersInvite(ctx context.Context,
 func (h *AccountTeamMemberHandler) AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error) {
 	path := fmt.Sprintf("/account/%s/team/%s/members", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamMembersList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountTeamMembersListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

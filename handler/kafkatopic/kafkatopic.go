@@ -70,6 +70,9 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicDelete(ctx context.Context, project
 func (h *KafkaTopicHandler) ServiceKafkaTopicGet(ctx context.Context, project string, serviceName string, topicName string) (*ServiceKafkaTopicGetOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/topic/%s", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaTopicGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -80,6 +83,9 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicGet(ctx context.Context, project st
 func (h *KafkaTopicHandler) ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/topic", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaTopicListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -90,6 +96,9 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicList(ctx context.Context, project s
 func (h *KafkaTopicHandler) ServiceKafkaTopicMessageList(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageListIn) ([]MessageOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/rest/topics/%s/messages", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicMessageList", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaTopicMessageListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -100,6 +109,9 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicMessageList(ctx context.Context, pr
 func (h *KafkaTopicHandler) ServiceKafkaTopicMessageProduce(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageProduceIn) (*ServiceKafkaTopicMessageProduceOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/rest/topics/%s/produce", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicMessageProduce", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceKafkaTopicMessageProduceOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
