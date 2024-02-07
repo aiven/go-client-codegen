@@ -35,6 +35,9 @@ type FlinkJobHandler struct {
 func (h *FlinkJobHandler) ServiceFlinkJobDetails(ctx context.Context, project string, serviceName string, jobId string) (*ServiceFlinkJobDetailsOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/job/%s", project, serviceName, jobId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkJobDetails", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkJobDetailsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -45,6 +48,9 @@ func (h *FlinkJobHandler) ServiceFlinkJobDetails(ctx context.Context, project st
 func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]JobOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/job", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkJobsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceFlinkJobsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

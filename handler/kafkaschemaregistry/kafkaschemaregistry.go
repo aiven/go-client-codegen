@@ -100,6 +100,9 @@ type KafkaSchemaRegistryHandler struct {
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclAdd(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryAclAddIn) ([]AclOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema-registry/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryAclAdd", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceSchemaRegistryAclAddOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -110,6 +113,9 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclAdd(ctx context.Con
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclDelete(ctx context.Context, project string, serviceName string, schemaRegistryAclId string) ([]AclOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema-registry/acl/%s", project, serviceName, schemaRegistryAclId)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryAclDelete", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceSchemaRegistryAclDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -120,6 +126,9 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclDelete(ctx context.
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclList(ctx context.Context, project string, serviceName string) ([]AclOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema-registry/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryAclList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceSchemaRegistryAclListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -130,6 +139,9 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclList(ctx context.Co
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryCompatibility(ctx context.Context, project string, serviceName string, subjectName string, versionId int, in *ServiceSchemaRegistryCompatibilityIn) (bool, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/compatibility/subjects/%s/versions/%d", project, serviceName, subjectName, versionId)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryCompatibility", "POST", path, in)
+	if err != nil {
+		return false, err
+	}
 	out := new(serviceSchemaRegistryCompatibilityOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -140,6 +152,9 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryCompatibility(ctx cont
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryGlobalConfigGet(ctx context.Context, project string, serviceName string) (string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryGlobalConfigGet", "GET", path, nil)
+	if err != nil {
+		return "", err
+	}
 	out := new(serviceSchemaRegistryGlobalConfigGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -150,6 +165,9 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryGlobalConfigGet(ctx co
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryGlobalConfigPut(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryGlobalConfigPutIn) (string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryGlobalConfigPut", "PUT", path, in)
+	if err != nil {
+		return "", err
+	}
 	out := new(serviceSchemaRegistryGlobalConfigPutOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -165,6 +183,9 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySchemaGet(ctx context.
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string) (string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config/%s", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectConfigGet", "GET", path, nil)
+	if err != nil {
+		return "", err
+	}
 	out := new(serviceSchemaRegistrySubjectConfigGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -175,6 +196,9 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectConfigGet(ctx c
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectConfigPut(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectConfigPutIn) (string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/config/%s", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectConfigPut", "PUT", path, in)
+	if err != nil {
+		return "", err
+	}
 	out := new(serviceSchemaRegistrySubjectConfigPutOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -200,6 +224,9 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionGet(ctx 
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionPost(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectVersionPostIn) (int, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects/%s/versions", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionPost", "POST", path, in)
+	if err != nil {
+		return 0, err
+	}
 	out := new(serviceSchemaRegistrySubjectVersionPostOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -210,6 +237,9 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionPost(ctx
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionsGet(ctx context.Context, project string, serviceName string, subjectName string) ([]int, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects/%s/versions", project, serviceName, subjectName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionsGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceSchemaRegistrySubjectVersionsGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -220,6 +250,9 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionsGet(ctx
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjects(ctx context.Context, project string, serviceName string) ([]string, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/schema/subjects", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjects", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceSchemaRegistrySubjectsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

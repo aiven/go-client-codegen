@@ -121,6 +121,9 @@ type ProjectHandler struct {
 func (h *ProjectHandler) ListProjectVpcPeeringConnectionTypes(ctx context.Context, project string) ([]VpcPeeringConnectionTypeOut, error) {
 	path := fmt.Sprintf("/project/%s/vpc-peering-connection-types", project)
 	b, err := h.doer.Do(ctx, "ListProjectVpcPeeringConnectionTypes", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(listProjectVpcPeeringConnectionTypesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -131,6 +134,9 @@ func (h *ProjectHandler) ListProjectVpcPeeringConnectionTypes(ctx context.Contex
 func (h *ProjectHandler) ProjectAlertsList(ctx context.Context, project string) ([]AlertOut, error) {
 	path := fmt.Sprintf("/project/%s/alerts", project)
 	b, err := h.doer.Do(ctx, "ProjectAlertsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(projectAlertsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -141,6 +147,9 @@ func (h *ProjectHandler) ProjectAlertsList(ctx context.Context, project string) 
 func (h *ProjectHandler) ProjectCreate(ctx context.Context, in *ProjectCreateIn) (*ProjectCreateOut, error) {
 	path := fmt.Sprintf("/project")
 	b, err := h.doer.Do(ctx, "ProjectCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(projectCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -156,6 +165,9 @@ func (h *ProjectHandler) ProjectDelete(ctx context.Context, project string) erro
 func (h *ProjectHandler) ProjectGenerateSbomDownloadUrl(ctx context.Context, project string, fileFormat string) (string, error) {
 	path := fmt.Sprintf("/project/%s/generate-sbom-download-url/%s", project, fileFormat)
 	b, err := h.doer.Do(ctx, "ProjectGenerateSbomDownloadUrl", "GET", path, nil)
+	if err != nil {
+		return "", err
+	}
 	out := new(projectGenerateSbomDownloadUrlOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -166,6 +178,9 @@ func (h *ProjectHandler) ProjectGenerateSbomDownloadUrl(ctx context.Context, pro
 func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*ProjectGetOut, error) {
 	path := fmt.Sprintf("/project/%s", project)
 	b, err := h.doer.Do(ctx, "ProjectGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(projectGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -176,6 +191,9 @@ func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*Proje
 func (h *ProjectHandler) ProjectGetEventLogs(ctx context.Context, project string) ([]EventOut, error) {
 	path := fmt.Sprintf("/project/%s/events", project)
 	b, err := h.doer.Do(ctx, "ProjectGetEventLogs", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(projectGetEventLogsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -191,6 +209,9 @@ func (h *ProjectHandler) ProjectInvite(ctx context.Context, project string, in *
 func (h *ProjectHandler) ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*ProjectInviteAcceptOut, error) {
 	path := fmt.Sprintf("/project/%s/invite/%s", project, inviteVerificationCode)
 	b, err := h.doer.Do(ctx, "ProjectInviteAccept", "POST", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(projectInviteAcceptOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -206,6 +227,9 @@ func (h *ProjectHandler) ProjectInviteDelete(ctx context.Context, project string
 func (h *ProjectHandler) ProjectList(ctx context.Context) (*ProjectListOut, error) {
 	path := fmt.Sprintf("/project")
 	b, err := h.doer.Do(ctx, "ProjectList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ProjectListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -216,6 +240,9 @@ func (h *ProjectHandler) ProjectList(ctx context.Context) (*ProjectListOut, erro
 func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context, project string) ([]PrivatelinkAvailabilityOut, error) {
 	path := fmt.Sprintf("/project/%s/privatelink-availability", project)
 	b, err := h.doer.Do(ctx, "ProjectPrivatelinkAvailabilityList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(projectPrivatelinkAvailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -226,6 +253,9 @@ func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context,
 func (h *ProjectHandler) ProjectTagsList(ctx context.Context, project string) (map[string]string, error) {
 	path := fmt.Sprintf("/project/%s/tags", project)
 	b, err := h.doer.Do(ctx, "ProjectTagsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(projectTagsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -246,6 +276,9 @@ func (h *ProjectHandler) ProjectTagsUpdate(ctx context.Context, project string, 
 func (h *ProjectHandler) ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*ProjectUpdateOut, error) {
 	path := fmt.Sprintf("/project/%s", project)
 	b, err := h.doer.Do(ctx, "ProjectUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(projectUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -256,6 +289,9 @@ func (h *ProjectHandler) ProjectUpdate(ctx context.Context, project string, in *
 func (h *ProjectHandler) ProjectUserList(ctx context.Context, project string) (*ProjectUserListOut, error) {
 	path := fmt.Sprintf("/project/%s/users", project)
 	b, err := h.doer.Do(ctx, "ProjectUserList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ProjectUserListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

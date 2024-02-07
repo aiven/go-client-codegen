@@ -66,6 +66,9 @@ type OpenSearchHandler struct {
 func (h *OpenSearchHandler) ServiceOpenSearchAclGet(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchAclGetOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceOpenSearchAclGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -76,6 +79,9 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclGet(ctx context.Context, project
 func (h *OpenSearchHandler) ServiceOpenSearchAclSet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclSetIn) (*ServiceOpenSearchAclSetOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclSet", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceOpenSearchAclSetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -86,6 +92,9 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclSet(ctx context.Context, project
 func (h *OpenSearchHandler) ServiceOpenSearchAclUpdate(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclUpdateIn) (*ServiceOpenSearchAclUpdateOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceOpenSearchAclUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -101,6 +110,9 @@ func (h *OpenSearchHandler) ServiceOpenSearchIndexDelete(ctx context.Context, pr
 func (h *OpenSearchHandler) ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]IndexeOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/index", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchIndexList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceOpenSearchIndexListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -111,6 +123,9 @@ func (h *OpenSearchHandler) ServiceOpenSearchIndexList(ctx context.Context, proj
 func (h *OpenSearchHandler) ServiceOpenSearchSecurityGet(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchSecurityGetOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/security", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchSecurityGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceOpenSearchSecurityGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -121,6 +136,9 @@ func (h *OpenSearchHandler) ServiceOpenSearchSecurityGet(ctx context.Context, pr
 func (h *OpenSearchHandler) ServiceOpenSearchSecurityReset(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchSecurityResetIn) (*ServiceOpenSearchSecurityResetOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/security/admin", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchSecurityReset", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceOpenSearchSecurityResetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -131,6 +149,9 @@ func (h *OpenSearchHandler) ServiceOpenSearchSecurityReset(ctx context.Context, 
 func (h *OpenSearchHandler) ServiceOpenSearchSecuritySet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchSecuritySetIn) (*ServiceOpenSearchSecuritySetOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/opensearch/security/admin", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchSecuritySet", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceOpenSearchSecuritySetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

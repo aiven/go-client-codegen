@@ -156,6 +156,9 @@ type UserHandler struct {
 func (h *UserHandler) AccessTokenCreate(ctx context.Context, in *AccessTokenCreateIn) (*AccessTokenCreateOut, error) {
 	path := fmt.Sprintf("/access_token")
 	b, err := h.doer.Do(ctx, "AccessTokenCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(AccessTokenCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -166,6 +169,9 @@ func (h *UserHandler) AccessTokenCreate(ctx context.Context, in *AccessTokenCrea
 func (h *UserHandler) AccessTokenList(ctx context.Context) ([]TokenOut, error) {
 	path := fmt.Sprintf("/access_token")
 	b, err := h.doer.Do(ctx, "AccessTokenList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accessTokenListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -181,6 +187,9 @@ func (h *UserHandler) AccessTokenRevoke(ctx context.Context, tokenPrefix string)
 func (h *UserHandler) AccessTokenUpdate(ctx context.Context, tokenPrefix string, in *AccessTokenUpdateIn) (*AccessTokenUpdateOut, error) {
 	path := fmt.Sprintf("/access_token/%s", tokenPrefix)
 	b, err := h.doer.Do(ctx, "AccessTokenUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(AccessTokenUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -191,6 +200,9 @@ func (h *UserHandler) AccessTokenUpdate(ctx context.Context, tokenPrefix string,
 func (h *UserHandler) CheckPasswordStrengthExistingUser(ctx context.Context, in *CheckPasswordStrengthExistingUserIn) (*CheckPasswordStrengthExistingUserOut, error) {
 	path := fmt.Sprintf("/me/password_strength")
 	b, err := h.doer.Do(ctx, "CheckPasswordStrengthExistingUser", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(checkPasswordStrengthExistingUserOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -201,6 +213,9 @@ func (h *UserHandler) CheckPasswordStrengthExistingUser(ctx context.Context, in 
 func (h *UserHandler) CheckPasswordStrengthNewUser(ctx context.Context, in *CheckPasswordStrengthNewUserIn) (*CheckPasswordStrengthNewUserOut, error) {
 	path := fmt.Sprintf("/user/password_strength")
 	b, err := h.doer.Do(ctx, "CheckPasswordStrengthNewUser", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(checkPasswordStrengthNewUserOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -211,6 +226,9 @@ func (h *UserHandler) CheckPasswordStrengthNewUser(ctx context.Context, in *Chec
 func (h *UserHandler) OrganizationMemberGroupsList(ctx context.Context, organizationId string, memberUserId string) ([]UserGroupOut, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s/user-groups", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationMemberGroupsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(organizationMemberGroupsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -221,6 +239,9 @@ func (h *UserHandler) OrganizationMemberGroupsList(ctx context.Context, organiza
 func (h *UserHandler) TwoFactorAuthConfigure(ctx context.Context, in *TwoFactorAuthConfigureIn) (*TwoFactorAuthConfigureOut, error) {
 	path := fmt.Sprintf("/me/2fa")
 	b, err := h.doer.Do(ctx, "TwoFactorAuthConfigure", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(TwoFactorAuthConfigureOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -231,6 +252,9 @@ func (h *UserHandler) TwoFactorAuthConfigure(ctx context.Context, in *TwoFactorA
 func (h *UserHandler) TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFactorAuthConfigureOtpIn) (*TwoFactorAuthConfigureOtpOut, error) {
 	path := fmt.Sprintf("/me/2fa/otp")
 	b, err := h.doer.Do(ctx, "TwoFactorAuthConfigureOTP", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(TwoFactorAuthConfigureOtpOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -241,6 +265,9 @@ func (h *UserHandler) TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFact
 func (h *UserHandler) UserAccountInvitesAccept(ctx context.Context, in *UserAccountInvitesAcceptIn) ([]AccountInviteOut, error) {
 	path := fmt.Sprintf("/me/account/invites/accept")
 	b, err := h.doer.Do(ctx, "UserAccountInvitesAccept", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(userAccountInvitesAcceptOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -251,6 +278,9 @@ func (h *UserHandler) UserAccountInvitesAccept(ctx context.Context, in *UserAcco
 func (h *UserHandler) UserAccountInvitesList(ctx context.Context) ([]AccountInviteOut, error) {
 	path := fmt.Sprintf("/me/account/invites")
 	b, err := h.doer.Do(ctx, "UserAccountInvitesList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(userAccountInvitesListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -261,6 +291,9 @@ func (h *UserHandler) UserAccountInvitesList(ctx context.Context) ([]AccountInvi
 func (h *UserHandler) UserAuth(ctx context.Context, in *UserAuthIn) (*UserAuthOut, error) {
 	path := fmt.Sprintf("/userauth")
 	b, err := h.doer.Do(ctx, "UserAuth", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(UserAuthOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -271,6 +304,9 @@ func (h *UserHandler) UserAuth(ctx context.Context, in *UserAuthIn) (*UserAuthOu
 func (h *UserHandler) UserAuthLoginOptions(ctx context.Context, in *UserAuthLoginOptionsIn) (*UserAuthLoginOptionsOut, error) {
 	path := fmt.Sprintf("/userauth/login_options")
 	b, err := h.doer.Do(ctx, "UserAuthLoginOptions", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(UserAuthLoginOptionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -286,6 +322,9 @@ func (h *UserHandler) UserAuthenticationMethodDelete(ctx context.Context, userAu
 func (h *UserHandler) UserAuthenticationMethodsList(ctx context.Context) ([]AuthenticationMethodOut, error) {
 	path := fmt.Sprintf("/me/authentication_methods")
 	b, err := h.doer.Do(ctx, "UserAuthenticationMethodsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(userAuthenticationMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -296,6 +335,9 @@ func (h *UserHandler) UserAuthenticationMethodsList(ctx context.Context) ([]Auth
 func (h *UserHandler) UserCreate(ctx context.Context, in *UserCreateIn) (*UserCreateOut, error) {
 	path := fmt.Sprintf("/user")
 	b, err := h.doer.Do(ctx, "UserCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(UserCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -311,6 +353,9 @@ func (h *UserHandler) UserExpireTokens(ctx context.Context) error {
 func (h *UserHandler) UserInfo(ctx context.Context) (*UserInfoOut, error) {
 	path := fmt.Sprintf("/me")
 	b, err := h.doer.Do(ctx, "UserInfo", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(userInfoOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -326,6 +371,9 @@ func (h *UserHandler) UserLogout(ctx context.Context) error {
 func (h *UserHandler) UserPasswordChange(ctx context.Context, in *UserPasswordChangeIn) (string, error) {
 	path := fmt.Sprintf("/me/password")
 	b, err := h.doer.Do(ctx, "UserPasswordChange", "PUT", path, in)
+	if err != nil {
+		return "", err
+	}
 	out := new(userPasswordChangeOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -346,6 +394,9 @@ func (h *UserHandler) UserPasswordResetRequest(ctx context.Context, in *UserPass
 func (h *UserHandler) UserUpdate(ctx context.Context, in *UserUpdateIn) (*UserUpdateOut, error) {
 	path := fmt.Sprintf("/me")
 	b, err := h.doer.Do(ctx, "UserUpdate", "PATCH", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(userUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -356,6 +407,9 @@ func (h *UserHandler) UserUpdate(ctx context.Context, in *UserUpdateIn) (*UserUp
 func (h *UserHandler) UserVerifyEmail(ctx context.Context, verificationCode string) (*UserVerifyEmailOut, error) {
 	path := fmt.Sprintf("/user/verify_email/%s", verificationCode)
 	b, err := h.doer.Do(ctx, "UserVerifyEmail", "POST", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(userVerifyEmailOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

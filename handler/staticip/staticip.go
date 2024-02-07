@@ -60,6 +60,9 @@ type StaticIPHandler struct {
 func (h *StaticIPHandler) ProjectStaticIPAssociate(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIpassociateIn) (*ProjectStaticIpassociateOut, error) {
 	path := fmt.Sprintf("/project/%s/static-ips/%s/association", project, staticIpAddressId)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPAssociate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ProjectStaticIpassociateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -70,6 +73,9 @@ func (h *StaticIPHandler) ProjectStaticIPAssociate(ctx context.Context, project 
 func (h *StaticIPHandler) ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailabilityOut, error) {
 	path := fmt.Sprintf("/project/%s/static-ip-availability", project)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPAvailabilityList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(projectStaticIpavailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -80,6 +86,9 @@ func (h *StaticIPHandler) ProjectStaticIPAvailabilityList(ctx context.Context, p
 func (h *StaticIPHandler) ProjectStaticIPDissociate(ctx context.Context, project string, staticIpAddressId string) (*ProjectStaticIpdissociateOut, error) {
 	path := fmt.Sprintf("/project/%s/static-ips/%s/association", project, staticIpAddressId)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPDissociate", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ProjectStaticIpdissociateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -90,6 +99,9 @@ func (h *StaticIPHandler) ProjectStaticIPDissociate(ctx context.Context, project
 func (h *StaticIPHandler) ProjectStaticIPPatch(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIppatchIn) (*ProjectStaticIppatchOut, error) {
 	path := fmt.Sprintf("/project/%s/static-ips/%s", project, staticIpAddressId)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPPatch", "PATCH", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ProjectStaticIppatchOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -100,6 +112,9 @@ func (h *StaticIPHandler) ProjectStaticIPPatch(ctx context.Context, project stri
 func (h *StaticIPHandler) PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIpAddressAvailabilityOut, error) {
 	path := fmt.Sprintf("/tenants/%s/static-ip-availability", tenant)
 	b, err := h.doer.Do(ctx, "PublicStaticIPAvailabilityList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(publicStaticIpavailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -110,6 +125,9 @@ func (h *StaticIPHandler) PublicStaticIPAvailabilityList(ctx context.Context, te
 func (h *StaticIPHandler) StaticIPCreate(ctx context.Context, project string, in *StaticIpcreateIn) (*StaticIpcreateOut, error) {
 	path := fmt.Sprintf("/project/%s/static-ips", project)
 	b, err := h.doer.Do(ctx, "StaticIPCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(StaticIpcreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -120,6 +138,9 @@ func (h *StaticIPHandler) StaticIPCreate(ctx context.Context, project string, in
 func (h *StaticIPHandler) StaticIPList(ctx context.Context, project string) ([]StaticIpOut, error) {
 	path := fmt.Sprintf("/project/%s/static-ips", project)
 	b, err := h.doer.Do(ctx, "StaticIPList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(staticIplistOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

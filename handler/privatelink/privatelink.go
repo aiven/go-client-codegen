@@ -90,6 +90,9 @@ type PrivatelinkHandler struct {
 func (h *PrivatelinkHandler) PublicPrivatelinkAvailabilityList(ctx context.Context, tenant string) ([]PrivatelinkAvailabilityOut, error) {
 	path := fmt.Sprintf("/tenants/%s/privatelink-availability", tenant)
 	b, err := h.doer.Do(ctx, "PublicPrivatelinkAvailabilityList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(publicPrivatelinkAvailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -100,6 +103,9 @@ func (h *PrivatelinkHandler) PublicPrivatelinkAvailabilityList(ctx context.Conte
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSConnectionList(ctx context.Context, project string, serviceName string) ([]ConnectionOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/aws/connections", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSConnectionList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(servicePrivatelinkAwsconnectionListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -110,6 +116,9 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSConnectionList(ctx context.Con
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwscreateIn) (*ServicePrivatelinkAwscreateOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/aws", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServicePrivatelinkAwscreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -120,6 +129,9 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSCreate(ctx context.Context, pr
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsdeleteOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/aws", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSDelete", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServicePrivatelinkAwsdeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -130,6 +142,9 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSDelete(ctx context.Context, pr
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsgetOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/aws", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServicePrivatelinkAwsgetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -140,6 +155,9 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSGet(ctx context.Context, proje
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwsupdateIn) (*ServicePrivatelinkAwsupdateOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/aws", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServicePrivatelinkAwsupdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -150,6 +168,9 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSUpdate(ctx context.Context, pr
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionApproval(ctx context.Context, project string, serviceName string, privatelinkConnectionId string) (*ServicePrivatelinkAzureConnectionApprovalOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure/connections/%s/approve", project, serviceName, privatelinkConnectionId)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureConnectionApproval", "POST", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServicePrivatelinkAzureConnectionApprovalOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -160,6 +181,9 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionApproval(ctx conte
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionList(ctx context.Context, project string, serviceName string) ([]ConnectionOutAlt, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure/connections", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureConnectionList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(servicePrivatelinkAzureConnectionListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -170,6 +194,9 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionList(ctx context.C
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionUpdate(ctx context.Context, project string, serviceName string, privatelinkConnectionId string, in *ServicePrivatelinkAzureConnectionUpdateIn) (*ServicePrivatelinkAzureConnectionUpdateOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure/connections/%s", project, serviceName, privatelinkConnectionId)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureConnectionUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServicePrivatelinkAzureConnectionUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -180,6 +207,9 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionUpdate(ctx context
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureCreateIn) (*ServicePrivatelinkAzureCreateOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServicePrivatelinkAzureCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -190,6 +220,9 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureCreate(ctx context.Context, 
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAzureDeleteOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureDelete", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServicePrivatelinkAzureDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -200,6 +233,9 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureDelete(ctx context.Context, 
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAzureGetOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServicePrivatelinkAzureGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -210,6 +246,9 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureGet(ctx context.Context, pro
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureUpdateIn) (*ServicePrivatelinkAzureUpdateOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServicePrivatelinkAzureUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

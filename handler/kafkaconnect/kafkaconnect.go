@@ -80,6 +80,9 @@ type KafkaConnectHandler struct {
 func (h *KafkaConnectHandler) ServiceKafkaConnectCreateConnector(ctx context.Context, project string, serviceName string, in *ServiceKafkaConnectCreateConnectorIn) (*ServiceKafkaConnectCreateConnectorOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/connectors", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectCreateConnector", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaConnectCreateConnectorOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -95,6 +98,9 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectDeleteConnector(ctx context.Con
 func (h *KafkaConnectHandler) ServiceKafkaConnectEditConnector(ctx context.Context, project string, serviceName string, connectorName string, in *ServiceKafkaConnectEditConnectorIn) (*ServiceKafkaConnectEditConnectorOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/connectors/%s", project, serviceName, connectorName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectEditConnector", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaConnectEditConnectorOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -105,6 +111,9 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectEditConnector(ctx context.Conte
 func (h *KafkaConnectHandler) ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]PluginOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/available-connectors", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetAvailableConnectors", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaConnectGetAvailableConnectorsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -115,6 +124,9 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectGetAvailableConnectors(ctx cont
 func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorConfiguration(ctx context.Context, project string, serviceName string, connectorName string) ([]ConfigurationSchemaOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/connector-plugins/%s/configuration", project, serviceName, connectorName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetConnectorConfiguration", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaConnectGetConnectorConfigurationOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -125,6 +137,9 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorConfiguration(ctx c
 func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorStatus(ctx context.Context, project string, serviceName string, connectorName string) (*ServiceKafkaConnectGetConnectorStatusOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/connectors/%s/status", project, serviceName, connectorName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetConnectorStatus", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaConnectGetConnectorStatusOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -135,6 +150,9 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorStatus(ctx context.
 func (h *KafkaConnectHandler) ServiceKafkaConnectList(ctx context.Context, project string, serviceName string) ([]ConnectorOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/connectors", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaConnectListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

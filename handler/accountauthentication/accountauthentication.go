@@ -51,6 +51,9 @@ type AccountAuthenticationHandler struct {
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodCreate(ctx context.Context, accountId string, in *AccountAuthenticationMethodCreateIn) (*AccountAuthenticationMethodCreateOut, error) {
 	path := fmt.Sprintf("/account/%s/authentication", accountId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountAuthenticationMethodCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -66,6 +69,9 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodDelete(ctx con
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodGet(ctx context.Context, accountId string, accountAuthenticationMethodId string) (*AccountAuthenticationMethodGetOut, error) {
 	path := fmt.Sprintf("/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountAuthenticationMethodGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -76,6 +82,9 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodGet(ctx contex
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodUpdate(ctx context.Context, accountId string, accountAuthenticationMethodId string, in *AccountAuthenticationMethodUpdateIn) (*AccountAuthenticationMethodUpdateOut, error) {
 	path := fmt.Sprintf("/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountAuthenticationMethodUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -86,6 +95,9 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodUpdate(ctx con
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodsList(ctx context.Context, accountId string) ([]AuthenticationMethodOut, error) {
 	path := fmt.Sprintf("/account/%s/authentication", accountId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountAuthenticationMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

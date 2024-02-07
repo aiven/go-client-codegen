@@ -51,6 +51,9 @@ type FlinkApplicationHandler struct {
 func (h *FlinkApplicationHandler) ServiceFlinkCreateApplication(ctx context.Context, project string, serviceName string, in *ServiceFlinkCreateApplicationIn) (*ServiceFlinkCreateApplicationOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkCreateApplication", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkCreateApplicationOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -61,6 +64,9 @@ func (h *FlinkApplicationHandler) ServiceFlinkCreateApplication(ctx context.Cont
 func (h *FlinkApplicationHandler) ServiceFlinkDeleteApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkDeleteApplicationOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkDeleteApplication", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkDeleteApplicationOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -71,6 +77,9 @@ func (h *FlinkApplicationHandler) ServiceFlinkDeleteApplication(ctx context.Cont
 func (h *FlinkApplicationHandler) ServiceFlinkGetApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkGetApplicationOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkGetApplication", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkGetApplicationOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -81,6 +90,9 @@ func (h *FlinkApplicationHandler) ServiceFlinkGetApplication(ctx context.Context
 func (h *FlinkApplicationHandler) ServiceFlinkListApplications(ctx context.Context, project string, serviceName string) ([]ApplicationOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplications", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceFlinkListApplicationsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -91,6 +103,9 @@ func (h *FlinkApplicationHandler) ServiceFlinkListApplications(ctx context.Conte
 func (h *FlinkApplicationHandler) ServiceFlinkUpdateApplication(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkUpdateApplicationIn) (*ServiceFlinkUpdateApplicationOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkUpdateApplication", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkUpdateApplicationOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

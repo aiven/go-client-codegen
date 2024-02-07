@@ -71,6 +71,9 @@ type VpcHandler struct {
 func (h *VpcHandler) VpcCreate(ctx context.Context, project string, in *VpcCreateIn) (*VpcCreateOut, error) {
 	path := fmt.Sprintf("/project/%s/vpcs", project)
 	b, err := h.doer.Do(ctx, "VpcCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(VpcCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -81,6 +84,9 @@ func (h *VpcHandler) VpcCreate(ctx context.Context, project string, in *VpcCreat
 func (h *VpcHandler) VpcDelete(ctx context.Context, project string, projectVpcId string) (*VpcDeleteOut, error) {
 	path := fmt.Sprintf("/project/%s/vpcs/%s", project, projectVpcId)
 	b, err := h.doer.Do(ctx, "VpcDelete", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(VpcDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -91,6 +97,9 @@ func (h *VpcHandler) VpcDelete(ctx context.Context, project string, projectVpcId
 func (h *VpcHandler) VpcGet(ctx context.Context, project string, projectVpcId string) (*VpcGetOut, error) {
 	path := fmt.Sprintf("/project/%s/vpcs/%s", project, projectVpcId)
 	b, err := h.doer.Do(ctx, "VpcGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(VpcGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -101,6 +110,9 @@ func (h *VpcHandler) VpcGet(ctx context.Context, project string, projectVpcId st
 func (h *VpcHandler) VpcList(ctx context.Context, project string) ([]VpcOut, error) {
 	path := fmt.Sprintf("/project/%s/vpcs", project)
 	b, err := h.doer.Do(ctx, "VpcList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(vpcListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -111,6 +123,9 @@ func (h *VpcHandler) VpcList(ctx context.Context, project string) ([]VpcOut, err
 func (h *VpcHandler) VpcPeeringConnectionCreate(ctx context.Context, project string, projectVpcId string, in *VpcPeeringConnectionCreateIn) (*VpcPeeringConnectionCreateOut, error) {
 	path := fmt.Sprintf("/project/%s/vpcs/%s/peering-connections", project, projectVpcId)
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(VpcPeeringConnectionCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -121,6 +136,9 @@ func (h *VpcHandler) VpcPeeringConnectionCreate(ctx context.Context, project str
 func (h *VpcHandler) VpcPeeringConnectionDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerVpc string) (*VpcPeeringConnectionDeleteOut, error) {
 	path := fmt.Sprintf("/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-vpcs/%s", project, projectVpcId, peerCloudAccount, peerVpc)
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionDelete", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(VpcPeeringConnectionDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -131,6 +149,9 @@ func (h *VpcHandler) VpcPeeringConnectionDelete(ctx context.Context, project str
 func (h *VpcHandler) VpcPeeringConnectionUpdate(ctx context.Context, project string, projectVpcId string, in *VpcPeeringConnectionUpdateIn) (*VpcPeeringConnectionUpdateOut, error) {
 	path := fmt.Sprintf("/project/%s/vpcs/%s/user-peer-network-cidrs", project, projectVpcId)
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(VpcPeeringConnectionUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -141,6 +162,9 @@ func (h *VpcHandler) VpcPeeringConnectionUpdate(ctx context.Context, project str
 func (h *VpcHandler) VpcPeeringConnectionWithRegionDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerVpc string, peerRegion string) (*VpcPeeringConnectionWithRegionDeleteOut, error) {
 	path := fmt.Sprintf("/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-vpcs/%s/peer-regions/%s", project, projectVpcId, peerCloudAccount, peerVpc, peerRegion)
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionWithRegionDelete", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(VpcPeeringConnectionWithRegionDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -151,6 +175,9 @@ func (h *VpcHandler) VpcPeeringConnectionWithRegionDelete(ctx context.Context, p
 func (h *VpcHandler) VpcPeeringConnectionWithResourceGroupDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerResourceGroup string, peerVpc string) (*VpcPeeringConnectionWithResourceGroupDeleteOut, error) {
 	path := fmt.Sprintf("/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-resource-groups/%s/peer-vpcs/%s", project, projectVpcId, peerCloudAccount, peerResourceGroup, peerVpc)
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionWithResourceGroupDelete", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(VpcPeeringConnectionWithResourceGroupDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

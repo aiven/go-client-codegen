@@ -75,6 +75,9 @@ type KafkaHandler struct {
 func (h *KafkaHandler) ServiceKafkaAclAdd(ctx context.Context, project string, serviceName string, in *ServiceKafkaAclAddIn) ([]AclOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclAdd", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaAclAddOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -85,6 +88,9 @@ func (h *KafkaHandler) ServiceKafkaAclAdd(ctx context.Context, project string, s
 func (h *KafkaHandler) ServiceKafkaAclDelete(ctx context.Context, project string, serviceName string, kafkaAclId string) ([]AclOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/acl/%s", project, serviceName, kafkaAclId)
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclDelete", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaAclDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -95,6 +101,9 @@ func (h *KafkaHandler) ServiceKafkaAclDelete(ctx context.Context, project string
 func (h *KafkaHandler) ServiceKafkaAclList(ctx context.Context, project string, serviceName string) ([]AclOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaAclListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -115,6 +124,9 @@ func (h *KafkaHandler) ServiceKafkaQuotaDelete(ctx context.Context, project stri
 func (h *KafkaHandler) ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string) (*ServiceKafkaQuotaDescribeOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/quota/describe", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaQuotaDescribe", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaQuotaDescribeOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -125,6 +137,9 @@ func (h *KafkaHandler) ServiceKafkaQuotaDescribe(ctx context.Context, project st
 func (h *KafkaHandler) ServiceKafkaQuotaList(ctx context.Context, project string, serviceName string) ([]QuotaOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/quota", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaQuotaList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaQuotaListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -135,6 +150,9 @@ func (h *KafkaHandler) ServiceKafkaQuotaList(ctx context.Context, project string
 func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageByTopic(ctx context.Context, project string, serviceName string) (map[string]any, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/tiered-storage/storage-usage/by-topic", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTieredStorageStorageUsageByTopic", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaTieredStorageStorageUsageByTopicOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -145,6 +163,9 @@ func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageByTopic(ctx context.
 func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageTotal(ctx context.Context, project string, serviceName string) (int, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/tiered-storage/storage-usage/total", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTieredStorageStorageUsageTotal", "GET", path, nil)
+	if err != nil {
+		return 0, err
+	}
 	out := new(serviceKafkaTieredStorageStorageUsageTotalOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -155,6 +176,9 @@ func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageTotal(ctx context.Co
 func (h *KafkaHandler) ServiceKafkaTieredStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceKafkaTieredStorageSummaryOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/kafka/tiered-storage/summary", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTieredStorageSummary", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceKafkaTieredStorageSummaryOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

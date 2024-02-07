@@ -51,6 +51,9 @@ type DomainHandler struct {
 func (h *DomainHandler) OrganizationDomainAdd(ctx context.Context, organizationId string, in *OrganizationDomainAddIn) (*OrganizationDomainAddOut, error) {
 	path := fmt.Sprintf("/organization/%s/domains", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationDomainAdd", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(OrganizationDomainAddOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -61,6 +64,9 @@ func (h *DomainHandler) OrganizationDomainAdd(ctx context.Context, organizationI
 func (h *DomainHandler) OrganizationDomainUpdate(ctx context.Context, organizationId string, domainId string, in *OrganizationDomainUpdateIn) (*OrganizationDomainUpdateOut, error) {
 	path := fmt.Sprintf("/organization/%s/domains/%s", organizationId, domainId)
 	b, err := h.doer.Do(ctx, "OrganizationDomainUpdate", "PATCH", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(OrganizationDomainUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -71,6 +77,9 @@ func (h *DomainHandler) OrganizationDomainUpdate(ctx context.Context, organizati
 func (h *DomainHandler) OrganizationDomainVerify(ctx context.Context, organizationId string, domainId string) (*OrganizationDomainVerifyOut, error) {
 	path := fmt.Sprintf("/organization/%s/domains/%s/verify", organizationId, domainId)
 	b, err := h.doer.Do(ctx, "OrganizationDomainVerify", "POST", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(OrganizationDomainVerifyOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -81,6 +90,9 @@ func (h *DomainHandler) OrganizationDomainVerify(ctx context.Context, organizati
 func (h *DomainHandler) OrganizationDomainsList(ctx context.Context, organizationId string) ([]DomainOut, error) {
 	path := fmt.Sprintf("/organization/%s/domains", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationDomainsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(organizationDomainsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

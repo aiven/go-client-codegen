@@ -61,6 +61,9 @@ type OrganizationHandler struct {
 func (h *OrganizationHandler) OrganizationAuthenticationConfigGet(ctx context.Context, organizationId string) (*OrganizationAuthenticationConfigGetOut, error) {
 	path := fmt.Sprintf("/organization/%s/config/authentication", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationAuthenticationConfigGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(OrganizationAuthenticationConfigGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -71,6 +74,9 @@ func (h *OrganizationHandler) OrganizationAuthenticationConfigGet(ctx context.Co
 func (h *OrganizationHandler) OrganizationAuthenticationConfigUpdate(ctx context.Context, organizationId string, in *OrganizationAuthenticationConfigUpdateIn) (*OrganizationAuthenticationConfigUpdateOut, error) {
 	path := fmt.Sprintf("/organization/%s/config/authentication", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationAuthenticationConfigUpdate", "PATCH", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(OrganizationAuthenticationConfigUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -81,6 +87,9 @@ func (h *OrganizationHandler) OrganizationAuthenticationConfigUpdate(ctx context
 func (h *OrganizationHandler) OrganizationGet(ctx context.Context, organizationId string) (*OrganizationGetOut, error) {
 	path := fmt.Sprintf("/organization/%s", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(OrganizationGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -91,6 +100,9 @@ func (h *OrganizationHandler) OrganizationGet(ctx context.Context, organizationI
 func (h *OrganizationHandler) OrganizationProjectsList(ctx context.Context, organizationId string) (*OrganizationProjectsListOut, error) {
 	path := fmt.Sprintf("/organization/%s/projects", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationProjectsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(OrganizationProjectsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -101,6 +113,9 @@ func (h *OrganizationHandler) OrganizationProjectsList(ctx context.Context, orga
 func (h *OrganizationHandler) OrganizationUpdate(ctx context.Context, organizationId string, in *OrganizationUpdateIn) (*OrganizationUpdateOut, error) {
 	path := fmt.Sprintf("/organization/%s", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationUpdate", "PATCH", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(OrganizationUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -111,6 +126,9 @@ func (h *OrganizationHandler) OrganizationUpdate(ctx context.Context, organizati
 func (h *OrganizationHandler) UserOrganizationCreate(ctx context.Context, in *UserOrganizationCreateIn) (*UserOrganizationCreateOut, error) {
 	path := fmt.Sprintf("/organizations")
 	b, err := h.doer.Do(ctx, "UserOrganizationCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(UserOrganizationCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -121,6 +139,9 @@ func (h *OrganizationHandler) UserOrganizationCreate(ctx context.Context, in *Us
 func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]OrganizationOut, error) {
 	path := fmt.Sprintf("/organizations")
 	b, err := h.doer.Do(ctx, "UserOrganizationsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(userOrganizationsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

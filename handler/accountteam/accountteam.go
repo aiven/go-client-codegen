@@ -66,6 +66,9 @@ func (h *AccountTeamHandler) AccountTeamDelete(ctx context.Context, accountId st
 func (h *AccountTeamHandler) AccountTeamGet(ctx context.Context, accountId string, teamId string) (*AccountTeamGetOut, error) {
 	path := fmt.Sprintf("/account/%s/team/%s", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountTeamGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -76,6 +79,9 @@ func (h *AccountTeamHandler) AccountTeamGet(ctx context.Context, accountId strin
 func (h *AccountTeamHandler) AccountTeamInvitesList(ctx context.Context, accountId string, teamId string) ([]AccountInviteOut, error) {
 	path := fmt.Sprintf("/account/%s/team/%s/invites", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamInvitesList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountTeamInvitesListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -86,6 +92,9 @@ func (h *AccountTeamHandler) AccountTeamInvitesList(ctx context.Context, account
 func (h *AccountTeamHandler) AccountTeamList(ctx context.Context, accountId string) ([]TeamOut, error) {
 	path := fmt.Sprintf("/account/%s/teams", accountId)
 	b, err := h.doer.Do(ctx, "AccountTeamList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountTeamListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -106,6 +115,9 @@ func (h *AccountTeamHandler) AccountTeamProjectDisassociate(ctx context.Context,
 func (h *AccountTeamHandler) AccountTeamUpdate(ctx context.Context, accountId string, teamId string, in *AccountTeamUpdateIn) (*AccountTeamUpdateOut, error) {
 	path := fmt.Sprintf("/account/%s/team/%s", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountTeamUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

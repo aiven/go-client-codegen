@@ -61,6 +61,9 @@ type UserGroupHandler struct {
 func (h *UserGroupHandler) UserGroupCreate(ctx context.Context, organizationId string, in *UserGroupCreateIn) (*UserGroupCreateOut, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups", organizationId)
 	b, err := h.doer.Do(ctx, "UserGroupCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(UserGroupCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -76,6 +79,9 @@ func (h *UserGroupHandler) UserGroupDelete(ctx context.Context, organizationId s
 func (h *UserGroupHandler) UserGroupGet(ctx context.Context, organizationId string, userGroupId string) (*UserGroupGetOut, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups/%s", organizationId, userGroupId)
 	b, err := h.doer.Do(ctx, "UserGroupGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(UserGroupGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -86,6 +92,9 @@ func (h *UserGroupHandler) UserGroupGet(ctx context.Context, organizationId stri
 func (h *UserGroupHandler) UserGroupMemberList(ctx context.Context, organizationId string, userGroupId string) ([]MemberOut, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups/%s/members", organizationId, userGroupId)
 	b, err := h.doer.Do(ctx, "UserGroupMemberList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(userGroupMemberListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -101,6 +110,9 @@ func (h *UserGroupHandler) UserGroupMembersUpdate(ctx context.Context, organizat
 func (h *UserGroupHandler) UserGroupUpdate(ctx context.Context, organizationId string, userGroupId string, in *UserGroupUpdateIn) (*UserGroupUpdateOut, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups/%s", organizationId, userGroupId)
 	b, err := h.doer.Do(ctx, "UserGroupUpdate", "PATCH", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(UserGroupUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -111,6 +123,9 @@ func (h *UserGroupHandler) UserGroupUpdate(ctx context.Context, organizationId s
 func (h *UserGroupHandler) UserGroupsList(ctx context.Context, organizationId string) ([]UserGroupOut, error) {
 	path := fmt.Sprintf("/organization/%s/user-groups", organizationId)
 	b, err := h.doer.Do(ctx, "UserGroupsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(userGroupsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

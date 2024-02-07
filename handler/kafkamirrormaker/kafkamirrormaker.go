@@ -60,6 +60,9 @@ func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerDeleteReplicationFlow(c
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) (*ServiceKafkaMirrorMakerGetReplicationFlowOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerGetReplicationFlow", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaMirrorMakerGetReplicationFlowOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -70,6 +73,9 @@ func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlow(ctx 
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlows(ctx context.Context, project string, serviceName string) ([]ReplicationFlowOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerGetReplicationFlows", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaMirrorMakerGetReplicationFlowsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -80,6 +86,9 @@ func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlows(ctx
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerPatchReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string, in *ServiceKafkaMirrorMakerPatchReplicationFlowIn) (*ServiceKafkaMirrorMakerPatchReplicationFlowOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerPatchReplicationFlow", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(serviceKafkaMirrorMakerPatchReplicationFlowOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

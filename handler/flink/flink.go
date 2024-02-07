@@ -30,6 +30,9 @@ type FlinkHandler struct {
 func (h *FlinkHandler) ServiceFlinkOverview(ctx context.Context, project string, serviceName string) (*ServiceFlinkOverviewOut, error) {
 	path := fmt.Sprintf("/project/%s/service/%s/flink/overview", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkOverview", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(ServiceFlinkOverviewOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

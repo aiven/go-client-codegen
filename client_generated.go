@@ -4,6 +4,7 @@ package aiven
 
 import (
 	"context"
+
 	account "github.com/aiven/go-client-codegen/handler/account"
 	accountauthentication "github.com/aiven/go-client-codegen/handler/accountauthentication"
 	accountteam "github.com/aiven/go-client-codegen/handler/accountteam"

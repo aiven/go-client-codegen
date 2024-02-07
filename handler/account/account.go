@@ -96,6 +96,9 @@ type AccountHandler struct {
 func (h *AccountHandler) AccountAttachPaymentMethod(ctx context.Context, accountId string, in *AccountAttachPaymentMethodIn) (*AccountAttachPaymentMethodOut, error) {
 	path := fmt.Sprintf("/account/%s/payment_methods", accountId)
 	b, err := h.doer.Do(ctx, "AccountAttachPaymentMethod", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountAttachPaymentMethodOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -106,6 +109,9 @@ func (h *AccountHandler) AccountAttachPaymentMethod(ctx context.Context, account
 func (h *AccountHandler) AccountBillingGroupList(ctx context.Context, accountId string) ([]AccountBillingGroupOut, error) {
 	path := fmt.Sprintf("/account/%s/billing-group", accountId)
 	b, err := h.doer.Do(ctx, "AccountBillingGroupList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountBillingGroupListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -116,6 +122,9 @@ func (h *AccountHandler) AccountBillingGroupList(ctx context.Context, accountId 
 func (h *AccountHandler) AccountCreate(ctx context.Context, in *AccountCreateIn) (*AccountCreateOut, error) {
 	path := fmt.Sprintf("/account")
 	b, err := h.doer.Do(ctx, "AccountCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -131,6 +140,9 @@ func (h *AccountHandler) AccountDelete(ctx context.Context, accountId string) er
 func (h *AccountHandler) AccountEventList(ctx context.Context, accountId string) ([]EventOut, error) {
 	path := fmt.Sprintf("/account/%s/events", accountId)
 	b, err := h.doer.Do(ctx, "AccountEventList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountEventListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -141,6 +153,9 @@ func (h *AccountHandler) AccountEventList(ctx context.Context, accountId string)
 func (h *AccountHandler) AccountGet(ctx context.Context, accountId string) (*AccountGetOut, error) {
 	path := fmt.Sprintf("/account/%s", accountId)
 	b, err := h.doer.Do(ctx, "AccountGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -151,6 +166,9 @@ func (h *AccountHandler) AccountGet(ctx context.Context, accountId string) (*Acc
 func (h *AccountHandler) AccountList(ctx context.Context) ([]AccountOut, error) {
 	path := fmt.Sprintf("/account")
 	b, err := h.doer.Do(ctx, "AccountList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -161,6 +179,9 @@ func (h *AccountHandler) AccountList(ctx context.Context) ([]AccountOut, error) 
 func (h *AccountHandler) AccountMove(ctx context.Context, accountId string, in *AccountMoveIn) (*AccountMoveOut, error) {
 	path := fmt.Sprintf("/account/%s/parent_account", accountId)
 	b, err := h.doer.Do(ctx, "AccountMove", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountMoveOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -176,6 +197,9 @@ func (h *AccountHandler) AccountPaymentMethodDelete(ctx context.Context, account
 func (h *AccountHandler) AccountPaymentMethodsList(ctx context.Context, accountId string) ([]CardOut, error) {
 	path := fmt.Sprintf("/account/%s/payment_methods", accountId)
 	b, err := h.doer.Do(ctx, "AccountPaymentMethodsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountPaymentMethodsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -186,6 +210,9 @@ func (h *AccountHandler) AccountPaymentMethodsList(ctx context.Context, accountI
 func (h *AccountHandler) AccountProjectsList(ctx context.Context, accountId string) (*AccountProjectsListOut, error) {
 	path := fmt.Sprintf("/account/%s/projects", accountId)
 	b, err := h.doer.Do(ctx, "AccountProjectsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(AccountProjectsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -196,6 +223,9 @@ func (h *AccountHandler) AccountProjectsList(ctx context.Context, accountId stri
 func (h *AccountHandler) AccountUpdate(ctx context.Context, accountId string, in *AccountUpdateIn) (*AccountUpdateOut, error) {
 	path := fmt.Sprintf("/account/%s", accountId)
 	b, err := h.doer.Do(ctx, "AccountUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -206,6 +236,9 @@ func (h *AccountHandler) AccountUpdate(ctx context.Context, accountId string, in
 func (h *AccountHandler) AccountUserProjectsList(ctx context.Context, accountId string, userId string) ([]UserProjectOut, error) {
 	path := fmt.Sprintf("/account/%s/user/%s/projects", accountId, userId)
 	b, err := h.doer.Do(ctx, "AccountUserProjectsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountUserProjectsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -216,6 +249,9 @@ func (h *AccountHandler) AccountUserProjectsList(ctx context.Context, accountId 
 func (h *AccountHandler) AccountUsersSearch(ctx context.Context, accountId string, in *AccountUsersSearchIn) ([]UserOut, error) {
 	path := fmt.Sprintf("/account/%s/users/search", accountId)
 	b, err := h.doer.Do(ctx, "AccountUsersSearch", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(accountUsersSearchOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {

@@ -91,6 +91,9 @@ type BillingGroupHandler struct {
 func (h *BillingGroupHandler) BillingGroupCreate(ctx context.Context, in *BillingGroupCreateIn) (*BillingGroupCreateOut, error) {
 	path := fmt.Sprintf("/billing-group")
 	b, err := h.doer.Do(ctx, "BillingGroupCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(billingGroupCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -101,6 +104,9 @@ func (h *BillingGroupHandler) BillingGroupCreate(ctx context.Context, in *Billin
 func (h *BillingGroupHandler) BillingGroupCreditsClaim(ctx context.Context, billingGroupId string, in *BillingGroupCreditsClaimIn) (*BillingGroupCreditsClaimOut, error) {
 	path := fmt.Sprintf("/billing-group/%s/credits", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsClaim", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(billingGroupCreditsClaimOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -111,6 +117,9 @@ func (h *BillingGroupHandler) BillingGroupCreditsClaim(ctx context.Context, bill
 func (h *BillingGroupHandler) BillingGroupCreditsList(ctx context.Context, billingGroupId string) ([]CreditOut, error) {
 	path := fmt.Sprintf("/billing-group/%s/credits", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(billingGroupCreditsListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -126,6 +135,9 @@ func (h *BillingGroupHandler) BillingGroupDelete(ctx context.Context, billingGro
 func (h *BillingGroupHandler) BillingGroupEventList(ctx context.Context, billingGroupId string) ([]EventOut, error) {
 	path := fmt.Sprintf("/billing-group/%s/events", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupEventList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(billingGroupEventListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -136,6 +148,9 @@ func (h *BillingGroupHandler) BillingGroupEventList(ctx context.Context, billing
 func (h *BillingGroupHandler) BillingGroupGet(ctx context.Context, billingGroupId string) (*BillingGroupGetOut, error) {
 	path := fmt.Sprintf("/billing-group/%s", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(billingGroupGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -146,6 +161,9 @@ func (h *BillingGroupHandler) BillingGroupGet(ctx context.Context, billingGroupI
 func (h *BillingGroupHandler) BillingGroupInvoiceLinesList(ctx context.Context, billingGroupId string, invoiceNumber string) ([]LineOut, error) {
 	path := fmt.Sprintf("/billing-group/%s/invoice/%s/lines", billingGroupId, invoiceNumber)
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceLinesList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(billingGroupInvoiceLinesListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -156,6 +174,9 @@ func (h *BillingGroupHandler) BillingGroupInvoiceLinesList(ctx context.Context, 
 func (h *BillingGroupHandler) BillingGroupInvoiceList(ctx context.Context, billingGroupId string) ([]InvoiceOut, error) {
 	path := fmt.Sprintf("/billing-group/%s/invoice", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(billingGroupInvoiceListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -166,6 +187,9 @@ func (h *BillingGroupHandler) BillingGroupInvoiceList(ctx context.Context, billi
 func (h *BillingGroupHandler) BillingGroupList(ctx context.Context) ([]BillingGroupOut, error) {
 	path := fmt.Sprintf("/billing-group")
 	b, err := h.doer.Do(ctx, "BillingGroupList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(billingGroupListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -181,6 +205,9 @@ func (h *BillingGroupHandler) BillingGroupProjectAssign(ctx context.Context, bil
 func (h *BillingGroupHandler) BillingGroupProjectList(ctx context.Context, billingGroupId string) ([]ProjectOut, error) {
 	path := fmt.Sprintf("/billing-group/%s/projects", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupProjectList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
 	out := new(billingGroupProjectListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
@@ -196,6 +223,9 @@ func (h *BillingGroupHandler) BillingGroupProjectsAssign(ctx context.Context, bi
 func (h *BillingGroupHandler) BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroupUpdateOut, error) {
 	path := fmt.Sprintf("/billing-group/%s", billingGroupId)
 	b, err := h.doer.Do(ctx, "BillingGroupUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
 	out := new(billingGroupUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
