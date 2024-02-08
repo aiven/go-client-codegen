@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -311,13 +310,13 @@ func (h *ProjectHandler) ProjectUserUpdate(ctx context.Context, project string, 
 }
 
 type AlertOut struct {
-	CreateTime  time.Time `json:"create_time"`
-	Event       string    `json:"event"`
-	NodeName    string    `json:"node_name,omitempty"`
-	ProjectName string    `json:"project_name"`
-	ServiceName string    `json:"service_name,omitempty"`
-	ServiceType string    `json:"service_type,omitempty"`
-	Severity    string    `json:"severity"`
+	CreateTime  string `json:"create_time"`
+	Event       string `json:"event"`
+	NodeName    string `json:"node_name,omitempty"`
+	ProjectName string `json:"project_name"`
+	ServiceName string `json:"service_name,omitempty"`
+	ServiceType string `json:"service_type,omitempty"`
+	Severity    string `json:"severity"`
 }
 type BillingCurrencyType string
 
@@ -365,12 +364,12 @@ type EndOfLifeExtensionOut struct {
 	Elasticsearch *ElasticsearchOut `json:"elasticsearch,omitempty"`
 }
 type EventOut struct {
-	Actor       string    `json:"actor"`
-	EventDesc   string    `json:"event_desc"`
-	EventType   string    `json:"event_type"`
-	Id          string    `json:"id"`
-	ServiceName string    `json:"service_name"`
-	Time        time.Time `json:"time"`
+	Actor       string `json:"actor"`
+	EventDesc   string `json:"event_desc"`
+	EventType   string `json:"event_type"`
+	Id          string `json:"id"`
+	ServiceName string `json:"service_name"`
+	Time        string `json:"time"`
 }
 type GroupUserOut struct {
 	MemberType  string `json:"member_type"`
@@ -379,10 +378,10 @@ type GroupUserOut struct {
 	UserGroupId string `json:"user_group_id"`
 }
 type InvitationOut struct {
-	InviteTime        time.Time `json:"invite_time"`
-	InvitedUserEmail  string    `json:"invited_user_email"`
-	InvitingUserEmail string    `json:"inviting_user_email"`
-	MemberType        string    `json:"member_type"`
+	InviteTime        string `json:"invite_time"`
+	InvitedUserEmail  string `json:"invited_user_email"`
+	InvitingUserEmail string `json:"inviting_user_email"`
+	MemberType        string `json:"member_type"`
 }
 type MemberType string
 
@@ -453,7 +452,7 @@ type ProjectCreateOut struct {
 	Tags                  map[string]string      `json:"tags,omitempty"`
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
 	TenantId              string                 `json:"tenant_id,omitempty"`
-	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
+	TrialExpirationTime   string                 `json:"trial_expiration_time,omitempty"`
 	VatId                 string                 `json:"vat_id"`
 	ZipCode               string                 `json:"zip_code,omitempty"`
 }
@@ -485,7 +484,7 @@ type ProjectGetOut struct {
 	Tags                  map[string]string      `json:"tags,omitempty"`
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
 	TenantId              string                 `json:"tenant_id,omitempty"`
-	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
+	TrialExpirationTime   string                 `json:"trial_expiration_time,omitempty"`
 	VatId                 string                 `json:"vat_id"`
 	ZipCode               string                 `json:"zip_code,omitempty"`
 }
@@ -535,7 +534,7 @@ type ProjectOut struct {
 	Tags                  map[string]string      `json:"tags,omitempty"`
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
 	TenantId              string                 `json:"tenant_id,omitempty"`
-	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
+	TrialExpirationTime   string                 `json:"trial_expiration_time,omitempty"`
 	VatId                 string                 `json:"vat_id"`
 	ZipCode               string                 `json:"zip_code,omitempty"`
 }
@@ -594,7 +593,7 @@ type ProjectUpdateOut struct {
 	Tags                  map[string]string      `json:"tags,omitempty"`
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
 	TenantId              string                 `json:"tenant_id,omitempty"`
-	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
+	TrialExpirationTime   string                 `json:"trial_expiration_time,omitempty"`
 	VatId                 string                 `json:"vat_id"`
 	ZipCode               string                 `json:"zip_code,omitempty"`
 }
@@ -613,14 +612,14 @@ type TechEmailOut struct {
 	Email string `json:"email"`
 }
 type UserOut struct {
-	Auth           []string  `json:"auth"`
-	BillingContact bool      `json:"billing_contact"`
-	CreateTime     time.Time `json:"create_time"`
-	MemberType     string    `json:"member_type"`
-	RealName       string    `json:"real_name,omitempty"`
-	TeamId         string    `json:"team_id"`
-	TeamName       string    `json:"team_name"`
-	UserEmail      string    `json:"user_email"`
+	Auth           []string `json:"auth"`
+	BillingContact bool     `json:"billing_contact"`
+	CreateTime     string   `json:"create_time"`
+	MemberType     string   `json:"member_type"`
+	RealName       string   `json:"real_name,omitempty"`
+	TeamId         string   `json:"team_id"`
+	TeamName       string   `json:"team_name"`
+	UserEmail      string   `json:"user_email"`
 }
 type VpcPeeringConnectionTypeOut struct {
 	CloudName                string `json:"cloud_name"`

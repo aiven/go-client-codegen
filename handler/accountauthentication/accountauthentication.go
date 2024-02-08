@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -125,6 +124,7 @@ type AccountAuthenticationMethodCreateIn struct {
 	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"`
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
+	ScimEnabled                      *bool                      `json:"scim_enabled,omitempty"`
 }
 type AccountAuthenticationMethodCreateOut struct {
 	AccountId                        string               `json:"account_id"`
@@ -136,8 +136,8 @@ type AccountAuthenticationMethodCreateOut struct {
 	AuthenticationMethodType         string               `json:"authentication_method_type"`
 	AutoJoinTeamId                   string               `json:"auto_join_team_id"`
 	AutoJoinUserGroupId              string               `json:"auto_join_user_group_id"`
-	CreateTime                       time.Time            `json:"create_time"`
-	DeleteTime                       time.Time            `json:"delete_time"`
+	CreateTime                       string               `json:"create_time"`
+	DeleteTime                       string               `json:"delete_time"`
 	OrganizationId                   string               `json:"organization_id,omitempty"`
 	SamlAcsUrl                       string               `json:"saml_acs_url,omitempty"`
 	SamlAssertionSignedEnabled       *bool                `json:"saml_assertion_signed_enabled,omitempty"`
@@ -158,8 +158,10 @@ type AccountAuthenticationMethodCreateOut struct {
 	SamlSignatureAlgorithm           string               `json:"saml_signature_algorithm,omitempty"`
 	SamlSpCertificate                string               `json:"saml_sp_certificate,omitempty"`
 	SamlVariant                      string               `json:"saml_variant,omitempty"`
+	ScimEnabled                      *bool                `json:"scim_enabled,omitempty"`
+	ScimUrl                          string               `json:"scim_url,omitempty"`
 	State                            string               `json:"state"`
-	UpdateTime                       time.Time            `json:"update_time"`
+	UpdateTime                       string               `json:"update_time"`
 }
 type AccountAuthenticationMethodGetOut struct {
 	AccountId                        string               `json:"account_id"`
@@ -171,8 +173,8 @@ type AccountAuthenticationMethodGetOut struct {
 	AuthenticationMethodType         string               `json:"authentication_method_type"`
 	AutoJoinTeamId                   string               `json:"auto_join_team_id"`
 	AutoJoinUserGroupId              string               `json:"auto_join_user_group_id"`
-	CreateTime                       time.Time            `json:"create_time"`
-	DeleteTime                       time.Time            `json:"delete_time"`
+	CreateTime                       string               `json:"create_time"`
+	DeleteTime                       string               `json:"delete_time"`
 	OrganizationId                   string               `json:"organization_id,omitempty"`
 	SamlAcsUrl                       string               `json:"saml_acs_url,omitempty"`
 	SamlAssertionSignedEnabled       *bool                `json:"saml_assertion_signed_enabled,omitempty"`
@@ -193,8 +195,10 @@ type AccountAuthenticationMethodGetOut struct {
 	SamlSignatureAlgorithm           string               `json:"saml_signature_algorithm,omitempty"`
 	SamlSpCertificate                string               `json:"saml_sp_certificate,omitempty"`
 	SamlVariant                      string               `json:"saml_variant,omitempty"`
+	ScimEnabled                      *bool                `json:"scim_enabled,omitempty"`
+	ScimUrl                          string               `json:"scim_url,omitempty"`
 	State                            string               `json:"state"`
-	UpdateTime                       time.Time            `json:"update_time"`
+	UpdateTime                       string               `json:"update_time"`
 }
 type AccountAuthenticationMethodUpdateIn struct {
 	AuthTokenExtendWhenUsed          *bool                      `json:"auth_token_extend_when_used,omitempty"`
@@ -214,6 +218,7 @@ type AccountAuthenticationMethodUpdateIn struct {
 	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"`
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
+	ScimEnabled                      *bool                      `json:"scim_enabled,omitempty"`
 }
 type AccountAuthenticationMethodUpdateOut struct {
 	AccountId                        string               `json:"account_id"`
@@ -225,8 +230,8 @@ type AccountAuthenticationMethodUpdateOut struct {
 	AuthenticationMethodType         string               `json:"authentication_method_type"`
 	AutoJoinTeamId                   string               `json:"auto_join_team_id"`
 	AutoJoinUserGroupId              string               `json:"auto_join_user_group_id"`
-	CreateTime                       time.Time            `json:"create_time"`
-	DeleteTime                       time.Time            `json:"delete_time"`
+	CreateTime                       string               `json:"create_time"`
+	DeleteTime                       string               `json:"delete_time"`
 	OrganizationId                   string               `json:"organization_id,omitempty"`
 	SamlAcsUrl                       string               `json:"saml_acs_url,omitempty"`
 	SamlAssertionSignedEnabled       *bool                `json:"saml_assertion_signed_enabled,omitempty"`
@@ -247,8 +252,10 @@ type AccountAuthenticationMethodUpdateOut struct {
 	SamlSignatureAlgorithm           string               `json:"saml_signature_algorithm,omitempty"`
 	SamlSpCertificate                string               `json:"saml_sp_certificate,omitempty"`
 	SamlVariant                      string               `json:"saml_variant,omitempty"`
+	ScimEnabled                      *bool                `json:"scim_enabled,omitempty"`
+	ScimUrl                          string               `json:"scim_url,omitempty"`
 	State                            string               `json:"state"`
-	UpdateTime                       time.Time            `json:"update_time"`
+	UpdateTime                       string               `json:"update_time"`
 }
 type AuthenticationMethodOut struct {
 	AccountId                        string               `json:"account_id"`
@@ -260,8 +267,8 @@ type AuthenticationMethodOut struct {
 	AuthenticationMethodType         string               `json:"authentication_method_type"`
 	AutoJoinTeamId                   string               `json:"auto_join_team_id"`
 	AutoJoinUserGroupId              string               `json:"auto_join_user_group_id"`
-	CreateTime                       time.Time            `json:"create_time"`
-	DeleteTime                       time.Time            `json:"delete_time"`
+	CreateTime                       string               `json:"create_time"`
+	DeleteTime                       string               `json:"delete_time"`
 	OrganizationId                   string               `json:"organization_id,omitempty"`
 	SamlAcsUrl                       string               `json:"saml_acs_url,omitempty"`
 	SamlAssertionSignedEnabled       *bool                `json:"saml_assertion_signed_enabled,omitempty"`
@@ -282,8 +289,10 @@ type AuthenticationMethodOut struct {
 	SamlSignatureAlgorithm           string               `json:"saml_signature_algorithm,omitempty"`
 	SamlSpCertificate                string               `json:"saml_sp_certificate,omitempty"`
 	SamlVariant                      string               `json:"saml_variant,omitempty"`
+	ScimEnabled                      *bool                `json:"scim_enabled,omitempty"`
+	ScimUrl                          string               `json:"scim_url,omitempty"`
 	State                            string               `json:"state"`
-	UpdateTime                       time.Time            `json:"update_time"`
+	UpdateTime                       string               `json:"update_time"`
 }
 type AuthenticationMethodType string
 

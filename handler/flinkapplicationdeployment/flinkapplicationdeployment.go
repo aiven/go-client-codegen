@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -133,30 +132,30 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkStopApplicationDeploymen
 }
 
 type DeploymentOut struct {
-	CreatedAt         time.Time `json:"created_at"`
-	CreatedBy         string    `json:"created_by"`
-	ErrorMsg          string    `json:"error_msg,omitempty"`
-	Id                string    `json:"id"`
-	JobId             string    `json:"job_id,omitempty"`
-	LastSavepoint     string    `json:"last_savepoint,omitempty"`
-	Parallelism       int       `json:"parallelism"`
-	RestartEnabled    bool      `json:"restart_enabled"`
-	StartingSavepoint string    `json:"starting_savepoint,omitempty"`
-	Status            string    `json:"status"`
-	VersionId         string    `json:"version_id"`
+	CreatedAt         string `json:"created_at"`
+	CreatedBy         string `json:"created_by"`
+	ErrorMsg          string `json:"error_msg,omitempty"`
+	Id                string `json:"id"`
+	JobId             string `json:"job_id,omitempty"`
+	LastSavepoint     string `json:"last_savepoint,omitempty"`
+	Parallelism       int    `json:"parallelism"`
+	RestartEnabled    bool   `json:"restart_enabled"`
+	StartingSavepoint string `json:"starting_savepoint,omitempty"`
+	Status            string `json:"status"`
+	VersionId         string `json:"version_id"`
 }
 type ServiceFlinkCancelApplicationDeploymentOut struct {
-	CreatedAt         time.Time `json:"created_at"`
-	CreatedBy         string    `json:"created_by"`
-	ErrorMsg          string    `json:"error_msg,omitempty"`
-	Id                string    `json:"id"`
-	JobId             string    `json:"job_id,omitempty"`
-	LastSavepoint     string    `json:"last_savepoint,omitempty"`
-	Parallelism       int       `json:"parallelism"`
-	RestartEnabled    bool      `json:"restart_enabled"`
-	StartingSavepoint string    `json:"starting_savepoint,omitempty"`
-	Status            string    `json:"status"`
-	VersionId         string    `json:"version_id"`
+	CreatedAt         string `json:"created_at"`
+	CreatedBy         string `json:"created_by"`
+	ErrorMsg          string `json:"error_msg,omitempty"`
+	Id                string `json:"id"`
+	JobId             string `json:"job_id,omitempty"`
+	LastSavepoint     string `json:"last_savepoint,omitempty"`
+	Parallelism       int    `json:"parallelism"`
+	RestartEnabled    bool   `json:"restart_enabled"`
+	StartingSavepoint string `json:"starting_savepoint,omitempty"`
+	Status            string `json:"status"`
+	VersionId         string `json:"version_id"`
 }
 type ServiceFlinkCreateApplicationDeploymentIn struct {
 	Parallelism       *int   `json:"parallelism,omitempty"`
@@ -165,56 +164,56 @@ type ServiceFlinkCreateApplicationDeploymentIn struct {
 	VersionId         string `json:"version_id"`
 }
 type ServiceFlinkCreateApplicationDeploymentOut struct {
-	CreatedAt         time.Time `json:"created_at"`
-	CreatedBy         string    `json:"created_by"`
-	ErrorMsg          string    `json:"error_msg,omitempty"`
-	Id                string    `json:"id"`
-	JobId             string    `json:"job_id,omitempty"`
-	LastSavepoint     string    `json:"last_savepoint,omitempty"`
-	Parallelism       int       `json:"parallelism"`
-	RestartEnabled    bool      `json:"restart_enabled"`
-	StartingSavepoint string    `json:"starting_savepoint,omitempty"`
-	Status            string    `json:"status"`
-	VersionId         string    `json:"version_id"`
+	CreatedAt         string `json:"created_at"`
+	CreatedBy         string `json:"created_by"`
+	ErrorMsg          string `json:"error_msg,omitempty"`
+	Id                string `json:"id"`
+	JobId             string `json:"job_id,omitempty"`
+	LastSavepoint     string `json:"last_savepoint,omitempty"`
+	Parallelism       int    `json:"parallelism"`
+	RestartEnabled    bool   `json:"restart_enabled"`
+	StartingSavepoint string `json:"starting_savepoint,omitempty"`
+	Status            string `json:"status"`
+	VersionId         string `json:"version_id"`
 }
 type ServiceFlinkDeleteApplicationDeploymentOut struct {
-	CreatedAt         time.Time `json:"created_at"`
-	CreatedBy         string    `json:"created_by"`
-	ErrorMsg          string    `json:"error_msg,omitempty"`
-	Id                string    `json:"id"`
-	JobId             string    `json:"job_id,omitempty"`
-	LastSavepoint     string    `json:"last_savepoint,omitempty"`
-	Parallelism       int       `json:"parallelism"`
-	RestartEnabled    bool      `json:"restart_enabled"`
-	StartingSavepoint string    `json:"starting_savepoint,omitempty"`
-	Status            string    `json:"status"`
-	VersionId         string    `json:"version_id"`
+	CreatedAt         string `json:"created_at"`
+	CreatedBy         string `json:"created_by"`
+	ErrorMsg          string `json:"error_msg,omitempty"`
+	Id                string `json:"id"`
+	JobId             string `json:"job_id,omitempty"`
+	LastSavepoint     string `json:"last_savepoint,omitempty"`
+	Parallelism       int    `json:"parallelism"`
+	RestartEnabled    bool   `json:"restart_enabled"`
+	StartingSavepoint string `json:"starting_savepoint,omitempty"`
+	Status            string `json:"status"`
+	VersionId         string `json:"version_id"`
 }
 type ServiceFlinkGetApplicationDeploymentOut struct {
-	CreatedAt         time.Time `json:"created_at"`
-	CreatedBy         string    `json:"created_by"`
-	ErrorMsg          string    `json:"error_msg,omitempty"`
-	Id                string    `json:"id"`
-	JobId             string    `json:"job_id,omitempty"`
-	LastSavepoint     string    `json:"last_savepoint,omitempty"`
-	Parallelism       int       `json:"parallelism"`
-	RestartEnabled    bool      `json:"restart_enabled"`
-	StartingSavepoint string    `json:"starting_savepoint,omitempty"`
-	Status            string    `json:"status"`
-	VersionId         string    `json:"version_id"`
+	CreatedAt         string `json:"created_at"`
+	CreatedBy         string `json:"created_by"`
+	ErrorMsg          string `json:"error_msg,omitempty"`
+	Id                string `json:"id"`
+	JobId             string `json:"job_id,omitempty"`
+	LastSavepoint     string `json:"last_savepoint,omitempty"`
+	Parallelism       int    `json:"parallelism"`
+	RestartEnabled    bool   `json:"restart_enabled"`
+	StartingSavepoint string `json:"starting_savepoint,omitempty"`
+	Status            string `json:"status"`
+	VersionId         string `json:"version_id"`
 }
 type ServiceFlinkStopApplicationDeploymentOut struct {
-	CreatedAt         time.Time `json:"created_at"`
-	CreatedBy         string    `json:"created_by"`
-	ErrorMsg          string    `json:"error_msg,omitempty"`
-	Id                string    `json:"id"`
-	JobId             string    `json:"job_id,omitempty"`
-	LastSavepoint     string    `json:"last_savepoint,omitempty"`
-	Parallelism       int       `json:"parallelism"`
-	RestartEnabled    bool      `json:"restart_enabled"`
-	StartingSavepoint string    `json:"starting_savepoint,omitempty"`
-	Status            string    `json:"status"`
-	VersionId         string    `json:"version_id"`
+	CreatedAt         string `json:"created_at"`
+	CreatedBy         string `json:"created_by"`
+	ErrorMsg          string `json:"error_msg,omitempty"`
+	Id                string `json:"id"`
+	JobId             string `json:"job_id,omitempty"`
+	LastSavepoint     string `json:"last_savepoint,omitempty"`
+	Parallelism       int    `json:"parallelism"`
+	RestartEnabled    bool   `json:"restart_enabled"`
+	StartingSavepoint string `json:"starting_savepoint,omitempty"`
+	Status            string `json:"status"`
+	VersionId         string `json:"version_id"`
 }
 type serviceFlinkListApplicationDeploymentsOut struct {
 	Deployments []DeploymentOut `json:"deployments"`

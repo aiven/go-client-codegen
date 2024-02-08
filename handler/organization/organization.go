@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -190,20 +189,20 @@ type OrganizationAuthenticationConfigUpdateOut struct {
 	TwoFactorRequired   *bool `json:"two_factor_required,omitempty"`
 }
 type OrganizationGetOut struct {
-	AccountId        string    `json:"account_id"`
-	CreateTime       time.Time `json:"create_time"`
-	OrganizationId   string    `json:"organization_id"`
-	OrganizationName string    `json:"organization_name"`
-	Tier             string    `json:"tier"`
-	UpdateTime       time.Time `json:"update_time"`
+	AccountId        string `json:"account_id"`
+	CreateTime       string `json:"create_time"`
+	OrganizationId   string `json:"organization_id"`
+	OrganizationName string `json:"organization_name"`
+	Tier             string `json:"tier"`
+	UpdateTime       string `json:"update_time"`
 }
 type OrganizationOut struct {
-	AccountId        string    `json:"account_id"`
-	CreateTime       time.Time `json:"create_time"`
-	OrganizationId   string    `json:"organization_id"`
-	OrganizationName string    `json:"organization_name"`
-	Tier             string    `json:"tier"`
-	UpdateTime       time.Time `json:"update_time"`
+	AccountId        string `json:"account_id"`
+	CreateTime       string `json:"create_time"`
+	OrganizationId   string `json:"organization_id"`
+	OrganizationName string `json:"organization_name"`
+	Tier             string `json:"tier"`
+	UpdateTime       string `json:"update_time"`
 }
 type OrganizationProjectsListOut struct {
 	Projects          []ProjectOut `json:"projects"`
@@ -214,12 +213,12 @@ type OrganizationUpdateIn struct {
 	Tier TierType `json:"tier,omitempty"`
 }
 type OrganizationUpdateOut struct {
-	AccountId        string    `json:"account_id"`
-	CreateTime       time.Time `json:"create_time"`
-	OrganizationId   string    `json:"organization_id"`
-	OrganizationName string    `json:"organization_name"`
-	Tier             string    `json:"tier"`
-	UpdateTime       time.Time `json:"update_time"`
+	AccountId        string `json:"account_id"`
+	CreateTime       string `json:"create_time"`
+	OrganizationId   string `json:"organization_id"`
+	OrganizationName string `json:"organization_name"`
+	Tier             string `json:"tier"`
+	UpdateTime       string `json:"update_time"`
 }
 type ProjectOut struct {
 	AccountId             string                 `json:"account_id"`
@@ -249,7 +248,7 @@ type ProjectOut struct {
 	Tags                  map[string]string      `json:"tags,omitempty"`
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
 	TenantId              string                 `json:"tenant_id,omitempty"`
-	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
+	TrialExpirationTime   string                 `json:"trial_expiration_time,omitempty"`
 	VatId                 string                 `json:"vat_id"`
 	ZipCode               string                 `json:"zip_code,omitempty"`
 }
@@ -273,12 +272,12 @@ type UserOrganizationCreateIn struct {
 	Tier                  TierType `json:"tier"`
 }
 type UserOrganizationCreateOut struct {
-	AccountId        string    `json:"account_id"`
-	CreateTime       time.Time `json:"create_time"`
-	OrganizationId   string    `json:"organization_id"`
-	OrganizationName string    `json:"organization_name"`
-	Tier             string    `json:"tier"`
-	UpdateTime       time.Time `json:"update_time"`
+	AccountId        string `json:"account_id"`
+	CreateTime       string `json:"create_time"`
+	OrganizationId   string `json:"organization_id"`
+	OrganizationName string `json:"organization_name"`
+	Tier             string `json:"tier"`
+	UpdateTime       string `json:"update_time"`
 }
 type userOrganizationsListOut struct {
 	Organizations []OrganizationOut `json:"organizations"`

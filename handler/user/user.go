@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -435,61 +434,61 @@ type AccessTokenCreateIn struct {
 	Scopes         *[]string `json:"scopes,omitempty"`
 }
 type AccessTokenCreateOut struct {
-	CreateTime                 time.Time  `json:"create_time"`
-	CreatedManually            bool       `json:"created_manually"`
-	CurrentlyActive            *bool      `json:"currently_active,omitempty"`
-	Description                string     `json:"description,omitempty"`
-	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`
-	ExtendWhenUsed             bool       `json:"extend_when_used"`
-	FullToken                  string     `json:"full_token"`
-	LastIp                     string     `json:"last_ip,omitempty"`
-	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`
-	LastUserAgent              string     `json:"last_user_agent,omitempty"`
-	LastUserAgentHumanReadable string     `json:"last_user_agent_human_readable,omitempty"`
-	MaxAgeSeconds              float64    `json:"max_age_seconds"`
-	Scopes                     []string   `json:"scopes,omitempty"`
-	TokenPrefix                string     `json:"token_prefix"`
+	CreateTime                 string   `json:"create_time"`
+	CreatedManually            bool     `json:"created_manually"`
+	CurrentlyActive            *bool    `json:"currently_active,omitempty"`
+	Description                string   `json:"description,omitempty"`
+	ExpiryTime                 string   `json:"expiry_time,omitempty"`
+	ExtendWhenUsed             bool     `json:"extend_when_used"`
+	FullToken                  string   `json:"full_token"`
+	LastIp                     string   `json:"last_ip,omitempty"`
+	LastUsedTime               string   `json:"last_used_time,omitempty"`
+	LastUserAgent              string   `json:"last_user_agent,omitempty"`
+	LastUserAgentHumanReadable string   `json:"last_user_agent_human_readable,omitempty"`
+	MaxAgeSeconds              float64  `json:"max_age_seconds"`
+	Scopes                     []string `json:"scopes,omitempty"`
+	TokenPrefix                string   `json:"token_prefix"`
 }
 type AccessTokenUpdateIn struct {
 	Description string `json:"description"`
 }
 type AccessTokenUpdateOut struct {
-	CreateTime                 time.Time  `json:"create_time"`
-	CreatedManually            *bool      `json:"created_manually,omitempty"`
-	CurrentlyActive            *bool      `json:"currently_active,omitempty"`
-	Description                string     `json:"description,omitempty"`
-	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`
-	ExtendWhenUsed             bool       `json:"extend_when_used"`
-	LastIp                     string     `json:"last_ip,omitempty"`
-	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`
-	LastUserAgent              string     `json:"last_user_agent,omitempty"`
-	LastUserAgentHumanReadable string     `json:"last_user_agent_human_readable,omitempty"`
-	MaxAgeSeconds              float64    `json:"max_age_seconds"`
-	Scopes                     []string   `json:"scopes,omitempty"`
-	TokenPrefix                string     `json:"token_prefix"`
+	CreateTime                 string   `json:"create_time"`
+	CreatedManually            *bool    `json:"created_manually,omitempty"`
+	CurrentlyActive            *bool    `json:"currently_active,omitempty"`
+	Description                string   `json:"description,omitempty"`
+	ExpiryTime                 string   `json:"expiry_time,omitempty"`
+	ExtendWhenUsed             bool     `json:"extend_when_used"`
+	LastIp                     string   `json:"last_ip,omitempty"`
+	LastUsedTime               string   `json:"last_used_time,omitempty"`
+	LastUserAgent              string   `json:"last_user_agent,omitempty"`
+	LastUserAgentHumanReadable string   `json:"last_user_agent_human_readable,omitempty"`
+	MaxAgeSeconds              float64  `json:"max_age_seconds"`
+	Scopes                     []string `json:"scopes,omitempty"`
+	TokenPrefix                string   `json:"token_prefix"`
 }
 type AccountInviteOut struct {
-	AccountId          string    `json:"account_id"`
-	AccountName        string    `json:"account_name"`
-	CreateTime         time.Time `json:"create_time"`
-	InvitedByUserEmail string    `json:"invited_by_user_email"`
-	TeamId             string    `json:"team_id"`
-	TeamName           string    `json:"team_name"`
-	UserEmail          string    `json:"user_email"`
+	AccountId          string `json:"account_id"`
+	AccountName        string `json:"account_name"`
+	CreateTime         string `json:"create_time"`
+	InvitedByUserEmail string `json:"invited_by_user_email"`
+	TeamId             string `json:"team_id"`
+	TeamName           string `json:"team_name"`
+	UserEmail          string `json:"user_email"`
 }
 type AuthenticationMethodOut struct {
-	AuthenticationMethodAccountId string    `json:"authentication_method_account_id"`
-	CreateTime                    time.Time `json:"create_time"`
-	CurrentlyActive               bool      `json:"currently_active"`
-	DeleteTime                    time.Time `json:"delete_time"`
-	LastUsedTime                  time.Time `json:"last_used_time"`
-	MethodId                      string    `json:"method_id"`
-	Name                          string    `json:"name,omitempty"`
-	PublicRemoteIdentity          string    `json:"public_remote_identity"`
-	RemoteProviderId              string    `json:"remote_provider_id"`
-	State                         string    `json:"state"`
-	UpdateTime                    time.Time `json:"update_time"`
-	UserEmail                     string    `json:"user_email"`
+	AuthenticationMethodAccountId string `json:"authentication_method_account_id"`
+	CreateTime                    string `json:"create_time"`
+	CurrentlyActive               bool   `json:"currently_active"`
+	DeleteTime                    string `json:"delete_time"`
+	LastUsedTime                  string `json:"last_used_time"`
+	MethodId                      string `json:"method_id"`
+	Name                          string `json:"name,omitempty"`
+	PublicRemoteIdentity          string `json:"public_remote_identity"`
+	RemoteProviderId              string `json:"remote_provider_id"`
+	State                         string `json:"state"`
+	UpdateTime                    string `json:"update_time"`
+	UserEmail                     string `json:"user_email"`
 }
 type CheckPasswordStrengthExistingUserIn struct {
 	NewPassword string `json:"new_password"`
@@ -515,10 +514,10 @@ type IntercomOut struct {
 	Hmac  string `json:"hmac"`
 }
 type InvitationOut struct {
-	InviteCode        string    `json:"invite_code"`
-	InviteTime        time.Time `json:"invite_time"`
-	InvitingUserEmail string    `json:"inviting_user_email"`
-	ProjectName       string    `json:"project_name"`
+	InviteCode        string `json:"invite_code"`
+	InviteTime        string `json:"invite_time"`
+	InvitingUserEmail string `json:"inviting_user_email"`
+	ProjectName       string `json:"project_name"`
 }
 type ProjectMembershipOut struct {
 	Any string `json:"ANY,omitempty"`
@@ -527,19 +526,19 @@ type ProjectMembershipsOut struct {
 	Any []string `json:"ANY,omitempty"`
 }
 type TokenOut struct {
-	CreateTime                 time.Time  `json:"create_time"`
-	CreatedManually            bool       `json:"created_manually"`
-	CurrentlyActive            *bool      `json:"currently_active,omitempty"`
-	Description                string     `json:"description,omitempty"`
-	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`
-	ExtendWhenUsed             bool       `json:"extend_when_used"`
-	LastIp                     string     `json:"last_ip,omitempty"`
-	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`
-	LastUserAgent              string     `json:"last_user_agent,omitempty"`
-	LastUserAgentHumanReadable string     `json:"last_user_agent_human_readable,omitempty"`
-	MaxAgeSeconds              float64    `json:"max_age_seconds"`
-	Scopes                     []string   `json:"scopes,omitempty"`
-	TokenPrefix                string     `json:"token_prefix"`
+	CreateTime                 string   `json:"create_time"`
+	CreatedManually            bool     `json:"created_manually"`
+	CurrentlyActive            *bool    `json:"currently_active,omitempty"`
+	Description                string   `json:"description,omitempty"`
+	ExpiryTime                 string   `json:"expiry_time,omitempty"`
+	ExtendWhenUsed             bool     `json:"extend_when_used"`
+	LastIp                     string   `json:"last_ip,omitempty"`
+	LastUsedTime               string   `json:"last_used_time,omitempty"`
+	LastUserAgent              string   `json:"last_user_agent,omitempty"`
+	LastUserAgentHumanReadable string   `json:"last_user_agent_human_readable,omitempty"`
+	MaxAgeSeconds              float64  `json:"max_age_seconds"`
+	Scopes                     []string `json:"scopes,omitempty"`
+	TokenPrefix                string   `json:"token_prefix"`
 }
 type TwoFactorAuthConfigureIn struct {
 	Method   string `json:"method"`
@@ -603,17 +602,17 @@ type UserCreateOut struct {
 	UserEmail string  `json:"user_email"`
 }
 type UserGroupOut struct {
-	CreateTime    time.Time `json:"create_time"`
-	Description   string    `json:"description"`
-	UpdateTime    time.Time `json:"update_time"`
-	UserGroupId   string    `json:"user_group_id"`
-	UserGroupName string    `json:"user_group_name"`
+	CreateTime    string `json:"create_time"`
+	Description   string `json:"description"`
+	UpdateTime    string `json:"update_time"`
+	UserGroupId   string `json:"user_group_id"`
+	UserGroupName string `json:"user_group_name"`
 }
 type UserInfoOut struct {
 	Auth                   []string               `json:"auth"`
 	City                   string                 `json:"city,omitempty"`
 	Country                string                 `json:"country,omitempty"`
-	CreateTime             *time.Time             `json:"create_time,omitempty"`
+	CreateTime             string                 `json:"create_time,omitempty"`
 	Department             string                 `json:"department,omitempty"`
 	Features               map[string]any         `json:"features,omitempty"`
 	Intercom               IntercomOut            `json:"intercom"`
@@ -634,7 +633,7 @@ type UserOut struct {
 	Auth                   []string               `json:"auth"`
 	City                   string                 `json:"city,omitempty"`
 	Country                string                 `json:"country,omitempty"`
-	CreateTime             *time.Time             `json:"create_time,omitempty"`
+	CreateTime             string                 `json:"create_time,omitempty"`
 	Department             string                 `json:"department,omitempty"`
 	Features               map[string]any         `json:"features,omitempty"`
 	Invitations            []InvitationOut        `json:"invitations"`
@@ -671,7 +670,7 @@ type UserUpdateOut struct {
 	Auth                   []string               `json:"auth"`
 	City                   string                 `json:"city,omitempty"`
 	Country                string                 `json:"country,omitempty"`
-	CreateTime             *time.Time             `json:"create_time,omitempty"`
+	CreateTime             string                 `json:"create_time,omitempty"`
 	Department             string                 `json:"department,omitempty"`
 	Features               map[string]any         `json:"features,omitempty"`
 	Intercom               IntercomOut            `json:"intercom"`

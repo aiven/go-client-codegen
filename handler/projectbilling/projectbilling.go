@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -79,37 +78,37 @@ func (h *ProjectBillingHandler) ProjectInvoiceList(ctx context.Context, project 
 }
 
 type CreditOut struct {
-	Code           string     `json:"code,omitempty"`
-	ExpireTime     *time.Time `json:"expire_time,omitempty"`
-	RemainingValue string     `json:"remaining_value,omitempty"`
-	StartTime      *time.Time `json:"start_time,omitempty"`
-	Type           string     `json:"type,omitempty"`
-	Value          string     `json:"value,omitempty"`
+	Code           string `json:"code,omitempty"`
+	ExpireTime     string `json:"expire_time,omitempty"`
+	RemainingValue string `json:"remaining_value,omitempty"`
+	StartTime      string `json:"start_time,omitempty"`
+	Type           string `json:"type,omitempty"`
+	Value          string `json:"value,omitempty"`
 }
 type InvoiceOut struct {
-	BillingGroupId    string     `json:"billing_group_id"`
-	BillingGroupName  string     `json:"billing_group_name"`
-	BillingGroupState string     `json:"billing_group_state"`
-	Currency          string     `json:"currency"`
-	DownloadCookie    string     `json:"download_cookie"`
-	GeneratedAt       *time.Time `json:"generated_at,omitempty"`
-	InvoiceNumber     string     `json:"invoice_number"`
-	PeriodBegin       string     `json:"period_begin"`
-	PeriodEnd         string     `json:"period_end"`
-	State             string     `json:"state"`
-	TotalIncVat       string     `json:"total_inc_vat"`
-	TotalVatZero      string     `json:"total_vat_zero"`
+	BillingGroupId    string `json:"billing_group_id"`
+	BillingGroupName  string `json:"billing_group_name"`
+	BillingGroupState string `json:"billing_group_state"`
+	Currency          string `json:"currency"`
+	DownloadCookie    string `json:"download_cookie"`
+	GeneratedAt       string `json:"generated_at,omitempty"`
+	InvoiceNumber     string `json:"invoice_number"`
+	PeriodBegin       string `json:"period_begin"`
+	PeriodEnd         string `json:"period_end"`
+	State             string `json:"state"`
+	TotalIncVat       string `json:"total_inc_vat"`
+	TotalVatZero      string `json:"total_vat_zero"`
 }
 type ProjectCreditsClaimIn struct {
 	Code string `json:"code"`
 }
 type ProjectCreditsClaimOut struct {
-	Code           string     `json:"code,omitempty"`
-	ExpireTime     *time.Time `json:"expire_time,omitempty"`
-	RemainingValue string     `json:"remaining_value,omitempty"`
-	StartTime      *time.Time `json:"start_time,omitempty"`
-	Type           string     `json:"type,omitempty"`
-	Value          string     `json:"value,omitempty"`
+	Code           string `json:"code,omitempty"`
+	ExpireTime     string `json:"expire_time,omitempty"`
+	RemainingValue string `json:"remaining_value,omitempty"`
+	StartTime      string `json:"start_time,omitempty"`
+	Type           string `json:"type,omitempty"`
+	Value          string `json:"value,omitempty"`
 }
 type projectCreditsClaimOut struct {
 	Credit ProjectCreditsClaimOut `json:"credit"`

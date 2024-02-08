@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -87,13 +86,13 @@ type AccountTeamMembersInviteIn struct {
 	Email string `json:"email"`
 }
 type MemberOut struct {
-	CreateTime time.Time `json:"create_time"`
-	RealName   string    `json:"real_name"`
-	TeamId     string    `json:"team_id"`
-	TeamName   string    `json:"team_name"`
-	UpdateTime time.Time `json:"update_time"`
-	UserEmail  string    `json:"user_email"`
-	UserId     string    `json:"user_id"`
+	CreateTime string `json:"create_time"`
+	RealName   string `json:"real_name"`
+	TeamId     string `json:"team_id"`
+	TeamName   string `json:"team_name"`
+	UpdateTime string `json:"update_time"`
+	UserEmail  string `json:"user_email"`
+	UserId     string `json:"user_id"`
 }
 type accountTeamMemberVerifyInviteOut struct {
 	InviteDetails AccountTeamMemberVerifyInviteOut `json:"invite_details"`

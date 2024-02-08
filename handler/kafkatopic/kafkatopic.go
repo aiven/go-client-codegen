@@ -427,6 +427,7 @@ type PartitionOut struct {
 	Isr            int                `json:"isr"`
 	LatestOffset   int                `json:"latest_offset"`
 	Partition      int                `json:"partition"`
+	RemoteSize     *int               `json:"remote_size,omitempty"`
 	Size           int                `json:"size"`
 }
 type PreallocateOut struct {

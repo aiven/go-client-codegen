@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -116,7 +115,7 @@ type ServiceFlinkCreateApplicationVersionIn struct {
 	Statement string     `json:"statement"`
 }
 type ServiceFlinkCreateApplicationVersionOut struct {
-	CreatedAt time.Time   `json:"created_at"`
+	CreatedAt string      `json:"created_at"`
 	CreatedBy string      `json:"created_by"`
 	Id        string      `json:"id"`
 	Sinks     []SinkOut   `json:"sinks"`
@@ -125,7 +124,7 @@ type ServiceFlinkCreateApplicationVersionOut struct {
 	Version   int         `json:"version"`
 }
 type ServiceFlinkDeleteApplicationVersionOut struct {
-	CreatedAt time.Time   `json:"created_at"`
+	CreatedAt string      `json:"created_at"`
 	CreatedBy string      `json:"created_by"`
 	Id        string      `json:"id"`
 	Sinks     []SinkOut   `json:"sinks"`
@@ -134,7 +133,7 @@ type ServiceFlinkDeleteApplicationVersionOut struct {
 	Version   int         `json:"version"`
 }
 type ServiceFlinkGetApplicationVersionOut struct {
-	CreatedAt time.Time   `json:"created_at"`
+	CreatedAt string      `json:"created_at"`
 	CreatedBy string      `json:"created_by"`
 	Id        string      `json:"id"`
 	Sinks     []SinkOut   `json:"sinks"`

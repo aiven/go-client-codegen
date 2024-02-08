@@ -121,8 +121,6 @@ const (
 	SchemaTypeNumber = "number"
 	// SchemaTypeBoolean represents a boolean schema type.
 	SchemaTypeBoolean = "boolean"
-	// SchemaTypeTime represents a time schema type.
-	SchemaTypeTime = "time"
 )
 
 // Schema represents a parsed OpenAPI schema.
@@ -202,14 +200,6 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 		s.CamelName = strcase.ToCamel(s.parent.CamelName)
 	}
 
-	if s.Type == SchemaTypeString {
-		parts := strings.Split(s.name, "_")
-		switch parts[len(parts)-1] {
-		case "at", "time":
-			s.Type = SchemaTypeTime
-		}
-	}
-
 	if s.isArray() {
 		s.Items.parent = s
 		s.Items.required = true // a workaround to not have slices with pointers
@@ -283,7 +273,7 @@ func (s *Schema) isArray() bool {
 
 func (s *Schema) isScalar() bool {
 	switch s.Type {
-	case SchemaTypeString, SchemaTypeInteger, SchemaTypeNumber, SchemaTypeBoolean, SchemaTypeTime:
+	case SchemaTypeString, SchemaTypeInteger, SchemaTypeNumber, SchemaTypeBoolean:
 		return true
 	}
 
@@ -325,8 +315,6 @@ func getScalarType(s *Schema) *jen.Statement {
 		return jen.Float64()
 	case SchemaTypeBoolean:
 		return jen.Bool()
-	case SchemaTypeTime:
-		return jen.Qual("time", "Time")
 	default:
 		panic(fmt.Errorf("unknown type %q", s.Type))
 	}

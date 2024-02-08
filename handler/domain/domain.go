@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -107,47 +106,47 @@ func (h *DomainHandler) OrganizationDomainsRemove(ctx context.Context, organizat
 }
 
 type DomainOut struct {
-	ChallengeToken   string    `json:"challenge_token"`
-	CreateTime       time.Time `json:"create_time"`
-	DomainId         string    `json:"domain_id"`
-	DomainName       string    `json:"domain_name"`
-	OrganizationId   string    `json:"organization_id"`
-	State            string    `json:"state"`
-	VerificationType string    `json:"verification_type"`
+	ChallengeToken   string `json:"challenge_token"`
+	CreateTime       string `json:"create_time"`
+	DomainId         string `json:"domain_id"`
+	DomainName       string `json:"domain_name"`
+	OrganizationId   string `json:"organization_id"`
+	State            string `json:"state"`
+	VerificationType string `json:"verification_type"`
 }
 type OrganizationDomainAddIn struct {
 	DomainName       string           `json:"domain_name"`
 	VerificationType VerificationType `json:"verification_type"`
 }
 type OrganizationDomainAddOut struct {
-	ChallengeToken   string    `json:"challenge_token"`
-	CreateTime       time.Time `json:"create_time"`
-	DomainId         string    `json:"domain_id"`
-	DomainName       string    `json:"domain_name"`
-	OrganizationId   string    `json:"organization_id"`
-	State            string    `json:"state"`
-	VerificationType string    `json:"verification_type"`
+	ChallengeToken   string `json:"challenge_token"`
+	CreateTime       string `json:"create_time"`
+	DomainId         string `json:"domain_id"`
+	DomainName       string `json:"domain_name"`
+	OrganizationId   string `json:"organization_id"`
+	State            string `json:"state"`
+	VerificationType string `json:"verification_type"`
 }
 type OrganizationDomainUpdateIn struct {
 	VerificationType VerificationType `json:"verification_type,omitempty"`
 }
 type OrganizationDomainUpdateOut struct {
-	ChallengeToken   string    `json:"challenge_token"`
-	CreateTime       time.Time `json:"create_time"`
-	DomainId         string    `json:"domain_id"`
-	DomainName       string    `json:"domain_name"`
-	OrganizationId   string    `json:"organization_id"`
-	State            string    `json:"state"`
-	VerificationType string    `json:"verification_type"`
+	ChallengeToken   string `json:"challenge_token"`
+	CreateTime       string `json:"create_time"`
+	DomainId         string `json:"domain_id"`
+	DomainName       string `json:"domain_name"`
+	OrganizationId   string `json:"organization_id"`
+	State            string `json:"state"`
+	VerificationType string `json:"verification_type"`
 }
 type OrganizationDomainVerifyOut struct {
-	ChallengeToken   string    `json:"challenge_token"`
-	CreateTime       time.Time `json:"create_time"`
-	DomainId         string    `json:"domain_id"`
-	DomainName       string    `json:"domain_name"`
-	OrganizationId   string    `json:"organization_id"`
-	State            string    `json:"state"`
-	VerificationType string    `json:"verification_type"`
+	ChallengeToken   string `json:"challenge_token"`
+	CreateTime       string `json:"create_time"`
+	DomainId         string `json:"domain_id"`
+	DomainName       string `json:"domain_name"`
+	OrganizationId   string `json:"organization_id"`
+	State            string `json:"state"`
+	VerificationType string `json:"verification_type"`
 }
 type VerificationType string
 

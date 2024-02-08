@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -115,12 +114,12 @@ func (h *FlinkApplicationHandler) ServiceFlinkUpdateApplication(ctx context.Cont
 }
 
 type ApplicationOut struct {
-	CreatedAt *time.Time `json:"created_at,omitempty"`
-	CreatedBy string     `json:"created_by,omitempty"`
-	Id        string     `json:"id"`
-	Name      string     `json:"name"`
-	UpdatedAt *time.Time `json:"updated_at,omitempty"`
-	UpdatedBy string     `json:"updated_by,omitempty"`
+	CreatedAt string `json:"created_at,omitempty"`
+	CreatedBy string `json:"created_by,omitempty"`
+	Id        string `json:"id"`
+	Name      string `json:"name"`
+	UpdatedAt string `json:"updated_at,omitempty"`
+	UpdatedBy string `json:"updated_by,omitempty"`
 }
 type ApplicationVersionIn struct {
 	Sinks     []SinkIn   `json:"sinks"`
@@ -128,7 +127,7 @@ type ApplicationVersionIn struct {
 	Statement string     `json:"statement"`
 }
 type ApplicationVersionOut struct {
-	CreatedAt time.Time   `json:"created_at"`
+	CreatedAt string      `json:"created_at"`
 	CreatedBy string      `json:"created_by"`
 	Id        string      `json:"id"`
 	Sinks     []SinkOut   `json:"sinks"`
@@ -145,17 +144,17 @@ type ColumnOut struct {
 	Watermark string `json:"watermark,omitempty"`
 }
 type CurrentDeploymentOut struct {
-	CreatedAt         time.Time `json:"created_at"`
-	CreatedBy         string    `json:"created_by"`
-	ErrorMsg          string    `json:"error_msg,omitempty"`
-	Id                string    `json:"id"`
-	JobId             string    `json:"job_id,omitempty"`
-	LastSavepoint     string    `json:"last_savepoint,omitempty"`
-	Parallelism       int       `json:"parallelism"`
-	RestartEnabled    bool      `json:"restart_enabled"`
-	StartingSavepoint string    `json:"starting_savepoint,omitempty"`
-	Status            string    `json:"status"`
-	VersionId         string    `json:"version_id"`
+	CreatedAt         string `json:"created_at"`
+	CreatedBy         string `json:"created_by"`
+	ErrorMsg          string `json:"error_msg,omitempty"`
+	Id                string `json:"id"`
+	JobId             string `json:"job_id,omitempty"`
+	LastSavepoint     string `json:"last_savepoint,omitempty"`
+	Parallelism       int    `json:"parallelism"`
+	RestartEnabled    bool   `json:"restart_enabled"`
+	StartingSavepoint string `json:"starting_savepoint,omitempty"`
+	Status            string `json:"status"`
+	VersionId         string `json:"version_id"`
 }
 type ServiceFlinkCreateApplicationIn struct {
 	ApplicationVersion *ApplicationVersionIn `json:"application_version,omitempty"`
@@ -163,32 +162,32 @@ type ServiceFlinkCreateApplicationIn struct {
 }
 type ServiceFlinkCreateApplicationOut struct {
 	ApplicationVersions []ApplicationVersionOut `json:"application_versions"`
-	CreatedAt           time.Time               `json:"created_at"`
+	CreatedAt           string                  `json:"created_at"`
 	CreatedBy           string                  `json:"created_by"`
 	CurrentDeployment   *CurrentDeploymentOut   `json:"current_deployment,omitempty"`
 	Id                  string                  `json:"id"`
 	Name                string                  `json:"name"`
-	UpdatedAt           time.Time               `json:"updated_at"`
+	UpdatedAt           string                  `json:"updated_at"`
 	UpdatedBy           string                  `json:"updated_by"`
 }
 type ServiceFlinkDeleteApplicationOut struct {
 	ApplicationVersions []ApplicationVersionOut `json:"application_versions"`
-	CreatedAt           time.Time               `json:"created_at"`
+	CreatedAt           string                  `json:"created_at"`
 	CreatedBy           string                  `json:"created_by"`
 	CurrentDeployment   *CurrentDeploymentOut   `json:"current_deployment,omitempty"`
 	Id                  string                  `json:"id"`
 	Name                string                  `json:"name"`
-	UpdatedAt           time.Time               `json:"updated_at"`
+	UpdatedAt           string                  `json:"updated_at"`
 	UpdatedBy           string                  `json:"updated_by"`
 }
 type ServiceFlinkGetApplicationOut struct {
 	ApplicationVersions []ApplicationVersionOut `json:"application_versions"`
-	CreatedAt           time.Time               `json:"created_at"`
+	CreatedAt           string                  `json:"created_at"`
 	CreatedBy           string                  `json:"created_by"`
 	CurrentDeployment   *CurrentDeploymentOut   `json:"current_deployment,omitempty"`
 	Id                  string                  `json:"id"`
 	Name                string                  `json:"name"`
-	UpdatedAt           time.Time               `json:"updated_at"`
+	UpdatedAt           string                  `json:"updated_at"`
 	UpdatedBy           string                  `json:"updated_by"`
 }
 type ServiceFlinkUpdateApplicationIn struct {
@@ -196,12 +195,12 @@ type ServiceFlinkUpdateApplicationIn struct {
 }
 type ServiceFlinkUpdateApplicationOut struct {
 	ApplicationVersions []ApplicationVersionOut `json:"application_versions"`
-	CreatedAt           time.Time               `json:"created_at"`
+	CreatedAt           string                  `json:"created_at"`
 	CreatedBy           string                  `json:"created_by"`
 	CurrentDeployment   *CurrentDeploymentOut   `json:"current_deployment,omitempty"`
 	Id                  string                  `json:"id"`
 	Name                string                  `json:"name"`
-	UpdatedAt           time.Time               `json:"updated_at"`
+	UpdatedAt           string                  `json:"updated_at"`
 	UpdatedBy           string                  `json:"updated_by"`
 }
 type SinkIn struct {

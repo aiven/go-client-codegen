@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -221,27 +220,27 @@ func ActionTypeChoices() []string {
 }
 
 type AuthenticationMethodOut struct {
-	IsEnabled2Fa     *bool      `json:"is_enabled_2fa,omitempty"`
-	LastUsedTime     *time.Time `json:"last_used_time,omitempty"`
-	LocalProviderId  string     `json:"local_provider_id,omitempty"`
-	MethodId         string     `json:"method_id,omitempty"`
-	Name             string     `json:"name,omitempty"`
-	OrganizationId   string     `json:"organization_id,omitempty"`
-	RemoteProviderId string     `json:"remote_provider_id"`
-	Type             string     `json:"type,omitempty"`
-	UserEmail        string     `json:"user_email,omitempty"`
-	UserId           string     `json:"user_id,omitempty"`
+	IsEnabled2Fa     *bool  `json:"is_enabled_2fa,omitempty"`
+	LastUsedTime     string `json:"last_used_time,omitempty"`
+	LocalProviderId  string `json:"local_provider_id,omitempty"`
+	MethodId         string `json:"method_id,omitempty"`
+	Name             string `json:"name,omitempty"`
+	OrganizationId   string `json:"organization_id,omitempty"`
+	RemoteProviderId string `json:"remote_provider_id"`
+	Type             string `json:"type,omitempty"`
+	UserEmail        string `json:"user_email,omitempty"`
+	UserId           string `json:"user_id,omitempty"`
 }
 type InvitationOut struct {
-	CreateTime time.Time `json:"create_time"`
-	ExpiryTime time.Time `json:"expiry_time"`
-	InvitedBy  string    `json:"invited_by"`
-	UserEmail  string    `json:"user_email"`
+	CreateTime string `json:"create_time"`
+	ExpiryTime string `json:"expiry_time"`
+	InvitedBy  string `json:"invited_by"`
+	UserEmail  string `json:"user_email"`
 }
 type OrganizationUserGetOut struct {
 	IsSuperAdmin     bool        `json:"is_super_admin"`
-	JoinTime         time.Time   `json:"join_time"`
-	LastActivityTime time.Time   `json:"last_activity_time"`
+	JoinTime         string      `json:"join_time"`
+	LastActivityTime string      `json:"last_activity_time"`
 	UserId           string      `json:"user_id"`
 	UserInfo         UserInfoOut `json:"user_info"`
 }
@@ -253,8 +252,8 @@ type OrganizationUserInviteIn struct {
 }
 type OrganizationUserSetOut struct {
 	IsSuperAdmin     bool        `json:"is_super_admin"`
-	JoinTime         time.Time   `json:"join_time"`
-	LastActivityTime time.Time   `json:"last_activity_time"`
+	JoinTime         string      `json:"join_time"`
+	LastActivityTime string      `json:"last_activity_time"`
 	UserId           string      `json:"user_id"`
 	UserInfo         UserInfoOut `json:"user_info"`
 }
@@ -269,8 +268,8 @@ type OrganizationUserUpdateIn struct {
 }
 type OrganizationUserUpdateOut struct {
 	IsSuperAdmin     bool        `json:"is_super_admin"`
-	JoinTime         time.Time   `json:"join_time"`
-	LastActivityTime time.Time   `json:"last_activity_time"`
+	JoinTime         string      `json:"join_time"`
+	LastActivityTime string      `json:"last_activity_time"`
 	UserId           string      `json:"user_id"`
 	UserInfo         UserInfoOut `json:"user_info"`
 }
@@ -287,29 +286,29 @@ func StateTypeChoices() []string {
 }
 
 type TokenOut struct {
-	Description   string    `json:"description"`
-	LastIp        string    `json:"last_ip"`
-	LastUsedTime  time.Time `json:"last_used_time"`
-	LastUserAgent string    `json:"last_user_agent"`
-	TokenPrefix   string    `json:"token_prefix"`
+	Description   string `json:"description"`
+	LastIp        string `json:"last_ip"`
+	LastUsedTime  string `json:"last_used_time"`
+	LastUserAgent string `json:"last_user_agent"`
+	TokenPrefix   string `json:"token_prefix"`
 }
 type UserInfoOut struct {
-	City                   string    `json:"city,omitempty"`
-	Country                string    `json:"country,omitempty"`
-	CreateTime             time.Time `json:"create_time"`
-	Department             string    `json:"department,omitempty"`
-	IsApplicationUser      bool      `json:"is_application_user"`
-	JobTitle               string    `json:"job_title,omitempty"`
-	ManagedByScim          bool      `json:"managed_by_scim"`
-	ManagingOrganizationId string    `json:"managing_organization_id,omitempty"`
-	RealName               string    `json:"real_name"`
-	State                  string    `json:"state"`
-	UserEmail              string    `json:"user_email"`
+	City                   string `json:"city,omitempty"`
+	Country                string `json:"country,omitempty"`
+	CreateTime             string `json:"create_time"`
+	Department             string `json:"department,omitempty"`
+	IsApplicationUser      bool   `json:"is_application_user"`
+	JobTitle               string `json:"job_title,omitempty"`
+	ManagedByScim          bool   `json:"managed_by_scim"`
+	ManagingOrganizationId string `json:"managing_organization_id,omitempty"`
+	RealName               string `json:"real_name"`
+	State                  string `json:"state"`
+	UserEmail              string `json:"user_email"`
 }
 type UserOut struct {
 	IsSuperAdmin     bool        `json:"is_super_admin"`
-	JoinTime         time.Time   `json:"join_time"`
-	LastActivityTime time.Time   `json:"last_activity_time"`
+	JoinTime         string      `json:"join_time"`
+	LastActivityTime string      `json:"last_activity_time"`
 	UserId           string      `json:"user_id"`
 	UserInfo         UserInfoOut `json:"user_info"`
 }

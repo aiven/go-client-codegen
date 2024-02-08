@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -169,7 +168,7 @@ type AclOut struct {
 	Username string    `json:"username"`
 }
 type IndexeOut struct {
-	CreateTime          time.Time       `json:"create_time"`
+	CreateTime          string          `json:"create_time"`
 	Docs                *int            `json:"docs,omitempty"`
 	Health              string          `json:"health,omitempty"`
 	IndexName           string          `json:"index_name"`

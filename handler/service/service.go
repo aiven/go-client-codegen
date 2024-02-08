@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -537,13 +536,13 @@ type AdditionalRegionOut struct {
 	Region      string `json:"region,omitempty"`
 }
 type AlertOut struct {
-	CreateTime  time.Time `json:"create_time"`
-	Event       string    `json:"event"`
-	NodeName    string    `json:"node_name,omitempty"`
-	ProjectName string    `json:"project_name"`
-	ServiceName string    `json:"service_name,omitempty"`
-	ServiceType string    `json:"service_type,omitempty"`
-	Severity    string    `json:"severity"`
+	CreateTime  string `json:"create_time"`
+	Event       string `json:"event"`
+	NodeName    string `json:"node_name,omitempty"`
+	ProjectName string `json:"project_name"`
+	ServiceName string `json:"service_name,omitempty"`
+	ServiceType string `json:"service_type,omitempty"`
+	Severity    string `json:"severity"`
 }
 type AnyOut struct {
 	DefaultVersion         string           `json:"default_version,omitempty"`
@@ -564,7 +563,7 @@ type BackupConfigOut struct {
 type BackupOut struct {
 	AdditionalRegions []AdditionalRegionOut `json:"additional_regions,omitempty"`
 	BackupName        string                `json:"backup_name"`
-	BackupTime        time.Time             `json:"backup_time"`
+	BackupTime        string                `json:"backup_time"`
 	DataSize          int                   `json:"data_size"`
 	StorageLocation   string                `json:"storage_location,omitempty"`
 }
@@ -678,25 +677,25 @@ type ListPublicServiceTypesOut struct {
 	Any *AnyOut `json:"ANY,omitempty"`
 }
 type LogOut struct {
-	Msg  string     `json:"msg"`
-	Time *time.Time `json:"time,omitempty"`
-	Unit string     `json:"unit,omitempty"`
+	Msg  string `json:"msg"`
+	Time string `json:"time,omitempty"`
+	Unit string `json:"unit,omitempty"`
 }
 type MaintenanceIn struct {
-	Dow  DowType    `json:"dow,omitempty"`
-	Time *time.Time `json:"time,omitempty"`
+	Dow  DowType `json:"dow,omitempty"`
+	Time string  `json:"time,omitempty"`
 }
 type MaintenanceOut struct {
 	Dow     string      `json:"dow"`
-	Time    time.Time   `json:"time"`
+	Time    string      `json:"time"`
 	Updates []UpdateOut `json:"updates"`
 }
 type MetadataOut struct {
-	EndOfLifeHelpArticleUrl string     `json:"end_of_life_help_article_url,omitempty"`
-	EndOfLifePolicyUrl      string     `json:"end_of_life_policy_url,omitempty"`
-	ServiceEndOfLifeTime    *time.Time `json:"service_end_of_life_time,omitempty"`
-	UpgradeToServiceType    string     `json:"upgrade_to_service_type,omitempty"`
-	UpgradeToVersion        string     `json:"upgrade_to_version,omitempty"`
+	EndOfLifeHelpArticleUrl string `json:"end_of_life_help_article_url,omitempty"`
+	EndOfLifePolicyUrl      string `json:"end_of_life_policy_url,omitempty"`
+	ServiceEndOfLifeTime    string `json:"service_end_of_life_time,omitempty"`
+	UpgradeToServiceType    string `json:"upgrade_to_service_type,omitempty"`
+	UpgradeToVersion        string `json:"upgrade_to_version,omitempty"`
 }
 type MethodType string
 
@@ -857,7 +856,7 @@ type ServiceCreateOut struct {
 	Components             []ComponentOut           `json:"components,omitempty"`
 	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`
 	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`
-	CreateTime             time.Time                `json:"create_time"`
+	CreateTime             string                   `json:"create_time"`
 	Databases              []string                 `json:"databases,omitempty"`
 	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`
 	Features               map[string]any           `json:"features,omitempty"`
@@ -883,7 +882,7 @@ type ServiceCreateOut struct {
 	TechEmails             []TechEmailOut           `json:"tech_emails,omitempty"`
 	TerminationProtection  bool                     `json:"termination_protection"`
 	Topics                 []TopicOut               `json:"topics,omitempty"`
-	UpdateTime             time.Time                `json:"update_time"`
+	UpdateTime             string                   `json:"update_time"`
 	UserConfig             map[string]any           `json:"user_config"`
 	Users                  []UserOut                `json:"users,omitempty"`
 }
@@ -904,7 +903,7 @@ type ServiceGetOut struct {
 	Components             []ComponentOut           `json:"components,omitempty"`
 	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`
 	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`
-	CreateTime             time.Time                `json:"create_time"`
+	CreateTime             string                   `json:"create_time"`
 	Databases              []string                 `json:"databases,omitempty"`
 	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`
 	Features               map[string]any           `json:"features,omitempty"`
@@ -930,7 +929,7 @@ type ServiceGetOut struct {
 	TechEmails             []TechEmailOut           `json:"tech_emails,omitempty"`
 	TerminationProtection  bool                     `json:"termination_protection"`
 	Topics                 []TopicOut               `json:"topics,omitempty"`
-	UpdateTime             time.Time                `json:"update_time"`
+	UpdateTime             string                   `json:"update_time"`
 	UserConfig             map[string]any           `json:"user_config"`
 	Users                  []UserOut                `json:"users,omitempty"`
 }
@@ -984,7 +983,7 @@ type ServiceOut struct {
 	Components             []ComponentOut           `json:"components,omitempty"`
 	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`
 	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`
-	CreateTime             time.Time                `json:"create_time"`
+	CreateTime             string                   `json:"create_time"`
 	Databases              []string                 `json:"databases,omitempty"`
 	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`
 	Features               map[string]any           `json:"features,omitempty"`
@@ -1010,7 +1009,7 @@ type ServiceOut struct {
 	TechEmails             []TechEmailOut           `json:"tech_emails,omitempty"`
 	TerminationProtection  bool                     `json:"termination_protection"`
 	Topics                 []TopicOut               `json:"topics,omitempty"`
-	UpdateTime             time.Time                `json:"update_time"`
+	UpdateTime             string                   `json:"update_time"`
 	UserConfig             map[string]any           `json:"user_config"`
 	Users                  []UserOut                `json:"users,omitempty"`
 }
@@ -1035,7 +1034,7 @@ type ServiceTaskCreateIn struct {
 	TaskType       TaskType          `json:"task_type"`
 }
 type ServiceTaskCreateOut struct {
-	CreateTime  time.Time       `json:"create_time"`
+	CreateTime  string          `json:"create_time"`
 	Result      string          `json:"result"`
 	ResultCodes []ResultCodeOut `json:"result_codes,omitempty"`
 	Success     bool            `json:"success"`
@@ -1043,7 +1042,7 @@ type ServiceTaskCreateOut struct {
 	TaskType    string          `json:"task_type"`
 }
 type ServiceTaskGetOut struct {
-	CreateTime  time.Time       `json:"create_time"`
+	CreateTime  string          `json:"create_time"`
 	Result      string          `json:"result"`
 	ResultCodes []ResultCodeOut `json:"result_codes,omitempty"`
 	Success     bool            `json:"success"`
@@ -1072,7 +1071,7 @@ type ServiceUpdateOut struct {
 	Components             []ComponentOut           `json:"components,omitempty"`
 	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`
 	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`
-	CreateTime             time.Time                `json:"create_time"`
+	CreateTime             string                   `json:"create_time"`
 	Databases              []string                 `json:"databases,omitempty"`
 	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`
 	Features               map[string]any           `json:"features,omitempty"`
@@ -1098,22 +1097,22 @@ type ServiceUpdateOut struct {
 	TechEmails             []TechEmailOut           `json:"tech_emails,omitempty"`
 	TerminationProtection  bool                     `json:"termination_protection"`
 	Topics                 []TopicOut               `json:"topics,omitempty"`
-	UpdateTime             time.Time                `json:"update_time"`
+	UpdateTime             string                   `json:"update_time"`
 	UserConfig             map[string]any           `json:"user_config"`
 	Users                  []UserOut                `json:"users,omitempty"`
 }
 type ServiceVersionOut struct {
-	AivenEndOfLifeTime      *time.Time `json:"aiven_end_of_life_time,omitempty"`
-	AvailabilityEndTime     *time.Time `json:"availability_end_time,omitempty"`
-	AvailabilityStartTime   *time.Time `json:"availability_start_time,omitempty"`
-	EndOfLifeHelpArticleUrl string     `json:"end_of_life_help_article_url,omitempty"`
-	MajorVersion            string     `json:"major_version,omitempty"`
-	ServiceType             string     `json:"service_type,omitempty"`
-	State                   string     `json:"state,omitempty"`
-	TerminationTime         *time.Time `json:"termination_time,omitempty"`
-	UpgradeToServiceType    string     `json:"upgrade_to_service_type,omitempty"`
-	UpgradeToVersion        string     `json:"upgrade_to_version,omitempty"`
-	UpstreamEndOfLifeTime   *time.Time `json:"upstream_end_of_life_time,omitempty"`
+	AivenEndOfLifeTime      string `json:"aiven_end_of_life_time,omitempty"`
+	AvailabilityEndTime     string `json:"availability_end_time,omitempty"`
+	AvailabilityStartTime   string `json:"availability_start_time,omitempty"`
+	EndOfLifeHelpArticleUrl string `json:"end_of_life_help_article_url,omitempty"`
+	MajorVersion            string `json:"major_version,omitempty"`
+	ServiceType             string `json:"service_type,omitempty"`
+	State                   string `json:"state,omitempty"`
+	TerminationTime         string `json:"termination_time,omitempty"`
+	UpgradeToServiceType    string `json:"upgrade_to_service_type,omitempty"`
+	UpgradeToVersion        string `json:"upgrade_to_version,omitempty"`
+	UpstreamEndOfLifeTime   string `json:"upstream_end_of_life_time,omitempty"`
 }
 type ShardOut struct {
 	Name     string `json:"name,omitempty"`
@@ -1179,18 +1178,18 @@ type TopicOut struct {
 	TopicName         string `json:"topic_name"`
 }
 type UpdateOut struct {
-	Deadline    string     `json:"deadline,omitempty"`
-	Description string     `json:"description,omitempty"`
-	StartAfter  string     `json:"start_after,omitempty"`
-	StartAt     *time.Time `json:"start_at,omitempty"`
+	Deadline    string `json:"deadline,omitempty"`
+	Description string `json:"description,omitempty"`
+	StartAfter  string `json:"start_after,omitempty"`
+	StartAt     string `json:"start_at,omitempty"`
 }
 type UserOut struct {
 	AccessCert                    string            `json:"access_cert,omitempty"`
-	AccessCertNotValidAfterTime   *time.Time        `json:"access_cert_not_valid_after_time,omitempty"`
+	AccessCertNotValidAfterTime   string            `json:"access_cert_not_valid_after_time,omitempty"`
 	AccessControl                 *AccessControlOut `json:"access_control,omitempty"`
 	AccessKey                     string            `json:"access_key,omitempty"`
 	Authentication                string            `json:"authentication,omitempty"`
-	ExpiringCertNotValidAfterTime *time.Time        `json:"expiring_cert_not_valid_after_time,omitempty"`
+	ExpiringCertNotValidAfterTime string            `json:"expiring_cert_not_valid_after_time,omitempty"`
 	Password                      string            `json:"password"`
 	Type                          string            `json:"type"`
 	Username                      string            `json:"username"`

@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -307,7 +306,7 @@ type AccountCreateOut struct {
 	AccountId             string         `json:"account_id"`
 	AccountName           string         `json:"account_name"`
 	AccountOwnerTeamId    string         `json:"account_owner_team_id"`
-	CreateTime            time.Time      `json:"create_time"`
+	CreateTime            string         `json:"create_time"`
 	Features              map[string]any `json:"features,omitempty"`
 	IsAccountMember       *bool          `json:"is_account_member,omitempty"`
 	IsAccountOwner        bool           `json:"is_account_owner"`
@@ -316,14 +315,14 @@ type AccountCreateOut struct {
 	PrimaryBillingGroupId string         `json:"primary_billing_group_id"`
 	RootAccountId         string         `json:"root_account_id"`
 	TenantId              string         `json:"tenant_id,omitempty"`
-	UpdateTime            time.Time      `json:"update_time"`
+	UpdateTime            string         `json:"update_time"`
 }
 type AccountGetOut struct {
 	AccessSource          string         `json:"access_source,omitempty"`
 	AccountId             string         `json:"account_id"`
 	AccountName           string         `json:"account_name"`
 	AccountOwnerTeamId    string         `json:"account_owner_team_id"`
-	CreateTime            time.Time      `json:"create_time"`
+	CreateTime            string         `json:"create_time"`
 	Features              map[string]any `json:"features,omitempty"`
 	IsAccountMember       *bool          `json:"is_account_member,omitempty"`
 	IsAccountOwner        bool           `json:"is_account_owner"`
@@ -332,7 +331,7 @@ type AccountGetOut struct {
 	PrimaryBillingGroupId string         `json:"primary_billing_group_id"`
 	RootAccountId         string         `json:"root_account_id"`
 	TenantId              string         `json:"tenant_id,omitempty"`
-	UpdateTime            time.Time      `json:"update_time"`
+	UpdateTime            string         `json:"update_time"`
 }
 type AccountMoveIn struct {
 	ParentAccountId string `json:"parent_account_id"`
@@ -342,7 +341,7 @@ type AccountMoveOut struct {
 	AccountId             string         `json:"account_id"`
 	AccountName           string         `json:"account_name"`
 	AccountOwnerTeamId    string         `json:"account_owner_team_id"`
-	CreateTime            time.Time      `json:"create_time"`
+	CreateTime            string         `json:"create_time"`
 	Features              map[string]any `json:"features,omitempty"`
 	IsAccountMember       *bool          `json:"is_account_member,omitempty"`
 	IsAccountOwner        bool           `json:"is_account_owner"`
@@ -351,14 +350,14 @@ type AccountMoveOut struct {
 	PrimaryBillingGroupId string         `json:"primary_billing_group_id"`
 	RootAccountId         string         `json:"root_account_id"`
 	TenantId              string         `json:"tenant_id,omitempty"`
-	UpdateTime            time.Time      `json:"update_time"`
+	UpdateTime            string         `json:"update_time"`
 }
 type AccountOut struct {
 	AccessSource          string         `json:"access_source,omitempty"`
 	AccountId             string         `json:"account_id"`
 	AccountName           string         `json:"account_name"`
 	AccountOwnerTeamId    string         `json:"account_owner_team_id"`
-	CreateTime            time.Time      `json:"create_time"`
+	CreateTime            string         `json:"create_time"`
 	Features              map[string]any `json:"features,omitempty"`
 	IsAccountMember       *bool          `json:"is_account_member,omitempty"`
 	IsAccountOwner        bool           `json:"is_account_owner"`
@@ -367,7 +366,7 @@ type AccountOut struct {
 	PrimaryBillingGroupId string         `json:"primary_billing_group_id"`
 	RootAccountId         string         `json:"root_account_id"`
 	TenantId              string         `json:"tenant_id,omitempty"`
-	UpdateTime            time.Time      `json:"update_time"`
+	UpdateTime            string         `json:"update_time"`
 }
 type AccountProjectsListOut struct {
 	Projects          []ProjectOut `json:"projects"`
@@ -382,7 +381,7 @@ type AccountUpdateOut struct {
 	AccountId             string         `json:"account_id"`
 	AccountName           string         `json:"account_name"`
 	AccountOwnerTeamId    string         `json:"account_owner_team_id"`
-	CreateTime            time.Time      `json:"create_time"`
+	CreateTime            string         `json:"create_time"`
 	Features              map[string]any `json:"features,omitempty"`
 	IsAccountMember       *bool          `json:"is_account_member,omitempty"`
 	IsAccountOwner        bool           `json:"is_account_owner"`
@@ -391,7 +390,7 @@ type AccountUpdateOut struct {
 	PrimaryBillingGroupId string         `json:"primary_billing_group_id"`
 	RootAccountId         string         `json:"root_account_id"`
 	TenantId              string         `json:"tenant_id,omitempty"`
-	UpdateTime            time.Time      `json:"update_time"`
+	UpdateTime            string         `json:"update_time"`
 }
 type AccountUsersSearchIn struct {
 	Limit   *int        `json:"limit,omitempty"`
@@ -430,14 +429,14 @@ type EndOfLifeExtensionOut struct {
 	Elasticsearch *ElasticsearchOut `json:"elasticsearch,omitempty"`
 }
 type EventOut struct {
-	AccountId         string    `json:"account_id"`
-	ActionDescription string    `json:"action_description"`
-	ActionType        string    `json:"action_type"`
-	Actor             string    `json:"actor"`
-	ActorUserId       string    `json:"actor_user_id"`
-	CreateTime        time.Time `json:"create_time"`
-	LogEntryId        int       `json:"log_entry_id"`
-	TeamId            string    `json:"team_id"`
+	AccountId         string `json:"account_id"`
+	ActionDescription string `json:"action_description"`
+	ActionType        string `json:"action_type"`
+	Actor             string `json:"actor"`
+	ActorUserId       string `json:"actor_user_id"`
+	CreateTime        string `json:"create_time"`
+	LogEntryId        int    `json:"log_entry_id"`
+	TeamId            string `json:"team_id"`
 }
 type OrderByType string
 
@@ -482,7 +481,7 @@ type ProjectOut struct {
 	Tags                  map[string]string      `json:"tags,omitempty"`
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
 	TenantId              string                 `json:"tenant_id,omitempty"`
-	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
+	TrialExpirationTime   string                 `json:"trial_expiration_time,omitempty"`
 	VatId                 string                 `json:"vat_id"`
 	ZipCode               string                 `json:"zip_code,omitempty"`
 }
@@ -495,15 +494,15 @@ type UserOut struct {
 	UserId    string `json:"user_id"`
 }
 type UserProjectOut struct {
-	AccessType  string    `json:"access_type,omitempty"`
-	AccountId   string    `json:"account_id"`
-	CreateTime  time.Time `json:"create_time"`
-	MemberType  string    `json:"member_type"`
-	ProjectName string    `json:"project_name"`
-	RealName    string    `json:"real_name"`
-	TeamId      string    `json:"team_id"`
-	TeamName    string    `json:"team_name"`
-	UserEmail   string    `json:"user_email"`
+	AccessType  string `json:"access_type,omitempty"`
+	AccountId   string `json:"account_id"`
+	CreateTime  string `json:"create_time"`
+	MemberType  string `json:"member_type"`
+	ProjectName string `json:"project_name"`
+	RealName    string `json:"real_name"`
+	TeamId      string `json:"team_id"`
+	TeamName    string `json:"team_name"`
+	UserEmail   string `json:"user_email"`
 }
 type accountAttachPaymentMethodOut struct {
 	Card AccountAttachPaymentMethodOut `json:"card"`

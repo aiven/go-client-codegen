@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -303,12 +302,12 @@ type BillingGroupCreditsClaimIn struct {
 	Code string `json:"code"`
 }
 type BillingGroupCreditsClaimOut struct {
-	Code           string     `json:"code,omitempty"`
-	ExpireTime     *time.Time `json:"expire_time,omitempty"`
-	RemainingValue string     `json:"remaining_value,omitempty"`
-	StartTime      *time.Time `json:"start_time,omitempty"`
-	Type           string     `json:"type,omitempty"`
-	Value          string     `json:"value,omitempty"`
+	Code           string `json:"code,omitempty"`
+	ExpireTime     string `json:"expire_time,omitempty"`
+	RemainingValue string `json:"remaining_value,omitempty"`
+	StartTime      string `json:"start_time,omitempty"`
+	Type           string `json:"type,omitempty"`
+	Value          string `json:"value,omitempty"`
 }
 type BillingGroupGetOut struct {
 	AccountId             string            `json:"account_id"`
@@ -406,36 +405,36 @@ type CardInfoOut struct {
 	UserEmail   string `json:"user_email"`
 }
 type CreditOut struct {
-	Code           string     `json:"code,omitempty"`
-	ExpireTime     *time.Time `json:"expire_time,omitempty"`
-	RemainingValue string     `json:"remaining_value,omitempty"`
-	StartTime      *time.Time `json:"start_time,omitempty"`
-	Type           string     `json:"type,omitempty"`
-	Value          string     `json:"value,omitempty"`
+	Code           string `json:"code,omitempty"`
+	ExpireTime     string `json:"expire_time,omitempty"`
+	RemainingValue string `json:"remaining_value,omitempty"`
+	StartTime      string `json:"start_time,omitempty"`
+	Type           string `json:"type,omitempty"`
+	Value          string `json:"value,omitempty"`
 }
 type EventOut struct {
-	Actor          string     `json:"actor,omitempty"`
-	BillingGroupId string     `json:"billing_group_id,omitempty"`
-	CreateTime     *time.Time `json:"create_time,omitempty"`
-	EventDesc      string     `json:"event_desc,omitempty"`
-	EventType      string     `json:"event_type,omitempty"`
-	LogEntryId     *int       `json:"log_entry_id,omitempty"`
-	ProjectId      string     `json:"project_id,omitempty"`
-	ProjectName    string     `json:"project_name,omitempty"`
+	Actor          string `json:"actor,omitempty"`
+	BillingGroupId string `json:"billing_group_id,omitempty"`
+	CreateTime     string `json:"create_time,omitempty"`
+	EventDesc      string `json:"event_desc,omitempty"`
+	EventType      string `json:"event_type,omitempty"`
+	LogEntryId     *int   `json:"log_entry_id,omitempty"`
+	ProjectId      string `json:"project_id,omitempty"`
+	ProjectName    string `json:"project_name,omitempty"`
 }
 type InvoiceOut struct {
-	BillingGroupId    string     `json:"billing_group_id"`
-	BillingGroupName  string     `json:"billing_group_name"`
-	BillingGroupState string     `json:"billing_group_state"`
-	Currency          string     `json:"currency"`
-	DownloadCookie    string     `json:"download_cookie"`
-	GeneratedAt       *time.Time `json:"generated_at,omitempty"`
-	InvoiceNumber     string     `json:"invoice_number"`
-	PeriodBegin       string     `json:"period_begin"`
-	PeriodEnd         string     `json:"period_end"`
-	State             string     `json:"state"`
-	TotalIncVat       string     `json:"total_inc_vat"`
-	TotalVatZero      string     `json:"total_vat_zero"`
+	BillingGroupId    string `json:"billing_group_id"`
+	BillingGroupName  string `json:"billing_group_name"`
+	BillingGroupState string `json:"billing_group_state"`
+	Currency          string `json:"currency"`
+	DownloadCookie    string `json:"download_cookie"`
+	GeneratedAt       string `json:"generated_at,omitempty"`
+	InvoiceNumber     string `json:"invoice_number"`
+	PeriodBegin       string `json:"period_begin"`
+	PeriodEnd         string `json:"period_end"`
+	State             string `json:"state"`
+	TotalIncVat       string `json:"total_inc_vat"`
+	TotalVatZero      string `json:"total_vat_zero"`
 }
 type LineOut struct {
 	CloudName            string            `json:"cloud_name,omitempty"`

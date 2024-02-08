@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 type Handler interface {
@@ -127,20 +126,20 @@ func (h *AccountTeamHandler) AccountTeamUpdate(ctx context.Context, accountId st
 }
 
 type AccountInviteOut struct {
-	AccountId          string    `json:"account_id"`
-	AccountName        string    `json:"account_name"`
-	CreateTime         time.Time `json:"create_time"`
-	InvitedByUserEmail string    `json:"invited_by_user_email"`
-	TeamId             string    `json:"team_id"`
-	TeamName           string    `json:"team_name"`
-	UserEmail          string    `json:"user_email"`
+	AccountId          string `json:"account_id"`
+	AccountName        string `json:"account_name"`
+	CreateTime         string `json:"create_time"`
+	InvitedByUserEmail string `json:"invited_by_user_email"`
+	TeamId             string `json:"team_id"`
+	TeamName           string `json:"team_name"`
+	UserEmail          string `json:"user_email"`
 }
 type AccountTeamGetOut struct {
-	AccountId  string     `json:"account_id,omitempty"`
-	CreateTime *time.Time `json:"create_time,omitempty"`
-	TeamId     string     `json:"team_id"`
-	TeamName   string     `json:"team_name"`
-	UpdateTime *time.Time `json:"update_time,omitempty"`
+	AccountId  string `json:"account_id,omitempty"`
+	CreateTime string `json:"create_time,omitempty"`
+	TeamId     string `json:"team_id"`
+	TeamName   string `json:"team_name"`
+	UpdateTime string `json:"update_time,omitempty"`
 }
 type AccountTeamProjectAssociateIn struct {
 	TeamType TeamType `json:"team_type"`
@@ -149,18 +148,18 @@ type AccountTeamUpdateIn struct {
 	TeamName string `json:"team_name"`
 }
 type AccountTeamUpdateOut struct {
-	AccountId  string     `json:"account_id,omitempty"`
-	CreateTime *time.Time `json:"create_time,omitempty"`
-	TeamId     string     `json:"team_id"`
-	TeamName   string     `json:"team_name"`
-	UpdateTime *time.Time `json:"update_time,omitempty"`
+	AccountId  string `json:"account_id,omitempty"`
+	CreateTime string `json:"create_time,omitempty"`
+	TeamId     string `json:"team_id"`
+	TeamName   string `json:"team_name"`
+	UpdateTime string `json:"update_time,omitempty"`
 }
 type TeamOut struct {
-	AccountId  string     `json:"account_id,omitempty"`
-	CreateTime *time.Time `json:"create_time,omitempty"`
-	TeamId     string     `json:"team_id"`
-	TeamName   string     `json:"team_name"`
-	UpdateTime *time.Time `json:"update_time,omitempty"`
+	AccountId  string `json:"account_id,omitempty"`
+	CreateTime string `json:"create_time,omitempty"`
+	TeamId     string `json:"team_id"`
+	TeamName   string `json:"team_name"`
+	UpdateTime string `json:"update_time,omitempty"`
 }
 type TeamType string
 
