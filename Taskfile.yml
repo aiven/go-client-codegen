@@ -8,12 +8,16 @@ tasks:
     cmds:
       - find . -type f -name '*.go' -exec sed -zi 's/(?<== `\s+)"\n\+\t"/"\n"/g' {} +
       - goimports -local "github.com/aiven/go-client-codegen" -w .
+  get-openapi-spec:
+    cmds:
+      - curl -s -o openapi.json https://api.aiven.io/doc/openapi.json
   go-generate:
     cmds:
       - rm -rf {{.GEN_OUT_DIR}}
       - GEN_OUT_DIR={{.GEN_OUT_DIR}} go run -tags=generator ./generator/...
   generate:
     cmds:
+      - task: get-openapi-spec
       - task: go-generate
       - task: fmt-imports
   test:
