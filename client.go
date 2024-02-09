@@ -143,8 +143,7 @@ func (d *aivenClient) do(ctx context.Context, method, path string, v any) (*http
 
 func isEmpty(a any) bool {
 	v := reflect.ValueOf(a)
-
-	return !v.IsZero() || v.Kind() == reflect.Ptr && v.IsNil()
+	return v.IsZero() || v.Kind() == reflect.Ptr && v.IsNil()
 }
 
 // Doer aka http.Client
