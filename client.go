@@ -99,7 +99,7 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 	}
 
 	defer func() {
-		err = multierror.Append(rsp.Body.Close())
+		err = multierror.Append(rsp.Body.Close()).ErrorOrNil()
 	}()
 
 	b, err := io.ReadAll(rsp.Body)
