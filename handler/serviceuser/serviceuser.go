@@ -178,7 +178,7 @@ type IntegrationStatusOut struct {
 }
 type MaintenanceOut struct {
 	Dow     string      `json:"dow"`
-	Time    time.Time   `json:"time"`
+	Time    string      `json:"time"`
 	Updates []UpdateOut `json:"updates"`
 }
 type MetadataOut struct {

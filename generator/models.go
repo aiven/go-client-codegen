@@ -202,7 +202,7 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 		s.CamelName = strcase.ToCamel(s.parent.CamelName)
 	}
 
-	if s.Type == SchemaTypeString {
+	if s.Type == SchemaTypeString && s.name != "time" {
 		parts := strings.Split(s.name, "_")
 		switch parts[len(parts)-1] {
 		case "at", "time":

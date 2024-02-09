@@ -678,17 +678,17 @@ type ListPublicServiceTypesOut struct {
 	Any *AnyOut `json:"ANY,omitempty"`
 }
 type LogOut struct {
-	Msg  string     `json:"msg"`
-	Time *time.Time `json:"time,omitempty"`
-	Unit string     `json:"unit,omitempty"`
+	Msg  string `json:"msg"`
+	Time string `json:"time,omitempty"`
+	Unit string `json:"unit,omitempty"`
 }
 type MaintenanceIn struct {
-	Dow  DowType    `json:"dow,omitempty"`
-	Time *time.Time `json:"time,omitempty"`
+	Dow  DowType `json:"dow,omitempty"`
+	Time string  `json:"time,omitempty"`
 }
 type MaintenanceOut struct {
 	Dow     string      `json:"dow"`
-	Time    time.Time   `json:"time"`
+	Time    string      `json:"time"`
 	Updates []UpdateOut `json:"updates"`
 }
 type MetadataOut struct {

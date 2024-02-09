@@ -125,6 +125,7 @@ type AccountAuthenticationMethodCreateIn struct {
 	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"`
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
+	ScimEnabled                      *bool                      `json:"scim_enabled,omitempty"`
 }
 type AccountAuthenticationMethodCreateOut struct {
 	AccountId                        string               `json:"account_id"`
@@ -158,6 +159,8 @@ type AccountAuthenticationMethodCreateOut struct {
 	SamlSignatureAlgorithm           string               `json:"saml_signature_algorithm,omitempty"`
 	SamlSpCertificate                string               `json:"saml_sp_certificate,omitempty"`
 	SamlVariant                      string               `json:"saml_variant,omitempty"`
+	ScimEnabled                      *bool                `json:"scim_enabled,omitempty"`
+	ScimUrl                          string               `json:"scim_url,omitempty"`
 	State                            string               `json:"state"`
 	UpdateTime                       time.Time            `json:"update_time"`
 }
@@ -193,6 +196,8 @@ type AccountAuthenticationMethodGetOut struct {
 	SamlSignatureAlgorithm           string               `json:"saml_signature_algorithm,omitempty"`
 	SamlSpCertificate                string               `json:"saml_sp_certificate,omitempty"`
 	SamlVariant                      string               `json:"saml_variant,omitempty"`
+	ScimEnabled                      *bool                `json:"scim_enabled,omitempty"`
+	ScimUrl                          string               `json:"scim_url,omitempty"`
 	State                            string               `json:"state"`
 	UpdateTime                       time.Time            `json:"update_time"`
 }
@@ -214,6 +219,7 @@ type AccountAuthenticationMethodUpdateIn struct {
 	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"`
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
+	ScimEnabled                      *bool                      `json:"scim_enabled,omitempty"`
 }
 type AccountAuthenticationMethodUpdateOut struct {
 	AccountId                        string               `json:"account_id"`
@@ -247,6 +253,8 @@ type AccountAuthenticationMethodUpdateOut struct {
 	SamlSignatureAlgorithm           string               `json:"saml_signature_algorithm,omitempty"`
 	SamlSpCertificate                string               `json:"saml_sp_certificate,omitempty"`
 	SamlVariant                      string               `json:"saml_variant,omitempty"`
+	ScimEnabled                      *bool                `json:"scim_enabled,omitempty"`
+	ScimUrl                          string               `json:"scim_url,omitempty"`
 	State                            string               `json:"state"`
 	UpdateTime                       time.Time            `json:"update_time"`
 }
@@ -282,6 +290,8 @@ type AuthenticationMethodOut struct {
 	SamlSignatureAlgorithm           string               `json:"saml_signature_algorithm,omitempty"`
 	SamlSpCertificate                string               `json:"saml_sp_certificate,omitempty"`
 	SamlVariant                      string               `json:"saml_variant,omitempty"`
+	ScimEnabled                      *bool                `json:"scim_enabled,omitempty"`
+	ScimUrl                          string               `json:"scim_url,omitempty"`
 	State                            string               `json:"state"`
 	UpdateTime                       time.Time            `json:"update_time"`
 }

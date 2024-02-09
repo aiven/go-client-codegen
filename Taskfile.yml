@@ -17,7 +17,6 @@ tasks:
       - GEN_OUT_DIR={{.GEN_OUT_DIR}} go run -tags=generator ./generator/...
   generate:
     cmds:
-      - task: get-openapi-spec
       - task: go-generate
       - task: fmt-imports
   test:
