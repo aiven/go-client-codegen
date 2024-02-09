@@ -204,8 +204,9 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 
 	if s.Type == SchemaTypeString {
 		parts := strings.Split(s.name, "_")
-		switch parts[len(parts)-1] {
-		case "at", "time":
+		suffix := parts[len(parts)-1]
+
+		if len(parts) > 1 && (suffix == "at" || suffix == "time") {
 			s.Type = SchemaTypeTime
 		}
 	}

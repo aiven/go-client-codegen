@@ -315,6 +315,7 @@ func exec() error {
 			}
 
 			ifErr := jen.If(jen.Err().Op("!=").Nil()).Block(returnErr)
+
 			if rsp == nil {
 				block = append(block, jen.Return(jen.Err()))
 			} else {

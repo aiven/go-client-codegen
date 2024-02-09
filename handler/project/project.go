@@ -365,12 +365,12 @@ type EndOfLifeExtensionOut struct {
 	Elasticsearch *ElasticsearchOut `json:"elasticsearch,omitempty"`
 }
 type EventOut struct {
-	Actor       string    `json:"actor"`
-	EventDesc   string    `json:"event_desc"`
-	EventType   string    `json:"event_type"`
-	Id          string    `json:"id"`
-	ServiceName string    `json:"service_name"`
-	Time        time.Time `json:"time"`
+	Actor       string `json:"actor"`
+	EventDesc   string `json:"event_desc"`
+	EventType   string `json:"event_type"`
+	Id          string `json:"id"`
+	ServiceName string `json:"service_name"`
+	Time        string `json:"time"`
 }
 type GroupUserOut struct {
 	MemberType  string `json:"member_type"`
