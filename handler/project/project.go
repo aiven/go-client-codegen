@@ -60,6 +60,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInviteDelete
 	ProjectInviteDelete(ctx context.Context, project string, invitedEmail string) error
 
+	// ProjectKmsGetCA retrieve project CA certificate
+	// GET /project/{project}/kms/ca
+	// https://api.aiven.io/doc/#tag/Project_Key_Management/operation/ProjectKmsGetCA
+	ProjectKmsGetCA(ctx context.Context, project string) (string, error)
+
 	// ProjectList list projects
 	// GET /project
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectList
@@ -223,6 +228,19 @@ func (h *ProjectHandler) ProjectInviteDelete(ctx context.Context, project string
 	path := fmt.Sprintf("/project/%s/invite/%s", project, invitedEmail)
 	_, err := h.doer.Do(ctx, "ProjectInviteDelete", "DELETE", path, nil)
 	return err
+}
+func (h *ProjectHandler) ProjectKmsGetCA(ctx context.Context, project string) (string, error) {
+	path := fmt.Sprintf("/project/%s/kms/ca", project)
+	b, err := h.doer.Do(ctx, "ProjectKmsGetCA", "GET", path, nil)
+	if err != nil {
+		return "", err
+	}
+	out := new(projectKmsGetCaOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return "", err
+	}
+	return out.Certificate, nil
 }
 func (h *ProjectHandler) ProjectList(ctx context.Context) (*ProjectListOut, error) {
 	path := fmt.Sprintf("/project")
@@ -647,6 +665,9 @@ type projectGetOut struct {
 }
 type projectInviteAcceptOut struct {
 	InviteDetails ProjectInviteAcceptOut `json:"invite_details"`
+}
+type projectKmsGetCaOut struct {
+	Certificate string `json:"certificate"`
 }
 type projectPrivatelinkAvailabilityListOut struct {
 	PrivatelinkAvailability []PrivatelinkAvailabilityOut `json:"privatelink_availability"`

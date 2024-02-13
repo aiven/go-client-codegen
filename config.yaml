@@ -183,6 +183,7 @@ Project:
   - ProjectInvite
   - ProjectInviteAccept
   - ProjectInviteDelete
+  - ProjectKmsGetCA
   - ProjectList
   - ProjectPrivatelinkAvailabilityList
   - ProjectTagsList
