@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.go"
+      - "**/go.mod"
+      - "**/go.sum"
+  workflow_dispatch: {}
+
+permissions: read-all
+
+jobs:
+  releaser:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: version
+        uses: anothrNick/github-tag-action@1.61.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WITH_V: true
+          DRY_RUN: true
+      - id: sha
+        run: |
+          GIT_SHA=$(git rev-parse HEAD)
+          echo "sha=${GIT_SHA::7}" >> $GITHUB_OUTPUT
+      - id: tag
+        uses: anothrNick/github-tag-action@1.61.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          WITH_V: true
+      - uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.new_tag }}
+          name: ${{ steps.version.outputs.new_tag }}
+          body: auto-generated release for commit ${{ steps.sha.outputs.sha }}
