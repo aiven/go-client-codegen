@@ -30,6 +30,7 @@ func TestNewClient(t *testing.T) {
 	require.NoError(t, err)
 
 	found := 0
+
 	for _, to := range tokens {
 		if strings.HasPrefix(token, to.TokenPrefix) {
 			found++

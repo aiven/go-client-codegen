@@ -258,6 +258,7 @@ func exec() error {
 			paramIndex := -1
 			url := pathClean.ReplaceAllStringFunc(path.Path, func(_ string) string {
 				paramIndex++
+
 				switch t := path.Parameters[paramIndex].Schema.Type; t {
 				case SchemaTypeInteger:
 					return "%d"
@@ -320,6 +321,7 @@ func exec() error {
 				block = append(block, jen.Return(jen.Err()))
 			} else {
 				block = append(block, ifErr)
+
 				outReturn := jen.Id("out")
 				if rsp.CamelName != schemaOut.CamelName {
 					// Takes original name and turns to camel.
