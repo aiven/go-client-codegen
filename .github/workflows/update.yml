@@ -1,0 +1,39 @@
+name: Update
+
+on:
+  schedule:
+    - cron: 0 3 * * 1-5
+
+permissions: read-all
+
+jobs:
+  updater:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: go.mod
+      - uses: arduino/setup-task@v1
+      - run: wget -O openapi.json https://api.aiven.io/doc/openapi.json
+      - run: task generate
+        env:
+          AIVEN_TOKEN: ${{ secrets.AIVEN_TOKEN }}
+          AIVEN_PROJECT_NAME: ${{ secrets.AIVEN_PROJECT_NAME }}
+      - id: date
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+      - uses: peter-evans/create-pull-request@v4
+        with:
+          author: GitHub <noreply@github.com>
+          body: >
+            automated changes by
+            [update](https://github.com/aiven/go-client-codegen/blob/main/.github/workflows/update.yml)
+            GitHub Actions workflow
+          branch: update/${{ steps.date.outputs.date }}
+          commit-message: "chore(update): bump openapi schema (${{ steps.date.outputs.date }})"
+          title: "chore(update): bump openapi schema (${{ steps.date.outputs.date }})"
