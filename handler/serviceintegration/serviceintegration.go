@@ -260,6 +260,20 @@ type IntegrationStatusOut struct {
 	State          StateOut `json:"state"`
 	StatusUserDesc string   `json:"status_user_desc"`
 }
+type IntegrationStatusType string
+
+const (
+	IntegrationStatusTypeFailed   IntegrationStatusType = "failed"
+	IntegrationStatusTypeInactive IntegrationStatusType = "inactive"
+	IntegrationStatusTypeRunning  IntegrationStatusType = "running"
+	IntegrationStatusTypeStarting IntegrationStatusType = "starting"
+	IntegrationStatusTypeUnknown  IntegrationStatusType = "unknown"
+)
+
+func IntegrationStatusTypeChoices() []string {
+	return []string{"failed", "inactive", "running", "starting", "unknown"}
+}
+
 type IntegrationType string
 
 const (
@@ -284,6 +298,7 @@ const (
 	IntegrationTypeInternalConnectivity              IntegrationType = "internal_connectivity"
 	IntegrationTypeJolokia                           IntegrationType = "jolokia"
 	IntegrationTypeKafkaConnect                      IntegrationType = "kafka_connect"
+	IntegrationTypeKafkaConnectPostgresql            IntegrationType = "kafka_connect_postgresql"
 	IntegrationTypeKafkaLogs                         IntegrationType = "kafka_logs"
 	IntegrationTypeKafkaMirrormaker                  IntegrationType = "kafka_mirrormaker"
 	IntegrationTypeLogs                              IntegrationType = "logs"
@@ -305,7 +320,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "internal_connectivity", "jolokia", "kafka_connect", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
+	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
 }
 
 type IntegrationTypeOut struct {
@@ -317,6 +332,20 @@ type IntegrationTypeOut struct {
 	SourceServiceTypes []string       `json:"source_service_types"`
 	UserConfigSchema   map[string]any `json:"user_config_schema"`
 }
+type LikelyErrorCauseType string
+
+const (
+	LikelyErrorCauseTypeNull        LikelyErrorCauseType = "null"
+	LikelyErrorCauseTypeDestination LikelyErrorCauseType = "destination"
+	LikelyErrorCauseTypeIntegration LikelyErrorCauseType = "integration"
+	LikelyErrorCauseTypeSource      LikelyErrorCauseType = "source"
+	LikelyErrorCauseTypeUnknown     LikelyErrorCauseType = "unknown"
+)
+
+func LikelyErrorCauseTypeChoices() []string {
+	return []string{"null", "destination", "integration", "source", "unknown"}
+}
+
 type ServiceIntegrationCreateIn struct {
 	DestEndpointId   string          `json:"dest_endpoint_id,omitempty"`
 	DestProject      string          `json:"dest_project,omitempty"`
@@ -355,21 +384,21 @@ type ServiceIntegrationEndpointCreateOut struct {
 	EndpointConfig map[string]any `json:"endpoint_config"`
 	EndpointId     string         `json:"endpoint_id"`
 	EndpointName   string         `json:"endpoint_name"`
-	EndpointType   string         `json:"endpoint_type"`
+	EndpointType   EndpointType   `json:"endpoint_type"`
 	UserConfig     map[string]any `json:"user_config"`
 }
 type ServiceIntegrationEndpointGetOut struct {
 	EndpointConfig map[string]any `json:"endpoint_config"`
 	EndpointId     string         `json:"endpoint_id"`
 	EndpointName   string         `json:"endpoint_name"`
-	EndpointType   string         `json:"endpoint_type"`
+	EndpointType   EndpointType   `json:"endpoint_type"`
 	UserConfig     map[string]any `json:"user_config"`
 }
 type ServiceIntegrationEndpointOut struct {
 	EndpointConfig map[string]any `json:"endpoint_config"`
 	EndpointId     string         `json:"endpoint_id"`
 	EndpointName   string         `json:"endpoint_name"`
-	EndpointType   string         `json:"endpoint_type"`
+	EndpointType   EndpointType   `json:"endpoint_type"`
 	UserConfig     map[string]any `json:"user_config"`
 }
 type ServiceIntegrationEndpointUpdateIn struct {
@@ -379,7 +408,7 @@ type ServiceIntegrationEndpointUpdateOut struct {
 	EndpointConfig map[string]any `json:"endpoint_config"`
 	EndpointId     string         `json:"endpoint_id"`
 	EndpointName   string         `json:"endpoint_name"`
-	EndpointType   string         `json:"endpoint_type"`
+	EndpointType   EndpointType   `json:"endpoint_type"`
 	UserConfig     map[string]any `json:"user_config"`
 }
 type ServiceIntegrationGetOut struct {
@@ -443,10 +472,10 @@ type ServiceIntegrationUpdateOut struct {
 	UserConfig           map[string]any        `json:"user_config,omitempty"`
 }
 type StateOut struct {
-	Errors           []string       `json:"errors"`
-	LikelyErrorCause string         `json:"likely_error_cause,omitempty"`
-	Nodes            map[string]any `json:"nodes"`
-	Status           string         `json:"status"`
+	Errors           []string              `json:"errors"`
+	LikelyErrorCause LikelyErrorCauseType  `json:"likely_error_cause,omitempty"`
+	Nodes            map[string]any        `json:"nodes"`
+	Status           IntegrationStatusType `json:"status"`
 }
 type serviceIntegrationCreateOut struct {
 	ServiceIntegration ServiceIntegrationCreateOut `json:"service_integration"`

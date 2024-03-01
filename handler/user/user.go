@@ -477,20 +477,60 @@ type AccountInviteOut struct {
 	TeamName           string    `json:"team_name"`
 	UserEmail          string    `json:"user_email"`
 }
-type AuthenticationMethodOut struct {
-	AuthenticationMethodAccountId string    `json:"authentication_method_account_id"`
-	CreateTime                    time.Time `json:"create_time"`
-	CurrentlyActive               bool      `json:"currently_active"`
-	DeleteTime                    time.Time `json:"delete_time"`
-	LastUsedTime                  time.Time `json:"last_used_time"`
-	MethodId                      string    `json:"method_id"`
-	Name                          string    `json:"name,omitempty"`
-	PublicRemoteIdentity          string    `json:"public_remote_identity"`
-	RemoteProviderId              string    `json:"remote_provider_id"`
-	State                         string    `json:"state"`
-	UpdateTime                    time.Time `json:"update_time"`
-	UserEmail                     string    `json:"user_email"`
+type ActionType string
+
+const (
+	ActionTypeAzureOauth  ActionType = "azure_oauth"
+	ActionTypeGithubOauth ActionType = "github_oauth"
+	ActionTypeGoogleOauth ActionType = "google_oauth"
+	ActionTypeHasuraOauth ActionType = "hasura_oauth"
+	ActionTypePassword    ActionType = "password"
+	ActionTypeSaml        ActionType = "saml"
+	ActionTypeSignup      ActionType = "signup"
+)
+
+func ActionTypeChoices() []string {
+	return []string{"azure_oauth", "github_oauth", "google_oauth", "hasura_oauth", "password", "saml", "signup"}
 }
+
+type AnyType string
+
+const (
+	AnyTypeAdmin     AnyType = "admin"
+	AnyTypeDeveloper AnyType = "developer"
+	AnyTypeOperator  AnyType = "operator"
+	AnyTypeReadOnly  AnyType = "read_only"
+)
+
+func AnyTypeChoices() []string {
+	return []string{"admin", "developer", "operator", "read_only"}
+}
+
+type AuthenticationMethodOut struct {
+	AuthenticationMethodAccountId string                        `json:"authentication_method_account_id"`
+	CreateTime                    time.Time                     `json:"create_time"`
+	CurrentlyActive               bool                          `json:"currently_active"`
+	DeleteTime                    time.Time                     `json:"delete_time"`
+	LastUsedTime                  time.Time                     `json:"last_used_time"`
+	MethodId                      string                        `json:"method_id"`
+	Name                          string                        `json:"name,omitempty"`
+	PublicRemoteIdentity          string                        `json:"public_remote_identity"`
+	RemoteProviderId              string                        `json:"remote_provider_id"`
+	State                         AuthenticationMethodStateType `json:"state"`
+	UpdateTime                    time.Time                     `json:"update_time"`
+	UserEmail                     string                        `json:"user_email"`
+}
+type AuthenticationMethodStateType string
+
+const (
+	AuthenticationMethodStateTypeActive  AuthenticationMethodStateType = "active"
+	AuthenticationMethodStateTypeDeleted AuthenticationMethodStateType = "deleted"
+)
+
+func AuthenticationMethodStateTypeChoices() []string {
+	return []string{"active", "deleted"}
+}
+
 type CheckPasswordStrengthExistingUserIn struct {
 	NewPassword string `json:"new_password"`
 	OldPassword string `json:"old_password"`
@@ -520,8 +560,19 @@ type InvitationOut struct {
 	InvitingUserEmail string    `json:"inviting_user_email"`
 	ProjectName       string    `json:"project_name"`
 }
+type MethodType string
+
+const (
+	MethodTypePost MethodType = "POST"
+	MethodTypeGet  MethodType = "GET"
+)
+
+func MethodTypeChoices() []string {
+	return []string{"POST", "GET"}
+}
+
 type ProjectMembershipOut struct {
-	Any string `json:"ANY,omitempty"`
+	Any AnyType `json:"ANY,omitempty"`
 }
 type ProjectMembershipsOut struct {
 	Any []string `json:"ANY,omitempty"`
@@ -573,8 +624,8 @@ type UserAuthLoginOptionsIn struct {
 }
 type UserAuthLoginOptionsOut struct {
 	None        []map[string]any `json:"None,omitempty"`
-	Action      string           `json:"action"`
-	Method      string           `json:"method,omitempty"`
+	Action      ActionType       `json:"action"`
+	Method      MethodType       `json:"method,omitempty"`
 	Name        string           `json:"name,omitempty"`
 	RedirectUrl string           `json:"redirect_url,omitempty"`
 }

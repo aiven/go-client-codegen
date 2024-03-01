@@ -337,6 +337,19 @@ type AlertOut struct {
 	ServiceType string    `json:"service_type,omitempty"`
 	Severity    string    `json:"severity"`
 }
+type AnyType string
+
+const (
+	AnyTypeAdmin     AnyType = "admin"
+	AnyTypeDeveloper AnyType = "developer"
+	AnyTypeOperator  AnyType = "operator"
+	AnyTypeReadOnly  AnyType = "read_only"
+)
+
+func AnyTypeChoices() []string {
+	return []string{"admin", "developer", "operator", "read_only"}
+}
+
 type BillingCurrencyType string
 
 const (
@@ -391,16 +404,16 @@ type EventOut struct {
 	Time        string `json:"time"`
 }
 type GroupUserOut struct {
-	MemberType  string `json:"member_type"`
-	RealName    string `json:"real_name"`
-	UserEmail   string `json:"user_email"`
-	UserGroupId string `json:"user_group_id"`
+	MemberType  MemberType `json:"member_type"`
+	RealName    string     `json:"real_name"`
+	UserEmail   string     `json:"user_email"`
+	UserGroupId string     `json:"user_group_id"`
 }
 type InvitationOut struct {
-	InviteTime        time.Time `json:"invite_time"`
-	InvitedUserEmail  string    `json:"invited_user_email"`
-	InvitingUserEmail string    `json:"inviting_user_email"`
-	MemberType        string    `json:"member_type"`
+	InviteTime        time.Time  `json:"invite_time"`
+	InvitedUserEmail  string     `json:"invited_user_email"`
+	InvitingUserEmail string     `json:"inviting_user_email"`
+	MemberType        MemberType `json:"member_type"`
 }
 type MemberType string
 
@@ -449,7 +462,7 @@ type ProjectCreateOut struct {
 	AddressLines          []string               `json:"address_lines,omitempty"`
 	AvailableCredits      string                 `json:"available_credits,omitempty"`
 	BillingAddress        string                 `json:"billing_address"`
-	BillingCurrency       string                 `json:"billing_currency,omitempty"`
+	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`
 	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
 	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
 	BillingGroupId        string                 `json:"billing_group_id"`
@@ -481,7 +494,7 @@ type ProjectGetOut struct {
 	AddressLines          []string               `json:"address_lines,omitempty"`
 	AvailableCredits      string                 `json:"available_credits,omitempty"`
 	BillingAddress        string                 `json:"billing_address"`
-	BillingCurrency       string                 `json:"billing_currency,omitempty"`
+	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`
 	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
 	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
 	BillingGroupId        string                 `json:"billing_group_id"`
@@ -520,7 +533,7 @@ type ProjectListOut struct {
 	Projects           []ProjectOut           `json:"projects"`
 }
 type ProjectMembershipOut struct {
-	Any string `json:"ANY,omitempty"`
+	Any AnyType `json:"ANY,omitempty"`
 }
 type ProjectMembershipsOut struct {
 	Any []string `json:"ANY,omitempty"`
@@ -531,7 +544,7 @@ type ProjectOut struct {
 	AddressLines          []string               `json:"address_lines,omitempty"`
 	AvailableCredits      string                 `json:"available_credits,omitempty"`
 	BillingAddress        string                 `json:"billing_address"`
-	BillingCurrency       string                 `json:"billing_currency,omitempty"`
+	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`
 	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
 	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
 	BillingGroupId        string                 `json:"billing_group_id"`
@@ -558,10 +571,10 @@ type ProjectOut struct {
 	ZipCode               string                 `json:"zip_code,omitempty"`
 }
 type ProjectTagsReplaceIn struct {
-	Tags *map[string]string `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags"`
 }
 type ProjectTagsUpdateIn struct {
-	Tags *map[string]string `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags"`
 }
 type ProjectUpdateIn struct {
 	AccountId                   string              `json:"account_id,omitempty"`
@@ -590,7 +603,7 @@ type ProjectUpdateOut struct {
 	AddressLines          []string               `json:"address_lines,omitempty"`
 	AvailableCredits      string                 `json:"available_credits,omitempty"`
 	BillingAddress        string                 `json:"billing_address"`
-	BillingCurrency       string                 `json:"billing_currency,omitempty"`
+	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`
 	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
 	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
 	BillingGroupId        string                 `json:"billing_group_id"`
@@ -631,19 +644,33 @@ type TechEmailOut struct {
 	Email string `json:"email"`
 }
 type UserOut struct {
-	Auth           []string  `json:"auth"`
-	BillingContact bool      `json:"billing_contact"`
-	CreateTime     time.Time `json:"create_time"`
-	MemberType     string    `json:"member_type"`
-	RealName       string    `json:"real_name,omitempty"`
-	TeamId         string    `json:"team_id"`
-	TeamName       string    `json:"team_name"`
-	UserEmail      string    `json:"user_email"`
+	Auth           []string   `json:"auth"`
+	BillingContact bool       `json:"billing_contact"`
+	CreateTime     time.Time  `json:"create_time"`
+	MemberType     MemberType `json:"member_type"`
+	RealName       string     `json:"real_name,omitempty"`
+	TeamId         string     `json:"team_id"`
+	TeamName       string     `json:"team_name"`
+	UserEmail      string     `json:"user_email"`
 }
+type VpcPeeringConnectionType string
+
+const (
+	VpcPeeringConnectionTypeAwsTgwVpcAttachment     VpcPeeringConnectionType = "aws-tgw-vpc-attachment"
+	VpcPeeringConnectionTypeAwsVpcPeeringConnection VpcPeeringConnectionType = "aws-vpc-peering-connection"
+	VpcPeeringConnectionTypeAzureVnetPeering        VpcPeeringConnectionType = "azure-vnet-peering"
+	VpcPeeringConnectionTypeGoogleVpcPeering        VpcPeeringConnectionType = "google-vpc-peering"
+	VpcPeeringConnectionTypeUpcloudVpcPeering       VpcPeeringConnectionType = "upcloud-vpc-peering"
+)
+
+func VpcPeeringConnectionTypeChoices() []string {
+	return []string{"aws-tgw-vpc-attachment", "aws-vpc-peering-connection", "azure-vnet-peering", "google-vpc-peering", "upcloud-vpc-peering"}
+}
+
 type VpcPeeringConnectionTypeOut struct {
-	CloudName                string `json:"cloud_name"`
-	PriceUsd                 string `json:"price_usd"`
-	VpcPeeringConnectionType string `json:"vpc_peering_connection_type"`
+	CloudName                string                   `json:"cloud_name"`
+	PriceUsd                 string                   `json:"price_usd"`
+	VpcPeeringConnectionType VpcPeeringConnectionType `json:"vpc_peering_connection_type"`
 }
 type listProjectVpcPeeringConnectionTypesOut struct {
 	VpcPeeringConnectionTypes []VpcPeeringConnectionTypeOut `json:"vpc_peering_connection_types"`

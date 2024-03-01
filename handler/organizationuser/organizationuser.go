@@ -60,11 +60,6 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserRevokeToken
 	OrganizationUserRevokeToken(ctx context.Context, organizationId string, memberUserId string, tokenPrefix string) error
 
-	// OrganizationUserSet add or modify a user of the organization
-	// PUT /organization/{organization_id}/user/{member_user_id}
-	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserSet
-	OrganizationUserSet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserSetOut, error)
-
 	// OrganizationUserTokensList list tokens from an organization's member
 	// GET /organization/{organization_id}/user/{member_user_id}/access-tokens
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserTokensList
@@ -170,19 +165,6 @@ func (h *OrganizationUserHandler) OrganizationUserRevokeToken(ctx context.Contex
 	_, err := h.doer.Do(ctx, "OrganizationUserRevokeToken", "DELETE", path, nil)
 	return err
 }
-func (h *OrganizationUserHandler) OrganizationUserSet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserSetOut, error) {
-	path := fmt.Sprintf("/organization/%s/user/%s", organizationId, memberUserId)
-	b, err := h.doer.Do(ctx, "OrganizationUserSet", "PUT", path, nil)
-	if err != nil {
-		return nil, err
-	}
-	out := new(OrganizationUserSetOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
 func (h *OrganizationUserHandler) OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]TokenOut, error) {
 	path := fmt.Sprintf("/organization/%s/user/%s/access-tokens", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationUserTokensList", "GET", path, nil)
@@ -251,21 +233,26 @@ type OrganizationUserInvitationAcceptIn struct {
 type OrganizationUserInviteIn struct {
 	UserEmail string `json:"user_email"`
 }
-type OrganizationUserSetOut struct {
-	IsSuperAdmin     bool        `json:"is_super_admin"`
-	JoinTime         time.Time   `json:"join_time"`
-	LastActivityTime time.Time   `json:"last_activity_time"`
-	UserId           string      `json:"user_id"`
-	UserInfo         UserInfoOut `json:"user_info"`
+type OrganizationUserStateType string
+
+const (
+	OrganizationUserStateTypeActive      OrganizationUserStateType = "active"
+	OrganizationUserStateTypeDeactivated OrganizationUserStateType = "deactivated"
+	OrganizationUserStateTypeDeleted     OrganizationUserStateType = "deleted"
+)
+
+func OrganizationUserStateTypeChoices() []string {
+	return []string{"active", "deactivated", "deleted"}
 }
+
 type OrganizationUserUpdateIn struct {
-	City         string    `json:"city,omitempty"`
-	Country      string    `json:"country,omitempty"`
-	Department   string    `json:"department,omitempty"`
-	IsSuperAdmin *bool     `json:"is_super_admin,omitempty"`
-	JobTitle     string    `json:"job_title,omitempty"`
-	RealName     string    `json:"real_name,omitempty"`
-	State        StateType `json:"state,omitempty"`
+	City         string                    `json:"city,omitempty"`
+	Country      string                    `json:"country,omitempty"`
+	Department   string                    `json:"department,omitempty"`
+	IsSuperAdmin *bool                     `json:"is_super_admin,omitempty"`
+	JobTitle     string                    `json:"job_title,omitempty"`
+	RealName     string                    `json:"real_name,omitempty"`
+	State        OrganizationUserStateType `json:"state,omitempty"`
 }
 type OrganizationUserUpdateOut struct {
 	IsSuperAdmin     bool        `json:"is_super_admin"`
@@ -274,18 +261,6 @@ type OrganizationUserUpdateOut struct {
 	UserId           string      `json:"user_id"`
 	UserInfo         UserInfoOut `json:"user_info"`
 }
-type StateType string
-
-const (
-	StateTypeActive      StateType = "active"
-	StateTypeDeactivated StateType = "deactivated"
-	StateTypeDeleted     StateType = "deleted"
-)
-
-func StateTypeChoices() []string {
-	return []string{"active", "deactivated", "deleted"}
-}
-
 type TokenOut struct {
 	Description   string    `json:"description"`
 	LastIp        string    `json:"last_ip"`

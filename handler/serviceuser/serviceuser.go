@@ -123,10 +123,10 @@ type AccessControlOut struct {
 	RedisAclKeys       []string `json:"redis_acl_keys,omitempty"`
 }
 type AclOut struct {
-	Id         string `json:"id,omitempty"`
-	Permission string `json:"permission"`
-	Topic      string `json:"topic"`
-	Username   string `json:"username"`
+	Id         string         `json:"id,omitempty"`
+	Permission PermissionType `json:"permission"`
+	Topic      string         `json:"topic"`
+	Username   string         `json:"username"`
 }
 type AdditionalRegionOut struct {
 	Cloud       string `json:"cloud"`
@@ -154,30 +154,97 @@ type BackupOut struct {
 	StorageLocation   string                `json:"storage_location,omitempty"`
 }
 type ComponentOut struct {
-	Component                 string `json:"component"`
-	Host                      string `json:"host"`
-	KafkaAuthenticationMethod string `json:"kafka_authentication_method,omitempty"`
-	Path                      string `json:"path,omitempty"`
-	Port                      int    `json:"port"`
-	PrivatelinkConnectionId   string `json:"privatelink_connection_id,omitempty"`
-	Route                     string `json:"route"`
-	Ssl                       *bool  `json:"ssl,omitempty"`
-	Usage                     string `json:"usage"`
+	Component                 string                        `json:"component"`
+	Host                      string                        `json:"host"`
+	KafkaAuthenticationMethod KafkaAuthenticationMethodType `json:"kafka_authentication_method,omitempty"`
+	Path                      string                        `json:"path,omitempty"`
+	Port                      int                           `json:"port"`
+	PrivatelinkConnectionId   string                        `json:"privatelink_connection_id,omitempty"`
+	Route                     RouteType                     `json:"route"`
+	Ssl                       *bool                         `json:"ssl,omitempty"`
+	Usage                     UsageType                     `json:"usage"`
 }
 type ConnectionPoolOut struct {
-	ConnectionUri string `json:"connection_uri"`
-	Database      string `json:"database"`
-	PoolMode      string `json:"pool_mode"`
-	PoolName      string `json:"pool_name"`
-	PoolSize      int    `json:"pool_size"`
-	Username      string `json:"username,omitempty"`
+	ConnectionUri string       `json:"connection_uri"`
+	Database      string       `json:"database"`
+	PoolMode      PoolModeType `json:"pool_mode"`
+	PoolName      string       `json:"pool_name"`
+	PoolSize      int          `json:"pool_size"`
+	Username      string       `json:"username,omitempty"`
 }
+type DowType string
+
+const (
+	DowTypeMonday    DowType = "monday"
+	DowTypeTuesday   DowType = "tuesday"
+	DowTypeWednesday DowType = "wednesday"
+	DowTypeThursday  DowType = "thursday"
+	DowTypeFriday    DowType = "friday"
+	DowTypeSaturday  DowType = "saturday"
+	DowTypeSunday    DowType = "sunday"
+	DowTypeNever     DowType = "never"
+)
+
+func DowTypeChoices() []string {
+	return []string{"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "never"}
+}
+
 type IntegrationStatusOut struct {
 	State          StateOut `json:"state"`
 	StatusUserDesc string   `json:"status_user_desc"`
 }
+type IntegrationStatusType string
+
+const (
+	IntegrationStatusTypeFailed   IntegrationStatusType = "failed"
+	IntegrationStatusTypeInactive IntegrationStatusType = "inactive"
+	IntegrationStatusTypeRunning  IntegrationStatusType = "running"
+	IntegrationStatusTypeStarting IntegrationStatusType = "starting"
+	IntegrationStatusTypeUnknown  IntegrationStatusType = "unknown"
+)
+
+func IntegrationStatusTypeChoices() []string {
+	return []string{"failed", "inactive", "running", "starting", "unknown"}
+}
+
+type KafkaAuthenticationMethodType string
+
+const (
+	KafkaAuthenticationMethodTypeCertificate KafkaAuthenticationMethodType = "certificate"
+	KafkaAuthenticationMethodTypeSasl        KafkaAuthenticationMethodType = "sasl"
+)
+
+func KafkaAuthenticationMethodTypeChoices() []string {
+	return []string{"certificate", "sasl"}
+}
+
+type LevelType string
+
+const (
+	LevelTypeNotice  LevelType = "notice"
+	LevelTypeWarning LevelType = "warning"
+)
+
+func LevelTypeChoices() []string {
+	return []string{"notice", "warning"}
+}
+
+type LikelyErrorCauseType string
+
+const (
+	LikelyErrorCauseTypeNull        LikelyErrorCauseType = "null"
+	LikelyErrorCauseTypeDestination LikelyErrorCauseType = "destination"
+	LikelyErrorCauseTypeIntegration LikelyErrorCauseType = "integration"
+	LikelyErrorCauseTypeSource      LikelyErrorCauseType = "source"
+	LikelyErrorCauseTypeUnknown     LikelyErrorCauseType = "unknown"
+)
+
+func LikelyErrorCauseTypeChoices() []string {
+	return []string{"null", "destination", "integration", "source", "unknown"}
+}
+
 type MaintenanceOut struct {
-	Dow     string      `json:"dow"`
+	Dow     DowType     `json:"dow"`
 	Time    string      `json:"time"`
 	Updates []UpdateOut `json:"updates"`
 }
@@ -191,10 +258,25 @@ type MetadataOut struct {
 type NodeStateOut struct {
 	Name            string              `json:"name"`
 	ProgressUpdates []ProgressUpdateOut `json:"progress_updates,omitempty"`
-	Role            string              `json:"role,omitempty"`
+	Role            RoleType            `json:"role,omitempty"`
 	Shard           *ShardOut           `json:"shard,omitempty"`
-	State           string              `json:"state"`
+	State           NodeStateType       `json:"state"`
 }
+type NodeStateType string
+
+const (
+	NodeStateTypeLeaving     NodeStateType = "leaving"
+	NodeStateTypeRunning     NodeStateType = "running"
+	NodeStateTypeSettingUpVm NodeStateType = "setting_up_vm"
+	NodeStateTypeSyncingData NodeStateType = "syncing_data"
+	NodeStateTypeTimingOut   NodeStateType = "timing_out"
+	NodeStateTypeUnknown     NodeStateType = "unknown"
+)
+
+func NodeStateTypeChoices() []string {
+	return []string{"leaving", "running", "setting_up_vm", "syncing_data", "timing_out", "unknown"}
+}
+
 type OperationType string
 
 const (
@@ -207,19 +289,93 @@ func OperationTypeChoices() []string {
 	return []string{"acknowledge-renewal", "reset-credentials", "set-access-control"}
 }
 
-type ProgressUpdateOut struct {
-	Completed bool   `json:"completed"`
-	Current   *int   `json:"current,omitempty"`
-	Max       *int   `json:"max,omitempty"`
-	Min       *int   `json:"min,omitempty"`
-	Phase     string `json:"phase"`
-	Unit      string `json:"unit,omitempty"`
+type PermissionType string
+
+const (
+	PermissionTypeAdmin     PermissionType = "admin"
+	PermissionTypeRead      PermissionType = "read"
+	PermissionTypeReadwrite PermissionType = "readwrite"
+	PermissionTypeWrite     PermissionType = "write"
+)
+
+func PermissionTypeChoices() []string {
+	return []string{"admin", "read", "readwrite", "write"}
 }
+
+type PermissionTypeAlt string
+
+const (
+	PermissionTypeAltSchemaRegistryRead  PermissionTypeAlt = "schema_registry_read"
+	PermissionTypeAltSchemaRegistryWrite PermissionTypeAlt = "schema_registry_write"
+)
+
+func PermissionTypeAltChoices() []string {
+	return []string{"schema_registry_read", "schema_registry_write"}
+}
+
+type PhaseType string
+
+const (
+	PhaseTypePrepare    PhaseType = "prepare"
+	PhaseTypeBasebackup PhaseType = "basebackup"
+	PhaseTypeStream     PhaseType = "stream"
+	PhaseTypeFinalize   PhaseType = "finalize"
+)
+
+func PhaseTypeChoices() []string {
+	return []string{"prepare", "basebackup", "stream", "finalize"}
+}
+
+type PoolModeType string
+
+const (
+	PoolModeTypeSession     PoolModeType = "session"
+	PoolModeTypeTransaction PoolModeType = "transaction"
+	PoolModeTypeStatement   PoolModeType = "statement"
+)
+
+func PoolModeTypeChoices() []string {
+	return []string{"session", "transaction", "statement"}
+}
+
+type ProgressUpdateOut struct {
+	Completed bool      `json:"completed"`
+	Current   *int      `json:"current,omitempty"`
+	Max       *int      `json:"max,omitempty"`
+	Min       *int      `json:"min,omitempty"`
+	Phase     PhaseType `json:"phase"`
+	Unit      UnitType  `json:"unit,omitempty"`
+}
+type RoleType string
+
+const (
+	RoleTypeMaster      RoleType = "master"
+	RoleTypeStandby     RoleType = "standby"
+	RoleTypeReadReplica RoleType = "read-replica"
+)
+
+func RoleTypeChoices() []string {
+	return []string{"master", "standby", "read-replica"}
+}
+
+type RouteType string
+
+const (
+	RouteTypeDynamic     RouteType = "dynamic"
+	RouteTypePublic      RouteType = "public"
+	RouteTypePrivate     RouteType = "private"
+	RouteTypePrivatelink RouteType = "privatelink"
+)
+
+func RouteTypeChoices() []string {
+	return []string{"dynamic", "public", "private", "privatelink"}
+}
+
 type SchemaRegistryAclOut struct {
-	Id         string `json:"id,omitempty"`
-	Permission string `json:"permission"`
-	Resource   string `json:"resource"`
-	Username   string `json:"username"`
+	Id         string            `json:"id,omitempty"`
+	Permission PermissionTypeAlt `json:"permission"`
+	Resource   string            `json:"resource"`
+	Username   string            `json:"username"`
 }
 type ServiceIntegrationOut struct {
 	Active               bool                  `json:"active"`
@@ -241,26 +397,50 @@ type ServiceIntegrationOut struct {
 	UserConfig           map[string]any        `json:"user_config,omitempty"`
 }
 type ServiceNotificationOut struct {
-	Level    string      `json:"level"`
-	Message  string      `json:"message"`
-	Metadata MetadataOut `json:"metadata"`
-	Type     string      `json:"type"`
+	Level    LevelType               `json:"level"`
+	Message  string                  `json:"message"`
+	Metadata MetadataOut             `json:"metadata"`
+	Type     ServiceNotificationType `json:"type"`
 }
+type ServiceNotificationType string
+
+const (
+	ServiceNotificationTypeServiceEndOfLife         ServiceNotificationType = "service_end_of_life"
+	ServiceNotificationTypeServicePoweredOffRemoval ServiceNotificationType = "service_powered_off_removal"
+)
+
+func ServiceNotificationTypeChoices() []string {
+	return []string{"service_end_of_life", "service_powered_off_removal"}
+}
+
+type ServiceStateType string
+
+const (
+	ServiceStateTypePoweroff    ServiceStateType = "POWEROFF"
+	ServiceStateTypeRebalancing ServiceStateType = "REBALANCING"
+	ServiceStateTypeRebuilding  ServiceStateType = "REBUILDING"
+	ServiceStateTypeRunning     ServiceStateType = "RUNNING"
+)
+
+func ServiceStateTypeChoices() []string {
+	return []string{"POWEROFF", "REBALANCING", "REBUILDING", "RUNNING"}
+}
+
 type ServiceUserCreateIn struct {
 	AccessControl  *AccessControlIn   `json:"access_control,omitempty"`
 	Authentication AuthenticationType `json:"authentication,omitempty"`
 	Username       string             `json:"username"`
 }
 type ServiceUserCreateOut struct {
-	AccessCert                    string            `json:"access_cert,omitempty"`
-	AccessCertNotValidAfterTime   *time.Time        `json:"access_cert_not_valid_after_time,omitempty"`
-	AccessControl                 *AccessControlOut `json:"access_control,omitempty"`
-	AccessKey                     string            `json:"access_key,omitempty"`
-	Authentication                string            `json:"authentication,omitempty"`
-	ExpiringCertNotValidAfterTime *time.Time        `json:"expiring_cert_not_valid_after_time,omitempty"`
-	Password                      string            `json:"password"`
-	Type                          string            `json:"type"`
-	Username                      string            `json:"username"`
+	AccessCert                    string             `json:"access_cert,omitempty"`
+	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`
+	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`
+	AccessKey                     string             `json:"access_key,omitempty"`
+	Authentication                AuthenticationType `json:"authentication,omitempty"`
+	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"`
+	Password                      string             `json:"password"`
+	Type                          string             `json:"type"`
+	Username                      string             `json:"username"`
 }
 type ServiceUserCredentialsModifyIn struct {
 	AccessControl  *AccessControlIn   `json:"access_control,omitempty"`
@@ -297,7 +477,7 @@ type ServiceUserCredentialsModifyOut struct {
 	ServiceTypeDescription string                   `json:"service_type_description,omitempty"`
 	ServiceUri             string                   `json:"service_uri"`
 	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`
-	State                  string                   `json:"state"`
+	State                  ServiceStateType         `json:"state"`
 	Tags                   map[string]string        `json:"tags,omitempty"`
 	TechEmails             []TechEmailOut           `json:"tech_emails,omitempty"`
 	TerminationProtection  bool                     `json:"termination_protection"`
@@ -335,7 +515,7 @@ type ServiceUserCredentialsResetOut struct {
 	ServiceTypeDescription string                   `json:"service_type_description,omitempty"`
 	ServiceUri             string                   `json:"service_uri"`
 	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`
-	State                  string                   `json:"state"`
+	State                  ServiceStateType         `json:"state"`
 	Tags                   map[string]string        `json:"tags,omitempty"`
 	TechEmails             []TechEmailOut           `json:"tech_emails,omitempty"`
 	TerminationProtection  bool                     `json:"termination_protection"`
@@ -345,55 +525,91 @@ type ServiceUserCredentialsResetOut struct {
 	Users                  []UserOut                `json:"users,omitempty"`
 }
 type ServiceUserGetOut struct {
-	AccessCert                    string            `json:"access_cert,omitempty"`
-	AccessCertNotValidAfterTime   *time.Time        `json:"access_cert_not_valid_after_time,omitempty"`
-	AccessControl                 *AccessControlOut `json:"access_control,omitempty"`
-	AccessKey                     string            `json:"access_key,omitempty"`
-	Authentication                string            `json:"authentication,omitempty"`
-	ExpiringCertNotValidAfterTime *time.Time        `json:"expiring_cert_not_valid_after_time,omitempty"`
-	Password                      string            `json:"password"`
-	Type                          string            `json:"type"`
-	Username                      string            `json:"username"`
+	AccessCert                    string             `json:"access_cert,omitempty"`
+	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`
+	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`
+	AccessKey                     string             `json:"access_key,omitempty"`
+	Authentication                AuthenticationType `json:"authentication,omitempty"`
+	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"`
+	Password                      string             `json:"password"`
+	Type                          string             `json:"type"`
+	Username                      string             `json:"username"`
 }
 type ShardOut struct {
 	Name     string `json:"name,omitempty"`
 	Position *int   `json:"position,omitempty"`
 }
 type StateOut struct {
-	Errors           []string       `json:"errors"`
-	LikelyErrorCause string         `json:"likely_error_cause,omitempty"`
-	Nodes            map[string]any `json:"nodes"`
-	Status           string         `json:"status"`
+	Errors           []string              `json:"errors"`
+	LikelyErrorCause LikelyErrorCauseType  `json:"likely_error_cause,omitempty"`
+	Nodes            map[string]any        `json:"nodes"`
+	Status           IntegrationStatusType `json:"status"`
 }
 type TechEmailOut struct {
 	Email string `json:"email"`
 }
 type TopicOut struct {
-	CleanupPolicy     string `json:"cleanup_policy"`
-	MinInsyncReplicas int    `json:"min_insync_replicas"`
-	Partitions        int    `json:"partitions"`
-	Replication       int    `json:"replication"`
-	RetentionBytes    int    `json:"retention_bytes"`
-	RetentionHours    int    `json:"retention_hours"`
-	State             string `json:"state,omitempty"`
-	TopicName         string `json:"topic_name"`
+	CleanupPolicy     string         `json:"cleanup_policy"`
+	MinInsyncReplicas int            `json:"min_insync_replicas"`
+	Partitions        int            `json:"partitions"`
+	Replication       int            `json:"replication"`
+	RetentionBytes    int            `json:"retention_bytes"`
+	RetentionHours    int            `json:"retention_hours"`
+	State             TopicStateType `json:"state,omitempty"`
+	TopicName         string         `json:"topic_name"`
 }
+type TopicStateType string
+
+const (
+	TopicStateTypeActive      TopicStateType = "ACTIVE"
+	TopicStateTypeConfiguring TopicStateType = "CONFIGURING"
+	TopicStateTypeDeleting    TopicStateType = "DELETING"
+)
+
+func TopicStateTypeChoices() []string {
+	return []string{"ACTIVE", "CONFIGURING", "DELETING"}
+}
+
+type UnitType string
+
+const (
+	UnitTypeBinlogs           UnitType = "binlogs"
+	UnitTypeBytesCompressed   UnitType = "bytes_compressed"
+	UnitTypeBytesUncompressed UnitType = "bytes_uncompressed"
+	UnitTypeWalLsn            UnitType = "wal_lsn"
+)
+
+func UnitTypeChoices() []string {
+	return []string{"binlogs", "bytes_compressed", "bytes_uncompressed", "wal_lsn"}
+}
+
 type UpdateOut struct {
 	Deadline    string     `json:"deadline,omitempty"`
 	Description string     `json:"description,omitempty"`
 	StartAfter  string     `json:"start_after,omitempty"`
 	StartAt     *time.Time `json:"start_at,omitempty"`
 }
+type UsageType string
+
+const (
+	UsageTypePrimary UsageType = "primary"
+	UsageTypeReplica UsageType = "replica"
+)
+
+func UsageTypeChoices() []string {
+	return []string{"primary", "replica"}
+}
+
 type UserOut struct {
-	AccessCert                    string            `json:"access_cert,omitempty"`
-	AccessCertNotValidAfterTime   *time.Time        `json:"access_cert_not_valid_after_time,omitempty"`
-	AccessControl                 *AccessControlOut `json:"access_control,omitempty"`
-	AccessKey                     string            `json:"access_key,omitempty"`
-	Authentication                string            `json:"authentication,omitempty"`
-	ExpiringCertNotValidAfterTime *time.Time        `json:"expiring_cert_not_valid_after_time,omitempty"`
-	Password                      string            `json:"password"`
-	Type                          string            `json:"type"`
-	Username                      string            `json:"username"`
+	AccessCert                    string             `json:"access_cert,omitempty"`
+	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`
+	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`
+	AccessKey                     string             `json:"access_key,omitempty"`
+	Authentication                AuthenticationType `json:"authentication,omitempty"`
+	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"`
+	Password                      string             `json:"password"`
+	Type                          string             `json:"type"`
+	Username                      string             `json:"username"`
 }
 type serviceUserCreateOut struct {
 	User ServiceUserCreateOut `json:"user"`

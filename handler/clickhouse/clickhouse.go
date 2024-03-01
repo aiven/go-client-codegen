@@ -102,6 +102,7 @@ type ServiceClickHouseDatabaseCreateIn struct {
 type ServiceClickHouseTieredStorageSummaryOut struct {
 	CurrentCost         string                 `json:"current_cost"`
 	ForecastedCost      string                 `json:"forecasted_cost"`
+	ForecastedRate      string                 `json:"forecasted_rate,omitempty"`
 	StorageUsageHistory StorageUsageHistoryOut `json:"storage_usage_history"`
 	TotalStorageUsage   int                    `json:"total_storage_usage"`
 }

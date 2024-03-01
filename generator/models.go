@@ -5,12 +5,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"regexp"
 	"sort"
 	"strings"
 
 	"github.com/dave/jennifer/jen"
 	"github.com/iancoleman/strcase"
 	"golang.org/x/exp/maps"
+	"golang.org/x/exp/slices"
 )
 
 const docSite = "https://api.aiven.io/doc"
@@ -143,7 +145,7 @@ type Schema struct {
 	in, out       bool // Request or Response DTO
 }
 
-// nolint:funlen,gocognit // It is easy to maintain and read, we don't need to split it
+// nolint:funlen,gocognit,gocyclo // It is easy to maintain and read, we don't need to split it
 func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 	if s.Ref != "" {
 		other, err := doc.getSchema(s.Ref)
@@ -175,13 +177,13 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 	if s.isEnum() {
 		const enumTypeSuffix = "Type"
 
-		if !strings.HasSuffix(s.CamelName, enumTypeSuffix) {
-			s.CamelName += enumTypeSuffix
+		betterName := getEnumName(s)
+		if betterName != s.name {
+			s.CamelName = cleanEnumName.ReplaceAllString(strcase.ToCamel(betterName), "") + s.CamelName
 		}
 
-		// When it is just "Type" it is useless
-		if s.CamelName == enumTypeSuffix {
-			s.CamelName = s.parent.CamelName + s.CamelName
+		if !strings.Contains(s.CamelName, enumTypeSuffix) {
+			s.CamelName += enumTypeSuffix
 		}
 	}
 
@@ -194,12 +196,32 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 		}
 	}
 
+	// Cleans duplicates like StatusStatus
+	s.CamelName = dedupCamelName(s.CamelName)
+
+	// Makes structure private
 	if s.isPrivate() {
 		s.CamelName = lowerFirst(s.CamelName)
 	}
 
 	if s.parent != nil && s.parent.isPrivate() {
 		s.CamelName = strcase.ToCamel(s.parent.CamelName)
+	}
+
+	// Some cases just impossible to cover
+	switch s.CamelName {
+	case "MessageFormatVersionValueType":
+		s.CamelName = "MessageFormatVersionType"
+	case "ServiceKafkaConnectConnectorStatusStateType":
+		s.CamelName = "ServiceKafkaConnectConnectorStateType"
+	case "PeeringConnectionStateType", "VpcPeeringConnectionWithResourceGroupStateType",
+		"VpcPeeringConnectionWithRegionStateType":
+		s.CamelName = "VpcPeeringConnectionStateType"
+	case "ServiceSchemaRegistryGlobalConfigGetOut", "ServiceSchemaRegistryGlobalConfigPutOut",
+		"ServiceSchemaRegistrySubjectConfigGetOut", "ServiceSchemaRegistrySubjectConfigPutOut":
+		if s.isEnum() {
+			s.CamelName = "CompatibilityType"
+		}
 	}
 
 	if s.Type == SchemaTypeString {
@@ -226,39 +248,22 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 		}
 	}
 
-	if s.isObject() {
-		keys := sortedKeys(scope)
-	outer:
-		for len(keys) > 0 {
-			for _, k := range keys {
-				other := scope[k]
-				if other.hash() == s.hash() {
-					continue
-				}
-
-				// A duplicate
-				if other.CamelName == s.CamelName {
-					s.CamelName += "Alt"
-
-					continue outer
-				}
+	if s.isObject() || s.isEnum() {
+		for s.parent != nil {
+			v, ok := scope[s.CamelName]
+			if !ok {
+				break
 			}
 
-			break outer
+			if v.hash() == s.hash() {
+				// This is a duplicate
+				return
+			}
+
+			s.CamelName += "Alt"
 		}
 
-		scope[s.hash()] = s
-	}
-
-	if s.isEnum() {
-		// Enums compared by enum list
-		// In case if they are equal, they must have the same name
-		other, ok := scope[s.hash()]
-		if ok {
-			s.CamelName = other.CamelName
-		} else {
-			scope[s.hash()] = s
-		}
+		scope[s.CamelName] = s
 	}
 }
 
@@ -297,7 +302,7 @@ func (s *Schema) isMap() bool {
 }
 
 func (s *Schema) isEnum() bool {
-	return len(s.Enum) != 0 && s.isIn()
+	return len(s.Enum) != 0
 }
 
 func (s *Schema) root() *Schema {
@@ -308,10 +313,12 @@ func (s *Schema) root() *Schema {
 	return s.parent.root()
 }
 
+// isIn is request object
 func (s *Schema) isIn() bool {
 	return s.root().in
 }
 
+// isOut is response object
 func (s *Schema) isOut() bool {
 	return s.root().out
 }
@@ -406,4 +413,31 @@ func sortedKeys[T any](m map[string]T) []string {
 	sort.Strings(keys)
 
 	return keys
+}
+
+var cleanEnumName = regexp.MustCompile("(Create|Get|Update|Delete|Stop|Cancel|Verify|Put)")
+
+// getEnumName enum can't have just "state" name, drills to the root until finds something
+func getEnumName(s *Schema) string {
+	switch s.name {
+	case "type", "value", "state", "status":
+		if s.parent != nil {
+			return getEnumName(s.parent)
+		}
+	}
+
+	return s.name
+}
+
+var camelFinder = regexp.MustCompile("[A-Z]+[a-z]+")
+
+func dedupCamelName(src string) string {
+	result := make([]string, 0)
+	for _, s := range camelFinder.FindAllString(src, -1) {
+		if !slices.Contains(result, s) {
+			result = append(result, s)
+		}
+	}
+
+	return strings.Join(result, "")
 }
