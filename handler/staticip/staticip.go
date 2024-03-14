@@ -153,56 +153,131 @@ type ProjectStaticIpassociateIn struct {
 	ServiceName string `json:"service_name"`
 }
 type ProjectStaticIpassociateOut struct {
-	CloudName             string `json:"cloud_name"`
-	IpAddress             string `json:"ip_address"`
-	ServiceName           string `json:"service_name"`
-	State                 string `json:"state"`
-	StaticIpAddressId     string `json:"static_ip_address_id"`
-	TerminationProtection bool   `json:"termination_protection"`
+	CloudName             string                            `json:"cloud_name"`
+	IpAddress             string                            `json:"ip_address"`
+	ServiceName           string                            `json:"service_name"`
+	State                 ProjectStaticIpassociateStateType `json:"state"`
+	StaticIpAddressId     string                            `json:"static_ip_address_id"`
+	TerminationProtection bool                              `json:"termination_protection"`
 }
+type ProjectStaticIpassociateStateType string
+
+const (
+	ProjectStaticIpassociateStateTypeCreating  ProjectStaticIpassociateStateType = "creating"
+	ProjectStaticIpassociateStateTypeCreated   ProjectStaticIpassociateStateType = "created"
+	ProjectStaticIpassociateStateTypeAvailable ProjectStaticIpassociateStateType = "available"
+	ProjectStaticIpassociateStateTypeAssigned  ProjectStaticIpassociateStateType = "assigned"
+	ProjectStaticIpassociateStateTypeDeleting  ProjectStaticIpassociateStateType = "deleting"
+	ProjectStaticIpassociateStateTypeDeleted   ProjectStaticIpassociateStateType = "deleted"
+)
+
+func ProjectStaticIpassociateStateTypeChoices() []string {
+	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
+}
+
 type ProjectStaticIpdissociateOut struct {
-	CloudName             string `json:"cloud_name"`
-	IpAddress             string `json:"ip_address"`
-	ServiceName           string `json:"service_name"`
-	State                 string `json:"state"`
-	StaticIpAddressId     string `json:"static_ip_address_id"`
-	TerminationProtection bool   `json:"termination_protection"`
+	CloudName             string                             `json:"cloud_name"`
+	IpAddress             string                             `json:"ip_address"`
+	ServiceName           string                             `json:"service_name"`
+	State                 ProjectStaticIpdissociateStateType `json:"state"`
+	StaticIpAddressId     string                             `json:"static_ip_address_id"`
+	TerminationProtection bool                               `json:"termination_protection"`
 }
+type ProjectStaticIpdissociateStateType string
+
+const (
+	ProjectStaticIpdissociateStateTypeCreating  ProjectStaticIpdissociateStateType = "creating"
+	ProjectStaticIpdissociateStateTypeCreated   ProjectStaticIpdissociateStateType = "created"
+	ProjectStaticIpdissociateStateTypeAvailable ProjectStaticIpdissociateStateType = "available"
+	ProjectStaticIpdissociateStateTypeAssigned  ProjectStaticIpdissociateStateType = "assigned"
+	ProjectStaticIpdissociateStateTypeDeleting  ProjectStaticIpdissociateStateType = "deleting"
+	ProjectStaticIpdissociateStateTypeDeleted   ProjectStaticIpdissociateStateType = "deleted"
+)
+
+func ProjectStaticIpdissociateStateTypeChoices() []string {
+	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
+}
+
 type ProjectStaticIppatchIn struct {
 	TerminationProtection *bool `json:"termination_protection,omitempty"`
 }
 type ProjectStaticIppatchOut struct {
-	CloudName             string `json:"cloud_name"`
-	IpAddress             string `json:"ip_address"`
-	ServiceName           string `json:"service_name"`
-	State                 string `json:"state"`
-	StaticIpAddressId     string `json:"static_ip_address_id"`
-	TerminationProtection bool   `json:"termination_protection"`
+	CloudName             string                        `json:"cloud_name"`
+	IpAddress             string                        `json:"ip_address"`
+	ServiceName           string                        `json:"service_name"`
+	State                 ProjectStaticIppatchStateType `json:"state"`
+	StaticIpAddressId     string                        `json:"static_ip_address_id"`
+	TerminationProtection bool                          `json:"termination_protection"`
 }
+type ProjectStaticIppatchStateType string
+
+const (
+	ProjectStaticIppatchStateTypeCreating  ProjectStaticIppatchStateType = "creating"
+	ProjectStaticIppatchStateTypeCreated   ProjectStaticIppatchStateType = "created"
+	ProjectStaticIppatchStateTypeAvailable ProjectStaticIppatchStateType = "available"
+	ProjectStaticIppatchStateTypeAssigned  ProjectStaticIppatchStateType = "assigned"
+	ProjectStaticIppatchStateTypeDeleting  ProjectStaticIppatchStateType = "deleting"
+	ProjectStaticIppatchStateTypeDeleted   ProjectStaticIppatchStateType = "deleted"
+)
+
+func ProjectStaticIppatchStateTypeChoices() []string {
+	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
+}
+
 type StaticIpAddressAvailabilityOut struct {
 	CloudName string `json:"cloud_name"`
 	PriceUsd  string `json:"price_usd"`
 }
 type StaticIpOut struct {
-	CloudName             string `json:"cloud_name"`
-	IpAddress             string `json:"ip_address"`
-	ServiceName           string `json:"service_name"`
-	State                 string `json:"state"`
-	StaticIpAddressId     string `json:"static_ip_address_id"`
-	TerminationProtection bool   `json:"termination_protection"`
+	CloudName             string            `json:"cloud_name"`
+	IpAddress             string            `json:"ip_address"`
+	ServiceName           string            `json:"service_name"`
+	State                 StaticIpStateType `json:"state"`
+	StaticIpAddressId     string            `json:"static_ip_address_id"`
+	TerminationProtection bool              `json:"termination_protection"`
 }
+type StaticIpStateType string
+
+const (
+	StaticIpStateTypeCreating  StaticIpStateType = "creating"
+	StaticIpStateTypeCreated   StaticIpStateType = "created"
+	StaticIpStateTypeAvailable StaticIpStateType = "available"
+	StaticIpStateTypeAssigned  StaticIpStateType = "assigned"
+	StaticIpStateTypeDeleting  StaticIpStateType = "deleting"
+	StaticIpStateTypeDeleted   StaticIpStateType = "deleted"
+)
+
+func StaticIpStateTypeChoices() []string {
+	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
+}
+
 type StaticIpcreateIn struct {
 	CloudName             string `json:"cloud_name"`
 	TerminationProtection *bool  `json:"termination_protection,omitempty"`
 }
 type StaticIpcreateOut struct {
-	CloudName             string `json:"cloud_name"`
-	IpAddress             string `json:"ip_address"`
-	ServiceName           string `json:"service_name"`
-	State                 string `json:"state"`
-	StaticIpAddressId     string `json:"static_ip_address_id"`
-	TerminationProtection bool   `json:"termination_protection"`
+	CloudName             string                  `json:"cloud_name"`
+	IpAddress             string                  `json:"ip_address"`
+	ServiceName           string                  `json:"service_name"`
+	State                 StaticIpcreateStateType `json:"state"`
+	StaticIpAddressId     string                  `json:"static_ip_address_id"`
+	TerminationProtection bool                    `json:"termination_protection"`
 }
+type StaticIpcreateStateType string
+
+const (
+	StaticIpcreateStateTypeCreating  StaticIpcreateStateType = "creating"
+	StaticIpcreateStateTypeCreated   StaticIpcreateStateType = "created"
+	StaticIpcreateStateTypeAvailable StaticIpcreateStateType = "available"
+	StaticIpcreateStateTypeAssigned  StaticIpcreateStateType = "assigned"
+	StaticIpcreateStateTypeDeleting  StaticIpcreateStateType = "deleting"
+	StaticIpcreateStateTypeDeleted   StaticIpcreateStateType = "deleted"
+)
+
+func StaticIpcreateStateTypeChoices() []string {
+	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
+}
+
 type projectStaticIpavailabilityListOut struct {
 	StaticIpAddressAvailability []StaticIpAddressAvailabilityOut `json:"static_ip_address_availability"`
 }

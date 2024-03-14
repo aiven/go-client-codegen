@@ -16,7 +16,6 @@ import (
 	"github.com/dave/jennifer/jen"
 	"github.com/iancoleman/strcase"
 	"github.com/kelseyhightower/envconfig"
-	"golang.org/x/exp/maps"
 	"gopkg.in/yaml.v3"
 )
 
@@ -125,15 +124,12 @@ func exec() error {
 					continue
 				}
 
+				if param.Name == "version_id" {
+					param.Schema.Type = SchemaTypeInteger
+				}
+
 				param.Ref = ref.Ref
 				params = append(params, param)
-			}
-
-			if strings.HasSuffix(p.Path, versionIDParam) {
-				params = append(params, &Parameter{
-					Name:   "version_id",
-					Schema: &Schema{Type: SchemaTypeInteger},
-				})
 			}
 
 			p.Parameters = params
@@ -323,6 +319,7 @@ func exec() error {
 				block = append(block, ifErr)
 
 				outReturn := jen.Id("out")
+
 				if rsp.CamelName != schemaOut.CamelName {
 					// Takes original name and turns to camel.
 					// "CamelName" field might have been modified because of name collisions
@@ -346,13 +343,10 @@ func exec() error {
 			file.Add(structMeth.Block(block...))
 		}
 
-		scopeValues := maps.Values(scope)
-		sort.Slice(scopeValues, func(i, j int) bool {
-			return scopeValues[i].CamelName < scopeValues[j].CamelName
-		})
-
-		for _, v := range scopeValues {
+		for _, k := range sortedKeys(scope) {
+			v := scope[k]
 			err = writeStruct(file, v)
+
 			if err != nil {
 				return err
 			}
@@ -395,10 +389,6 @@ var reMakesSense = regexp.MustCompile(`\w`)
 
 // nolint:funlen // It's a generator, it's supposed to be long, and we won't expand it.
 func writeStruct(f *jen.File, s *Schema) error {
-	if s.isMap() || s.isArray() || s.isScalar() && !s.isEnum() {
-		return nil
-	}
-
 	// nolint:nestif // It's a generator, it's supposed to be long, and we won't expand it.
 	if s.isEnum() {
 		kind := getScalarType(s)
@@ -436,11 +426,9 @@ func writeStruct(f *jen.File, s *Schema) error {
 
 		o.Line().Const().Defs(enums...)
 
-		if !s.isOut() {
-			o.Line().Func().Id(s.CamelName + "Choices").Params().Index().Add(kind).Block(
-				jen.Return(jen.Index().Add(kind).Values(values...)),
-			)
-		}
+		o.Line().Func().Id(s.CamelName + "Choices").Params().Index().Add(kind).Block(
+			jen.Return(jen.Index().Add(kind).Values(values...)),
+		)
 
 		return nil
 	}

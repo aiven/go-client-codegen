@@ -186,33 +186,88 @@ type ConfigOut struct {
 	Name           string `json:"name"`
 }
 type ConfigurationSchemaOut struct {
-	DefaultValue  string `json:"default_value"`
-	DisplayName   string `json:"display_name"`
-	Documentation string `json:"documentation"`
-	Group         string `json:"group"`
-	Importance    string `json:"importance"`
-	Name          string `json:"name"`
-	Order         int    `json:"order"`
-	Required      bool   `json:"required"`
-	Type          string `json:"type"`
-	Width         string `json:"width"`
+	DefaultValue  string                  `json:"default_value"`
+	DisplayName   string                  `json:"display_name"`
+	Documentation string                  `json:"documentation"`
+	Group         string                  `json:"group"`
+	Importance    ImportanceType          `json:"importance"`
+	Name          string                  `json:"name"`
+	Order         int                     `json:"order"`
+	Required      bool                    `json:"required"`
+	Type          ConfigurationSchemaType `json:"type"`
+	Width         WidthType               `json:"width"`
 }
+type ConfigurationSchemaType string
+
+const (
+	ConfigurationSchemaTypeString   ConfigurationSchemaType = "STRING"
+	ConfigurationSchemaTypeInt      ConfigurationSchemaType = "INT"
+	ConfigurationSchemaTypeShort    ConfigurationSchemaType = "SHORT"
+	ConfigurationSchemaTypeLong     ConfigurationSchemaType = "LONG"
+	ConfigurationSchemaTypeDouble   ConfigurationSchemaType = "DOUBLE"
+	ConfigurationSchemaTypeBoolean  ConfigurationSchemaType = "BOOLEAN"
+	ConfigurationSchemaTypeList     ConfigurationSchemaType = "LIST"
+	ConfigurationSchemaTypeClass    ConfigurationSchemaType = "CLASS"
+	ConfigurationSchemaTypePassword ConfigurationSchemaType = "PASSWORD"
+)
+
+func ConfigurationSchemaTypeChoices() []string {
+	return []string{"STRING", "INT", "SHORT", "LONG", "DOUBLE", "BOOLEAN", "LIST", "CLASS", "PASSWORD"}
+}
+
 type ConnectorOut struct {
 	Config ConfigOut `json:"config"`
 	Name   string    `json:"name"`
 	Plugin PluginOut `json:"plugin"`
 	Tasks  []TaskOut `json:"tasks"`
 }
-type PluginOut struct {
-	Author      string `json:"author"`
-	Class       string `json:"class"`
-	DocUrl      string `json:"docURL"`
-	Preview     *bool  `json:"preview,omitempty"`
-	PreviewInfo string `json:"preview_info,omitempty"`
-	Title       string `json:"title"`
-	Type        string `json:"type"`
-	Version     string `json:"version"`
+type ImportanceType string
+
+const (
+	ImportanceTypeLow    ImportanceType = "LOW"
+	ImportanceTypeMedium ImportanceType = "MEDIUM"
+	ImportanceTypeHigh   ImportanceType = "HIGH"
+)
+
+func ImportanceTypeChoices() []string {
+	return []string{"LOW", "MEDIUM", "HIGH"}
 }
+
+type PluginOut struct {
+	Author      string     `json:"author"`
+	Class       string     `json:"class"`
+	DocUrl      string     `json:"docURL"`
+	Preview     *bool      `json:"preview,omitempty"`
+	PreviewInfo string     `json:"preview_info,omitempty"`
+	Title       string     `json:"title"`
+	Type        PluginType `json:"type"`
+	Version     string     `json:"version"`
+}
+type PluginType string
+
+const (
+	PluginTypeSink    PluginType = "sink"
+	PluginTypeSource  PluginType = "source"
+	PluginTypeUnknown PluginType = "unknown"
+)
+
+func PluginTypeChoices() []string {
+	return []string{"sink", "source", "unknown"}
+}
+
+type ServiceKafkaConnectConnectorStateType string
+
+const (
+	ServiceKafkaConnectConnectorStateTypeFailed     ServiceKafkaConnectConnectorStateType = "FAILED"
+	ServiceKafkaConnectConnectorStateTypePaused     ServiceKafkaConnectConnectorStateType = "PAUSED"
+	ServiceKafkaConnectConnectorStateTypeRunning    ServiceKafkaConnectConnectorStateType = "RUNNING"
+	ServiceKafkaConnectConnectorStateTypeUnassigned ServiceKafkaConnectConnectorStateType = "UNASSIGNED"
+)
+
+func ServiceKafkaConnectConnectorStateTypeChoices() []string {
+	return []string{"FAILED", "PAUSED", "RUNNING", "UNASSIGNED"}
+}
+
 type ServiceKafkaConnectCreateConnectorIn struct {
 	ConnectorClass string `json:"connector.class,omitempty"`
 	Name           string `json:"name"`
@@ -234,18 +289,44 @@ type ServiceKafkaConnectEditConnectorOut struct {
 	Tasks  []TaskOut `json:"tasks"`
 }
 type ServiceKafkaConnectGetConnectorStatusOut struct {
-	State string       `json:"state"`
-	Tasks []TaskOutAlt `json:"tasks"`
+	State ServiceKafkaConnectConnectorStateType `json:"state"`
+	Tasks []TaskOutAlt                          `json:"tasks"`
 }
 type TaskOut struct {
 	Connector string `json:"connector"`
 	Task      int    `json:"task"`
 }
 type TaskOutAlt struct {
-	Id    int    `json:"id"`
-	State string `json:"state"`
-	Trace string `json:"trace"`
+	Id    int           `json:"id"`
+	State TaskStateType `json:"state"`
+	Trace string        `json:"trace"`
 }
+type TaskStateType string
+
+const (
+	TaskStateTypeFailed     TaskStateType = "FAILED"
+	TaskStateTypePaused     TaskStateType = "PAUSED"
+	TaskStateTypeRunning    TaskStateType = "RUNNING"
+	TaskStateTypeUnassigned TaskStateType = "UNASSIGNED"
+)
+
+func TaskStateTypeChoices() []string {
+	return []string{"FAILED", "PAUSED", "RUNNING", "UNASSIGNED"}
+}
+
+type WidthType string
+
+const (
+	WidthTypeNone   WidthType = "NONE"
+	WidthTypeShort  WidthType = "SHORT"
+	WidthTypeMedium WidthType = "MEDIUM"
+	WidthTypeLong   WidthType = "LONG"
+)
+
+func WidthTypeChoices() []string {
+	return []string{"NONE", "SHORT", "MEDIUM", "LONG"}
+}
+
 type serviceKafkaConnectCreateConnectorOut struct {
 	Connector ServiceKafkaConnectCreateConnectorOut `json:"connector"`
 }

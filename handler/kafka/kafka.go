@@ -153,7 +153,7 @@ func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageByTopic(ctx context.
 	if err != nil {
 		return nil, err
 	}
-	out := new(serviceKafkaTieredStorageStorageUsageByTopicOut)
+	out := new(serviceKafkaTieredStorageUsageByTopicOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -166,7 +166,7 @@ func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageTotal(ctx context.Co
 	if err != nil {
 		return 0, err
 	}
-	out := new(serviceKafkaTieredStorageStorageUsageTotalOut)
+	out := new(serviceKafkaTieredStorageUsageTotalOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return 0, err
@@ -188,10 +188,10 @@ func (h *KafkaHandler) ServiceKafkaTieredStorageSummary(ctx context.Context, pro
 }
 
 type AclOut struct {
-	Id         string `json:"id,omitempty"`
-	Permission string `json:"permission"`
-	Topic      string `json:"topic"`
-	Username   string `json:"username"`
+	Id         string         `json:"id,omitempty"`
+	Permission PermissionType `json:"permission"`
+	Topic      string         `json:"topic"`
+	Username   string         `json:"username"`
 }
 type HourlyOut struct {
 	EstimatedCost   string `json:"estimated_cost,omitempty"`
@@ -240,6 +240,7 @@ type ServiceKafkaQuotaDescribeOut struct {
 type ServiceKafkaTieredStorageSummaryOut struct {
 	CurrentCost         string                 `json:"current_cost"`
 	ForecastedCost      string                 `json:"forecasted_cost"`
+	ForecastedRate      string                 `json:"forecasted_rate,omitempty"`
 	StorageUsageHistory StorageUsageHistoryOut `json:"storage_usage_history"`
 	TotalStorageUsage   int                    `json:"total_storage_usage"`
 }
@@ -261,9 +262,9 @@ type serviceKafkaQuotaDescribeOut struct {
 type serviceKafkaQuotaListOut struct {
 	Quotas []QuotaOut `json:"quotas"`
 }
-type serviceKafkaTieredStorageStorageUsageByTopicOut struct {
+type serviceKafkaTieredStorageUsageByTopicOut struct {
 	StorageUsage map[string]any `json:"storage_usage"`
 }
-type serviceKafkaTieredStorageStorageUsageTotalOut struct {
+type serviceKafkaTieredStorageUsageTotalOut struct {
 	TotalStorageUsage int `json:"total_storage_usage"`
 }

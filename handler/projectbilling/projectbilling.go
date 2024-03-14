@@ -78,28 +78,103 @@ func (h *ProjectBillingHandler) ProjectInvoiceList(ctx context.Context, project 
 	return out.Invoices, nil
 }
 
+type BillingGroupStateType string
+
+const (
+	BillingGroupStateTypeActive  BillingGroupStateType = "active"
+	BillingGroupStateTypeDeleted BillingGroupStateType = "deleted"
+)
+
+func BillingGroupStateTypeChoices() []string {
+	return []string{"active", "deleted"}
+}
+
 type CreditOut struct {
 	Code           string     `json:"code,omitempty"`
 	ExpireTime     *time.Time `json:"expire_time,omitempty"`
 	RemainingValue string     `json:"remaining_value,omitempty"`
 	StartTime      *time.Time `json:"start_time,omitempty"`
-	Type           string     `json:"type,omitempty"`
+	Type           CreditType `json:"type,omitempty"`
 	Value          string     `json:"value,omitempty"`
 }
-type InvoiceOut struct {
-	BillingGroupId    string     `json:"billing_group_id"`
-	BillingGroupName  string     `json:"billing_group_name"`
-	BillingGroupState string     `json:"billing_group_state"`
-	Currency          string     `json:"currency"`
-	DownloadCookie    string     `json:"download_cookie"`
-	GeneratedAt       *time.Time `json:"generated_at,omitempty"`
-	InvoiceNumber     string     `json:"invoice_number"`
-	PeriodBegin       string     `json:"period_begin"`
-	PeriodEnd         string     `json:"period_end"`
-	State             string     `json:"state"`
-	TotalIncVat       string     `json:"total_inc_vat"`
-	TotalVatZero      string     `json:"total_vat_zero"`
+type CreditType string
+
+const (
+	CreditTypeDiscount    CreditType = "discount"
+	CreditTypeEmployee    CreditType = "employee"
+	CreditTypeEvaluation  CreditType = "evaluation"
+	CreditTypeInternal    CreditType = "internal"
+	CreditTypeOther       CreditType = "other"
+	CreditTypeOutage      CreditType = "outage"
+	CreditTypePartner     CreditType = "partner"
+	CreditTypePromotion   CreditType = "promotion"
+	CreditTypePurchase    CreditType = "purchase"
+	CreditTypeReferral    CreditType = "referral"
+	CreditTypeSponsorship CreditType = "sponsorship"
+	CreditTypeTrial       CreditType = "trial"
+	CreditTypeTrialOver   CreditType = "trial_over"
+)
+
+func CreditTypeChoices() []string {
+	return []string{"discount", "employee", "evaluation", "internal", "other", "outage", "partner", "promotion", "purchase", "referral", "sponsorship", "trial", "trial_over"}
 }
+
+type CurrencyType string
+
+const (
+	CurrencyTypeAud CurrencyType = "AUD"
+	CurrencyTypeCad CurrencyType = "CAD"
+	CurrencyTypeChf CurrencyType = "CHF"
+	CurrencyTypeDkk CurrencyType = "DKK"
+	CurrencyTypeEur CurrencyType = "EUR"
+	CurrencyTypeGbp CurrencyType = "GBP"
+	CurrencyTypeJpy CurrencyType = "JPY"
+	CurrencyTypeNok CurrencyType = "NOK"
+	CurrencyTypeNzd CurrencyType = "NZD"
+	CurrencyTypeSek CurrencyType = "SEK"
+	CurrencyTypeSgd CurrencyType = "SGD"
+	CurrencyTypeUsd CurrencyType = "USD"
+)
+
+func CurrencyTypeChoices() []string {
+	return []string{"AUD", "CAD", "CHF", "DKK", "EUR", "GBP", "JPY", "NOK", "NZD", "SEK", "SGD", "USD"}
+}
+
+type InvoiceOut struct {
+	BillingGroupId    string                `json:"billing_group_id"`
+	BillingGroupName  string                `json:"billing_group_name"`
+	BillingGroupState BillingGroupStateType `json:"billing_group_state"`
+	Currency          CurrencyType          `json:"currency"`
+	DownloadCookie    string                `json:"download_cookie"`
+	GeneratedAt       *time.Time            `json:"generated_at,omitempty"`
+	InvoiceNumber     string                `json:"invoice_number"`
+	PeriodBegin       string                `json:"period_begin"`
+	PeriodEnd         string                `json:"period_end"`
+	State             InvoiceStateType      `json:"state"`
+	TotalIncVat       string                `json:"total_inc_vat"`
+	TotalVatZero      string                `json:"total_vat_zero"`
+}
+type InvoiceStateType string
+
+const (
+	InvoiceStateTypeAccrual                InvoiceStateType = "accrual"
+	InvoiceStateTypeConsolidated           InvoiceStateType = "consolidated"
+	InvoiceStateTypeDue                    InvoiceStateType = "due"
+	InvoiceStateTypeEstimate               InvoiceStateType = "estimate"
+	InvoiceStateTypeFailedCreditCardCharge InvoiceStateType = "failed_credit_card_charge"
+	InvoiceStateTypeFailedNoCreditCard     InvoiceStateType = "failed_no_credit_card"
+	InvoiceStateTypeMailed                 InvoiceStateType = "mailed"
+	InvoiceStateTypeNoPaymentExpected      InvoiceStateType = "no_payment_expected"
+	InvoiceStateTypePaid                   InvoiceStateType = "paid"
+	InvoiceStateTypePartnerMetering        InvoiceStateType = "partner_metering"
+	InvoiceStateTypeUncollectible          InvoiceStateType = "uncollectible"
+	InvoiceStateTypeWaived                 InvoiceStateType = "waived"
+)
+
+func InvoiceStateTypeChoices() []string {
+	return []string{"accrual", "consolidated", "due", "estimate", "failed_credit_card_charge", "failed_no_credit_card", "mailed", "no_payment_expected", "paid", "partner_metering", "uncollectible", "waived"}
+}
+
 type ProjectCreditsClaimIn struct {
 	Code string `json:"code"`
 }
@@ -108,7 +183,7 @@ type ProjectCreditsClaimOut struct {
 	ExpireTime     *time.Time `json:"expire_time,omitempty"`
 	RemainingValue string     `json:"remaining_value,omitempty"`
 	StartTime      *time.Time `json:"start_time,omitempty"`
-	Type           string     `json:"type,omitempty"`
+	Type           CreditType `json:"type,omitempty"`
 	Value          string     `json:"value,omitempty"`
 }
 type projectCreditsClaimOut struct {

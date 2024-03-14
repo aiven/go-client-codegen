@@ -150,6 +150,27 @@ func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]Orga
 	return out.Organizations, nil
 }
 
+type BillingCurrencyType string
+
+const (
+	BillingCurrencyTypeAud BillingCurrencyType = "AUD"
+	BillingCurrencyTypeCad BillingCurrencyType = "CAD"
+	BillingCurrencyTypeChf BillingCurrencyType = "CHF"
+	BillingCurrencyTypeDkk BillingCurrencyType = "DKK"
+	BillingCurrencyTypeEur BillingCurrencyType = "EUR"
+	BillingCurrencyTypeGbp BillingCurrencyType = "GBP"
+	BillingCurrencyTypeJpy BillingCurrencyType = "JPY"
+	BillingCurrencyTypeNok BillingCurrencyType = "NOK"
+	BillingCurrencyTypeNzd BillingCurrencyType = "NZD"
+	BillingCurrencyTypeSek BillingCurrencyType = "SEK"
+	BillingCurrencyTypeSgd BillingCurrencyType = "SGD"
+	BillingCurrencyTypeUsd BillingCurrencyType = "USD"
+)
+
+func BillingCurrencyTypeChoices() []string {
+	return []string{"AUD", "CAD", "CHF", "DKK", "EUR", "GBP", "JPY", "NOK", "NZD", "SEK", "SGD", "USD"}
+}
+
 type BillingEmailOut struct {
 	Email string `json:"email"`
 }
@@ -190,36 +211,41 @@ type OrganizationAuthenticationConfigUpdateOut struct {
 	TwoFactorRequired   *bool `json:"two_factor_required,omitempty"`
 }
 type OrganizationGetOut struct {
-	AccountId        string    `json:"account_id"`
-	CreateTime       time.Time `json:"create_time"`
-	OrganizationId   string    `json:"organization_id"`
-	OrganizationName string    `json:"organization_name"`
-	Tier             string    `json:"tier"`
-	UpdateTime       time.Time `json:"update_time"`
+	AccountId                    string    `json:"account_id"`
+	CreateTime                   time.Time `json:"create_time"`
+	DefaultGovernanceUserGroupId string    `json:"default_governance_user_group_id,omitempty"`
+	OrganizationId               string    `json:"organization_id"`
+	OrganizationName             string    `json:"organization_name"`
+	Tier                         TierType  `json:"tier"`
+	UpdateTime                   time.Time `json:"update_time"`
 }
 type OrganizationOut struct {
-	AccountId        string    `json:"account_id"`
-	CreateTime       time.Time `json:"create_time"`
-	OrganizationId   string    `json:"organization_id"`
-	OrganizationName string    `json:"organization_name"`
-	Tier             string    `json:"tier"`
-	UpdateTime       time.Time `json:"update_time"`
+	AccountId                    string    `json:"account_id"`
+	CreateTime                   time.Time `json:"create_time"`
+	DefaultGovernanceUserGroupId string    `json:"default_governance_user_group_id,omitempty"`
+	OrganizationId               string    `json:"organization_id"`
+	OrganizationName             string    `json:"organization_name"`
+	Tier                         TierType  `json:"tier"`
+	UpdateTime                   time.Time `json:"update_time"`
 }
 type OrganizationProjectsListOut struct {
 	Projects          []ProjectOut `json:"projects"`
 	TotalProjectCount *int         `json:"total_project_count,omitempty"`
 }
 type OrganizationUpdateIn struct {
-	Name string   `json:"name,omitempty"`
-	Tier TierType `json:"tier,omitempty"`
+	DefaultGovernanceUserGroupId string   `json:"default_governance_user_group_id,omitempty"`
+	KafkaGovernanceEnabled       *bool    `json:"kafka_governance_enabled,omitempty"`
+	Name                         string   `json:"name,omitempty"`
+	Tier                         TierType `json:"tier,omitempty"`
 }
 type OrganizationUpdateOut struct {
-	AccountId        string    `json:"account_id"`
-	CreateTime       time.Time `json:"create_time"`
-	OrganizationId   string    `json:"organization_id"`
-	OrganizationName string    `json:"organization_name"`
-	Tier             string    `json:"tier"`
-	UpdateTime       time.Time `json:"update_time"`
+	AccountId                    string    `json:"account_id"`
+	CreateTime                   time.Time `json:"create_time"`
+	DefaultGovernanceUserGroupId string    `json:"default_governance_user_group_id,omitempty"`
+	OrganizationId               string    `json:"organization_id"`
+	OrganizationName             string    `json:"organization_name"`
+	Tier                         TierType  `json:"tier"`
+	UpdateTime                   time.Time `json:"update_time"`
 }
 type ProjectOut struct {
 	AccountId             string                 `json:"account_id"`
@@ -227,7 +253,7 @@ type ProjectOut struct {
 	AddressLines          []string               `json:"address_lines,omitempty"`
 	AvailableCredits      string                 `json:"available_credits,omitempty"`
 	BillingAddress        string                 `json:"billing_address"`
-	BillingCurrency       string                 `json:"billing_currency,omitempty"`
+	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`
 	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
 	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
 	BillingGroupId        string                 `json:"billing_group_id"`
@@ -273,12 +299,13 @@ type UserOrganizationCreateIn struct {
 	Tier                  TierType `json:"tier"`
 }
 type UserOrganizationCreateOut struct {
-	AccountId        string    `json:"account_id"`
-	CreateTime       time.Time `json:"create_time"`
-	OrganizationId   string    `json:"organization_id"`
-	OrganizationName string    `json:"organization_name"`
-	Tier             string    `json:"tier"`
-	UpdateTime       time.Time `json:"update_time"`
+	AccountId                    string    `json:"account_id"`
+	CreateTime                   time.Time `json:"create_time"`
+	DefaultGovernanceUserGroupId string    `json:"default_governance_user_group_id,omitempty"`
+	OrganizationId               string    `json:"organization_id"`
+	OrganizationName             string    `json:"organization_name"`
+	Tier                         TierType  `json:"tier"`
+	UpdateTime                   time.Time `json:"update_time"`
 }
 type userOrganizationsListOut struct {
 	Organizations []OrganizationOut `json:"organizations"`

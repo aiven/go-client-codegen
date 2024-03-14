@@ -145,18 +145,44 @@ type ColumnOut struct {
 	Watermark string `json:"watermark,omitempty"`
 }
 type CurrentDeploymentOut struct {
-	CreatedAt         time.Time `json:"created_at"`
-	CreatedBy         string    `json:"created_by"`
-	ErrorMsg          string    `json:"error_msg,omitempty"`
-	Id                string    `json:"id"`
-	JobId             string    `json:"job_id,omitempty"`
-	LastSavepoint     string    `json:"last_savepoint,omitempty"`
-	Parallelism       int       `json:"parallelism"`
-	RestartEnabled    bool      `json:"restart_enabled"`
-	StartingSavepoint string    `json:"starting_savepoint,omitempty"`
-	Status            string    `json:"status"`
-	VersionId         string    `json:"version_id"`
+	CreatedAt         time.Time                   `json:"created_at"`
+	CreatedBy         string                      `json:"created_by"`
+	ErrorMsg          string                      `json:"error_msg,omitempty"`
+	Id                string                      `json:"id"`
+	JobId             string                      `json:"job_id,omitempty"`
+	LastSavepoint     string                      `json:"last_savepoint,omitempty"`
+	Parallelism       int                         `json:"parallelism"`
+	RestartEnabled    bool                        `json:"restart_enabled"`
+	StartingSavepoint string                      `json:"starting_savepoint,omitempty"`
+	Status            CurrentDeploymentStatusType `json:"status"`
+	VersionId         string                      `json:"version_id"`
 }
+type CurrentDeploymentStatusType string
+
+const (
+	CurrentDeploymentStatusTypeInitializing           CurrentDeploymentStatusType = "INITIALIZING"
+	CurrentDeploymentStatusTypeCreated                CurrentDeploymentStatusType = "CREATED"
+	CurrentDeploymentStatusTypeRunning                CurrentDeploymentStatusType = "RUNNING"
+	CurrentDeploymentStatusTypeFailing                CurrentDeploymentStatusType = "FAILING"
+	CurrentDeploymentStatusTypeFailed                 CurrentDeploymentStatusType = "FAILED"
+	CurrentDeploymentStatusTypeSaving                 CurrentDeploymentStatusType = "SAVING"
+	CurrentDeploymentStatusTypeCancellingRequested    CurrentDeploymentStatusType = "CANCELLING_REQUESTED"
+	CurrentDeploymentStatusTypeCancelling             CurrentDeploymentStatusType = "CANCELLING"
+	CurrentDeploymentStatusTypeCanceled               CurrentDeploymentStatusType = "CANCELED"
+	CurrentDeploymentStatusTypeSavingAndStopRequested CurrentDeploymentStatusType = "SAVING_AND_STOP_REQUESTED"
+	CurrentDeploymentStatusTypeSavingAndStop          CurrentDeploymentStatusType = "SAVING_AND_STOP"
+	CurrentDeploymentStatusTypeFinished               CurrentDeploymentStatusType = "FINISHED"
+	CurrentDeploymentStatusTypeRestarting             CurrentDeploymentStatusType = "RESTARTING"
+	CurrentDeploymentStatusTypeSuspended              CurrentDeploymentStatusType = "SUSPENDED"
+	CurrentDeploymentStatusTypeDeleteRequested        CurrentDeploymentStatusType = "DELETE_REQUESTED"
+	CurrentDeploymentStatusTypeDeleting               CurrentDeploymentStatusType = "DELETING"
+	CurrentDeploymentStatusTypeReconciling            CurrentDeploymentStatusType = "RECONCILING"
+)
+
+func CurrentDeploymentStatusTypeChoices() []string {
+	return []string{"INITIALIZING", "CREATED", "RUNNING", "FAILING", "FAILED", "SAVING", "CANCELLING_REQUESTED", "CANCELLING", "CANCELED", "SAVING_AND_STOP_REQUESTED", "SAVING_AND_STOP", "FINISHED", "RESTARTING", "SUSPENDED", "DELETE_REQUESTED", "DELETING", "RECONCILING"}
+}
+
 type ServiceFlinkCreateApplicationIn struct {
 	ApplicationVersion *ApplicationVersionIn `json:"application_version,omitempty"`
 	Name               string                `json:"name"`

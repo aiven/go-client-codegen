@@ -60,24 +60,64 @@ func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project stri
 }
 
 type JobOut struct {
-	Id     string `json:"id,omitempty"`
-	Status string `json:"status,omitempty"`
+	Id     string        `json:"id,omitempty"`
+	Status JobStatusType `json:"status,omitempty"`
 }
+type JobStatusType string
+
+const (
+	JobStatusTypeInitializing JobStatusType = "INITIALIZING"
+	JobStatusTypeCreated      JobStatusType = "CREATED"
+	JobStatusTypeRunning      JobStatusType = "RUNNING"
+	JobStatusTypeFailing      JobStatusType = "FAILING"
+	JobStatusTypeFailed       JobStatusType = "FAILED"
+	JobStatusTypeCancelling   JobStatusType = "CANCELLING"
+	JobStatusTypeCanceled     JobStatusType = "CANCELED"
+	JobStatusTypeFinished     JobStatusType = "FINISHED"
+	JobStatusTypeRestarting   JobStatusType = "RESTARTING"
+	JobStatusTypeSuspended    JobStatusType = "SUSPENDED"
+	JobStatusTypeReconciling  JobStatusType = "RECONCILING"
+)
+
+func JobStatusTypeChoices() []string {
+	return []string{"INITIALIZING", "CREATED", "RUNNING", "FAILING", "FAILED", "CANCELLING", "CANCELED", "FINISHED", "RESTARTING", "SUSPENDED", "RECONCILING"}
+}
+
 type ServiceFlinkJobDetailsOut struct {
-	Duration       *int             `json:"duration,omitempty"`
-	EndTime        *int             `json:"end-time,omitempty"`
-	IsStoppable    *bool            `json:"isStoppable,omitempty"`
-	Jid            string           `json:"jid,omitempty"`
-	MaxParallelism *int             `json:"maxParallelism,omitempty"`
-	Name           string           `json:"name,omitempty"`
-	Now            *int             `json:"now,omitempty"`
-	Plan           map[string]any   `json:"plan,omitempty"`
-	StartTime      *int             `json:"start-time,omitempty"`
-	State          string           `json:"state,omitempty"`
-	StatusCounts   *StatusCountsOut `json:"status-counts,omitempty"`
-	Timestamps     map[string]any   `json:"timestamps,omitempty"`
-	Vertices       []map[string]any `json:"vertices,omitempty"`
+	Duration       *int                            `json:"duration,omitempty"`
+	EndTime        *int                            `json:"end-time,omitempty"`
+	IsStoppable    *bool                           `json:"isStoppable,omitempty"`
+	Jid            string                          `json:"jid,omitempty"`
+	MaxParallelism *int                            `json:"maxParallelism,omitempty"`
+	Name           string                          `json:"name,omitempty"`
+	Now            *int                            `json:"now,omitempty"`
+	Plan           map[string]any                  `json:"plan,omitempty"`
+	StartTime      *int                            `json:"start-time,omitempty"`
+	State          ServiceFlinkJobDetailsStateType `json:"state,omitempty"`
+	StatusCounts   *StatusCountsOut                `json:"status-counts,omitempty"`
+	Timestamps     map[string]any                  `json:"timestamps,omitempty"`
+	Vertices       []map[string]any                `json:"vertices,omitempty"`
 }
+type ServiceFlinkJobDetailsStateType string
+
+const (
+	ServiceFlinkJobDetailsStateTypeInitializing ServiceFlinkJobDetailsStateType = "INITIALIZING"
+	ServiceFlinkJobDetailsStateTypeCreated      ServiceFlinkJobDetailsStateType = "CREATED"
+	ServiceFlinkJobDetailsStateTypeRunning      ServiceFlinkJobDetailsStateType = "RUNNING"
+	ServiceFlinkJobDetailsStateTypeFailing      ServiceFlinkJobDetailsStateType = "FAILING"
+	ServiceFlinkJobDetailsStateTypeFailed       ServiceFlinkJobDetailsStateType = "FAILED"
+	ServiceFlinkJobDetailsStateTypeCancelling   ServiceFlinkJobDetailsStateType = "CANCELLING"
+	ServiceFlinkJobDetailsStateTypeCanceled     ServiceFlinkJobDetailsStateType = "CANCELED"
+	ServiceFlinkJobDetailsStateTypeFinished     ServiceFlinkJobDetailsStateType = "FINISHED"
+	ServiceFlinkJobDetailsStateTypeRestarting   ServiceFlinkJobDetailsStateType = "RESTARTING"
+	ServiceFlinkJobDetailsStateTypeSuspended    ServiceFlinkJobDetailsStateType = "SUSPENDED"
+	ServiceFlinkJobDetailsStateTypeReconciling  ServiceFlinkJobDetailsStateType = "RECONCILING"
+)
+
+func ServiceFlinkJobDetailsStateTypeChoices() []string {
+	return []string{"INITIALIZING", "CREATED", "RUNNING", "FAILING", "FAILED", "CANCELLING", "CANCELED", "FINISHED", "RESTARTING", "SUSPENDED", "RECONCILING"}
+}
+
 type StatusCountsOut struct {
 	Canceled     *int `json:"CANCELED,omitempty"`
 	Canceling    *int `json:"CANCELING,omitempty"`

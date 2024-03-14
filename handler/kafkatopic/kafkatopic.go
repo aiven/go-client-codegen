@@ -126,7 +126,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicUpdate(ctx context.Context, project
 }
 
 type CleanupPolicyOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    string       `json:"value,omitempty"`
 }
@@ -158,10 +158,25 @@ func CompressionTypeChoices() []string {
 }
 
 type CompressionTypeOut struct {
-	Source   string       `json:"source,omitempty"`
-	Synonyms []SynonymOut `json:"synonyms,omitempty"`
-	Value    string       `json:"value,omitempty"`
+	Source   SourceType           `json:"source,omitempty"`
+	Synonyms []SynonymOut         `json:"synonyms,omitempty"`
+	Value    CompressionTypeValue `json:"value,omitempty"`
 }
+type CompressionTypeValue string
+
+const (
+	CompressionTypeValueSnappy       CompressionTypeValue = "snappy"
+	CompressionTypeValueGzip         CompressionTypeValue = "gzip"
+	CompressionTypeValueLz4          CompressionTypeValue = "lz4"
+	CompressionTypeValueProducer     CompressionTypeValue = "producer"
+	CompressionTypeValueUncompressed CompressionTypeValue = "uncompressed"
+	CompressionTypeValueZstd         CompressionTypeValue = "zstd"
+)
+
+func CompressionTypeValueChoices() []string {
+	return []string{"snappy", "gzip", "lz4", "producer", "uncompressed", "zstd"}
+}
+
 type ConfigIn struct {
 	CleanupPolicy                   CleanupPolicyType        `json:"cleanup_policy,omitempty"`
 	CompressionType                 CompressionType          `json:"compression_type,omitempty"`
@@ -225,22 +240,22 @@ type ConsumerGroupOut struct {
 	Offset    int    `json:"offset"`
 }
 type DeleteRetentionMsOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type FileDeleteDelayMsOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type FlushMessagesOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type FlushMsOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
@@ -259,39 +274,39 @@ func FormatTypeChoices() []string {
 }
 
 type IndexIntervalBytesOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type LocalRetentionBytesOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type LocalRetentionMsOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type MaxCompactionLagMsOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type MaxMessageBytesOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type MessageDownconversionEnableOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *bool        `json:"value,omitempty"`
 }
 type MessageFormatVersionOut struct {
-	Source   string       `json:"source,omitempty"`
-	Synonyms []SynonymOut `json:"synonyms,omitempty"`
-	Value    string       `json:"value,omitempty"`
+	Source   SourceType               `json:"source,omitempty"`
+	Synonyms []SynonymOut             `json:"synonyms,omitempty"`
+	Value    MessageFormatVersionType `json:"value,omitempty"`
 }
 type MessageFormatVersionType string
 
@@ -380,7 +395,7 @@ type MessageOut struct {
 	Value     map[string]any `json:"value,omitempty"`
 }
 type MessageTimestampDifferenceMaxMsOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
@@ -396,22 +411,33 @@ func MessageTimestampTypeChoices() []string {
 }
 
 type MessageTimestampTypeOut struct {
-	Source   string       `json:"source,omitempty"`
-	Synonyms []SynonymOut `json:"synonyms,omitempty"`
-	Value    string       `json:"value,omitempty"`
+	Source   SourceType                `json:"source,omitempty"`
+	Synonyms []SynonymOut              `json:"synonyms,omitempty"`
+	Value    MessageTimestampTypeValue `json:"value,omitempty"`
 }
+type MessageTimestampTypeValue string
+
+const (
+	MessageTimestampTypeValueCreateTime    MessageTimestampTypeValue = "CreateTime"
+	MessageTimestampTypeValueLogAppendTime MessageTimestampTypeValue = "LogAppendTime"
+)
+
+func MessageTimestampTypeValueChoices() []string {
+	return []string{"CreateTime", "LogAppendTime"}
+}
+
 type MinCleanableDirtyRatioOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *float64     `json:"value,omitempty"`
 }
 type MinCompactionLagMsOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type MinInsyncReplicasOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
@@ -427,10 +453,11 @@ type PartitionOut struct {
 	Isr            int                `json:"isr"`
 	LatestOffset   int                `json:"latest_offset"`
 	Partition      int                `json:"partition"`
+	RemoteSize     *int               `json:"remote_size,omitempty"`
 	Size           int                `json:"size"`
 }
 type PreallocateOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *bool        `json:"value,omitempty"`
 }
@@ -440,37 +467,37 @@ type RecordIn struct {
 	Value     *map[string]any `json:"value,omitempty"`
 }
 type RemoteStorageEnableOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *bool        `json:"value,omitempty"`
 }
 type RetentionBytesOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type RetentionMsOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type SegmentBytesOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type SegmentIndexBytesOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type SegmentJitterMsOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
 type SegmentMsOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *int         `json:"value,omitempty"`
 }
@@ -493,7 +520,7 @@ type ServiceKafkaTopicGetOut struct {
 	Replication       int            `json:"replication"`
 	RetentionBytes    int            `json:"retention_bytes"`
 	RetentionHours    int            `json:"retention_hours"`
-	State             string         `json:"state"`
+	State             TopicStateType `json:"state"`
 	Tags              []TagOut       `json:"tags"`
 	TopicName         string         `json:"topic_name"`
 }
@@ -525,10 +552,26 @@ type ServiceKafkaTopicUpdateIn struct {
 	RetentionHours    *int      `json:"retention_hours,omitempty"`
 	Tags              *[]TagIn  `json:"tags,omitempty"`
 }
+type SourceType string
+
+const (
+	SourceTypeUnknownConfig              SourceType = "unknown_config"
+	SourceTypeTopicConfig                SourceType = "topic_config"
+	SourceTypeDynamicBrokerConfig        SourceType = "dynamic_broker_config"
+	SourceTypeDynamicDefaultBrokerConfig SourceType = "dynamic_default_broker_config"
+	SourceTypeStaticBrokerConfig         SourceType = "static_broker_config"
+	SourceTypeDefaultConfig              SourceType = "default_config"
+	SourceTypeDynamicBrokerLoggerConfig  SourceType = "dynamic_broker_logger_config"
+)
+
+func SourceTypeChoices() []string {
+	return []string{"unknown_config", "topic_config", "dynamic_broker_config", "dynamic_default_broker_config", "static_broker_config", "default_config", "dynamic_broker_logger_config"}
+}
+
 type SynonymOut struct {
-	Name   string `json:"name,omitempty"`
-	Source string `json:"source,omitempty"`
-	Value  *bool  `json:"value,omitempty"`
+	Name   string     `json:"name,omitempty"`
+	Source SourceType `json:"source,omitempty"`
+	Value  *bool      `json:"value,omitempty"`
 }
 type TagIn struct {
 	Key   string `json:"key"`
@@ -539,19 +582,31 @@ type TagOut struct {
 	Value string `json:"value"`
 }
 type TopicOut struct {
-	CleanupPolicy       string   `json:"cleanup_policy"`
-	MinInsyncReplicas   int      `json:"min_insync_replicas"`
-	Partitions          int      `json:"partitions"`
-	RemoteStorageEnable *bool    `json:"remote_storage_enable,omitempty"`
-	Replication         int      `json:"replication"`
-	RetentionBytes      int      `json:"retention_bytes"`
-	RetentionHours      int      `json:"retention_hours"`
-	State               string   `json:"state"`
-	Tags                []TagOut `json:"tags"`
-	TopicName           string   `json:"topic_name"`
+	CleanupPolicy       string         `json:"cleanup_policy"`
+	MinInsyncReplicas   int            `json:"min_insync_replicas"`
+	Partitions          int            `json:"partitions"`
+	RemoteStorageEnable *bool          `json:"remote_storage_enable,omitempty"`
+	Replication         int            `json:"replication"`
+	RetentionBytes      int            `json:"retention_bytes"`
+	RetentionHours      int            `json:"retention_hours"`
+	State               TopicStateType `json:"state"`
+	Tags                []TagOut       `json:"tags"`
+	TopicName           string         `json:"topic_name"`
 }
+type TopicStateType string
+
+const (
+	TopicStateTypeActive      TopicStateType = "ACTIVE"
+	TopicStateTypeConfiguring TopicStateType = "CONFIGURING"
+	TopicStateTypeDeleting    TopicStateType = "DELETING"
+)
+
+func TopicStateTypeChoices() []string {
+	return []string{"ACTIVE", "CONFIGURING", "DELETING"}
+}
+
 type UncleanLeaderElectionEnableOut struct {
-	Source   string       `json:"source,omitempty"`
+	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
 	Value    *bool        `json:"value,omitempty"`
 }

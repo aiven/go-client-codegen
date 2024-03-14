@@ -74,5 +74,5 @@ func TestServiceCreate(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, out)
 	assert.Equal(t, "wow", out.Plan)
-	assert.Equal(t, "RUNNING", out.State)
+	assert.Equal(t, service.ServiceStateTypeRunning, out.State)
 }

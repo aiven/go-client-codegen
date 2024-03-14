@@ -35,7 +35,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchIndexList
 	ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]IndexeOut, error)
 
-	// ServiceOpenSearchSecurityGet show Opensearch security configuration status
+	// ServiceOpenSearchSecurityGet show OpenSearch security configuration status
 	// GET /project/{project}/service/{service_name}/opensearch/security
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchSecurityGet
 	ServiceOpenSearchSecurityGet(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchSecurityGetOut, error)
@@ -168,18 +168,45 @@ type AclOut struct {
 	Rules    []RuleOut `json:"rules"`
 	Username string    `json:"username"`
 }
-type IndexeOut struct {
-	CreateTime          time.Time       `json:"create_time"`
-	Docs                *int            `json:"docs,omitempty"`
-	Health              string          `json:"health,omitempty"`
-	IndexName           string          `json:"index_name"`
-	NumberOfReplicas    int             `json:"number_of_replicas"`
-	NumberOfShards      int             `json:"number_of_shards"`
-	ReadOnlyAllowDelete *bool           `json:"read_only_allow_delete,omitempty"`
-	Replication         *ReplicationOut `json:"replication,omitempty"`
-	Size                *int            `json:"size,omitempty"`
-	Status              string          `json:"status,omitempty"`
+type HealthType string
+
+const (
+	HealthTypeGreen       HealthType = "green"
+	HealthTypeYellow      HealthType = "yellow"
+	HealthTypeRed         HealthType = "red"
+	HealthTypeRedAsterisk HealthType = "red*"
+	HealthTypeUnknown     HealthType = "unknown"
+)
+
+func HealthTypeChoices() []string {
+	return []string{"green", "yellow", "red", "red*", "unknown"}
 }
+
+type IndexeOut struct {
+	CreateTime          time.Time        `json:"create_time"`
+	Docs                *int             `json:"docs,omitempty"`
+	Health              HealthType       `json:"health,omitempty"`
+	IndexName           string           `json:"index_name"`
+	NumberOfReplicas    int              `json:"number_of_replicas"`
+	NumberOfShards      int              `json:"number_of_shards"`
+	ReadOnlyAllowDelete *bool            `json:"read_only_allow_delete,omitempty"`
+	Replication         *ReplicationOut  `json:"replication,omitempty"`
+	Size                *int             `json:"size,omitempty"`
+	Status              IndexeStatusType `json:"status,omitempty"`
+}
+type IndexeStatusType string
+
+const (
+	IndexeStatusTypeUnknown IndexeStatusType = "unknown"
+	IndexeStatusTypeOpen    IndexeStatusType = "open"
+	IndexeStatusTypeClose   IndexeStatusType = "close"
+	IndexeStatusTypeNone    IndexeStatusType = "none"
+)
+
+func IndexeStatusTypeChoices() []string {
+	return []string{"unknown", "open", "close", "none"}
+}
+
 type OpensearchAclConfigIn struct {
 	Acls    []AclIn `json:"acls"`
 	Enabled bool    `json:"enabled"`
@@ -212,8 +239,8 @@ type RuleIn struct {
 	Permission PermissionType `json:"permission"`
 }
 type RuleOut struct {
-	Index      string `json:"index"`
-	Permission string `json:"permission"`
+	Index      string         `json:"index"`
+	Permission PermissionType `json:"permission"`
 }
 type ServiceOpenSearchAclGetOut struct {
 	Acls    []AclOut `json:"acls"`
