@@ -42,13 +42,13 @@ func (h *FlinkHandler) ServiceFlinkOverview(ctx context.Context, project string,
 }
 
 type ServiceFlinkOverviewOut struct {
-	FlinkCommit    string `json:"flink-commit,omitempty"`
-	FlinkVersion   string `json:"flink-version,omitempty"`
-	JobsCancelled  *int   `json:"jobs-cancelled,omitempty"`
-	JobsFailed     *int   `json:"jobs-failed,omitempty"`
-	JobsFinished   *int   `json:"jobs-finished,omitempty"`
-	JobsRunning    *int   `json:"jobs-running,omitempty"`
-	SlotsAvailable *int   `json:"slots-available,omitempty"`
-	SlotsTotal     *int   `json:"slots-total,omitempty"`
-	Taskmanagers   *int   `json:"taskmanagers,omitempty"`
+	FlinkCommit    *string `json:"flink-commit,omitempty"`
+	FlinkVersion   *string `json:"flink-version,omitempty"`
+	JobsCancelled  *int    `json:"jobs-cancelled,omitempty"`
+	JobsFailed     *int    `json:"jobs-failed,omitempty"`
+	JobsFinished   *int    `json:"jobs-finished,omitempty"`
+	JobsRunning    *int    `json:"jobs-running,omitempty"`
+	SlotsAvailable *int    `json:"slots-available,omitempty"`
+	SlotsTotal     *int    `json:"slots-total,omitempty"`
+	Taskmanagers   *int    `json:"taskmanagers,omitempty"`
 }

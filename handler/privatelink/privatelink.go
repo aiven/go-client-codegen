@@ -259,13 +259,13 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureUpdate(ctx context.Context, 
 
 type ConnectionOut struct {
 	DnsName                 string              `json:"dns_name"`
-	PrivatelinkConnectionId string              `json:"privatelink_connection_id,omitempty"`
+	PrivatelinkConnectionId *string             `json:"privatelink_connection_id,omitempty"`
 	State                   ConnectionStateType `json:"state"`
 	VpcEndpointId           string              `json:"vpc_endpoint_id"`
 }
 type ConnectionOutAlt struct {
 	PrivateEndpointId       string              `json:"private_endpoint_id"`
-	PrivatelinkConnectionId string              `json:"privatelink_connection_id,omitempty"`
+	PrivatelinkConnectionId *string             `json:"privatelink_connection_id,omitempty"`
 	State                   ConnectionStateType `json:"state"`
 	UserIpAddress           string              `json:"user_ip_address"`
 }
@@ -290,8 +290,8 @@ type ServicePrivatelinkAwscreateIn struct {
 	Principals []string `json:"principals"`
 }
 type ServicePrivatelinkAwscreateOut struct {
-	AwsServiceId   string                               `json:"aws_service_id,omitempty"`
-	AwsServiceName string                               `json:"aws_service_name,omitempty"`
+	AwsServiceId   *string                              `json:"aws_service_id,omitempty"`
+	AwsServiceName *string                              `json:"aws_service_name,omitempty"`
 	Principals     []string                             `json:"principals"`
 	State          ServicePrivatelinkAwscreateStateType `json:"state"`
 }
@@ -308,8 +308,8 @@ func ServicePrivatelinkAwscreateStateTypeChoices() []string {
 }
 
 type ServicePrivatelinkAwsdeleteOut struct {
-	AwsServiceId   string                               `json:"aws_service_id,omitempty"`
-	AwsServiceName string                               `json:"aws_service_name,omitempty"`
+	AwsServiceId   *string                              `json:"aws_service_id,omitempty"`
+	AwsServiceName *string                              `json:"aws_service_name,omitempty"`
 	Principals     []string                             `json:"principals"`
 	State          ServicePrivatelinkAwsdeleteStateType `json:"state"`
 }
@@ -326,8 +326,8 @@ func ServicePrivatelinkAwsdeleteStateTypeChoices() []string {
 }
 
 type ServicePrivatelinkAwsgetOut struct {
-	AwsServiceId   string                            `json:"aws_service_id,omitempty"`
-	AwsServiceName string                            `json:"aws_service_name,omitempty"`
+	AwsServiceId   *string                           `json:"aws_service_id,omitempty"`
+	AwsServiceName *string                           `json:"aws_service_name,omitempty"`
 	Principals     []string                          `json:"principals"`
 	State          ServicePrivatelinkAwsgetStateType `json:"state"`
 }
@@ -347,8 +347,8 @@ type ServicePrivatelinkAwsupdateIn struct {
 	Principals []string `json:"principals"`
 }
 type ServicePrivatelinkAwsupdateOut struct {
-	AwsServiceId   string                               `json:"aws_service_id,omitempty"`
-	AwsServiceName string                               `json:"aws_service_name,omitempty"`
+	AwsServiceId   *string                              `json:"aws_service_id,omitempty"`
+	AwsServiceName *string                              `json:"aws_service_name,omitempty"`
 	Principals     []string                             `json:"principals"`
 	State          ServicePrivatelinkAwsupdateStateType `json:"state"`
 }
@@ -366,7 +366,7 @@ func ServicePrivatelinkAwsupdateStateTypeChoices() []string {
 
 type ServicePrivatelinkAzureConnectionApprovalOut struct {
 	PrivateEndpointId       string                                             `json:"private_endpoint_id"`
-	PrivatelinkConnectionId string                                             `json:"privatelink_connection_id,omitempty"`
+	PrivatelinkConnectionId *string                                            `json:"privatelink_connection_id,omitempty"`
 	State                   ServicePrivatelinkAzureConnectionApprovalStateType `json:"state"`
 	UserIpAddress           string                                             `json:"user_ip_address"`
 }
@@ -401,7 +401,7 @@ type ServicePrivatelinkAzureConnectionUpdateIn struct {
 }
 type ServicePrivatelinkAzureConnectionUpdateOut struct {
 	PrivateEndpointId       string                                     `json:"private_endpoint_id"`
-	PrivatelinkConnectionId string                                     `json:"privatelink_connection_id,omitempty"`
+	PrivatelinkConnectionId *string                                    `json:"privatelink_connection_id,omitempty"`
 	State                   ServicePrivatelinkAzureConnectionStateType `json:"state"`
 	UserIpAddress           string                                     `json:"user_ip_address"`
 }
@@ -409,20 +409,20 @@ type ServicePrivatelinkAzureCreateIn struct {
 	UserSubscriptionIds []string `json:"user_subscription_ids"`
 }
 type ServicePrivatelinkAzureCreateOut struct {
-	AzureServiceAlias   string                           `json:"azure_service_alias,omitempty"`
-	AzureServiceId      string                           `json:"azure_service_id,omitempty"`
+	AzureServiceAlias   *string                          `json:"azure_service_alias,omitempty"`
+	AzureServiceId      *string                          `json:"azure_service_id,omitempty"`
 	State               ServicePrivatelinkAzureStateType `json:"state"`
 	UserSubscriptionIds []string                         `json:"user_subscription_ids"`
 }
 type ServicePrivatelinkAzureDeleteOut struct {
-	AzureServiceAlias   string                           `json:"azure_service_alias,omitempty"`
-	AzureServiceId      string                           `json:"azure_service_id,omitempty"`
+	AzureServiceAlias   *string                          `json:"azure_service_alias,omitempty"`
+	AzureServiceId      *string                          `json:"azure_service_id,omitempty"`
 	State               ServicePrivatelinkAzureStateType `json:"state"`
 	UserSubscriptionIds []string                         `json:"user_subscription_ids"`
 }
 type ServicePrivatelinkAzureGetOut struct {
-	AzureServiceAlias   string                           `json:"azure_service_alias,omitempty"`
-	AzureServiceId      string                           `json:"azure_service_id,omitempty"`
+	AzureServiceAlias   *string                          `json:"azure_service_alias,omitempty"`
+	AzureServiceId      *string                          `json:"azure_service_id,omitempty"`
 	State               ServicePrivatelinkAzureStateType `json:"state"`
 	UserSubscriptionIds []string                         `json:"user_subscription_ids"`
 }
@@ -442,8 +442,8 @@ type ServicePrivatelinkAzureUpdateIn struct {
 	UserSubscriptionIds []string `json:"user_subscription_ids"`
 }
 type ServicePrivatelinkAzureUpdateOut struct {
-	AzureServiceAlias   string                           `json:"azure_service_alias,omitempty"`
-	AzureServiceId      string                           `json:"azure_service_id,omitempty"`
+	AzureServiceAlias   *string                          `json:"azure_service_alias,omitempty"`
+	AzureServiceId      *string                          `json:"azure_service_id,omitempty"`
 	State               ServicePrivatelinkAzureStateType `json:"state"`
 	UserSubscriptionIds []string                         `json:"user_subscription_ids"`
 }

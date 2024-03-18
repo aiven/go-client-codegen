@@ -213,7 +213,7 @@ type OrganizationAuthenticationConfigUpdateOut struct {
 type OrganizationGetOut struct {
 	AccountId                    string    `json:"account_id"`
 	CreateTime                   time.Time `json:"create_time"`
-	DefaultGovernanceUserGroupId string    `json:"default_governance_user_group_id,omitempty"`
+	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"`
 	OrganizationId               string    `json:"organization_id"`
 	OrganizationName             string    `json:"organization_name"`
 	Tier                         TierType  `json:"tier"`
@@ -222,7 +222,7 @@ type OrganizationGetOut struct {
 type OrganizationOut struct {
 	AccountId                    string    `json:"account_id"`
 	CreateTime                   time.Time `json:"create_time"`
-	DefaultGovernanceUserGroupId string    `json:"default_governance_user_group_id,omitempty"`
+	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"`
 	OrganizationId               string    `json:"organization_id"`
 	OrganizationName             string    `json:"organization_name"`
 	Tier                         TierType  `json:"tier"`
@@ -233,15 +233,15 @@ type OrganizationProjectsListOut struct {
 	TotalProjectCount *int         `json:"total_project_count,omitempty"`
 }
 type OrganizationUpdateIn struct {
-	DefaultGovernanceUserGroupId string   `json:"default_governance_user_group_id,omitempty"`
+	DefaultGovernanceUserGroupId *string  `json:"default_governance_user_group_id,omitempty"`
 	KafkaGovernanceEnabled       *bool    `json:"kafka_governance_enabled,omitempty"`
-	Name                         string   `json:"name,omitempty"`
+	Name                         *string  `json:"name,omitempty"`
 	Tier                         TierType `json:"tier,omitempty"`
 }
 type OrganizationUpdateOut struct {
 	AccountId                    string    `json:"account_id"`
 	CreateTime                   time.Time `json:"create_time"`
-	DefaultGovernanceUserGroupId string    `json:"default_governance_user_group_id,omitempty"`
+	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"`
 	OrganizationId               string    `json:"organization_id"`
 	OrganizationName             string    `json:"organization_name"`
 	Tier                         TierType  `json:"tier"`
@@ -249,35 +249,35 @@ type OrganizationUpdateOut struct {
 }
 type ProjectOut struct {
 	AccountId             string                 `json:"account_id"`
-	AccountName           string                 `json:"account_name,omitempty"`
+	AccountName           *string                `json:"account_name,omitempty"`
 	AddressLines          []string               `json:"address_lines,omitempty"`
-	AvailableCredits      string                 `json:"available_credits,omitempty"`
+	AvailableCredits      *string                `json:"available_credits,omitempty"`
 	BillingAddress        string                 `json:"billing_address"`
 	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`
 	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
-	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
+	BillingExtraText      *string                `json:"billing_extra_text,omitempty"`
 	BillingGroupId        string                 `json:"billing_group_id"`
 	BillingGroupName      string                 `json:"billing_group_name"`
 	CardInfo              *CardInfoOut           `json:"card_info,omitempty"`
-	City                  string                 `json:"city,omitempty"`
-	Company               string                 `json:"company,omitempty"`
+	City                  *string                `json:"city,omitempty"`
+	Company               *string                `json:"company,omitempty"`
 	Country               string                 `json:"country"`
 	CountryCode           string                 `json:"country_code"`
 	DefaultCloud          string                 `json:"default_cloud"`
 	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`
 	EstimatedBalance      string                 `json:"estimated_balance"`
-	EstimatedBalanceLocal string                 `json:"estimated_balance_local,omitempty"`
+	EstimatedBalanceLocal *string                `json:"estimated_balance_local,omitempty"`
 	Features              map[string]any         `json:"features,omitempty"`
 	OrganizationId        string                 `json:"organization_id"`
 	PaymentMethod         string                 `json:"payment_method"`
 	ProjectName           string                 `json:"project_name"`
-	State                 string                 `json:"state,omitempty"`
+	State                 *string                `json:"state,omitempty"`
 	Tags                  map[string]string      `json:"tags,omitempty"`
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
-	TenantId              string                 `json:"tenant_id,omitempty"`
+	TenantId              *string                `json:"tenant_id,omitempty"`
 	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
 	VatId                 string                 `json:"vat_id"`
-	ZipCode               string                 `json:"zip_code,omitempty"`
+	ZipCode               *string                `json:"zip_code,omitempty"`
 }
 type TechEmailOut struct {
 	Email string `json:"email"`
@@ -295,13 +295,13 @@ func TierTypeChoices() []string {
 
 type UserOrganizationCreateIn struct {
 	OrganizationName      string   `json:"organization_name"`
-	PrimaryBillingGroupId string   `json:"primary_billing_group_id,omitempty"`
+	PrimaryBillingGroupId *string  `json:"primary_billing_group_id,omitempty"`
 	Tier                  TierType `json:"tier"`
 }
 type UserOrganizationCreateOut struct {
 	AccountId                    string    `json:"account_id"`
 	CreateTime                   time.Time `json:"create_time"`
-	DefaultGovernanceUserGroupId string    `json:"default_governance_user_group_id,omitempty"`
+	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"`
 	OrganizationId               string    `json:"organization_id"`
 	OrganizationName             string    `json:"organization_name"`
 	Tier                         TierType  `json:"tier"`

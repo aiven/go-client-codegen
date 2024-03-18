@@ -136,7 +136,7 @@ type AccountInviteOut struct {
 	UserEmail          string    `json:"user_email"`
 }
 type AccountTeamGetOut struct {
-	AccountId  string     `json:"account_id,omitempty"`
+	AccountId  *string    `json:"account_id,omitempty"`
 	CreateTime *time.Time `json:"create_time,omitempty"`
 	TeamId     string     `json:"team_id"`
 	TeamName   string     `json:"team_name"`
@@ -149,14 +149,14 @@ type AccountTeamUpdateIn struct {
 	TeamName string `json:"team_name"`
 }
 type AccountTeamUpdateOut struct {
-	AccountId  string     `json:"account_id,omitempty"`
+	AccountId  *string    `json:"account_id,omitempty"`
 	CreateTime *time.Time `json:"create_time,omitempty"`
 	TeamId     string     `json:"team_id"`
 	TeamName   string     `json:"team_name"`
 	UpdateTime *time.Time `json:"update_time,omitempty"`
 }
 type TeamOut struct {
-	AccountId  string     `json:"account_id,omitempty"`
+	AccountId  *string    `json:"account_id,omitempty"`
 	CreateTime *time.Time `json:"create_time,omitempty"`
 	TeamId     string     `json:"team_id"`
 	TeamName   string     `json:"team_name"`

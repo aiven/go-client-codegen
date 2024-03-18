@@ -285,14 +285,14 @@ type AccountAttachPaymentMethodOut struct {
 	ExpYear        int      `json:"exp_year"`
 	Last4          string   `json:"last4"`
 	Name           string   `json:"name"`
-	OrganizationId string   `json:"organization_id,omitempty"`
+	OrganizationId *string  `json:"organization_id,omitempty"`
 	Projects       []string `json:"projects"`
 }
 type AccountBillingGroupOut struct {
 	AccountId             string              `json:"account_id"`
 	AccountName           string              `json:"account_name"`
 	AddressLines          []string            `json:"address_lines"`
-	BillingAddress        string              `json:"billing_address,omitempty"`
+	BillingAddress        *string             `json:"billing_address,omitempty"`
 	BillingCurrency       BillingCurrencyType `json:"billing_currency"`
 	BillingEmails         []BillingEmailOut   `json:"billing_emails"`
 	BillingExtraText      string              `json:"billing_extra_text"`
@@ -311,9 +311,9 @@ type AccountBillingGroupOut struct {
 	ZipCode               string              `json:"zip_code"`
 }
 type AccountCreateIn struct {
-	AccountName           string `json:"account_name"`
-	ParentAccountId       string `json:"parent_account_id,omitempty"`
-	PrimaryBillingGroupId string `json:"primary_billing_group_id,omitempty"`
+	AccountName           string  `json:"account_name"`
+	ParentAccountId       *string `json:"parent_account_id,omitempty"`
+	PrimaryBillingGroupId *string `json:"primary_billing_group_id,omitempty"`
 }
 type AccountCreateOut struct {
 	AccessSource          AccessSourceType `json:"access_source,omitempty"`
@@ -325,10 +325,10 @@ type AccountCreateOut struct {
 	IsAccountMember       *bool            `json:"is_account_member,omitempty"`
 	IsAccountOwner        bool             `json:"is_account_owner"`
 	OrganizationId        string           `json:"organization_id"`
-	ParentAccountId       string           `json:"parent_account_id,omitempty"`
+	ParentAccountId       *string          `json:"parent_account_id,omitempty"`
 	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`
 	RootAccountId         string           `json:"root_account_id"`
-	TenantId              string           `json:"tenant_id,omitempty"`
+	TenantId              *string          `json:"tenant_id,omitempty"`
 	UpdateTime            time.Time        `json:"update_time"`
 }
 type AccountGetOut struct {
@@ -341,10 +341,10 @@ type AccountGetOut struct {
 	IsAccountMember       *bool            `json:"is_account_member,omitempty"`
 	IsAccountOwner        bool             `json:"is_account_owner"`
 	OrganizationId        string           `json:"organization_id"`
-	ParentAccountId       string           `json:"parent_account_id,omitempty"`
+	ParentAccountId       *string          `json:"parent_account_id,omitempty"`
 	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`
 	RootAccountId         string           `json:"root_account_id"`
-	TenantId              string           `json:"tenant_id,omitempty"`
+	TenantId              *string          `json:"tenant_id,omitempty"`
 	UpdateTime            time.Time        `json:"update_time"`
 }
 type AccountMoveIn struct {
@@ -360,10 +360,10 @@ type AccountMoveOut struct {
 	IsAccountMember       *bool            `json:"is_account_member,omitempty"`
 	IsAccountOwner        bool             `json:"is_account_owner"`
 	OrganizationId        string           `json:"organization_id"`
-	ParentAccountId       string           `json:"parent_account_id,omitempty"`
+	ParentAccountId       *string          `json:"parent_account_id,omitempty"`
 	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`
 	RootAccountId         string           `json:"root_account_id"`
-	TenantId              string           `json:"tenant_id,omitempty"`
+	TenantId              *string          `json:"tenant_id,omitempty"`
 	UpdateTime            time.Time        `json:"update_time"`
 }
 type AccountOut struct {
@@ -376,10 +376,10 @@ type AccountOut struct {
 	IsAccountMember       *bool            `json:"is_account_member,omitempty"`
 	IsAccountOwner        bool             `json:"is_account_owner"`
 	OrganizationId        string           `json:"organization_id"`
-	ParentAccountId       string           `json:"parent_account_id,omitempty"`
+	ParentAccountId       *string          `json:"parent_account_id,omitempty"`
 	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`
 	RootAccountId         string           `json:"root_account_id"`
-	TenantId              string           `json:"tenant_id,omitempty"`
+	TenantId              *string          `json:"tenant_id,omitempty"`
 	UpdateTime            time.Time        `json:"update_time"`
 }
 type AccountProjectsListOut struct {
@@ -387,8 +387,8 @@ type AccountProjectsListOut struct {
 	TotalProjectCount *int         `json:"total_project_count,omitempty"`
 }
 type AccountUpdateIn struct {
-	AccountName           string `json:"account_name,omitempty"`
-	PrimaryBillingGroupId string `json:"primary_billing_group_id,omitempty"`
+	AccountName           *string `json:"account_name,omitempty"`
+	PrimaryBillingGroupId *string `json:"primary_billing_group_id,omitempty"`
 }
 type AccountUpdateOut struct {
 	AccessSource          AccessSourceType `json:"access_source,omitempty"`
@@ -400,16 +400,16 @@ type AccountUpdateOut struct {
 	IsAccountMember       *bool            `json:"is_account_member,omitempty"`
 	IsAccountOwner        bool             `json:"is_account_owner"`
 	OrganizationId        string           `json:"organization_id"`
-	ParentAccountId       string           `json:"parent_account_id,omitempty"`
+	ParentAccountId       *string          `json:"parent_account_id,omitempty"`
 	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`
 	RootAccountId         string           `json:"root_account_id"`
-	TenantId              string           `json:"tenant_id,omitempty"`
+	TenantId              *string          `json:"tenant_id,omitempty"`
 	UpdateTime            time.Time        `json:"update_time"`
 }
 type AccountUsersSearchIn struct {
 	Limit   *int        `json:"limit,omitempty"`
 	OrderBy OrderByType `json:"order_by,omitempty"`
-	Query   string      `json:"query,omitempty"`
+	Query   *string     `json:"query,omitempty"`
 }
 type BillingCurrencyType string
 
@@ -518,35 +518,35 @@ func PaymentMethodTypeChoices() []string {
 
 type ProjectOut struct {
 	AccountId             string                 `json:"account_id"`
-	AccountName           string                 `json:"account_name,omitempty"`
+	AccountName           *string                `json:"account_name,omitempty"`
 	AddressLines          []string               `json:"address_lines,omitempty"`
-	AvailableCredits      string                 `json:"available_credits,omitempty"`
+	AvailableCredits      *string                `json:"available_credits,omitempty"`
 	BillingAddress        string                 `json:"billing_address"`
 	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`
 	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
-	BillingExtraText      string                 `json:"billing_extra_text,omitempty"`
+	BillingExtraText      *string                `json:"billing_extra_text,omitempty"`
 	BillingGroupId        string                 `json:"billing_group_id"`
 	BillingGroupName      string                 `json:"billing_group_name"`
 	CardInfo              *CardInfoOut           `json:"card_info,omitempty"`
-	City                  string                 `json:"city,omitempty"`
-	Company               string                 `json:"company,omitempty"`
+	City                  *string                `json:"city,omitempty"`
+	Company               *string                `json:"company,omitempty"`
 	Country               string                 `json:"country"`
 	CountryCode           string                 `json:"country_code"`
 	DefaultCloud          string                 `json:"default_cloud"`
 	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`
 	EstimatedBalance      string                 `json:"estimated_balance"`
-	EstimatedBalanceLocal string                 `json:"estimated_balance_local,omitempty"`
+	EstimatedBalanceLocal *string                `json:"estimated_balance_local,omitempty"`
 	Features              map[string]any         `json:"features,omitempty"`
 	OrganizationId        string                 `json:"organization_id"`
 	PaymentMethod         string                 `json:"payment_method"`
 	ProjectName           string                 `json:"project_name"`
-	State                 string                 `json:"state,omitempty"`
+	State                 *string                `json:"state,omitempty"`
 	Tags                  map[string]string      `json:"tags,omitempty"`
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
-	TenantId              string                 `json:"tenant_id,omitempty"`
+	TenantId              *string                `json:"tenant_id,omitempty"`
 	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
 	VatId                 string                 `json:"vat_id"`
-	ZipCode               string                 `json:"zip_code,omitempty"`
+	ZipCode               *string                `json:"zip_code,omitempty"`
 }
 type TechEmailOut struct {
 	Email string `json:"email"`
@@ -557,7 +557,7 @@ type UserOut struct {
 	UserId    string `json:"user_id"`
 }
 type UserProjectOut struct {
-	AccessType  string     `json:"access_type,omitempty"`
+	AccessType  *string    `json:"access_type,omitempty"`
 	AccountId   string     `json:"account_id"`
 	CreateTime  time.Time  `json:"create_time"`
 	MemberType  MemberType `json:"member_type"`

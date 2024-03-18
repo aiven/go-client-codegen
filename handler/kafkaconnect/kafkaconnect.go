@@ -182,8 +182,8 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectResumeConnector(ctx context.Con
 }
 
 type ConfigOut struct {
-	ConnectorClass string `json:"connector.class,omitempty"`
-	Name           string `json:"name"`
+	ConnectorClass *string `json:"connector.class,omitempty"`
+	Name           string  `json:"name"`
 }
 type ConfigurationSchemaOut struct {
 	DefaultValue  string                  `json:"default_value"`
@@ -238,7 +238,7 @@ type PluginOut struct {
 	Class       string     `json:"class"`
 	DocUrl      string     `json:"docURL"`
 	Preview     *bool      `json:"preview,omitempty"`
-	PreviewInfo string     `json:"preview_info,omitempty"`
+	PreviewInfo *string    `json:"preview_info,omitempty"`
 	Title       string     `json:"title"`
 	Type        PluginType `json:"type"`
 	Version     string     `json:"version"`
@@ -269,8 +269,8 @@ func ServiceKafkaConnectConnectorStateTypeChoices() []string {
 }
 
 type ServiceKafkaConnectCreateConnectorIn struct {
-	ConnectorClass string `json:"connector.class,omitempty"`
-	Name           string `json:"name"`
+	ConnectorClass *string `json:"connector.class,omitempty"`
+	Name           string  `json:"name"`
 }
 type ServiceKafkaConnectCreateConnectorOut struct {
 	Config ConfigOut `json:"config"`
@@ -279,8 +279,8 @@ type ServiceKafkaConnectCreateConnectorOut struct {
 	Tasks  []TaskOut `json:"tasks"`
 }
 type ServiceKafkaConnectEditConnectorIn struct {
-	ConnectorClass string `json:"connector.class,omitempty"`
-	Name           string `json:"name"`
+	ConnectorClass *string `json:"connector.class,omitempty"`
+	Name           string  `json:"name"`
 }
 type ServiceKafkaConnectEditConnectorOut struct {
 	Config ConfigOut `json:"config"`

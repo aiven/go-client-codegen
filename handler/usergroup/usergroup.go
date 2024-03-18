@@ -157,6 +157,7 @@ type UserGroupCreateIn struct {
 type UserGroupCreateOut struct {
 	CreateTime    time.Time `json:"create_time"`
 	Description   string    `json:"description"`
+	ManagedByScim bool      `json:"managed_by_scim"`
 	UpdateTime    time.Time `json:"update_time"`
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
@@ -164,6 +165,7 @@ type UserGroupCreateOut struct {
 type UserGroupGetOut struct {
 	CreateTime    time.Time `json:"create_time"`
 	Description   string    `json:"description"`
+	ManagedByScim bool      `json:"managed_by_scim"`
 	UpdateTime    time.Time `json:"update_time"`
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
@@ -175,31 +177,33 @@ type UserGroupMembersUpdateIn struct {
 type UserGroupOut struct {
 	CreateTime    time.Time `json:"create_time"`
 	Description   string    `json:"description"`
+	ManagedByScim bool      `json:"managed_by_scim"`
 	MemberCount   int       `json:"member_count"`
 	UpdateTime    time.Time `json:"update_time"`
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
 }
 type UserGroupUpdateIn struct {
-	Description   string `json:"description,omitempty"`
-	UserGroupName string `json:"user_group_name,omitempty"`
+	Description   *string `json:"description,omitempty"`
+	UserGroupName *string `json:"user_group_name,omitempty"`
 }
 type UserGroupUpdateOut struct {
 	CreateTime    time.Time `json:"create_time"`
 	Description   string    `json:"description"`
+	ManagedByScim bool      `json:"managed_by_scim"`
 	UpdateTime    time.Time `json:"update_time"`
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
 }
 type UserInfoOut struct {
-	City                   string    `json:"city,omitempty"`
-	Country                string    `json:"country,omitempty"`
+	City                   *string   `json:"city,omitempty"`
+	Country                *string   `json:"country,omitempty"`
 	CreateTime             time.Time `json:"create_time"`
-	Department             string    `json:"department,omitempty"`
+	Department             *string   `json:"department,omitempty"`
 	IsApplicationUser      bool      `json:"is_application_user"`
-	JobTitle               string    `json:"job_title,omitempty"`
+	JobTitle               *string   `json:"job_title,omitempty"`
 	ManagedByScim          bool      `json:"managed_by_scim"`
-	ManagingOrganizationId string    `json:"managing_organization_id,omitempty"`
+	ManagingOrganizationId *string   `json:"managing_organization_id,omitempty"`
 	RealName               string    `json:"real_name"`
 	State                  string    `json:"state"`
 	UserEmail              string    `json:"user_email"`

@@ -116,9 +116,9 @@ type PgOut struct {
 	Version    string         `json:"version"`
 }
 type PgserviceQueryStatisticsIn struct {
-	Limit   *int   `json:"limit,omitempty"`
-	Offset  *int   `json:"offset,omitempty"`
-	OrderBy string `json:"order_by,omitempty"`
+	Limit   *int    `json:"limit,omitempty"`
+	Offset  *int    `json:"offset,omitempty"`
+	OrderBy *string `json:"order_by,omitempty"`
 }
 type PoolModeType string
 
@@ -136,7 +136,7 @@ type QueryOut struct {
 	BlkReadTime       *float64 `json:"blk_read_time,omitempty"`
 	BlkWriteTime      *float64 `json:"blk_write_time,omitempty"`
 	Calls             *float64 `json:"calls,omitempty"`
-	DatabaseName      string   `json:"database_name,omitempty"`
+	DatabaseName      *string  `json:"database_name,omitempty"`
 	LocalBlksDirtied  *float64 `json:"local_blks_dirtied,omitempty"`
 	LocalBlksHit      *float64 `json:"local_blks_hit,omitempty"`
 	LocalBlksRead     *float64 `json:"local_blks_read,omitempty"`
@@ -150,7 +150,7 @@ type QueryOut struct {
 	MinExecTime       *float64 `json:"min_exec_time,omitempty"`
 	MinPlanTime       *float64 `json:"min_plan_time,omitempty"`
 	MinTime           *float64 `json:"min_time,omitempty"`
-	Query             string   `json:"query,omitempty"`
+	Query             *string  `json:"query,omitempty"`
 	Queryid           *float64 `json:"queryid,omitempty"`
 	Rows              *float64 `json:"rows,omitempty"`
 	SharedBlksDirtied *float64 `json:"shared_blks_dirtied,omitempty"`
@@ -165,8 +165,8 @@ type QueryOut struct {
 	TotalExecTime     *float64 `json:"total_exec_time,omitempty"`
 	TotalPlanTime     *float64 `json:"total_plan_time,omitempty"`
 	TotalTime         *float64 `json:"total_time,omitempty"`
-	UserName          string   `json:"user_name,omitempty"`
-	WalBytes          string   `json:"wal_bytes,omitempty"`
+	UserName          *string  `json:"user_name,omitempty"`
+	WalBytes          *string  `json:"wal_bytes,omitempty"`
 	WalFpi            *float64 `json:"wal_fpi,omitempty"`
 	WalRecords        *float64 `json:"wal_records,omitempty"`
 }
@@ -175,13 +175,13 @@ type ServicePgbouncerCreateIn struct {
 	PoolMode PoolModeType `json:"pool_mode,omitempty"`
 	PoolName string       `json:"pool_name"`
 	PoolSize *int         `json:"pool_size,omitempty"`
-	Username string       `json:"username,omitempty"`
+	Username *string      `json:"username,omitempty"`
 }
 type ServicePgbouncerUpdateIn struct {
-	Database string       `json:"database,omitempty"`
+	Database *string      `json:"database,omitempty"`
 	PoolMode PoolModeType `json:"pool_mode,omitempty"`
 	PoolSize *int         `json:"pool_size,omitempty"`
-	Username string       `json:"username,omitempty"`
+	Username *string      `json:"username,omitempty"`
 }
 type pgAvailableExtensionsOut struct {
 	Pg []PgOut `json:"pg,omitempty"`

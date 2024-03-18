@@ -295,6 +295,7 @@ const (
 	IntegrationTypeFlink                             IntegrationType = "flink"
 	IntegrationTypeFlinkExternalBigquery             IntegrationType = "flink_external_bigquery"
 	IntegrationTypeFlinkExternalKafka                IntegrationType = "flink_external_kafka"
+	IntegrationTypeFlinkExternalPostgresql           IntegrationType = "flink_external_postgresql"
 	IntegrationTypeInternalConnectivity              IntegrationType = "internal_connectivity"
 	IntegrationTypeJolokia                           IntegrationType = "jolokia"
 	IntegrationTypeKafkaConnect                      IntegrationType = "kafka_connect"
@@ -320,7 +321,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
+	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
 }
 
 type IntegrationTypeOut struct {
@@ -347,29 +348,29 @@ func LikelyErrorCauseTypeChoices() []string {
 }
 
 type ServiceIntegrationCreateIn struct {
-	DestEndpointId   string          `json:"dest_endpoint_id,omitempty"`
-	DestProject      string          `json:"dest_project,omitempty"`
-	DestService      string          `json:"dest_service,omitempty"`
+	DestEndpointId   *string         `json:"dest_endpoint_id,omitempty"`
+	DestProject      *string         `json:"dest_project,omitempty"`
+	DestService      *string         `json:"dest_service,omitempty"`
 	IntegrationType  IntegrationType `json:"integration_type"`
-	SourceEndpointId string          `json:"source_endpoint_id,omitempty"`
-	SourceProject    string          `json:"source_project,omitempty"`
-	SourceService    string          `json:"source_service,omitempty"`
+	SourceEndpointId *string         `json:"source_endpoint_id,omitempty"`
+	SourceProject    *string         `json:"source_project,omitempty"`
+	SourceService    *string         `json:"source_service,omitempty"`
 	UserConfig       *map[string]any `json:"user_config,omitempty"`
 }
 type ServiceIntegrationCreateOut struct {
 	Active               bool                  `json:"active"`
 	Description          string                `json:"description"`
-	DestEndpoint         string                `json:"dest_endpoint,omitempty"`
-	DestEndpointId       string                `json:"dest_endpoint_id,omitempty"`
+	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`
+	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`
 	DestProject          string                `json:"dest_project"`
-	DestService          string                `json:"dest_service,omitempty"`
+	DestService          *string               `json:"dest_service,omitempty"`
 	DestServiceType      string                `json:"dest_service_type"`
 	Enabled              bool                  `json:"enabled"`
 	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"`
 	IntegrationType      string                `json:"integration_type"`
 	ServiceIntegrationId string                `json:"service_integration_id"`
-	SourceEndpoint       string                `json:"source_endpoint,omitempty"`
-	SourceEndpointId     string                `json:"source_endpoint_id,omitempty"`
+	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`
+	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"`
 	SourceProject        string                `json:"source_project"`
 	SourceService        string                `json:"source_service"`
 	SourceServiceType    string                `json:"source_service_type"`
@@ -414,17 +415,17 @@ type ServiceIntegrationEndpointUpdateOut struct {
 type ServiceIntegrationGetOut struct {
 	Active               bool                  `json:"active"`
 	Description          string                `json:"description"`
-	DestEndpoint         string                `json:"dest_endpoint,omitempty"`
-	DestEndpointId       string                `json:"dest_endpoint_id,omitempty"`
+	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`
+	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`
 	DestProject          string                `json:"dest_project"`
-	DestService          string                `json:"dest_service,omitempty"`
+	DestService          *string               `json:"dest_service,omitempty"`
 	DestServiceType      string                `json:"dest_service_type"`
 	Enabled              bool                  `json:"enabled"`
 	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"`
 	IntegrationType      string                `json:"integration_type"`
 	ServiceIntegrationId string                `json:"service_integration_id"`
-	SourceEndpoint       string                `json:"source_endpoint,omitempty"`
-	SourceEndpointId     string                `json:"source_endpoint_id,omitempty"`
+	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`
+	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"`
 	SourceProject        string                `json:"source_project"`
 	SourceService        string                `json:"source_service"`
 	SourceServiceType    string                `json:"source_service_type"`
@@ -433,17 +434,17 @@ type ServiceIntegrationGetOut struct {
 type ServiceIntegrationOut struct {
 	Active               bool                  `json:"active"`
 	Description          string                `json:"description"`
-	DestEndpoint         string                `json:"dest_endpoint,omitempty"`
-	DestEndpointId       string                `json:"dest_endpoint_id,omitempty"`
+	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`
+	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`
 	DestProject          string                `json:"dest_project"`
-	DestService          string                `json:"dest_service,omitempty"`
+	DestService          *string               `json:"dest_service,omitempty"`
 	DestServiceType      string                `json:"dest_service_type"`
 	Enabled              bool                  `json:"enabled"`
 	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"`
 	IntegrationType      string                `json:"integration_type"`
 	ServiceIntegrationId string                `json:"service_integration_id"`
-	SourceEndpoint       string                `json:"source_endpoint,omitempty"`
-	SourceEndpointId     string                `json:"source_endpoint_id,omitempty"`
+	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`
+	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"`
 	SourceProject        string                `json:"source_project"`
 	SourceService        string                `json:"source_service"`
 	SourceServiceType    string                `json:"source_service_type"`
@@ -455,17 +456,17 @@ type ServiceIntegrationUpdateIn struct {
 type ServiceIntegrationUpdateOut struct {
 	Active               bool                  `json:"active"`
 	Description          string                `json:"description"`
-	DestEndpoint         string                `json:"dest_endpoint,omitempty"`
-	DestEndpointId       string                `json:"dest_endpoint_id,omitempty"`
+	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`
+	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`
 	DestProject          string                `json:"dest_project"`
-	DestService          string                `json:"dest_service,omitempty"`
+	DestService          *string               `json:"dest_service,omitempty"`
 	DestServiceType      string                `json:"dest_service_type"`
 	Enabled              bool                  `json:"enabled"`
 	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"`
 	IntegrationType      string                `json:"integration_type"`
 	ServiceIntegrationId string                `json:"service_integration_id"`
-	SourceEndpoint       string                `json:"source_endpoint,omitempty"`
-	SourceEndpointId     string                `json:"source_endpoint_id,omitempty"`
+	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`
+	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"`
 	SourceProject        string                `json:"source_project"`
 	SourceService        string                `json:"source_service"`
 	SourceServiceType    string                `json:"source_service_type"`

@@ -348,7 +348,7 @@ func getType(s *Schema) *jen.Statement {
 
 	if s.isScalar() {
 		scalar := getScalarType(s)
-		if !s.required && s.Type != SchemaTypeString {
+		if !s.required {
 			return jen.Op("*").Add(scalar)
 		}
 

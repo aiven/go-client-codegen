@@ -90,12 +90,12 @@ func BillingGroupStateTypeChoices() []string {
 }
 
 type CreditOut struct {
-	Code           string     `json:"code,omitempty"`
+	Code           *string    `json:"code,omitempty"`
 	ExpireTime     *time.Time `json:"expire_time,omitempty"`
-	RemainingValue string     `json:"remaining_value,omitempty"`
+	RemainingValue *string    `json:"remaining_value,omitempty"`
 	StartTime      *time.Time `json:"start_time,omitempty"`
 	Type           CreditType `json:"type,omitempty"`
-	Value          string     `json:"value,omitempty"`
+	Value          *string    `json:"value,omitempty"`
 }
 type CreditType string
 
@@ -179,12 +179,12 @@ type ProjectCreditsClaimIn struct {
 	Code string `json:"code"`
 }
 type ProjectCreditsClaimOut struct {
-	Code           string     `json:"code,omitempty"`
+	Code           *string    `json:"code,omitempty"`
 	ExpireTime     *time.Time `json:"expire_time,omitempty"`
-	RemainingValue string     `json:"remaining_value,omitempty"`
+	RemainingValue *string    `json:"remaining_value,omitempty"`
 	StartTime      *time.Time `json:"start_time,omitempty"`
 	Type           CreditType `json:"type,omitempty"`
-	Value          string     `json:"value,omitempty"`
+	Value          *string    `json:"value,omitempty"`
 }
 type projectCreditsClaimOut struct {
 	Credit ProjectCreditsClaimOut `json:"credit"`

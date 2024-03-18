@@ -80,18 +80,18 @@ func (h *ClickHouseHandler) ServiceClickHouseTieredStorageSummary(ctx context.Co
 }
 
 type HourlyOut struct {
-	EstimatedCost   string `json:"estimated_cost,omitempty"`
-	HourStart       string `json:"hour_start"`
-	PeakStoredBytes int    `json:"peak_stored_bytes"`
+	EstimatedCost   *string `json:"estimated_cost,omitempty"`
+	HourStart       string  `json:"hour_start"`
+	PeakStoredBytes int     `json:"peak_stored_bytes"`
 }
 type QueryOut struct {
 	Calls      *int     `json:"calls,omitempty"`
-	Database   string   `json:"database,omitempty"`
+	Database   *string  `json:"database,omitempty"`
 	MaxTime    *int     `json:"max_time,omitempty"`
 	MeanTime   *int     `json:"mean_time,omitempty"`
 	MinTime    *int     `json:"min_time,omitempty"`
 	P95Time    *int     `json:"p95_time,omitempty"`
-	Query      string   `json:"query,omitempty"`
+	Query      *string  `json:"query,omitempty"`
 	Rows       *float64 `json:"rows,omitempty"`
 	StddevTime *int     `json:"stddev_time,omitempty"`
 	TotalTime  *int     `json:"total_time,omitempty"`
@@ -102,7 +102,7 @@ type ServiceClickHouseDatabaseCreateIn struct {
 type ServiceClickHouseTieredStorageSummaryOut struct {
 	CurrentCost         string                 `json:"current_cost"`
 	ForecastedCost      string                 `json:"forecasted_cost"`
-	ForecastedRate      string                 `json:"forecasted_rate,omitempty"`
+	ForecastedRate      *string                `json:"forecasted_rate,omitempty"`
 	StorageUsageHistory StorageUsageHistoryOut `json:"storage_usage_history"`
 	TotalStorageUsage   int                    `json:"total_storage_usage"`
 }

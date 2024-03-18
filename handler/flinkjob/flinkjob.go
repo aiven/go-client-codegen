@@ -60,7 +60,7 @@ func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project stri
 }
 
 type JobOut struct {
-	Id     string        `json:"id,omitempty"`
+	Id     *string       `json:"id,omitempty"`
 	Status JobStatusType `json:"status,omitempty"`
 }
 type JobStatusType string
@@ -87,9 +87,9 @@ type ServiceFlinkJobDetailsOut struct {
 	Duration       *int                            `json:"duration,omitempty"`
 	EndTime        *int                            `json:"end-time,omitempty"`
 	IsStoppable    *bool                           `json:"isStoppable,omitempty"`
-	Jid            string                          `json:"jid,omitempty"`
+	Jid            *string                         `json:"jid,omitempty"`
 	MaxParallelism *int                            `json:"maxParallelism,omitempty"`
-	Name           string                          `json:"name,omitempty"`
+	Name           *string                         `json:"name,omitempty"`
 	Now            *int                            `json:"now,omitempty"`
 	Plan           map[string]any                  `json:"plan,omitempty"`
 	StartTime      *int                            `json:"start-time,omitempty"`

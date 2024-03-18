@@ -128,7 +128,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicUpdate(ctx context.Context, project
 type CleanupPolicyOut struct {
 	Source   SourceType   `json:"source,omitempty"`
 	Synonyms []SynonymOut `json:"synonyms,omitempty"`
-	Value    string       `json:"value,omitempty"`
+	Value    *string      `json:"value,omitempty"`
 }
 type CleanupPolicyType string
 
@@ -391,7 +391,7 @@ type MessageOut struct {
 	Key       map[string]any `json:"key,omitempty"`
 	Offset    *int           `json:"offset,omitempty"`
 	Partition *int           `json:"partition,omitempty"`
-	Topic     string         `json:"topic,omitempty"`
+	Topic     *string        `json:"topic,omitempty"`
 	Value     map[string]any `json:"value,omitempty"`
 }
 type MessageTimestampDifferenceMaxMsOut struct {
@@ -442,10 +442,10 @@ type MinInsyncReplicasOut struct {
 	Value    *int         `json:"value,omitempty"`
 }
 type OffsetOut struct {
-	Error     string `json:"error,omitempty"`
-	ErrorCode *int   `json:"error_code,omitempty"`
-	Offset    *int   `json:"offset,omitempty"`
-	Partition *int   `json:"partition,omitempty"`
+	Error     *string `json:"error,omitempty"`
+	ErrorCode *int    `json:"error_code,omitempty"`
+	Offset    *int    `json:"offset,omitempty"`
+	Partition *int    `json:"partition,omitempty"`
 }
 type PartitionOut struct {
 	ConsumerGroups []ConsumerGroupOut `json:"consumer_groups"`
@@ -532,10 +532,10 @@ type ServiceKafkaTopicMessageListIn struct {
 }
 type ServiceKafkaTopicMessageProduceIn struct {
 	Format        FormatType `json:"format"`
-	KeySchema     string     `json:"key_schema,omitempty"`
+	KeySchema     *string    `json:"key_schema,omitempty"`
 	KeySchemaId   *int       `json:"key_schema_id,omitempty"`
 	Records       []RecordIn `json:"records"`
-	ValueSchema   string     `json:"value_schema,omitempty"`
+	ValueSchema   *string    `json:"value_schema,omitempty"`
 	ValueSchemaId *int       `json:"value_schema_id,omitempty"`
 }
 type ServiceKafkaTopicMessageProduceOut struct {
@@ -569,7 +569,7 @@ func SourceTypeChoices() []string {
 }
 
 type SynonymOut struct {
-	Name   string     `json:"name,omitempty"`
+	Name   *string    `json:"name,omitempty"`
 	Source SourceType `json:"source,omitempty"`
 	Value  *bool      `json:"value,omitempty"`
 }
