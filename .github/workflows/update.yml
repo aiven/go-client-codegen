@@ -13,13 +13,13 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
-      - uses: arduino/setup-task@v1
+      - uses: arduino/setup-task@v2
       - run: wget -O openapi.json https://api.aiven.io/doc/openapi.json
       - run: task generate
         env:
@@ -27,7 +27,7 @@ jobs:
           AIVEN_PROJECT_NAME: ${{ secrets.AIVEN_PROJECT_NAME }}
       - id: date
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-      - uses: peter-evans/create-pull-request@v4
+      - uses: peter-evans/create-pull-request@v6
         with:
           author: GitHub <noreply@github.com>
           body: >
