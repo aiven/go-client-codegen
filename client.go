@@ -6,10 +6,12 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"reflect"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/go-multierror"
@@ -128,7 +130,14 @@ func (d *aivenClient) do(ctx context.Context, method, path string, v any) (*http
 	}
 
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("User-Agent", d.UserAgent)
+	req.Header.Set(
+		"User-Agent",
+		strings.TrimSpace(fmt.Sprintf(
+			"go-client-codegen/%s %s",
+			strings.TrimLeft(Version(), "v"),
+			d.UserAgent,
+		)),
+	)
 	req.Header.Set("Authorization", "aivenv1 "+d.Token)
 
 	// TODO: BAD hack to get around pagination in most cases
