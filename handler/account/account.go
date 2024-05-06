@@ -11,72 +11,72 @@ import (
 
 type Handler interface {
 	// AccountAttachPaymentMethod attach payment method for account
-	// POST /account/{account_id}/payment_methods
+	// POST /v1/account/{account_id}/payment_methods
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAttachPaymentMethod
 	AccountAttachPaymentMethod(ctx context.Context, accountId string, in *AccountAttachPaymentMethodIn) (*AccountAttachPaymentMethodOut, error)
 
 	// AccountBillingGroupList list account billing groups
-	// GET /account/{account_id}/billing-group
+	// GET /v1/account/{account_id}/billing-group
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountBillingGroupList
 	AccountBillingGroupList(ctx context.Context, accountId string) ([]AccountBillingGroupOut, error)
 
 	// AccountCreate create a new account
-	// POST /account
+	// POST /v1/account
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountCreate
 	AccountCreate(ctx context.Context, in *AccountCreateIn) (*AccountCreateOut, error)
 
 	// AccountDelete delete empty account
-	// DELETE /account/{account_id}
+	// DELETE /v1/account/{account_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountDelete
 	AccountDelete(ctx context.Context, accountId string) error
 
 	// AccountEventList list account events
-	// GET /account/{account_id}/events
+	// GET /v1/account/{account_id}/events
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountEventList
 	AccountEventList(ctx context.Context, accountId string) ([]EventOut, error)
 
 	// AccountGet get account details
-	// GET /account/{account_id}
+	// GET /v1/account/{account_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountGet
 	AccountGet(ctx context.Context, accountId string) (*AccountGetOut, error)
 
 	// AccountList list accounts you have access to
-	// GET /account
+	// GET /v1/account
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountList
 	AccountList(ctx context.Context) ([]AccountOut, error)
 
 	// AccountMove move an existing organization unitself
-	// PUT /account/{account_id}/parent_account
+	// PUT /v1/account/{account_id}/parent_account
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountMove
 	AccountMove(ctx context.Context, accountId string, in *AccountMoveIn) (*AccountMoveOut, error)
 
 	// AccountPaymentMethodDelete delete credit card attached to the account as a payment method
-	// DELETE /account/{account_id}/payment_method/{card_id}
+	// DELETE /v1/account/{account_id}/payment_method/{card_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountPaymentMethodDelete
 	AccountPaymentMethodDelete(ctx context.Context, accountId string, cardId string) error
 
 	// AccountPaymentMethodsList list credit cards attached as a payment method to the account
-	// GET /account/{account_id}/payment_methods
+	// GET /v1/account/{account_id}/payment_methods
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountPaymentMethodsList
 	AccountPaymentMethodsList(ctx context.Context, accountId string) ([]CardOut, error)
 
 	// AccountProjectsList list projects belonging to account
-	// GET /account/{account_id}/projects
+	// GET /v1/account/{account_id}/projects
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountProjectsList
 	AccountProjectsList(ctx context.Context, accountId string) (*AccountProjectsListOut, error)
 
 	// AccountUpdate update existing account
-	// PUT /account/{account_id}
+	// PUT /v1/account/{account_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUpdate
 	AccountUpdate(ctx context.Context, accountId string, in *AccountUpdateIn) (*AccountUpdateOut, error)
 
 	// AccountUserProjectsList list projects associated with this account that user has access to
-	// GET /account/{account_id}/user/{user_id}/projects
+	// GET /v1/account/{account_id}/user/{user_id}/projects
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUserProjectsList
 	AccountUserProjectsList(ctx context.Context, accountId string, userId string) ([]UserProjectOut, error)
 
 	// AccountUsersSearch list/search users who are members of any team on this account
-	// POST /account/{account_id}/users/search
+	// POST /v1/account/{account_id}/users/search
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUsersSearch
 	AccountUsersSearch(ctx context.Context, accountId string, in *AccountUsersSearchIn) ([]UserOut, error)
 }
@@ -94,7 +94,7 @@ type AccountHandler struct {
 }
 
 func (h *AccountHandler) AccountAttachPaymentMethod(ctx context.Context, accountId string, in *AccountAttachPaymentMethodIn) (*AccountAttachPaymentMethodOut, error) {
-	path := fmt.Sprintf("/account/%s/payment_methods", accountId)
+	path := fmt.Sprintf("/v1/account/%s/payment_methods", accountId)
 	b, err := h.doer.Do(ctx, "AccountAttachPaymentMethod", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -107,7 +107,7 @@ func (h *AccountHandler) AccountAttachPaymentMethod(ctx context.Context, account
 	return &out.Card, nil
 }
 func (h *AccountHandler) AccountBillingGroupList(ctx context.Context, accountId string) ([]AccountBillingGroupOut, error) {
-	path := fmt.Sprintf("/account/%s/billing-group", accountId)
+	path := fmt.Sprintf("/v1/account/%s/billing-group", accountId)
 	b, err := h.doer.Do(ctx, "AccountBillingGroupList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -120,7 +120,7 @@ func (h *AccountHandler) AccountBillingGroupList(ctx context.Context, accountId 
 	return out.AccountBillingGroups, nil
 }
 func (h *AccountHandler) AccountCreate(ctx context.Context, in *AccountCreateIn) (*AccountCreateOut, error) {
-	path := fmt.Sprintf("/account")
+	path := fmt.Sprintf("/v1/account")
 	b, err := h.doer.Do(ctx, "AccountCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -133,12 +133,12 @@ func (h *AccountHandler) AccountCreate(ctx context.Context, in *AccountCreateIn)
 	return &out.Account, nil
 }
 func (h *AccountHandler) AccountDelete(ctx context.Context, accountId string) error {
-	path := fmt.Sprintf("/account/%s", accountId)
+	path := fmt.Sprintf("/v1/account/%s", accountId)
 	_, err := h.doer.Do(ctx, "AccountDelete", "DELETE", path, nil)
 	return err
 }
 func (h *AccountHandler) AccountEventList(ctx context.Context, accountId string) ([]EventOut, error) {
-	path := fmt.Sprintf("/account/%s/events", accountId)
+	path := fmt.Sprintf("/v1/account/%s/events", accountId)
 	b, err := h.doer.Do(ctx, "AccountEventList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -151,7 +151,7 @@ func (h *AccountHandler) AccountEventList(ctx context.Context, accountId string)
 	return out.Events, nil
 }
 func (h *AccountHandler) AccountGet(ctx context.Context, accountId string) (*AccountGetOut, error) {
-	path := fmt.Sprintf("/account/%s", accountId)
+	path := fmt.Sprintf("/v1/account/%s", accountId)
 	b, err := h.doer.Do(ctx, "AccountGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -164,7 +164,7 @@ func (h *AccountHandler) AccountGet(ctx context.Context, accountId string) (*Acc
 	return &out.Account, nil
 }
 func (h *AccountHandler) AccountList(ctx context.Context) ([]AccountOut, error) {
-	path := fmt.Sprintf("/account")
+	path := fmt.Sprintf("/v1/account")
 	b, err := h.doer.Do(ctx, "AccountList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -177,7 +177,7 @@ func (h *AccountHandler) AccountList(ctx context.Context) ([]AccountOut, error) 
 	return out.Accounts, nil
 }
 func (h *AccountHandler) AccountMove(ctx context.Context, accountId string, in *AccountMoveIn) (*AccountMoveOut, error) {
-	path := fmt.Sprintf("/account/%s/parent_account", accountId)
+	path := fmt.Sprintf("/v1/account/%s/parent_account", accountId)
 	b, err := h.doer.Do(ctx, "AccountMove", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -190,12 +190,12 @@ func (h *AccountHandler) AccountMove(ctx context.Context, accountId string, in *
 	return &out.Account, nil
 }
 func (h *AccountHandler) AccountPaymentMethodDelete(ctx context.Context, accountId string, cardId string) error {
-	path := fmt.Sprintf("/account/%s/payment_method/%s", accountId, cardId)
+	path := fmt.Sprintf("/v1/account/%s/payment_method/%s", accountId, cardId)
 	_, err := h.doer.Do(ctx, "AccountPaymentMethodDelete", "DELETE", path, nil)
 	return err
 }
 func (h *AccountHandler) AccountPaymentMethodsList(ctx context.Context, accountId string) ([]CardOut, error) {
-	path := fmt.Sprintf("/account/%s/payment_methods", accountId)
+	path := fmt.Sprintf("/v1/account/%s/payment_methods", accountId)
 	b, err := h.doer.Do(ctx, "AccountPaymentMethodsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -208,7 +208,7 @@ func (h *AccountHandler) AccountPaymentMethodsList(ctx context.Context, accountI
 	return out.Cards, nil
 }
 func (h *AccountHandler) AccountProjectsList(ctx context.Context, accountId string) (*AccountProjectsListOut, error) {
-	path := fmt.Sprintf("/account/%s/projects", accountId)
+	path := fmt.Sprintf("/v1/account/%s/projects", accountId)
 	b, err := h.doer.Do(ctx, "AccountProjectsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -221,7 +221,7 @@ func (h *AccountHandler) AccountProjectsList(ctx context.Context, accountId stri
 	return out, nil
 }
 func (h *AccountHandler) AccountUpdate(ctx context.Context, accountId string, in *AccountUpdateIn) (*AccountUpdateOut, error) {
-	path := fmt.Sprintf("/account/%s", accountId)
+	path := fmt.Sprintf("/v1/account/%s", accountId)
 	b, err := h.doer.Do(ctx, "AccountUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -234,7 +234,7 @@ func (h *AccountHandler) AccountUpdate(ctx context.Context, accountId string, in
 	return &out.Account, nil
 }
 func (h *AccountHandler) AccountUserProjectsList(ctx context.Context, accountId string, userId string) ([]UserProjectOut, error) {
-	path := fmt.Sprintf("/account/%s/user/%s/projects", accountId, userId)
+	path := fmt.Sprintf("/v1/account/%s/user/%s/projects", accountId, userId)
 	b, err := h.doer.Do(ctx, "AccountUserProjectsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -247,7 +247,7 @@ func (h *AccountHandler) AccountUserProjectsList(ctx context.Context, accountId 
 	return out.UserProjects, nil
 }
 func (h *AccountHandler) AccountUsersSearch(ctx context.Context, accountId string, in *AccountUsersSearchIn) ([]UserOut, error) {
-	path := fmt.Sprintf("/account/%s/users/search", accountId)
+	path := fmt.Sprintf("/v1/account/%s/users/search", accountId)
 	b, err := h.doer.Do(ctx, "AccountUsersSearch", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -303,6 +303,7 @@ type AccountBillingGroupOut struct {
 	Company               string              `json:"company"`
 	Country               string              `json:"country"`
 	CountryCode           string              `json:"country_code"`
+	CreateTime            time.Time           `json:"create_time"`
 	EstimatedBalanceLocal string              `json:"estimated_balance_local"`
 	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`
 	PaymentMethod         PaymentMethodType   `json:"payment_method"`

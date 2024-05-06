@@ -11,22 +11,22 @@ import (
 
 type Handler interface {
 	// ServiceFlinkCreateApplicationVersion create a Flink ApplicationVersion
-	// POST /project/{project}/service/{service_name}/flink/application/{application_id}/version
+	// POST /v1/project/{project}/service/{service_name}/flink/application/{application_id}/version
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCreateApplicationVersion
 	ServiceFlinkCreateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateApplicationVersionIn) (*ServiceFlinkCreateApplicationVersionOut, error)
 
 	// ServiceFlinkDeleteApplicationVersion delete a Flink ApplicationVersion
-	// DELETE /project/{project}/service/{service_name}/flink/application/{application_id}/version/{application_version_id}
+	// DELETE /v1/project/{project}/service/{service_name}/flink/application/{application_id}/version/{application_version_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkDeleteApplicationVersion
 	ServiceFlinkDeleteApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkDeleteApplicationVersionOut, error)
 
 	// ServiceFlinkGetApplicationVersion get a Flink ApplicationVersion
-	// GET /project/{project}/service/{service_name}/flink/application/{application_id}/version/{application_version_id}
+	// GET /v1/project/{project}/service/{service_name}/flink/application/{application_id}/version/{application_version_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkGetApplicationVersion
 	ServiceFlinkGetApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkGetApplicationVersionOut, error)
 
 	// ServiceFlinkValidateApplicationVersion validate a Flink ApplicationVersion
-	// POST /project/{project}/service/{service_name}/flink/application/{application_id}/version/validate
+	// POST /v1/project/{project}/service/{service_name}/flink/application/{application_id}/version/validate
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkValidateApplicationVersion
 	ServiceFlinkValidateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkValidateApplicationVersionIn) (*ServiceFlinkValidateApplicationVersionOut, error)
 }
@@ -44,7 +44,7 @@ type FlinkApplicationVersionHandler struct {
 }
 
 func (h *FlinkApplicationVersionHandler) ServiceFlinkCreateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateApplicationVersionIn) (*ServiceFlinkCreateApplicationVersionOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/version", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/version", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkCreateApplicationVersion", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -57,7 +57,7 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkCreateApplicationVersion(ct
 	return out, nil
 }
 func (h *FlinkApplicationVersionHandler) ServiceFlinkDeleteApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkDeleteApplicationVersionOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/version/%s", project, serviceName, applicationId, applicationVersionId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/version/%s", project, serviceName, applicationId, applicationVersionId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkDeleteApplicationVersion", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -70,7 +70,7 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkDeleteApplicationVersion(ct
 	return out, nil
 }
 func (h *FlinkApplicationVersionHandler) ServiceFlinkGetApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkGetApplicationVersionOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/version/%s", project, serviceName, applicationId, applicationVersionId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/version/%s", project, serviceName, applicationId, applicationVersionId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkGetApplicationVersion", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -83,7 +83,7 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkGetApplicationVersion(ctx c
 	return out, nil
 }
 func (h *FlinkApplicationVersionHandler) ServiceFlinkValidateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkValidateApplicationVersionIn) (*ServiceFlinkValidateApplicationVersionOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/version/validate", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/version/validate", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkValidateApplicationVersion", "POST", path, in)
 	if err != nil {
 		return nil, err

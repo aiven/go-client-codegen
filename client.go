@@ -52,11 +52,13 @@ func NewClient(opts ...Option) (Client, error) {
 		return nil, errTokenIsRequired
 	}
 
+	// Removes trailing / so it is easier later Host + URL
+	d.Host = strings.TrimSuffix(d.Host, "/")
 	return newClient(d), nil
 }
 
 type aivenClient struct {
-	Host      string `envconfig:"AIVEN_WEB_URL" default:"https://api.aiven.io/v1"`
+	Host      string `envconfig:"AIVEN_WEB_URL" default:"https://api.aiven.io"`
 	UserAgent string `envconfig:"AIVEN_USER_AGENT" default:"aiven-go-client/v3"`
 	Token     string `envconfig:"AIVEN_TOKEN"`
 	Debug     bool   `envconfig:"AIVEN_DEBUG"`

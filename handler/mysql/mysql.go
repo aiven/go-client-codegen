@@ -10,7 +10,7 @@ import (
 
 type Handler interface {
 	// MySQLServiceQueryStatistics fetch MySQL service query statistics
-	// POST /project/{project}/service/{service_name}/mysql/query/stats
+	// POST /v1/project/{project}/service/{service_name}/mysql/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_MySQL/operation/MySQLServiceQueryStatistics
 	MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]QueryOut, error)
 }
@@ -28,7 +28,7 @@ type MySQLHandler struct {
 }
 
 func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]QueryOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/mysql/query/stats", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/mysql/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "MySQLServiceQueryStatistics", "POST", path, in)
 	if err != nil {
 		return nil, err

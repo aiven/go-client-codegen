@@ -11,47 +11,47 @@ import (
 
 type Handler interface {
 	// VpcCreate create a VPC in a cloud for the project
-	// POST /project/{project}/vpcs
+	// POST /v1/project/{project}/vpcs
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcCreate
 	VpcCreate(ctx context.Context, project string, in *VpcCreateIn) (*VpcCreateOut, error)
 
 	// VpcDelete delete a project VPC
-	// DELETE /project/{project}/vpcs/{project_vpc_id}
+	// DELETE /v1/project/{project}/vpcs/{project_vpc_id}
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcDelete
 	VpcDelete(ctx context.Context, project string, projectVpcId string) (*VpcDeleteOut, error)
 
 	// VpcGet get VPC information
-	// GET /project/{project}/vpcs/{project_vpc_id}
+	// GET /v1/project/{project}/vpcs/{project_vpc_id}
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcGet
 	VpcGet(ctx context.Context, project string, projectVpcId string) (*VpcGetOut, error)
 
 	// VpcList list VPCs for a project
-	// GET /project/{project}/vpcs
+	// GET /v1/project/{project}/vpcs
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcList
 	VpcList(ctx context.Context, project string) ([]VpcOut, error)
 
 	// VpcPeeringConnectionCreate create a peering connection for a project VPC
-	// POST /project/{project}/vpcs/{project_vpc_id}/peering-connections
+	// POST /v1/project/{project}/vpcs/{project_vpc_id}/peering-connections
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcPeeringConnectionCreate
 	VpcPeeringConnectionCreate(ctx context.Context, project string, projectVpcId string, in *VpcPeeringConnectionCreateIn) (*VpcPeeringConnectionCreateOut, error)
 
 	// VpcPeeringConnectionDelete delete a peering connection for a project VPC
-	// DELETE /project/{project}/vpcs/{project_vpc_id}/peering-connections/peer-accounts/{peer_cloud_account}/peer-vpcs/{peer_vpc}
+	// DELETE /v1/project/{project}/vpcs/{project_vpc_id}/peering-connections/peer-accounts/{peer_cloud_account}/peer-vpcs/{peer_vpc}
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcPeeringConnectionDelete
 	VpcPeeringConnectionDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerVpc string) (*VpcPeeringConnectionDeleteOut, error)
 
 	// VpcPeeringConnectionUpdate update user-defined peer network CIDRs for a project VPC
-	// PUT /project/{project}/vpcs/{project_vpc_id}/user-peer-network-cidrs
+	// PUT /v1/project/{project}/vpcs/{project_vpc_id}/user-peer-network-cidrs
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcPeeringConnectionUpdate
 	VpcPeeringConnectionUpdate(ctx context.Context, project string, projectVpcId string, in *VpcPeeringConnectionUpdateIn) (*VpcPeeringConnectionUpdateOut, error)
 
 	// VpcPeeringConnectionWithRegionDelete delete a peering connection for a project VPC
-	// DELETE /project/{project}/vpcs/{project_vpc_id}/peering-connections/peer-accounts/{peer_cloud_account}/peer-vpcs/{peer_vpc}/peer-regions/{peer_region}
+	// DELETE /v1/project/{project}/vpcs/{project_vpc_id}/peering-connections/peer-accounts/{peer_cloud_account}/peer-vpcs/{peer_vpc}/peer-regions/{peer_region}
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcPeeringConnectionWithRegionDelete
 	VpcPeeringConnectionWithRegionDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerVpc string, peerRegion string) (*VpcPeeringConnectionWithRegionDeleteOut, error)
 
 	// VpcPeeringConnectionWithResourceGroupDelete delete a peering connection for a project VPC
-	// DELETE /project/{project}/vpcs/{project_vpc_id}/peering-connections/peer-accounts/{peer_cloud_account}/peer-resource-groups/{peer_resource_group}/peer-vpcs/{peer_vpc}
+	// DELETE /v1/project/{project}/vpcs/{project_vpc_id}/peering-connections/peer-accounts/{peer_cloud_account}/peer-resource-groups/{peer_resource_group}/peer-vpcs/{peer_vpc}
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcPeeringConnectionWithResourceGroupDelete
 	VpcPeeringConnectionWithResourceGroupDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerResourceGroup string, peerVpc string) (*VpcPeeringConnectionWithResourceGroupDeleteOut, error)
 }
@@ -69,7 +69,7 @@ type VpcHandler struct {
 }
 
 func (h *VpcHandler) VpcCreate(ctx context.Context, project string, in *VpcCreateIn) (*VpcCreateOut, error) {
-	path := fmt.Sprintf("/project/%s/vpcs", project)
+	path := fmt.Sprintf("/v1/project/%s/vpcs", project)
 	b, err := h.doer.Do(ctx, "VpcCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -82,7 +82,7 @@ func (h *VpcHandler) VpcCreate(ctx context.Context, project string, in *VpcCreat
 	return out, nil
 }
 func (h *VpcHandler) VpcDelete(ctx context.Context, project string, projectVpcId string) (*VpcDeleteOut, error) {
-	path := fmt.Sprintf("/project/%s/vpcs/%s", project, projectVpcId)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s", project, projectVpcId)
 	b, err := h.doer.Do(ctx, "VpcDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -95,7 +95,7 @@ func (h *VpcHandler) VpcDelete(ctx context.Context, project string, projectVpcId
 	return out, nil
 }
 func (h *VpcHandler) VpcGet(ctx context.Context, project string, projectVpcId string) (*VpcGetOut, error) {
-	path := fmt.Sprintf("/project/%s/vpcs/%s", project, projectVpcId)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s", project, projectVpcId)
 	b, err := h.doer.Do(ctx, "VpcGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -108,7 +108,7 @@ func (h *VpcHandler) VpcGet(ctx context.Context, project string, projectVpcId st
 	return out, nil
 }
 func (h *VpcHandler) VpcList(ctx context.Context, project string) ([]VpcOut, error) {
-	path := fmt.Sprintf("/project/%s/vpcs", project)
+	path := fmt.Sprintf("/v1/project/%s/vpcs", project)
 	b, err := h.doer.Do(ctx, "VpcList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -121,7 +121,7 @@ func (h *VpcHandler) VpcList(ctx context.Context, project string) ([]VpcOut, err
 	return out.Vpcs, nil
 }
 func (h *VpcHandler) VpcPeeringConnectionCreate(ctx context.Context, project string, projectVpcId string, in *VpcPeeringConnectionCreateIn) (*VpcPeeringConnectionCreateOut, error) {
-	path := fmt.Sprintf("/project/%s/vpcs/%s/peering-connections", project, projectVpcId)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/peering-connections", project, projectVpcId)
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -134,7 +134,7 @@ func (h *VpcHandler) VpcPeeringConnectionCreate(ctx context.Context, project str
 	return out, nil
 }
 func (h *VpcHandler) VpcPeeringConnectionDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerVpc string) (*VpcPeeringConnectionDeleteOut, error) {
-	path := fmt.Sprintf("/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-vpcs/%s", project, projectVpcId, peerCloudAccount, peerVpc)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-vpcs/%s", project, projectVpcId, peerCloudAccount, peerVpc)
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -147,7 +147,7 @@ func (h *VpcHandler) VpcPeeringConnectionDelete(ctx context.Context, project str
 	return out, nil
 }
 func (h *VpcHandler) VpcPeeringConnectionUpdate(ctx context.Context, project string, projectVpcId string, in *VpcPeeringConnectionUpdateIn) (*VpcPeeringConnectionUpdateOut, error) {
-	path := fmt.Sprintf("/project/%s/vpcs/%s/user-peer-network-cidrs", project, projectVpcId)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/user-peer-network-cidrs", project, projectVpcId)
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -160,7 +160,7 @@ func (h *VpcHandler) VpcPeeringConnectionUpdate(ctx context.Context, project str
 	return out, nil
 }
 func (h *VpcHandler) VpcPeeringConnectionWithRegionDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerVpc string, peerRegion string) (*VpcPeeringConnectionWithRegionDeleteOut, error) {
-	path := fmt.Sprintf("/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-vpcs/%s/peer-regions/%s", project, projectVpcId, peerCloudAccount, peerVpc, peerRegion)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-vpcs/%s/peer-regions/%s", project, projectVpcId, peerCloudAccount, peerVpc, peerRegion)
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionWithRegionDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -173,7 +173,7 @@ func (h *VpcHandler) VpcPeeringConnectionWithRegionDelete(ctx context.Context, p
 	return out, nil
 }
 func (h *VpcHandler) VpcPeeringConnectionWithResourceGroupDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerResourceGroup string, peerVpc string) (*VpcPeeringConnectionWithResourceGroupDeleteOut, error) {
-	path := fmt.Sprintf("/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-resource-groups/%s/peer-vpcs/%s", project, projectVpcId, peerCloudAccount, peerResourceGroup, peerVpc)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-resource-groups/%s/peer-vpcs/%s", project, projectVpcId, peerCloudAccount, peerResourceGroup, peerVpc)
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionWithResourceGroupDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err

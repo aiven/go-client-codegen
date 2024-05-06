@@ -11,37 +11,37 @@ import (
 
 type Handler interface {
 	// UserGroupCreate create a group
-	// POST /organization/{organization_id}/user-groups
+	// POST /v1/organization/{organization_id}/user-groups
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupCreate
 	UserGroupCreate(ctx context.Context, organizationId string, in *UserGroupCreateIn) (*UserGroupCreateOut, error)
 
 	// UserGroupDelete delete a group
-	// DELETE /organization/{organization_id}/user-groups/{user_group_id}
+	// DELETE /v1/organization/{organization_id}/user-groups/{user_group_id}
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupDelete
 	UserGroupDelete(ctx context.Context, organizationId string, userGroupId string) error
 
 	// UserGroupGet retrieve a group
-	// GET /organization/{organization_id}/user-groups/{user_group_id}
+	// GET /v1/organization/{organization_id}/user-groups/{user_group_id}
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupGet
 	UserGroupGet(ctx context.Context, organizationId string, userGroupId string) (*UserGroupGetOut, error)
 
 	// UserGroupMemberList list group members
-	// GET /organization/{organization_id}/user-groups/{user_group_id}/members
+	// GET /v1/organization/{organization_id}/user-groups/{user_group_id}/members
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupMemberList
 	UserGroupMemberList(ctx context.Context, organizationId string, userGroupId string) ([]MemberOut, error)
 
 	// UserGroupMembersUpdate add or remove group members
-	// PATCH /organization/{organization_id}/user-groups/{user_group_id}/members
+	// PATCH /v1/organization/{organization_id}/user-groups/{user_group_id}/members
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupMembersUpdate
 	UserGroupMembersUpdate(ctx context.Context, organizationId string, userGroupId string, in *UserGroupMembersUpdateIn) error
 
 	// UserGroupUpdate update a group
-	// PATCH /organization/{organization_id}/user-groups/{user_group_id}
+	// PATCH /v1/organization/{organization_id}/user-groups/{user_group_id}
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupUpdate
 	UserGroupUpdate(ctx context.Context, organizationId string, userGroupId string, in *UserGroupUpdateIn) (*UserGroupUpdateOut, error)
 
 	// UserGroupsList list groups
-	// GET /organization/{organization_id}/user-groups
+	// GET /v1/organization/{organization_id}/user-groups
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupsList
 	UserGroupsList(ctx context.Context, organizationId string) ([]UserGroupOut, error)
 }
@@ -59,7 +59,7 @@ type UserGroupHandler struct {
 }
 
 func (h *UserGroupHandler) UserGroupCreate(ctx context.Context, organizationId string, in *UserGroupCreateIn) (*UserGroupCreateOut, error) {
-	path := fmt.Sprintf("/organization/%s/user-groups", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups", organizationId)
 	b, err := h.doer.Do(ctx, "UserGroupCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -72,12 +72,12 @@ func (h *UserGroupHandler) UserGroupCreate(ctx context.Context, organizationId s
 	return out, nil
 }
 func (h *UserGroupHandler) UserGroupDelete(ctx context.Context, organizationId string, userGroupId string) error {
-	path := fmt.Sprintf("/organization/%s/user-groups/%s", organizationId, userGroupId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s", organizationId, userGroupId)
 	_, err := h.doer.Do(ctx, "UserGroupDelete", "DELETE", path, nil)
 	return err
 }
 func (h *UserGroupHandler) UserGroupGet(ctx context.Context, organizationId string, userGroupId string) (*UserGroupGetOut, error) {
-	path := fmt.Sprintf("/organization/%s/user-groups/%s", organizationId, userGroupId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s", organizationId, userGroupId)
 	b, err := h.doer.Do(ctx, "UserGroupGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (h *UserGroupHandler) UserGroupGet(ctx context.Context, organizationId stri
 	return out, nil
 }
 func (h *UserGroupHandler) UserGroupMemberList(ctx context.Context, organizationId string, userGroupId string) ([]MemberOut, error) {
-	path := fmt.Sprintf("/organization/%s/user-groups/%s/members", organizationId, userGroupId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s/members", organizationId, userGroupId)
 	b, err := h.doer.Do(ctx, "UserGroupMemberList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -103,12 +103,12 @@ func (h *UserGroupHandler) UserGroupMemberList(ctx context.Context, organization
 	return out.Members, nil
 }
 func (h *UserGroupHandler) UserGroupMembersUpdate(ctx context.Context, organizationId string, userGroupId string, in *UserGroupMembersUpdateIn) error {
-	path := fmt.Sprintf("/organization/%s/user-groups/%s/members", organizationId, userGroupId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s/members", organizationId, userGroupId)
 	_, err := h.doer.Do(ctx, "UserGroupMembersUpdate", "PATCH", path, in)
 	return err
 }
 func (h *UserGroupHandler) UserGroupUpdate(ctx context.Context, organizationId string, userGroupId string, in *UserGroupUpdateIn) (*UserGroupUpdateOut, error) {
-	path := fmt.Sprintf("/organization/%s/user-groups/%s", organizationId, userGroupId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s", organizationId, userGroupId)
 	b, err := h.doer.Do(ctx, "UserGroupUpdate", "PATCH", path, in)
 	if err != nil {
 		return nil, err
@@ -121,7 +121,7 @@ func (h *UserGroupHandler) UserGroupUpdate(ctx context.Context, organizationId s
 	return out, nil
 }
 func (h *UserGroupHandler) UserGroupsList(ctx context.Context, organizationId string) ([]UserGroupOut, error) {
-	path := fmt.Sprintf("/organization/%s/user-groups", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups", organizationId)
 	b, err := h.doer.Do(ctx, "UserGroupsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -157,6 +157,7 @@ type UserGroupCreateIn struct {
 type UserGroupCreateOut struct {
 	CreateTime    time.Time `json:"create_time"`
 	Description   string    `json:"description"`
+	ManagedByScim bool      `json:"managed_by_scim"`
 	UpdateTime    time.Time `json:"update_time"`
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
@@ -164,6 +165,7 @@ type UserGroupCreateOut struct {
 type UserGroupGetOut struct {
 	CreateTime    time.Time `json:"create_time"`
 	Description   string    `json:"description"`
+	ManagedByScim bool      `json:"managed_by_scim"`
 	UpdateTime    time.Time `json:"update_time"`
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
@@ -175,6 +177,7 @@ type UserGroupMembersUpdateIn struct {
 type UserGroupOut struct {
 	CreateTime    time.Time `json:"create_time"`
 	Description   string    `json:"description"`
+	ManagedByScim bool      `json:"managed_by_scim"`
 	MemberCount   int       `json:"member_count"`
 	UpdateTime    time.Time `json:"update_time"`
 	UserGroupId   string    `json:"user_group_id"`
@@ -187,6 +190,7 @@ type UserGroupUpdateIn struct {
 type UserGroupUpdateOut struct {
 	CreateTime    time.Time `json:"create_time"`
 	Description   string    `json:"description"`
+	ManagedByScim bool      `json:"managed_by_scim"`
 	UpdateTime    time.Time `json:"update_time"`
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`

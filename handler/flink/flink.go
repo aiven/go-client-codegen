@@ -10,7 +10,7 @@ import (
 
 type Handler interface {
 	// ServiceFlinkOverview get a cluster overview
-	// GET /project/{project}/service/{service_name}/flink/overview
+	// GET /v1/project/{project}/service/{service_name}/flink/overview
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkOverview
 	ServiceFlinkOverview(ctx context.Context, project string, serviceName string) (*ServiceFlinkOverviewOut, error)
 }
@@ -28,7 +28,7 @@ type FlinkHandler struct {
 }
 
 func (h *FlinkHandler) ServiceFlinkOverview(ctx context.Context, project string, serviceName string) (*ServiceFlinkOverviewOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/overview", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/overview", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkOverview", "GET", path, nil)
 	if err != nil {
 		return nil, err

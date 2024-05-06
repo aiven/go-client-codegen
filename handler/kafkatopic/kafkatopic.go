@@ -10,37 +10,37 @@ import (
 
 type Handler interface {
 	// ServiceKafkaTopicCreate create a Kafka topic
-	// POST /project/{project}/service/{service_name}/topic
+	// POST /v1/project/{project}/service/{service_name}/topic
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicCreate
 	ServiceKafkaTopicCreate(ctx context.Context, project string, serviceName string, in *ServiceKafkaTopicCreateIn) error
 
 	// ServiceKafkaTopicDelete delete a Kafka topic
-	// DELETE /project/{project}/service/{service_name}/topic/{topic_name}
+	// DELETE /v1/project/{project}/service/{service_name}/topic/{topic_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicDelete
 	ServiceKafkaTopicDelete(ctx context.Context, project string, serviceName string, topicName string) error
 
 	// ServiceKafkaTopicGet get Kafka topic info
-	// GET /project/{project}/service/{service_name}/topic/{topic_name}
+	// GET /v1/project/{project}/service/{service_name}/topic/{topic_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicGet
 	ServiceKafkaTopicGet(ctx context.Context, project string, serviceName string, topicName string) (*ServiceKafkaTopicGetOut, error)
 
 	// ServiceKafkaTopicList get Kafka topic list
-	// GET /project/{project}/service/{service_name}/topic
+	// GET /v1/project/{project}/service/{service_name}/topic
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicList
 	ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicOut, error)
 
 	// ServiceKafkaTopicMessageList list kafka topic messages
-	// POST /project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/messages
+	// POST /v1/project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/messages
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicMessageList
 	ServiceKafkaTopicMessageList(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageListIn) ([]MessageOut, error)
 
 	// ServiceKafkaTopicMessageProduce produce message into a kafka topic
-	// POST /project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/produce
+	// POST /v1/project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/produce
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicMessageProduce
 	ServiceKafkaTopicMessageProduce(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageProduceIn) (*ServiceKafkaTopicMessageProduceOut, error)
 
 	// ServiceKafkaTopicUpdate update a Kafka topic
-	// PUT /project/{project}/service/{service_name}/topic/{topic_name}
+	// PUT /v1/project/{project}/service/{service_name}/topic/{topic_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicUpdate
 	ServiceKafkaTopicUpdate(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicUpdateIn) error
 }
@@ -58,17 +58,17 @@ type KafkaTopicHandler struct {
 }
 
 func (h *KafkaTopicHandler) ServiceKafkaTopicCreate(ctx context.Context, project string, serviceName string, in *ServiceKafkaTopicCreateIn) error {
-	path := fmt.Sprintf("/project/%s/service/%s/topic", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/topic", project, serviceName)
 	_, err := h.doer.Do(ctx, "ServiceKafkaTopicCreate", "POST", path, in)
 	return err
 }
 func (h *KafkaTopicHandler) ServiceKafkaTopicDelete(ctx context.Context, project string, serviceName string, topicName string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/topic/%s", project, serviceName, topicName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/topic/%s", project, serviceName, topicName)
 	_, err := h.doer.Do(ctx, "ServiceKafkaTopicDelete", "DELETE", path, nil)
 	return err
 }
 func (h *KafkaTopicHandler) ServiceKafkaTopicGet(ctx context.Context, project string, serviceName string, topicName string) (*ServiceKafkaTopicGetOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/topic/%s", project, serviceName, topicName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/topic/%s", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -81,7 +81,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicGet(ctx context.Context, project st
 	return &out.Topic, nil
 }
 func (h *KafkaTopicHandler) ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/topic", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/topic", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -94,7 +94,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicList(ctx context.Context, project s
 	return out.Topics, nil
 }
 func (h *KafkaTopicHandler) ServiceKafkaTopicMessageList(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageListIn) ([]MessageOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/kafka/rest/topics/%s/messages", project, serviceName, topicName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/rest/topics/%s/messages", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicMessageList", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -107,7 +107,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicMessageList(ctx context.Context, pr
 	return out.Messages, nil
 }
 func (h *KafkaTopicHandler) ServiceKafkaTopicMessageProduce(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageProduceIn) (*ServiceKafkaTopicMessageProduceOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/kafka/rest/topics/%s/produce", project, serviceName, topicName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/rest/topics/%s/produce", project, serviceName, topicName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicMessageProduce", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -120,7 +120,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicMessageProduce(ctx context.Context,
 	return out, nil
 }
 func (h *KafkaTopicHandler) ServiceKafkaTopicUpdate(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicUpdateIn) error {
-	path := fmt.Sprintf("/project/%s/service/%s/topic/%s", project, serviceName, topicName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/topic/%s", project, serviceName, topicName)
 	_, err := h.doer.Do(ctx, "ServiceKafkaTopicUpdate", "PUT", path, in)
 	return err
 }
@@ -381,10 +381,16 @@ const (
 	MessageFormatVersionType36Iv0   MessageFormatVersionType = "3.6-IV0"
 	MessageFormatVersionType36Iv1   MessageFormatVersionType = "3.6-IV1"
 	MessageFormatVersionType36Iv2   MessageFormatVersionType = "3.6-IV2"
+	MessageFormatVersionType37      MessageFormatVersionType = "3.7"
+	MessageFormatVersionType37Iv0   MessageFormatVersionType = "3.7-IV0"
+	MessageFormatVersionType37Iv1   MessageFormatVersionType = "3.7-IV1"
+	MessageFormatVersionType37Iv2   MessageFormatVersionType = "3.7-IV2"
+	MessageFormatVersionType37Iv3   MessageFormatVersionType = "3.7-IV3"
+	MessageFormatVersionType37Iv4   MessageFormatVersionType = "3.7-IV4"
 )
 
 func MessageFormatVersionTypeChoices() []string {
-	return []string{"0.8.0", "0.8.1", "0.8.2", "0.9.0", "0.10.0", "0.10.0-IV0", "0.10.0-IV1", "0.10.1", "0.10.1-IV0", "0.10.1-IV1", "0.10.1-IV2", "0.10.2", "0.10.2-IV0", "0.11.0", "0.11.0-IV0", "0.11.0-IV1", "0.11.0-IV2", "1.0", "1.0-IV0", "1.1", "1.1-IV0", "2.0", "2.0-IV0", "2.0-IV1", "2.1", "2.1-IV0", "2.1-IV1", "2.1-IV2", "2.2", "2.2-IV0", "2.2-IV1", "2.3", "2.3-IV0", "2.3-IV1", "2.4", "2.4-IV0", "2.4-IV1", "2.5", "2.5-IV0", "2.6", "2.6-IV0", "2.7", "2.7-IV0", "2.7-IV1", "2.7-IV2", "2.8", "2.8-IV0", "2.8-IV1", "3.0", "3.0-IV0", "3.0-IV1", "3.1", "3.1-IV0", "3.2", "3.2-IV0", "3.3", "3.3-IV0", "3.3-IV1", "3.3-IV2", "3.3-IV3", "3.4", "3.4-IV0", "3.5", "3.5-IV0", "3.5-IV1", "3.5-IV2", "3.6", "3.6-IV0", "3.6-IV1", "3.6-IV2"}
+	return []string{"0.8.0", "0.8.1", "0.8.2", "0.9.0", "0.10.0", "0.10.0-IV0", "0.10.0-IV1", "0.10.1", "0.10.1-IV0", "0.10.1-IV1", "0.10.1-IV2", "0.10.2", "0.10.2-IV0", "0.11.0", "0.11.0-IV0", "0.11.0-IV1", "0.11.0-IV2", "1.0", "1.0-IV0", "1.1", "1.1-IV0", "2.0", "2.0-IV0", "2.0-IV1", "2.1", "2.1-IV0", "2.1-IV1", "2.1-IV2", "2.2", "2.2-IV0", "2.2-IV1", "2.3", "2.3-IV0", "2.3-IV1", "2.4", "2.4-IV0", "2.4-IV1", "2.5", "2.5-IV0", "2.6", "2.6-IV0", "2.7", "2.7-IV0", "2.7-IV1", "2.7-IV2", "2.8", "2.8-IV0", "2.8-IV1", "3.0", "3.0-IV0", "3.0-IV1", "3.1", "3.1-IV0", "3.2", "3.2-IV0", "3.3", "3.3-IV0", "3.3-IV1", "3.3-IV2", "3.3-IV3", "3.4", "3.4-IV0", "3.5", "3.5-IV0", "3.5-IV1", "3.5-IV2", "3.6", "3.6-IV0", "3.6-IV1", "3.6-IV2", "3.7", "3.7-IV0", "3.7-IV1", "3.7-IV2", "3.7-IV3", "3.7-IV4"}
 }
 
 type MessageOut struct {

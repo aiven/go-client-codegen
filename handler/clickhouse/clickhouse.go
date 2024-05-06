@@ -10,22 +10,22 @@ import (
 
 type Handler interface {
 	// ServiceClickHouseDatabaseCreate create a database
-	// POST /project/{project}/service/{service_name}/clickhouse/db
+	// POST /v1/project/{project}/service/{service_name}/clickhouse/db
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseDatabaseCreate
 	ServiceClickHouseDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceClickHouseDatabaseCreateIn) error
 
 	// ServiceClickHouseDatabaseDelete delete a database
-	// DELETE /project/{project}/service/{service_name}/clickhouse/db/{database}
+	// DELETE /v1/project/{project}/service/{service_name}/clickhouse/db/{database}
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseDatabaseDelete
 	ServiceClickHouseDatabaseDelete(ctx context.Context, project string, serviceName string, database string) error
 
 	// ServiceClickHouseQueryStats return statistics on recent queries
-	// GET /project/{project}/service/{service_name}/clickhouse/query/stats
+	// GET /v1/project/{project}/service/{service_name}/clickhouse/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQueryStats
 	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOut, error)
 
 	// ServiceClickHouseTieredStorageSummary get the ClickHouse tiered storage summary
-	// GET /project/{project}/service/{service_name}/clickhouse/tiered-storage/summary
+	// GET /v1/project/{project}/service/{service_name}/clickhouse/tiered-storage/summary
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseTieredStorageSummary
 	ServiceClickHouseTieredStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceClickHouseTieredStorageSummaryOut, error)
 }
@@ -43,17 +43,17 @@ type ClickHouseHandler struct {
 }
 
 func (h *ClickHouseHandler) ServiceClickHouseDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceClickHouseDatabaseCreateIn) error {
-	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/db", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/db", project, serviceName)
 	_, err := h.doer.Do(ctx, "ServiceClickHouseDatabaseCreate", "POST", path, in)
 	return err
 }
 func (h *ClickHouseHandler) ServiceClickHouseDatabaseDelete(ctx context.Context, project string, serviceName string, database string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/db/%s", project, serviceName, database)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/db/%s", project, serviceName, database)
 	_, err := h.doer.Do(ctx, "ServiceClickHouseDatabaseDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/query/stats", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, pro
 	return out.Queries, nil
 }
 func (h *ClickHouseHandler) ServiceClickHouseTieredStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceClickHouseTieredStorageSummaryOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/clickhouse/tiered-storage/summary", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/tiered-storage/summary", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceClickHouseTieredStorageSummary", "GET", path, nil)
 	if err != nil {
 		return nil, err

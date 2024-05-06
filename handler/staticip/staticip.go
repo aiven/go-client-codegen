@@ -10,37 +10,37 @@ import (
 
 type Handler interface {
 	// ProjectStaticIPAssociate associate a static IP address with a service
-	// POST /project/{project}/static-ips/{static_ip_address_id}/association
+	// POST /v1/project/{project}/static-ips/{static_ip_address_id}/association
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPAssociate
 	ProjectStaticIPAssociate(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIpassociateIn) (*ProjectStaticIpassociateOut, error)
 
 	// ProjectStaticIPAvailabilityList list static IP address cloud availability and prices for a project
-	// GET /project/{project}/static-ip-availability
+	// GET /v1/project/{project}/static-ip-availability
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPAvailabilityList
 	ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailabilityOut, error)
 
 	// ProjectStaticIPDissociate dissociate a static IP address from a service
-	// DELETE /project/{project}/static-ips/{static_ip_address_id}/association
+	// DELETE /v1/project/{project}/static-ips/{static_ip_address_id}/association
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPDissociate
 	ProjectStaticIPDissociate(ctx context.Context, project string, staticIpAddressId string) (*ProjectStaticIpdissociateOut, error)
 
 	// ProjectStaticIPPatch update a static IP address configuration
-	// PATCH /project/{project}/static-ips/{static_ip_address_id}
+	// PATCH /v1/project/{project}/static-ips/{static_ip_address_id}
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPPatch
 	ProjectStaticIPPatch(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIppatchIn) (*ProjectStaticIppatchOut, error)
 
 	// PublicStaticIPAvailabilityList list static IP clouds and prices
-	// GET /tenants/{tenant}/static-ip-availability
+	// GET /v1/tenants/{tenant}/static-ip-availability
 	// https://api.aiven.io/doc/#tag/Cloud_platforms/operation/PublicStaticIPAvailabilityList
 	PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIpAddressAvailabilityOut, error)
 
 	// StaticIPCreate create static IP address
-	// POST /project/{project}/static-ips
+	// POST /v1/project/{project}/static-ips
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPCreate
 	StaticIPCreate(ctx context.Context, project string, in *StaticIpcreateIn) (*StaticIpcreateOut, error)
 
 	// StaticIPList list static IP addresses
-	// GET /project/{project}/static-ips
+	// GET /v1/project/{project}/static-ips
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPList
 	StaticIPList(ctx context.Context, project string) ([]StaticIpOut, error)
 }
@@ -58,7 +58,7 @@ type StaticIPHandler struct {
 }
 
 func (h *StaticIPHandler) ProjectStaticIPAssociate(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIpassociateIn) (*ProjectStaticIpassociateOut, error) {
-	path := fmt.Sprintf("/project/%s/static-ips/%s/association", project, staticIpAddressId)
+	path := fmt.Sprintf("/v1/project/%s/static-ips/%s/association", project, staticIpAddressId)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPAssociate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (h *StaticIPHandler) ProjectStaticIPAssociate(ctx context.Context, project 
 	return out, nil
 }
 func (h *StaticIPHandler) ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailabilityOut, error) {
-	path := fmt.Sprintf("/project/%s/static-ip-availability", project)
+	path := fmt.Sprintf("/v1/project/%s/static-ip-availability", project)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPAvailabilityList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -84,7 +84,7 @@ func (h *StaticIPHandler) ProjectStaticIPAvailabilityList(ctx context.Context, p
 	return out.StaticIpAddressAvailability, nil
 }
 func (h *StaticIPHandler) ProjectStaticIPDissociate(ctx context.Context, project string, staticIpAddressId string) (*ProjectStaticIpdissociateOut, error) {
-	path := fmt.Sprintf("/project/%s/static-ips/%s/association", project, staticIpAddressId)
+	path := fmt.Sprintf("/v1/project/%s/static-ips/%s/association", project, staticIpAddressId)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPDissociate", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -97,7 +97,7 @@ func (h *StaticIPHandler) ProjectStaticIPDissociate(ctx context.Context, project
 	return out, nil
 }
 func (h *StaticIPHandler) ProjectStaticIPPatch(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIppatchIn) (*ProjectStaticIppatchOut, error) {
-	path := fmt.Sprintf("/project/%s/static-ips/%s", project, staticIpAddressId)
+	path := fmt.Sprintf("/v1/project/%s/static-ips/%s", project, staticIpAddressId)
 	b, err := h.doer.Do(ctx, "ProjectStaticIPPatch", "PATCH", path, in)
 	if err != nil {
 		return nil, err
@@ -110,7 +110,7 @@ func (h *StaticIPHandler) ProjectStaticIPPatch(ctx context.Context, project stri
 	return out, nil
 }
 func (h *StaticIPHandler) PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIpAddressAvailabilityOut, error) {
-	path := fmt.Sprintf("/tenants/%s/static-ip-availability", tenant)
+	path := fmt.Sprintf("/v1/tenants/%s/static-ip-availability", tenant)
 	b, err := h.doer.Do(ctx, "PublicStaticIPAvailabilityList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -123,7 +123,7 @@ func (h *StaticIPHandler) PublicStaticIPAvailabilityList(ctx context.Context, te
 	return out.StaticIpAddressAvailability, nil
 }
 func (h *StaticIPHandler) StaticIPCreate(ctx context.Context, project string, in *StaticIpcreateIn) (*StaticIpcreateOut, error) {
-	path := fmt.Sprintf("/project/%s/static-ips", project)
+	path := fmt.Sprintf("/v1/project/%s/static-ips", project)
 	b, err := h.doer.Do(ctx, "StaticIPCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -136,7 +136,7 @@ func (h *StaticIPHandler) StaticIPCreate(ctx context.Context, project string, in
 	return out, nil
 }
 func (h *StaticIPHandler) StaticIPList(ctx context.Context, project string) ([]StaticIpOut, error) {
-	path := fmt.Sprintf("/project/%s/static-ips", project)
+	path := fmt.Sprintf("/v1/project/%s/static-ips", project)
 	b, err := h.doer.Do(ctx, "StaticIPList", "GET", path, nil)
 	if err != nil {
 		return nil, err

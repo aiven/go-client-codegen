@@ -10,12 +10,12 @@ import (
 
 type Handler interface {
 	// ServiceFlinkJobDetails get a Flink job info
-	// GET /project/{project}/service/{service_name}/flink/job/{job_id}
+	// GET /v1/project/{project}/service/{service_name}/flink/job/{job_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkJobDetails
 	ServiceFlinkJobDetails(ctx context.Context, project string, serviceName string, jobId string) (*ServiceFlinkJobDetailsOut, error)
 
 	// ServiceFlinkJobsList get all Flink jobs
-	// GET /project/{project}/service/{service_name}/flink/job
+	// GET /v1/project/{project}/service/{service_name}/flink/job
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkJobsList
 	ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]JobOut, error)
 }
@@ -33,7 +33,7 @@ type FlinkJobHandler struct {
 }
 
 func (h *FlinkJobHandler) ServiceFlinkJobDetails(ctx context.Context, project string, serviceName string, jobId string) (*ServiceFlinkJobDetailsOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/job/%s", project, serviceName, jobId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/job/%s", project, serviceName, jobId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkJobDetails", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (h *FlinkJobHandler) ServiceFlinkJobDetails(ctx context.Context, project st
 	return out, nil
 }
 func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]JobOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/job", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/job", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkJobsList", "GET", path, nil)
 	if err != nil {
 		return nil, err

@@ -11,152 +11,152 @@ import (
 
 type Handler interface {
 	// ListProjectServiceTypes list service types for a project
-	// GET /project/{project}/service_types
+	// GET /v1/project/{project}/service_types
 	// https://api.aiven.io/doc/#tag/Service/operation/ListProjectServiceTypes
 	ListProjectServiceTypes(ctx context.Context, project string) (*ListProjectServiceTypesOut, error)
 
 	// ListPublicServiceTypes list publicly available service types
-	// GET /service_types
+	// GET /v1/service_types
 	// https://api.aiven.io/doc/#tag/Service/operation/ListPublicServiceTypes
 	ListPublicServiceTypes(ctx context.Context) (*ListPublicServiceTypesOut, error)
 
 	// ListServiceVersions list service versions
-	// GET /service_versions
+	// GET /v1/service_versions
 	// https://api.aiven.io/doc/#tag/Service/operation/ListServiceVersions
 	ListServiceVersions(ctx context.Context) ([]ServiceVersionOut, error)
 
 	// ProjectGetServiceLogs get service log entries
-	// POST /project/{project}/service/{service_name}/logs
+	// POST /v1/project/{project}/service/{service_name}/logs
 	// https://api.aiven.io/doc/#tag/Service/operation/ProjectGetServiceLogs
 	ProjectGetServiceLogs(ctx context.Context, project string, serviceName string, in *ProjectGetServiceLogsIn) (*ProjectGetServiceLogsOut, error)
 
 	// ProjectServiceTagsList list all tags attached to the service
-	// GET /project/{project}/service/{service_name}/tags
+	// GET /v1/project/{project}/service/{service_name}/tags
 	// https://api.aiven.io/doc/#tag/Service/operation/ProjectServiceTagsList
 	ProjectServiceTagsList(ctx context.Context, project string, serviceName string) (map[string]string, error)
 
 	// ProjectServiceTagsReplace replace all project tags with a new set of tags, deleting old ones
-	// PUT /project/{project}/service/{service_name}/tags
+	// PUT /v1/project/{project}/service/{service_name}/tags
 	// https://api.aiven.io/doc/#tag/Service/operation/ProjectServiceTagsReplace
 	ProjectServiceTagsReplace(ctx context.Context, project string, serviceName string, in *ProjectServiceTagsReplaceIn) error
 
 	// ProjectServiceTagsUpdate update one or more tags, creating ones that don't exist, and deleting ones given NULL value
-	// PATCH /project/{project}/service/{service_name}/tags
+	// PATCH /v1/project/{project}/service/{service_name}/tags
 	// https://api.aiven.io/doc/#tag/Service/operation/ProjectServiceTagsUpdate
 	ProjectServiceTagsUpdate(ctx context.Context, project string, serviceName string, in *ProjectServiceTagsUpdateIn) error
 
 	// ServiceAlertsList list active alerts for service
-	// GET /project/{project}/service/{service_name}/alerts
+	// GET /v1/project/{project}/service/{service_name}/alerts
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceAlertsList
 	ServiceAlertsList(ctx context.Context, project string, serviceName string) ([]AlertOut, error)
 
 	// ServiceBackupToAnotherRegionReport get service's backup to another region information
-	// POST /project/{project}/service/{service_name}/backup_to_another_region/report
+	// POST /v1/project/{project}/service/{service_name}/backup_to_another_region/report
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceBackupToAnotherRegionReport
 	ServiceBackupToAnotherRegionReport(ctx context.Context, project string, serviceName string, in *ServiceBackupToAnotherRegionReportIn) (map[string]any, error)
 
 	// ServiceBackupsGet get service backup information
-	// GET /project/{project}/service/{service_name}/backups
+	// GET /v1/project/{project}/service/{service_name}/backups
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceBackupsGet
 	ServiceBackupsGet(ctx context.Context, project string, serviceName string) ([]BackupOut, error)
 
 	// ServiceCancelQuery cancel specified query from service
-	// POST /project/{project}/service/{service_name}/query/cancel
+	// POST /v1/project/{project}/service/{service_name}/query/cancel
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceCancelQuery
 	ServiceCancelQuery(ctx context.Context, project string, serviceName string, in *ServiceCancelQueryIn) (bool, error)
 
 	// ServiceCreate create a service
-	// POST /project/{project}/service
+	// POST /v1/project/{project}/service
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceCreate
 	ServiceCreate(ctx context.Context, project string, in *ServiceCreateIn) (*ServiceCreateOut, error)
 
 	// ServiceDatabaseCreate create a new logical database for service
-	// POST /project/{project}/service/{service_name}/db
+	// POST /v1/project/{project}/service/{service_name}/db
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseCreate
 	ServiceDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceDatabaseCreateIn) error
 
 	// ServiceDatabaseDelete delete a logical database
-	// DELETE /project/{project}/service/{service_name}/db/{dbname}
+	// DELETE /v1/project/{project}/service/{service_name}/db/{dbname}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseDelete
 	ServiceDatabaseDelete(ctx context.Context, project string, serviceName string, dbname string) error
 
 	// ServiceDatabaseList list service databases
-	// GET /project/{project}/service/{service_name}/db
+	// GET /v1/project/{project}/service/{service_name}/db
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseList
 	ServiceDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error)
 
 	// ServiceDelete terminate a service
-	// DELETE /project/{project}/service/{service_name}
+	// DELETE /v1/project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDelete
 	ServiceDelete(ctx context.Context, project string, serviceName string) error
 
 	// ServiceEnableWrites temporarily enable writes for a service in read-only mode. Will only work if disk usage is lower than 99.0%
-	// POST /project/{project}/service/{service_name}/enable-writes
+	// POST /v1/project/{project}/service/{service_name}/enable-writes
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceEnableWrites
 	ServiceEnableWrites(ctx context.Context, project string, serviceName string) (string, error)
 
 	// ServiceGet get service information
-	// GET /project/{project}/service/{service_name}
+	// GET /v1/project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceGet
 	ServiceGet(ctx context.Context, project string, serviceName string) (*ServiceGetOut, error)
 
 	// ServiceGetMigrationStatus get migration status
-	// GET /project/{project}/service/{service_name}/migration
+	// GET /v1/project/{project}/service/{service_name}/migration
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceGetMigrationStatus
 	ServiceGetMigrationStatus(ctx context.Context, project string, serviceName string) (*ServiceGetMigrationStatusOut, error)
 
 	// ServiceInfluxDBStats list stats for influxdb
-	// GET /project/{project}/service/{service_name}/influxdb/stats
+	// GET /v1/project/{project}/service/{service_name}/influxdb/stats
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceInfluxDBStats
 	ServiceInfluxDBStats(ctx context.Context, project string, serviceName string) (map[string]any, error)
 
 	// ServiceKmsGetCA retrieve a service CA
-	// GET /project/{project}/service/{service_name}/kms/ca/{ca_name}
+	// GET /v1/project/{project}/service/{service_name}/kms/ca/{ca_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceKmsGetCA
 	ServiceKmsGetCA(ctx context.Context, project string, serviceName string, caName string) (string, error)
 
 	// ServiceKmsGetKeypair retrieve service keypair
-	// GET /project/{project}/service/{service_name}/kms/keypairs/{keypair_name}
+	// GET /v1/project/{project}/service/{service_name}/kms/keypairs/{keypair_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceKmsGetKeypair
 	ServiceKmsGetKeypair(ctx context.Context, project string, serviceName string, keypairName string) (*ServiceKmsGetKeypairOut, error)
 
 	// ServiceList list services
-	// GET /project/{project}/service
+	// GET /v1/project/{project}/service
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceList
 	ServiceList(ctx context.Context, project string) ([]ServiceOut, error)
 
 	// ServiceMaintenanceStart start maintenance updates
-	// PUT /project/{project}/service/{service_name}/maintenance/start
+	// PUT /v1/project/{project}/service/{service_name}/maintenance/start
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceMaintenanceStart
 	ServiceMaintenanceStart(ctx context.Context, project string, serviceName string) error
 
 	// ServiceMetricsFetch fetch service metrics
-	// POST /project/{project}/service/{service_name}/metrics
+	// POST /v1/project/{project}/service/{service_name}/metrics
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceMetricsFetch
 	ServiceMetricsFetch(ctx context.Context, project string, serviceName string, in *ServiceMetricsFetchIn) (map[string]any, error)
 
 	// ServiceQueryActivity fetch current queries for the service
-	// POST /project/{project}/service/{service_name}/query/activity
+	// POST /v1/project/{project}/service/{service_name}/query/activity
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceQueryActivity
 	ServiceQueryActivity(ctx context.Context, project string, serviceName string, in *ServiceQueryActivityIn) ([]QueryOut, error)
 
 	// ServiceQueryStatisticsReset reset service's query statistics
-	// PUT /project/{project}/service/{service_name}/query/stats/reset
+	// PUT /v1/project/{project}/service/{service_name}/query/stats/reset
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceQueryStatisticsReset
 	ServiceQueryStatisticsReset(ctx context.Context, project string, serviceName string) ([]map[string]any, error)
 
 	// ServiceTaskCreate create a new task for service
-	// POST /project/{project}/service/{service_name}/task
+	// POST /v1/project/{project}/service/{service_name}/task
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceTaskCreate
 	ServiceTaskCreate(ctx context.Context, project string, serviceName string, in *ServiceTaskCreateIn) (*ServiceTaskCreateOut, error)
 
 	// ServiceTaskGet get task result
-	// GET /project/{project}/service/{service_name}/task/{task_id}
+	// GET /v1/project/{project}/service/{service_name}/task/{task_id}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceTaskGet
 	ServiceTaskGet(ctx context.Context, project string, serviceName string, taskId string) (*ServiceTaskGetOut, error)
 
 	// ServiceUpdate update service configuration
-	// PUT /project/{project}/service/{service_name}
+	// PUT /v1/project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUpdate
 	ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn) (*ServiceUpdateOut, error)
 }
@@ -174,7 +174,7 @@ type ServiceHandler struct {
 }
 
 func (h *ServiceHandler) ListProjectServiceTypes(ctx context.Context, project string) (*ListProjectServiceTypesOut, error) {
-	path := fmt.Sprintf("/project/%s/service_types", project)
+	path := fmt.Sprintf("/v1/project/%s/service_types", project)
 	b, err := h.doer.Do(ctx, "ListProjectServiceTypes", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -187,7 +187,7 @@ func (h *ServiceHandler) ListProjectServiceTypes(ctx context.Context, project st
 	return &out.ServiceTypes, nil
 }
 func (h *ServiceHandler) ListPublicServiceTypes(ctx context.Context) (*ListPublicServiceTypesOut, error) {
-	path := fmt.Sprintf("/service_types")
+	path := fmt.Sprintf("/v1/service_types")
 	b, err := h.doer.Do(ctx, "ListPublicServiceTypes", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -200,7 +200,7 @@ func (h *ServiceHandler) ListPublicServiceTypes(ctx context.Context) (*ListPubli
 	return &out.ServiceTypes, nil
 }
 func (h *ServiceHandler) ListServiceVersions(ctx context.Context) ([]ServiceVersionOut, error) {
-	path := fmt.Sprintf("/service_versions")
+	path := fmt.Sprintf("/v1/service_versions")
 	b, err := h.doer.Do(ctx, "ListServiceVersions", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -213,7 +213,7 @@ func (h *ServiceHandler) ListServiceVersions(ctx context.Context) ([]ServiceVers
 	return out.ServiceVersions, nil
 }
 func (h *ServiceHandler) ProjectGetServiceLogs(ctx context.Context, project string, serviceName string, in *ProjectGetServiceLogsIn) (*ProjectGetServiceLogsOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/logs", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/logs", project, serviceName)
 	b, err := h.doer.Do(ctx, "ProjectGetServiceLogs", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -226,7 +226,7 @@ func (h *ServiceHandler) ProjectGetServiceLogs(ctx context.Context, project stri
 	return out, nil
 }
 func (h *ServiceHandler) ProjectServiceTagsList(ctx context.Context, project string, serviceName string) (map[string]string, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/tags", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/tags", project, serviceName)
 	b, err := h.doer.Do(ctx, "ProjectServiceTagsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -239,17 +239,17 @@ func (h *ServiceHandler) ProjectServiceTagsList(ctx context.Context, project str
 	return out.Tags, nil
 }
 func (h *ServiceHandler) ProjectServiceTagsReplace(ctx context.Context, project string, serviceName string, in *ProjectServiceTagsReplaceIn) error {
-	path := fmt.Sprintf("/project/%s/service/%s/tags", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/tags", project, serviceName)
 	_, err := h.doer.Do(ctx, "ProjectServiceTagsReplace", "PUT", path, in)
 	return err
 }
 func (h *ServiceHandler) ProjectServiceTagsUpdate(ctx context.Context, project string, serviceName string, in *ProjectServiceTagsUpdateIn) error {
-	path := fmt.Sprintf("/project/%s/service/%s/tags", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/tags", project, serviceName)
 	_, err := h.doer.Do(ctx, "ProjectServiceTagsUpdate", "PATCH", path, in)
 	return err
 }
 func (h *ServiceHandler) ServiceAlertsList(ctx context.Context, project string, serviceName string) ([]AlertOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/alerts", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/alerts", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceAlertsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -262,7 +262,7 @@ func (h *ServiceHandler) ServiceAlertsList(ctx context.Context, project string, 
 	return out.Alerts, nil
 }
 func (h *ServiceHandler) ServiceBackupToAnotherRegionReport(ctx context.Context, project string, serviceName string, in *ServiceBackupToAnotherRegionReportIn) (map[string]any, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/backup_to_another_region/report", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/backup_to_another_region/report", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceBackupToAnotherRegionReport", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -275,7 +275,7 @@ func (h *ServiceHandler) ServiceBackupToAnotherRegionReport(ctx context.Context,
 	return out.Metrics, nil
 }
 func (h *ServiceHandler) ServiceBackupsGet(ctx context.Context, project string, serviceName string) ([]BackupOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/backups", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/backups", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceBackupsGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -288,7 +288,7 @@ func (h *ServiceHandler) ServiceBackupsGet(ctx context.Context, project string, 
 	return out.Backups, nil
 }
 func (h *ServiceHandler) ServiceCancelQuery(ctx context.Context, project string, serviceName string, in *ServiceCancelQueryIn) (bool, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/query/cancel", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/query/cancel", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceCancelQuery", "POST", path, in)
 	if err != nil {
 		return false, err
@@ -301,7 +301,7 @@ func (h *ServiceHandler) ServiceCancelQuery(ctx context.Context, project string,
 	return out.Success, nil
 }
 func (h *ServiceHandler) ServiceCreate(ctx context.Context, project string, in *ServiceCreateIn) (*ServiceCreateOut, error) {
-	path := fmt.Sprintf("/project/%s/service", project)
+	path := fmt.Sprintf("/v1/project/%s/service", project)
 	b, err := h.doer.Do(ctx, "ServiceCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -314,17 +314,17 @@ func (h *ServiceHandler) ServiceCreate(ctx context.Context, project string, in *
 	return &out.Service, nil
 }
 func (h *ServiceHandler) ServiceDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceDatabaseCreateIn) error {
-	path := fmt.Sprintf("/project/%s/service/%s/db", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/db", project, serviceName)
 	_, err := h.doer.Do(ctx, "ServiceDatabaseCreate", "POST", path, in)
 	return err
 }
 func (h *ServiceHandler) ServiceDatabaseDelete(ctx context.Context, project string, serviceName string, dbname string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/db/%s", project, serviceName, dbname)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/db/%s", project, serviceName, dbname)
 	_, err := h.doer.Do(ctx, "ServiceDatabaseDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ServiceHandler) ServiceDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/db", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/db", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceDatabaseList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -337,12 +337,12 @@ func (h *ServiceHandler) ServiceDatabaseList(ctx context.Context, project string
 	return out.Databases, nil
 }
 func (h *ServiceHandler) ServiceDelete(ctx context.Context, project string, serviceName string) error {
-	path := fmt.Sprintf("/project/%s/service/%s", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s", project, serviceName)
 	_, err := h.doer.Do(ctx, "ServiceDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string, serviceName string) (string, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/enable-writes", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/enable-writes", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceEnableWrites", "POST", path, nil)
 	if err != nil {
 		return "", err
@@ -355,7 +355,7 @@ func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string
 	return out.Until, nil
 }
 func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, serviceName string) (*ServiceGetOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -368,7 +368,7 @@ func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, service
 	return &out.Service, nil
 }
 func (h *ServiceHandler) ServiceGetMigrationStatus(ctx context.Context, project string, serviceName string) (*ServiceGetMigrationStatusOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/migration", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/migration", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceGetMigrationStatus", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -381,7 +381,7 @@ func (h *ServiceHandler) ServiceGetMigrationStatus(ctx context.Context, project 
 	return out, nil
 }
 func (h *ServiceHandler) ServiceInfluxDBStats(ctx context.Context, project string, serviceName string) (map[string]any, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/influxdb/stats", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/influxdb/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceInfluxDBStats", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -394,7 +394,7 @@ func (h *ServiceHandler) ServiceInfluxDBStats(ctx context.Context, project strin
 	return out.DbStats, nil
 }
 func (h *ServiceHandler) ServiceKmsGetCA(ctx context.Context, project string, serviceName string, caName string) (string, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/kms/ca/%s", project, serviceName, caName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/kms/ca/%s", project, serviceName, caName)
 	b, err := h.doer.Do(ctx, "ServiceKmsGetCA", "GET", path, nil)
 	if err != nil {
 		return "", err
@@ -407,7 +407,7 @@ func (h *ServiceHandler) ServiceKmsGetCA(ctx context.Context, project string, se
 	return out.Certificate, nil
 }
 func (h *ServiceHandler) ServiceKmsGetKeypair(ctx context.Context, project string, serviceName string, keypairName string) (*ServiceKmsGetKeypairOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/kms/keypairs/%s", project, serviceName, keypairName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/kms/keypairs/%s", project, serviceName, keypairName)
 	b, err := h.doer.Do(ctx, "ServiceKmsGetKeypair", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -420,7 +420,7 @@ func (h *ServiceHandler) ServiceKmsGetKeypair(ctx context.Context, project strin
 	return out, nil
 }
 func (h *ServiceHandler) ServiceList(ctx context.Context, project string) ([]ServiceOut, error) {
-	path := fmt.Sprintf("/project/%s/service", project)
+	path := fmt.Sprintf("/v1/project/%s/service", project)
 	b, err := h.doer.Do(ctx, "ServiceList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -433,12 +433,12 @@ func (h *ServiceHandler) ServiceList(ctx context.Context, project string) ([]Ser
 	return out.Services, nil
 }
 func (h *ServiceHandler) ServiceMaintenanceStart(ctx context.Context, project string, serviceName string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/maintenance/start", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/maintenance/start", project, serviceName)
 	_, err := h.doer.Do(ctx, "ServiceMaintenanceStart", "PUT", path, nil)
 	return err
 }
 func (h *ServiceHandler) ServiceMetricsFetch(ctx context.Context, project string, serviceName string, in *ServiceMetricsFetchIn) (map[string]any, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/metrics", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/metrics", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceMetricsFetch", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -451,7 +451,7 @@ func (h *ServiceHandler) ServiceMetricsFetch(ctx context.Context, project string
 	return out.Metrics, nil
 }
 func (h *ServiceHandler) ServiceQueryActivity(ctx context.Context, project string, serviceName string, in *ServiceQueryActivityIn) ([]QueryOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/query/activity", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/query/activity", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceQueryActivity", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -464,7 +464,7 @@ func (h *ServiceHandler) ServiceQueryActivity(ctx context.Context, project strin
 	return out.Queries, nil
 }
 func (h *ServiceHandler) ServiceQueryStatisticsReset(ctx context.Context, project string, serviceName string) ([]map[string]any, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/query/stats/reset", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/query/stats/reset", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceQueryStatisticsReset", "PUT", path, nil)
 	if err != nil {
 		return nil, err
@@ -477,7 +477,7 @@ func (h *ServiceHandler) ServiceQueryStatisticsReset(ctx context.Context, projec
 	return out.Queries, nil
 }
 func (h *ServiceHandler) ServiceTaskCreate(ctx context.Context, project string, serviceName string, in *ServiceTaskCreateIn) (*ServiceTaskCreateOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/task", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/task", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceTaskCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -490,7 +490,7 @@ func (h *ServiceHandler) ServiceTaskCreate(ctx context.Context, project string, 
 	return &out.Task, nil
 }
 func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, serviceName string, taskId string) (*ServiceTaskGetOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/task/%s", project, serviceName, taskId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/task/%s", project, serviceName, taskId)
 	b, err := h.doer.Do(ctx, "ServiceTaskGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -503,7 +503,7 @@ func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, ser
 	return &out.Task, nil
 }
 func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn) (*ServiceUpdateOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -669,6 +669,13 @@ func DowTypeAltChoices() []string {
 	return []string{"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "never"}
 }
 
+type DragonflyOut struct {
+	DefaultVersion         string           `json:"default_version,omitempty"`
+	Description            string           `json:"description"`
+	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	ServicePlans           []ServicePlanOut `json:"service_plans"`
+	UserConfigSchema       map[string]any   `json:"user_config_schema"`
+}
 type ElasticsearchOut struct {
 	DefaultVersion         string           `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
@@ -736,6 +743,7 @@ const (
 	IntegrationTypeFlink                             IntegrationType = "flink"
 	IntegrationTypeFlinkExternalBigquery             IntegrationType = "flink_external_bigquery"
 	IntegrationTypeFlinkExternalKafka                IntegrationType = "flink_external_kafka"
+	IntegrationTypeFlinkExternalPostgresql           IntegrationType = "flink_external_postgresql"
 	IntegrationTypeInternalConnectivity              IntegrationType = "internal_connectivity"
 	IntegrationTypeJolokia                           IntegrationType = "jolokia"
 	IntegrationTypeKafkaConnect                      IntegrationType = "kafka_connect"
@@ -761,7 +769,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
+	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
 }
 
 type KafkaAuthenticationMethodType string
@@ -824,6 +832,7 @@ func LikelyErrorCauseTypeChoices() []string {
 type ListProjectServiceTypesOut struct {
 	Cassandra        *CassandraOut        `json:"cassandra,omitempty"`
 	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`
+	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`
 	Elasticsearch    *ElasticsearchOut    `json:"elasticsearch,omitempty"`
 	Flink            *FlinkOut            `json:"flink,omitempty"`
 	Grafana          *GrafanaOut          `json:"grafana,omitempty"`
@@ -841,6 +850,7 @@ type ListProjectServiceTypesOut struct {
 type ListPublicServiceTypesOut struct {
 	Cassandra        *CassandraOut        `json:"cassandra,omitempty"`
 	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`
+	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`
 	Elasticsearch    *ElasticsearchOut    `json:"elasticsearch,omitempty"`
 	Flink            *FlinkOut            `json:"flink,omitempty"`
 	Grafana          *GrafanaOut          `json:"grafana,omitempty"`
@@ -1534,7 +1544,6 @@ type StateOut struct {
 type TargetVersionType string
 
 const (
-	TargetVersionType12 TargetVersionType = "12"
 	TargetVersionType13 TargetVersionType = "13"
 	TargetVersionType14 TargetVersionType = "14"
 	TargetVersionType15 TargetVersionType = "15"
@@ -1542,7 +1551,7 @@ const (
 )
 
 func TargetVersionTypeChoices() []string {
-	return []string{"12", "13", "14", "15", "16"}
+	return []string{"13", "14", "15", "16"}
 }
 
 type TaskType string

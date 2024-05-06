@@ -11,17 +11,17 @@ import (
 
 type Handler interface {
 	// ProjectCreditsClaim claim a credit code
-	// POST /project/{project}/credits
+	// POST /v1/project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsClaim
 	ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*ProjectCreditsClaimOut, error)
 
 	// ProjectCreditsList list project credits
-	// GET /project/{project}/credits
+	// GET /v1/project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsList
 	ProjectCreditsList(ctx context.Context, project string) ([]CreditOut, error)
 
 	// ProjectInvoiceList list project invoices
-	// GET /project/{project}/invoice
+	// GET /v1/project/{project}/invoice
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectInvoiceList
 	ProjectInvoiceList(ctx context.Context, project string) ([]InvoiceOut, error)
 }
@@ -39,7 +39,7 @@ type ProjectBillingHandler struct {
 }
 
 func (h *ProjectBillingHandler) ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*ProjectCreditsClaimOut, error) {
-	path := fmt.Sprintf("/project/%s/credits", project)
+	path := fmt.Sprintf("/v1/project/%s/credits", project)
 	b, err := h.doer.Do(ctx, "ProjectCreditsClaim", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -52,7 +52,7 @@ func (h *ProjectBillingHandler) ProjectCreditsClaim(ctx context.Context, project
 	return &out.Credit, nil
 }
 func (h *ProjectBillingHandler) ProjectCreditsList(ctx context.Context, project string) ([]CreditOut, error) {
-	path := fmt.Sprintf("/project/%s/credits", project)
+	path := fmt.Sprintf("/v1/project/%s/credits", project)
 	b, err := h.doer.Do(ctx, "ProjectCreditsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (h *ProjectBillingHandler) ProjectCreditsList(ctx context.Context, project 
 	return out.Credits, nil
 }
 func (h *ProjectBillingHandler) ProjectInvoiceList(ctx context.Context, project string) ([]InvoiceOut, error) {
-	path := fmt.Sprintf("/project/%s/invoice", project)
+	path := fmt.Sprintf("/v1/project/%s/invoice", project)
 	b, err := h.doer.Do(ctx, "ProjectInvoiceList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -157,22 +157,24 @@ type InvoiceOut struct {
 type InvoiceStateType string
 
 const (
-	InvoiceStateTypeAccrual                InvoiceStateType = "accrual"
-	InvoiceStateTypeConsolidated           InvoiceStateType = "consolidated"
-	InvoiceStateTypeDue                    InvoiceStateType = "due"
-	InvoiceStateTypeEstimate               InvoiceStateType = "estimate"
-	InvoiceStateTypeFailedCreditCardCharge InvoiceStateType = "failed_credit_card_charge"
-	InvoiceStateTypeFailedNoCreditCard     InvoiceStateType = "failed_no_credit_card"
-	InvoiceStateTypeMailed                 InvoiceStateType = "mailed"
-	InvoiceStateTypeNoPaymentExpected      InvoiceStateType = "no_payment_expected"
-	InvoiceStateTypePaid                   InvoiceStateType = "paid"
-	InvoiceStateTypePartnerMetering        InvoiceStateType = "partner_metering"
-	InvoiceStateTypeUncollectible          InvoiceStateType = "uncollectible"
-	InvoiceStateTypeWaived                 InvoiceStateType = "waived"
+	InvoiceStateTypeAccrual                              InvoiceStateType = "accrual"
+	InvoiceStateTypeConsolidated                         InvoiceStateType = "consolidated"
+	InvoiceStateTypeDue                                  InvoiceStateType = "due"
+	InvoiceStateTypeEstimate                             InvoiceStateType = "estimate"
+	InvoiceStateTypeFailedCreditCardCharge               InvoiceStateType = "failed_credit_card_charge"
+	InvoiceStateTypeFailedNoCreditCard                   InvoiceStateType = "failed_no_credit_card"
+	InvoiceStateTypeMailed                               InvoiceStateType = "mailed"
+	InvoiceStateTypeNoPaymentExpected                    InvoiceStateType = "no_payment_expected"
+	InvoiceStateTypePaid                                 InvoiceStateType = "paid"
+	InvoiceStateTypePartnerMetering                      InvoiceStateType = "partner_metering"
+	InvoiceStateTypeUncollectible                        InvoiceStateType = "uncollectible"
+	InvoiceStateTypeWaived                               InvoiceStateType = "waived"
+	InvoiceStateTypeDueOnlyProjectChargesCalculated      InvoiceStateType = "due_only_project_charges_calculated"
+	InvoiceStateTypeEstimateOnlyProjectChargesCalculated InvoiceStateType = "estimate_only_project_charges_calculated"
 )
 
 func InvoiceStateTypeChoices() []string {
-	return []string{"accrual", "consolidated", "due", "estimate", "failed_credit_card_charge", "failed_no_credit_card", "mailed", "no_payment_expected", "paid", "partner_metering", "uncollectible", "waived"}
+	return []string{"accrual", "consolidated", "due", "estimate", "failed_credit_card_charge", "failed_no_credit_card", "mailed", "no_payment_expected", "paid", "partner_metering", "uncollectible", "waived", "due_only_project_charges_calculated", "estimate_only_project_charges_calculated"}
 }
 
 type ProjectCreditsClaimIn struct {

@@ -10,27 +10,27 @@ import (
 
 type Handler interface {
 	// ServiceKafkaMirrorMakerCreateReplicationFlow create a replication flow
-	// POST /project/{project}/service/{service_name}/mirrormaker/replication-flows
+	// POST /v1/project/{project}/service/{service_name}/mirrormaker/replication-flows
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerCreateReplicationFlow
 	ServiceKafkaMirrorMakerCreateReplicationFlow(ctx context.Context, project string, serviceName string, in *ServiceKafkaMirrorMakerCreateReplicationFlowIn) error
 
 	// ServiceKafkaMirrorMakerDeleteReplicationFlow delete a replication flow
-	// DELETE /project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
+	// DELETE /v1/project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerDeleteReplicationFlow
 	ServiceKafkaMirrorMakerDeleteReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) error
 
 	// ServiceKafkaMirrorMakerGetReplicationFlow get a replication flow
-	// GET /project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
+	// GET /v1/project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerGetReplicationFlow
 	ServiceKafkaMirrorMakerGetReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) (*ServiceKafkaMirrorMakerGetReplicationFlowOut, error)
 
 	// ServiceKafkaMirrorMakerGetReplicationFlows get replication flows
-	// GET /project/{project}/service/{service_name}/mirrormaker/replication-flows
+	// GET /v1/project/{project}/service/{service_name}/mirrormaker/replication-flows
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerGetReplicationFlows
 	ServiceKafkaMirrorMakerGetReplicationFlows(ctx context.Context, project string, serviceName string) ([]ReplicationFlowOut, error)
 
 	// ServiceKafkaMirrorMakerPatchReplicationFlow update a replication flow
-	// PUT /project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
+	// PUT /v1/project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerPatchReplicationFlow
 	ServiceKafkaMirrorMakerPatchReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string, in *ServiceKafkaMirrorMakerPatchReplicationFlowIn) (*ServiceKafkaMirrorMakerPatchReplicationFlowOut, error)
 }
@@ -48,17 +48,17 @@ type KafkaMirrorMakerHandler struct {
 }
 
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerCreateReplicationFlow(ctx context.Context, project string, serviceName string, in *ServiceKafkaMirrorMakerCreateReplicationFlowIn) error {
-	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows", project, serviceName)
 	_, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerCreateReplicationFlow", "POST", path, in)
 	return err
 }
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerDeleteReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
 	_, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerDeleteReplicationFlow", "DELETE", path, nil)
 	return err
 }
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) (*ServiceKafkaMirrorMakerGetReplicationFlowOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerGetReplicationFlow", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlow(ctx 
 	return &out.ReplicationFlow, nil
 }
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlows(ctx context.Context, project string, serviceName string) ([]ReplicationFlowOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerGetReplicationFlows", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -84,7 +84,7 @@ func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlows(ctx
 	return out.ReplicationFlows, nil
 }
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerPatchReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string, in *ServiceKafkaMirrorMakerPatchReplicationFlowIn) (*ServiceKafkaMirrorMakerPatchReplicationFlowOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerPatchReplicationFlow", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -116,6 +116,7 @@ type ReplicationFlowOut struct {
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
+	ReplicationProgress             *float64                     `json:"replication_progress,omitempty"`
 	SourceCluster                   string                       `json:"source_cluster"`
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
@@ -157,6 +158,7 @@ type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
+	ReplicationProgress             *float64                     `json:"replication_progress,omitempty"`
 	SourceCluster                   string                       `json:"source_cluster"`
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
@@ -185,6 +187,7 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowOut struct {
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
+	ReplicationProgress             *float64                     `json:"replication_progress,omitempty"`
 	SourceCluster                   string                       `json:"source_cluster"`
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`

@@ -10,67 +10,67 @@ import (
 
 type Handler interface {
 	// PublicPrivatelinkAvailabilityList list privatelink clouds and prices
-	// GET /tenants/{tenant}/privatelink-availability
+	// GET /v1/tenants/{tenant}/privatelink-availability
 	// https://api.aiven.io/doc/#tag/Cloud_platforms/operation/PublicPrivatelinkAvailabilityList
 	PublicPrivatelinkAvailabilityList(ctx context.Context, tenant string) ([]PrivatelinkAvailabilityOut, error)
 
 	// ServicePrivatelinkAWSConnectionList list VPC Endpoint connections for an AWS Privatelink Endpoint Service
-	// GET /project/{project}/service/{service_name}/privatelink/aws/connections
+	// GET /v1/project/{project}/service/{service_name}/privatelink/aws/connections
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSConnectionList
 	ServicePrivatelinkAWSConnectionList(ctx context.Context, project string, serviceName string) ([]ConnectionOut, error)
 
 	// ServicePrivatelinkAWSCreate create an AWS Privatelink Endpoint Service
-	// POST /project/{project}/service/{service_name}/privatelink/aws
+	// POST /v1/project/{project}/service/{service_name}/privatelink/aws
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSCreate
 	ServicePrivatelinkAWSCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwscreateIn) (*ServicePrivatelinkAwscreateOut, error)
 
 	// ServicePrivatelinkAWSDelete delete an AWS Privatelink Endpoint Service
-	// DELETE /project/{project}/service/{service_name}/privatelink/aws
+	// DELETE /v1/project/{project}/service/{service_name}/privatelink/aws
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSDelete
 	ServicePrivatelinkAWSDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsdeleteOut, error)
 
 	// ServicePrivatelinkAWSGet get AWS Privatelink Endpoint Service information
-	// GET /project/{project}/service/{service_name}/privatelink/aws
+	// GET /v1/project/{project}/service/{service_name}/privatelink/aws
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSGet
 	ServicePrivatelinkAWSGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsgetOut, error)
 
 	// ServicePrivatelinkAWSUpdate update an AWS Privatelink Endpoint Service
-	// PUT /project/{project}/service/{service_name}/privatelink/aws
+	// PUT /v1/project/{project}/service/{service_name}/privatelink/aws
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSUpdate
 	ServicePrivatelinkAWSUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwsupdateIn) (*ServicePrivatelinkAwsupdateOut, error)
 
 	// ServicePrivatelinkAzureConnectionApproval approve an Azure private endpoint connection pending user approval
-	// POST /project/{project}/service/{service_name}/privatelink/azure/connections/{privatelink_connection_id}/approve
+	// POST /v1/project/{project}/service/{service_name}/privatelink/azure/connections/{privatelink_connection_id}/approve
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureConnectionApproval
 	ServicePrivatelinkAzureConnectionApproval(ctx context.Context, project string, serviceName string, privatelinkConnectionId string) (*ServicePrivatelinkAzureConnectionApprovalOut, error)
 
 	// ServicePrivatelinkAzureConnectionList list private endpoint connections for an Azure Privatelink Service
-	// GET /project/{project}/service/{service_name}/privatelink/azure/connections
+	// GET /v1/project/{project}/service/{service_name}/privatelink/azure/connections
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureConnectionList
 	ServicePrivatelinkAzureConnectionList(ctx context.Context, project string, serviceName string) ([]ConnectionOutAlt, error)
 
 	// ServicePrivatelinkAzureConnectionUpdate update a private endpoint connection for an Azure Privatelink Service
-	// PUT /project/{project}/service/{service_name}/privatelink/azure/connections/{privatelink_connection_id}
+	// PUT /v1/project/{project}/service/{service_name}/privatelink/azure/connections/{privatelink_connection_id}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureConnectionUpdate
 	ServicePrivatelinkAzureConnectionUpdate(ctx context.Context, project string, serviceName string, privatelinkConnectionId string, in *ServicePrivatelinkAzureConnectionUpdateIn) (*ServicePrivatelinkAzureConnectionUpdateOut, error)
 
 	// ServicePrivatelinkAzureCreate create an Azure Privatelink Service
-	// POST /project/{project}/service/{service_name}/privatelink/azure
+	// POST /v1/project/{project}/service/{service_name}/privatelink/azure
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureCreate
 	ServicePrivatelinkAzureCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureCreateIn) (*ServicePrivatelinkAzureCreateOut, error)
 
 	// ServicePrivatelinkAzureDelete delete an Azure Privatelink Service
-	// DELETE /project/{project}/service/{service_name}/privatelink/azure
+	// DELETE /v1/project/{project}/service/{service_name}/privatelink/azure
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureDelete
 	ServicePrivatelinkAzureDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAzureDeleteOut, error)
 
 	// ServicePrivatelinkAzureGet get Azure Privatelink Service information
-	// GET /project/{project}/service/{service_name}/privatelink/azure
+	// GET /v1/project/{project}/service/{service_name}/privatelink/azure
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureGet
 	ServicePrivatelinkAzureGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAzureGetOut, error)
 
 	// ServicePrivatelinkAzureUpdate update an Azure Privatelink Service
-	// PUT /project/{project}/service/{service_name}/privatelink/azure
+	// PUT /v1/project/{project}/service/{service_name}/privatelink/azure
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureUpdate
 	ServicePrivatelinkAzureUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureUpdateIn) (*ServicePrivatelinkAzureUpdateOut, error)
 }
@@ -88,7 +88,7 @@ type PrivatelinkHandler struct {
 }
 
 func (h *PrivatelinkHandler) PublicPrivatelinkAvailabilityList(ctx context.Context, tenant string) ([]PrivatelinkAvailabilityOut, error) {
-	path := fmt.Sprintf("/tenants/%s/privatelink-availability", tenant)
+	path := fmt.Sprintf("/v1/tenants/%s/privatelink-availability", tenant)
 	b, err := h.doer.Do(ctx, "PublicPrivatelinkAvailabilityList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -101,7 +101,7 @@ func (h *PrivatelinkHandler) PublicPrivatelinkAvailabilityList(ctx context.Conte
 	return out.PrivatelinkAvailability, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSConnectionList(ctx context.Context, project string, serviceName string) ([]ConnectionOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/privatelink/aws/connections", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws/connections", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSConnectionList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -114,7 +114,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSConnectionList(ctx context.Con
 	return out.Connections, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwscreateIn) (*ServicePrivatelinkAwscreateOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/privatelink/aws", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -127,7 +127,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSCreate(ctx context.Context, pr
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsdeleteOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/privatelink/aws", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -140,7 +140,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSDelete(ctx context.Context, pr
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsgetOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/privatelink/aws", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -153,7 +153,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSGet(ctx context.Context, proje
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwsupdateIn) (*ServicePrivatelinkAwsupdateOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/privatelink/aws", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -166,7 +166,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSUpdate(ctx context.Context, pr
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionApproval(ctx context.Context, project string, serviceName string, privatelinkConnectionId string) (*ServicePrivatelinkAzureConnectionApprovalOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure/connections/%s/approve", project, serviceName, privatelinkConnectionId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure/connections/%s/approve", project, serviceName, privatelinkConnectionId)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureConnectionApproval", "POST", path, nil)
 	if err != nil {
 		return nil, err
@@ -179,7 +179,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionApproval(ctx conte
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionList(ctx context.Context, project string, serviceName string) ([]ConnectionOutAlt, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure/connections", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure/connections", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureConnectionList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -192,7 +192,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionList(ctx context.C
 	return out.Connections, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionUpdate(ctx context.Context, project string, serviceName string, privatelinkConnectionId string, in *ServicePrivatelinkAzureConnectionUpdateIn) (*ServicePrivatelinkAzureConnectionUpdateOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure/connections/%s", project, serviceName, privatelinkConnectionId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure/connections/%s", project, serviceName, privatelinkConnectionId)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureConnectionUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -205,7 +205,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionUpdate(ctx context
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureCreateIn) (*ServicePrivatelinkAzureCreateOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -218,7 +218,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureCreate(ctx context.Context, 
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAzureDeleteOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -231,7 +231,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureDelete(ctx context.Context, 
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAzureGetOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -244,7 +244,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureGet(ctx context.Context, pro
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureUpdateIn) (*ServicePrivatelinkAzureUpdateOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/privatelink/azure", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err

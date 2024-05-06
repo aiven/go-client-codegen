@@ -10,62 +10,62 @@ import (
 
 type Handler interface {
 	// ServiceIntegrationCreate create a new service integration
-	// POST /project/{project}/integration
+	// POST /v1/project/{project}/integration
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationCreate
 	ServiceIntegrationCreate(ctx context.Context, project string, in *ServiceIntegrationCreateIn) (*ServiceIntegrationCreateOut, error)
 
 	// ServiceIntegrationDelete delete a service integration
-	// DELETE /project/{project}/integration/{integration_id}
+	// DELETE /v1/project/{project}/integration/{integration_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationDelete
 	ServiceIntegrationDelete(ctx context.Context, project string, integrationId string) error
 
 	// ServiceIntegrationEndpointCreate create a new service integration endpoint
-	// POST /project/{project}/integration_endpoint
+	// POST /v1/project/{project}/integration_endpoint
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointCreate
 	ServiceIntegrationEndpointCreate(ctx context.Context, project string, in *ServiceIntegrationEndpointCreateIn) (*ServiceIntegrationEndpointCreateOut, error)
 
 	// ServiceIntegrationEndpointDelete delete a service integration endpoint
-	// DELETE /project/{project}/integration_endpoint/{integration_endpoint_id}
+	// DELETE /v1/project/{project}/integration_endpoint/{integration_endpoint_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointDelete
 	ServiceIntegrationEndpointDelete(ctx context.Context, project string, integrationEndpointId string) error
 
 	// ServiceIntegrationEndpointGet get service integration endpoint
-	// GET /project/{project}/integration_endpoint/{integration_endpoint_id}
+	// GET /v1/project/{project}/integration_endpoint/{integration_endpoint_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointGet
 	ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string) (*ServiceIntegrationEndpointGetOut, error)
 
 	// ServiceIntegrationEndpointList list available integration endpoints for project
-	// GET /project/{project}/integration_endpoint
+	// GET /v1/project/{project}/integration_endpoint
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointList
 	ServiceIntegrationEndpointList(ctx context.Context, project string) ([]ServiceIntegrationEndpointOut, error)
 
 	// ServiceIntegrationEndpointTypes list available service integration endpoint types
-	// GET /project/{project}/integration_endpoint_types
+	// GET /v1/project/{project}/integration_endpoint_types
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointTypes
 	ServiceIntegrationEndpointTypes(ctx context.Context, project string) ([]EndpointTypeOut, error)
 
 	// ServiceIntegrationEndpointUpdate update service integration endpoint
-	// PUT /project/{project}/integration_endpoint/{integration_endpoint_id}
+	// PUT /v1/project/{project}/integration_endpoint/{integration_endpoint_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointUpdate
 	ServiceIntegrationEndpointUpdate(ctx context.Context, project string, integrationEndpointId string, in *ServiceIntegrationEndpointUpdateIn) (*ServiceIntegrationEndpointUpdateOut, error)
 
 	// ServiceIntegrationGet get service integration
-	// GET /project/{project}/integration/{integration_id}
+	// GET /v1/project/{project}/integration/{integration_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationGet
 	ServiceIntegrationGet(ctx context.Context, project string, integrationId string) (*ServiceIntegrationGetOut, error)
 
 	// ServiceIntegrationList list available integrations for a service
-	// GET /project/{project}/service/{service_name}/integration
+	// GET /v1/project/{project}/service/{service_name}/integration
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationList
 	ServiceIntegrationList(ctx context.Context, project string, serviceName string) ([]ServiceIntegrationOut, error)
 
 	// ServiceIntegrationTypes list available service integration types
-	// GET /project/{project}/integration_types
+	// GET /v1/project/{project}/integration_types
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationTypes
 	ServiceIntegrationTypes(ctx context.Context, project string) ([]IntegrationTypeOut, error)
 
 	// ServiceIntegrationUpdate update a service integration
-	// PUT /project/{project}/integration/{integration_id}
+	// PUT /v1/project/{project}/integration/{integration_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationUpdate
 	ServiceIntegrationUpdate(ctx context.Context, project string, integrationId string, in *ServiceIntegrationUpdateIn) (*ServiceIntegrationUpdateOut, error)
 }
@@ -83,7 +83,7 @@ type ServiceIntegrationHandler struct {
 }
 
 func (h *ServiceIntegrationHandler) ServiceIntegrationCreate(ctx context.Context, project string, in *ServiceIntegrationCreateIn) (*ServiceIntegrationCreateOut, error) {
-	path := fmt.Sprintf("/project/%s/integration", project)
+	path := fmt.Sprintf("/v1/project/%s/integration", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -96,12 +96,12 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationCreate(ctx context.Context
 	return &out.ServiceIntegration, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationDelete(ctx context.Context, project string, integrationId string) error {
-	path := fmt.Sprintf("/project/%s/integration/%s", project, integrationId)
+	path := fmt.Sprintf("/v1/project/%s/integration/%s", project, integrationId)
 	_, err := h.doer.Do(ctx, "ServiceIntegrationDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointCreate(ctx context.Context, project string, in *ServiceIntegrationEndpointCreateIn) (*ServiceIntegrationEndpointCreateOut, error) {
-	path := fmt.Sprintf("/project/%s/integration_endpoint", project)
+	path := fmt.Sprintf("/v1/project/%s/integration_endpoint", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -114,12 +114,12 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointCreate(ctx context
 	return &out.ServiceIntegrationEndpoint, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointDelete(ctx context.Context, project string, integrationEndpointId string) error {
-	path := fmt.Sprintf("/project/%s/integration_endpoint/%s", project, integrationEndpointId)
+	path := fmt.Sprintf("/v1/project/%s/integration_endpoint/%s", project, integrationEndpointId)
 	_, err := h.doer.Do(ctx, "ServiceIntegrationEndpointDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string) (*ServiceIntegrationEndpointGetOut, error) {
-	path := fmt.Sprintf("/project/%s/integration_endpoint/%s", project, integrationEndpointId)
+	path := fmt.Sprintf("/v1/project/%s/integration_endpoint/%s", project, integrationEndpointId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -132,7 +132,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointGet(ctx context.Co
 	return &out.ServiceIntegrationEndpoint, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointList(ctx context.Context, project string) ([]ServiceIntegrationEndpointOut, error) {
-	path := fmt.Sprintf("/project/%s/integration_endpoint", project)
+	path := fmt.Sprintf("/v1/project/%s/integration_endpoint", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -145,7 +145,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointList(ctx context.C
 	return out.ServiceIntegrationEndpoints, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointTypes(ctx context.Context, project string) ([]EndpointTypeOut, error) {
-	path := fmt.Sprintf("/project/%s/integration_endpoint_types", project)
+	path := fmt.Sprintf("/v1/project/%s/integration_endpoint_types", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointTypes", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -158,7 +158,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointTypes(ctx context.
 	return out.EndpointTypes, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointUpdate(ctx context.Context, project string, integrationEndpointId string, in *ServiceIntegrationEndpointUpdateIn) (*ServiceIntegrationEndpointUpdateOut, error) {
-	path := fmt.Sprintf("/project/%s/integration_endpoint/%s", project, integrationEndpointId)
+	path := fmt.Sprintf("/v1/project/%s/integration_endpoint/%s", project, integrationEndpointId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -171,7 +171,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointUpdate(ctx context
 	return &out.ServiceIntegrationEndpoint, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationGet(ctx context.Context, project string, integrationId string) (*ServiceIntegrationGetOut, error) {
-	path := fmt.Sprintf("/project/%s/integration/%s", project, integrationId)
+	path := fmt.Sprintf("/v1/project/%s/integration/%s", project, integrationId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -184,7 +184,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationGet(ctx context.Context, p
 	return &out.ServiceIntegration, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationList(ctx context.Context, project string, serviceName string) ([]ServiceIntegrationOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/integration", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/integration", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -197,7 +197,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationList(ctx context.Context, 
 	return out.ServiceIntegrations, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationTypes(ctx context.Context, project string) ([]IntegrationTypeOut, error) {
-	path := fmt.Sprintf("/project/%s/integration_types", project)
+	path := fmt.Sprintf("/v1/project/%s/integration_types", project)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationTypes", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -210,7 +210,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationTypes(ctx context.Context,
 	return out.IntegrationTypes, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationUpdate(ctx context.Context, project string, integrationId string, in *ServiceIntegrationUpdateIn) (*ServiceIntegrationUpdateOut, error) {
-	path := fmt.Sprintf("/project/%s/integration/%s", project, integrationId)
+	path := fmt.Sprintf("/v1/project/%s/integration/%s", project, integrationId)
 	b, err := h.doer.Do(ctx, "ServiceIntegrationUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -241,13 +241,14 @@ const (
 	EndpointTypeExternalPostgresql           EndpointType = "external_postgresql"
 	EndpointTypeExternalRedis                EndpointType = "external_redis"
 	EndpointTypeExternalSchemaRegistry       EndpointType = "external_schema_registry"
+	EndpointTypeExternalSumologicLogs        EndpointType = "external_sumologic_logs"
 	EndpointTypeJolokia                      EndpointType = "jolokia"
 	EndpointTypePrometheus                   EndpointType = "prometheus"
 	EndpointTypeRsyslog                      EndpointType = "rsyslog"
 )
 
 func EndpointTypeChoices() []string {
-	return []string{"autoscaler", "datadog", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_aws_s3", "external_clickhouse", "external_elasticsearch_logs", "external_google_cloud_bigquery", "external_google_cloud_logging", "external_kafka", "external_mysql", "external_opensearch_logs", "external_postgresql", "external_redis", "external_schema_registry", "jolokia", "prometheus", "rsyslog"}
+	return []string{"autoscaler", "datadog", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_aws_s3", "external_clickhouse", "external_elasticsearch_logs", "external_google_cloud_bigquery", "external_google_cloud_logging", "external_kafka", "external_mysql", "external_opensearch_logs", "external_postgresql", "external_redis", "external_schema_registry", "external_sumologic_logs", "jolokia", "prometheus", "rsyslog"}
 }
 
 type EndpointTypeOut struct {
@@ -295,6 +296,7 @@ const (
 	IntegrationTypeFlink                             IntegrationType = "flink"
 	IntegrationTypeFlinkExternalBigquery             IntegrationType = "flink_external_bigquery"
 	IntegrationTypeFlinkExternalKafka                IntegrationType = "flink_external_kafka"
+	IntegrationTypeFlinkExternalPostgresql           IntegrationType = "flink_external_postgresql"
 	IntegrationTypeInternalConnectivity              IntegrationType = "internal_connectivity"
 	IntegrationTypeJolokia                           IntegrationType = "jolokia"
 	IntegrationTypeKafkaConnect                      IntegrationType = "kafka_connect"
@@ -320,7 +322,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
+	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
 }
 
 type IntegrationTypeOut struct {

@@ -10,57 +10,57 @@ import (
 
 type Handler interface {
 	// ServiceKafkaConnectCreateConnector create a Kafka Connect connector
-	// POST /project/{project}/service/{service_name}/connectors
+	// POST /v1/project/{project}/service/{service_name}/connectors
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectCreateConnector
 	ServiceKafkaConnectCreateConnector(ctx context.Context, project string, serviceName string, in *ServiceKafkaConnectCreateConnectorIn) (*ServiceKafkaConnectCreateConnectorOut, error)
 
 	// ServiceKafkaConnectDeleteConnector delete Kafka Connect connector
-	// DELETE /project/{project}/service/{service_name}/connectors/{connector_name}
+	// DELETE /v1/project/{project}/service/{service_name}/connectors/{connector_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectDeleteConnector
 	ServiceKafkaConnectDeleteConnector(ctx context.Context, project string, serviceName string, connectorName string) error
 
 	// ServiceKafkaConnectEditConnector edit Kafka Connect connector
-	// PUT /project/{project}/service/{service_name}/connectors/{connector_name}
+	// PUT /v1/project/{project}/service/{service_name}/connectors/{connector_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectEditConnector
 	ServiceKafkaConnectEditConnector(ctx context.Context, project string, serviceName string, connectorName string, in *ServiceKafkaConnectEditConnectorIn) (*ServiceKafkaConnectEditConnectorOut, error)
 
 	// ServiceKafkaConnectGetAvailableConnectors get available Kafka Connect connectors
-	// GET /project/{project}/service/{service_name}/available-connectors
+	// GET /v1/project/{project}/service/{service_name}/available-connectors
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectGetAvailableConnectors
 	ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]PluginOut, error)
 
 	// ServiceKafkaConnectGetConnectorConfiguration get Kafka Connect connector configuration schema
-	// GET /project/{project}/service/{service_name}/connector-plugins/{connector_name}/configuration
+	// GET /v1/project/{project}/service/{service_name}/connector-plugins/{connector_name}/configuration
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectGetConnectorConfiguration
 	ServiceKafkaConnectGetConnectorConfiguration(ctx context.Context, project string, serviceName string, connectorName string) ([]ConfigurationSchemaOut, error)
 
 	// ServiceKafkaConnectGetConnectorStatus get a Kafka Connect Connector status
-	// GET /project/{project}/service/{service_name}/connectors/{connector_name}/status
+	// GET /v1/project/{project}/service/{service_name}/connectors/{connector_name}/status
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectGetConnectorStatus
 	ServiceKafkaConnectGetConnectorStatus(ctx context.Context, project string, serviceName string, connectorName string) (*ServiceKafkaConnectGetConnectorStatusOut, error)
 
 	// ServiceKafkaConnectList lists Kafka connectors
-	// GET /project/{project}/service/{service_name}/connectors
+	// GET /v1/project/{project}/service/{service_name}/connectors
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectList
 	ServiceKafkaConnectList(ctx context.Context, project string, serviceName string) ([]ConnectorOut, error)
 
 	// ServiceKafkaConnectPauseConnector pause a Kafka Connect Connector
-	// POST /project/{project}/service/{service_name}/connectors/{connector_name}/pause
+	// POST /v1/project/{project}/service/{service_name}/connectors/{connector_name}/pause
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectPauseConnector
 	ServiceKafkaConnectPauseConnector(ctx context.Context, project string, serviceName string, connectorName string) error
 
 	// ServiceKafkaConnectRestartConnector restart a Kafka Connect Connector
-	// POST /project/{project}/service/{service_name}/connectors/{connector_name}/restart
+	// POST /v1/project/{project}/service/{service_name}/connectors/{connector_name}/restart
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectRestartConnector
 	ServiceKafkaConnectRestartConnector(ctx context.Context, project string, serviceName string, connectorName string) error
 
 	// ServiceKafkaConnectRestartConnectorTask restart a Kafka Connect Connector task
-	// POST /project/{project}/service/{service_name}/connectors/{connector_name}/tasks/{task_id}/restart
+	// POST /v1/project/{project}/service/{service_name}/connectors/{connector_name}/tasks/{task_id}/restart
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectRestartConnectorTask
 	ServiceKafkaConnectRestartConnectorTask(ctx context.Context, project string, serviceName string, connectorName string, taskId string) error
 
 	// ServiceKafkaConnectResumeConnector resume a Kafka Connect Connector
-	// POST /project/{project}/service/{service_name}/connectors/{connector_name}/resume
+	// POST /v1/project/{project}/service/{service_name}/connectors/{connector_name}/resume
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectResumeConnector
 	ServiceKafkaConnectResumeConnector(ctx context.Context, project string, serviceName string, connectorName string) error
 }
@@ -78,7 +78,7 @@ type KafkaConnectHandler struct {
 }
 
 func (h *KafkaConnectHandler) ServiceKafkaConnectCreateConnector(ctx context.Context, project string, serviceName string, in *ServiceKafkaConnectCreateConnectorIn) (*ServiceKafkaConnectCreateConnectorOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/connectors", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectCreateConnector", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -91,12 +91,12 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectCreateConnector(ctx context.Con
 	return &out.Connector, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectDeleteConnector(ctx context.Context, project string, serviceName string, connectorName string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/connectors/%s", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s", project, serviceName, connectorName)
 	_, err := h.doer.Do(ctx, "ServiceKafkaConnectDeleteConnector", "DELETE", path, nil)
 	return err
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectEditConnector(ctx context.Context, project string, serviceName string, connectorName string, in *ServiceKafkaConnectEditConnectorIn) (*ServiceKafkaConnectEditConnectorOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/connectors/%s", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s", project, serviceName, connectorName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectEditConnector", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -109,7 +109,7 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectEditConnector(ctx context.Conte
 	return &out.Connector, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]PluginOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/available-connectors", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/available-connectors", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetAvailableConnectors", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -122,7 +122,7 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectGetAvailableConnectors(ctx cont
 	return out.Plugins, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorConfiguration(ctx context.Context, project string, serviceName string, connectorName string) ([]ConfigurationSchemaOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/connector-plugins/%s/configuration", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connector-plugins/%s/configuration", project, serviceName, connectorName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetConnectorConfiguration", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -135,7 +135,7 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorConfiguration(ctx c
 	return out.ConfigurationSchema, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorStatus(ctx context.Context, project string, serviceName string, connectorName string) (*ServiceKafkaConnectGetConnectorStatusOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/connectors/%s/status", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/status", project, serviceName, connectorName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetConnectorStatus", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -148,7 +148,7 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorStatus(ctx context.
 	return &out.Status, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectList(ctx context.Context, project string, serviceName string) ([]ConnectorOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/connectors", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -161,22 +161,22 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectList(ctx context.Context, proje
 	return out.Connectors, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectPauseConnector(ctx context.Context, project string, serviceName string, connectorName string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/connectors/%s/pause", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/pause", project, serviceName, connectorName)
 	_, err := h.doer.Do(ctx, "ServiceKafkaConnectPauseConnector", "POST", path, nil)
 	return err
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectRestartConnector(ctx context.Context, project string, serviceName string, connectorName string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/connectors/%s/restart", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/restart", project, serviceName, connectorName)
 	_, err := h.doer.Do(ctx, "ServiceKafkaConnectRestartConnector", "POST", path, nil)
 	return err
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectRestartConnectorTask(ctx context.Context, project string, serviceName string, connectorName string, taskId string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/connectors/%s/tasks/%s/restart", project, serviceName, connectorName, taskId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/tasks/%s/restart", project, serviceName, connectorName, taskId)
 	_, err := h.doer.Do(ctx, "ServiceKafkaConnectRestartConnectorTask", "POST", path, nil)
 	return err
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectResumeConnector(ctx context.Context, project string, serviceName string, connectorName string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/connectors/%s/resume", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/resume", project, serviceName, connectorName)
 	_, err := h.doer.Do(ctx, "ServiceKafkaConnectResumeConnector", "POST", path, nil)
 	return err
 }

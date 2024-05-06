@@ -11,132 +11,127 @@ import (
 
 type Handler interface {
 	// AccessTokenCreate create new access token
-	// POST /access_token
+	// POST /v1/access_token
 	// https://api.aiven.io/doc/#tag/Users/operation/AccessTokenCreate
 	AccessTokenCreate(ctx context.Context, in *AccessTokenCreateIn) (*AccessTokenCreateOut, error)
 
 	// AccessTokenList list all valid access tokens
-	// GET /access_token
+	// GET /v1/access_token
 	// https://api.aiven.io/doc/#tag/Users/operation/AccessTokenList
 	AccessTokenList(ctx context.Context) ([]TokenOut, error)
 
 	// AccessTokenRevoke revoke an access token
-	// DELETE /access_token/{token_prefix}
+	// DELETE /v1/access_token/{token_prefix}
 	// https://api.aiven.io/doc/#tag/Users/operation/AccessTokenRevoke
 	AccessTokenRevoke(ctx context.Context, tokenPrefix string) error
 
 	// AccessTokenUpdate update an existing access token
-	// PUT /access_token/{token_prefix}
+	// PUT /v1/access_token/{token_prefix}
 	// https://api.aiven.io/doc/#tag/Users/operation/AccessTokenUpdate
 	AccessTokenUpdate(ctx context.Context, tokenPrefix string, in *AccessTokenUpdateIn) (*AccessTokenUpdateOut, error)
 
 	// CheckPasswordStrengthExistingUser check password strength for an existing user
-	// POST /me/password_strength
+	// POST /v1/me/password_strength
 	// https://api.aiven.io/doc/#tag/Users/operation/CheckPasswordStrengthExistingUser
 	CheckPasswordStrengthExistingUser(ctx context.Context, in *CheckPasswordStrengthExistingUserIn) (*CheckPasswordStrengthExistingUserOut, error)
 
 	// CheckPasswordStrengthNewUser check password strength for a new user
-	// POST /user/password_strength
+	// POST /v1/user/password_strength
 	// https://api.aiven.io/doc/#tag/Users/operation/CheckPasswordStrengthNewUser
 	CheckPasswordStrengthNewUser(ctx context.Context, in *CheckPasswordStrengthNewUserIn) (*CheckPasswordStrengthNewUserOut, error)
 
 	// OrganizationMemberGroupsList list user groups of the organization's member
-	// GET /organization/{organization_id}/user/{member_user_id}/user-groups
+	// GET /v1/organization/{organization_id}/user/{member_user_id}/user-groups
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationMemberGroupsList
 	OrganizationMemberGroupsList(ctx context.Context, organizationId string, memberUserId string) ([]UserGroupOut, error)
 
 	// TwoFactorAuthConfigure configure two-factor authentication
-	// PUT /me/2fa
+	// PUT /v1/me/2fa
 	// https://api.aiven.io/doc/#tag/Users/operation/TwoFactorAuthConfigure
 	TwoFactorAuthConfigure(ctx context.Context, in *TwoFactorAuthConfigureIn) (*TwoFactorAuthConfigureOut, error)
 
 	// TwoFactorAuthConfigureOTP complete one-time password configuration
-	// PUT /me/2fa/otp
+	// PUT /v1/me/2fa/otp
 	// https://api.aiven.io/doc/#tag/Users/operation/TwoFactorAuthConfigureOTP
 	TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFactorAuthConfigureOtpIn) (*TwoFactorAuthConfigureOtpOut, error)
 
 	// UserAccountInvitesAccept accept all invites for a single account
-	// POST /me/account/invites/accept
+	// POST /v1/me/account/invites/accept
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountInvitesAccept
 	UserAccountInvitesAccept(ctx context.Context, in *UserAccountInvitesAcceptIn) ([]AccountInviteOut, error)
 
 	// UserAccountInvitesList list pending account invites
-	// GET /me/account/invites
+	// GET /v1/me/account/invites
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountInvitesList
 	UserAccountInvitesList(ctx context.Context) ([]AccountInviteOut, error)
 
 	// UserAuth authenticate user
-	// POST /userauth
+	// POST /v1/userauth
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAuth
 	UserAuth(ctx context.Context, in *UserAuthIn) (*UserAuthOut, error)
 
 	// UserAuthLoginOptions get available login options
-	// POST /userauth/login_options
+	// POST /v1/userauth/login_options
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAuthLoginOptions
 	UserAuthLoginOptions(ctx context.Context, in *UserAuthLoginOptionsIn) (*UserAuthLoginOptionsOut, error)
 
 	// UserAuthenticationMethodDelete delete linked authentication method, and revoke all associated access tokens
-	// DELETE /me/authentication_methods/{user_authentication_method_id}
+	// DELETE /v1/me/authentication_methods/{user_authentication_method_id}
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAuthenticationMethodDelete
 	UserAuthenticationMethodDelete(ctx context.Context, userAuthenticationMethodId string) error
 
 	// UserAuthenticationMethodsList list linked authentication methods
-	// GET /me/authentication_methods
+	// GET /v1/me/authentication_methods
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAuthenticationMethodsList
 	UserAuthenticationMethodsList(ctx context.Context) ([]AuthenticationMethodOut, error)
 
-	// UserCreate create a user
-	// POST /user
-	// https://api.aiven.io/doc/#tag/Users/operation/UserCreate
-	UserCreate(ctx context.Context, in *UserCreateIn) (*UserCreateOut, error)
-
 	// UserExpireTokens expire all authorization tokens
-	// POST /me/expire_tokens
+	// POST /v1/me/expire_tokens
 	// https://api.aiven.io/doc/#tag/Users/operation/UserExpireTokens
 	UserExpireTokens(ctx context.Context) error
 
 	// UserInfo get information for the current session's user
-	// GET /me
+	// GET /v1/me
 	// https://api.aiven.io/doc/#tag/Users/operation/UserInfo
 	UserInfo(ctx context.Context) (*UserInfoOut, error)
 
 	// UserLogout logout user, removing current authentication token
-	// POST /me/logout
+	// POST /v1/me/logout
 	// https://api.aiven.io/doc/#tag/Users/operation/UserLogout
 	UserLogout(ctx context.Context) error
 
 	// UserPasswordChange change user password
-	// PUT /me/password
+	// PUT /v1/me/password
 	// https://api.aiven.io/doc/#tag/Users/operation/UserPasswordChange
 	UserPasswordChange(ctx context.Context, in *UserPasswordChangeIn) (string, error)
 
 	// UserPasswordReset confirm user password reset
-	// POST /user/password_reset/{verification_code}
+	// POST /v1/user/password_reset/{verification_code}
 	// https://api.aiven.io/doc/#tag/Users/operation/UserPasswordReset
 	UserPasswordReset(ctx context.Context, verificationCode string, in *UserPasswordResetIn) error
 
 	// UserPasswordResetRequest request user password reset
-	// POST /user/password_reset_request
+	// POST /v1/user/password_reset_request
 	// https://api.aiven.io/doc/#tag/Users/operation/UserPasswordResetRequest
 	UserPasswordResetRequest(ctx context.Context, in *UserPasswordResetRequestIn) error
 
 	// UserUpdate edit profile
-	// PATCH /me
+	// PATCH /v1/me
 	// https://api.aiven.io/doc/#tag/Users/operation/UserUpdate
 	UserUpdate(ctx context.Context, in *UserUpdateIn) (*UserUpdateOut, error)
 
 	// UserVerifyEmail confirm user email address
-	// POST /user/verify_email/{verification_code}
+	// POST /v1/user/verify_email/{verification_code}
 	// https://api.aiven.io/doc/#tag/Users/operation/UserVerifyEmail
 	UserVerifyEmail(ctx context.Context, verificationCode string) (*UserVerifyEmailOut, error)
 
 	// ValidateCreditCode validate campaign credit code
-	// GET /user/credit_code/{credit_code}
+	// GET /v1/user/credit_code/{credit_code}
 	// https://api.aiven.io/doc/#tag/Users/operation/ValidateCreditCode
 	ValidateCreditCode(ctx context.Context, creditCode string) error
 
 	// ValidateReferralCode validate referral_code code
-	// GET /me/referral/validation/{referral_code}
+	// GET /v1/me/referral/validation/{referral_code}
 	// https://api.aiven.io/doc/#tag/Users/operation/ValidateReferralCode
 	ValidateReferralCode(ctx context.Context, referralCode string) error
 }
@@ -154,7 +149,7 @@ type UserHandler struct {
 }
 
 func (h *UserHandler) AccessTokenCreate(ctx context.Context, in *AccessTokenCreateIn) (*AccessTokenCreateOut, error) {
-	path := fmt.Sprintf("/access_token")
+	path := fmt.Sprintf("/v1/access_token")
 	b, err := h.doer.Do(ctx, "AccessTokenCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -167,7 +162,7 @@ func (h *UserHandler) AccessTokenCreate(ctx context.Context, in *AccessTokenCrea
 	return out, nil
 }
 func (h *UserHandler) AccessTokenList(ctx context.Context) ([]TokenOut, error) {
-	path := fmt.Sprintf("/access_token")
+	path := fmt.Sprintf("/v1/access_token")
 	b, err := h.doer.Do(ctx, "AccessTokenList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -180,12 +175,12 @@ func (h *UserHandler) AccessTokenList(ctx context.Context) ([]TokenOut, error) {
 	return out.Tokens, nil
 }
 func (h *UserHandler) AccessTokenRevoke(ctx context.Context, tokenPrefix string) error {
-	path := fmt.Sprintf("/access_token/%s", tokenPrefix)
+	path := fmt.Sprintf("/v1/access_token/%s", tokenPrefix)
 	_, err := h.doer.Do(ctx, "AccessTokenRevoke", "DELETE", path, nil)
 	return err
 }
 func (h *UserHandler) AccessTokenUpdate(ctx context.Context, tokenPrefix string, in *AccessTokenUpdateIn) (*AccessTokenUpdateOut, error) {
-	path := fmt.Sprintf("/access_token/%s", tokenPrefix)
+	path := fmt.Sprintf("/v1/access_token/%s", tokenPrefix)
 	b, err := h.doer.Do(ctx, "AccessTokenUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -198,7 +193,7 @@ func (h *UserHandler) AccessTokenUpdate(ctx context.Context, tokenPrefix string,
 	return out, nil
 }
 func (h *UserHandler) CheckPasswordStrengthExistingUser(ctx context.Context, in *CheckPasswordStrengthExistingUserIn) (*CheckPasswordStrengthExistingUserOut, error) {
-	path := fmt.Sprintf("/me/password_strength")
+	path := fmt.Sprintf("/v1/me/password_strength")
 	b, err := h.doer.Do(ctx, "CheckPasswordStrengthExistingUser", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -211,7 +206,7 @@ func (h *UserHandler) CheckPasswordStrengthExistingUser(ctx context.Context, in 
 	return &out.PasswordStrength, nil
 }
 func (h *UserHandler) CheckPasswordStrengthNewUser(ctx context.Context, in *CheckPasswordStrengthNewUserIn) (*CheckPasswordStrengthNewUserOut, error) {
-	path := fmt.Sprintf("/user/password_strength")
+	path := fmt.Sprintf("/v1/user/password_strength")
 	b, err := h.doer.Do(ctx, "CheckPasswordStrengthNewUser", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -224,7 +219,7 @@ func (h *UserHandler) CheckPasswordStrengthNewUser(ctx context.Context, in *Chec
 	return &out.PasswordStrength, nil
 }
 func (h *UserHandler) OrganizationMemberGroupsList(ctx context.Context, organizationId string, memberUserId string) ([]UserGroupOut, error) {
-	path := fmt.Sprintf("/organization/%s/user/%s/user-groups", organizationId, memberUserId)
+	path := fmt.Sprintf("/v1/organization/%s/user/%s/user-groups", organizationId, memberUserId)
 	b, err := h.doer.Do(ctx, "OrganizationMemberGroupsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -237,7 +232,7 @@ func (h *UserHandler) OrganizationMemberGroupsList(ctx context.Context, organiza
 	return out.UserGroups, nil
 }
 func (h *UserHandler) TwoFactorAuthConfigure(ctx context.Context, in *TwoFactorAuthConfigureIn) (*TwoFactorAuthConfigureOut, error) {
-	path := fmt.Sprintf("/me/2fa")
+	path := fmt.Sprintf("/v1/me/2fa")
 	b, err := h.doer.Do(ctx, "TwoFactorAuthConfigure", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -250,7 +245,7 @@ func (h *UserHandler) TwoFactorAuthConfigure(ctx context.Context, in *TwoFactorA
 	return out, nil
 }
 func (h *UserHandler) TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFactorAuthConfigureOtpIn) (*TwoFactorAuthConfigureOtpOut, error) {
-	path := fmt.Sprintf("/me/2fa/otp")
+	path := fmt.Sprintf("/v1/me/2fa/otp")
 	b, err := h.doer.Do(ctx, "TwoFactorAuthConfigureOTP", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -263,7 +258,7 @@ func (h *UserHandler) TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFact
 	return out, nil
 }
 func (h *UserHandler) UserAccountInvitesAccept(ctx context.Context, in *UserAccountInvitesAcceptIn) ([]AccountInviteOut, error) {
-	path := fmt.Sprintf("/me/account/invites/accept")
+	path := fmt.Sprintf("/v1/me/account/invites/accept")
 	b, err := h.doer.Do(ctx, "UserAccountInvitesAccept", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -276,7 +271,7 @@ func (h *UserHandler) UserAccountInvitesAccept(ctx context.Context, in *UserAcco
 	return out.AccountInvites, nil
 }
 func (h *UserHandler) UserAccountInvitesList(ctx context.Context) ([]AccountInviteOut, error) {
-	path := fmt.Sprintf("/me/account/invites")
+	path := fmt.Sprintf("/v1/me/account/invites")
 	b, err := h.doer.Do(ctx, "UserAccountInvitesList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -289,7 +284,7 @@ func (h *UserHandler) UserAccountInvitesList(ctx context.Context) ([]AccountInvi
 	return out.AccountInvites, nil
 }
 func (h *UserHandler) UserAuth(ctx context.Context, in *UserAuthIn) (*UserAuthOut, error) {
-	path := fmt.Sprintf("/userauth")
+	path := fmt.Sprintf("/v1/userauth")
 	b, err := h.doer.Do(ctx, "UserAuth", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -302,7 +297,7 @@ func (h *UserHandler) UserAuth(ctx context.Context, in *UserAuthIn) (*UserAuthOu
 	return out, nil
 }
 func (h *UserHandler) UserAuthLoginOptions(ctx context.Context, in *UserAuthLoginOptionsIn) (*UserAuthLoginOptionsOut, error) {
-	path := fmt.Sprintf("/userauth/login_options")
+	path := fmt.Sprintf("/v1/userauth/login_options")
 	b, err := h.doer.Do(ctx, "UserAuthLoginOptions", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -315,12 +310,12 @@ func (h *UserHandler) UserAuthLoginOptions(ctx context.Context, in *UserAuthLogi
 	return out, nil
 }
 func (h *UserHandler) UserAuthenticationMethodDelete(ctx context.Context, userAuthenticationMethodId string) error {
-	path := fmt.Sprintf("/me/authentication_methods/%s", userAuthenticationMethodId)
+	path := fmt.Sprintf("/v1/me/authentication_methods/%s", userAuthenticationMethodId)
 	_, err := h.doer.Do(ctx, "UserAuthenticationMethodDelete", "DELETE", path, nil)
 	return err
 }
 func (h *UserHandler) UserAuthenticationMethodsList(ctx context.Context) ([]AuthenticationMethodOut, error) {
-	path := fmt.Sprintf("/me/authentication_methods")
+	path := fmt.Sprintf("/v1/me/authentication_methods")
 	b, err := h.doer.Do(ctx, "UserAuthenticationMethodsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -332,26 +327,13 @@ func (h *UserHandler) UserAuthenticationMethodsList(ctx context.Context) ([]Auth
 	}
 	return out.AuthenticationMethods, nil
 }
-func (h *UserHandler) UserCreate(ctx context.Context, in *UserCreateIn) (*UserCreateOut, error) {
-	path := fmt.Sprintf("/user")
-	b, err := h.doer.Do(ctx, "UserCreate", "POST", path, in)
-	if err != nil {
-		return nil, err
-	}
-	out := new(UserCreateOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
 func (h *UserHandler) UserExpireTokens(ctx context.Context) error {
-	path := fmt.Sprintf("/me/expire_tokens")
+	path := fmt.Sprintf("/v1/me/expire_tokens")
 	_, err := h.doer.Do(ctx, "UserExpireTokens", "POST", path, nil)
 	return err
 }
 func (h *UserHandler) UserInfo(ctx context.Context) (*UserInfoOut, error) {
-	path := fmt.Sprintf("/me")
+	path := fmt.Sprintf("/v1/me")
 	b, err := h.doer.Do(ctx, "UserInfo", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -364,12 +346,12 @@ func (h *UserHandler) UserInfo(ctx context.Context) (*UserInfoOut, error) {
 	return &out.User, nil
 }
 func (h *UserHandler) UserLogout(ctx context.Context) error {
-	path := fmt.Sprintf("/me/logout")
+	path := fmt.Sprintf("/v1/me/logout")
 	_, err := h.doer.Do(ctx, "UserLogout", "POST", path, nil)
 	return err
 }
 func (h *UserHandler) UserPasswordChange(ctx context.Context, in *UserPasswordChangeIn) (string, error) {
-	path := fmt.Sprintf("/me/password")
+	path := fmt.Sprintf("/v1/me/password")
 	b, err := h.doer.Do(ctx, "UserPasswordChange", "PUT", path, in)
 	if err != nil {
 		return "", err
@@ -382,17 +364,17 @@ func (h *UserHandler) UserPasswordChange(ctx context.Context, in *UserPasswordCh
 	return out.Token, nil
 }
 func (h *UserHandler) UserPasswordReset(ctx context.Context, verificationCode string, in *UserPasswordResetIn) error {
-	path := fmt.Sprintf("/user/password_reset/%s", verificationCode)
+	path := fmt.Sprintf("/v1/user/password_reset/%s", verificationCode)
 	_, err := h.doer.Do(ctx, "UserPasswordReset", "POST", path, in)
 	return err
 }
 func (h *UserHandler) UserPasswordResetRequest(ctx context.Context, in *UserPasswordResetRequestIn) error {
-	path := fmt.Sprintf("/user/password_reset_request")
+	path := fmt.Sprintf("/v1/user/password_reset_request")
 	_, err := h.doer.Do(ctx, "UserPasswordResetRequest", "POST", path, in)
 	return err
 }
 func (h *UserHandler) UserUpdate(ctx context.Context, in *UserUpdateIn) (*UserUpdateOut, error) {
-	path := fmt.Sprintf("/me")
+	path := fmt.Sprintf("/v1/me")
 	b, err := h.doer.Do(ctx, "UserUpdate", "PATCH", path, in)
 	if err != nil {
 		return nil, err
@@ -405,7 +387,7 @@ func (h *UserHandler) UserUpdate(ctx context.Context, in *UserUpdateIn) (*UserUp
 	return &out.User, nil
 }
 func (h *UserHandler) UserVerifyEmail(ctx context.Context, verificationCode string) (*UserVerifyEmailOut, error) {
-	path := fmt.Sprintf("/user/verify_email/%s", verificationCode)
+	path := fmt.Sprintf("/v1/user/verify_email/%s", verificationCode)
 	b, err := h.doer.Do(ctx, "UserVerifyEmail", "POST", path, nil)
 	if err != nil {
 		return nil, err
@@ -418,12 +400,12 @@ func (h *UserHandler) UserVerifyEmail(ctx context.Context, verificationCode stri
 	return &out.InviteDetails, nil
 }
 func (h *UserHandler) ValidateCreditCode(ctx context.Context, creditCode string) error {
-	path := fmt.Sprintf("/user/credit_code/%s", creditCode)
+	path := fmt.Sprintf("/v1/user/credit_code/%s", creditCode)
 	_, err := h.doer.Do(ctx, "ValidateCreditCode", "GET", path, nil)
 	return err
 }
 func (h *UserHandler) ValidateReferralCode(ctx context.Context, referralCode string) error {
-	path := fmt.Sprintf("/me/referral/validation/%s", referralCode)
+	path := fmt.Sprintf("/v1/me/referral/validation/%s", referralCode)
 	_, err := h.doer.Do(ctx, "ValidateReferralCode", "GET", path, nil)
 	return err
 }
@@ -635,27 +617,10 @@ type UserAuthOut struct {
 	Token     string `json:"token"`
 	UserEmail string `json:"user_email"`
 }
-type UserCreateIn struct {
-	Company                      string    `json:"company,omitempty"`
-	CountryCode                  string    `json:"country_code,omitempty"`
-	CreditCode                   string    `json:"credit_code,omitempty"`
-	Email                        string    `json:"email"`
-	EmailCommunicationCategories *[]string `json:"email_communication_categories,omitempty"`
-	Origin                       string    `json:"origin,omitempty"`
-	Password                     string    `json:"password,omitempty"`
-	RealName                     string    `json:"real_name"`
-	State                        string    `json:"state,omitempty"`
-	Token                        string    `json:"token,omitempty"`
-}
-type UserCreateOut struct {
-	State     string  `json:"state"`
-	Token     string  `json:"token"`
-	User      UserOut `json:"user"`
-	UserEmail string  `json:"user_email"`
-}
 type UserGroupOut struct {
 	CreateTime    time.Time `json:"create_time"`
 	Description   string    `json:"description"`
+	ManagedByScim bool      `json:"managed_by_scim"`
 	UpdateTime    time.Time `json:"update_time"`
 	UserGroupId   string    `json:"user_group_id"`
 	UserGroupName string    `json:"user_group_name"`
@@ -668,26 +633,6 @@ type UserInfoOut struct {
 	Department             string                 `json:"department,omitempty"`
 	Features               map[string]any         `json:"features,omitempty"`
 	Intercom               IntercomOut            `json:"intercom"`
-	Invitations            []InvitationOut        `json:"invitations"`
-	JobTitle               string                 `json:"job_title,omitempty"`
-	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`
-	ManagingOrganizationId string                 `json:"managing_organization_id,omitempty"`
-	ProjectMembership      ProjectMembershipOut   `json:"project_membership"`
-	ProjectMemberships     *ProjectMembershipsOut `json:"project_memberships,omitempty"`
-	Projects               []string               `json:"projects"`
-	RealName               string                 `json:"real_name"`
-	State                  string                 `json:"state"`
-	TokenValidityBegin     string                 `json:"token_validity_begin,omitempty"`
-	User                   string                 `json:"user"`
-	UserId                 string                 `json:"user_id"`
-}
-type UserOut struct {
-	Auth                   []string               `json:"auth"`
-	City                   string                 `json:"city,omitempty"`
-	Country                string                 `json:"country,omitempty"`
-	CreateTime             *time.Time             `json:"create_time,omitempty"`
-	Department             string                 `json:"department,omitempty"`
-	Features               map[string]any         `json:"features,omitempty"`
 	Invitations            []InvitationOut        `json:"invitations"`
 	JobTitle               string                 `json:"job_title,omitempty"`
 	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`

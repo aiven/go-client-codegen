@@ -11,27 +11,27 @@ import (
 
 type Handler interface {
 	// ServiceUserCreate create a new (sub) user for service
-	// POST /project/{project}/service/{service_name}/user
+	// POST /v1/project/{project}/service/{service_name}/user
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserCreate
 	ServiceUserCreate(ctx context.Context, project string, serviceName string, in *ServiceUserCreateIn) (*ServiceUserCreateOut, error)
 
 	// ServiceUserCredentialsModify modify service user credentials
-	// PUT /project/{project}/service/{service_name}/user/{service_username}
+	// PUT /v1/project/{project}/service/{service_name}/user/{service_username}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserCredentialsModify
 	ServiceUserCredentialsModify(ctx context.Context, project string, serviceName string, serviceUsername string, in *ServiceUserCredentialsModifyIn) (*ServiceUserCredentialsModifyOut, error)
 
 	// ServiceUserCredentialsReset reset service user credentials
-	// PUT /project/{project}/service/{service_name}/user/{service_username}/credentials/reset
+	// PUT /v1/project/{project}/service/{service_name}/user/{service_username}/credentials/reset
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserCredentialsReset
 	ServiceUserCredentialsReset(ctx context.Context, project string, serviceName string, serviceUsername string) (*ServiceUserCredentialsResetOut, error)
 
 	// ServiceUserDelete delete a service user
-	// DELETE /project/{project}/service/{service_name}/user/{service_username}
+	// DELETE /v1/project/{project}/service/{service_name}/user/{service_username}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserDelete
 	ServiceUserDelete(ctx context.Context, project string, serviceName string, serviceUsername string) error
 
 	// ServiceUserGet get details for a single user
-	// GET /project/{project}/service/{service_name}/user/{service_username}
+	// GET /v1/project/{project}/service/{service_name}/user/{service_username}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserGet
 	ServiceUserGet(ctx context.Context, project string, serviceName string, serviceUsername string) (*ServiceUserGetOut, error)
 }
@@ -49,7 +49,7 @@ type ServiceUserHandler struct {
 }
 
 func (h *ServiceUserHandler) ServiceUserCreate(ctx context.Context, project string, serviceName string, in *ServiceUserCreateIn) (*ServiceUserCreateOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/user", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/user", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceUserCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -62,7 +62,7 @@ func (h *ServiceUserHandler) ServiceUserCreate(ctx context.Context, project stri
 	return &out.User, nil
 }
 func (h *ServiceUserHandler) ServiceUserCredentialsModify(ctx context.Context, project string, serviceName string, serviceUsername string, in *ServiceUserCredentialsModifyIn) (*ServiceUserCredentialsModifyOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
 	b, err := h.doer.Do(ctx, "ServiceUserCredentialsModify", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func (h *ServiceUserHandler) ServiceUserCredentialsModify(ctx context.Context, p
 	return &out.Service, nil
 }
 func (h *ServiceUserHandler) ServiceUserCredentialsReset(ctx context.Context, project string, serviceName string, serviceUsername string) (*ServiceUserCredentialsResetOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/user/%s/credentials/reset", project, serviceName, serviceUsername)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s/credentials/reset", project, serviceName, serviceUsername)
 	b, err := h.doer.Do(ctx, "ServiceUserCredentialsReset", "PUT", path, nil)
 	if err != nil {
 		return nil, err
@@ -88,12 +88,12 @@ func (h *ServiceUserHandler) ServiceUserCredentialsReset(ctx context.Context, pr
 	return &out.Service, nil
 }
 func (h *ServiceUserHandler) ServiceUserDelete(ctx context.Context, project string, serviceName string, serviceUsername string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
 	_, err := h.doer.Do(ctx, "ServiceUserDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ServiceUserHandler) ServiceUserGet(ctx context.Context, project string, serviceName string, serviceUsername string) (*ServiceUserGetOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
 	b, err := h.doer.Do(ctx, "ServiceUserGet", "GET", path, nil)
 	if err != nil {
 		return nil, err

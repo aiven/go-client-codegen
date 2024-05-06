@@ -11,27 +11,27 @@ import (
 
 type Handler interface {
 	// AccountAuthenticationMethodCreate create a new authentication method
-	// POST /account/{account_id}/authentication
+	// POST /v1/account/{account_id}/authentication
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodCreate
 	AccountAuthenticationMethodCreate(ctx context.Context, accountId string, in *AccountAuthenticationMethodCreateIn) (*AccountAuthenticationMethodCreateOut, error)
 
 	// AccountAuthenticationMethodDelete delete authentication method
-	// DELETE /account/{account_id}/authentication/{account_authentication_method_id}
+	// DELETE /v1/account/{account_id}/authentication/{account_authentication_method_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodDelete
 	AccountAuthenticationMethodDelete(ctx context.Context, accountId string, accountAuthenticationMethodId string) error
 
 	// AccountAuthenticationMethodGet get details of a single authentication method
-	// GET /account/{account_id}/authentication/{account_authentication_method_id}
+	// GET /v1/account/{account_id}/authentication/{account_authentication_method_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodGet
 	AccountAuthenticationMethodGet(ctx context.Context, accountId string, accountAuthenticationMethodId string) (*AccountAuthenticationMethodGetOut, error)
 
 	// AccountAuthenticationMethodUpdate update authentication method
-	// PUT /account/{account_id}/authentication/{account_authentication_method_id}
+	// PUT /v1/account/{account_id}/authentication/{account_authentication_method_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodUpdate
 	AccountAuthenticationMethodUpdate(ctx context.Context, accountId string, accountAuthenticationMethodId string, in *AccountAuthenticationMethodUpdateIn) (*AccountAuthenticationMethodUpdateOut, error)
 
 	// AccountAuthenticationMethodsList list authentication methods
-	// GET /account/{account_id}/authentication
+	// GET /v1/account/{account_id}/authentication
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodsList
 	AccountAuthenticationMethodsList(ctx context.Context, accountId string) ([]AuthenticationMethodOut, error)
 }
@@ -49,7 +49,7 @@ type AccountAuthenticationHandler struct {
 }
 
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodCreate(ctx context.Context, accountId string, in *AccountAuthenticationMethodCreateIn) (*AccountAuthenticationMethodCreateOut, error) {
-	path := fmt.Sprintf("/account/%s/authentication", accountId)
+	path := fmt.Sprintf("/v1/account/%s/authentication", accountId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -62,12 +62,12 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodCreate(ctx con
 	return &out.AuthenticationMethod, nil
 }
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodDelete(ctx context.Context, accountId string, accountAuthenticationMethodId string) error {
-	path := fmt.Sprintf("/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
+	path := fmt.Sprintf("/v1/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
 	_, err := h.doer.Do(ctx, "AccountAuthenticationMethodDelete", "DELETE", path, nil)
 	return err
 }
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodGet(ctx context.Context, accountId string, accountAuthenticationMethodId string) (*AccountAuthenticationMethodGetOut, error) {
-	path := fmt.Sprintf("/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
+	path := fmt.Sprintf("/v1/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodGet(ctx contex
 	return &out.AuthenticationMethod, nil
 }
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodUpdate(ctx context.Context, accountId string, accountAuthenticationMethodId string, in *AccountAuthenticationMethodUpdateIn) (*AccountAuthenticationMethodUpdateOut, error) {
-	path := fmt.Sprintf("/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
+	path := fmt.Sprintf("/v1/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -93,7 +93,7 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodUpdate(ctx con
 	return &out.AuthenticationMethod, nil
 }
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodsList(ctx context.Context, accountId string) ([]AuthenticationMethodOut, error) {
-	path := fmt.Sprintf("/account/%s/authentication", accountId)
+	path := fmt.Sprintf("/v1/account/%s/authentication", accountId)
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
