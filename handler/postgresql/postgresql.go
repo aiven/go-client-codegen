@@ -10,32 +10,32 @@ import (
 
 type Handler interface {
 	// PGServiceAvailableExtensions list PostgreSQL extensions that can be loaded with CREATE EXTENSION in this service
-	// GET /project/{project}/service/{service_name}/pg/available-extensions
+	// GET /v1/project/{project}/service/{service_name}/pg/available-extensions
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/PGServiceAvailableExtensions
 	PGServiceAvailableExtensions(ctx context.Context, project string, serviceName string) ([]ExtensionOut, error)
 
 	// PGServiceQueryStatistics fetch PostgreSQL service query statistics
-	// POST /project/{project}/service/{service_name}/pg/query/stats
+	// POST /v1/project/{project}/service/{service_name}/pg/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/PGServiceQueryStatistics
 	PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]QueryOut, error)
 
 	// PgAvailableExtensions list PostgreSQL extensions available for this tenant grouped by PG version
-	// GET /tenants/{tenant}/pg-available-extensions
+	// GET /v1/tenants/{tenant}/pg-available-extensions
 	// https://api.aiven.io/doc/#tag/Service/operation/PgAvailableExtensions
 	PgAvailableExtensions(ctx context.Context, tenant string) ([]PgOut, error)
 
 	// ServicePGBouncerCreate create a new connection pool for service
-	// POST /project/{project}/service/{service_name}/connection_pool
+	// POST /v1/project/{project}/service/{service_name}/connection_pool
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/ServicePGBouncerCreate
 	ServicePGBouncerCreate(ctx context.Context, project string, serviceName string, in *ServicePgbouncerCreateIn) error
 
 	// ServicePGBouncerDelete delete a connection pool
-	// DELETE /project/{project}/service/{service_name}/connection_pool/{pool_name}
+	// DELETE /v1/project/{project}/service/{service_name}/connection_pool/{pool_name}
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/ServicePGBouncerDelete
 	ServicePGBouncerDelete(ctx context.Context, project string, serviceName string, poolName string) error
 
 	// ServicePGBouncerUpdate update a connection pool
-	// PUT /project/{project}/service/{service_name}/connection_pool/{pool_name}
+	// PUT /v1/project/{project}/service/{service_name}/connection_pool/{pool_name}
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/ServicePGBouncerUpdate
 	ServicePGBouncerUpdate(ctx context.Context, project string, serviceName string, poolName string, in *ServicePgbouncerUpdateIn) error
 }
@@ -53,7 +53,7 @@ type PostgreSQLHandler struct {
 }
 
 func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, project string, serviceName string) ([]ExtensionOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/pg/available-extensions", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/pg/available-extensions", project, serviceName)
 	b, err := h.doer.Do(ctx, "PGServiceAvailableExtensions", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, pr
 	return out.Extensions, nil
 }
 func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]QueryOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/pg/query/stats", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/pg/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "PGServiceQueryStatistics", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -79,7 +79,7 @@ func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, projec
 	return out.Queries, nil
 }
 func (h *PostgreSQLHandler) PgAvailableExtensions(ctx context.Context, tenant string) ([]PgOut, error) {
-	path := fmt.Sprintf("/tenants/%s/pg-available-extensions", tenant)
+	path := fmt.Sprintf("/v1/tenants/%s/pg-available-extensions", tenant)
 	b, err := h.doer.Do(ctx, "PgAvailableExtensions", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -92,17 +92,17 @@ func (h *PostgreSQLHandler) PgAvailableExtensions(ctx context.Context, tenant st
 	return out.Pg, nil
 }
 func (h *PostgreSQLHandler) ServicePGBouncerCreate(ctx context.Context, project string, serviceName string, in *ServicePgbouncerCreateIn) error {
-	path := fmt.Sprintf("/project/%s/service/%s/connection_pool", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connection_pool", project, serviceName)
 	_, err := h.doer.Do(ctx, "ServicePGBouncerCreate", "POST", path, in)
 	return err
 }
 func (h *PostgreSQLHandler) ServicePGBouncerDelete(ctx context.Context, project string, serviceName string, poolName string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/connection_pool/%s", project, serviceName, poolName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connection_pool/%s", project, serviceName, poolName)
 	_, err := h.doer.Do(ctx, "ServicePGBouncerDelete", "DELETE", path, nil)
 	return err
 }
 func (h *PostgreSQLHandler) ServicePGBouncerUpdate(ctx context.Context, project string, serviceName string, poolName string, in *ServicePgbouncerUpdateIn) error {
-	path := fmt.Sprintf("/project/%s/service/%s/connection_pool/%s", project, serviceName, poolName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connection_pool/%s", project, serviceName, poolName)
 	_, err := h.doer.Do(ctx, "ServicePGBouncerUpdate", "PUT", path, in)
 	return err
 }

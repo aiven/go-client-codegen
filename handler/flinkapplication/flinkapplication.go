@@ -11,27 +11,27 @@ import (
 
 type Handler interface {
 	// ServiceFlinkCreateApplication create a Flink Application
-	// POST /project/{project}/service/{service_name}/flink/application
+	// POST /v1/project/{project}/service/{service_name}/flink/application
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCreateApplication
 	ServiceFlinkCreateApplication(ctx context.Context, project string, serviceName string, in *ServiceFlinkCreateApplicationIn) (*ServiceFlinkCreateApplicationOut, error)
 
 	// ServiceFlinkDeleteApplication delete a Flink Application
-	// DELETE /project/{project}/service/{service_name}/flink/application/{application_id}
+	// DELETE /v1/project/{project}/service/{service_name}/flink/application/{application_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkDeleteApplication
 	ServiceFlinkDeleteApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkDeleteApplicationOut, error)
 
 	// ServiceFlinkGetApplication get a Flink Application
-	// GET /project/{project}/service/{service_name}/flink/application/{application_id}
+	// GET /v1/project/{project}/service/{service_name}/flink/application/{application_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkGetApplication
 	ServiceFlinkGetApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkGetApplicationOut, error)
 
 	// ServiceFlinkListApplications get all Flink Applications
-	// GET /project/{project}/service/{service_name}/flink/application
+	// GET /v1/project/{project}/service/{service_name}/flink/application
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkListApplications
 	ServiceFlinkListApplications(ctx context.Context, project string, serviceName string) ([]ApplicationOut, error)
 
 	// ServiceFlinkUpdateApplication update a Flink Application
-	// PUT /project/{project}/service/{service_name}/flink/application/{application_id}
+	// PUT /v1/project/{project}/service/{service_name}/flink/application/{application_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkUpdateApplication
 	ServiceFlinkUpdateApplication(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkUpdateApplicationIn) (*ServiceFlinkUpdateApplicationOut, error)
 }
@@ -49,7 +49,7 @@ type FlinkApplicationHandler struct {
 }
 
 func (h *FlinkApplicationHandler) ServiceFlinkCreateApplication(ctx context.Context, project string, serviceName string, in *ServiceFlinkCreateApplicationIn) (*ServiceFlinkCreateApplicationOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkCreateApplication", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -62,7 +62,7 @@ func (h *FlinkApplicationHandler) ServiceFlinkCreateApplication(ctx context.Cont
 	return out, nil
 }
 func (h *FlinkApplicationHandler) ServiceFlinkDeleteApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkDeleteApplicationOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkDeleteApplication", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func (h *FlinkApplicationHandler) ServiceFlinkDeleteApplication(ctx context.Cont
 	return out, nil
 }
 func (h *FlinkApplicationHandler) ServiceFlinkGetApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkGetApplicationOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkGetApplication", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -88,7 +88,7 @@ func (h *FlinkApplicationHandler) ServiceFlinkGetApplication(ctx context.Context
 	return out, nil
 }
 func (h *FlinkApplicationHandler) ServiceFlinkListApplications(ctx context.Context, project string, serviceName string) ([]ApplicationOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplications", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -101,7 +101,7 @@ func (h *FlinkApplicationHandler) ServiceFlinkListApplications(ctx context.Conte
 	return out.Applications, nil
 }
 func (h *FlinkApplicationHandler) ServiceFlinkUpdateApplication(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkUpdateApplicationIn) (*ServiceFlinkUpdateApplicationOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkUpdateApplication", "PUT", path, in)
 	if err != nil {
 		return nil, err

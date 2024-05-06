@@ -11,27 +11,27 @@ import (
 
 type Handler interface {
 	// OrganizationDomainAdd create a domain
-	// POST /organization/{organization_id}/domains
+	// POST /v1/organization/{organization_id}/domains
 	// https://api.aiven.io/doc/#tag/Domains/operation/OrganizationDomainAdd
 	OrganizationDomainAdd(ctx context.Context, organizationId string, in *OrganizationDomainAddIn) (*OrganizationDomainAddOut, error)
 
 	// OrganizationDomainUpdate update a domain
-	// PATCH /organization/{organization_id}/domains/{domain_id}
+	// PATCH /v1/organization/{organization_id}/domains/{domain_id}
 	// https://api.aiven.io/doc/#tag/Domains/operation/OrganizationDomainUpdate
 	OrganizationDomainUpdate(ctx context.Context, organizationId string, domainId string, in *OrganizationDomainUpdateIn) (*OrganizationDomainUpdateOut, error)
 
 	// OrganizationDomainVerify verify a domain
-	// POST /organization/{organization_id}/domains/{domain_id}/verify
+	// POST /v1/organization/{organization_id}/domains/{domain_id}/verify
 	// https://api.aiven.io/doc/#tag/Domains/operation/OrganizationDomainVerify
 	OrganizationDomainVerify(ctx context.Context, organizationId string, domainId string) (*OrganizationDomainVerifyOut, error)
 
 	// OrganizationDomainsList list domains
-	// GET /organization/{organization_id}/domains
+	// GET /v1/organization/{organization_id}/domains
 	// https://api.aiven.io/doc/#tag/Domains/operation/OrganizationDomainsList
 	OrganizationDomainsList(ctx context.Context, organizationId string) ([]DomainOut, error)
 
 	// OrganizationDomainsRemove delete a domain
-	// DELETE /organization/{organization_id}/domains/{domain_id}
+	// DELETE /v1/organization/{organization_id}/domains/{domain_id}
 	// https://api.aiven.io/doc/#tag/Domains/operation/OrganizationDomainsRemove
 	OrganizationDomainsRemove(ctx context.Context, organizationId string, domainId string) error
 }
@@ -49,7 +49,7 @@ type DomainHandler struct {
 }
 
 func (h *DomainHandler) OrganizationDomainAdd(ctx context.Context, organizationId string, in *OrganizationDomainAddIn) (*OrganizationDomainAddOut, error) {
-	path := fmt.Sprintf("/organization/%s/domains", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/domains", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationDomainAdd", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -62,7 +62,7 @@ func (h *DomainHandler) OrganizationDomainAdd(ctx context.Context, organizationI
 	return out, nil
 }
 func (h *DomainHandler) OrganizationDomainUpdate(ctx context.Context, organizationId string, domainId string, in *OrganizationDomainUpdateIn) (*OrganizationDomainUpdateOut, error) {
-	path := fmt.Sprintf("/organization/%s/domains/%s", organizationId, domainId)
+	path := fmt.Sprintf("/v1/organization/%s/domains/%s", organizationId, domainId)
 	b, err := h.doer.Do(ctx, "OrganizationDomainUpdate", "PATCH", path, in)
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func (h *DomainHandler) OrganizationDomainUpdate(ctx context.Context, organizati
 	return out, nil
 }
 func (h *DomainHandler) OrganizationDomainVerify(ctx context.Context, organizationId string, domainId string) (*OrganizationDomainVerifyOut, error) {
-	path := fmt.Sprintf("/organization/%s/domains/%s/verify", organizationId, domainId)
+	path := fmt.Sprintf("/v1/organization/%s/domains/%s/verify", organizationId, domainId)
 	b, err := h.doer.Do(ctx, "OrganizationDomainVerify", "POST", path, nil)
 	if err != nil {
 		return nil, err
@@ -88,7 +88,7 @@ func (h *DomainHandler) OrganizationDomainVerify(ctx context.Context, organizati
 	return out, nil
 }
 func (h *DomainHandler) OrganizationDomainsList(ctx context.Context, organizationId string) ([]DomainOut, error) {
-	path := fmt.Sprintf("/organization/%s/domains", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/domains", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationDomainsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -101,7 +101,7 @@ func (h *DomainHandler) OrganizationDomainsList(ctx context.Context, organizatio
 	return out.Domains, nil
 }
 func (h *DomainHandler) OrganizationDomainsRemove(ctx context.Context, organizationId string, domainId string) error {
-	path := fmt.Sprintf("/organization/%s/domains/%s", organizationId, domainId)
+	path := fmt.Sprintf("/v1/organization/%s/domains/%s", organizationId, domainId)
 	_, err := h.doer.Do(ctx, "OrganizationDomainsRemove", "DELETE", path, nil)
 	return err
 }

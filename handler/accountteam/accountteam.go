@@ -11,37 +11,37 @@ import (
 
 type Handler interface {
 	// AccountTeamDelete delete a team
-	// DELETE /account/{account_id}/team/{team_id}
+	// DELETE /v1/account/{account_id}/team/{team_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamDelete
 	AccountTeamDelete(ctx context.Context, accountId string, teamId string) error
 
 	// AccountTeamGet get details for a single team
-	// GET /account/{account_id}/team/{team_id}
+	// GET /v1/account/{account_id}/team/{team_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamGet
 	AccountTeamGet(ctx context.Context, accountId string, teamId string) (*AccountTeamGetOut, error)
 
 	// AccountTeamInvitesList list pending invites
-	// GET /account/{account_id}/team/{team_id}/invites
+	// GET /v1/account/{account_id}/team/{team_id}/invites
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamInvitesList
 	AccountTeamInvitesList(ctx context.Context, accountId string, teamId string) ([]AccountInviteOut, error)
 
 	// AccountTeamList list teams belonging to an account
-	// GET /account/{account_id}/teams
+	// GET /v1/account/{account_id}/teams
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamList
 	AccountTeamList(ctx context.Context, accountId string) ([]TeamOut, error)
 
 	// AccountTeamProjectAssociate associate team to a project
-	// POST /account/{account_id}/team/{team_id}/project/{project}
+	// POST /v1/account/{account_id}/team/{team_id}/project/{project}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectAssociate
 	AccountTeamProjectAssociate(ctx context.Context, accountId string, teamId string, project string, in *AccountTeamProjectAssociateIn) error
 
 	// AccountTeamProjectDisassociate disassociate team from a project
-	// DELETE /account/{account_id}/team/{team_id}/project/{project}
+	// DELETE /v1/account/{account_id}/team/{team_id}/project/{project}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectDisassociate
 	AccountTeamProjectDisassociate(ctx context.Context, accountId string, teamId string, project string) error
 
 	// AccountTeamUpdate update team details
-	// PUT /account/{account_id}/team/{team_id}
+	// PUT /v1/account/{account_id}/team/{team_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamUpdate
 	AccountTeamUpdate(ctx context.Context, accountId string, teamId string, in *AccountTeamUpdateIn) (*AccountTeamUpdateOut, error)
 }
@@ -59,12 +59,12 @@ type AccountTeamHandler struct {
 }
 
 func (h *AccountTeamHandler) AccountTeamDelete(ctx context.Context, accountId string, teamId string) error {
-	path := fmt.Sprintf("/account/%s/team/%s", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s", accountId, teamId)
 	_, err := h.doer.Do(ctx, "AccountTeamDelete", "DELETE", path, nil)
 	return err
 }
 func (h *AccountTeamHandler) AccountTeamGet(ctx context.Context, accountId string, teamId string) (*AccountTeamGetOut, error) {
-	path := fmt.Sprintf("/account/%s/team/%s", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -77,7 +77,7 @@ func (h *AccountTeamHandler) AccountTeamGet(ctx context.Context, accountId strin
 	return &out.Team, nil
 }
 func (h *AccountTeamHandler) AccountTeamInvitesList(ctx context.Context, accountId string, teamId string) ([]AccountInviteOut, error) {
-	path := fmt.Sprintf("/account/%s/team/%s/invites", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/invites", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamInvitesList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (h *AccountTeamHandler) AccountTeamInvitesList(ctx context.Context, account
 	return out.AccountInvites, nil
 }
 func (h *AccountTeamHandler) AccountTeamList(ctx context.Context, accountId string) ([]TeamOut, error) {
-	path := fmt.Sprintf("/account/%s/teams", accountId)
+	path := fmt.Sprintf("/v1/account/%s/teams", accountId)
 	b, err := h.doer.Do(ctx, "AccountTeamList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -103,17 +103,17 @@ func (h *AccountTeamHandler) AccountTeamList(ctx context.Context, accountId stri
 	return out.Teams, nil
 }
 func (h *AccountTeamHandler) AccountTeamProjectAssociate(ctx context.Context, accountId string, teamId string, project string, in *AccountTeamProjectAssociateIn) error {
-	path := fmt.Sprintf("/account/%s/team/%s/project/%s", accountId, teamId, project)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/project/%s", accountId, teamId, project)
 	_, err := h.doer.Do(ctx, "AccountTeamProjectAssociate", "POST", path, in)
 	return err
 }
 func (h *AccountTeamHandler) AccountTeamProjectDisassociate(ctx context.Context, accountId string, teamId string, project string) error {
-	path := fmt.Sprintf("/account/%s/team/%s/project/%s", accountId, teamId, project)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/project/%s", accountId, teamId, project)
 	_, err := h.doer.Do(ctx, "AccountTeamProjectDisassociate", "DELETE", path, nil)
 	return err
 }
 func (h *AccountTeamHandler) AccountTeamUpdate(ctx context.Context, accountId string, teamId string, in *AccountTeamUpdateIn) (*AccountTeamUpdateOut, error) {
-	path := fmt.Sprintf("/account/%s/team/%s", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err

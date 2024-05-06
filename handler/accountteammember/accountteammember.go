@@ -11,22 +11,22 @@ import (
 
 type Handler interface {
 	// AccountTeamMemberCancelInvite cancel pending user invite
-	// DELETE /account/{account_id}/team/{team_id}/invites/{user_email}
+	// DELETE /v1/account/{account_id}/team/{team_id}/invites/{user_email}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberCancelInvite
 	AccountTeamMemberCancelInvite(ctx context.Context, accountId string, teamId string, userEmail string) error
 
 	// AccountTeamMemberVerifyInvite confirm account team invite
-	// POST /account/{account_id}/invite/{invite_verification_code}
+	// POST /v1/account/{account_id}/invite/{invite_verification_code}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberVerifyInvite
 	AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*AccountTeamMemberVerifyInviteOut, error)
 
 	// AccountTeamMembersInvite invite a new member to join the team
-	// POST /account/{account_id}/team/{team_id}/members
+	// POST /v1/account/{account_id}/team/{team_id}/members
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersInvite
 	AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string, in *AccountTeamMembersInviteIn) error
 
 	// AccountTeamMembersList list members of a single team
-	// GET /account/{account_id}/team/{team_id}/members
+	// GET /v1/account/{account_id}/team/{team_id}/members
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersList
 	AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error)
 }
@@ -44,12 +44,12 @@ type AccountTeamMemberHandler struct {
 }
 
 func (h *AccountTeamMemberHandler) AccountTeamMemberCancelInvite(ctx context.Context, accountId string, teamId string, userEmail string) error {
-	path := fmt.Sprintf("/account/%s/team/%s/invites/%s", accountId, teamId, userEmail)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/invites/%s", accountId, teamId, userEmail)
 	_, err := h.doer.Do(ctx, "AccountTeamMemberCancelInvite", "DELETE", path, nil)
 	return err
 }
 func (h *AccountTeamMemberHandler) AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*AccountTeamMemberVerifyInviteOut, error) {
-	path := fmt.Sprintf("/account/%s/invite/%s", accountId, inviteVerificationCode)
+	path := fmt.Sprintf("/v1/account/%s/invite/%s", accountId, inviteVerificationCode)
 	b, err := h.doer.Do(ctx, "AccountTeamMemberVerifyInvite", "POST", path, nil)
 	if err != nil {
 		return nil, err
@@ -62,12 +62,12 @@ func (h *AccountTeamMemberHandler) AccountTeamMemberVerifyInvite(ctx context.Con
 	return &out.InviteDetails, nil
 }
 func (h *AccountTeamMemberHandler) AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string, in *AccountTeamMembersInviteIn) error {
-	path := fmt.Sprintf("/account/%s/team/%s/members", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/members", accountId, teamId)
 	_, err := h.doer.Do(ctx, "AccountTeamMembersInvite", "POST", path, in)
 	return err
 }
 func (h *AccountTeamMemberHandler) AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error) {
-	path := fmt.Sprintf("/account/%s/team/%s/members", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/members", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamMembersList", "GET", path, nil)
 	if err != nil {
 		return nil, err

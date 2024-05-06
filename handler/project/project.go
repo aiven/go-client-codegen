@@ -11,102 +11,102 @@ import (
 
 type Handler interface {
 	// ListProjectVpcPeeringConnectionTypes list VPC peering connection types for a project
-	// GET /project/{project}/vpc-peering-connection-types
+	// GET /v1/project/{project}/vpc-peering-connection-types
 	// https://api.aiven.io/doc/#tag/Project/operation/ListProjectVpcPeeringConnectionTypes
 	ListProjectVpcPeeringConnectionTypes(ctx context.Context, project string) ([]VpcPeeringConnectionTypeOut, error)
 
 	// ProjectAlertsList list active alerts for a project
-	// GET /project/{project}/alerts
+	// GET /v1/project/{project}/alerts
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectAlertsList
 	ProjectAlertsList(ctx context.Context, project string) ([]AlertOut, error)
 
 	// ProjectCreate create a project
-	// POST /project
+	// POST /v1/project
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectCreate
 	ProjectCreate(ctx context.Context, in *ProjectCreateIn) (*ProjectCreateOut, error)
 
 	// ProjectDelete delete project
-	// DELETE /project/{project}
+	// DELETE /v1/project/{project}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectDelete
 	ProjectDelete(ctx context.Context, project string) error
 
 	// ProjectGenerateSbomDownloadUrl generate SBOM for project
-	// GET /project/{project}/generate-sbom-download-url/{file_format}
+	// GET /v1/project/{project}/generate-sbom-download-url/{file_format}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectGenerateSbomDownloadUrl
 	ProjectGenerateSbomDownloadUrl(ctx context.Context, project string, fileFormat string) (string, error)
 
 	// ProjectGet get project details
-	// GET /project/{project}
+	// GET /v1/project/{project}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectGet
 	ProjectGet(ctx context.Context, project string) (*ProjectGetOut, error)
 
 	// ProjectGetEventLogs get project event log entries
-	// GET /project/{project}/events
+	// GET /v1/project/{project}/events
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectGetEventLogs
 	ProjectGetEventLogs(ctx context.Context, project string) ([]EventOut, error)
 
 	// ProjectInvite send project membership invitation
-	// POST /project/{project}/invite
+	// POST /v1/project/{project}/invite
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInvite
 	ProjectInvite(ctx context.Context, project string, in *ProjectInviteIn) error
 
 	// ProjectInviteAccept confirm project invite
-	// POST /project/{project}/invite/{invite_verification_code}
+	// POST /v1/project/{project}/invite/{invite_verification_code}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInviteAccept
 	ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*ProjectInviteAcceptOut, error)
 
 	// ProjectInviteDelete delete an invitation to a project
-	// DELETE /project/{project}/invite/{invited_email}
+	// DELETE /v1/project/{project}/invite/{invited_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInviteDelete
 	ProjectInviteDelete(ctx context.Context, project string, invitedEmail string) error
 
 	// ProjectKmsGetCA retrieve project CA certificate
-	// GET /project/{project}/kms/ca
+	// GET /v1/project/{project}/kms/ca
 	// https://api.aiven.io/doc/#tag/Project_Key_Management/operation/ProjectKmsGetCA
 	ProjectKmsGetCA(ctx context.Context, project string) (string, error)
 
 	// ProjectList list projects
-	// GET /project
+	// GET /v1/project
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectList
 	ProjectList(ctx context.Context) (*ProjectListOut, error)
 
 	// ProjectPrivatelinkAvailabilityList list Privatelink cloud availability and prices for a project
-	// GET /project/{project}/privatelink-availability
+	// GET /v1/project/{project}/privatelink-availability
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectPrivatelinkAvailabilityList
 	ProjectPrivatelinkAvailabilityList(ctx context.Context, project string) ([]PrivatelinkAvailabilityOut, error)
 
 	// ProjectTagsList list all tags attached to this project
-	// GET /project/{project}/tags
+	// GET /v1/project/{project}/tags
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectTagsList
 	ProjectTagsList(ctx context.Context, project string) (map[string]string, error)
 
 	// ProjectTagsReplace replace all project tags with a new set of tags, deleting old ones
-	// PUT /project/{project}/tags
+	// PUT /v1/project/{project}/tags
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectTagsReplace
 	ProjectTagsReplace(ctx context.Context, project string, in *ProjectTagsReplaceIn) error
 
 	// ProjectTagsUpdate update one or more tags, creating ones that don't exist, and deleting ones given NULL value
-	// PATCH /project/{project}/tags
+	// PATCH /v1/project/{project}/tags
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectTagsUpdate
 	ProjectTagsUpdate(ctx context.Context, project string, in *ProjectTagsUpdateIn) error
 
 	// ProjectUpdate update project
-	// PUT /project/{project}
+	// PUT /v1/project/{project}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUpdate
 	ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*ProjectUpdateOut, error)
 
 	// ProjectUserList list users with access to the project. May contain same user multiple times if they belong to multiple teams associated to the project
-	// GET /project/{project}/users
+	// GET /v1/project/{project}/users
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserList
 	ProjectUserList(ctx context.Context, project string) (*ProjectUserListOut, error)
 
 	// ProjectUserRemove remove user from the project
-	// DELETE /project/{project}/user/{user_email}
+	// DELETE /v1/project/{project}/user/{user_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserRemove
 	ProjectUserRemove(ctx context.Context, project string, userEmail string) error
 
 	// ProjectUserUpdate update a project user
-	// PUT /project/{project}/user/{user_email}
+	// PUT /v1/project/{project}/user/{user_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserUpdate
 	ProjectUserUpdate(ctx context.Context, project string, userEmail string, in *ProjectUserUpdateIn) error
 }
@@ -124,7 +124,7 @@ type ProjectHandler struct {
 }
 
 func (h *ProjectHandler) ListProjectVpcPeeringConnectionTypes(ctx context.Context, project string) ([]VpcPeeringConnectionTypeOut, error) {
-	path := fmt.Sprintf("/project/%s/vpc-peering-connection-types", project)
+	path := fmt.Sprintf("/v1/project/%s/vpc-peering-connection-types", project)
 	b, err := h.doer.Do(ctx, "ListProjectVpcPeeringConnectionTypes", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -137,7 +137,7 @@ func (h *ProjectHandler) ListProjectVpcPeeringConnectionTypes(ctx context.Contex
 	return out.VpcPeeringConnectionTypes, nil
 }
 func (h *ProjectHandler) ProjectAlertsList(ctx context.Context, project string) ([]AlertOut, error) {
-	path := fmt.Sprintf("/project/%s/alerts", project)
+	path := fmt.Sprintf("/v1/project/%s/alerts", project)
 	b, err := h.doer.Do(ctx, "ProjectAlertsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -150,7 +150,7 @@ func (h *ProjectHandler) ProjectAlertsList(ctx context.Context, project string) 
 	return out.Alerts, nil
 }
 func (h *ProjectHandler) ProjectCreate(ctx context.Context, in *ProjectCreateIn) (*ProjectCreateOut, error) {
-	path := fmt.Sprintf("/project")
+	path := fmt.Sprintf("/v1/project")
 	b, err := h.doer.Do(ctx, "ProjectCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -163,12 +163,12 @@ func (h *ProjectHandler) ProjectCreate(ctx context.Context, in *ProjectCreateIn)
 	return &out.Project, nil
 }
 func (h *ProjectHandler) ProjectDelete(ctx context.Context, project string) error {
-	path := fmt.Sprintf("/project/%s", project)
+	path := fmt.Sprintf("/v1/project/%s", project)
 	_, err := h.doer.Do(ctx, "ProjectDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ProjectHandler) ProjectGenerateSbomDownloadUrl(ctx context.Context, project string, fileFormat string) (string, error) {
-	path := fmt.Sprintf("/project/%s/generate-sbom-download-url/%s", project, fileFormat)
+	path := fmt.Sprintf("/v1/project/%s/generate-sbom-download-url/%s", project, fileFormat)
 	b, err := h.doer.Do(ctx, "ProjectGenerateSbomDownloadUrl", "GET", path, nil)
 	if err != nil {
 		return "", err
@@ -181,7 +181,7 @@ func (h *ProjectHandler) ProjectGenerateSbomDownloadUrl(ctx context.Context, pro
 	return out.DownloadUrl, nil
 }
 func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*ProjectGetOut, error) {
-	path := fmt.Sprintf("/project/%s", project)
+	path := fmt.Sprintf("/v1/project/%s", project)
 	b, err := h.doer.Do(ctx, "ProjectGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -194,7 +194,7 @@ func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*Proje
 	return &out.Project, nil
 }
 func (h *ProjectHandler) ProjectGetEventLogs(ctx context.Context, project string) ([]EventOut, error) {
-	path := fmt.Sprintf("/project/%s/events", project)
+	path := fmt.Sprintf("/v1/project/%s/events", project)
 	b, err := h.doer.Do(ctx, "ProjectGetEventLogs", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -207,12 +207,12 @@ func (h *ProjectHandler) ProjectGetEventLogs(ctx context.Context, project string
 	return out.Events, nil
 }
 func (h *ProjectHandler) ProjectInvite(ctx context.Context, project string, in *ProjectInviteIn) error {
-	path := fmt.Sprintf("/project/%s/invite", project)
+	path := fmt.Sprintf("/v1/project/%s/invite", project)
 	_, err := h.doer.Do(ctx, "ProjectInvite", "POST", path, in)
 	return err
 }
 func (h *ProjectHandler) ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*ProjectInviteAcceptOut, error) {
-	path := fmt.Sprintf("/project/%s/invite/%s", project, inviteVerificationCode)
+	path := fmt.Sprintf("/v1/project/%s/invite/%s", project, inviteVerificationCode)
 	b, err := h.doer.Do(ctx, "ProjectInviteAccept", "POST", path, nil)
 	if err != nil {
 		return nil, err
@@ -225,12 +225,12 @@ func (h *ProjectHandler) ProjectInviteAccept(ctx context.Context, project string
 	return &out.InviteDetails, nil
 }
 func (h *ProjectHandler) ProjectInviteDelete(ctx context.Context, project string, invitedEmail string) error {
-	path := fmt.Sprintf("/project/%s/invite/%s", project, invitedEmail)
+	path := fmt.Sprintf("/v1/project/%s/invite/%s", project, invitedEmail)
 	_, err := h.doer.Do(ctx, "ProjectInviteDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ProjectHandler) ProjectKmsGetCA(ctx context.Context, project string) (string, error) {
-	path := fmt.Sprintf("/project/%s/kms/ca", project)
+	path := fmt.Sprintf("/v1/project/%s/kms/ca", project)
 	b, err := h.doer.Do(ctx, "ProjectKmsGetCA", "GET", path, nil)
 	if err != nil {
 		return "", err
@@ -243,7 +243,7 @@ func (h *ProjectHandler) ProjectKmsGetCA(ctx context.Context, project string) (s
 	return out.Certificate, nil
 }
 func (h *ProjectHandler) ProjectList(ctx context.Context) (*ProjectListOut, error) {
-	path := fmt.Sprintf("/project")
+	path := fmt.Sprintf("/v1/project")
 	b, err := h.doer.Do(ctx, "ProjectList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -256,7 +256,7 @@ func (h *ProjectHandler) ProjectList(ctx context.Context) (*ProjectListOut, erro
 	return out, nil
 }
 func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context, project string) ([]PrivatelinkAvailabilityOut, error) {
-	path := fmt.Sprintf("/project/%s/privatelink-availability", project)
+	path := fmt.Sprintf("/v1/project/%s/privatelink-availability", project)
 	b, err := h.doer.Do(ctx, "ProjectPrivatelinkAvailabilityList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -269,7 +269,7 @@ func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context,
 	return out.PrivatelinkAvailability, nil
 }
 func (h *ProjectHandler) ProjectTagsList(ctx context.Context, project string) (map[string]string, error) {
-	path := fmt.Sprintf("/project/%s/tags", project)
+	path := fmt.Sprintf("/v1/project/%s/tags", project)
 	b, err := h.doer.Do(ctx, "ProjectTagsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -282,17 +282,17 @@ func (h *ProjectHandler) ProjectTagsList(ctx context.Context, project string) (m
 	return out.Tags, nil
 }
 func (h *ProjectHandler) ProjectTagsReplace(ctx context.Context, project string, in *ProjectTagsReplaceIn) error {
-	path := fmt.Sprintf("/project/%s/tags", project)
+	path := fmt.Sprintf("/v1/project/%s/tags", project)
 	_, err := h.doer.Do(ctx, "ProjectTagsReplace", "PUT", path, in)
 	return err
 }
 func (h *ProjectHandler) ProjectTagsUpdate(ctx context.Context, project string, in *ProjectTagsUpdateIn) error {
-	path := fmt.Sprintf("/project/%s/tags", project)
+	path := fmt.Sprintf("/v1/project/%s/tags", project)
 	_, err := h.doer.Do(ctx, "ProjectTagsUpdate", "PATCH", path, in)
 	return err
 }
 func (h *ProjectHandler) ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*ProjectUpdateOut, error) {
-	path := fmt.Sprintf("/project/%s", project)
+	path := fmt.Sprintf("/v1/project/%s", project)
 	b, err := h.doer.Do(ctx, "ProjectUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -305,7 +305,7 @@ func (h *ProjectHandler) ProjectUpdate(ctx context.Context, project string, in *
 	return &out.Project, nil
 }
 func (h *ProjectHandler) ProjectUserList(ctx context.Context, project string) (*ProjectUserListOut, error) {
-	path := fmt.Sprintf("/project/%s/users", project)
+	path := fmt.Sprintf("/v1/project/%s/users", project)
 	b, err := h.doer.Do(ctx, "ProjectUserList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -318,12 +318,12 @@ func (h *ProjectHandler) ProjectUserList(ctx context.Context, project string) (*
 	return out, nil
 }
 func (h *ProjectHandler) ProjectUserRemove(ctx context.Context, project string, userEmail string) error {
-	path := fmt.Sprintf("/project/%s/user/%s", project, userEmail)
+	path := fmt.Sprintf("/v1/project/%s/user/%s", project, userEmail)
 	_, err := h.doer.Do(ctx, "ProjectUserRemove", "DELETE", path, nil)
 	return err
 }
 func (h *ProjectHandler) ProjectUserUpdate(ctx context.Context, project string, userEmail string, in *ProjectUserUpdateIn) error {
-	path := fmt.Sprintf("/project/%s/user/%s", project, userEmail)
+	path := fmt.Sprintf("/v1/project/%s/user/%s", project, userEmail)
 	_, err := h.doer.Do(ctx, "ProjectUserUpdate", "PUT", path, in)
 	return err
 }

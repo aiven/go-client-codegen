@@ -11,32 +11,32 @@ import (
 
 type Handler interface {
 	// ServiceFlinkCancelApplicationDeployment cancel an ApplicationDeployment
-	// POST /project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}/cancel
+	// POST /v1/project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}/cancel
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCancelApplicationDeployment
 	ServiceFlinkCancelApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkCancelApplicationDeploymentOut, error)
 
 	// ServiceFlinkCreateApplicationDeployment create an ApplicationDeployment
-	// POST /project/{project}/service/{service_name}/flink/application/{application_id}/deployment
+	// POST /v1/project/{project}/service/{service_name}/flink/application/{application_id}/deployment
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCreateApplicationDeployment
 	ServiceFlinkCreateApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateApplicationDeploymentIn) (*ServiceFlinkCreateApplicationDeploymentOut, error)
 
 	// ServiceFlinkDeleteApplicationDeployment delete an ApplicationDeployment
-	// DELETE /project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}
+	// DELETE /v1/project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkDeleteApplicationDeployment
 	ServiceFlinkDeleteApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkDeleteApplicationDeploymentOut, error)
 
 	// ServiceFlinkGetApplicationDeployment get an ApplicationDeployment
-	// GET /project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}
+	// GET /v1/project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkGetApplicationDeployment
 	ServiceFlinkGetApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkGetApplicationDeploymentOut, error)
 
 	// ServiceFlinkListApplicationDeployments get all ApplicationDeployments
-	// GET /project/{project}/service/{service_name}/flink/application/{application_id}/deployment
+	// GET /v1/project/{project}/service/{service_name}/flink/application/{application_id}/deployment
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkListApplicationDeployments
 	ServiceFlinkListApplicationDeployments(ctx context.Context, project string, serviceName string, applicationId string) ([]DeploymentOut, error)
 
 	// ServiceFlinkStopApplicationDeployment stop an ApplicationDeployment
-	// POST /project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}/stop
+	// POST /v1/project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}/stop
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkStopApplicationDeployment
 	ServiceFlinkStopApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkStopApplicationDeploymentOut, error)
 }
@@ -54,7 +54,7 @@ type FlinkApplicationDeploymentHandler struct {
 }
 
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkCancelApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkCancelApplicationDeploymentOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment/%s/cancel", project, serviceName, applicationId, deploymentId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment/%s/cancel", project, serviceName, applicationId, deploymentId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkCancelApplicationDeployment", "POST", path, nil)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkCancelApplicationDeploym
 	return out, nil
 }
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkCreateApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateApplicationDeploymentIn) (*ServiceFlinkCreateApplicationDeploymentOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkCreateApplicationDeployment", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkCreateApplicationDeploym
 	return out, nil
 }
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkDeleteApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkDeleteApplicationDeploymentOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment/%s", project, serviceName, applicationId, deploymentId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment/%s", project, serviceName, applicationId, deploymentId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkDeleteApplicationDeployment", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -93,7 +93,7 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkDeleteApplicationDeploym
 	return out, nil
 }
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkGetApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkGetApplicationDeploymentOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment/%s", project, serviceName, applicationId, deploymentId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment/%s", project, serviceName, applicationId, deploymentId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkGetApplicationDeployment", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -106,7 +106,7 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkGetApplicationDeployment
 	return out, nil
 }
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkListApplicationDeployments(ctx context.Context, project string, serviceName string, applicationId string) ([]DeploymentOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment", project, serviceName, applicationId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplicationDeployments", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -119,7 +119,7 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkListApplicationDeploymen
 	return out.Deployments, nil
 }
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkStopApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkStopApplicationDeploymentOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/flink/application/%s/deployment/%s/stop", project, serviceName, applicationId, deploymentId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment/%s/stop", project, serviceName, applicationId, deploymentId)
 	b, err := h.doer.Do(ctx, "ServiceFlinkStopApplicationDeployment", "POST", path, nil)
 	if err != nil {
 		return nil, err

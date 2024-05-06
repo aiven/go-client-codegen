@@ -11,42 +11,42 @@ import (
 
 type Handler interface {
 	// ServiceOpenSearchAclGet show OpenSearch ACL configuration
-	// GET /project/{project}/service/{service_name}/opensearch/acl
+	// GET /v1/project/{project}/service/{service_name}/opensearch/acl
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchAclGet
 	ServiceOpenSearchAclGet(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchAclGetOut, error)
 
 	// ServiceOpenSearchAclSet set OpenSearch ACL configuration
-	// POST /project/{project}/service/{service_name}/opensearch/acl
+	// POST /v1/project/{project}/service/{service_name}/opensearch/acl
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchAclSet
 	ServiceOpenSearchAclSet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclSetIn) (*ServiceOpenSearchAclSetOut, error)
 
 	// ServiceOpenSearchAclUpdate update OpenSearch ACL configuration
-	// PUT /project/{project}/service/{service_name}/opensearch/acl
+	// PUT /v1/project/{project}/service/{service_name}/opensearch/acl
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchAclUpdate
 	ServiceOpenSearchAclUpdate(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclUpdateIn) (*ServiceOpenSearchAclUpdateOut, error)
 
 	// ServiceOpenSearchIndexDelete delete an OpenSearch index
-	// DELETE /project/{project}/service/{service_name}/index/{index_name}
+	// DELETE /v1/project/{project}/service/{service_name}/index/{index_name}
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchIndexDelete
 	ServiceOpenSearchIndexDelete(ctx context.Context, project string, serviceName string, indexName string) error
 
 	// ServiceOpenSearchIndexList list OpenSearch indexes
-	// GET /project/{project}/service/{service_name}/index
+	// GET /v1/project/{project}/service/{service_name}/index
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchIndexList
 	ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]IndexeOut, error)
 
 	// ServiceOpenSearchSecurityGet show OpenSearch security configuration status
-	// GET /project/{project}/service/{service_name}/opensearch/security
+	// GET /v1/project/{project}/service/{service_name}/opensearch/security
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchSecurityGet
 	ServiceOpenSearchSecurityGet(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchSecurityGetOut, error)
 
 	// ServiceOpenSearchSecurityReset change Opensearch Security Admin password
-	// PUT /project/{project}/service/{service_name}/opensearch/security/admin
+	// PUT /v1/project/{project}/service/{service_name}/opensearch/security/admin
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchSecurityReset
 	ServiceOpenSearchSecurityReset(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchSecurityResetIn) (*ServiceOpenSearchSecurityResetOut, error)
 
 	// ServiceOpenSearchSecuritySet enable Opensearch Security Admin by setting the password
-	// POST /project/{project}/service/{service_name}/opensearch/security/admin
+	// POST /v1/project/{project}/service/{service_name}/opensearch/security/admin
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchSecuritySet
 	ServiceOpenSearchSecuritySet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchSecuritySetIn) (*ServiceOpenSearchSecuritySetOut, error)
 }
@@ -64,7 +64,7 @@ type OpenSearchHandler struct {
 }
 
 func (h *OpenSearchHandler) ServiceOpenSearchAclGet(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchAclGetOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -77,7 +77,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclGet(ctx context.Context, project
 	return &out.OpensearchAclConfig, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchAclSet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclSetIn) (*ServiceOpenSearchAclSetOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclSet", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclSet(ctx context.Context, project
 	return &out.OpensearchAclConfig, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchAclUpdate(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclUpdateIn) (*ServiceOpenSearchAclUpdateOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/opensearch/acl", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/acl", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -103,12 +103,12 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclUpdate(ctx context.Context, proj
 	return &out.OpensearchAclConfig, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchIndexDelete(ctx context.Context, project string, serviceName string, indexName string) error {
-	path := fmt.Sprintf("/project/%s/service/%s/index/%s", project, serviceName, indexName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/index/%s", project, serviceName, indexName)
 	_, err := h.doer.Do(ctx, "ServiceOpenSearchIndexDelete", "DELETE", path, nil)
 	return err
 }
 func (h *OpenSearchHandler) ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]IndexeOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/index", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/index", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchIndexList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -121,7 +121,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchIndexList(ctx context.Context, proj
 	return out.Indexes, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchSecurityGet(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchSecurityGetOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/opensearch/security", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/security", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchSecurityGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -134,7 +134,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchSecurityGet(ctx context.Context, pr
 	return out, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchSecurityReset(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchSecurityResetIn) (*ServiceOpenSearchSecurityResetOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/opensearch/security/admin", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/security/admin", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchSecurityReset", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -147,7 +147,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchSecurityReset(ctx context.Context, 
 	return out, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchSecuritySet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchSecuritySetIn) (*ServiceOpenSearchSecuritySetOut, error) {
-	path := fmt.Sprintf("/project/%s/service/%s/opensearch/security/admin", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/security/admin", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchSecuritySet", "POST", path, in)
 	if err != nil {
 		return nil, err

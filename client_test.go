@@ -43,7 +43,7 @@ func TestNewClient(t *testing.T) {
 func TestServiceCreate(t *testing.T) {
 	// Creates a test server
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		require.Equal(t, "/project/foo/service", r.URL.Path)
+		require.Equal(t, "/v1/project/foo/service", r.URL.Path)
 
 		// Validates request
 		expectIn := new(service.ServiceCreateIn)

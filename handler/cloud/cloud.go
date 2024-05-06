@@ -10,12 +10,12 @@ import (
 
 type Handler interface {
 	// ListClouds list cloud platforms
-	// GET /clouds
+	// GET /v1/clouds
 	// https://api.aiven.io/doc/#tag/Cloud_platforms/operation/ListClouds
 	ListClouds(ctx context.Context) ([]CloudOut, error)
 
 	// ListProjectClouds list cloud platforms for a project
-	// GET /project/{project}/clouds
+	// GET /v1/project/{project}/clouds
 	// https://api.aiven.io/doc/#tag/Cloud_platforms/operation/ListProjectClouds
 	ListProjectClouds(ctx context.Context, project string) ([]CloudOut, error)
 }
@@ -33,7 +33,7 @@ type CloudHandler struct {
 }
 
 func (h *CloudHandler) ListClouds(ctx context.Context) ([]CloudOut, error) {
-	path := fmt.Sprintf("/clouds")
+	path := fmt.Sprintf("/v1/clouds")
 	b, err := h.doer.Do(ctx, "ListClouds", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (h *CloudHandler) ListClouds(ctx context.Context) ([]CloudOut, error) {
 	return out.Clouds, nil
 }
 func (h *CloudHandler) ListProjectClouds(ctx context.Context, project string) ([]CloudOut, error) {
-	path := fmt.Sprintf("/project/%s/clouds", project)
+	path := fmt.Sprintf("/v1/project/%s/clouds", project)
 	b, err := h.doer.Do(ctx, "ListProjectClouds", "GET", path, nil)
 	if err != nil {
 		return nil, err

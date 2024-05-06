@@ -1,6 +1,8 @@
 # go-client-codegen
 
-go-client-codegen is an automatically code generated Aiven Go Client. It is generated from the Aiven API specification.
+`go-client-codegen` is an automatically code generated Aiven Go Client from the Aiven API specification.
+
+_Warning:_ this client is under heavy development.
 
 ## Setup
 
