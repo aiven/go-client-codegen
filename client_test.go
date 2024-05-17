@@ -51,6 +51,7 @@ func TestServiceCreate(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, "foo", expectIn.ServiceName)
 		assert.Equal(t, "kafka", expectIn.ServiceType)
+		assert.Regexp(t, `go-client-codegen/[0-9\.]+ unit-test`, r.Header["User-Agent"])
 
 		// Creates response
 		w.Header().Set("Content-Type", "application/json")
@@ -61,7 +62,7 @@ func TestServiceCreate(t *testing.T) {
 	defer server.Close()
 
 	// Points a new client to the server url
-	c, err := NewClient(TokenOpt("token"), HostOpt(server.URL))
+	c, err := NewClient(TokenOpt("token"), HostOpt(server.URL), UserAgentOpt("unit-test"))
 	require.NotNil(t, c)
 	require.NoError(t, err)
 
