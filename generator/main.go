@@ -4,18 +4,22 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 	"regexp"
 	"sort"
 	"strings"
+	"time"
 
 	"github.com/dave/jennifer/jen"
 	"github.com/iancoleman/strcase"
 	"github.com/kelseyhightower/envconfig"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+	"golang.org/x/exp/slices"
 	"gopkg.in/yaml.v3"
 )
 
@@ -25,7 +29,7 @@ const (
 	defaultAPIVersion = "v1"
 )
 
-type config struct {
+type envConfig struct {
 	Module      string `envconfig:"MODULE" default:"github.com/aiven/go-client-codegen"`
 	Package     string `envconfig:"PACKAGE" default:"aiven"`
 	HandlerDir  string `envconfig:"HANDLER_DIR" default:"handler"`
@@ -40,29 +44,24 @@ var (
 )
 
 func main() {
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339})
+
 	err := exec()
 	if err != nil {
-		log.Fatal(err)
+		log.Err(err)
 	}
 }
 
 // nolint:funlen,gocognit,gocyclo // It's a generator, it's supposed to be long, and we won't expand it.
 func exec() error {
-	cfg := new(config)
+	cfg := new(envConfig)
 
 	err := envconfig.Process(configPrefix, cfg)
 	if err != nil {
 		return err
 	}
 
-	configBytes, err := os.ReadFile(cfg.ConfigFile)
-	if err != nil {
-		return err
-	}
-
-	config := make(map[string][]string)
-
-	err = yaml.Unmarshal(configBytes, &config)
+	config, err := readConfig(cfg.ConfigFile)
 	if err != nil {
 		return err
 	}
@@ -81,7 +80,8 @@ func exec() error {
 
 	pkgs := make(map[string][]*Path)
 
-	for path, v := range doc.Paths {
+	for path := range doc.Paths {
+		v := doc.Paths[path]
 		for meth, p := range v {
 			if p.Deprecated {
 				continue
@@ -108,7 +108,7 @@ func exec() error {
 			}
 
 			if pkg == "" {
-				log.Printf("%q id not found in config. Skipping", p.ID)
+				log.Error().Msgf("%q id not found in config!", p.ID)
 
 				continue
 			}
@@ -480,4 +480,47 @@ func toSingle(src string) string {
 	}
 
 	return strings.TrimSuffix(src, "s")
+}
+
+const (
+	yamlTabSize = 2
+	writeMode   = os.FileMode(0644)
+)
+
+// readConfig reads and formats the config
+func readConfig(path string) (map[string][]string, error) {
+	filePath := filepath.Clean(path)
+
+	b, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, err
+	}
+
+	c := make(map[string][]string)
+
+	err = yaml.Unmarshal(b, &c)
+	if err != nil {
+		return nil, err
+	}
+
+	// Updates the config
+	for _, v := range c {
+		slices.Sort(v)
+	}
+
+	var buffer bytes.Buffer
+	encoder := yaml.NewEncoder(&buffer)
+	encoder.SetIndent(yamlTabSize)
+
+	err = encoder.Encode(&c)
+	if err != nil {
+		return nil, err
+	}
+
+	err = os.WriteFile(filePath, buffer.Bytes(), writeMode)
+	if err != nil {
+		return nil, err
+	}
+
+	return c, nil
 }

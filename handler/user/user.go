@@ -55,6 +55,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Users/operation/TwoFactorAuthConfigureOTP
 	TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFactorAuthConfigureOtpIn) (*TwoFactorAuthConfigureOtpOut, error)
 
+	// UserAccountDelete delete user account
+	// DELETE /v1/user/{user_id}
+	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountDelete
+	UserAccountDelete(ctx context.Context, userId string) error
+
 	// UserAccountInvitesAccept accept all invites for a single account
 	// POST /v1/me/account/invites/accept
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountInvitesAccept
@@ -256,6 +261,11 @@ func (h *UserHandler) TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFact
 		return nil, err
 	}
 	return out, nil
+}
+func (h *UserHandler) UserAccountDelete(ctx context.Context, userId string) error {
+	path := fmt.Sprintf("/v1/user/%s", userId)
+	_, err := h.doer.Do(ctx, "UserAccountDelete", "DELETE", path, nil)
+	return err
 }
 func (h *UserHandler) UserAccountInvitesAccept(ctx context.Context, in *UserAccountInvitesAcceptIn) ([]AccountInviteOut, error) {
 	path := fmt.Sprintf("/v1/me/account/invites/accept")

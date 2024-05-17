@@ -40,6 +40,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectDisassociate
 	AccountTeamProjectDisassociate(ctx context.Context, accountId string, teamId string, project string) error
 
+	// AccountTeamProjectList list projects associated to a team
+	// GET /v1/account/{account_id}/team/{team_id}/projects
+	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectList
+	AccountTeamProjectList(ctx context.Context, accountId string, teamId string) ([]ProjectOut, error)
+
 	// AccountTeamUpdate update team details
 	// PUT /v1/account/{account_id}/team/{team_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamUpdate
@@ -112,6 +117,19 @@ func (h *AccountTeamHandler) AccountTeamProjectDisassociate(ctx context.Context,
 	_, err := h.doer.Do(ctx, "AccountTeamProjectDisassociate", "DELETE", path, nil)
 	return err
 }
+func (h *AccountTeamHandler) AccountTeamProjectList(ctx context.Context, accountId string, teamId string) ([]ProjectOut, error) {
+	path := fmt.Sprintf("/v1/account/%s/team/%s/projects", accountId, teamId)
+	b, err := h.doer.Do(ctx, "AccountTeamProjectList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(accountTeamProjectListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Projects, nil
+}
 func (h *AccountTeamHandler) AccountTeamUpdate(ctx context.Context, accountId string, teamId string, in *AccountTeamUpdateIn) (*AccountTeamUpdateOut, error) {
 	path := fmt.Sprintf("/v1/account/%s/team/%s", accountId, teamId)
 	b, err := h.doer.Do(ctx, "AccountTeamUpdate", "PUT", path, in)
@@ -155,6 +173,10 @@ type AccountTeamUpdateOut struct {
 	TeamName   string     `json:"team_name"`
 	UpdateTime *time.Time `json:"update_time,omitempty"`
 }
+type ProjectOut struct {
+	ProjectName string   `json:"project_name"`
+	TeamType    TeamType `json:"team_type"`
+}
 type TeamOut struct {
 	AccountId  string     `json:"account_id,omitempty"`
 	CreateTime *time.Time `json:"create_time,omitempty"`
@@ -183,6 +205,9 @@ type accountTeamInvitesListOut struct {
 }
 type accountTeamListOut struct {
 	Teams []TeamOut `json:"teams"`
+}
+type accountTeamProjectListOut struct {
+	Projects []ProjectOut `json:"projects"`
 }
 type accountTeamUpdateOut struct {
 	Team AccountTeamUpdateOut `json:"team"`

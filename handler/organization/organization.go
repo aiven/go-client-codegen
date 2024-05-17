@@ -10,6 +10,21 @@ import (
 )
 
 type Handler interface {
+	// OrganizationAuthDomainLink link a domain to an organization's identity provider
+	// PUT /v1/organization/{organization_id}/authentication-methods/{authentication_method_id}/domains
+	// https://api.aiven.io/doc/#tag/Authentication_Methods/operation/OrganizationAuthDomainLink
+	OrganizationAuthDomainLink(ctx context.Context, organizationId string, authenticationMethodId string, in *OrganizationAuthDomainLinkIn) error
+
+	// OrganizationAuthDomainList list domains linked to an organization's identity provider
+	// GET /v1/organization/{organization_id}/authentication-methods/{authentication_method_id}/domains
+	// https://api.aiven.io/doc/#tag/Authentication_Methods/operation/OrganizationAuthDomainList
+	OrganizationAuthDomainList(ctx context.Context, organizationId string, authenticationMethodId string) ([]DomainOut, error)
+
+	// OrganizationAuthDomainUnlink unlink domain from authentication method
+	// DELETE /v1/organization/{organization_id}/authentication-methods/{authentication_method_id}/domains/{domain_id}
+	// https://api.aiven.io/doc/#tag/Authentication_Methods/operation/OrganizationAuthDomainUnlink
+	OrganizationAuthDomainUnlink(ctx context.Context, organizationId string, authenticationMethodId string, domainId string) error
+
 	// OrganizationAuthenticationConfigGet retrieve authentication configuration
 	// GET /v1/organization/{organization_id}/config/authentication
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationAuthenticationConfigGet
@@ -53,6 +68,29 @@ type OrganizationHandler struct {
 	doer doer
 }
 
+func (h *OrganizationHandler) OrganizationAuthDomainLink(ctx context.Context, organizationId string, authenticationMethodId string, in *OrganizationAuthDomainLinkIn) error {
+	path := fmt.Sprintf("/v1/organization/%s/authentication-methods/%s/domains", organizationId, authenticationMethodId)
+	_, err := h.doer.Do(ctx, "OrganizationAuthDomainLink", "PUT", path, in)
+	return err
+}
+func (h *OrganizationHandler) OrganizationAuthDomainList(ctx context.Context, organizationId string, authenticationMethodId string) ([]DomainOut, error) {
+	path := fmt.Sprintf("/v1/organization/%s/authentication-methods/%s/domains", organizationId, authenticationMethodId)
+	b, err := h.doer.Do(ctx, "OrganizationAuthDomainList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(organizationAuthDomainListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Domains, nil
+}
+func (h *OrganizationHandler) OrganizationAuthDomainUnlink(ctx context.Context, organizationId string, authenticationMethodId string, domainId string) error {
+	path := fmt.Sprintf("/v1/organization/%s/authentication-methods/%s/domains/%s", organizationId, authenticationMethodId, domainId)
+	_, err := h.doer.Do(ctx, "OrganizationAuthDomainUnlink", "DELETE", path, nil)
+	return err
+}
 func (h *OrganizationHandler) OrganizationAuthenticationConfigGet(ctx context.Context, organizationId string) (*OrganizationAuthenticationConfigGetOut, error) {
 	path := fmt.Sprintf("/v1/organization/%s/config/authentication", organizationId)
 	b, err := h.doer.Do(ctx, "OrganizationAuthenticationConfigGet", "GET", path, nil)
@@ -132,6 +170,31 @@ func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]Orga
 	return out.Organizations, nil
 }
 
+type DomainOut struct {
+	ChallengeToken                string           `json:"challenge_token"`
+	CreateTime                    time.Time        `json:"create_time"`
+	DomainId                      string           `json:"domain_id"`
+	DomainName                    string           `json:"domain_name"`
+	LinkedAuthenticationMethodIds []string         `json:"linked_authentication_method_ids"`
+	OrganizationId                string           `json:"organization_id"`
+	State                         DomainStateType  `json:"state"`
+	VerificationType              VerificationType `json:"verification_type"`
+}
+type DomainStateType string
+
+const (
+	DomainStateTypeDeleted    DomainStateType = "deleted"
+	DomainStateTypeUnverified DomainStateType = "unverified"
+	DomainStateTypeVerified   DomainStateType = "verified"
+)
+
+func DomainStateTypeChoices() []string {
+	return []string{"deleted", "unverified", "verified"}
+}
+
+type OrganizationAuthDomainLinkIn struct {
+	DomainId string `json:"domain_id"`
+}
 type OrganizationAuthenticationConfigGetOut struct {
 	OauthEnabled                           *bool `json:"oauth_enabled,omitempty"`
 	PasswordAuthEnabled                    *bool `json:"password_auth_enabled,omitempty"`
@@ -216,6 +279,20 @@ type UserOrganizationCreateOut struct {
 	OrganizationName             string    `json:"organization_name"`
 	Tier                         TierType  `json:"tier"`
 	UpdateTime                   time.Time `json:"update_time"`
+}
+type VerificationType string
+
+const (
+	VerificationTypeDns  VerificationType = "dns"
+	VerificationTypeHttp VerificationType = "http"
+)
+
+func VerificationTypeChoices() []string {
+	return []string{"dns", "http"}
+}
+
+type organizationAuthDomainListOut struct {
+	Domains []DomainOut `json:"domains"`
 }
 type userOrganizationsListOut struct {
 	Organizations []OrganizationOut `json:"organizations"`

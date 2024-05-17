@@ -9,6 +9,7 @@ import (
 	accountauthentication "github.com/aiven/go-client-codegen/handler/accountauthentication"
 	accountteam "github.com/aiven/go-client-codegen/handler/accountteam"
 	accountteammember "github.com/aiven/go-client-codegen/handler/accountteammember"
+	applicationuser "github.com/aiven/go-client-codegen/handler/applicationuser"
 	billinggroup "github.com/aiven/go-client-codegen/handler/billinggroup"
 	clickhouse "github.com/aiven/go-client-codegen/handler/clickhouse"
 	cloud "github.com/aiven/go-client-codegen/handler/cloud"
@@ -35,6 +36,7 @@ import (
 	serviceintegration "github.com/aiven/go-client-codegen/handler/serviceintegration"
 	serviceuser "github.com/aiven/go-client-codegen/handler/serviceuser"
 	staticip "github.com/aiven/go-client-codegen/handler/staticip"
+	thanos "github.com/aiven/go-client-codegen/handler/thanos"
 	user "github.com/aiven/go-client-codegen/handler/user"
 	usergroup "github.com/aiven/go-client-codegen/handler/usergroup"
 	vpc "github.com/aiven/go-client-codegen/handler/vpc"
@@ -50,6 +52,7 @@ func newClient(doer doer) Client {
 		AccountHandler:                    account.NewHandler(doer),
 		AccountTeamHandler:                accountteam.NewHandler(doer),
 		AccountTeamMemberHandler:          accountteammember.NewHandler(doer),
+		ApplicationUserHandler:            applicationuser.NewHandler(doer),
 		BillingGroupHandler:               billinggroup.NewHandler(doer),
 		ClickHouseHandler:                 clickhouse.NewHandler(doer),
 		CloudHandler:                      cloud.NewHandler(doer),
@@ -76,6 +79,7 @@ func newClient(doer doer) Client {
 		ServiceIntegrationHandler:         serviceintegration.NewHandler(doer),
 		ServiceUserHandler:                serviceuser.NewHandler(doer),
 		StaticIPHandler:                   staticip.NewHandler(doer),
+		ThanosHandler:                     thanos.NewHandler(doer),
 		UserGroupHandler:                  usergroup.NewHandler(doer),
 		UserHandler:                       user.NewHandler(doer),
 		VpcHandler:                        vpc.NewHandler(doer),
@@ -87,6 +91,7 @@ type client struct {
 	accountauthentication.AccountAuthenticationHandler
 	accountteam.AccountTeamHandler
 	accountteammember.AccountTeamMemberHandler
+	applicationuser.ApplicationUserHandler
 	billinggroup.BillingGroupHandler
 	clickhouse.ClickHouseHandler
 	cloud.CloudHandler
@@ -113,6 +118,7 @@ type client struct {
 	serviceintegration.ServiceIntegrationHandler
 	serviceuser.ServiceUserHandler
 	staticip.StaticIPHandler
+	thanos.ThanosHandler
 	user.UserHandler
 	usergroup.UserGroupHandler
 	vpc.VpcHandler
@@ -122,6 +128,7 @@ type Client interface {
 	accountauthentication.Handler
 	accountteam.Handler
 	accountteammember.Handler
+	applicationuser.Handler
 	billinggroup.Handler
 	clickhouse.Handler
 	cloud.Handler
@@ -148,6 +155,7 @@ type Client interface {
 	serviceintegration.Handler
 	serviceuser.Handler
 	staticip.Handler
+	thanos.Handler
 	user.Handler
 	usergroup.Handler
 	vpc.Handler

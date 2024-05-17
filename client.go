@@ -54,6 +54,7 @@ func NewClient(opts ...Option) (Client, error) {
 
 	// Removes trailing / so it is easier later Host + URL
 	d.Host = strings.TrimSuffix(d.Host, "/")
+
 	return newClient(d), nil
 }
 
