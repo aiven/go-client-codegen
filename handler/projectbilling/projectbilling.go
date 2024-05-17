@@ -10,6 +10,11 @@ import (
 )
 
 type Handler interface {
+	// InvoiceGet get a single invoice
+	// GET /v1/invoices/{invoice_number}
+	// https://api.aiven.io/doc/#tag/Billing/operation/InvoiceGet
+	InvoiceGet(ctx context.Context, invoiceNumber string) (*InvoiceGetOut, error)
+
 	// ProjectCreditsClaim claim a credit code
 	// POST /v1/project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsClaim
@@ -38,6 +43,19 @@ type ProjectBillingHandler struct {
 	doer doer
 }
 
+func (h *ProjectBillingHandler) InvoiceGet(ctx context.Context, invoiceNumber string) (*InvoiceGetOut, error) {
+	path := fmt.Sprintf("/v1/invoices/%s", invoiceNumber)
+	b, err := h.doer.Do(ctx, "InvoiceGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(invoiceGetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return &out.Invoice, nil
+}
 func (h *ProjectBillingHandler) ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*ProjectCreditsClaimOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/credits", project)
 	b, err := h.doer.Do(ctx, "ProjectCreditsClaim", "POST", path, in)
@@ -140,6 +158,20 @@ func CurrencyTypeChoices() []string {
 	return []string{"AUD", "CAD", "CHF", "DKK", "EUR", "GBP", "JPY", "NOK", "NZD", "SEK", "SGD", "USD"}
 }
 
+type InvoiceGetOut struct {
+	BillingGroupId    string    `json:"billing_group_id"`
+	BillingGroupName  string    `json:"billing_group_name"`
+	BillingGroupState string    `json:"billing_group_state"`
+	Currency          string    `json:"currency"`
+	DownloadCookie    string    `json:"download_cookie,omitempty"`
+	GeneratedAt       time.Time `json:"generated_at"`
+	InvoiceNumber     string    `json:"invoice_number"`
+	PeriodBegin       string    `json:"period_begin"`
+	PeriodEnd         string    `json:"period_end"`
+	State             string    `json:"state"`
+	TotalIncVat       string    `json:"total_inc_vat"`
+	TotalVatZero      string    `json:"total_vat_zero"`
+}
 type InvoiceOut struct {
 	BillingGroupId    string                `json:"billing_group_id"`
 	BillingGroupName  string                `json:"billing_group_name"`
@@ -187,6 +219,9 @@ type ProjectCreditsClaimOut struct {
 	StartTime      *time.Time `json:"start_time,omitempty"`
 	Type           CreditType `json:"type,omitempty"`
 	Value          string     `json:"value,omitempty"`
+}
+type invoiceGetOut struct {
+	Invoice InvoiceGetOut `json:"invoice"`
 }
 type projectCreditsClaimOut struct {
 	Credit ProjectCreditsClaimOut `json:"credit"`

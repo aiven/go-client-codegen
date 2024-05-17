@@ -19,6 +19,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseDatabaseDelete
 	ServiceClickHouseDatabaseDelete(ctx context.Context, project string, serviceName string, database string) error
 
+	// ServiceClickHouseDatabaseList list all databases
+	// GET /v1/project/{project}/service/{service_name}/clickhouse/db
+	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseDatabaseList
+	ServiceClickHouseDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error)
+
 	// ServiceClickHouseQueryStats return statistics on recent queries
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQueryStats
@@ -52,6 +57,19 @@ func (h *ClickHouseHandler) ServiceClickHouseDatabaseDelete(ctx context.Context,
 	_, err := h.doer.Do(ctx, "ServiceClickHouseDatabaseDelete", "DELETE", path, nil)
 	return err
 }
+func (h *ClickHouseHandler) ServiceClickHouseDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/db", project, serviceName)
+	b, err := h.doer.Do(ctx, "ServiceClickHouseDatabaseList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(serviceClickHouseDatabaseListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Databases, nil
+}
 func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/query/stats", project, serviceName)
 	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil)
@@ -77,6 +95,24 @@ func (h *ClickHouseHandler) ServiceClickHouseTieredStorageSummary(ctx context.Co
 		return nil, err
 	}
 	return out, nil
+}
+
+type DatabaseOut struct {
+	Engine   string            `json:"engine"`
+	Name     string            `json:"name"`
+	Required bool              `json:"required"`
+	State    DatabaseStateType `json:"state,omitempty"`
+}
+type DatabaseStateType string
+
+const (
+	DatabaseStateTypeOk              DatabaseStateType = "ok"
+	DatabaseStateTypePendingCreation DatabaseStateType = "pending_creation"
+	DatabaseStateTypePendingRemoval  DatabaseStateType = "pending_removal"
+)
+
+func DatabaseStateTypeChoices() []string {
+	return []string{"ok", "pending_creation", "pending_removal"}
 }
 
 type HourlyOut struct {
@@ -108,6 +144,9 @@ type ServiceClickHouseTieredStorageSummaryOut struct {
 }
 type StorageUsageHistoryOut struct {
 	Hourly []HourlyOut `json:"hourly"`
+}
+type serviceClickHouseDatabaseListOut struct {
+	Databases []DatabaseOut `json:"databases"`
 }
 type serviceClickHouseQueryStatsOut struct {
 	Queries []QueryOut `json:"queries"`
