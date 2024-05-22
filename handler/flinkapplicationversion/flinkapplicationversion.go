@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -44,7 +45,7 @@ type FlinkApplicationVersionHandler struct {
 }
 
 func (h *FlinkApplicationVersionHandler) ServiceFlinkCreateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateApplicationVersionIn) (*ServiceFlinkCreateApplicationVersionOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/version", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/version", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkCreateApplicationVersion", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -57,7 +58,7 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkCreateApplicationVersion(ct
 	return out, nil
 }
 func (h *FlinkApplicationVersionHandler) ServiceFlinkDeleteApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkDeleteApplicationVersionOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/version/%s", project, serviceName, applicationId, applicationVersionId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/version/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId), url.PathEscape(applicationVersionId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkDeleteApplicationVersion", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -70,7 +71,7 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkDeleteApplicationVersion(ct
 	return out, nil
 }
 func (h *FlinkApplicationVersionHandler) ServiceFlinkGetApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkGetApplicationVersionOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/version/%s", project, serviceName, applicationId, applicationVersionId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/version/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId), url.PathEscape(applicationVersionId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkGetApplicationVersion", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -83,7 +84,7 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkGetApplicationVersion(ctx c
 	return out, nil
 }
 func (h *FlinkApplicationVersionHandler) ServiceFlinkValidateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkValidateApplicationVersionIn) (*ServiceFlinkValidateApplicationVersionOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/version/validate", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/version/validate", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkValidateApplicationVersion", "POST", path, in)
 	if err != nil {
 		return nil, err

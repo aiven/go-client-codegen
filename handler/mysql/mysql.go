@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -28,7 +29,7 @@ type MySQLHandler struct {
 }
 
 func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]QueryOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/mysql/query/stats", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/mysql/query/stats", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "MySQLServiceQueryStatistics", "POST", path, in)
 	if err != nil {
 		return nil, err

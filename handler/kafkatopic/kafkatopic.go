@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -58,17 +59,17 @@ type KafkaTopicHandler struct {
 }
 
 func (h *KafkaTopicHandler) ServiceKafkaTopicCreate(ctx context.Context, project string, serviceName string, in *ServiceKafkaTopicCreateIn) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/topic", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/topic", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ServiceKafkaTopicCreate", "POST", path, in)
 	return err
 }
 func (h *KafkaTopicHandler) ServiceKafkaTopicDelete(ctx context.Context, project string, serviceName string, topicName string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/topic/%s", project, serviceName, topicName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/topic/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(topicName))
 	_, err := h.doer.Do(ctx, "ServiceKafkaTopicDelete", "DELETE", path, nil)
 	return err
 }
 func (h *KafkaTopicHandler) ServiceKafkaTopicGet(ctx context.Context, project string, serviceName string, topicName string) (*ServiceKafkaTopicGetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/topic/%s", project, serviceName, topicName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/topic/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(topicName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -81,7 +82,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicGet(ctx context.Context, project st
 	return &out.Topic, nil
 }
 func (h *KafkaTopicHandler) ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/topic", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/topic", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -94,7 +95,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicList(ctx context.Context, project s
 	return out.Topics, nil
 }
 func (h *KafkaTopicHandler) ServiceKafkaTopicMessageList(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageListIn) ([]MessageOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/rest/topics/%s/messages", project, serviceName, topicName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/rest/topics/%s/messages", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(topicName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicMessageList", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -107,7 +108,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicMessageList(ctx context.Context, pr
 	return out.Messages, nil
 }
 func (h *KafkaTopicHandler) ServiceKafkaTopicMessageProduce(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageProduceIn) (*ServiceKafkaTopicMessageProduceOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/rest/topics/%s/produce", project, serviceName, topicName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/rest/topics/%s/produce", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(topicName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaTopicMessageProduce", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -120,7 +121,7 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicMessageProduce(ctx context.Context,
 	return out, nil
 }
 func (h *KafkaTopicHandler) ServiceKafkaTopicUpdate(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicUpdateIn) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/topic/%s", project, serviceName, topicName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/topic/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(topicName))
 	_, err := h.doer.Do(ctx, "ServiceKafkaTopicUpdate", "PUT", path, in)
 	return err
 }

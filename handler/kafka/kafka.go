@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -73,7 +74,7 @@ type KafkaHandler struct {
 }
 
 func (h *KafkaHandler) ServiceKafkaAclAdd(ctx context.Context, project string, serviceName string, in *ServiceKafkaAclAddIn) ([]AclOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/acl", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/acl", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclAdd", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -86,7 +87,7 @@ func (h *KafkaHandler) ServiceKafkaAclAdd(ctx context.Context, project string, s
 	return out.Acl, nil
 }
 func (h *KafkaHandler) ServiceKafkaAclDelete(ctx context.Context, project string, serviceName string, kafkaAclId string) ([]AclOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/acl/%s", project, serviceName, kafkaAclId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/acl/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(kafkaAclId))
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -99,7 +100,7 @@ func (h *KafkaHandler) ServiceKafkaAclDelete(ctx context.Context, project string
 	return out.Acl, nil
 }
 func (h *KafkaHandler) ServiceKafkaAclList(ctx context.Context, project string, serviceName string) ([]AclOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/acl", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/acl", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -112,17 +113,17 @@ func (h *KafkaHandler) ServiceKafkaAclList(ctx context.Context, project string, 
 	return out.Acl, nil
 }
 func (h *KafkaHandler) ServiceKafkaQuotaCreate(ctx context.Context, project string, serviceName string, in *ServiceKafkaQuotaCreateIn) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/quota", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/quota", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ServiceKafkaQuotaCreate", "POST", path, in)
 	return err
 }
 func (h *KafkaHandler) ServiceKafkaQuotaDelete(ctx context.Context, project string, serviceName string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/quota", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/quota", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ServiceKafkaQuotaDelete", "DELETE", path, nil)
 	return err
 }
 func (h *KafkaHandler) ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string) (*ServiceKafkaQuotaDescribeOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/quota/describe", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/quota/describe", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaQuotaDescribe", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -135,7 +136,7 @@ func (h *KafkaHandler) ServiceKafkaQuotaDescribe(ctx context.Context, project st
 	return &out.Quota, nil
 }
 func (h *KafkaHandler) ServiceKafkaQuotaList(ctx context.Context, project string, serviceName string) ([]QuotaOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/quota", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/quota", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaQuotaList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -148,7 +149,7 @@ func (h *KafkaHandler) ServiceKafkaQuotaList(ctx context.Context, project string
 	return out.Quotas, nil
 }
 func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageByTopic(ctx context.Context, project string, serviceName string) (map[string]any, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/tiered-storage/storage-usage/by-topic", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/tiered-storage/storage-usage/by-topic", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaTieredStorageStorageUsageByTopic", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -161,7 +162,7 @@ func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageByTopic(ctx context.
 	return out.StorageUsage, nil
 }
 func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageTotal(ctx context.Context, project string, serviceName string) (int, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/tiered-storage/storage-usage/total", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/tiered-storage/storage-usage/total", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaTieredStorageStorageUsageTotal", "GET", path, nil)
 	if err != nil {
 		return 0, err
@@ -174,7 +175,7 @@ func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageTotal(ctx context.Co
 	return out.TotalStorageUsage, nil
 }
 func (h *KafkaHandler) ServiceKafkaTieredStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceKafkaTieredStorageSummaryOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/tiered-storage/summary", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/tiered-storage/summary", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaTieredStorageSummary", "GET", path, nil)
 	if err != nil {
 		return nil, err

@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -64,12 +65,12 @@ type AccountTeamHandler struct {
 }
 
 func (h *AccountTeamHandler) AccountTeamDelete(ctx context.Context, accountId string, teamId string) error {
-	path := fmt.Sprintf("/v1/account/%s/team/%s", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s", url.PathEscape(accountId), url.PathEscape(teamId))
 	_, err := h.doer.Do(ctx, "AccountTeamDelete", "DELETE", path, nil)
 	return err
 }
 func (h *AccountTeamHandler) AccountTeamGet(ctx context.Context, accountId string, teamId string) (*AccountTeamGetOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/team/%s", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s", url.PathEscape(accountId), url.PathEscape(teamId))
 	b, err := h.doer.Do(ctx, "AccountTeamGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -82,7 +83,7 @@ func (h *AccountTeamHandler) AccountTeamGet(ctx context.Context, accountId strin
 	return &out.Team, nil
 }
 func (h *AccountTeamHandler) AccountTeamInvitesList(ctx context.Context, accountId string, teamId string) ([]AccountInviteOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/team/%s/invites", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/invites", url.PathEscape(accountId), url.PathEscape(teamId))
 	b, err := h.doer.Do(ctx, "AccountTeamInvitesList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -95,7 +96,7 @@ func (h *AccountTeamHandler) AccountTeamInvitesList(ctx context.Context, account
 	return out.AccountInvites, nil
 }
 func (h *AccountTeamHandler) AccountTeamList(ctx context.Context, accountId string) ([]TeamOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/teams", accountId)
+	path := fmt.Sprintf("/v1/account/%s/teams", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountTeamList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -108,17 +109,17 @@ func (h *AccountTeamHandler) AccountTeamList(ctx context.Context, accountId stri
 	return out.Teams, nil
 }
 func (h *AccountTeamHandler) AccountTeamProjectAssociate(ctx context.Context, accountId string, teamId string, project string, in *AccountTeamProjectAssociateIn) error {
-	path := fmt.Sprintf("/v1/account/%s/team/%s/project/%s", accountId, teamId, project)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/project/%s", url.PathEscape(accountId), url.PathEscape(teamId), url.PathEscape(project))
 	_, err := h.doer.Do(ctx, "AccountTeamProjectAssociate", "POST", path, in)
 	return err
 }
 func (h *AccountTeamHandler) AccountTeamProjectDisassociate(ctx context.Context, accountId string, teamId string, project string) error {
-	path := fmt.Sprintf("/v1/account/%s/team/%s/project/%s", accountId, teamId, project)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/project/%s", url.PathEscape(accountId), url.PathEscape(teamId), url.PathEscape(project))
 	_, err := h.doer.Do(ctx, "AccountTeamProjectDisassociate", "DELETE", path, nil)
 	return err
 }
 func (h *AccountTeamHandler) AccountTeamProjectList(ctx context.Context, accountId string, teamId string) ([]ProjectOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/team/%s/projects", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/projects", url.PathEscape(accountId), url.PathEscape(teamId))
 	b, err := h.doer.Do(ctx, "AccountTeamProjectList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -131,7 +132,7 @@ func (h *AccountTeamHandler) AccountTeamProjectList(ctx context.Context, account
 	return out.Projects, nil
 }
 func (h *AccountTeamHandler) AccountTeamUpdate(ctx context.Context, accountId string, teamId string, in *AccountTeamUpdateIn) (*AccountTeamUpdateOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/team/%s", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s", url.PathEscape(accountId), url.PathEscape(teamId))
 	b, err := h.doer.Do(ctx, "AccountTeamUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err

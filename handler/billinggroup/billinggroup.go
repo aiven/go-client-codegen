@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -102,7 +103,7 @@ func (h *BillingGroupHandler) BillingGroupCreate(ctx context.Context, in *Billin
 	return &out.BillingGroup, nil
 }
 func (h *BillingGroupHandler) BillingGroupCreditsClaim(ctx context.Context, billingGroupId string, in *BillingGroupCreditsClaimIn) (*BillingGroupCreditsClaimOut, error) {
-	path := fmt.Sprintf("/v1/billing-group/%s/credits", billingGroupId)
+	path := fmt.Sprintf("/v1/billing-group/%s/credits", url.PathEscape(billingGroupId))
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsClaim", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -115,7 +116,7 @@ func (h *BillingGroupHandler) BillingGroupCreditsClaim(ctx context.Context, bill
 	return &out.Credit, nil
 }
 func (h *BillingGroupHandler) BillingGroupCreditsList(ctx context.Context, billingGroupId string) ([]CreditOut, error) {
-	path := fmt.Sprintf("/v1/billing-group/%s/credits", billingGroupId)
+	path := fmt.Sprintf("/v1/billing-group/%s/credits", url.PathEscape(billingGroupId))
 	b, err := h.doer.Do(ctx, "BillingGroupCreditsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -128,12 +129,12 @@ func (h *BillingGroupHandler) BillingGroupCreditsList(ctx context.Context, billi
 	return out.Credits, nil
 }
 func (h *BillingGroupHandler) BillingGroupDelete(ctx context.Context, billingGroupId string) error {
-	path := fmt.Sprintf("/v1/billing-group/%s", billingGroupId)
+	path := fmt.Sprintf("/v1/billing-group/%s", url.PathEscape(billingGroupId))
 	_, err := h.doer.Do(ctx, "BillingGroupDelete", "DELETE", path, nil)
 	return err
 }
 func (h *BillingGroupHandler) BillingGroupEventList(ctx context.Context, billingGroupId string) ([]EventOut, error) {
-	path := fmt.Sprintf("/v1/billing-group/%s/events", billingGroupId)
+	path := fmt.Sprintf("/v1/billing-group/%s/events", url.PathEscape(billingGroupId))
 	b, err := h.doer.Do(ctx, "BillingGroupEventList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -146,7 +147,7 @@ func (h *BillingGroupHandler) BillingGroupEventList(ctx context.Context, billing
 	return out.Events, nil
 }
 func (h *BillingGroupHandler) BillingGroupGet(ctx context.Context, billingGroupId string) (*BillingGroupGetOut, error) {
-	path := fmt.Sprintf("/v1/billing-group/%s", billingGroupId)
+	path := fmt.Sprintf("/v1/billing-group/%s", url.PathEscape(billingGroupId))
 	b, err := h.doer.Do(ctx, "BillingGroupGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -159,7 +160,7 @@ func (h *BillingGroupHandler) BillingGroupGet(ctx context.Context, billingGroupI
 	return &out.BillingGroup, nil
 }
 func (h *BillingGroupHandler) BillingGroupInvoiceLinesList(ctx context.Context, billingGroupId string, invoiceNumber string) ([]LineOut, error) {
-	path := fmt.Sprintf("/v1/billing-group/%s/invoice/%s/lines", billingGroupId, invoiceNumber)
+	path := fmt.Sprintf("/v1/billing-group/%s/invoice/%s/lines", url.PathEscape(billingGroupId), url.PathEscape(invoiceNumber))
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceLinesList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -172,7 +173,7 @@ func (h *BillingGroupHandler) BillingGroupInvoiceLinesList(ctx context.Context, 
 	return out.Lines, nil
 }
 func (h *BillingGroupHandler) BillingGroupInvoiceList(ctx context.Context, billingGroupId string) ([]InvoiceOut, error) {
-	path := fmt.Sprintf("/v1/billing-group/%s/invoice", billingGroupId)
+	path := fmt.Sprintf("/v1/billing-group/%s/invoice", url.PathEscape(billingGroupId))
 	b, err := h.doer.Do(ctx, "BillingGroupInvoiceList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -198,12 +199,12 @@ func (h *BillingGroupHandler) BillingGroupList(ctx context.Context) ([]BillingGr
 	return out.BillingGroups, nil
 }
 func (h *BillingGroupHandler) BillingGroupProjectAssign(ctx context.Context, billingGroupId string, project string) error {
-	path := fmt.Sprintf("/v1/billing-group/%s/project-assign/%s", billingGroupId, project)
+	path := fmt.Sprintf("/v1/billing-group/%s/project-assign/%s", url.PathEscape(billingGroupId), url.PathEscape(project))
 	_, err := h.doer.Do(ctx, "BillingGroupProjectAssign", "POST", path, nil)
 	return err
 }
 func (h *BillingGroupHandler) BillingGroupProjectList(ctx context.Context, billingGroupId string) ([]ProjectOut, error) {
-	path := fmt.Sprintf("/v1/billing-group/%s/projects", billingGroupId)
+	path := fmt.Sprintf("/v1/billing-group/%s/projects", url.PathEscape(billingGroupId))
 	b, err := h.doer.Do(ctx, "BillingGroupProjectList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -216,12 +217,12 @@ func (h *BillingGroupHandler) BillingGroupProjectList(ctx context.Context, billi
 	return out.Projects, nil
 }
 func (h *BillingGroupHandler) BillingGroupProjectsAssign(ctx context.Context, billingGroupId string, in *BillingGroupProjectsAssignIn) error {
-	path := fmt.Sprintf("/v1/billing-group/%s/projects-assign", billingGroupId)
+	path := fmt.Sprintf("/v1/billing-group/%s/projects-assign", url.PathEscape(billingGroupId))
 	_, err := h.doer.Do(ctx, "BillingGroupProjectsAssign", "POST", path, in)
 	return err
 }
 func (h *BillingGroupHandler) BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroupUpdateOut, error) {
-	path := fmt.Sprintf("/v1/billing-group/%s", billingGroupId)
+	path := fmt.Sprintf("/v1/billing-group/%s", url.PathEscape(billingGroupId))
 	b, err := h.doer.Do(ctx, "BillingGroupUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err

@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -88,7 +89,7 @@ type PrivatelinkHandler struct {
 }
 
 func (h *PrivatelinkHandler) PublicPrivatelinkAvailabilityList(ctx context.Context, tenant string) ([]PrivatelinkAvailabilityOut, error) {
-	path := fmt.Sprintf("/v1/tenants/%s/privatelink-availability", tenant)
+	path := fmt.Sprintf("/v1/tenants/%s/privatelink-availability", url.PathEscape(tenant))
 	b, err := h.doer.Do(ctx, "PublicPrivatelinkAvailabilityList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -101,7 +102,7 @@ func (h *PrivatelinkHandler) PublicPrivatelinkAvailabilityList(ctx context.Conte
 	return out.PrivatelinkAvailability, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSConnectionList(ctx context.Context, project string, serviceName string) ([]ConnectionOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws/connections", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws/connections", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSConnectionList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -114,7 +115,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSConnectionList(ctx context.Con
 	return out.Connections, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwscreateIn) (*ServicePrivatelinkAwscreateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -127,7 +128,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSCreate(ctx context.Context, pr
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsdeleteOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -140,7 +141,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSDelete(ctx context.Context, pr
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsgetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -153,7 +154,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSGet(ctx context.Context, proje
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAWSUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwsupdateIn) (*ServicePrivatelinkAwsupdateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -166,7 +167,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSUpdate(ctx context.Context, pr
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionApproval(ctx context.Context, project string, serviceName string, privatelinkConnectionId string) (*ServicePrivatelinkAzureConnectionApprovalOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure/connections/%s/approve", project, serviceName, privatelinkConnectionId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure/connections/%s/approve", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(privatelinkConnectionId))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureConnectionApproval", "POST", path, nil)
 	if err != nil {
 		return nil, err
@@ -179,7 +180,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionApproval(ctx conte
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionList(ctx context.Context, project string, serviceName string) ([]ConnectionOutAlt, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure/connections", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure/connections", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureConnectionList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -192,7 +193,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionList(ctx context.C
 	return out.Connections, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionUpdate(ctx context.Context, project string, serviceName string, privatelinkConnectionId string, in *ServicePrivatelinkAzureConnectionUpdateIn) (*ServicePrivatelinkAzureConnectionUpdateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure/connections/%s", project, serviceName, privatelinkConnectionId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure/connections/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(privatelinkConnectionId))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureConnectionUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -205,7 +206,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionUpdate(ctx context
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureCreateIn) (*ServicePrivatelinkAzureCreateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -218,7 +219,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureCreate(ctx context.Context, 
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAzureDeleteOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -231,7 +232,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureDelete(ctx context.Context, 
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAzureGetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -244,7 +245,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureGet(ctx context.Context, pro
 	return out, nil
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureUpdateIn) (*ServicePrivatelinkAzureUpdateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err

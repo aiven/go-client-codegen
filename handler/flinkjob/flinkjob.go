@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -33,7 +34,7 @@ type FlinkJobHandler struct {
 }
 
 func (h *FlinkJobHandler) ServiceFlinkJobDetails(ctx context.Context, project string, serviceName string, jobId string) (*ServiceFlinkJobDetailsOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/job/%s", project, serviceName, jobId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/job/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(jobId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkJobDetails", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -46,7 +47,7 @@ func (h *FlinkJobHandler) ServiceFlinkJobDetails(ctx context.Context, project st
 	return out, nil
 }
 func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]JobOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/job", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/job", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceFlinkJobsList", "GET", path, nil)
 	if err != nil {
 		return nil, err

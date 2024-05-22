@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -69,12 +70,12 @@ type OrganizationHandler struct {
 }
 
 func (h *OrganizationHandler) OrganizationAuthDomainLink(ctx context.Context, organizationId string, authenticationMethodId string, in *OrganizationAuthDomainLinkIn) error {
-	path := fmt.Sprintf("/v1/organization/%s/authentication-methods/%s/domains", organizationId, authenticationMethodId)
+	path := fmt.Sprintf("/v1/organization/%s/authentication-methods/%s/domains", url.PathEscape(organizationId), url.PathEscape(authenticationMethodId))
 	_, err := h.doer.Do(ctx, "OrganizationAuthDomainLink", "PUT", path, in)
 	return err
 }
 func (h *OrganizationHandler) OrganizationAuthDomainList(ctx context.Context, organizationId string, authenticationMethodId string) ([]DomainOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/authentication-methods/%s/domains", organizationId, authenticationMethodId)
+	path := fmt.Sprintf("/v1/organization/%s/authentication-methods/%s/domains", url.PathEscape(organizationId), url.PathEscape(authenticationMethodId))
 	b, err := h.doer.Do(ctx, "OrganizationAuthDomainList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -87,12 +88,12 @@ func (h *OrganizationHandler) OrganizationAuthDomainList(ctx context.Context, or
 	return out.Domains, nil
 }
 func (h *OrganizationHandler) OrganizationAuthDomainUnlink(ctx context.Context, organizationId string, authenticationMethodId string, domainId string) error {
-	path := fmt.Sprintf("/v1/organization/%s/authentication-methods/%s/domains/%s", organizationId, authenticationMethodId, domainId)
+	path := fmt.Sprintf("/v1/organization/%s/authentication-methods/%s/domains/%s", url.PathEscape(organizationId), url.PathEscape(authenticationMethodId), url.PathEscape(domainId))
 	_, err := h.doer.Do(ctx, "OrganizationAuthDomainUnlink", "DELETE", path, nil)
 	return err
 }
 func (h *OrganizationHandler) OrganizationAuthenticationConfigGet(ctx context.Context, organizationId string) (*OrganizationAuthenticationConfigGetOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/config/authentication", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/config/authentication", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "OrganizationAuthenticationConfigGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -105,7 +106,7 @@ func (h *OrganizationHandler) OrganizationAuthenticationConfigGet(ctx context.Co
 	return out, nil
 }
 func (h *OrganizationHandler) OrganizationAuthenticationConfigUpdate(ctx context.Context, organizationId string, in *OrganizationAuthenticationConfigUpdateIn) (*OrganizationAuthenticationConfigUpdateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/config/authentication", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/config/authentication", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "OrganizationAuthenticationConfigUpdate", "PATCH", path, in)
 	if err != nil {
 		return nil, err
@@ -118,7 +119,7 @@ func (h *OrganizationHandler) OrganizationAuthenticationConfigUpdate(ctx context
 	return out, nil
 }
 func (h *OrganizationHandler) OrganizationGet(ctx context.Context, organizationId string) (*OrganizationGetOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "OrganizationGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -131,7 +132,7 @@ func (h *OrganizationHandler) OrganizationGet(ctx context.Context, organizationI
 	return out, nil
 }
 func (h *OrganizationHandler) OrganizationUpdate(ctx context.Context, organizationId string, in *OrganizationUpdateIn) (*OrganizationUpdateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "OrganizationUpdate", "PATCH", path, in)
 	if err != nil {
 		return nil, err

@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -54,7 +55,7 @@ type FlinkApplicationDeploymentHandler struct {
 }
 
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkCancelApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkCancelApplicationDeploymentOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment/%s/cancel", project, serviceName, applicationId, deploymentId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment/%s/cancel", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId), url.PathEscape(deploymentId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkCancelApplicationDeployment", "POST", path, nil)
 	if err != nil {
 		return nil, err
@@ -67,7 +68,7 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkCancelApplicationDeploym
 	return out, nil
 }
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkCreateApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateApplicationDeploymentIn) (*ServiceFlinkCreateApplicationDeploymentOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkCreateApplicationDeployment", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -80,7 +81,7 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkCreateApplicationDeploym
 	return out, nil
 }
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkDeleteApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkDeleteApplicationDeploymentOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment/%s", project, serviceName, applicationId, deploymentId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId), url.PathEscape(deploymentId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkDeleteApplicationDeployment", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -93,7 +94,7 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkDeleteApplicationDeploym
 	return out, nil
 }
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkGetApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkGetApplicationDeploymentOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment/%s", project, serviceName, applicationId, deploymentId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId), url.PathEscape(deploymentId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkGetApplicationDeployment", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -106,7 +107,7 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkGetApplicationDeployment
 	return out, nil
 }
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkListApplicationDeployments(ctx context.Context, project string, serviceName string, applicationId string) ([]DeploymentOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplicationDeployments", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -119,7 +120,7 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkListApplicationDeploymen
 	return out.Deployments, nil
 }
 func (h *FlinkApplicationDeploymentHandler) ServiceFlinkStopApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkStopApplicationDeploymentOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment/%s/stop", project, serviceName, applicationId, deploymentId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s/deployment/%s/stop", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId), url.PathEscape(deploymentId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkStopApplicationDeployment", "POST", path, nil)
 	if err != nil {
 		return nil, err

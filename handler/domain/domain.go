@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -49,7 +50,7 @@ type DomainHandler struct {
 }
 
 func (h *DomainHandler) OrganizationDomainAdd(ctx context.Context, organizationId string, in *OrganizationDomainAddIn) (*OrganizationDomainAddOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/domains", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/domains", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "OrganizationDomainAdd", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -62,7 +63,7 @@ func (h *DomainHandler) OrganizationDomainAdd(ctx context.Context, organizationI
 	return out, nil
 }
 func (h *DomainHandler) OrganizationDomainUpdate(ctx context.Context, organizationId string, domainId string, in *OrganizationDomainUpdateIn) (*OrganizationDomainUpdateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/domains/%s", organizationId, domainId)
+	path := fmt.Sprintf("/v1/organization/%s/domains/%s", url.PathEscape(organizationId), url.PathEscape(domainId))
 	b, err := h.doer.Do(ctx, "OrganizationDomainUpdate", "PATCH", path, in)
 	if err != nil {
 		return nil, err
@@ -75,7 +76,7 @@ func (h *DomainHandler) OrganizationDomainUpdate(ctx context.Context, organizati
 	return out, nil
 }
 func (h *DomainHandler) OrganizationDomainVerify(ctx context.Context, organizationId string, domainId string) (*OrganizationDomainVerifyOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/domains/%s/verify", organizationId, domainId)
+	path := fmt.Sprintf("/v1/organization/%s/domains/%s/verify", url.PathEscape(organizationId), url.PathEscape(domainId))
 	b, err := h.doer.Do(ctx, "OrganizationDomainVerify", "POST", path, nil)
 	if err != nil {
 		return nil, err
@@ -88,7 +89,7 @@ func (h *DomainHandler) OrganizationDomainVerify(ctx context.Context, organizati
 	return out, nil
 }
 func (h *DomainHandler) OrganizationDomainsList(ctx context.Context, organizationId string) ([]DomainOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/domains", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/domains", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "OrganizationDomainsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -101,7 +102,7 @@ func (h *DomainHandler) OrganizationDomainsList(ctx context.Context, organizatio
 	return out.Domains, nil
 }
 func (h *DomainHandler) OrganizationDomainsRemove(ctx context.Context, organizationId string, domainId string) error {
-	path := fmt.Sprintf("/v1/organization/%s/domains/%s", organizationId, domainId)
+	path := fmt.Sprintf("/v1/organization/%s/domains/%s", url.PathEscape(organizationId), url.PathEscape(domainId))
 	_, err := h.doer.Do(ctx, "OrganizationDomainsRemove", "DELETE", path, nil)
 	return err
 }

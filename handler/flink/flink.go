@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -28,7 +29,7 @@ type FlinkHandler struct {
 }
 
 func (h *FlinkHandler) ServiceFlinkOverview(ctx context.Context, project string, serviceName string) (*ServiceFlinkOverviewOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/overview", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/overview", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceFlinkOverview", "GET", path, nil)
 	if err != nil {
 		return nil, err

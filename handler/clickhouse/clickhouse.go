@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -48,17 +49,17 @@ type ClickHouseHandler struct {
 }
 
 func (h *ClickHouseHandler) ServiceClickHouseDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceClickHouseDatabaseCreateIn) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/db", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/db", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ServiceClickHouseDatabaseCreate", "POST", path, in)
 	return err
 }
 func (h *ClickHouseHandler) ServiceClickHouseDatabaseDelete(ctx context.Context, project string, serviceName string, database string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/db/%s", project, serviceName, database)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/db/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(database))
 	_, err := h.doer.Do(ctx, "ServiceClickHouseDatabaseDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ClickHouseHandler) ServiceClickHouseDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/db", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/db", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceClickHouseDatabaseList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -71,7 +72,7 @@ func (h *ClickHouseHandler) ServiceClickHouseDatabaseList(ctx context.Context, p
 	return out.Databases, nil
 }
 func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/query/stats", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/query/stats", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -84,7 +85,7 @@ func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, pro
 	return out.Queries, nil
 }
 func (h *ClickHouseHandler) ServiceClickHouseTieredStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceClickHouseTieredStorageSummaryOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/tiered-storage/summary", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/tiered-storage/summary", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceClickHouseTieredStorageSummary", "GET", path, nil)
 	if err != nil {
 		return nil, err

@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -28,7 +29,7 @@ type ThanosHandler struct {
 }
 
 func (h *ThanosHandler) ServiceThanosStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceThanosStorageSummaryOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/thanos/storage/summary", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/thanos/storage/summary", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceThanosStorageSummary", "GET", path, nil)
 	if err != nil {
 		return nil, err

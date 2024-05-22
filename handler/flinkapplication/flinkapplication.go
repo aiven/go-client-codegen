@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -49,7 +50,7 @@ type FlinkApplicationHandler struct {
 }
 
 func (h *FlinkApplicationHandler) ServiceFlinkCreateApplication(ctx context.Context, project string, serviceName string, in *ServiceFlinkCreateApplicationIn) (*ServiceFlinkCreateApplicationOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceFlinkCreateApplication", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -62,7 +63,7 @@ func (h *FlinkApplicationHandler) ServiceFlinkCreateApplication(ctx context.Cont
 	return out, nil
 }
 func (h *FlinkApplicationHandler) ServiceFlinkDeleteApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkDeleteApplicationOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkDeleteApplication", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -75,7 +76,7 @@ func (h *FlinkApplicationHandler) ServiceFlinkDeleteApplication(ctx context.Cont
 	return out, nil
 }
 func (h *FlinkApplicationHandler) ServiceFlinkGetApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkGetApplicationOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkGetApplication", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -88,7 +89,7 @@ func (h *FlinkApplicationHandler) ServiceFlinkGetApplication(ctx context.Context
 	return out, nil
 }
 func (h *FlinkApplicationHandler) ServiceFlinkListApplications(ctx context.Context, project string, serviceName string) ([]ApplicationOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceFlinkListApplications", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -101,7 +102,7 @@ func (h *FlinkApplicationHandler) ServiceFlinkListApplications(ctx context.Conte
 	return out.Applications, nil
 }
 func (h *FlinkApplicationHandler) ServiceFlinkUpdateApplication(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkUpdateApplicationIn) (*ServiceFlinkUpdateApplicationOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s", project, serviceName, applicationId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/flink/application/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(applicationId))
 	b, err := h.doer.Do(ctx, "ServiceFlinkUpdateApplication", "PUT", path, in)
 	if err != nil {
 		return nil, err

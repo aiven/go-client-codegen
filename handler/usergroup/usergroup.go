@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -59,7 +60,7 @@ type UserGroupHandler struct {
 }
 
 func (h *UserGroupHandler) UserGroupCreate(ctx context.Context, organizationId string, in *UserGroupCreateIn) (*UserGroupCreateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/user-groups", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "UserGroupCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -72,12 +73,12 @@ func (h *UserGroupHandler) UserGroupCreate(ctx context.Context, organizationId s
 	return out, nil
 }
 func (h *UserGroupHandler) UserGroupDelete(ctx context.Context, organizationId string, userGroupId string) error {
-	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s", organizationId, userGroupId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s", url.PathEscape(organizationId), url.PathEscape(userGroupId))
 	_, err := h.doer.Do(ctx, "UserGroupDelete", "DELETE", path, nil)
 	return err
 }
 func (h *UserGroupHandler) UserGroupGet(ctx context.Context, organizationId string, userGroupId string) (*UserGroupGetOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s", organizationId, userGroupId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s", url.PathEscape(organizationId), url.PathEscape(userGroupId))
 	b, err := h.doer.Do(ctx, "UserGroupGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -90,7 +91,7 @@ func (h *UserGroupHandler) UserGroupGet(ctx context.Context, organizationId stri
 	return out, nil
 }
 func (h *UserGroupHandler) UserGroupMemberList(ctx context.Context, organizationId string, userGroupId string) ([]MemberOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s/members", organizationId, userGroupId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s/members", url.PathEscape(organizationId), url.PathEscape(userGroupId))
 	b, err := h.doer.Do(ctx, "UserGroupMemberList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -103,12 +104,12 @@ func (h *UserGroupHandler) UserGroupMemberList(ctx context.Context, organization
 	return out.Members, nil
 }
 func (h *UserGroupHandler) UserGroupMembersUpdate(ctx context.Context, organizationId string, userGroupId string, in *UserGroupMembersUpdateIn) error {
-	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s/members", organizationId, userGroupId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s/members", url.PathEscape(organizationId), url.PathEscape(userGroupId))
 	_, err := h.doer.Do(ctx, "UserGroupMembersUpdate", "PATCH", path, in)
 	return err
 }
 func (h *UserGroupHandler) UserGroupUpdate(ctx context.Context, organizationId string, userGroupId string, in *UserGroupUpdateIn) (*UserGroupUpdateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s", organizationId, userGroupId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups/%s", url.PathEscape(organizationId), url.PathEscape(userGroupId))
 	b, err := h.doer.Do(ctx, "UserGroupUpdate", "PATCH", path, in)
 	if err != nil {
 		return nil, err
@@ -121,7 +122,7 @@ func (h *UserGroupHandler) UserGroupUpdate(ctx context.Context, organizationId s
 	return out, nil
 }
 func (h *UserGroupHandler) UserGroupsList(ctx context.Context, organizationId string) ([]UserGroupOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/user-groups", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/user-groups", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "UserGroupsList", "GET", path, nil)
 	if err != nil {
 		return nil, err

@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -44,12 +45,12 @@ type AccountTeamMemberHandler struct {
 }
 
 func (h *AccountTeamMemberHandler) AccountTeamMemberCancelInvite(ctx context.Context, accountId string, teamId string, userEmail string) error {
-	path := fmt.Sprintf("/v1/account/%s/team/%s/invites/%s", accountId, teamId, userEmail)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/invites/%s", url.PathEscape(accountId), url.PathEscape(teamId), url.PathEscape(userEmail))
 	_, err := h.doer.Do(ctx, "AccountTeamMemberCancelInvite", "DELETE", path, nil)
 	return err
 }
 func (h *AccountTeamMemberHandler) AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*AccountTeamMemberVerifyInviteOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/invite/%s", accountId, inviteVerificationCode)
+	path := fmt.Sprintf("/v1/account/%s/invite/%s", url.PathEscape(accountId), url.PathEscape(inviteVerificationCode))
 	b, err := h.doer.Do(ctx, "AccountTeamMemberVerifyInvite", "POST", path, nil)
 	if err != nil {
 		return nil, err
@@ -62,12 +63,12 @@ func (h *AccountTeamMemberHandler) AccountTeamMemberVerifyInvite(ctx context.Con
 	return &out.InviteDetails, nil
 }
 func (h *AccountTeamMemberHandler) AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string, in *AccountTeamMembersInviteIn) error {
-	path := fmt.Sprintf("/v1/account/%s/team/%s/members", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/members", url.PathEscape(accountId), url.PathEscape(teamId))
 	_, err := h.doer.Do(ctx, "AccountTeamMembersInvite", "POST", path, in)
 	return err
 }
 func (h *AccountTeamMemberHandler) AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/team/%s/members", accountId, teamId)
+	path := fmt.Sprintf("/v1/account/%s/team/%s/members", url.PathEscape(accountId), url.PathEscape(teamId))
 	b, err := h.doer.Do(ctx, "AccountTeamMembersList", "GET", path, nil)
 	if err != nil {
 		return nil, err
