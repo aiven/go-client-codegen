@@ -3,6 +3,7 @@ name: Update
 on:
   schedule:
     - cron: 0 3 * * 1-5
+  workflow_dispatch: {}
 
 permissions: read-all
 
@@ -19,6 +20,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
+      - run: go install golang.org/x/tools/cmd/goimports@latest
       - uses: arduino/setup-task@v2
       - run: wget -O openapi.json https://api.aiven.io/doc/openapi.json
       - run: task generate
