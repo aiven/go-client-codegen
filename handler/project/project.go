@@ -436,6 +436,7 @@ type ProjectCreateIn struct {
 	AccountId                    string              `json:"account_id,omitempty"`
 	AddAccountOwnersAdminAccess  *bool               `json:"add_account_owners_admin_access,omitempty"`
 	AddressLines                 *[]string           `json:"address_lines,omitempty"`
+	BasePort                     *int                `json:"base_port,omitempty"`
 	BillingAddress               string              `json:"billing_address,omitempty"`
 	BillingCurrency              BillingCurrencyType `json:"billing_currency,omitempty"`
 	BillingEmails                *[]BillingEmailIn   `json:"billing_emails,omitempty"`
