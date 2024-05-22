@@ -145,22 +145,26 @@ type ApplicationUserAccessTokenCreateOut struct {
 	TokenPrefix string `json:"token_prefix"`
 }
 type ApplicationUserCreateIn struct {
-	Name string `json:"name"`
+	IsSuperAdmin *bool  `json:"is_super_admin,omitempty"`
+	Name         string `json:"name"`
 }
 type ApplicationUserCreateOut struct {
-	Name      string `json:"name"`
-	UserEmail string `json:"user_email"`
-	UserId    string `json:"user_id"`
+	IsSuperAdmin bool   `json:"is_super_admin"`
+	Name         string `json:"name"`
+	UserEmail    string `json:"user_email"`
+	UserId       string `json:"user_id"`
 }
 type ApplicationUserGetOut struct {
-	Name      string `json:"name"`
-	UserEmail string `json:"user_email"`
-	UserId    string `json:"user_id"`
+	IsSuperAdmin bool   `json:"is_super_admin"`
+	Name         string `json:"name"`
+	UserEmail    string `json:"user_email"`
+	UserId       string `json:"user_id"`
 }
 type ApplicationUserOut struct {
-	Name      string `json:"name"`
-	UserEmail string `json:"user_email"`
-	UserId    string `json:"user_id"`
+	IsSuperAdmin bool   `json:"is_super_admin"`
+	Name         string `json:"name"`
+	UserEmail    string `json:"user_email"`
+	UserId       string `json:"user_id"`
 }
 type TokenOut struct {
 	CreateTime                 time.Time  `json:"create_time"`

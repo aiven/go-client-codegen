@@ -115,6 +115,7 @@ type ReplicationFlowOut struct {
 	Enabled                         bool                         `json:"enabled"`
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
+	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
 	ReplicationProgress             *float64                     `json:"replication_progress,omitempty"`
 	SourceCluster                   string                       `json:"source_cluster"`
@@ -142,6 +143,7 @@ type ServiceKafkaMirrorMakerCreateReplicationFlowIn struct {
 	Enabled                         bool                         `json:"enabled"`
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
+	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
 	SourceCluster                   string                       `json:"source_cluster"`
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
@@ -157,6 +159,7 @@ type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
 	Enabled                         bool                         `json:"enabled"`
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
+	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
 	ReplicationProgress             *float64                     `json:"replication_progress,omitempty"`
 	SourceCluster                   string                       `json:"source_cluster"`
@@ -173,6 +176,7 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
 	Enabled                         *bool                        `json:"enabled,omitempty"`
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
+	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
@@ -186,6 +190,7 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowOut struct {
 	Enabled                         bool                         `json:"enabled"`
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`
+	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`
 	ReplicationProgress             *float64                     `json:"replication_progress,omitempty"`
 	SourceCluster                   string                       `json:"source_cluster"`
