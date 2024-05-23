@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -78,7 +79,7 @@ type KafkaConnectHandler struct {
 }
 
 func (h *KafkaConnectHandler) ServiceKafkaConnectCreateConnector(ctx context.Context, project string, serviceName string, in *ServiceKafkaConnectCreateConnectorIn) (*ServiceKafkaConnectCreateConnectorOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectCreateConnector", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -91,12 +92,12 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectCreateConnector(ctx context.Con
 	return &out.Connector, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectDeleteConnector(ctx context.Context, project string, serviceName string, connectorName string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(connectorName))
 	_, err := h.doer.Do(ctx, "ServiceKafkaConnectDeleteConnector", "DELETE", path, nil)
 	return err
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectEditConnector(ctx context.Context, project string, serviceName string, connectorName string, in *ServiceKafkaConnectEditConnectorIn) (*ServiceKafkaConnectEditConnectorOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(connectorName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectEditConnector", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -109,7 +110,7 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectEditConnector(ctx context.Conte
 	return &out.Connector, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]PluginOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/available-connectors", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/available-connectors", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetAvailableConnectors", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -122,7 +123,7 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectGetAvailableConnectors(ctx cont
 	return out.Plugins, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorConfiguration(ctx context.Context, project string, serviceName string, connectorName string) ([]ConfigurationSchemaOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connector-plugins/%s/configuration", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connector-plugins/%s/configuration", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(connectorName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetConnectorConfiguration", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -135,7 +136,7 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorConfiguration(ctx c
 	return out.ConfigurationSchema, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorStatus(ctx context.Context, project string, serviceName string, connectorName string) (*ServiceKafkaConnectGetConnectorStatusOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/status", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/status", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(connectorName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetConnectorStatus", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -148,7 +149,7 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorStatus(ctx context.
 	return &out.Status, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectList(ctx context.Context, project string, serviceName string) ([]ConnectorOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -161,22 +162,22 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectList(ctx context.Context, proje
 	return out.Connectors, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectPauseConnector(ctx context.Context, project string, serviceName string, connectorName string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/pause", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/pause", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(connectorName))
 	_, err := h.doer.Do(ctx, "ServiceKafkaConnectPauseConnector", "POST", path, nil)
 	return err
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectRestartConnector(ctx context.Context, project string, serviceName string, connectorName string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/restart", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/restart", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(connectorName))
 	_, err := h.doer.Do(ctx, "ServiceKafkaConnectRestartConnector", "POST", path, nil)
 	return err
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectRestartConnectorTask(ctx context.Context, project string, serviceName string, connectorName string, taskId string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/tasks/%s/restart", project, serviceName, connectorName, taskId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/tasks/%s/restart", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(connectorName), url.PathEscape(taskId))
 	_, err := h.doer.Do(ctx, "ServiceKafkaConnectRestartConnectorTask", "POST", path, nil)
 	return err
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectResumeConnector(ctx context.Context, project string, serviceName string, connectorName string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/resume", project, serviceName, connectorName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/resume", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(connectorName))
 	_, err := h.doer.Do(ctx, "ServiceKafkaConnectResumeConnector", "POST", path, nil)
 	return err
 }

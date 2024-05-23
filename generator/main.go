@@ -282,7 +282,12 @@ func exec() error {
 					continue
 				}
 
-				urlParams = append(urlParams, jen.Id(strcase.ToLowerCamel(s.CamelName)))
+				v := jen.Id(strcase.ToLowerCamel(s.CamelName))
+				if s.Type == SchemaTypeString {
+					v = jen.Id("url.PathEscape").Call(v)
+				}
+
+				urlParams = append(urlParams, v)
 			}
 
 			outObj := jen.Id("_")

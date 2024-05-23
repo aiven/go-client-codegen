@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -174,7 +175,7 @@ type ServiceHandler struct {
 }
 
 func (h *ServiceHandler) ListProjectServiceTypes(ctx context.Context, project string) (*ListProjectServiceTypesOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service_types", project)
+	path := fmt.Sprintf("/v1/project/%s/service_types", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ListProjectServiceTypes", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -213,7 +214,7 @@ func (h *ServiceHandler) ListServiceVersions(ctx context.Context) ([]ServiceVers
 	return out.ServiceVersions, nil
 }
 func (h *ServiceHandler) ProjectGetServiceLogs(ctx context.Context, project string, serviceName string, in *ProjectGetServiceLogsIn) (*ProjectGetServiceLogsOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/logs", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/logs", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ProjectGetServiceLogs", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -226,7 +227,7 @@ func (h *ServiceHandler) ProjectGetServiceLogs(ctx context.Context, project stri
 	return out, nil
 }
 func (h *ServiceHandler) ProjectServiceTagsList(ctx context.Context, project string, serviceName string) (map[string]string, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/tags", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/tags", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ProjectServiceTagsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -239,17 +240,17 @@ func (h *ServiceHandler) ProjectServiceTagsList(ctx context.Context, project str
 	return out.Tags, nil
 }
 func (h *ServiceHandler) ProjectServiceTagsReplace(ctx context.Context, project string, serviceName string, in *ProjectServiceTagsReplaceIn) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/tags", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/tags", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ProjectServiceTagsReplace", "PUT", path, in)
 	return err
 }
 func (h *ServiceHandler) ProjectServiceTagsUpdate(ctx context.Context, project string, serviceName string, in *ProjectServiceTagsUpdateIn) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/tags", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/tags", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ProjectServiceTagsUpdate", "PATCH", path, in)
 	return err
 }
 func (h *ServiceHandler) ServiceAlertsList(ctx context.Context, project string, serviceName string) ([]AlertOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/alerts", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/alerts", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceAlertsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -262,7 +263,7 @@ func (h *ServiceHandler) ServiceAlertsList(ctx context.Context, project string, 
 	return out.Alerts, nil
 }
 func (h *ServiceHandler) ServiceBackupToAnotherRegionReport(ctx context.Context, project string, serviceName string, in *ServiceBackupToAnotherRegionReportIn) (map[string]any, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/backup_to_another_region/report", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/backup_to_another_region/report", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceBackupToAnotherRegionReport", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -275,7 +276,7 @@ func (h *ServiceHandler) ServiceBackupToAnotherRegionReport(ctx context.Context,
 	return out.Metrics, nil
 }
 func (h *ServiceHandler) ServiceBackupsGet(ctx context.Context, project string, serviceName string) ([]BackupOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/backups", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/backups", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceBackupsGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -288,7 +289,7 @@ func (h *ServiceHandler) ServiceBackupsGet(ctx context.Context, project string, 
 	return out.Backups, nil
 }
 func (h *ServiceHandler) ServiceCancelQuery(ctx context.Context, project string, serviceName string, in *ServiceCancelQueryIn) (bool, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/query/cancel", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/query/cancel", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceCancelQuery", "POST", path, in)
 	if err != nil {
 		return false, err
@@ -301,7 +302,7 @@ func (h *ServiceHandler) ServiceCancelQuery(ctx context.Context, project string,
 	return out.Success, nil
 }
 func (h *ServiceHandler) ServiceCreate(ctx context.Context, project string, in *ServiceCreateIn) (*ServiceCreateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service", project)
+	path := fmt.Sprintf("/v1/project/%s/service", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ServiceCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -314,17 +315,17 @@ func (h *ServiceHandler) ServiceCreate(ctx context.Context, project string, in *
 	return &out.Service, nil
 }
 func (h *ServiceHandler) ServiceDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceDatabaseCreateIn) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/db", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/db", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ServiceDatabaseCreate", "POST", path, in)
 	return err
 }
 func (h *ServiceHandler) ServiceDatabaseDelete(ctx context.Context, project string, serviceName string, dbname string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/db/%s", project, serviceName, dbname)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/db/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(dbname))
 	_, err := h.doer.Do(ctx, "ServiceDatabaseDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ServiceHandler) ServiceDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/db", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/db", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceDatabaseList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -337,12 +338,12 @@ func (h *ServiceHandler) ServiceDatabaseList(ctx context.Context, project string
 	return out.Databases, nil
 }
 func (h *ServiceHandler) ServiceDelete(ctx context.Context, project string, serviceName string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ServiceDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string, serviceName string) (string, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/enable-writes", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/enable-writes", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceEnableWrites", "POST", path, nil)
 	if err != nil {
 		return "", err
@@ -355,7 +356,7 @@ func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string
 	return out.Until, nil
 }
 func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, serviceName string) (*ServiceGetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -368,7 +369,7 @@ func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, service
 	return &out.Service, nil
 }
 func (h *ServiceHandler) ServiceGetMigrationStatus(ctx context.Context, project string, serviceName string) (*ServiceGetMigrationStatusOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/migration", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/migration", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceGetMigrationStatus", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -381,7 +382,7 @@ func (h *ServiceHandler) ServiceGetMigrationStatus(ctx context.Context, project 
 	return out, nil
 }
 func (h *ServiceHandler) ServiceInfluxDBStats(ctx context.Context, project string, serviceName string) (map[string]any, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/influxdb/stats", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/influxdb/stats", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceInfluxDBStats", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -394,7 +395,7 @@ func (h *ServiceHandler) ServiceInfluxDBStats(ctx context.Context, project strin
 	return out.DbStats, nil
 }
 func (h *ServiceHandler) ServiceKmsGetCA(ctx context.Context, project string, serviceName string, caName string) (string, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/kms/ca/%s", project, serviceName, caName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/kms/ca/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(caName))
 	b, err := h.doer.Do(ctx, "ServiceKmsGetCA", "GET", path, nil)
 	if err != nil {
 		return "", err
@@ -407,7 +408,7 @@ func (h *ServiceHandler) ServiceKmsGetCA(ctx context.Context, project string, se
 	return out.Certificate, nil
 }
 func (h *ServiceHandler) ServiceKmsGetKeypair(ctx context.Context, project string, serviceName string, keypairName string) (*ServiceKmsGetKeypairOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/kms/keypairs/%s", project, serviceName, keypairName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/kms/keypairs/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(keypairName))
 	b, err := h.doer.Do(ctx, "ServiceKmsGetKeypair", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -420,7 +421,7 @@ func (h *ServiceHandler) ServiceKmsGetKeypair(ctx context.Context, project strin
 	return out, nil
 }
 func (h *ServiceHandler) ServiceList(ctx context.Context, project string) ([]ServiceOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service", project)
+	path := fmt.Sprintf("/v1/project/%s/service", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ServiceList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -433,12 +434,12 @@ func (h *ServiceHandler) ServiceList(ctx context.Context, project string) ([]Ser
 	return out.Services, nil
 }
 func (h *ServiceHandler) ServiceMaintenanceStart(ctx context.Context, project string, serviceName string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/maintenance/start", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/maintenance/start", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ServiceMaintenanceStart", "PUT", path, nil)
 	return err
 }
 func (h *ServiceHandler) ServiceMetricsFetch(ctx context.Context, project string, serviceName string, in *ServiceMetricsFetchIn) (map[string]any, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/metrics", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/metrics", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceMetricsFetch", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -451,7 +452,7 @@ func (h *ServiceHandler) ServiceMetricsFetch(ctx context.Context, project string
 	return out.Metrics, nil
 }
 func (h *ServiceHandler) ServiceQueryActivity(ctx context.Context, project string, serviceName string, in *ServiceQueryActivityIn) ([]QueryOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/query/activity", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/query/activity", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceQueryActivity", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -464,7 +465,7 @@ func (h *ServiceHandler) ServiceQueryActivity(ctx context.Context, project strin
 	return out.Queries, nil
 }
 func (h *ServiceHandler) ServiceQueryStatisticsReset(ctx context.Context, project string, serviceName string) ([]map[string]any, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/query/stats/reset", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/query/stats/reset", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceQueryStatisticsReset", "PUT", path, nil)
 	if err != nil {
 		return nil, err
@@ -477,7 +478,7 @@ func (h *ServiceHandler) ServiceQueryStatisticsReset(ctx context.Context, projec
 	return out.Queries, nil
 }
 func (h *ServiceHandler) ServiceTaskCreate(ctx context.Context, project string, serviceName string, in *ServiceTaskCreateIn) (*ServiceTaskCreateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/task", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/task", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceTaskCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -490,7 +491,7 @@ func (h *ServiceHandler) ServiceTaskCreate(ctx context.Context, project string, 
 	return &out.Task, nil
 }
 func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, serviceName string, taskId string) (*ServiceTaskGetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/task/%s", project, serviceName, taskId)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/task/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(taskId))
 	b, err := h.doer.Do(ctx, "ServiceTaskGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -503,7 +504,7 @@ func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, ser
 	return &out.Task, nil
 }
 func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn) (*ServiceUpdateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err

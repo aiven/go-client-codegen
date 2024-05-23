@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -83,7 +84,7 @@ type ServiceIntegrationHandler struct {
 }
 
 func (h *ServiceIntegrationHandler) ServiceIntegrationCreate(ctx context.Context, project string, in *ServiceIntegrationCreateIn) (*ServiceIntegrationCreateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/integration", project)
+	path := fmt.Sprintf("/v1/project/%s/integration", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -96,12 +97,12 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationCreate(ctx context.Context
 	return &out.ServiceIntegration, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationDelete(ctx context.Context, project string, integrationId string) error {
-	path := fmt.Sprintf("/v1/project/%s/integration/%s", project, integrationId)
+	path := fmt.Sprintf("/v1/project/%s/integration/%s", url.PathEscape(project), url.PathEscape(integrationId))
 	_, err := h.doer.Do(ctx, "ServiceIntegrationDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointCreate(ctx context.Context, project string, in *ServiceIntegrationEndpointCreateIn) (*ServiceIntegrationEndpointCreateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/integration_endpoint", project)
+	path := fmt.Sprintf("/v1/project/%s/integration_endpoint", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -114,12 +115,12 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointCreate(ctx context
 	return &out.ServiceIntegrationEndpoint, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointDelete(ctx context.Context, project string, integrationEndpointId string) error {
-	path := fmt.Sprintf("/v1/project/%s/integration_endpoint/%s", project, integrationEndpointId)
+	path := fmt.Sprintf("/v1/project/%s/integration_endpoint/%s", url.PathEscape(project), url.PathEscape(integrationEndpointId))
 	_, err := h.doer.Do(ctx, "ServiceIntegrationEndpointDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string) (*ServiceIntegrationEndpointGetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/integration_endpoint/%s", project, integrationEndpointId)
+	path := fmt.Sprintf("/v1/project/%s/integration_endpoint/%s", url.PathEscape(project), url.PathEscape(integrationEndpointId))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -132,7 +133,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointGet(ctx context.Co
 	return &out.ServiceIntegrationEndpoint, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointList(ctx context.Context, project string) ([]ServiceIntegrationEndpointOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/integration_endpoint", project)
+	path := fmt.Sprintf("/v1/project/%s/integration_endpoint", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -145,7 +146,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointList(ctx context.C
 	return out.ServiceIntegrationEndpoints, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointTypes(ctx context.Context, project string) ([]EndpointTypeOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/integration_endpoint_types", project)
+	path := fmt.Sprintf("/v1/project/%s/integration_endpoint_types", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointTypes", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -158,7 +159,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointTypes(ctx context.
 	return out.EndpointTypes, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointUpdate(ctx context.Context, project string, integrationEndpointId string, in *ServiceIntegrationEndpointUpdateIn) (*ServiceIntegrationEndpointUpdateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/integration_endpoint/%s", project, integrationEndpointId)
+	path := fmt.Sprintf("/v1/project/%s/integration_endpoint/%s", url.PathEscape(project), url.PathEscape(integrationEndpointId))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -171,7 +172,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointUpdate(ctx context
 	return &out.ServiceIntegrationEndpoint, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationGet(ctx context.Context, project string, integrationId string) (*ServiceIntegrationGetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/integration/%s", project, integrationId)
+	path := fmt.Sprintf("/v1/project/%s/integration/%s", url.PathEscape(project), url.PathEscape(integrationId))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -184,7 +185,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationGet(ctx context.Context, p
 	return &out.ServiceIntegration, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationList(ctx context.Context, project string, serviceName string) ([]ServiceIntegrationOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/integration", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/integration", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -197,7 +198,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationList(ctx context.Context, 
 	return out.ServiceIntegrations, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationTypes(ctx context.Context, project string) ([]IntegrationTypeOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/integration_types", project)
+	path := fmt.Sprintf("/v1/project/%s/integration_types", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationTypes", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -210,7 +211,7 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationTypes(ctx context.Context,
 	return out.IntegrationTypes, nil
 }
 func (h *ServiceIntegrationHandler) ServiceIntegrationUpdate(ctx context.Context, project string, integrationId string, in *ServiceIntegrationUpdateIn) (*ServiceIntegrationUpdateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/integration/%s", project, integrationId)
+	path := fmt.Sprintf("/v1/project/%s/integration/%s", url.PathEscape(project), url.PathEscape(integrationId))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err

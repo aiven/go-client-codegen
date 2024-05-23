@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -48,17 +49,17 @@ type KafkaMirrorMakerHandler struct {
 }
 
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerCreateReplicationFlow(ctx context.Context, project string, serviceName string, in *ServiceKafkaMirrorMakerCreateReplicationFlowIn) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerCreateReplicationFlow", "POST", path, in)
 	return err
 }
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerDeleteReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(sourceCluster), url.PathEscape(targetCluster))
 	_, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerDeleteReplicationFlow", "DELETE", path, nil)
 	return err
 }
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) (*ServiceKafkaMirrorMakerGetReplicationFlowOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(sourceCluster), url.PathEscape(targetCluster))
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerGetReplicationFlow", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -71,7 +72,7 @@ func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlow(ctx 
 	return &out.ReplicationFlow, nil
 }
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlows(ctx context.Context, project string, serviceName string) ([]ReplicationFlowOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerGetReplicationFlows", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -84,7 +85,7 @@ func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerGetReplicationFlows(ctx
 	return out.ReplicationFlows, nil
 }
 func (h *KafkaMirrorMakerHandler) ServiceKafkaMirrorMakerPatchReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string, in *ServiceKafkaMirrorMakerPatchReplicationFlowIn) (*ServiceKafkaMirrorMakerPatchReplicationFlowOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", project, serviceName, sourceCluster, targetCluster)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/mirrormaker/replication-flows/%s/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(sourceCluster), url.PathEscape(targetCluster))
 	b, err := h.doer.Do(ctx, "ServiceKafkaMirrorMakerPatchReplicationFlow", "PUT", path, in)
 	if err != nil {
 		return nil, err

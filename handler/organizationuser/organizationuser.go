@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -84,7 +85,7 @@ type OrganizationUserHandler struct {
 }
 
 func (h *OrganizationUserHandler) OrganizationUserAuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethodOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/user/%s/authentication_methods", organizationId, memberUserId)
+	path := fmt.Sprintf("/v1/organization/%s/user/%s/authentication_methods", url.PathEscape(organizationId), url.PathEscape(memberUserId))
 	b, err := h.doer.Do(ctx, "OrganizationUserAuthenticationMethodsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -97,12 +98,12 @@ func (h *OrganizationUserHandler) OrganizationUserAuthenticationMethodsList(ctx 
 	return out.AuthenticationMethods, nil
 }
 func (h *OrganizationUserHandler) OrganizationUserDelete(ctx context.Context, organizationId string, memberUserId string) error {
-	path := fmt.Sprintf("/v1/organization/%s/user/%s", organizationId, memberUserId)
+	path := fmt.Sprintf("/v1/organization/%s/user/%s", url.PathEscape(organizationId), url.PathEscape(memberUserId))
 	_, err := h.doer.Do(ctx, "OrganizationUserDelete", "DELETE", path, nil)
 	return err
 }
 func (h *OrganizationUserHandler) OrganizationUserGet(ctx context.Context, organizationId string, memberUserId string) (*OrganizationUserGetOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/user/%s", organizationId, memberUserId)
+	path := fmt.Sprintf("/v1/organization/%s/user/%s", url.PathEscape(organizationId), url.PathEscape(memberUserId))
 	b, err := h.doer.Do(ctx, "OrganizationUserGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -115,17 +116,17 @@ func (h *OrganizationUserHandler) OrganizationUserGet(ctx context.Context, organ
 	return out, nil
 }
 func (h *OrganizationUserHandler) OrganizationUserInvitationAccept(ctx context.Context, organizationId string, userEmail string, in *OrganizationUserInvitationAcceptIn) error {
-	path := fmt.Sprintf("/v1/organization/%s/invitation/%s", organizationId, userEmail)
+	path := fmt.Sprintf("/v1/organization/%s/invitation/%s", url.PathEscape(organizationId), url.PathEscape(userEmail))
 	_, err := h.doer.Do(ctx, "OrganizationUserInvitationAccept", "POST", path, in)
 	return err
 }
 func (h *OrganizationUserHandler) OrganizationUserInvitationDelete(ctx context.Context, organizationId string, userEmail string) error {
-	path := fmt.Sprintf("/v1/organization/%s/invitation/%s", organizationId, userEmail)
+	path := fmt.Sprintf("/v1/organization/%s/invitation/%s", url.PathEscape(organizationId), url.PathEscape(userEmail))
 	_, err := h.doer.Do(ctx, "OrganizationUserInvitationDelete", "DELETE", path, nil)
 	return err
 }
 func (h *OrganizationUserHandler) OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]InvitationOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/invitation", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/invitation", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "OrganizationUserInvitationsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -138,12 +139,12 @@ func (h *OrganizationUserHandler) OrganizationUserInvitationsList(ctx context.Co
 	return out.Invitations, nil
 }
 func (h *OrganizationUserHandler) OrganizationUserInvite(ctx context.Context, organizationId string, in *OrganizationUserInviteIn) error {
-	path := fmt.Sprintf("/v1/organization/%s/invitation", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/invitation", url.PathEscape(organizationId))
 	_, err := h.doer.Do(ctx, "OrganizationUserInvite", "POST", path, in)
 	return err
 }
 func (h *OrganizationUserHandler) OrganizationUserList(ctx context.Context, organizationId string) ([]UserOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/user", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/user", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "OrganizationUserList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -156,17 +157,17 @@ func (h *OrganizationUserHandler) OrganizationUserList(ctx context.Context, orga
 	return out.Users, nil
 }
 func (h *OrganizationUserHandler) OrganizationUserPasswordReset(ctx context.Context, organizationId string, memberUserId string) error {
-	path := fmt.Sprintf("/v1/organization/%s/user/%s/reset_password", organizationId, memberUserId)
+	path := fmt.Sprintf("/v1/organization/%s/user/%s/reset_password", url.PathEscape(organizationId), url.PathEscape(memberUserId))
 	_, err := h.doer.Do(ctx, "OrganizationUserPasswordReset", "POST", path, nil)
 	return err
 }
 func (h *OrganizationUserHandler) OrganizationUserRevokeToken(ctx context.Context, organizationId string, memberUserId string, tokenPrefix string) error {
-	path := fmt.Sprintf("/v1/organization/%s/user/%s/access-token/%s", organizationId, memberUserId, tokenPrefix)
+	path := fmt.Sprintf("/v1/organization/%s/user/%s/access-token/%s", url.PathEscape(organizationId), url.PathEscape(memberUserId), url.PathEscape(tokenPrefix))
 	_, err := h.doer.Do(ctx, "OrganizationUserRevokeToken", "DELETE", path, nil)
 	return err
 }
 func (h *OrganizationUserHandler) OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]TokenOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/user/%s/access-tokens", organizationId, memberUserId)
+	path := fmt.Sprintf("/v1/organization/%s/user/%s/access-tokens", url.PathEscape(organizationId), url.PathEscape(memberUserId))
 	b, err := h.doer.Do(ctx, "OrganizationUserTokensList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -179,7 +180,7 @@ func (h *OrganizationUserHandler) OrganizationUserTokensList(ctx context.Context
 	return out.Tokens, nil
 }
 func (h *OrganizationUserHandler) OrganizationUserUpdate(ctx context.Context, organizationId string, memberUserId string, in *OrganizationUserUpdateIn) (*OrganizationUserUpdateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/user/%s", organizationId, memberUserId)
+	path := fmt.Sprintf("/v1/organization/%s/user/%s", url.PathEscape(organizationId), url.PathEscape(memberUserId))
 	b, err := h.doer.Do(ctx, "OrganizationUserUpdate", "PATCH", path, in)
 	if err != nil {
 		return nil, err

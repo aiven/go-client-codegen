@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -59,7 +60,7 @@ type ApplicationUserHandler struct {
 }
 
 func (h *ApplicationUserHandler) ApplicationUserAccessTokenCreate(ctx context.Context, organizationId string, userId string, in *ApplicationUserAccessTokenCreateIn) (*ApplicationUserAccessTokenCreateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/application-users/%s/access-tokens", organizationId, userId)
+	path := fmt.Sprintf("/v1/organization/%s/application-users/%s/access-tokens", url.PathEscape(organizationId), url.PathEscape(userId))
 	b, err := h.doer.Do(ctx, "ApplicationUserAccessTokenCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -72,12 +73,12 @@ func (h *ApplicationUserHandler) ApplicationUserAccessTokenCreate(ctx context.Co
 	return out, nil
 }
 func (h *ApplicationUserHandler) ApplicationUserAccessTokenDelete(ctx context.Context, organizationId string, userId string, tokenPrefix string) error {
-	path := fmt.Sprintf("/v1/organization/%s/application-users/%s/access-tokens/%s", organizationId, userId, tokenPrefix)
+	path := fmt.Sprintf("/v1/organization/%s/application-users/%s/access-tokens/%s", url.PathEscape(organizationId), url.PathEscape(userId), url.PathEscape(tokenPrefix))
 	_, err := h.doer.Do(ctx, "ApplicationUserAccessTokenDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ApplicationUserHandler) ApplicationUserAccessTokensList(ctx context.Context, organizationId string, userId string) ([]TokenOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/application-users/%s/access-tokens", organizationId, userId)
+	path := fmt.Sprintf("/v1/organization/%s/application-users/%s/access-tokens", url.PathEscape(organizationId), url.PathEscape(userId))
 	b, err := h.doer.Do(ctx, "ApplicationUserAccessTokensList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -90,7 +91,7 @@ func (h *ApplicationUserHandler) ApplicationUserAccessTokensList(ctx context.Con
 	return out.Tokens, nil
 }
 func (h *ApplicationUserHandler) ApplicationUserCreate(ctx context.Context, organizationId string, in *ApplicationUserCreateIn) (*ApplicationUserCreateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/application-users", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/application-users", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "ApplicationUserCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -103,12 +104,12 @@ func (h *ApplicationUserHandler) ApplicationUserCreate(ctx context.Context, orga
 	return out, nil
 }
 func (h *ApplicationUserHandler) ApplicationUserDelete(ctx context.Context, organizationId string, userId string) error {
-	path := fmt.Sprintf("/v1/organization/%s/application-users/%s", organizationId, userId)
+	path := fmt.Sprintf("/v1/organization/%s/application-users/%s", url.PathEscape(organizationId), url.PathEscape(userId))
 	_, err := h.doer.Do(ctx, "ApplicationUserDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ApplicationUserHandler) ApplicationUserGet(ctx context.Context, organizationId string, userId string) (*ApplicationUserGetOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/application-users/%s", organizationId, userId)
+	path := fmt.Sprintf("/v1/organization/%s/application-users/%s", url.PathEscape(organizationId), url.PathEscape(userId))
 	b, err := h.doer.Do(ctx, "ApplicationUserGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -121,7 +122,7 @@ func (h *ApplicationUserHandler) ApplicationUserGet(ctx context.Context, organiz
 	return out, nil
 }
 func (h *ApplicationUserHandler) ApplicationUsersList(ctx context.Context, organizationId string) ([]ApplicationUserOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/application-users", organizationId)
+	path := fmt.Sprintf("/v1/organization/%s/application-users", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "ApplicationUsersList", "GET", path, nil)
 	if err != nil {
 		return nil, err

@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -44,7 +45,7 @@ type ProjectBillingHandler struct {
 }
 
 func (h *ProjectBillingHandler) InvoiceGet(ctx context.Context, invoiceNumber string) (*InvoiceGetOut, error) {
-	path := fmt.Sprintf("/v1/invoices/%s", invoiceNumber)
+	path := fmt.Sprintf("/v1/invoices/%s", url.PathEscape(invoiceNumber))
 	b, err := h.doer.Do(ctx, "InvoiceGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -57,7 +58,7 @@ func (h *ProjectBillingHandler) InvoiceGet(ctx context.Context, invoiceNumber st
 	return &out.Invoice, nil
 }
 func (h *ProjectBillingHandler) ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*ProjectCreditsClaimOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/credits", project)
+	path := fmt.Sprintf("/v1/project/%s/credits", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectCreditsClaim", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -70,7 +71,7 @@ func (h *ProjectBillingHandler) ProjectCreditsClaim(ctx context.Context, project
 	return &out.Credit, nil
 }
 func (h *ProjectBillingHandler) ProjectCreditsList(ctx context.Context, project string) ([]CreditOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/credits", project)
+	path := fmt.Sprintf("/v1/project/%s/credits", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectCreditsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -83,7 +84,7 @@ func (h *ProjectBillingHandler) ProjectCreditsList(ctx context.Context, project 
 	return out.Credits, nil
 }
 func (h *ProjectBillingHandler) ProjectInvoiceList(ctx context.Context, project string) ([]InvoiceOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/invoice", project)
+	path := fmt.Sprintf("/v1/project/%s/invoice", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectInvoiceList", "GET", path, nil)
 	if err != nil {
 		return nil, err

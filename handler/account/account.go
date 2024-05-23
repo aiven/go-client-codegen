@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -94,7 +95,7 @@ type AccountHandler struct {
 }
 
 func (h *AccountHandler) AccountAttachPaymentMethod(ctx context.Context, accountId string, in *AccountAttachPaymentMethodIn) (*AccountAttachPaymentMethodOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/payment_methods", accountId)
+	path := fmt.Sprintf("/v1/account/%s/payment_methods", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountAttachPaymentMethod", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -107,7 +108,7 @@ func (h *AccountHandler) AccountAttachPaymentMethod(ctx context.Context, account
 	return &out.Card, nil
 }
 func (h *AccountHandler) AccountBillingGroupList(ctx context.Context, accountId string) ([]AccountBillingGroupOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/billing-group", accountId)
+	path := fmt.Sprintf("/v1/account/%s/billing-group", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountBillingGroupList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -133,12 +134,12 @@ func (h *AccountHandler) AccountCreate(ctx context.Context, in *AccountCreateIn)
 	return &out.Account, nil
 }
 func (h *AccountHandler) AccountDelete(ctx context.Context, accountId string) error {
-	path := fmt.Sprintf("/v1/account/%s", accountId)
+	path := fmt.Sprintf("/v1/account/%s", url.PathEscape(accountId))
 	_, err := h.doer.Do(ctx, "AccountDelete", "DELETE", path, nil)
 	return err
 }
 func (h *AccountHandler) AccountEventList(ctx context.Context, accountId string) ([]EventOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/events", accountId)
+	path := fmt.Sprintf("/v1/account/%s/events", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountEventList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -151,7 +152,7 @@ func (h *AccountHandler) AccountEventList(ctx context.Context, accountId string)
 	return out.Events, nil
 }
 func (h *AccountHandler) AccountGet(ctx context.Context, accountId string) (*AccountGetOut, error) {
-	path := fmt.Sprintf("/v1/account/%s", accountId)
+	path := fmt.Sprintf("/v1/account/%s", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -177,7 +178,7 @@ func (h *AccountHandler) AccountList(ctx context.Context) ([]AccountOut, error) 
 	return out.Accounts, nil
 }
 func (h *AccountHandler) AccountMove(ctx context.Context, accountId string, in *AccountMoveIn) (*AccountMoveOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/parent_account", accountId)
+	path := fmt.Sprintf("/v1/account/%s/parent_account", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountMove", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -190,12 +191,12 @@ func (h *AccountHandler) AccountMove(ctx context.Context, accountId string, in *
 	return &out.Account, nil
 }
 func (h *AccountHandler) AccountPaymentMethodDelete(ctx context.Context, accountId string, cardId string) error {
-	path := fmt.Sprintf("/v1/account/%s/payment_method/%s", accountId, cardId)
+	path := fmt.Sprintf("/v1/account/%s/payment_method/%s", url.PathEscape(accountId), url.PathEscape(cardId))
 	_, err := h.doer.Do(ctx, "AccountPaymentMethodDelete", "DELETE", path, nil)
 	return err
 }
 func (h *AccountHandler) AccountPaymentMethodsList(ctx context.Context, accountId string) ([]CardOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/payment_methods", accountId)
+	path := fmt.Sprintf("/v1/account/%s/payment_methods", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountPaymentMethodsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -208,7 +209,7 @@ func (h *AccountHandler) AccountPaymentMethodsList(ctx context.Context, accountI
 	return out.Cards, nil
 }
 func (h *AccountHandler) AccountProjectsList(ctx context.Context, accountId string) (*AccountProjectsListOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/projects", accountId)
+	path := fmt.Sprintf("/v1/account/%s/projects", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountProjectsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -221,7 +222,7 @@ func (h *AccountHandler) AccountProjectsList(ctx context.Context, accountId stri
 	return out, nil
 }
 func (h *AccountHandler) AccountUpdate(ctx context.Context, accountId string, in *AccountUpdateIn) (*AccountUpdateOut, error) {
-	path := fmt.Sprintf("/v1/account/%s", accountId)
+	path := fmt.Sprintf("/v1/account/%s", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -234,7 +235,7 @@ func (h *AccountHandler) AccountUpdate(ctx context.Context, accountId string, in
 	return &out.Account, nil
 }
 func (h *AccountHandler) AccountUserProjectsList(ctx context.Context, accountId string, userId string) ([]UserProjectOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/user/%s/projects", accountId, userId)
+	path := fmt.Sprintf("/v1/account/%s/user/%s/projects", url.PathEscape(accountId), url.PathEscape(userId))
 	b, err := h.doer.Do(ctx, "AccountUserProjectsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -247,7 +248,7 @@ func (h *AccountHandler) AccountUserProjectsList(ctx context.Context, accountId 
 	return out.UserProjects, nil
 }
 func (h *AccountHandler) AccountUsersSearch(ctx context.Context, accountId string, in *AccountUsersSearchIn) ([]UserOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/users/search", accountId)
+	path := fmt.Sprintf("/v1/account/%s/users/search", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountUsersSearch", "POST", path, in)
 	if err != nil {
 		return nil, err

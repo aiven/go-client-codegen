@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -124,7 +125,7 @@ type ProjectHandler struct {
 }
 
 func (h *ProjectHandler) ListProjectVpcPeeringConnectionTypes(ctx context.Context, project string) ([]VpcPeeringConnectionTypeOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/vpc-peering-connection-types", project)
+	path := fmt.Sprintf("/v1/project/%s/vpc-peering-connection-types", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ListProjectVpcPeeringConnectionTypes", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -137,7 +138,7 @@ func (h *ProjectHandler) ListProjectVpcPeeringConnectionTypes(ctx context.Contex
 	return out.VpcPeeringConnectionTypes, nil
 }
 func (h *ProjectHandler) ProjectAlertsList(ctx context.Context, project string) ([]AlertOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/alerts", project)
+	path := fmt.Sprintf("/v1/project/%s/alerts", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectAlertsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -163,12 +164,12 @@ func (h *ProjectHandler) ProjectCreate(ctx context.Context, in *ProjectCreateIn)
 	return &out.Project, nil
 }
 func (h *ProjectHandler) ProjectDelete(ctx context.Context, project string) error {
-	path := fmt.Sprintf("/v1/project/%s", project)
+	path := fmt.Sprintf("/v1/project/%s", url.PathEscape(project))
 	_, err := h.doer.Do(ctx, "ProjectDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ProjectHandler) ProjectGenerateSbomDownloadUrl(ctx context.Context, project string, fileFormat string) (string, error) {
-	path := fmt.Sprintf("/v1/project/%s/generate-sbom-download-url/%s", project, fileFormat)
+	path := fmt.Sprintf("/v1/project/%s/generate-sbom-download-url/%s", url.PathEscape(project), url.PathEscape(fileFormat))
 	b, err := h.doer.Do(ctx, "ProjectGenerateSbomDownloadUrl", "GET", path, nil)
 	if err != nil {
 		return "", err
@@ -181,7 +182,7 @@ func (h *ProjectHandler) ProjectGenerateSbomDownloadUrl(ctx context.Context, pro
 	return out.DownloadUrl, nil
 }
 func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*ProjectGetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s", project)
+	path := fmt.Sprintf("/v1/project/%s", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -194,7 +195,7 @@ func (h *ProjectHandler) ProjectGet(ctx context.Context, project string) (*Proje
 	return &out.Project, nil
 }
 func (h *ProjectHandler) ProjectGetEventLogs(ctx context.Context, project string) ([]EventOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/events", project)
+	path := fmt.Sprintf("/v1/project/%s/events", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectGetEventLogs", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -207,12 +208,12 @@ func (h *ProjectHandler) ProjectGetEventLogs(ctx context.Context, project string
 	return out.Events, nil
 }
 func (h *ProjectHandler) ProjectInvite(ctx context.Context, project string, in *ProjectInviteIn) error {
-	path := fmt.Sprintf("/v1/project/%s/invite", project)
+	path := fmt.Sprintf("/v1/project/%s/invite", url.PathEscape(project))
 	_, err := h.doer.Do(ctx, "ProjectInvite", "POST", path, in)
 	return err
 }
 func (h *ProjectHandler) ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*ProjectInviteAcceptOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/invite/%s", project, inviteVerificationCode)
+	path := fmt.Sprintf("/v1/project/%s/invite/%s", url.PathEscape(project), url.PathEscape(inviteVerificationCode))
 	b, err := h.doer.Do(ctx, "ProjectInviteAccept", "POST", path, nil)
 	if err != nil {
 		return nil, err
@@ -225,12 +226,12 @@ func (h *ProjectHandler) ProjectInviteAccept(ctx context.Context, project string
 	return &out.InviteDetails, nil
 }
 func (h *ProjectHandler) ProjectInviteDelete(ctx context.Context, project string, invitedEmail string) error {
-	path := fmt.Sprintf("/v1/project/%s/invite/%s", project, invitedEmail)
+	path := fmt.Sprintf("/v1/project/%s/invite/%s", url.PathEscape(project), url.PathEscape(invitedEmail))
 	_, err := h.doer.Do(ctx, "ProjectInviteDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ProjectHandler) ProjectKmsGetCA(ctx context.Context, project string) (string, error) {
-	path := fmt.Sprintf("/v1/project/%s/kms/ca", project)
+	path := fmt.Sprintf("/v1/project/%s/kms/ca", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectKmsGetCA", "GET", path, nil)
 	if err != nil {
 		return "", err
@@ -256,7 +257,7 @@ func (h *ProjectHandler) ProjectList(ctx context.Context) (*ProjectListOut, erro
 	return out, nil
 }
 func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context, project string) ([]PrivatelinkAvailabilityOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/privatelink-availability", project)
+	path := fmt.Sprintf("/v1/project/%s/privatelink-availability", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectPrivatelinkAvailabilityList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -269,7 +270,7 @@ func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context,
 	return out.PrivatelinkAvailability, nil
 }
 func (h *ProjectHandler) ProjectTagsList(ctx context.Context, project string) (map[string]string, error) {
-	path := fmt.Sprintf("/v1/project/%s/tags", project)
+	path := fmt.Sprintf("/v1/project/%s/tags", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectTagsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -282,17 +283,17 @@ func (h *ProjectHandler) ProjectTagsList(ctx context.Context, project string) (m
 	return out.Tags, nil
 }
 func (h *ProjectHandler) ProjectTagsReplace(ctx context.Context, project string, in *ProjectTagsReplaceIn) error {
-	path := fmt.Sprintf("/v1/project/%s/tags", project)
+	path := fmt.Sprintf("/v1/project/%s/tags", url.PathEscape(project))
 	_, err := h.doer.Do(ctx, "ProjectTagsReplace", "PUT", path, in)
 	return err
 }
 func (h *ProjectHandler) ProjectTagsUpdate(ctx context.Context, project string, in *ProjectTagsUpdateIn) error {
-	path := fmt.Sprintf("/v1/project/%s/tags", project)
+	path := fmt.Sprintf("/v1/project/%s/tags", url.PathEscape(project))
 	_, err := h.doer.Do(ctx, "ProjectTagsUpdate", "PATCH", path, in)
 	return err
 }
 func (h *ProjectHandler) ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*ProjectUpdateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s", project)
+	path := fmt.Sprintf("/v1/project/%s", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -305,7 +306,7 @@ func (h *ProjectHandler) ProjectUpdate(ctx context.Context, project string, in *
 	return &out.Project, nil
 }
 func (h *ProjectHandler) ProjectUserList(ctx context.Context, project string) (*ProjectUserListOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/users", project)
+	path := fmt.Sprintf("/v1/project/%s/users", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectUserList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -318,12 +319,12 @@ func (h *ProjectHandler) ProjectUserList(ctx context.Context, project string) (*
 	return out, nil
 }
 func (h *ProjectHandler) ProjectUserRemove(ctx context.Context, project string, userEmail string) error {
-	path := fmt.Sprintf("/v1/project/%s/user/%s", project, userEmail)
+	path := fmt.Sprintf("/v1/project/%s/user/%s", url.PathEscape(project), url.PathEscape(userEmail))
 	_, err := h.doer.Do(ctx, "ProjectUserRemove", "DELETE", path, nil)
 	return err
 }
 func (h *ProjectHandler) ProjectUserUpdate(ctx context.Context, project string, userEmail string, in *ProjectUserUpdateIn) error {
-	path := fmt.Sprintf("/v1/project/%s/user/%s", project, userEmail)
+	path := fmt.Sprintf("/v1/project/%s/user/%s", url.PathEscape(project), url.PathEscape(userEmail))
 	_, err := h.doer.Do(ctx, "ProjectUserUpdate", "PUT", path, in)
 	return err
 }

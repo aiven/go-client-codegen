@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -69,7 +70,7 @@ type VpcHandler struct {
 }
 
 func (h *VpcHandler) VpcCreate(ctx context.Context, project string, in *VpcCreateIn) (*VpcCreateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/vpcs", project)
+	path := fmt.Sprintf("/v1/project/%s/vpcs", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "VpcCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -82,7 +83,7 @@ func (h *VpcHandler) VpcCreate(ctx context.Context, project string, in *VpcCreat
 	return out, nil
 }
 func (h *VpcHandler) VpcDelete(ctx context.Context, project string, projectVpcId string) (*VpcDeleteOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/vpcs/%s", project, projectVpcId)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s", url.PathEscape(project), url.PathEscape(projectVpcId))
 	b, err := h.doer.Do(ctx, "VpcDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -95,7 +96,7 @@ func (h *VpcHandler) VpcDelete(ctx context.Context, project string, projectVpcId
 	return out, nil
 }
 func (h *VpcHandler) VpcGet(ctx context.Context, project string, projectVpcId string) (*VpcGetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/vpcs/%s", project, projectVpcId)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s", url.PathEscape(project), url.PathEscape(projectVpcId))
 	b, err := h.doer.Do(ctx, "VpcGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -108,7 +109,7 @@ func (h *VpcHandler) VpcGet(ctx context.Context, project string, projectVpcId st
 	return out, nil
 }
 func (h *VpcHandler) VpcList(ctx context.Context, project string) ([]VpcOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/vpcs", project)
+	path := fmt.Sprintf("/v1/project/%s/vpcs", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "VpcList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -121,7 +122,7 @@ func (h *VpcHandler) VpcList(ctx context.Context, project string) ([]VpcOut, err
 	return out.Vpcs, nil
 }
 func (h *VpcHandler) VpcPeeringConnectionCreate(ctx context.Context, project string, projectVpcId string, in *VpcPeeringConnectionCreateIn) (*VpcPeeringConnectionCreateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/peering-connections", project, projectVpcId)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/peering-connections", url.PathEscape(project), url.PathEscape(projectVpcId))
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -134,7 +135,7 @@ func (h *VpcHandler) VpcPeeringConnectionCreate(ctx context.Context, project str
 	return out, nil
 }
 func (h *VpcHandler) VpcPeeringConnectionDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerVpc string) (*VpcPeeringConnectionDeleteOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-vpcs/%s", project, projectVpcId, peerCloudAccount, peerVpc)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-vpcs/%s", url.PathEscape(project), url.PathEscape(projectVpcId), url.PathEscape(peerCloudAccount), url.PathEscape(peerVpc))
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -147,7 +148,7 @@ func (h *VpcHandler) VpcPeeringConnectionDelete(ctx context.Context, project str
 	return out, nil
 }
 func (h *VpcHandler) VpcPeeringConnectionUpdate(ctx context.Context, project string, projectVpcId string, in *VpcPeeringConnectionUpdateIn) (*VpcPeeringConnectionUpdateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/user-peer-network-cidrs", project, projectVpcId)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/user-peer-network-cidrs", url.PathEscape(project), url.PathEscape(projectVpcId))
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -160,7 +161,7 @@ func (h *VpcHandler) VpcPeeringConnectionUpdate(ctx context.Context, project str
 	return out, nil
 }
 func (h *VpcHandler) VpcPeeringConnectionWithRegionDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerVpc string, peerRegion string) (*VpcPeeringConnectionWithRegionDeleteOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-vpcs/%s/peer-regions/%s", project, projectVpcId, peerCloudAccount, peerVpc, peerRegion)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-vpcs/%s/peer-regions/%s", url.PathEscape(project), url.PathEscape(projectVpcId), url.PathEscape(peerCloudAccount), url.PathEscape(peerVpc), url.PathEscape(peerRegion))
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionWithRegionDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -173,7 +174,7 @@ func (h *VpcHandler) VpcPeeringConnectionWithRegionDelete(ctx context.Context, p
 	return out, nil
 }
 func (h *VpcHandler) VpcPeeringConnectionWithResourceGroupDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerResourceGroup string, peerVpc string) (*VpcPeeringConnectionWithResourceGroupDeleteOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-resource-groups/%s/peer-vpcs/%s", project, projectVpcId, peerCloudAccount, peerResourceGroup, peerVpc)
+	path := fmt.Sprintf("/v1/project/%s/vpcs/%s/peering-connections/peer-accounts/%s/peer-resource-groups/%s/peer-vpcs/%s", url.PathEscape(project), url.PathEscape(projectVpcId), url.PathEscape(peerCloudAccount), url.PathEscape(peerResourceGroup), url.PathEscape(peerVpc))
 	b, err := h.doer.Do(ctx, "VpcPeeringConnectionWithResourceGroupDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err

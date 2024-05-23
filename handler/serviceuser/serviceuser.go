@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -49,7 +50,7 @@ type ServiceUserHandler struct {
 }
 
 func (h *ServiceUserHandler) ServiceUserCreate(ctx context.Context, project string, serviceName string, in *ServiceUserCreateIn) (*ServiceUserCreateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/user", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/user", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceUserCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -62,7 +63,7 @@ func (h *ServiceUserHandler) ServiceUserCreate(ctx context.Context, project stri
 	return &out.User, nil
 }
 func (h *ServiceUserHandler) ServiceUserCredentialsModify(ctx context.Context, project string, serviceName string, serviceUsername string, in *ServiceUserCredentialsModifyIn) (*ServiceUserCredentialsModifyOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(serviceUsername))
 	b, err := h.doer.Do(ctx, "ServiceUserCredentialsModify", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -75,7 +76,7 @@ func (h *ServiceUserHandler) ServiceUserCredentialsModify(ctx context.Context, p
 	return &out.Service, nil
 }
 func (h *ServiceUserHandler) ServiceUserCredentialsReset(ctx context.Context, project string, serviceName string, serviceUsername string) (*ServiceUserCredentialsResetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s/credentials/reset", project, serviceName, serviceUsername)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s/credentials/reset", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(serviceUsername))
 	b, err := h.doer.Do(ctx, "ServiceUserCredentialsReset", "PUT", path, nil)
 	if err != nil {
 		return nil, err
@@ -88,12 +89,12 @@ func (h *ServiceUserHandler) ServiceUserCredentialsReset(ctx context.Context, pr
 	return &out.Service, nil
 }
 func (h *ServiceUserHandler) ServiceUserDelete(ctx context.Context, project string, serviceName string, serviceUsername string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(serviceUsername))
 	_, err := h.doer.Do(ctx, "ServiceUserDelete", "DELETE", path, nil)
 	return err
 }
 func (h *ServiceUserHandler) ServiceUserGet(ctx context.Context, project string, serviceName string, serviceUsername string) (*ServiceUserGetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s", project, serviceName, serviceUsername)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(serviceUsername))
 	b, err := h.doer.Do(ctx, "ServiceUserGet", "GET", path, nil)
 	if err != nil {
 		return nil, err

@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -49,7 +50,7 @@ type AccountAuthenticationHandler struct {
 }
 
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodCreate(ctx context.Context, accountId string, in *AccountAuthenticationMethodCreateIn) (*AccountAuthenticationMethodCreateOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/authentication", accountId)
+	path := fmt.Sprintf("/v1/account/%s/authentication", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -62,12 +63,12 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodCreate(ctx con
 	return &out.AuthenticationMethod, nil
 }
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodDelete(ctx context.Context, accountId string, accountAuthenticationMethodId string) error {
-	path := fmt.Sprintf("/v1/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
+	path := fmt.Sprintf("/v1/account/%s/authentication/%s", url.PathEscape(accountId), url.PathEscape(accountAuthenticationMethodId))
 	_, err := h.doer.Do(ctx, "AccountAuthenticationMethodDelete", "DELETE", path, nil)
 	return err
 }
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodGet(ctx context.Context, accountId string, accountAuthenticationMethodId string) (*AccountAuthenticationMethodGetOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
+	path := fmt.Sprintf("/v1/account/%s/authentication/%s", url.PathEscape(accountId), url.PathEscape(accountAuthenticationMethodId))
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -80,7 +81,7 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodGet(ctx contex
 	return &out.AuthenticationMethod, nil
 }
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodUpdate(ctx context.Context, accountId string, accountAuthenticationMethodId string, in *AccountAuthenticationMethodUpdateIn) (*AccountAuthenticationMethodUpdateOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/authentication/%s", accountId, accountAuthenticationMethodId)
+	path := fmt.Sprintf("/v1/account/%s/authentication/%s", url.PathEscape(accountId), url.PathEscape(accountAuthenticationMethodId))
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -93,7 +94,7 @@ func (h *AccountAuthenticationHandler) AccountAuthenticationMethodUpdate(ctx con
 	return &out.AuthenticationMethod, nil
 }
 func (h *AccountAuthenticationHandler) AccountAuthenticationMethodsList(ctx context.Context, accountId string) ([]AuthenticationMethodOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/authentication", accountId)
+	path := fmt.Sprintf("/v1/account/%s/authentication", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountAuthenticationMethodsList", "GET", path, nil)
 	if err != nil {
 		return nil, err

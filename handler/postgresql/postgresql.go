@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -53,7 +54,7 @@ type PostgreSQLHandler struct {
 }
 
 func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, project string, serviceName string) ([]ExtensionOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/pg/available-extensions", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/pg/available-extensions", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "PGServiceAvailableExtensions", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -66,7 +67,7 @@ func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, pr
 	return out.Extensions, nil
 }
 func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]QueryOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/pg/query/stats", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/pg/query/stats", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "PGServiceQueryStatistics", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -79,7 +80,7 @@ func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, projec
 	return out.Queries, nil
 }
 func (h *PostgreSQLHandler) PgAvailableExtensions(ctx context.Context, tenant string) ([]PgOut, error) {
-	path := fmt.Sprintf("/v1/tenants/%s/pg-available-extensions", tenant)
+	path := fmt.Sprintf("/v1/tenants/%s/pg-available-extensions", url.PathEscape(tenant))
 	b, err := h.doer.Do(ctx, "PgAvailableExtensions", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -92,17 +93,17 @@ func (h *PostgreSQLHandler) PgAvailableExtensions(ctx context.Context, tenant st
 	return out.Pg, nil
 }
 func (h *PostgreSQLHandler) ServicePGBouncerCreate(ctx context.Context, project string, serviceName string, in *ServicePgbouncerCreateIn) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connection_pool", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connection_pool", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ServicePGBouncerCreate", "POST", path, in)
 	return err
 }
 func (h *PostgreSQLHandler) ServicePGBouncerDelete(ctx context.Context, project string, serviceName string, poolName string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connection_pool/%s", project, serviceName, poolName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connection_pool/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(poolName))
 	_, err := h.doer.Do(ctx, "ServicePGBouncerDelete", "DELETE", path, nil)
 	return err
 }
 func (h *PostgreSQLHandler) ServicePGBouncerUpdate(ctx context.Context, project string, serviceName string, poolName string, in *ServicePgbouncerUpdateIn) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/connection_pool/%s", project, serviceName, poolName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/connection_pool/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(poolName))
 	_, err := h.doer.Do(ctx, "ServicePGBouncerUpdate", "PUT", path, in)
 	return err
 }

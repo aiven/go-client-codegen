@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 type Handler interface {
@@ -46,7 +47,7 @@ func (h *CloudHandler) ListClouds(ctx context.Context) ([]CloudOut, error) {
 	return out.Clouds, nil
 }
 func (h *CloudHandler) ListProjectClouds(ctx context.Context, project string) ([]CloudOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/clouds", project)
+	path := fmt.Sprintf("/v1/project/%s/clouds", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ListProjectClouds", "GET", path, nil)
 	if err != nil {
 		return nil, err

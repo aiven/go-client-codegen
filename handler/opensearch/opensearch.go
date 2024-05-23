@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -64,7 +65,7 @@ type OpenSearchHandler struct {
 }
 
 func (h *OpenSearchHandler) ServiceOpenSearchAclGet(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchAclGetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/acl", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/acl", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -77,7 +78,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclGet(ctx context.Context, project
 	return &out.OpensearchAclConfig, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchAclSet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclSetIn) (*ServiceOpenSearchAclSetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/acl", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/acl", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclSet", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -90,7 +91,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclSet(ctx context.Context, project
 	return &out.OpensearchAclConfig, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchAclUpdate(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclUpdateIn) (*ServiceOpenSearchAclUpdateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/acl", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/acl", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchAclUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -103,12 +104,12 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclUpdate(ctx context.Context, proj
 	return &out.OpensearchAclConfig, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchIndexDelete(ctx context.Context, project string, serviceName string, indexName string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/index/%s", project, serviceName, indexName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/index/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(indexName))
 	_, err := h.doer.Do(ctx, "ServiceOpenSearchIndexDelete", "DELETE", path, nil)
 	return err
 }
 func (h *OpenSearchHandler) ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]IndexeOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/index", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/index", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchIndexList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -121,7 +122,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchIndexList(ctx context.Context, proj
 	return out.Indexes, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchSecurityGet(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchSecurityGetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/security", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/security", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchSecurityGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -134,7 +135,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchSecurityGet(ctx context.Context, pr
 	return out, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchSecurityReset(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchSecurityResetIn) (*ServiceOpenSearchSecurityResetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/security/admin", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/security/admin", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchSecurityReset", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -147,7 +148,7 @@ func (h *OpenSearchHandler) ServiceOpenSearchSecurityReset(ctx context.Context, 
 	return out, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchSecuritySet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchSecuritySetIn) (*ServiceOpenSearchSecuritySetOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/security/admin", project, serviceName)
+	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/security/admin", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchSecuritySet", "POST", path, in)
 	if err != nil {
 		return nil, err

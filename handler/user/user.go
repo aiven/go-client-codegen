@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -180,12 +181,12 @@ func (h *UserHandler) AccessTokenList(ctx context.Context) ([]TokenOut, error) {
 	return out.Tokens, nil
 }
 func (h *UserHandler) AccessTokenRevoke(ctx context.Context, tokenPrefix string) error {
-	path := fmt.Sprintf("/v1/access_token/%s", tokenPrefix)
+	path := fmt.Sprintf("/v1/access_token/%s", url.PathEscape(tokenPrefix))
 	_, err := h.doer.Do(ctx, "AccessTokenRevoke", "DELETE", path, nil)
 	return err
 }
 func (h *UserHandler) AccessTokenUpdate(ctx context.Context, tokenPrefix string, in *AccessTokenUpdateIn) (*AccessTokenUpdateOut, error) {
-	path := fmt.Sprintf("/v1/access_token/%s", tokenPrefix)
+	path := fmt.Sprintf("/v1/access_token/%s", url.PathEscape(tokenPrefix))
 	b, err := h.doer.Do(ctx, "AccessTokenUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -224,7 +225,7 @@ func (h *UserHandler) CheckPasswordStrengthNewUser(ctx context.Context, in *Chec
 	return &out.PasswordStrength, nil
 }
 func (h *UserHandler) OrganizationMemberGroupsList(ctx context.Context, organizationId string, memberUserId string) ([]UserGroupOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/user/%s/user-groups", organizationId, memberUserId)
+	path := fmt.Sprintf("/v1/organization/%s/user/%s/user-groups", url.PathEscape(organizationId), url.PathEscape(memberUserId))
 	b, err := h.doer.Do(ctx, "OrganizationMemberGroupsList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -263,7 +264,7 @@ func (h *UserHandler) TwoFactorAuthConfigureOTP(ctx context.Context, in *TwoFact
 	return out, nil
 }
 func (h *UserHandler) UserAccountDelete(ctx context.Context, userId string) error {
-	path := fmt.Sprintf("/v1/user/%s", userId)
+	path := fmt.Sprintf("/v1/user/%s", url.PathEscape(userId))
 	_, err := h.doer.Do(ctx, "UserAccountDelete", "DELETE", path, nil)
 	return err
 }
@@ -320,7 +321,7 @@ func (h *UserHandler) UserAuthLoginOptions(ctx context.Context, in *UserAuthLogi
 	return out, nil
 }
 func (h *UserHandler) UserAuthenticationMethodDelete(ctx context.Context, userAuthenticationMethodId string) error {
-	path := fmt.Sprintf("/v1/me/authentication_methods/%s", userAuthenticationMethodId)
+	path := fmt.Sprintf("/v1/me/authentication_methods/%s", url.PathEscape(userAuthenticationMethodId))
 	_, err := h.doer.Do(ctx, "UserAuthenticationMethodDelete", "DELETE", path, nil)
 	return err
 }
@@ -374,7 +375,7 @@ func (h *UserHandler) UserPasswordChange(ctx context.Context, in *UserPasswordCh
 	return out.Token, nil
 }
 func (h *UserHandler) UserPasswordReset(ctx context.Context, verificationCode string, in *UserPasswordResetIn) error {
-	path := fmt.Sprintf("/v1/user/password_reset/%s", verificationCode)
+	path := fmt.Sprintf("/v1/user/password_reset/%s", url.PathEscape(verificationCode))
 	_, err := h.doer.Do(ctx, "UserPasswordReset", "POST", path, in)
 	return err
 }
@@ -397,7 +398,7 @@ func (h *UserHandler) UserUpdate(ctx context.Context, in *UserUpdateIn) (*UserUp
 	return &out.User, nil
 }
 func (h *UserHandler) UserVerifyEmail(ctx context.Context, verificationCode string) (*UserVerifyEmailOut, error) {
-	path := fmt.Sprintf("/v1/user/verify_email/%s", verificationCode)
+	path := fmt.Sprintf("/v1/user/verify_email/%s", url.PathEscape(verificationCode))
 	b, err := h.doer.Do(ctx, "UserVerifyEmail", "POST", path, nil)
 	if err != nil {
 		return nil, err
@@ -410,12 +411,12 @@ func (h *UserHandler) UserVerifyEmail(ctx context.Context, verificationCode stri
 	return &out.InviteDetails, nil
 }
 func (h *UserHandler) ValidateCreditCode(ctx context.Context, creditCode string) error {
-	path := fmt.Sprintf("/v1/user/credit_code/%s", creditCode)
+	path := fmt.Sprintf("/v1/user/credit_code/%s", url.PathEscape(creditCode))
 	_, err := h.doer.Do(ctx, "ValidateCreditCode", "GET", path, nil)
 	return err
 }
 func (h *UserHandler) ValidateReferralCode(ctx context.Context, referralCode string) error {
-	path := fmt.Sprintf("/v1/me/referral/validation/%s", referralCode)
+	path := fmt.Sprintf("/v1/me/referral/validation/%s", url.PathEscape(referralCode))
 	_, err := h.doer.Do(ctx, "ValidateReferralCode", "GET", path, nil)
 	return err
 }
