@@ -116,7 +116,7 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 
 	b, err := io.ReadAll(rsp.Body)
 	if err != nil || rsp.StatusCode < 200 || rsp.StatusCode >= 300 {
-		return nil, Error{Message: string(b), Status: rsp.StatusCode}
+		return nil, Error{Message: string(b), Status: rsp.StatusCode, MoreInfo: operationID}
 	}
 
 	return b, err
