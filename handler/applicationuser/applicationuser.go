@@ -41,6 +41,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Application_Users/operation/ApplicationUserGet
 	ApplicationUserGet(ctx context.Context, organizationId string, userId string) (*ApplicationUserGetOut, error)
 
+	// ApplicationUserUpdate update details on an application user of the organization
+	// PATCH /v1/organization/{organization_id}/application-users/{user_id}
+	// https://api.aiven.io/doc/#tag/Application_Users/operation/ApplicationUserUpdate
+	ApplicationUserUpdate(ctx context.Context, organizationId string, userId string, in *ApplicationUserUpdateIn) (*ApplicationUserUpdateOut, error)
+
 	// ApplicationUsersList list application users
 	// GET /v1/organization/{organization_id}/application-users
 	// https://api.aiven.io/doc/#tag/Application_Users/operation/ApplicationUsersList
@@ -121,6 +126,19 @@ func (h *ApplicationUserHandler) ApplicationUserGet(ctx context.Context, organiz
 	}
 	return out, nil
 }
+func (h *ApplicationUserHandler) ApplicationUserUpdate(ctx context.Context, organizationId string, userId string, in *ApplicationUserUpdateIn) (*ApplicationUserUpdateOut, error) {
+	path := fmt.Sprintf("/v1/organization/%s/application-users/%s", url.PathEscape(organizationId), url.PathEscape(userId))
+	b, err := h.doer.Do(ctx, "ApplicationUserUpdate", "PATCH", path, in)
+	if err != nil {
+		return nil, err
+	}
+	out := new(ApplicationUserUpdateOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
 func (h *ApplicationUserHandler) ApplicationUsersList(ctx context.Context, organizationId string) ([]ApplicationUserOut, error) {
 	path := fmt.Sprintf("/v1/organization/%s/application-users", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "ApplicationUsersList", "GET", path, nil)
@@ -162,6 +180,16 @@ type ApplicationUserGetOut struct {
 	UserId       string `json:"user_id"`
 }
 type ApplicationUserOut struct {
+	IsSuperAdmin bool   `json:"is_super_admin"`
+	Name         string `json:"name"`
+	UserEmail    string `json:"user_email"`
+	UserId       string `json:"user_id"`
+}
+type ApplicationUserUpdateIn struct {
+	IsSuperAdmin *bool  `json:"is_super_admin,omitempty"`
+	Name         string `json:"name"`
+}
+type ApplicationUserUpdateOut struct {
 	IsSuperAdmin bool   `json:"is_super_admin"`
 	Name         string `json:"name"`
 	UserEmail    string `json:"user_email"`
