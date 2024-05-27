@@ -518,12 +518,15 @@ func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serv
 }
 
 type AccessControlOut struct {
-	M3Group            string   `json:"m3_group,omitempty"`
-	PgAllowReplication *bool    `json:"pg_allow_replication,omitempty"`
-	RedisAclCategories []string `json:"redis_acl_categories,omitempty"`
-	RedisAclChannels   []string `json:"redis_acl_channels,omitempty"`
-	RedisAclCommands   []string `json:"redis_acl_commands,omitempty"`
-	RedisAclKeys       []string `json:"redis_acl_keys,omitempty"`
+	DragonflyAclCategories []string `json:"dragonfly_acl_categories,omitempty"`
+	DragonflyAclCommands   []string `json:"dragonfly_acl_commands,omitempty"`
+	DragonflyAclKeys       []string `json:"dragonfly_acl_keys,omitempty"`
+	M3Group                string   `json:"m3_group,omitempty"`
+	PgAllowReplication     *bool    `json:"pg_allow_replication,omitempty"`
+	RedisAclCategories     []string `json:"redis_acl_categories,omitempty"`
+	RedisAclChannels       []string `json:"redis_acl_channels,omitempty"`
+	RedisAclCommands       []string `json:"redis_acl_commands,omitempty"`
+	RedisAclKeys           []string `json:"redis_acl_keys,omitempty"`
 }
 type AclOut struct {
 	Id         string         `json:"id,omitempty"`
