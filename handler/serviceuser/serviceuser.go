@@ -164,6 +164,7 @@ type ComponentOut struct {
 	Component                 string                        `json:"component"`
 	Host                      string                        `json:"host"`
 	KafkaAuthenticationMethod KafkaAuthenticationMethodType `json:"kafka_authentication_method,omitempty"`
+	KafkaSslCa                KafkaSslCaType                `json:"kafka_ssl_ca,omitempty"`
 	Path                      string                        `json:"path,omitempty"`
 	Port                      int                           `json:"port"`
 	PrivatelinkConnectionId   string                        `json:"privatelink_connection_id,omitempty"`
@@ -223,6 +224,17 @@ const (
 
 func KafkaAuthenticationMethodTypeChoices() []string {
 	return []string{"certificate", "sasl"}
+}
+
+type KafkaSslCaType string
+
+const (
+	KafkaSslCaTypeProjectCa   KafkaSslCaType = "project_ca"
+	KafkaSslCaTypeLetsencrypt KafkaSslCaType = "letsencrypt"
+)
+
+func KafkaSslCaTypeChoices() []string {
+	return []string{"project_ca", "letsencrypt"}
 }
 
 type LevelType string
