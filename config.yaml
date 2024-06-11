@@ -59,9 +59,11 @@ BillingGroup:
   - BillingGroupProjectsAssign
   - BillingGroupUpdate
 ClickHouse:
+  - ServiceClickHouseCurrentQueries
   - ServiceClickHouseDatabaseCreate
   - ServiceClickHouseDatabaseDelete
   - ServiceClickHouseDatabaseList
+  - ServiceClickHouseQuery
   - ServiceClickHouseQueryStats
   - ServiceClickHouseTieredStorageSummary
 Cloud:
