@@ -602,12 +602,13 @@ const (
 	ServiceTypeThanosquery      ServiceType = "thanosquery"
 	ServiceTypeThanosreceiver   ServiceType = "thanosreceiver"
 	ServiceTypeThanosstore      ServiceType = "thanosstore"
+	ServiceTypeValkey           ServiceType = "valkey"
 	ServiceTypeVector           ServiceType = "vector"
 	ServiceTypeVmalert          ServiceType = "vmalert"
 )
 
 func ServiceTypeChoices() []string {
-	return []string{"alertmanager", "cassandra", "clickhouse", "dragonfly", "elasticsearch", "flink", "grafana", "influxdb", "kafka", "kafka_connect", "kafka_mirrormaker", "m3aggregator", "m3db", "mysql", "opensearch", "parca", "pg", "redis", "stresstester", "sw", "thanos", "thanoscompactor", "thanosquery", "thanosreceiver", "thanosstore", "vector", "vmalert"}
+	return []string{"alertmanager", "cassandra", "clickhouse", "dragonfly", "elasticsearch", "flink", "grafana", "influxdb", "kafka", "kafka_connect", "kafka_mirrormaker", "m3aggregator", "m3db", "mysql", "opensearch", "parca", "pg", "redis", "stresstester", "sw", "thanos", "thanoscompactor", "thanosquery", "thanosreceiver", "thanosstore", "valkey", "vector", "vmalert"}
 }
 
 type billingGroupCreateOut struct {
