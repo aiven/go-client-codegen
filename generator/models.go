@@ -125,6 +125,8 @@ const (
 	SchemaTypeBoolean = "boolean"
 	// SchemaTypeTime represents a time schema type.
 	SchemaTypeTime = "time"
+	// SchemaTypeAny internal type for anyOf
+	SchemaTypeAny = "any"
 )
 
 // Schema represents a parsed OpenAPI schema.
@@ -234,6 +236,12 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 	}
 
 	if s.isArray() {
+		// a workaround for invalid schema
+		// fixme: on the backend
+		if s.Items == nil {
+			s.Items = &Schema{Type: SchemaTypeAny}
+		}
+
 		s.Items.parent = s
 		s.Items.required = true // a workaround to not have slices with pointers
 		s.Items.init(doc, scope, toSingle(name))
@@ -285,6 +293,10 @@ func (s *Schema) isObject() bool {
 
 func (s *Schema) isArray() bool {
 	return s.Type == SchemaTypeArray
+}
+
+func (s *Schema) isNestedArray() bool {
+	return s.isArray() && s.Items.isArray()
 }
 
 func (s *Schema) isScalar() bool {
@@ -342,11 +354,12 @@ func getScalarType(s *Schema) *jen.Statement {
 
 // getType returns go type with/wo a pointer
 func getType(s *Schema) *jen.Statement {
-	if s.isEnum() {
+	switch {
+	case s.Type == SchemaTypeAny:
+		return jen.Any()
+	case s.isEnum():
 		return jen.Id(s.CamelName)
-	}
-
-	if s.isScalar() {
+	case s.isScalar():
 		scalar := getScalarType(s)
 		if !s.required && s.Type != SchemaTypeString {
 			return jen.Op("*").Add(scalar)
@@ -363,7 +376,10 @@ func getType(s *Schema) *jen.Statement {
 		}
 
 		// No pointers for complex objects
-		if s.Items.isObject() || s.Items.isArray() {
+		switch {
+		case s.isNestedArray():
+			// but not nested array
+		case s.Items.isObject() || s.Items.isArray():
 			return a.Id(s.Items.CamelName)
 		}
 

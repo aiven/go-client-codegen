@@ -10,6 +10,11 @@ import (
 )
 
 type Handler interface {
+	// ServiceClickHouseCurrentQueries list active queries
+	// GET /v1/project/{project}/service/{service_name}/clickhouse/query
+	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseCurrentQueries
+	ServiceClickHouseCurrentQueries(ctx context.Context, project string, serviceName string) ([]QueryOut, error)
+
 	// ServiceClickHouseDatabaseCreate create a database
 	// POST /v1/project/{project}/service/{service_name}/clickhouse/db
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseDatabaseCreate
@@ -25,10 +30,15 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseDatabaseList
 	ServiceClickHouseDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error)
 
+	// ServiceClickHouseQuery execute an SQL query
+	// POST /v1/project/{project}/service/{service_name}/clickhouse/query
+	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQuery
+	ServiceClickHouseQuery(ctx context.Context, project string, serviceName string, in *ServiceClickHouseQueryIn) (*ServiceClickHouseQueryOut, error)
+
 	// ServiceClickHouseQueryStats return statistics on recent queries
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQueryStats
-	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOut, error)
+	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOutAlt, error)
 
 	// ServiceClickHouseTieredStorageSummary get the ClickHouse tiered storage summary
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/tiered-storage/summary
@@ -48,6 +58,19 @@ type ClickHouseHandler struct {
 	doer doer
 }
 
+func (h *ClickHouseHandler) ServiceClickHouseCurrentQueries(ctx context.Context, project string, serviceName string) ([]QueryOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/query", url.PathEscape(project), url.PathEscape(serviceName))
+	b, err := h.doer.Do(ctx, "ServiceClickHouseCurrentQueries", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(serviceClickHouseCurrentQueriesOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Queries, nil
+}
 func (h *ClickHouseHandler) ServiceClickHouseDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceClickHouseDatabaseCreateIn) error {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/db", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ServiceClickHouseDatabaseCreate", "POST", path, in)
@@ -71,7 +94,20 @@ func (h *ClickHouseHandler) ServiceClickHouseDatabaseList(ctx context.Context, p
 	}
 	return out.Databases, nil
 }
-func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOut, error) {
+func (h *ClickHouseHandler) ServiceClickHouseQuery(ctx context.Context, project string, serviceName string, in *ServiceClickHouseQueryIn) (*ServiceClickHouseQueryOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/query", url.PathEscape(project), url.PathEscape(serviceName))
+	b, err := h.doer.Do(ctx, "ServiceClickHouseQuery", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
+	out := new(ServiceClickHouseQueryOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOutAlt, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/query/stats", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil)
 	if err != nil {
@@ -121,7 +157,18 @@ type HourlyOut struct {
 	HourStart       string `json:"hour_start"`
 	PeakStoredBytes int    `json:"peak_stored_bytes"`
 }
+type MetaOut struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
 type QueryOut struct {
+	ClientName string   `json:"client_name,omitempty"`
+	Database   string   `json:"database,omitempty"`
+	Elapsed    *float64 `json:"elapsed,omitempty"`
+	Query      string   `json:"query,omitempty"`
+	User       string   `json:"user,omitempty"`
+}
+type QueryOutAlt struct {
 	Calls      *int     `json:"calls,omitempty"`
 	Database   string   `json:"database,omitempty"`
 	MaxTime    *int     `json:"max_time,omitempty"`
@@ -136,6 +183,15 @@ type QueryOut struct {
 type ServiceClickHouseDatabaseCreateIn struct {
 	Database string `json:"database"`
 }
+type ServiceClickHouseQueryIn struct {
+	Database string `json:"database"`
+	Query    string `json:"query"`
+}
+type ServiceClickHouseQueryOut struct {
+	Data    [][]any    `json:"data"`
+	Meta    []MetaOut  `json:"meta"`
+	Summary SummaryOut `json:"summary"`
+}
 type ServiceClickHouseTieredStorageSummaryOut struct {
 	CurrentCost         string                 `json:"current_cost"`
 	ForecastedCost      string                 `json:"forecasted_cost"`
@@ -146,9 +202,21 @@ type ServiceClickHouseTieredStorageSummaryOut struct {
 type StorageUsageHistoryOut struct {
 	Hourly []HourlyOut `json:"hourly"`
 }
+type SummaryOut struct {
+	ElapsedNs    *int `json:"elapsed_ns,omitempty"`
+	ReadBytes    *int `json:"read_bytes,omitempty"`
+	ReadRows     *int `json:"read_rows,omitempty"`
+	ResultBytes  *int `json:"result_bytes,omitempty"`
+	ResultRows   *int `json:"result_rows,omitempty"`
+	WrittenBytes *int `json:"written_bytes,omitempty"`
+	WrittenRows  *int `json:"written_rows,omitempty"`
+}
+type serviceClickHouseCurrentQueriesOut struct {
+	Queries []QueryOut `json:"queries"`
+}
 type serviceClickHouseDatabaseListOut struct {
 	Databases []DatabaseOut `json:"databases"`
 }
 type serviceClickHouseQueryStatsOut struct {
-	Queries []QueryOut `json:"queries"`
+	Queries []QueryOutAlt `json:"queries"`
 }
