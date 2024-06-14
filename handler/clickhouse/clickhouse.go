@@ -188,8 +188,7 @@ type ServiceClickHouseQueryIn struct {
 	Query    string `json:"query"`
 }
 type ServiceClickHouseQueryOut struct {
-	// TODO: this is manually changed
-	Data    [][]string `json:"data"`
+	Data    [][]any    `json:"data"`
 	Meta    []MetaOut  `json:"meta"`
 	Summary SummaryOut `json:"summary"`
 }
