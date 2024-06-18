@@ -263,7 +263,7 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjects(ctx context.C
 }
 
 type AclOut struct {
-	Id         string         `json:"id,omitempty"`
+	Id         *string        `json:"id,omitempty"`
 	Permission PermissionType `json:"permission"`
 	Resource   string         `json:"resource"`
 	Username   string         `json:"username"`

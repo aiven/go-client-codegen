@@ -300,7 +300,7 @@ func exec() error {
 				// But for required scalars should be zero values
 				returnErr = jen.Return(jen.Nil(), jen.Err())
 
-				if rsp.required || rsp.Type == SchemaTypeString {
+				if rsp.required {
 					switch rsp.Type {
 					case SchemaTypeString:
 						returnErr = jen.Return(jen.Lit(""), jen.Err())

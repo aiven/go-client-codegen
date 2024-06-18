@@ -43,26 +43,26 @@ func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project 
 }
 
 type MySqlserviceQueryStatisticsIn struct {
-	Limit   *int   `json:"limit,omitempty"`
-	Offset  *int   `json:"offset,omitempty"`
-	OrderBy string `json:"order_by,omitempty"`
+	Limit   *int    `json:"limit,omitempty"`
+	Offset  *int    `json:"offset,omitempty"`
+	OrderBy *string `json:"order_by,omitempty"`
 }
 type QueryOut struct {
 	AvgTimerWait            *float64 `json:"avg_timer_wait,omitempty"`
 	CountStar               *float64 `json:"count_star,omitempty"`
-	Digest                  string   `json:"digest,omitempty"`
-	DigestText              string   `json:"digest_text,omitempty"`
-	FirstSeen               string   `json:"first_seen,omitempty"`
-	LastSeen                string   `json:"last_seen,omitempty"`
+	Digest                  *string  `json:"digest,omitempty"`
+	DigestText              *string  `json:"digest_text,omitempty"`
+	FirstSeen               *string  `json:"first_seen,omitempty"`
+	LastSeen                *string  `json:"last_seen,omitempty"`
 	MaxTimerWait            *float64 `json:"max_timer_wait,omitempty"`
 	MinTimerWait            *float64 `json:"min_timer_wait,omitempty"`
 	Quantile95              *float64 `json:"quantile_95,omitempty"`
 	Quantile99              *float64 `json:"quantile_99,omitempty"`
 	Quantile999             *float64 `json:"quantile_999,omitempty"`
-	QuerySampleSeen         string   `json:"query_sample_seen,omitempty"`
-	QuerySampleText         string   `json:"query_sample_text,omitempty"`
-	QuerySampleTimerWait    string   `json:"query_sample_timer_wait,omitempty"`
-	SchemaName              string   `json:"schema_name,omitempty"`
+	QuerySampleSeen         *string  `json:"query_sample_seen,omitempty"`
+	QuerySampleText         *string  `json:"query_sample_text,omitempty"`
+	QuerySampleTimerWait    *string  `json:"query_sample_timer_wait,omitempty"`
+	SchemaName              *string  `json:"schema_name,omitempty"`
 	SumCreatedTmpDiskTables *float64 `json:"sum_created_tmp_disk_tables,omitempty"`
 	SumCreatedTmpTables     *float64 `json:"sum_created_tmp_tables,omitempty"`
 	SumErrors               *float64 `json:"sum_errors,omitempty"`
