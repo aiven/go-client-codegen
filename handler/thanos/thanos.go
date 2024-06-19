@@ -43,17 +43,21 @@ func (h *ThanosHandler) ServiceThanosStorageSummary(ctx context.Context, project
 }
 
 type HourlyOut struct {
-	EstimatedCost   *string `json:"estimated_cost,omitempty"`
-	HourStart       string  `json:"hour_start"`
-	PeakStoredBytes int     `json:"peak_stored_bytes"`
+	EstimatedCost   *string `json:"estimated_cost,omitempty"` // The estimated cost in USD of tiered storage for this hour
+	HourStart       string  `json:"hour_start"`               // Timestamp in ISO 8601 format, always in UTC
+	PeakStoredBytes int     `json:"peak_stored_bytes"`        // Peak bytes stored on object storage at this hour
 }
+
+// ServiceThanosStorageSummaryOut ServiceThanosStorageSummaryResponse
 type ServiceThanosStorageSummaryOut struct {
-	CurrentCost         string                 `json:"current_cost"`
-	ForecastedCost      string                 `json:"forecasted_cost"`
-	ForecastedRate      *string                `json:"forecasted_rate,omitempty"`
-	StorageUsageHistory StorageUsageHistoryOut `json:"storage_usage_history"`
-	TotalStorageUsage   int                    `json:"total_storage_usage"`
+	CurrentCost         string                 `json:"current_cost"`              // The current cost in USD of tiered storage since the beginning of the billing period
+	ForecastedCost      string                 `json:"forecasted_cost"`           // The forecasted cost in USD of tiered storage in the billing period
+	ForecastedRate      *string                `json:"forecasted_rate,omitempty"` // The rate on GBs/hour used to calculate the forecasted cost
+	StorageUsageHistory StorageUsageHistoryOut `json:"storage_usage_history"`     // History of usage and cumulative costs in the billing period
+	TotalStorageUsage   int                    `json:"total_storage_usage"`       // Total storage usage by tiered storage, in bytes
 }
+
+// StorageUsageHistoryOut History of usage and cumulative costs in the billing period
 type StorageUsageHistoryOut struct {
-	Hourly []HourlyOut `json:"hourly"`
+	Hourly []HourlyOut `json:"hourly"` // History by hour
 }

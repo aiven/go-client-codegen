@@ -274,144 +274,165 @@ func AccessSourceTypeChoices() []string {
 	return []string{"descendant_membership", "organization_membership", "project_membership", "team_membership"}
 }
 
+// AccountAttachPaymentMethodIn AccountAttachPaymentMethodRequestBody
 type AccountAttachPaymentMethodIn struct {
-	PaymentMethodId string `json:"payment_method_id"`
+	PaymentMethodId string `json:"payment_method_id"` // Unique identifier for a Stripe payment method
 }
+
+// AccountAttachPaymentMethodOut User credit card information
 type AccountAttachPaymentMethodOut struct {
 	Brand          string   `json:"brand"`
-	CardId         string   `json:"card_id"`
+	CardId         string   `json:"card_id"` // Credit card ID
 	Country        string   `json:"country"`
-	CountryCode    string   `json:"country_code"`
-	ExpMonth       int      `json:"exp_month"`
-	ExpYear        int      `json:"exp_year"`
-	Last4          string   `json:"last4"`
-	Name           string   `json:"name"`
-	OrganizationId *string  `json:"organization_id,omitempty"`
-	Projects       []string `json:"projects"`
+	CountryCode    string   `json:"country_code"`              // Two letter ISO country code
+	ExpMonth       int      `json:"exp_month"`                 // Expiration month
+	ExpYear        int      `json:"exp_year"`                  // Expiration year
+	Last4          string   `json:"last4"`                     // Credit card last four digits
+	Name           string   `json:"name"`                      // Name on the credit card
+	OrganizationId *string  `json:"organization_id,omitempty"` // Organization ID
+	Projects       []string `json:"projects"`                  // List of projects the card is assigned to
 }
 type AccountBillingGroupOut struct {
-	AccountId             string              `json:"account_id"`
-	AccountName           string              `json:"account_name"`
-	AddressLines          []string            `json:"address_lines"`
-	BillingAddress        *string             `json:"billing_address,omitempty"`
-	BillingCurrency       BillingCurrencyType `json:"billing_currency"`
-	BillingEmails         []BillingEmailOut   `json:"billing_emails"`
-	BillingExtraText      string              `json:"billing_extra_text"`
-	BillingGroupId        string              `json:"billing_group_id"`
-	BillingGroupName      string              `json:"billing_group_name"`
-	CardInfo              CardInfoOut         `json:"card_info"`
-	City                  string              `json:"city"`
-	Company               string              `json:"company"`
-	Country               string              `json:"country"`
-	CountryCode           string              `json:"country_code"`
-	CreateTime            time.Time           `json:"create_time"`
-	EstimatedBalanceLocal string              `json:"estimated_balance_local"`
-	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`
-	PaymentMethod         PaymentMethodType   `json:"payment_method"`
-	State                 string              `json:"state"`
-	VatId                 string              `json:"vat_id"`
-	ZipCode               string              `json:"zip_code"`
+	AccountId             string              `json:"account_id"`                // Account ID
+	AccountName           string              `json:"account_name"`              // Account name
+	AddressLines          []string            `json:"address_lines"`             // Address lines
+	BillingAddress        *string             `json:"billing_address,omitempty"` // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
+	BillingCurrency       BillingCurrencyType `json:"billing_currency"`          // Billing currency
+	BillingEmails         []BillingEmailOut   `json:"billing_emails"`            // List of project billing email addresses
+	BillingExtraText      string              `json:"billing_extra_text"`        // Extra text to be included in all project invoices, e.g. purchase order or cost center number
+	BillingGroupId        string              `json:"billing_group_id"`          // Billing group ID
+	BillingGroupName      string              `json:"billing_group_name"`        // Billing group name
+	CardInfo              CardInfoOut         `json:"card_info"`                 // Credit card assigned to the project
+	City                  string              `json:"city"`                      // Address city
+	Company               string              `json:"company"`                   // Name of a company
+	Country               string              `json:"country"`                   // Billing country
+	CountryCode           string              `json:"country_code"`              // Two letter ISO country code
+	CreateTime            time.Time           `json:"create_time"`               // Timestamp in ISO 8601 format, always in UTC
+	EstimatedBalanceLocal string              `json:"estimated_balance_local"`   // Estimated balance in billing currency, before tax
+	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`     // Estimated balance in USD, before tax
+	PaymentMethod         PaymentMethodType   `json:"payment_method"`            // Payment method
+	State                 string              `json:"state"`                     // Address state
+	VatId                 string              `json:"vat_id"`                    // EU VAT Identification Number
+	ZipCode               string              `json:"zip_code"`                  // Address zip code
 }
+
+// AccountCreateIn AccountCreateRequestBody
 type AccountCreateIn struct {
-	AccountName           string  `json:"account_name"`
-	ParentAccountId       *string `json:"parent_account_id,omitempty"`
-	PrimaryBillingGroupId *string `json:"primary_billing_group_id,omitempty"`
+	AccountName           string  `json:"account_name"`                       // Account name
+	ParentAccountId       *string `json:"parent_account_id,omitempty"`        // Account ID
+	PrimaryBillingGroupId *string `json:"primary_billing_group_id,omitempty"` // Billing group ID
 }
+
+// AccountCreateOut Account details
 type AccountCreateOut struct {
-	AccessSource          AccessSourceType `json:"access_source,omitempty"`
-	AccountId             string           `json:"account_id"`
-	AccountName           string           `json:"account_name"`
-	AccountOwnerTeamId    string           `json:"account_owner_team_id"`
-	CreateTime            time.Time        `json:"create_time"`
-	Features              map[string]any   `json:"features,omitempty"`
-	IsAccountMember       *bool            `json:"is_account_member,omitempty"`
-	IsAccountOwner        bool             `json:"is_account_owner"`
-	OrganizationId        string           `json:"organization_id"`
-	ParentAccountId       *string          `json:"parent_account_id,omitempty"`
-	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`
-	RootAccountId         string           `json:"root_account_id"`
-	TenantId              *string          `json:"tenant_id,omitempty"`
-	UpdateTime            time.Time        `json:"update_time"`
+	AccessSource          AccessSourceType `json:"access_source,omitempty"`     // Describe the source of the account
+	AccountId             string           `json:"account_id"`                  // Account ID
+	AccountName           string           `json:"account_name"`                // Account name
+	AccountOwnerTeamId    string           `json:"account_owner_team_id"`       // Team ID
+	CreateTime            time.Time        `json:"create_time"`                 // Timestamp in ISO 8601 format, always in UTC
+	Features              map[string]any   `json:"features,omitempty"`          // Feature flags
+	IsAccountMember       *bool            `json:"is_account_member,omitempty"` // If true, user is part of a team of this or a parent account
+	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
+	OrganizationId        string           `json:"organization_id"`             // Organization ID
+	ParentAccountId       *string          `json:"parent_account_id,omitempty"` // Account ID
+	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Billing group ID
+	RootAccountId         string           `json:"root_account_id"`             // Account ID
+	TenantId              *string          `json:"tenant_id,omitempty"`         // Tenant identifier
+	UpdateTime            time.Time        `json:"update_time"`                 // Timestamp in ISO 8601 format, always in UTC
 }
+
+// AccountGetOut Account details
 type AccountGetOut struct {
-	AccessSource          AccessSourceType `json:"access_source,omitempty"`
-	AccountId             string           `json:"account_id"`
-	AccountName           string           `json:"account_name"`
-	AccountOwnerTeamId    string           `json:"account_owner_team_id"`
-	CreateTime            time.Time        `json:"create_time"`
-	Features              map[string]any   `json:"features,omitempty"`
-	IsAccountMember       *bool            `json:"is_account_member,omitempty"`
-	IsAccountOwner        bool             `json:"is_account_owner"`
-	OrganizationId        string           `json:"organization_id"`
-	ParentAccountId       *string          `json:"parent_account_id,omitempty"`
-	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`
-	RootAccountId         string           `json:"root_account_id"`
-	TenantId              *string          `json:"tenant_id,omitempty"`
-	UpdateTime            time.Time        `json:"update_time"`
+	AccessSource          AccessSourceType `json:"access_source,omitempty"`     // Describe the source of the account
+	AccountId             string           `json:"account_id"`                  // Account ID
+	AccountName           string           `json:"account_name"`                // Account name
+	AccountOwnerTeamId    string           `json:"account_owner_team_id"`       // Team ID
+	CreateTime            time.Time        `json:"create_time"`                 // Timestamp in ISO 8601 format, always in UTC
+	Features              map[string]any   `json:"features,omitempty"`          // Feature flags
+	IsAccountMember       *bool            `json:"is_account_member,omitempty"` // If true, user is part of a team of this or a parent account
+	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
+	OrganizationId        string           `json:"organization_id"`             // Organization ID
+	ParentAccountId       *string          `json:"parent_account_id,omitempty"` // Account ID
+	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Billing group ID
+	RootAccountId         string           `json:"root_account_id"`             // Account ID
+	TenantId              *string          `json:"tenant_id,omitempty"`         // Tenant identifier
+	UpdateTime            time.Time        `json:"update_time"`                 // Timestamp in ISO 8601 format, always in UTC
 }
+
+// AccountMoveIn AccountMoveRequestBody
 type AccountMoveIn struct {
-	ParentAccountId string `json:"parent_account_id"`
+	ParentAccountId string `json:"parent_account_id"` // Account ID
 }
+
+// AccountMoveOut Account details
 type AccountMoveOut struct {
-	AccessSource          AccessSourceType `json:"access_source,omitempty"`
-	AccountId             string           `json:"account_id"`
-	AccountName           string           `json:"account_name"`
-	AccountOwnerTeamId    string           `json:"account_owner_team_id"`
-	CreateTime            time.Time        `json:"create_time"`
-	Features              map[string]any   `json:"features,omitempty"`
-	IsAccountMember       *bool            `json:"is_account_member,omitempty"`
-	IsAccountOwner        bool             `json:"is_account_owner"`
-	OrganizationId        string           `json:"organization_id"`
-	ParentAccountId       *string          `json:"parent_account_id,omitempty"`
-	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`
-	RootAccountId         string           `json:"root_account_id"`
-	TenantId              *string          `json:"tenant_id,omitempty"`
-	UpdateTime            time.Time        `json:"update_time"`
+	AccessSource          AccessSourceType `json:"access_source,omitempty"`     // Describe the source of the account
+	AccountId             string           `json:"account_id"`                  // Account ID
+	AccountName           string           `json:"account_name"`                // Account name
+	AccountOwnerTeamId    string           `json:"account_owner_team_id"`       // Team ID
+	CreateTime            time.Time        `json:"create_time"`                 // Timestamp in ISO 8601 format, always in UTC
+	Features              map[string]any   `json:"features,omitempty"`          // Feature flags
+	IsAccountMember       *bool            `json:"is_account_member,omitempty"` // If true, user is part of a team of this or a parent account
+	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
+	OrganizationId        string           `json:"organization_id"`             // Organization ID
+	ParentAccountId       *string          `json:"parent_account_id,omitempty"` // Account ID
+	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Billing group ID
+	RootAccountId         string           `json:"root_account_id"`             // Account ID
+	TenantId              *string          `json:"tenant_id,omitempty"`         // Tenant identifier
+	UpdateTime            time.Time        `json:"update_time"`                 // Timestamp in ISO 8601 format, always in UTC
 }
 type AccountOut struct {
-	AccessSource          AccessSourceType `json:"access_source,omitempty"`
-	AccountId             string           `json:"account_id"`
-	AccountName           string           `json:"account_name"`
-	AccountOwnerTeamId    string           `json:"account_owner_team_id"`
-	CreateTime            time.Time        `json:"create_time"`
-	Features              map[string]any   `json:"features,omitempty"`
-	IsAccountMember       *bool            `json:"is_account_member,omitempty"`
-	IsAccountOwner        bool             `json:"is_account_owner"`
-	OrganizationId        string           `json:"organization_id"`
-	ParentAccountId       *string          `json:"parent_account_id,omitempty"`
-	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`
-	RootAccountId         string           `json:"root_account_id"`
-	TenantId              *string          `json:"tenant_id,omitempty"`
-	UpdateTime            time.Time        `json:"update_time"`
+	AccessSource          AccessSourceType `json:"access_source,omitempty"`     // Describe the source of the account
+	AccountId             string           `json:"account_id"`                  // Account ID
+	AccountName           string           `json:"account_name"`                // Account name
+	AccountOwnerTeamId    string           `json:"account_owner_team_id"`       // Team ID
+	CreateTime            time.Time        `json:"create_time"`                 // Timestamp in ISO 8601 format, always in UTC
+	Features              map[string]any   `json:"features,omitempty"`          // Feature flags
+	IsAccountMember       *bool            `json:"is_account_member,omitempty"` // If true, user is part of a team of this or a parent account
+	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
+	OrganizationId        string           `json:"organization_id"`             // Organization ID
+	ParentAccountId       *string          `json:"parent_account_id,omitempty"` // Account ID
+	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Billing group ID
+	RootAccountId         string           `json:"root_account_id"`             // Account ID
+	TenantId              *string          `json:"tenant_id,omitempty"`         // Tenant identifier
+	UpdateTime            time.Time        `json:"update_time"`                 // Timestamp in ISO 8601 format, always in UTC
 }
+
+// AccountProjectsListOut AccountProjectsListResponse
 type AccountProjectsListOut struct {
-	Projects          []ProjectOut `json:"projects"`
-	TotalProjectCount *int         `json:"total_project_count,omitempty"`
+	Projects          []ProjectOut `json:"projects"`                      // List of projects
+	TotalProjectCount *int         `json:"total_project_count,omitempty"` // Total count of projects associated to account.
 }
+
+// AccountUpdateIn AccountUpdateRequestBody
 type AccountUpdateIn struct {
-	AccountName           *string `json:"account_name,omitempty"`
-	PrimaryBillingGroupId *string `json:"primary_billing_group_id,omitempty"`
+	AccountName           *string `json:"account_name,omitempty"`             // Account name
+	PrimaryBillingGroupId *string `json:"primary_billing_group_id,omitempty"` // Billing group ID
 }
+
+// AccountUpdateOut Account details
 type AccountUpdateOut struct {
-	AccessSource          AccessSourceType `json:"access_source,omitempty"`
-	AccountId             string           `json:"account_id"`
-	AccountName           string           `json:"account_name"`
-	AccountOwnerTeamId    string           `json:"account_owner_team_id"`
-	CreateTime            time.Time        `json:"create_time"`
-	Features              map[string]any   `json:"features,omitempty"`
-	IsAccountMember       *bool            `json:"is_account_member,omitempty"`
-	IsAccountOwner        bool             `json:"is_account_owner"`
-	OrganizationId        string           `json:"organization_id"`
-	ParentAccountId       *string          `json:"parent_account_id,omitempty"`
-	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`
-	RootAccountId         string           `json:"root_account_id"`
-	TenantId              *string          `json:"tenant_id,omitempty"`
-	UpdateTime            time.Time        `json:"update_time"`
+	AccessSource          AccessSourceType `json:"access_source,omitempty"`     // Describe the source of the account
+	AccountId             string           `json:"account_id"`                  // Account ID
+	AccountName           string           `json:"account_name"`                // Account name
+	AccountOwnerTeamId    string           `json:"account_owner_team_id"`       // Team ID
+	CreateTime            time.Time        `json:"create_time"`                 // Timestamp in ISO 8601 format, always in UTC
+	Features              map[string]any   `json:"features,omitempty"`          // Feature flags
+	IsAccountMember       *bool            `json:"is_account_member,omitempty"` // If true, user is part of a team of this or a parent account
+	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
+	OrganizationId        string           `json:"organization_id"`             // Organization ID
+	ParentAccountId       *string          `json:"parent_account_id,omitempty"` // Account ID
+	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Billing group ID
+	RootAccountId         string           `json:"root_account_id"`             // Account ID
+	TenantId              *string          `json:"tenant_id,omitempty"`         // Tenant identifier
+	UpdateTime            time.Time        `json:"update_time"`                 // Timestamp in ISO 8601 format, always in UTC
 }
+
+// AccountUsersSearchIn AccountUsersSearchRequestBody
 type AccountUsersSearchIn struct {
-	Limit   *int        `json:"limit,omitempty"`
-	OrderBy OrderByType `json:"order_by,omitempty"`
-	Query   *string     `json:"query,omitempty"`
+	Limit   *int        `json:"limit,omitempty"`    // Maximum number of results to return
+	OrderBy OrderByType `json:"order_by,omitempty"` // Sorting criteria; desc is descending order and asc ascending
+	Query   *string     `json:"query,omitempty"`    // Filter keyword
 }
 type BillingCurrencyType string
 
@@ -435,45 +456,51 @@ func BillingCurrencyTypeChoices() []string {
 }
 
 type BillingEmailOut struct {
-	Email string `json:"email"`
+	Email string `json:"email"` // User email address
 }
+
+// CardInfoOut Credit card assigned to the project
 type CardInfoOut struct {
 	Brand       string `json:"brand"`
-	CardId      string `json:"card_id"`
+	CardId      string `json:"card_id"` // Credit card ID
 	Country     string `json:"country"`
-	CountryCode string `json:"country_code"`
-	ExpMonth    int    `json:"exp_month"`
-	ExpYear     int    `json:"exp_year"`
-	Last4       string `json:"last4"`
-	Name        string `json:"name"`
-	UserEmail   string `json:"user_email"`
+	CountryCode string `json:"country_code"` // Two letter ISO country code
+	ExpMonth    int    `json:"exp_month"`    // Expiration month
+	ExpYear     int    `json:"exp_year"`     // Expiration year
+	Last4       string `json:"last4"`        // Credit card last four digits
+	Name        string `json:"name"`         // Name on the credit card
+	UserEmail   string `json:"user_email"`   // User email address
 }
 type CardOut struct {
 	Brand       string `json:"brand"`
-	CardId      string `json:"card_id"`
+	CardId      string `json:"card_id"` // Credit card ID
 	Country     string `json:"country"`
-	CountryCode string `json:"country_code"`
-	ExpMonth    int    `json:"exp_month"`
-	ExpYear     int    `json:"exp_year"`
-	Last4       string `json:"last4"`
-	Name        string `json:"name"`
+	CountryCode string `json:"country_code"` // Two letter ISO country code
+	ExpMonth    int    `json:"exp_month"`    // Expiration month
+	ExpYear     int    `json:"exp_year"`     // Expiration year
+	Last4       string `json:"last4"`        // Credit card last four digits
+	Name        string `json:"name"`         // Name on the credit card
 }
+
+// ElasticsearchOut Service EOL extension
 type ElasticsearchOut struct {
-	EolDate string `json:"eol_date"`
-	Version string `json:"version"`
+	EolDate string `json:"eol_date"` // Extended EOL date
+	Version string `json:"version"`  // Service version
 }
+
+// EndOfLifeExtensionOut End of life extension information
 type EndOfLifeExtensionOut struct {
-	Elasticsearch *ElasticsearchOut `json:"elasticsearch,omitempty"`
+	Elasticsearch *ElasticsearchOut `json:"elasticsearch,omitempty"` // Service EOL extension
 }
 type EventOut struct {
-	AccountId         string    `json:"account_id"`
-	ActionDescription string    `json:"action_description"`
-	ActionType        string    `json:"action_type"`
-	Actor             string    `json:"actor"`
-	ActorUserId       string    `json:"actor_user_id"`
-	CreateTime        time.Time `json:"create_time"`
-	LogEntryId        int       `json:"log_entry_id"`
-	TeamId            string    `json:"team_id"`
+	AccountId         string    `json:"account_id"`         // Account ID
+	ActionDescription string    `json:"action_description"` // Event description
+	ActionType        string    `json:"action_type"`        // Event type
+	Actor             string    `json:"actor"`              // Actor details
+	ActorUserId       string    `json:"actor_user_id"`      // User ID
+	CreateTime        time.Time `json:"create_time"`        // Timestamp in ISO 8601 format, always in UTC
+	LogEntryId        int       `json:"log_entry_id"`       // Entry ID
+	TeamId            string    `json:"team_id"`            // Team ID
 }
 type MemberType string
 
@@ -519,86 +546,108 @@ func PaymentMethodTypeChoices() []string {
 }
 
 type ProjectOut struct {
-	AccountId             string                 `json:"account_id"`
-	AccountName           *string                `json:"account_name,omitempty"`
-	AddressLines          []string               `json:"address_lines,omitempty"`
-	AvailableCredits      *string                `json:"available_credits,omitempty"`
-	BillingAddress        string                 `json:"billing_address"`
-	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`
-	BillingEmails         []BillingEmailOut      `json:"billing_emails"`
-	BillingExtraText      *string                `json:"billing_extra_text,omitempty"`
-	BillingGroupId        string                 `json:"billing_group_id"`
-	BillingGroupName      string                 `json:"billing_group_name"`
-	CardInfo              *CardInfoOut           `json:"card_info,omitempty"`
-	City                  *string                `json:"city,omitempty"`
-	Company               *string                `json:"company,omitempty"`
-	Country               string                 `json:"country"`
-	CountryCode           string                 `json:"country_code"`
-	DefaultCloud          string                 `json:"default_cloud"`
-	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`
-	EstimatedBalance      string                 `json:"estimated_balance"`
-	EstimatedBalanceLocal *string                `json:"estimated_balance_local,omitempty"`
-	Features              map[string]any         `json:"features,omitempty"`
-	OrganizationId        string                 `json:"organization_id"`
-	PaymentMethod         string                 `json:"payment_method"`
-	ProjectName           string                 `json:"project_name"`
-	State                 *string                `json:"state,omitempty"`
-	Tags                  map[string]string      `json:"tags,omitempty"`
-	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`
-	TenantId              *string                `json:"tenant_id,omitempty"`
-	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`
-	VatId                 string                 `json:"vat_id"`
-	ZipCode               *string                `json:"zip_code,omitempty"`
+	AccountId             string                 `json:"account_id"`                        // Account ID
+	AccountName           *string                `json:"account_name,omitempty"`            // Account name
+	AddressLines          []string               `json:"address_lines,omitempty"`           // Address lines
+	AvailableCredits      *string                `json:"available_credits,omitempty"`       // Available credits, in USD
+	BillingAddress        string                 `json:"billing_address"`                   // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
+	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`        // Billing currency
+	BillingEmails         []BillingEmailOut      `json:"billing_emails"`                    // List of project billing email addresses
+	BillingExtraText      *string                `json:"billing_extra_text,omitempty"`      // Extra text to be included in all project invoices, e.g. purchase order or cost center number
+	BillingGroupId        string                 `json:"billing_group_id"`                  // Billing group ID
+	BillingGroupName      string                 `json:"billing_group_name"`                // Billing group name
+	CardInfo              *CardInfoOut           `json:"card_info,omitempty"`               // Credit card assigned to the project
+	City                  *string                `json:"city,omitempty"`                    // Address city
+	Company               *string                `json:"company,omitempty"`                 // Name of a company
+	Country               string                 `json:"country"`                           // Billing country
+	CountryCode           string                 `json:"country_code"`                      // Two letter ISO country code
+	DefaultCloud          string                 `json:"default_cloud"`                     // Default cloud to use when launching services
+	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`   // End of life extension information
+	EstimatedBalance      string                 `json:"estimated_balance"`                 // Estimated balance, in USD
+	EstimatedBalanceLocal *string                `json:"estimated_balance_local,omitempty"` // Estimated balance, in billing currency
+	Features              map[string]any         `json:"features,omitempty"`                // Feature flags
+	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
+	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
+	ProjectName           string                 `json:"project_name"`                      // Project name
+	State                 *string                `json:"state,omitempty"`                   // Address state
+	Tags                  map[string]string      `json:"tags,omitempty"`                    // Set of resource tags
+	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`             // List of project tech email addresses
+	TenantId              *string                `json:"tenant_id,omitempty"`               // Tenant ID
+	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`   // Trial expiration time (ISO 8601)
+	VatId                 string                 `json:"vat_id"`                            // EU VAT Identification Number
+	ZipCode               *string                `json:"zip_code,omitempty"`                // Address zip code
 }
 type TechEmailOut struct {
-	Email string `json:"email"`
+	Email string `json:"email"` // User email address
 }
 type UserOut struct {
-	RealName  string `json:"real_name"`
-	UserEmail string `json:"user_email"`
-	UserId    string `json:"user_id"`
+	RealName  string `json:"real_name"`  // User real name
+	UserEmail string `json:"user_email"` // User email address
+	UserId    string `json:"user_id"`    // User ID
 }
 type UserProjectOut struct {
-	AccessType  *string    `json:"access_type,omitempty"`
-	AccountId   string     `json:"account_id"`
-	CreateTime  time.Time  `json:"create_time"`
-	MemberType  MemberType `json:"member_type"`
-	ProjectName string     `json:"project_name"`
-	RealName    string     `json:"real_name"`
-	TeamId      string     `json:"team_id"`
-	TeamName    string     `json:"team_name"`
-	UserEmail   string     `json:"user_email"`
+	AccessType  *string    `json:"access_type,omitempty"` // Access type
+	AccountId   string     `json:"account_id"`            // Account ID
+	CreateTime  time.Time  `json:"create_time"`           // Timestamp in ISO 8601 format, always in UTC
+	MemberType  MemberType `json:"member_type"`           // Project member type
+	ProjectName string     `json:"project_name"`          // Project name
+	RealName    string     `json:"real_name"`             // User real name
+	TeamId      string     `json:"team_id"`               // Team ID
+	TeamName    string     `json:"team_name"`             // Team name
+	UserEmail   string     `json:"user_email"`            // User email address
 }
+
+// accountAttachPaymentMethodOut AccountAttachPaymentMethodResponse
 type accountAttachPaymentMethodOut struct {
-	Card AccountAttachPaymentMethodOut `json:"card"`
+	Card AccountAttachPaymentMethodOut `json:"card"` // User credit card information
 }
+
+// accountBillingGroupListOut AccountBillingGroupListResponse
 type accountBillingGroupListOut struct {
-	AccountBillingGroups []AccountBillingGroupOut `json:"account_billing_groups"`
+	AccountBillingGroups []AccountBillingGroupOut `json:"account_billing_groups"` // List of billing groups
 }
+
+// accountCreateOut AccountCreateResponse
 type accountCreateOut struct {
-	Account AccountCreateOut `json:"account"`
+	Account AccountCreateOut `json:"account"` // Account details
 }
+
+// accountEventListOut AccountEventListResponse
 type accountEventListOut struct {
-	Events []EventOut `json:"events"`
+	Events []EventOut `json:"events"` // List of events
 }
+
+// accountGetOut AccountGetResponse
 type accountGetOut struct {
-	Account AccountGetOut `json:"account"`
+	Account AccountGetOut `json:"account"` // Account details
 }
+
+// accountListOut AccountListResponse
 type accountListOut struct {
-	Accounts []AccountOut `json:"accounts"`
+	Accounts []AccountOut `json:"accounts"` // List of accounts
 }
+
+// accountMoveOut AccountMoveResponse
 type accountMoveOut struct {
-	Account AccountMoveOut `json:"account"`
+	Account AccountMoveOut `json:"account"` // Account details
 }
+
+// accountPaymentMethodsListOut AccountPaymentMethodsListResponse
 type accountPaymentMethodsListOut struct {
-	Cards []CardOut `json:"cards"`
+	Cards []CardOut `json:"cards"` // List of account's credit cards
 }
+
+// accountUpdateOut AccountUpdateResponse
 type accountUpdateOut struct {
-	Account AccountUpdateOut `json:"account"`
+	Account AccountUpdateOut `json:"account"` // Account details
 }
+
+// accountUserProjectsListOut AccountUserProjectsListResponse
 type accountUserProjectsListOut struct {
-	UserProjects []UserProjectOut `json:"user_projects"`
+	UserProjects []UserProjectOut `json:"user_projects"` // List of user's projects
 }
+
+// accountUsersSearchOut AccountUsersSearchResponse
 type accountUsersSearchOut struct {
-	Users []UserOut `json:"users"`
+	Users []UserOut `json:"users"` // List of users
 }

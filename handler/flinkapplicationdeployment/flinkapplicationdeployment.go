@@ -134,17 +134,17 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkStopApplicationDeploymen
 }
 
 type DeploymentOut struct {
-	CreatedAt         time.Time            `json:"created_at"`
-	CreatedBy         string               `json:"created_by"`
-	ErrorMsg          *string              `json:"error_msg,omitempty"`
-	Id                string               `json:"id"`
-	JobId             *string              `json:"job_id,omitempty"`
-	LastSavepoint     *string              `json:"last_savepoint,omitempty"`
-	Parallelism       int                  `json:"parallelism"`
-	RestartEnabled    bool                 `json:"restart_enabled"`
-	StartingSavepoint *string              `json:"starting_savepoint,omitempty"`
-	Status            DeploymentStatusType `json:"status"`
-	VersionId         string               `json:"version_id"`
+	CreatedAt         time.Time            `json:"created_at"`                   // Created at
+	CreatedBy         string               `json:"created_by"`                   // Created by
+	ErrorMsg          *string              `json:"error_msg,omitempty"`          // Deployment error
+	Id                string               `json:"id"`                           // Deployment ID
+	JobId             *string              `json:"job_id,omitempty"`             // Job ID
+	LastSavepoint     *string              `json:"last_savepoint,omitempty"`     // Job savepoint
+	Parallelism       int                  `json:"parallelism"`                  // Flink Job parallelism
+	RestartEnabled    bool                 `json:"restart_enabled"`              // Specifies whether a Flink Job is restarted in case it fails
+	StartingSavepoint *string              `json:"starting_savepoint,omitempty"` // Job savepoint
+	Status            DeploymentStatusType `json:"status"`                       // Deployment status
+	VersionId         string               `json:"version_id"`                   // ApplicationVersion ID
 }
 type DeploymentStatusType string
 
@@ -198,77 +198,90 @@ func ServiceFlinkApplicationDeploymentStatusTypeChoices() []string {
 	return []string{"INITIALIZING", "CREATED", "RUNNING", "FAILING", "FAILED", "SAVING", "CANCELLING_REQUESTED", "CANCELLING", "CANCELED", "SAVING_AND_STOP_REQUESTED", "SAVING_AND_STOP", "FINISHED", "RESTARTING", "SUSPENDED", "DELETE_REQUESTED", "DELETING", "RECONCILING"}
 }
 
+// ServiceFlinkCancelApplicationDeploymentOut ServiceFlinkCancelApplicationDeploymentResponse
 type ServiceFlinkCancelApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                   `json:"created_at"`
-	CreatedBy         string                                      `json:"created_by"`
-	ErrorMsg          *string                                     `json:"error_msg,omitempty"`
-	Id                string                                      `json:"id"`
-	JobId             *string                                     `json:"job_id,omitempty"`
-	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`
-	Parallelism       int                                         `json:"parallelism"`
-	RestartEnabled    bool                                        `json:"restart_enabled"`
-	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"`
-	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`
-	VersionId         string                                      `json:"version_id"`
+	CreatedAt         time.Time                                   `json:"created_at"`                   // Created at
+	CreatedBy         string                                      `json:"created_by"`                   // Created by
+	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Deployment error
+	Id                string                                      `json:"id"`                           // Deployment ID
+	JobId             *string                                     `json:"job_id,omitempty"`             // Job ID
+	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`     // Job savepoint
+	Parallelism       int                                         `json:"parallelism"`                  // Flink Job parallelism
+	RestartEnabled    bool                                        `json:"restart_enabled"`              // Specifies whether a Flink Job is restarted in case it fails
+	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"` // Job savepoint
+	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`                       // Deployment status
+	VersionId         string                                      `json:"version_id"`                   // ApplicationVersion ID
 }
+
+// ServiceFlinkCreateApplicationDeploymentIn ServiceFlinkCreateApplicationDeploymentRequestBody
 type ServiceFlinkCreateApplicationDeploymentIn struct {
-	Parallelism       *int    `json:"parallelism,omitempty"`
-	RestartEnabled    *bool   `json:"restart_enabled,omitempty"`
-	StartingSavepoint *string `json:"starting_savepoint,omitempty"`
-	VersionId         string  `json:"version_id"`
+	Parallelism       *int    `json:"parallelism,omitempty"`        // Flink Job parallelism
+	RestartEnabled    *bool   `json:"restart_enabled,omitempty"`    // Specifies whether a Flink Job is restarted in case it fails
+	StartingSavepoint *string `json:"starting_savepoint,omitempty"` // Job savepoint
+	VersionId         string  `json:"version_id"`                   // ApplicationVersion ID
 }
+
+// ServiceFlinkCreateApplicationDeploymentOut ServiceFlinkCreateApplicationDeploymentResponse
 type ServiceFlinkCreateApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                   `json:"created_at"`
-	CreatedBy         string                                      `json:"created_by"`
-	ErrorMsg          *string                                     `json:"error_msg,omitempty"`
-	Id                string                                      `json:"id"`
-	JobId             *string                                     `json:"job_id,omitempty"`
-	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`
-	Parallelism       int                                         `json:"parallelism"`
-	RestartEnabled    bool                                        `json:"restart_enabled"`
-	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"`
-	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`
-	VersionId         string                                      `json:"version_id"`
+	CreatedAt         time.Time                                   `json:"created_at"`                   // Created at
+	CreatedBy         string                                      `json:"created_by"`                   // Created by
+	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Deployment error
+	Id                string                                      `json:"id"`                           // Deployment ID
+	JobId             *string                                     `json:"job_id,omitempty"`             // Job ID
+	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`     // Job savepoint
+	Parallelism       int                                         `json:"parallelism"`                  // Flink Job parallelism
+	RestartEnabled    bool                                        `json:"restart_enabled"`              // Specifies whether a Flink Job is restarted in case it fails
+	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"` // Job savepoint
+	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`                       // Deployment status
+	VersionId         string                                      `json:"version_id"`                   // ApplicationVersion ID
 }
+
+// ServiceFlinkDeleteApplicationDeploymentOut ServiceFlinkDeleteApplicationDeploymentResponse
 type ServiceFlinkDeleteApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                   `json:"created_at"`
-	CreatedBy         string                                      `json:"created_by"`
-	ErrorMsg          *string                                     `json:"error_msg,omitempty"`
-	Id                string                                      `json:"id"`
-	JobId             *string                                     `json:"job_id,omitempty"`
-	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`
-	Parallelism       int                                         `json:"parallelism"`
-	RestartEnabled    bool                                        `json:"restart_enabled"`
-	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"`
-	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`
-	VersionId         string                                      `json:"version_id"`
+	CreatedAt         time.Time                                   `json:"created_at"`                   // Created at
+	CreatedBy         string                                      `json:"created_by"`                   // Created by
+	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Deployment error
+	Id                string                                      `json:"id"`                           // Deployment ID
+	JobId             *string                                     `json:"job_id,omitempty"`             // Job ID
+	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`     // Job savepoint
+	Parallelism       int                                         `json:"parallelism"`                  // Flink Job parallelism
+	RestartEnabled    bool                                        `json:"restart_enabled"`              // Specifies whether a Flink Job is restarted in case it fails
+	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"` // Job savepoint
+	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`                       // Deployment status
+	VersionId         string                                      `json:"version_id"`                   // ApplicationVersion ID
 }
+
+// ServiceFlinkGetApplicationDeploymentOut ServiceFlinkGetApplicationDeploymentResponse
 type ServiceFlinkGetApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                   `json:"created_at"`
-	CreatedBy         string                                      `json:"created_by"`
-	ErrorMsg          *string                                     `json:"error_msg,omitempty"`
-	Id                string                                      `json:"id"`
-	JobId             *string                                     `json:"job_id,omitempty"`
-	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`
-	Parallelism       int                                         `json:"parallelism"`
-	RestartEnabled    bool                                        `json:"restart_enabled"`
-	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"`
-	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`
-	VersionId         string                                      `json:"version_id"`
+	CreatedAt         time.Time                                   `json:"created_at"`                   // Created at
+	CreatedBy         string                                      `json:"created_by"`                   // Created by
+	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Deployment error
+	Id                string                                      `json:"id"`                           // Deployment ID
+	JobId             *string                                     `json:"job_id,omitempty"`             // Job ID
+	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`     // Job savepoint
+	Parallelism       int                                         `json:"parallelism"`                  // Flink Job parallelism
+	RestartEnabled    bool                                        `json:"restart_enabled"`              // Specifies whether a Flink Job is restarted in case it fails
+	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"` // Job savepoint
+	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`                       // Deployment status
+	VersionId         string                                      `json:"version_id"`                   // ApplicationVersion ID
 }
+
+// ServiceFlinkStopApplicationDeploymentOut ServiceFlinkStopApplicationDeploymentResponse
 type ServiceFlinkStopApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                   `json:"created_at"`
-	CreatedBy         string                                      `json:"created_by"`
-	ErrorMsg          *string                                     `json:"error_msg,omitempty"`
-	Id                string                                      `json:"id"`
-	JobId             *string                                     `json:"job_id,omitempty"`
-	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`
-	Parallelism       int                                         `json:"parallelism"`
-	RestartEnabled    bool                                        `json:"restart_enabled"`
-	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"`
-	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`
-	VersionId         string                                      `json:"version_id"`
+	CreatedAt         time.Time                                   `json:"created_at"`                   // Created at
+	CreatedBy         string                                      `json:"created_by"`                   // Created by
+	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Deployment error
+	Id                string                                      `json:"id"`                           // Deployment ID
+	JobId             *string                                     `json:"job_id,omitempty"`             // Job ID
+	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`     // Job savepoint
+	Parallelism       int                                         `json:"parallelism"`                  // Flink Job parallelism
+	RestartEnabled    bool                                        `json:"restart_enabled"`              // Specifies whether a Flink Job is restarted in case it fails
+	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"` // Job savepoint
+	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`                       // Deployment status
+	VersionId         string                                      `json:"version_id"`                   // ApplicationVersion ID
 }
+
+// serviceFlinkListApplicationDeploymentsOut ServiceFlinkListApplicationDeploymentsResponse
 type serviceFlinkListApplicationDeploymentsOut struct {
-	Deployments []DeploymentOut `json:"deployments"`
+	Deployments []DeploymentOut `json:"deployments"` // Flink ApplicationDeployments
 }

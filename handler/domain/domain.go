@@ -108,14 +108,14 @@ func (h *DomainHandler) OrganizationDomainsRemove(ctx context.Context, organizat
 }
 
 type DomainOut struct {
-	ChallengeToken                string           `json:"challenge_token"`
-	CreateTime                    time.Time        `json:"create_time"`
-	DomainId                      string           `json:"domain_id"`
-	DomainName                    string           `json:"domain_name"`
-	LinkedAuthenticationMethodIds []string         `json:"linked_authentication_method_ids"`
-	OrganizationId                string           `json:"organization_id"`
-	State                         DomainStateType  `json:"state"`
-	VerificationType              VerificationType `json:"verification_type"`
+	ChallengeToken                string           `json:"challenge_token"`                  // Random string to be used for validation
+	CreateTime                    time.Time        `json:"create_time"`                      // Time of creating the domain
+	DomainId                      string           `json:"domain_id"`                        // ID of the domain
+	DomainName                    string           `json:"domain_name"`                      // Name of the domain
+	LinkedAuthenticationMethodIds []string         `json:"linked_authentication_method_ids"` // Linked Authentication Method Ids
+	OrganizationId                string           `json:"organization_id"`                  // ID of the organization owning this domain
+	State                         DomainStateType  `json:"state"`                            // State of the verification process
+	VerificationType              VerificationType `json:"verification_type"`                // Type of verification to be made
 }
 type DomainStateType string
 
@@ -129,19 +129,22 @@ func DomainStateTypeChoices() []string {
 	return []string{"deleted", "unverified", "verified"}
 }
 
+// OrganizationDomainAddIn OrganizationDomainAddRequestBody
 type OrganizationDomainAddIn struct {
-	DomainName       string           `json:"domain_name"`
-	VerificationType VerificationType `json:"verification_type"`
+	DomainName       string           `json:"domain_name"`       // Name of the domain to be added
+	VerificationType VerificationType `json:"verification_type"` // Type of verification to be made
 }
+
+// OrganizationDomainAddOut OrganizationDomainAddResponse
 type OrganizationDomainAddOut struct {
-	ChallengeToken                string                         `json:"challenge_token"`
-	CreateTime                    time.Time                      `json:"create_time"`
-	DomainId                      string                         `json:"domain_id"`
-	DomainName                    string                         `json:"domain_name"`
-	LinkedAuthenticationMethodIds []string                       `json:"linked_authentication_method_ids"`
-	OrganizationId                string                         `json:"organization_id"`
-	State                         OrganizationDomainAddStateType `json:"state"`
-	VerificationType              VerificationType               `json:"verification_type"`
+	ChallengeToken                string                         `json:"challenge_token"`                  // Random string to be used for validation
+	CreateTime                    time.Time                      `json:"create_time"`                      // Time of creating the domain
+	DomainId                      string                         `json:"domain_id"`                        // ID of the domain
+	DomainName                    string                         `json:"domain_name"`                      // Name of the domain
+	LinkedAuthenticationMethodIds []string                       `json:"linked_authentication_method_ids"` // Linked Authentication Method Ids
+	OrganizationId                string                         `json:"organization_id"`                  // ID of the organization owning this domain
+	State                         OrganizationDomainAddStateType `json:"state"`                            // State of the verification process
+	VerificationType              VerificationType               `json:"verification_type"`                // Type of verification to be made
 }
 type OrganizationDomainAddStateType string
 
@@ -167,28 +170,33 @@ func OrganizationDomainStateTypeChoices() []string {
 	return []string{"deleted", "unverified", "verified"}
 }
 
+// OrganizationDomainUpdateIn OrganizationDomainUpdateRequestBody
 type OrganizationDomainUpdateIn struct {
-	VerificationType VerificationType `json:"verification_type,omitempty"`
+	VerificationType VerificationType `json:"verification_type,omitempty"` // OrganizationDomainVerificationType
 }
+
+// OrganizationDomainUpdateOut OrganizationDomainUpdateResponse
 type OrganizationDomainUpdateOut struct {
-	ChallengeToken                string                      `json:"challenge_token"`
-	CreateTime                    time.Time                   `json:"create_time"`
-	DomainId                      string                      `json:"domain_id"`
-	DomainName                    string                      `json:"domain_name"`
-	LinkedAuthenticationMethodIds []string                    `json:"linked_authentication_method_ids"`
-	OrganizationId                string                      `json:"organization_id"`
-	State                         OrganizationDomainStateType `json:"state"`
-	VerificationType              VerificationType            `json:"verification_type"`
+	ChallengeToken                string                      `json:"challenge_token"`                  // Random string to be used for validation
+	CreateTime                    time.Time                   `json:"create_time"`                      // Time of creating the domain
+	DomainId                      string                      `json:"domain_id"`                        // ID of the domain
+	DomainName                    string                      `json:"domain_name"`                      // Name of the domain
+	LinkedAuthenticationMethodIds []string                    `json:"linked_authentication_method_ids"` // Linked Authentication Method Ids
+	OrganizationId                string                      `json:"organization_id"`                  // ID of the organization owning this domain
+	State                         OrganizationDomainStateType `json:"state"`                            // State of the verification process
+	VerificationType              VerificationType            `json:"verification_type"`                // Type of verification to be made
 }
+
+// OrganizationDomainVerifyOut OrganizationDomainVerifyResponse
 type OrganizationDomainVerifyOut struct {
-	ChallengeToken                string                      `json:"challenge_token"`
-	CreateTime                    time.Time                   `json:"create_time"`
-	DomainId                      string                      `json:"domain_id"`
-	DomainName                    string                      `json:"domain_name"`
-	LinkedAuthenticationMethodIds []string                    `json:"linked_authentication_method_ids"`
-	OrganizationId                string                      `json:"organization_id"`
-	State                         OrganizationDomainStateType `json:"state"`
-	VerificationType              VerificationType            `json:"verification_type"`
+	ChallengeToken                string                      `json:"challenge_token"`                  // Random string to be used for validation
+	CreateTime                    time.Time                   `json:"create_time"`                      // Time of creating the domain
+	DomainId                      string                      `json:"domain_id"`                        // ID of the domain
+	DomainName                    string                      `json:"domain_name"`                      // Name of the domain
+	LinkedAuthenticationMethodIds []string                    `json:"linked_authentication_method_ids"` // Linked Authentication Method Ids
+	OrganizationId                string                      `json:"organization_id"`                  // ID of the organization owning this domain
+	State                         OrganizationDomainStateType `json:"state"`                            // State of the verification process
+	VerificationType              VerificationType            `json:"verification_type"`                // Type of verification to be made
 }
 type VerificationType string
 
@@ -201,6 +209,7 @@ func VerificationTypeChoices() []string {
 	return []string{"dns", "http"}
 }
 
+// organizationDomainsListOut OrganizationDomainsListResponse
 type organizationDomainsListOut struct {
-	Domains []DomainOut `json:"domains"`
+	Domains []DomainOut `json:"domains"` // List of domains for the organization
 }

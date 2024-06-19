@@ -146,44 +146,52 @@ func (h *AccountTeamHandler) AccountTeamUpdate(ctx context.Context, accountId st
 }
 
 type AccountInviteOut struct {
-	AccountId          string    `json:"account_id"`
-	AccountName        string    `json:"account_name"`
-	CreateTime         time.Time `json:"create_time"`
-	InvitedByUserEmail string    `json:"invited_by_user_email"`
-	TeamId             string    `json:"team_id"`
-	TeamName           string    `json:"team_name"`
-	UserEmail          string    `json:"user_email"`
+	AccountId          string    `json:"account_id"`            // Account ID
+	AccountName        string    `json:"account_name"`          // Account name
+	CreateTime         time.Time `json:"create_time"`           // Timestamp in ISO 8601 format, always in UTC
+	InvitedByUserEmail string    `json:"invited_by_user_email"` // User email address
+	TeamId             string    `json:"team_id"`               // Team ID
+	TeamName           string    `json:"team_name"`             // Team name
+	UserEmail          string    `json:"user_email"`            // User email address
 }
+
+// AccountTeamGetOut Account Team details
 type AccountTeamGetOut struct {
-	AccountId  *string    `json:"account_id,omitempty"`
-	CreateTime *time.Time `json:"create_time,omitempty"`
-	TeamId     string     `json:"team_id"`
-	TeamName   string     `json:"team_name"`
-	UpdateTime *time.Time `json:"update_time,omitempty"`
+	AccountId  *string    `json:"account_id,omitempty"`  // Account ID
+	CreateTime *time.Time `json:"create_time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
+	TeamId     string     `json:"team_id"`               // Team ID
+	TeamName   string     `json:"team_name"`             // Team name
+	UpdateTime *time.Time `json:"update_time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
 }
+
+// AccountTeamProjectAssociateIn AccountTeamProjectAssociateRequestBody
 type AccountTeamProjectAssociateIn struct {
-	TeamType TeamType `json:"team_type"`
+	TeamType TeamType `json:"team_type"` // Team type (permission level)
 }
+
+// AccountTeamUpdateIn AccountTeamUpdateRequestBody
 type AccountTeamUpdateIn struct {
-	TeamName string `json:"team_name"`
+	TeamName string `json:"team_name"` // Team name
 }
+
+// AccountTeamUpdateOut Account Team details
 type AccountTeamUpdateOut struct {
-	AccountId  *string    `json:"account_id,omitempty"`
-	CreateTime *time.Time `json:"create_time,omitempty"`
-	TeamId     string     `json:"team_id"`
-	TeamName   string     `json:"team_name"`
-	UpdateTime *time.Time `json:"update_time,omitempty"`
+	AccountId  *string    `json:"account_id,omitempty"`  // Account ID
+	CreateTime *time.Time `json:"create_time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
+	TeamId     string     `json:"team_id"`               // Team ID
+	TeamName   string     `json:"team_name"`             // Team name
+	UpdateTime *time.Time `json:"update_time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
 }
 type ProjectOut struct {
-	ProjectName string   `json:"project_name"`
-	TeamType    TeamType `json:"team_type"`
+	ProjectName string   `json:"project_name"` // Project name
+	TeamType    TeamType `json:"team_type"`    // Team type (permission level)
 }
 type TeamOut struct {
-	AccountId  *string    `json:"account_id,omitempty"`
-	CreateTime *time.Time `json:"create_time,omitempty"`
-	TeamId     string     `json:"team_id"`
-	TeamName   string     `json:"team_name"`
-	UpdateTime *time.Time `json:"update_time,omitempty"`
+	AccountId  *string    `json:"account_id,omitempty"`  // Account ID
+	CreateTime *time.Time `json:"create_time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
+	TeamId     string     `json:"team_id"`               // Team ID
+	TeamName   string     `json:"team_name"`             // Team name
+	UpdateTime *time.Time `json:"update_time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
 }
 type TeamType string
 
@@ -198,18 +206,27 @@ func TeamTypeChoices() []string {
 	return []string{"admin", "operator", "developer", "read_only"}
 }
 
+// accountTeamGetOut AccountTeamGetResponse
 type accountTeamGetOut struct {
-	Team AccountTeamGetOut `json:"team"`
+	Team AccountTeamGetOut `json:"team"` // Account Team details
 }
+
+// accountTeamInvitesListOut AccountTeamInvitesListResponse
 type accountTeamInvitesListOut struct {
-	AccountInvites []AccountInviteOut `json:"account_invites"`
+	AccountInvites []AccountInviteOut `json:"account_invites"` // List of invites
 }
+
+// accountTeamListOut AccountTeamListResponse
 type accountTeamListOut struct {
-	Teams []TeamOut `json:"teams"`
+	Teams []TeamOut `json:"teams"` // List of teams
 }
+
+// accountTeamProjectListOut AccountTeamProjectListResponse
 type accountTeamProjectListOut struct {
-	Projects []ProjectOut `json:"projects"`
+	Projects []ProjectOut `json:"projects"` // List of projects associated to a team
 }
+
+// accountTeamUpdateOut AccountTeamUpdateResponse
 type accountTeamUpdateOut struct {
-	Team AccountTeamUpdateOut `json:"team"`
+	Team AccountTeamUpdateOut `json:"team"` // Account Team details
 }

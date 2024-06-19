@@ -61,8 +61,8 @@ func (h *FlinkJobHandler) ServiceFlinkJobsList(ctx context.Context, project stri
 }
 
 type JobOut struct {
-	Id     *string       `json:"id,omitempty"`
-	Status JobStatusType `json:"status,omitempty"`
+	Id     *string       `json:"id,omitempty"`     // Job ID
+	Status JobStatusType `json:"status,omitempty"` // Job status
 }
 type JobStatusType string
 
@@ -84,18 +84,19 @@ func JobStatusTypeChoices() []string {
 	return []string{"INITIALIZING", "CREATED", "RUNNING", "FAILING", "FAILED", "CANCELLING", "CANCELED", "FINISHED", "RESTARTING", "SUSPENDED", "RECONCILING"}
 }
 
+// ServiceFlinkJobDetailsOut ServiceFlinkJobDetailsResponse
 type ServiceFlinkJobDetailsOut struct {
-	Duration       *int                            `json:"duration,omitempty"`
-	EndTime        *int                            `json:"end-time,omitempty"`
-	IsStoppable    *bool                           `json:"isStoppable,omitempty"`
-	Jid            *string                         `json:"jid,omitempty"`
-	MaxParallelism *int                            `json:"maxParallelism,omitempty"`
-	Name           *string                         `json:"name,omitempty"`
-	Now            *int                            `json:"now,omitempty"`
+	Duration       *int                            `json:"duration,omitempty"`       // Duration of the job
+	EndTime        *int                            `json:"end-time,omitempty"`       // End time of the job
+	IsStoppable    *bool                           `json:"isStoppable,omitempty"`    // Whether the job is stoppable
+	Jid            *string                         `json:"jid,omitempty"`            // Job ID
+	MaxParallelism *int                            `json:"maxParallelism,omitempty"` // Max parallelism
+	Name           *string                         `json:"name,omitempty"`           // Job name
+	Now            *int                            `json:"now,omitempty"`            // Epoch time
 	Plan           map[string]any                  `json:"plan,omitempty"`
-	StartTime      *int                            `json:"start-time,omitempty"`
-	State          ServiceFlinkJobDetailsStateType `json:"state,omitempty"`
-	StatusCounts   *StatusCountsOut                `json:"status-counts,omitempty"`
+	StartTime      *int                            `json:"start-time,omitempty"`    // Start time epoch
+	State          ServiceFlinkJobDetailsStateType `json:"state,omitempty"`         // Job state
+	StatusCounts   *StatusCountsOut                `json:"status-counts,omitempty"` // Status counts
 	Timestamps     map[string]any                  `json:"timestamps,omitempty"`
 	Vertices       []map[string]any                `json:"vertices,omitempty"`
 }
@@ -119,18 +120,21 @@ func ServiceFlinkJobDetailsStateTypeChoices() []string {
 	return []string{"INITIALIZING", "CREATED", "RUNNING", "FAILING", "FAILED", "CANCELLING", "CANCELED", "FINISHED", "RESTARTING", "SUSPENDED", "RECONCILING"}
 }
 
+// StatusCountsOut Status counts
 type StatusCountsOut struct {
-	Canceled     *int `json:"CANCELED,omitempty"`
-	Canceling    *int `json:"CANCELING,omitempty"`
-	Created      *int `json:"CREATED,omitempty"`
-	Deploying    *int `json:"DEPLOYING,omitempty"`
-	Failed       *int `json:"FAILED,omitempty"`
-	Finished     *int `json:"FINISHED,omitempty"`
-	Initializing *int `json:"INITIALIZING,omitempty"`
-	Reconciling  *int `json:"RECONCILING,omitempty"`
-	Running      *int `json:"RUNNING,omitempty"`
-	Scheduled    *int `json:"SCHEDULED,omitempty"`
+	Canceled     *int `json:"CANCELED,omitempty"`     // CANCELED
+	Canceling    *int `json:"CANCELING,omitempty"`    // CANCELING
+	Created      *int `json:"CREATED,omitempty"`      // CREATED
+	Deploying    *int `json:"DEPLOYING,omitempty"`    // DEPLOYING
+	Failed       *int `json:"FAILED,omitempty"`       // FAILED
+	Finished     *int `json:"FINISHED,omitempty"`     // FINISHED
+	Initializing *int `json:"INITIALIZING,omitempty"` // INITIALIZING
+	Reconciling  *int `json:"RECONCILING,omitempty"`  // RECONCILING
+	Running      *int `json:"RUNNING,omitempty"`      // RUNNING
+	Scheduled    *int `json:"SCHEDULED,omitempty"`    // SCHEDULED
 }
+
+// serviceFlinkJobsListOut ServiceFlinkJobsListResponse
 type serviceFlinkJobsListOut struct {
-	Jobs []JobOut `json:"jobs,omitempty"`
+	Jobs []JobOut `json:"jobs,omitempty"` // Jobs
 }

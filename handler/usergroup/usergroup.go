@@ -136,9 +136,9 @@ func (h *UserGroupHandler) UserGroupsList(ctx context.Context, organizationId st
 }
 
 type MemberOut struct {
-	LastActivityTime *time.Time  `json:"last_activity_time,omitempty"`
-	UserId           string      `json:"user_id"`
-	UserInfo         UserInfoOut `json:"user_info"`
+	LastActivityTime *time.Time  `json:"last_activity_time,omitempty"` // Last Activity Time
+	UserId           string      `json:"user_id"`                      // User ID
+	UserInfo         UserInfoOut `json:"user_info"`                    // OrganizationUserInfo
 }
 type OperationType string
 
@@ -151,67 +151,84 @@ func OperationTypeChoices() []string {
 	return []string{"add_members", "remove_members"}
 }
 
+// UserGroupCreateIn UserGroupCreateRequestBody
 type UserGroupCreateIn struct {
 	Description   string `json:"description"`
-	UserGroupName string `json:"user_group_name"`
+	UserGroupName string `json:"user_group_name"` // User Group Name
 }
+
+// UserGroupCreateOut UserGroupCreateResponse
 type UserGroupCreateOut struct {
-	CreateTime    time.Time `json:"create_time"`
+	CreateTime    time.Time `json:"create_time"` // User group creation time
 	Description   string    `json:"description"`
-	ManagedByScim bool      `json:"managed_by_scim"`
-	UpdateTime    time.Time `json:"update_time"`
-	UserGroupId   string    `json:"user_group_id"`
-	UserGroupName string    `json:"user_group_name"`
+	ManagedByScim bool      `json:"managed_by_scim"` // Managed By Scim
+	UpdateTime    time.Time `json:"update_time"`     // User group last update time
+	UserGroupId   string    `json:"user_group_id"`   // User Group ID
+	UserGroupName string    `json:"user_group_name"` // User Group Name
 }
+
+// UserGroupGetOut UserGroupGetResponse
 type UserGroupGetOut struct {
-	CreateTime    time.Time `json:"create_time"`
+	CreateTime    time.Time `json:"create_time"` // User group creation time
 	Description   string    `json:"description"`
-	ManagedByScim bool      `json:"managed_by_scim"`
-	UpdateTime    time.Time `json:"update_time"`
-	UserGroupId   string    `json:"user_group_id"`
-	UserGroupName string    `json:"user_group_name"`
+	ManagedByScim bool      `json:"managed_by_scim"` // Managed By Scim
+	UpdateTime    time.Time `json:"update_time"`     // User group last update time
+	UserGroupId   string    `json:"user_group_id"`   // User Group ID
+	UserGroupName string    `json:"user_group_name"` // User Group Name
 }
+
+// UserGroupMembersUpdateIn UserGroupMembersUpdateRequestBody
 type UserGroupMembersUpdateIn struct {
-	MemberIds []string      `json:"member_ids"`
-	Operation OperationType `json:"operation"`
+	MemberIds []string      `json:"member_ids"` // List of user IDs to apply the operation on
+	Operation OperationType `json:"operation"`  // Operation to be performed on the group
 }
 type UserGroupOut struct {
-	CreateTime    time.Time `json:"create_time"`
+	CreateTime    time.Time `json:"create_time"` // User group creation time
 	Description   string    `json:"description"`
-	ManagedByScim bool      `json:"managed_by_scim"`
-	MemberCount   int       `json:"member_count"`
-	UpdateTime    time.Time `json:"update_time"`
-	UserGroupId   string    `json:"user_group_id"`
-	UserGroupName string    `json:"user_group_name"`
+	ManagedByScim bool      `json:"managed_by_scim"` // Managed By Scim
+	MemberCount   int       `json:"member_count"`    // Member Count
+	UpdateTime    time.Time `json:"update_time"`     // User group last update time
+	UserGroupId   string    `json:"user_group_id"`   // User Group ID
+	UserGroupName string    `json:"user_group_name"` // User Group Name
 }
+
+// UserGroupUpdateIn UserGroupUpdateRequestBody
 type UserGroupUpdateIn struct {
 	Description   *string `json:"description,omitempty"`
-	UserGroupName *string `json:"user_group_name,omitempty"`
+	UserGroupName *string `json:"user_group_name,omitempty"` // User Group Name
 }
+
+// UserGroupUpdateOut UserGroupUpdateResponse
 type UserGroupUpdateOut struct {
-	CreateTime    time.Time `json:"create_time"`
+	CreateTime    time.Time `json:"create_time"` // User group creation time
 	Description   string    `json:"description"`
-	ManagedByScim bool      `json:"managed_by_scim"`
-	UpdateTime    time.Time `json:"update_time"`
-	UserGroupId   string    `json:"user_group_id"`
-	UserGroupName string    `json:"user_group_name"`
+	ManagedByScim bool      `json:"managed_by_scim"` // Managed By Scim
+	UpdateTime    time.Time `json:"update_time"`     // User group last update time
+	UserGroupId   string    `json:"user_group_id"`   // User Group ID
+	UserGroupName string    `json:"user_group_name"` // User Group Name
 }
+
+// UserInfoOut OrganizationUserInfo
 type UserInfoOut struct {
 	City                   *string   `json:"city,omitempty"`
 	Country                *string   `json:"country,omitempty"`
-	CreateTime             time.Time `json:"create_time"`
+	CreateTime             time.Time `json:"create_time"` // Creation time
 	Department             *string   `json:"department,omitempty"`
-	IsApplicationUser      bool      `json:"is_application_user"`
-	JobTitle               *string   `json:"job_title,omitempty"`
-	ManagedByScim          bool      `json:"managed_by_scim"`
-	ManagingOrganizationId *string   `json:"managing_organization_id,omitempty"`
-	RealName               string    `json:"real_name"`
+	IsApplicationUser      bool      `json:"is_application_user"`                // Is Application User
+	JobTitle               *string   `json:"job_title,omitempty"`                // Job Title
+	ManagedByScim          bool      `json:"managed_by_scim"`                    // Managed By Scim
+	ManagingOrganizationId *string   `json:"managing_organization_id,omitempty"` // Managing Organization ID
+	RealName               string    `json:"real_name"`                          // Real Name
 	State                  string    `json:"state"`
-	UserEmail              string    `json:"user_email"`
+	UserEmail              string    `json:"user_email"` // User Email
 }
+
+// userGroupMemberListOut UserGroupMemberListResponse
 type userGroupMemberListOut struct {
-	Members []MemberOut `json:"members"`
+	Members []MemberOut `json:"members"` // User group members
 }
+
+// userGroupsListOut UserGroupsListResponse
 type userGroupsListOut struct {
-	UserGroups []UserGroupOut `json:"user_groups"`
+	UserGroups []UserGroupOut `json:"user_groups"` // User Groups
 }

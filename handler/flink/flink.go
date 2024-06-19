@@ -42,14 +42,15 @@ func (h *FlinkHandler) ServiceFlinkOverview(ctx context.Context, project string,
 	return out, nil
 }
 
+// ServiceFlinkOverviewOut ServiceFlinkOverviewResponse
 type ServiceFlinkOverviewOut struct {
-	FlinkCommit    *string `json:"flink-commit,omitempty"`
-	FlinkVersion   *string `json:"flink-version,omitempty"`
-	JobsCancelled  *int    `json:"jobs-cancelled,omitempty"`
-	JobsFailed     *int    `json:"jobs-failed,omitempty"`
-	JobsFinished   *int    `json:"jobs-finished,omitempty"`
-	JobsRunning    *int    `json:"jobs-running,omitempty"`
-	SlotsAvailable *int    `json:"slots-available,omitempty"`
-	SlotsTotal     *int    `json:"slots-total,omitempty"`
-	Taskmanagers   *int    `json:"taskmanagers,omitempty"`
+	FlinkCommit    *string `json:"flink-commit,omitempty"`    // Commit of Flink version
+	FlinkVersion   *string `json:"flink-version,omitempty"`   // Flink version
+	JobsCancelled  *int    `json:"jobs-cancelled,omitempty"`  // Number of cancelled jobs
+	JobsFailed     *int    `json:"jobs-failed,omitempty"`     // Number of failed jobs
+	JobsFinished   *int    `json:"jobs-finished,omitempty"`   // Number of finished jobs
+	JobsRunning    *int    `json:"jobs-running,omitempty"`    // Number of running jobs
+	SlotsAvailable *int    `json:"slots-available,omitempty"` // Number of slots available
+	SlotsTotal     *int    `json:"slots-total,omitempty"`     // Number of slots
+	Taskmanagers   *int    `json:"taskmanagers,omitempty"`    // Number of TaskManagers
 }

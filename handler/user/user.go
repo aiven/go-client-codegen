@@ -421,54 +421,61 @@ func (h *UserHandler) ValidateReferralCode(ctx context.Context, referralCode str
 	return err
 }
 
+// AccessTokenCreateIn AccessTokenCreateRequestBody
 type AccessTokenCreateIn struct {
-	Description    string    `json:"description"`
-	ExtendWhenUsed *bool     `json:"extend_when_used,omitempty"`
-	MaxAgeSeconds  *float64  `json:"max_age_seconds,omitempty"`
-	Scopes         *[]string `json:"scopes,omitempty"`
+	Description    string    `json:"description"`                // Name / description of an access token
+	ExtendWhenUsed *bool     `json:"extend_when_used,omitempty"` // Extend token expiration time when token is used. Only applicable if max_age_seconds is specified.
+	MaxAgeSeconds  *float64  `json:"max_age_seconds,omitempty"`  // Time the token remains valid since creation (or since last use if extend_when_used is true)
+	Scopes         *[]string `json:"scopes,omitempty"`           // Scopes this token is restricted to, if specified
 }
+
+// AccessTokenCreateOut AccessTokenCreateResponse
 type AccessTokenCreateOut struct {
-	CreateTime                 time.Time  `json:"create_time"`
-	CreatedManually            bool       `json:"created_manually"`
-	CurrentlyActive            *bool      `json:"currently_active,omitempty"`
-	Description                *string    `json:"description,omitempty"`
-	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`
-	ExtendWhenUsed             bool       `json:"extend_when_used"`
-	FullToken                  string     `json:"full_token"`
-	LastIp                     *string    `json:"last_ip,omitempty"`
-	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`
-	LastUserAgent              *string    `json:"last_user_agent,omitempty"`
-	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"`
-	MaxAgeSeconds              float64    `json:"max_age_seconds"`
-	Scopes                     []string   `json:"scopes,omitempty"`
-	TokenPrefix                string     `json:"token_prefix"`
+	CreateTime                 time.Time  `json:"create_time"`                              // Timestamp when the access token was created
+	CreatedManually            bool       `json:"created_manually"`                         // True for tokens explicitly created via the access_tokens API, false for tokens created via login.
+	CurrentlyActive            *bool      `json:"currently_active,omitempty"`               // true if API request was made with this access token
+	Description                *string    `json:"description,omitempty"`                    // Name / description of an access token
+	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`                    // Timestamp when the access token will expire unless extended, if ever
+	ExtendWhenUsed             bool       `json:"extend_when_used"`                         // Extend token expiration time when token is used. Only applicable if max_age_seconds is specified.
+	FullToken                  string     `json:"full_token"`                               // This full access token can be used to make API calls. This can also be used to update or revoke tokens. Note that when using this token with the update and revoke APIs it must be URL encoded because it may contain /, + and = characters (/ =&gt; %2F, + =&gt; %2B, = =&gt; %3D).
+	LastIp                     *string    `json:"last_ip,omitempty"`                        // IP address the access token was last used from in case it has ever been used
+	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`                 // Timestamp when the access token was last used, if ever
+	LastUserAgent              *string    `json:"last_user_agent,omitempty"`                // User agent string of the client that last used the token in case it has ever been used
+	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"` // Human readable user agent string of the client that last used the token in case user agent is known
+	MaxAgeSeconds              float64    `json:"max_age_seconds"`                          // Time the token remains valid since creation (or since last use if extend_when_used is true)
+	Scopes                     []string   `json:"scopes,omitempty"`                         // Scopes this token is restricted to, if specified
+	TokenPrefix                string     `json:"token_prefix"`                             // First characters of the actual token value. Full value is only exposed after creation. This value is used when updating or revoking tokens. Note that the value may contain /, + and = characters and must be URL encoded when used (/ =&gt; %2F, + =&gt; %2B, = =&gt; %3D).
 }
+
+// AccessTokenUpdateIn AccessTokenUpdateRequestBody
 type AccessTokenUpdateIn struct {
-	Description string `json:"description"`
+	Description string `json:"description"` // Name / description of an access token
 }
+
+// AccessTokenUpdateOut AccessTokenUpdateResponse
 type AccessTokenUpdateOut struct {
-	CreateTime                 time.Time  `json:"create_time"`
-	CreatedManually            *bool      `json:"created_manually,omitempty"`
-	CurrentlyActive            *bool      `json:"currently_active,omitempty"`
-	Description                *string    `json:"description,omitempty"`
-	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`
-	ExtendWhenUsed             bool       `json:"extend_when_used"`
-	LastIp                     *string    `json:"last_ip,omitempty"`
-	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`
-	LastUserAgent              *string    `json:"last_user_agent,omitempty"`
-	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"`
-	MaxAgeSeconds              float64    `json:"max_age_seconds"`
-	Scopes                     []string   `json:"scopes,omitempty"`
-	TokenPrefix                string     `json:"token_prefix"`
+	CreateTime                 time.Time  `json:"create_time"`                              // Timestamp when the access token was created
+	CreatedManually            *bool      `json:"created_manually,omitempty"`               // True for tokens explicitly created via the access_tokens API, false for tokens created via login.
+	CurrentlyActive            *bool      `json:"currently_active,omitempty"`               // true if API request was made with this access token
+	Description                *string    `json:"description,omitempty"`                    // Name / description of an access token
+	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`                    // Timestamp when the access token will expire unless extended, if ever
+	ExtendWhenUsed             bool       `json:"extend_when_used"`                         // Extend token expiration time when token is used. Only applicable if max_age_seconds is specified.
+	LastIp                     *string    `json:"last_ip,omitempty"`                        // IP address the access token was last used from in case it has ever been used
+	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`                 // Timestamp when the access token was last used, if ever
+	LastUserAgent              *string    `json:"last_user_agent,omitempty"`                // User agent string of the client that last used the token in case it has ever been used
+	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"` // Human readable user agent string of the client that last used the token in case user agent is known
+	MaxAgeSeconds              float64    `json:"max_age_seconds"`                          // Time the token remains valid since creation (or since last use if extend_when_used is true)
+	Scopes                     []string   `json:"scopes,omitempty"`                         // Scopes this token is restricted to, if specified
+	TokenPrefix                string     `json:"token_prefix"`                             // First characters of the actual token value. Full value is only exposed after creation. This value is used when updating or revoking tokens. Note that the value may contain /, + and = characters and must be URL encoded when used (/ =&gt; %2F, + =&gt; %2B, = =&gt; %3D).
 }
 type AccountInviteOut struct {
-	AccountId          string    `json:"account_id"`
-	AccountName        string    `json:"account_name"`
-	CreateTime         time.Time `json:"create_time"`
-	InvitedByUserEmail string    `json:"invited_by_user_email"`
-	TeamId             string    `json:"team_id"`
-	TeamName           string    `json:"team_name"`
-	UserEmail          string    `json:"user_email"`
+	AccountId          string    `json:"account_id"`            // Account ID
+	AccountName        string    `json:"account_name"`          // Account name
+	CreateTime         time.Time `json:"create_time"`           // Timestamp in ISO 8601 format, always in UTC
+	InvitedByUserEmail string    `json:"invited_by_user_email"` // User email address
+	TeamId             string    `json:"team_id"`               // Team ID
+	TeamName           string    `json:"team_name"`             // Team name
+	UserEmail          string    `json:"user_email"`            // User email address
 }
 type ActionType string
 
@@ -500,18 +507,18 @@ func AnyTypeChoices() []string {
 }
 
 type AuthenticationMethodOut struct {
-	AuthenticationMethodAccountId string                        `json:"authentication_method_account_id"`
-	CreateTime                    time.Time                     `json:"create_time"`
-	CurrentlyActive               bool                          `json:"currently_active"`
-	DeleteTime                    time.Time                     `json:"delete_time"`
-	LastUsedTime                  time.Time                     `json:"last_used_time"`
-	MethodId                      string                        `json:"method_id"`
-	Name                          *string                       `json:"name,omitempty"`
-	PublicRemoteIdentity          string                        `json:"public_remote_identity"`
-	RemoteProviderId              string                        `json:"remote_provider_id"`
-	State                         AuthenticationMethodStateType `json:"state"`
-	UpdateTime                    time.Time                     `json:"update_time"`
-	UserEmail                     string                        `json:"user_email"`
+	AuthenticationMethodAccountId string                        `json:"authentication_method_account_id"` // Account ID
+	CreateTime                    time.Time                     `json:"create_time"`                      // Timestamp in ISO 8601 format, always in UTC
+	CurrentlyActive               bool                          `json:"currently_active"`                 // true if API was accessed with this authentication method
+	DeleteTime                    time.Time                     `json:"delete_time"`                      // Timestamp in ISO 8601 format, always in UTC
+	LastUsedTime                  time.Time                     `json:"last_used_time"`                   // Timestamp in ISO 8601 format, always in UTC
+	MethodId                      string                        `json:"method_id"`                        // Unique ID for authentication method
+	Name                          *string                       `json:"name,omitempty"`                   // Authentication method name
+	PublicRemoteIdentity          string                        `json:"public_remote_identity"`           // Identity on remote provider, if available. May be email address, but not necessarily.
+	RemoteProviderId              string                        `json:"remote_provider_id"`               // Provider ID
+	State                         AuthenticationMethodStateType `json:"state"`                            // State for authentication method
+	UpdateTime                    time.Time                     `json:"update_time"`                      // Timestamp in ISO 8601 format, always in UTC
+	UserEmail                     string                        `json:"user_email"`                       // User email address
 }
 type AuthenticationMethodStateType string
 
@@ -524,34 +531,43 @@ func AuthenticationMethodStateTypeChoices() []string {
 	return []string{"active", "deleted"}
 }
 
+// CheckPasswordStrengthExistingUserIn CheckPasswordStrengthExistingUserRequestBody
 type CheckPasswordStrengthExistingUserIn struct {
-	NewPassword string `json:"new_password"`
-	OldPassword string `json:"old_password"`
+	NewPassword string `json:"new_password"` // New password
+	OldPassword string `json:"old_password"` // User password
 }
+
+// CheckPasswordStrengthExistingUserOut Password strength
 type CheckPasswordStrengthExistingUserOut struct {
-	IsAcceptable *bool  `json:"is_acceptable,omitempty"`
-	Message      string `json:"message"`
-	Score        int    `json:"score"`
+	IsAcceptable *bool  `json:"is_acceptable,omitempty"` // True if the password is acceptable
+	Message      string `json:"message"`                 // Password strength message
+	Score        int    `json:"score"`                   // Password strength score
 }
+
+// CheckPasswordStrengthNewUserIn CheckPasswordStrengthNewUserRequestBody
 type CheckPasswordStrengthNewUserIn struct {
-	Email    *string `json:"email,omitempty"`
-	Password string  `json:"password"`
-	RealName *string `json:"real_name,omitempty"`
+	Email    *string `json:"email,omitempty"`     // User email address
+	Password string  `json:"password"`            // New password
+	RealName *string `json:"real_name,omitempty"` // User real name
 }
+
+// CheckPasswordStrengthNewUserOut Password strength
 type CheckPasswordStrengthNewUserOut struct {
-	IsAcceptable *bool  `json:"is_acceptable,omitempty"`
-	Message      string `json:"message"`
-	Score        int    `json:"score"`
+	IsAcceptable *bool  `json:"is_acceptable,omitempty"` // True if the password is acceptable
+	Message      string `json:"message"`                 // Password strength message
+	Score        int    `json:"score"`                   // Password strength score
 }
+
+// IntercomOut Intercom settings
 type IntercomOut struct {
-	AppId string `json:"app_id"`
-	Hmac  string `json:"hmac"`
+	AppId string `json:"app_id"` // Intercom application ID
+	Hmac  string `json:"hmac"`   // Intercom authentication HMAC
 }
 type InvitationOut struct {
-	InviteCode        string    `json:"invite_code"`
-	InviteTime        time.Time `json:"invite_time"`
-	InvitingUserEmail string    `json:"inviting_user_email"`
-	ProjectName       string    `json:"project_name"`
+	InviteCode        string    `json:"invite_code"`         // Code for accepting the invitation
+	InviteTime        time.Time `json:"invite_time"`         // Timestamp in ISO 8601 format, always in UTC
+	InvitingUserEmail string    `json:"inviting_user_email"` // User email address
+	ProjectName       string    `json:"project_name"`        // Project name
 }
 type MethodType string
 
@@ -564,170 +580,227 @@ func MethodTypeChoices() []string {
 	return []string{"POST", "GET"}
 }
 
+// ProjectMembershipOut Project membership and type of membership
 type ProjectMembershipOut struct {
-	Any AnyType `json:"ANY,omitempty"`
+	Any AnyType `json:"ANY,omitempty"` // Project member type
 }
+
+// ProjectMembershipsOut List of project membership and type of membership
 type ProjectMembershipsOut struct {
-	Any []string `json:"ANY,omitempty"`
+	Any []string `json:"ANY,omitempty"` // List of project member type
 }
 type TokenOut struct {
-	CreateTime                 time.Time  `json:"create_time"`
-	CreatedManually            bool       `json:"created_manually"`
-	CurrentlyActive            *bool      `json:"currently_active,omitempty"`
-	Description                *string    `json:"description,omitempty"`
-	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`
-	ExtendWhenUsed             bool       `json:"extend_when_used"`
-	LastIp                     *string    `json:"last_ip,omitempty"`
-	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`
-	LastUserAgent              *string    `json:"last_user_agent,omitempty"`
-	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"`
-	MaxAgeSeconds              float64    `json:"max_age_seconds"`
-	Scopes                     []string   `json:"scopes,omitempty"`
-	TokenPrefix                string     `json:"token_prefix"`
+	CreateTime                 time.Time  `json:"create_time"`                              // Timestamp when the access token was created
+	CreatedManually            bool       `json:"created_manually"`                         // True for tokens explicitly created via the access_tokens API, false for tokens created via login.
+	CurrentlyActive            *bool      `json:"currently_active,omitempty"`               // true if API request was made with this access token
+	Description                *string    `json:"description,omitempty"`                    // Name / description of an access token
+	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`                    // Timestamp when the access token will expire unless extended, if ever
+	ExtendWhenUsed             bool       `json:"extend_when_used"`                         // Extend token expiration time when token is used. Only applicable if max_age_seconds is specified.
+	LastIp                     *string    `json:"last_ip,omitempty"`                        // IP address the access token was last used from in case it has ever been used
+	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`                 // Timestamp when the access token was last used, if ever
+	LastUserAgent              *string    `json:"last_user_agent,omitempty"`                // User agent string of the client that last used the token in case it has ever been used
+	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"` // Human readable user agent string of the client that last used the token in case user agent is known
+	MaxAgeSeconds              float64    `json:"max_age_seconds"`                          // Time the token remains valid since creation (or since last use if extend_when_used is true)
+	Scopes                     []string   `json:"scopes,omitempty"`                         // Scopes this token is restricted to, if specified
+	TokenPrefix                string     `json:"token_prefix"`                             // First characters of the actual token value. Full value is only exposed after creation. This value is used when updating or revoking tokens. Note that the value may contain /, + and = characters and must be URL encoded when used (/ =&gt; %2F, + =&gt; %2B, = =&gt; %3D).
 }
+
+// TwoFactorAuthConfigureIn TwoFactorAuthConfigureRequestBody
 type TwoFactorAuthConfigureIn struct {
-	Method   string `json:"method"`
-	Password string `json:"password"`
+	Method   string `json:"method"`   // Two-factor authentication method being used, if any
+	Password string `json:"password"` // Current password
 }
+
+// TwoFactorAuthConfigureOtpIn TwoFactorAuthConfigureOTPRequestBody
 type TwoFactorAuthConfigureOtpIn struct {
-	Otp      string `json:"otp"`
-	Password string `json:"password"`
-	Uri      string `json:"uri"`
+	Otp      string `json:"otp"`      // One-time password
+	Password string `json:"password"` // Current password
+	Uri      string `json:"uri"`      // URI describing the TOTP
 }
+
+// TwoFactorAuthConfigureOtpOut TwoFactorAuthConfigureOTPResponse
 type TwoFactorAuthConfigureOtpOut struct {
-	Method string `json:"method"`
-	Token  string `json:"token"`
+	Method string `json:"method"` // Two-factor authentication method being used, if any
+	Token  string `json:"token"`  // New API session authentication token when configuration is complete
 }
+
+// TwoFactorAuthConfigureOut TwoFactorAuthConfigureResponse
 type TwoFactorAuthConfigureOut struct {
-	Method string  `json:"method"`
-	Qrcode *string `json:"qrcode,omitempty"`
-	Uri    *string `json:"uri,omitempty"`
+	Method string  `json:"method"`           // Two-factor authentication method being used, if any
+	Qrcode *string `json:"qrcode,omitempty"` // QR code describing the TOTP as a base64-encoded PNG
+	Uri    *string `json:"uri,omitempty"`    // URI describing the TOTP
 }
+
+// UserAccountInvitesAcceptIn UserAccountInvitesAcceptRequestBody
 type UserAccountInvitesAcceptIn struct {
-	AccountId string  `json:"account_id"`
-	TeamId    *string `json:"team_id,omitempty"`
+	AccountId string  `json:"account_id"`        // Account ID
+	TeamId    *string `json:"team_id,omitempty"` // Team ID
 }
+
+// UserAuthIn UserAuthRequestBody
 type UserAuthIn struct {
-	Email    string  `json:"email"`
-	Otp      *string `json:"otp,omitempty"`
-	Password string  `json:"password"`
+	Email    string  `json:"email"`         // User email address
+	Otp      *string `json:"otp,omitempty"` // One-time password
+	Password string  `json:"password"`      // User password
 }
+
+// UserAuthLoginOptionsIn UserAuthLoginOptionsRequestBody
 type UserAuthLoginOptionsIn struct {
-	Email *string `json:"email,omitempty"`
+	Email *string `json:"email,omitempty"` // User email address
 }
+
+// UserAuthLoginOptionsOut UserAuthLoginOptionsResponse
 type UserAuthLoginOptionsOut struct {
-	None        []map[string]any `json:"None,omitempty"`
-	Action      ActionType       `json:"action"`
-	Method      MethodType       `json:"method,omitempty"`
-	Name        *string          `json:"name,omitempty"`
-	RedirectUrl *string          `json:"redirect_url,omitempty"`
+	None        []map[string]any `json:"None,omitempty"`         // List of available login methods
+	Action      ActionType       `json:"action"`                 // Action
+	Method      MethodType       `json:"method,omitempty"`       // HTTP method used for redirecting
+	Name        *string          `json:"name,omitempty"`         // Human readable name
+	RedirectUrl *string          `json:"redirect_url,omitempty"` // Redirect URL for signing in
 }
+
+// UserAuthOut UserAuthResponse
 type UserAuthOut struct {
-	ReturnUrl *string `json:"return_url,omitempty"`
-	State     string  `json:"state"`
-	Token     string  `json:"token"`
-	UserEmail string  `json:"user_email"`
+	ReturnUrl *string `json:"return_url,omitempty"` // Return URL
+	State     string  `json:"state"`                // User account state
+	Token     string  `json:"token"`                // API session authentication token
+	UserEmail string  `json:"user_email"`           // User email address
 }
 type UserGroupOut struct {
-	CreateTime    time.Time `json:"create_time"`
+	CreateTime    time.Time `json:"create_time"` // User group creation time
 	Description   string    `json:"description"`
-	ManagedByScim bool      `json:"managed_by_scim"`
-	UpdateTime    time.Time `json:"update_time"`
-	UserGroupId   string    `json:"user_group_id"`
-	UserGroupName string    `json:"user_group_name"`
+	ManagedByScim bool      `json:"managed_by_scim"` // Managed By Scim
+	UpdateTime    time.Time `json:"update_time"`     // User group last update time
+	UserGroupId   string    `json:"user_group_id"`   // User Group ID
+	UserGroupName string    `json:"user_group_name"` // User Group Name
 }
+
+// UserInfoOut User information
 type UserInfoOut struct {
-	Auth                   []string               `json:"auth"`
+	Auth                   []string               `json:"auth"` // List of user's required authentication methods
 	City                   *string                `json:"city,omitempty"`
-	Country                *string                `json:"country,omitempty"`
-	CreateTime             *time.Time             `json:"create_time,omitempty"`
-	Department             *string                `json:"department,omitempty"`
-	Features               map[string]any         `json:"features,omitempty"`
-	Intercom               IntercomOut            `json:"intercom"`
-	Invitations            []InvitationOut        `json:"invitations"`
-	JobTitle               *string                `json:"job_title,omitempty"`
-	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`
-	ManagingOrganizationId *string                `json:"managing_organization_id,omitempty"`
-	ProjectMembership      ProjectMembershipOut   `json:"project_membership"`
-	ProjectMemberships     *ProjectMembershipsOut `json:"project_memberships,omitempty"`
-	Projects               []string               `json:"projects"`
-	RealName               string                 `json:"real_name"`
-	State                  string                 `json:"state"`
-	TokenValidityBegin     *string                `json:"token_validity_begin,omitempty"`
-	User                   string                 `json:"user"`
-	UserId                 string                 `json:"user_id"`
+	Country                *string                `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2
+	CreateTime             *time.Time             `json:"create_time,omitempty"`              // User registration time
+	Department             *string                `json:"department,omitempty"`               // Job department
+	Features               map[string]any         `json:"features,omitempty"`                 // Feature flags
+	Intercom               IntercomOut            `json:"intercom"`                           // Intercom settings
+	Invitations            []InvitationOut        `json:"invitations"`                        // List of pending invitations
+	JobTitle               *string                `json:"job_title,omitempty"`                // Job title
+	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`          // User management status
+	ManagingOrganizationId *string                `json:"managing_organization_id,omitempty"` // Organization ID
+	ProjectMembership      ProjectMembershipOut   `json:"project_membership"`                 // Project membership and type of membership
+	ProjectMemberships     *ProjectMembershipsOut `json:"project_memberships,omitempty"`      // List of project membership and type of membership
+	Projects               []string               `json:"projects"`                           // List of projects the user is a member of
+	RealName               string                 `json:"real_name"`                          // User real name
+	State                  string                 `json:"state"`                              // User account state
+	TokenValidityBegin     *string                `json:"token_validity_begin,omitempty"`     // Earliest valid authentication token timestamp
+	User                   string                 `json:"user"`                               // User email address
+	UserId                 string                 `json:"user_id"`                            // User ID
 }
+
+// UserPasswordChangeIn UserPasswordChangeRequestBody
 type UserPasswordChangeIn struct {
-	NewPassword string `json:"new_password"`
-	Password    string `json:"password"`
+	NewPassword string `json:"new_password"` // New password
+	Password    string `json:"password"`     // Current password
 }
+
+// UserPasswordResetIn UserPasswordResetRequestBody
 type UserPasswordResetIn struct {
-	NewPassword string `json:"new_password"`
+	NewPassword string `json:"new_password"` // New password
 }
+
+// UserPasswordResetRequestIn UserPasswordResetRequestRequestBody
 type UserPasswordResetRequestIn struct {
-	Email string `json:"email"`
+	Email string `json:"email"` // User email address
 }
+
+// UserUpdateIn UserUpdateRequestBody
 type UserUpdateIn struct {
 	City       *string `json:"city,omitempty"`
-	Country    *string `json:"country,omitempty"`
-	Department *string `json:"department,omitempty"`
-	JobTitle   *string `json:"job_title,omitempty"`
-	RealName   string  `json:"real_name"`
+	Country    *string `json:"country,omitempty"`    // Country code ISO 3166-1 alpha-2
+	Department *string `json:"department,omitempty"` // Job department
+	JobTitle   *string `json:"job_title,omitempty"`  // Job title
+	RealName   string  `json:"real_name"`            // User real name
 }
+
+// UserUpdateOut User information
 type UserUpdateOut struct {
-	Auth                   []string               `json:"auth"`
+	Auth                   []string               `json:"auth"` // List of user's required authentication methods
 	City                   *string                `json:"city,omitempty"`
-	Country                *string                `json:"country,omitempty"`
-	CreateTime             *time.Time             `json:"create_time,omitempty"`
-	Department             *string                `json:"department,omitempty"`
-	Features               map[string]any         `json:"features,omitempty"`
-	Intercom               IntercomOut            `json:"intercom"`
-	Invitations            []InvitationOut        `json:"invitations"`
-	JobTitle               *string                `json:"job_title,omitempty"`
-	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`
-	ManagingOrganizationId *string                `json:"managing_organization_id,omitempty"`
-	ProjectMembership      ProjectMembershipOut   `json:"project_membership"`
-	ProjectMemberships     *ProjectMembershipsOut `json:"project_memberships,omitempty"`
-	Projects               []string               `json:"projects"`
-	RealName               string                 `json:"real_name"`
-	State                  string                 `json:"state"`
-	TokenValidityBegin     *string                `json:"token_validity_begin,omitempty"`
-	User                   string                 `json:"user"`
-	UserId                 string                 `json:"user_id"`
+	Country                *string                `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2
+	CreateTime             *time.Time             `json:"create_time,omitempty"`              // User registration time
+	Department             *string                `json:"department,omitempty"`               // Job department
+	Features               map[string]any         `json:"features,omitempty"`                 // Feature flags
+	Intercom               IntercomOut            `json:"intercom"`                           // Intercom settings
+	Invitations            []InvitationOut        `json:"invitations"`                        // List of pending invitations
+	JobTitle               *string                `json:"job_title,omitempty"`                // Job title
+	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`          // User management status
+	ManagingOrganizationId *string                `json:"managing_organization_id,omitempty"` // Organization ID
+	ProjectMembership      ProjectMembershipOut   `json:"project_membership"`                 // Project membership and type of membership
+	ProjectMemberships     *ProjectMembershipsOut `json:"project_memberships,omitempty"`      // List of project membership and type of membership
+	Projects               []string               `json:"projects"`                           // List of projects the user is a member of
+	RealName               string                 `json:"real_name"`                          // User real name
+	State                  string                 `json:"state"`                              // User account state
+	TokenValidityBegin     *string                `json:"token_validity_begin,omitempty"`     // Earliest valid authentication token timestamp
+	User                   string                 `json:"user"`                               // User email address
+	UserId                 string                 `json:"user_id"`                            // User ID
 }
+
+// UserVerifyEmailOut Details of verified invite
 type UserVerifyEmailOut struct {
-	UserEmail string `json:"user_email"`
+	UserEmail string `json:"user_email"` // User email address
 }
+
+// accessTokenListOut AccessTokenListResponse
 type accessTokenListOut struct {
-	Tokens []TokenOut `json:"tokens"`
+	Tokens []TokenOut `json:"tokens"` // List of access tokens
 }
+
+// checkPasswordStrengthExistingUserOut CheckPasswordStrengthExistingUserResponse
 type checkPasswordStrengthExistingUserOut struct {
-	PasswordStrength CheckPasswordStrengthExistingUserOut `json:"password_strength"`
+	PasswordStrength CheckPasswordStrengthExistingUserOut `json:"password_strength"` // Password strength
 }
+
+// checkPasswordStrengthNewUserOut CheckPasswordStrengthNewUserResponse
 type checkPasswordStrengthNewUserOut struct {
-	PasswordStrength CheckPasswordStrengthNewUserOut `json:"password_strength"`
+	PasswordStrength CheckPasswordStrengthNewUserOut `json:"password_strength"` // Password strength
 }
+
+// organizationMemberGroupsListOut OrganizationMemberGroupsListResponse
 type organizationMemberGroupsListOut struct {
-	UserGroups []UserGroupOut `json:"user_groups"`
+	UserGroups []UserGroupOut `json:"user_groups"` // User Groups
 }
+
+// userAccountInvitesAcceptOut UserAccountInvitesAcceptResponse
 type userAccountInvitesAcceptOut struct {
-	AccountInvites []AccountInviteOut `json:"account_invites"`
+	AccountInvites []AccountInviteOut `json:"account_invites"` // List of invites
 }
+
+// userAccountInvitesListOut UserAccountInvitesListResponse
 type userAccountInvitesListOut struct {
-	AccountInvites []AccountInviteOut `json:"account_invites"`
+	AccountInvites []AccountInviteOut `json:"account_invites"` // List of invites
 }
+
+// userAuthenticationMethodsListOut UserAuthenticationMethodsListResponse
 type userAuthenticationMethodsListOut struct {
-	AuthenticationMethods []AuthenticationMethodOut `json:"authentication_methods"`
+	AuthenticationMethods []AuthenticationMethodOut `json:"authentication_methods"` // List of linked authentication methods
 }
+
+// userInfoOut UserInfoResponse
 type userInfoOut struct {
-	User UserInfoOut `json:"user"`
+	User UserInfoOut `json:"user"` // User information
 }
+
+// userPasswordChangeOut UserPasswordChangeResponse
 type userPasswordChangeOut struct {
-	Token string `json:"token"`
+	Token string `json:"token"` // API session authentication token
 }
+
+// userUpdateOut UserUpdateResponse
 type userUpdateOut struct {
-	User UserUpdateOut `json:"user"`
+	User UserUpdateOut `json:"user"` // User information
 }
+
+// userVerifyEmailOut UserVerifyEmailResponse
 type userVerifyEmailOut struct {
-	InviteDetails UserVerifyEmailOut `json:"invite_details"`
+	InviteDetails UserVerifyEmailOut `json:"invite_details"` // Details of verified invite
 }

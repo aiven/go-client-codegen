@@ -253,14 +253,16 @@ func EndpointTypeChoices() []string {
 }
 
 type EndpointTypeOut struct {
-	EndpointType     string         `json:"endpoint_type"`
-	ServiceTypes     []string       `json:"service_types"`
-	Title            string         `json:"title"`
-	UserConfigSchema map[string]any `json:"user_config_schema"`
+	EndpointType     string         `json:"endpoint_type"`      // Endpoint type name
+	ServiceTypes     []string       `json:"service_types"`      // Supported service types
+	Title            string         `json:"title"`              // Endpoint type description
+	UserConfigSchema map[string]any `json:"user_config_schema"` // JSON-Schema for the 'user_config' properties
 }
+
+// IntegrationStatusOut Integration status
 type IntegrationStatusOut struct {
-	State          StateOut `json:"state"`
-	StatusUserDesc string   `json:"status_user_desc"`
+	State          StateOut `json:"state"`            // Service integration state
+	StatusUserDesc string   `json:"status_user_desc"` // Integration status description
 }
 type IntegrationStatusType string
 
@@ -328,13 +330,13 @@ func IntegrationTypeChoices() []string {
 }
 
 type IntegrationTypeOut struct {
-	DestDescription    string         `json:"dest_description"`
-	DestServiceType    string         `json:"dest_service_type"`
-	DestServiceTypes   []string       `json:"dest_service_types"`
-	IntegrationType    string         `json:"integration_type"`
-	SourceDescription  string         `json:"source_description"`
-	SourceServiceTypes []string       `json:"source_service_types"`
-	UserConfigSchema   map[string]any `json:"user_config_schema"`
+	DestDescription    string         `json:"dest_description"`     // Description of the destination service
+	DestServiceType    string         `json:"dest_service_type"`    // Service type. DEPRECATED: Use dest_service_types instead
+	DestServiceTypes   []string       `json:"dest_service_types"`   // Supported destination service types
+	IntegrationType    string         `json:"integration_type"`     // Integration type name
+	SourceDescription  string         `json:"source_description"`   // Description of the source service
+	SourceServiceTypes []string       `json:"source_service_types"` // Supported source service types
+	UserConfigSchema   map[string]any `json:"user_config_schema"`   // JSON-Schema for the 'user_config' properties
 }
 type LikelyErrorCauseType string
 
@@ -350,164 +352,205 @@ func LikelyErrorCauseTypeChoices() []string {
 	return []string{"null", "destination", "integration", "source", "unknown"}
 }
 
+// ServiceIntegrationCreateIn ServiceIntegrationCreateRequestBody
 type ServiceIntegrationCreateIn struct {
-	DestEndpointId   *string         `json:"dest_endpoint_id,omitempty"`
-	DestProject      *string         `json:"dest_project,omitempty"`
-	DestService      *string         `json:"dest_service,omitempty"`
-	IntegrationType  IntegrationType `json:"integration_type"`
-	SourceEndpointId *string         `json:"source_endpoint_id,omitempty"`
-	SourceProject    *string         `json:"source_project,omitempty"`
-	SourceService    *string         `json:"source_service,omitempty"`
-	UserConfig       *map[string]any `json:"user_config,omitempty"`
+	DestEndpointId   *string         `json:"dest_endpoint_id,omitempty"`   // Integration destination endpoint ID
+	DestProject      *string         `json:"dest_project,omitempty"`       // Destination project name
+	DestService      *string         `json:"dest_service,omitempty"`       // Destination service name
+	IntegrationType  IntegrationType `json:"integration_type"`             // Service integration type
+	SourceEndpointId *string         `json:"source_endpoint_id,omitempty"` // Integration source endpoint ID
+	SourceProject    *string         `json:"source_project,omitempty"`     // Source project name
+	SourceService    *string         `json:"source_service,omitempty"`     // Source service name
+	UserConfig       *map[string]any `json:"user_config,omitempty"`        // Service type-specific settings
 }
+
+// ServiceIntegrationCreateOut Service integration
 type ServiceIntegrationCreateOut struct {
-	Active               bool                  `json:"active"`
-	Description          string                `json:"description"`
-	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`
-	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`
-	DestProject          string                `json:"dest_project"`
-	DestService          *string               `json:"dest_service,omitempty"`
-	DestServiceType      string                `json:"dest_service_type"`
-	Enabled              bool                  `json:"enabled"`
-	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"`
-	IntegrationType      string                `json:"integration_type"`
-	ServiceIntegrationId string                `json:"service_integration_id"`
-	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`
-	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"`
-	SourceProject        string                `json:"source_project"`
-	SourceService        string                `json:"source_service"`
-	SourceServiceType    string                `json:"source_service_type"`
-	UserConfig           map[string]any        `json:"user_config,omitempty"`
+	Active               bool                  `json:"active"`                       // True when integration is active
+	Description          string                `json:"description"`                  // Description of the integration
+	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`      // Destination endpoint name
+	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`   // Destination endpoint id
+	DestProject          string                `json:"dest_project"`                 // Project name
+	DestService          *string               `json:"dest_service,omitempty"`       // Destination service name
+	DestServiceType      string                `json:"dest_service_type"`            // Service type code
+	Enabled              bool                  `json:"enabled"`                      // True when integration is enabled
+	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"` // Integration status
+	IntegrationType      string                `json:"integration_type"`             // Type of the integration
+	ServiceIntegrationId string                `json:"service_integration_id"`       // Integration ID
+	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`    // Source endpoint name
+	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"` // Source endpoint ID
+	SourceProject        string                `json:"source_project"`               // Project name
+	SourceService        string                `json:"source_service"`               // Source service name
+	SourceServiceType    string                `json:"source_service_type"`          // Service type code
+	UserConfig           map[string]any        `json:"user_config,omitempty"`        // Service integration settings
 }
+
+// ServiceIntegrationEndpointCreateIn ServiceIntegrationEndpointCreateRequestBody
 type ServiceIntegrationEndpointCreateIn struct {
-	EndpointName string         `json:"endpoint_name"`
-	EndpointType EndpointType   `json:"endpoint_type"`
-	UserConfig   map[string]any `json:"user_config"`
+	EndpointName string         `json:"endpoint_name"` // Integration endpoint name
+	EndpointType EndpointType   `json:"endpoint_type"` // Service integration endpoint type
+	UserConfig   map[string]any `json:"user_config"`   // Service integration endpoint settings
 }
+
+// ServiceIntegrationEndpointCreateOut Service integration endpoint
 type ServiceIntegrationEndpointCreateOut struct {
-	EndpointConfig map[string]any `json:"endpoint_config"`
-	EndpointId     string         `json:"endpoint_id"`
-	EndpointName   string         `json:"endpoint_name"`
-	EndpointType   EndpointType   `json:"endpoint_type"`
-	UserConfig     map[string]any `json:"user_config"`
+	EndpointConfig map[string]any `json:"endpoint_config"` // Service integration endpoint backend settings
+	EndpointId     string         `json:"endpoint_id"`     // Integration endpoint ID
+	EndpointName   string         `json:"endpoint_name"`   // Integration endpoint name
+	EndpointType   EndpointType   `json:"endpoint_type"`   // Integration endpoint type
+	UserConfig     map[string]any `json:"user_config"`     // Service integration endpoint settings
 }
+
+// ServiceIntegrationEndpointGetOut Service integration endpoint
 type ServiceIntegrationEndpointGetOut struct {
-	EndpointConfig map[string]any `json:"endpoint_config"`
-	EndpointId     string         `json:"endpoint_id"`
-	EndpointName   string         `json:"endpoint_name"`
-	EndpointType   EndpointType   `json:"endpoint_type"`
-	UserConfig     map[string]any `json:"user_config"`
+	EndpointConfig map[string]any `json:"endpoint_config"` // Service integration endpoint backend settings
+	EndpointId     string         `json:"endpoint_id"`     // Integration endpoint ID
+	EndpointName   string         `json:"endpoint_name"`   // Integration endpoint name
+	EndpointType   EndpointType   `json:"endpoint_type"`   // Integration endpoint type
+	UserConfig     map[string]any `json:"user_config"`     // Service integration endpoint settings
 }
 type ServiceIntegrationEndpointOut struct {
-	EndpointConfig map[string]any `json:"endpoint_config"`
-	EndpointId     string         `json:"endpoint_id"`
-	EndpointName   string         `json:"endpoint_name"`
-	EndpointType   EndpointType   `json:"endpoint_type"`
-	UserConfig     map[string]any `json:"user_config"`
+	EndpointConfig map[string]any `json:"endpoint_config"` // Service integration endpoint backend settings
+	EndpointId     string         `json:"endpoint_id"`     // Integration endpoint ID
+	EndpointName   string         `json:"endpoint_name"`   // Integration endpoint name
+	EndpointType   EndpointType   `json:"endpoint_type"`   // Integration endpoint type
+	UserConfig     map[string]any `json:"user_config"`     // Service integration endpoint settings
 }
+
+// ServiceIntegrationEndpointUpdateIn ServiceIntegrationEndpointUpdateRequestBody
 type ServiceIntegrationEndpointUpdateIn struct {
-	UserConfig map[string]any `json:"user_config"`
+	UserConfig map[string]any `json:"user_config"` // Service integration endpoint settings
 }
+
+// ServiceIntegrationEndpointUpdateOut Service integration endpoint
 type ServiceIntegrationEndpointUpdateOut struct {
-	EndpointConfig map[string]any `json:"endpoint_config"`
-	EndpointId     string         `json:"endpoint_id"`
-	EndpointName   string         `json:"endpoint_name"`
-	EndpointType   EndpointType   `json:"endpoint_type"`
-	UserConfig     map[string]any `json:"user_config"`
+	EndpointConfig map[string]any `json:"endpoint_config"` // Service integration endpoint backend settings
+	EndpointId     string         `json:"endpoint_id"`     // Integration endpoint ID
+	EndpointName   string         `json:"endpoint_name"`   // Integration endpoint name
+	EndpointType   EndpointType   `json:"endpoint_type"`   // Integration endpoint type
+	UserConfig     map[string]any `json:"user_config"`     // Service integration endpoint settings
 }
+
+// ServiceIntegrationGetOut Service integration
 type ServiceIntegrationGetOut struct {
-	Active               bool                  `json:"active"`
-	Description          string                `json:"description"`
-	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`
-	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`
-	DestProject          string                `json:"dest_project"`
-	DestService          *string               `json:"dest_service,omitempty"`
-	DestServiceType      string                `json:"dest_service_type"`
-	Enabled              bool                  `json:"enabled"`
-	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"`
-	IntegrationType      string                `json:"integration_type"`
-	ServiceIntegrationId string                `json:"service_integration_id"`
-	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`
-	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"`
-	SourceProject        string                `json:"source_project"`
-	SourceService        string                `json:"source_service"`
-	SourceServiceType    string                `json:"source_service_type"`
-	UserConfig           map[string]any        `json:"user_config,omitempty"`
+	Active               bool                  `json:"active"`                       // True when integration is active
+	Description          string                `json:"description"`                  // Description of the integration
+	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`      // Destination endpoint name
+	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`   // Destination endpoint id
+	DestProject          string                `json:"dest_project"`                 // Project name
+	DestService          *string               `json:"dest_service,omitempty"`       // Destination service name
+	DestServiceType      string                `json:"dest_service_type"`            // Service type code
+	Enabled              bool                  `json:"enabled"`                      // True when integration is enabled
+	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"` // Integration status
+	IntegrationType      string                `json:"integration_type"`             // Type of the integration
+	ServiceIntegrationId string                `json:"service_integration_id"`       // Integration ID
+	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`    // Source endpoint name
+	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"` // Source endpoint ID
+	SourceProject        string                `json:"source_project"`               // Project name
+	SourceService        string                `json:"source_service"`               // Source service name
+	SourceServiceType    string                `json:"source_service_type"`          // Service type code
+	UserConfig           map[string]any        `json:"user_config,omitempty"`        // Service integration settings
 }
 type ServiceIntegrationOut struct {
-	Active               bool                  `json:"active"`
-	Description          string                `json:"description"`
-	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`
-	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`
-	DestProject          string                `json:"dest_project"`
-	DestService          *string               `json:"dest_service,omitempty"`
-	DestServiceType      string                `json:"dest_service_type"`
-	Enabled              bool                  `json:"enabled"`
-	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"`
-	IntegrationType      string                `json:"integration_type"`
-	ServiceIntegrationId string                `json:"service_integration_id"`
-	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`
-	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"`
-	SourceProject        string                `json:"source_project"`
-	SourceService        string                `json:"source_service"`
-	SourceServiceType    string                `json:"source_service_type"`
-	UserConfig           map[string]any        `json:"user_config,omitempty"`
+	Active               bool                  `json:"active"`                       // True when integration is active
+	Description          string                `json:"description"`                  // Description of the integration
+	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`      // Destination endpoint name
+	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`   // Destination endpoint id
+	DestProject          string                `json:"dest_project"`                 // Project name
+	DestService          *string               `json:"dest_service,omitempty"`       // Destination service name
+	DestServiceType      string                `json:"dest_service_type"`            // Service type code
+	Enabled              bool                  `json:"enabled"`                      // True when integration is enabled
+	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"` // Integration status
+	IntegrationType      string                `json:"integration_type"`             // Type of the integration
+	ServiceIntegrationId string                `json:"service_integration_id"`       // Integration ID
+	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`    // Source endpoint name
+	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"` // Source endpoint ID
+	SourceProject        string                `json:"source_project"`               // Project name
+	SourceService        string                `json:"source_service"`               // Source service name
+	SourceServiceType    string                `json:"source_service_type"`          // Service type code
+	UserConfig           map[string]any        `json:"user_config,omitempty"`        // Service integration settings
 }
+
+// ServiceIntegrationUpdateIn ServiceIntegrationUpdateRequestBody
 type ServiceIntegrationUpdateIn struct {
-	UserConfig map[string]any `json:"user_config"`
+	UserConfig map[string]any `json:"user_config"` // Service integration settings
 }
+
+// ServiceIntegrationUpdateOut Service integration
 type ServiceIntegrationUpdateOut struct {
-	Active               bool                  `json:"active"`
-	Description          string                `json:"description"`
-	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`
-	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`
-	DestProject          string                `json:"dest_project"`
-	DestService          *string               `json:"dest_service,omitempty"`
-	DestServiceType      string                `json:"dest_service_type"`
-	Enabled              bool                  `json:"enabled"`
-	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"`
-	IntegrationType      string                `json:"integration_type"`
-	ServiceIntegrationId string                `json:"service_integration_id"`
-	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`
-	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"`
-	SourceProject        string                `json:"source_project"`
-	SourceService        string                `json:"source_service"`
-	SourceServiceType    string                `json:"source_service_type"`
-	UserConfig           map[string]any        `json:"user_config,omitempty"`
+	Active               bool                  `json:"active"`                       // True when integration is active
+	Description          string                `json:"description"`                  // Description of the integration
+	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`      // Destination endpoint name
+	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`   // Destination endpoint id
+	DestProject          string                `json:"dest_project"`                 // Project name
+	DestService          *string               `json:"dest_service,omitempty"`       // Destination service name
+	DestServiceType      string                `json:"dest_service_type"`            // Service type code
+	Enabled              bool                  `json:"enabled"`                      // True when integration is enabled
+	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"` // Integration status
+	IntegrationType      string                `json:"integration_type"`             // Type of the integration
+	ServiceIntegrationId string                `json:"service_integration_id"`       // Integration ID
+	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`    // Source endpoint name
+	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"` // Source endpoint ID
+	SourceProject        string                `json:"source_project"`               // Project name
+	SourceService        string                `json:"source_service"`               // Source service name
+	SourceServiceType    string                `json:"source_service_type"`          // Service type code
+	UserConfig           map[string]any        `json:"user_config,omitempty"`        // Service integration settings
 }
+
+// StateOut Service integration state
 type StateOut struct {
 	Errors           []string              `json:"errors"`
-	LikelyErrorCause LikelyErrorCauseType  `json:"likely_error_cause,omitempty"`
+	LikelyErrorCause LikelyErrorCauseType  `json:"likely_error_cause,omitempty"` // Most likely cause of the errors
 	Nodes            map[string]any        `json:"nodes"`
-	Status           IntegrationStatusType `json:"status"`
+	Status           IntegrationStatusType `json:"status"` // Service integration status
 }
+
+// serviceIntegrationCreateOut ServiceIntegrationCreateResponse
 type serviceIntegrationCreateOut struct {
-	ServiceIntegration ServiceIntegrationCreateOut `json:"service_integration"`
+	ServiceIntegration ServiceIntegrationCreateOut `json:"service_integration"` // Service integration
 }
+
+// serviceIntegrationEndpointCreateOut ServiceIntegrationEndpointCreateResponse
 type serviceIntegrationEndpointCreateOut struct {
-	ServiceIntegrationEndpoint ServiceIntegrationEndpointCreateOut `json:"service_integration_endpoint"`
+	ServiceIntegrationEndpoint ServiceIntegrationEndpointCreateOut `json:"service_integration_endpoint"` // Service integration endpoint
 }
+
+// serviceIntegrationEndpointGetOut ServiceIntegrationEndpointGetResponse
 type serviceIntegrationEndpointGetOut struct {
-	ServiceIntegrationEndpoint ServiceIntegrationEndpointGetOut `json:"service_integration_endpoint"`
+	ServiceIntegrationEndpoint ServiceIntegrationEndpointGetOut `json:"service_integration_endpoint"` // Service integration endpoint
 }
+
+// serviceIntegrationEndpointListOut ServiceIntegrationEndpointListResponse
 type serviceIntegrationEndpointListOut struct {
-	ServiceIntegrationEndpoints []ServiceIntegrationEndpointOut `json:"service_integration_endpoints"`
+	ServiceIntegrationEndpoints []ServiceIntegrationEndpointOut `json:"service_integration_endpoints"` // List of service integrations
 }
+
+// serviceIntegrationEndpointTypesOut ServiceIntegrationEndpointTypesResponse
 type serviceIntegrationEndpointTypesOut struct {
-	EndpointTypes []EndpointTypeOut `json:"endpoint_types"`
+	EndpointTypes []EndpointTypeOut `json:"endpoint_types"` // List of service integration endpoint types
 }
+
+// serviceIntegrationEndpointUpdateOut ServiceIntegrationEndpointUpdateResponse
 type serviceIntegrationEndpointUpdateOut struct {
-	ServiceIntegrationEndpoint ServiceIntegrationEndpointUpdateOut `json:"service_integration_endpoint"`
+	ServiceIntegrationEndpoint ServiceIntegrationEndpointUpdateOut `json:"service_integration_endpoint"` // Service integration endpoint
 }
+
+// serviceIntegrationGetOut ServiceIntegrationGetResponse
 type serviceIntegrationGetOut struct {
-	ServiceIntegration ServiceIntegrationGetOut `json:"service_integration"`
+	ServiceIntegration ServiceIntegrationGetOut `json:"service_integration"` // Service integration
 }
+
+// serviceIntegrationListOut ServiceIntegrationListResponse
 type serviceIntegrationListOut struct {
-	ServiceIntegrations []ServiceIntegrationOut `json:"service_integrations"`
+	ServiceIntegrations []ServiceIntegrationOut `json:"service_integrations"` // List of service integrations in current project for a service
 }
+
+// serviceIntegrationTypesOut ServiceIntegrationTypesResponse
 type serviceIntegrationTypesOut struct {
-	IntegrationTypes []IntegrationTypeOut `json:"integration_types"`
+	IntegrationTypes []IntegrationTypeOut `json:"integration_types"` // List of service integration types
 }
+
+// serviceIntegrationUpdateOut ServiceIntegrationUpdateResponse
 type serviceIntegrationUpdateOut struct {
-	ServiceIntegration ServiceIntegrationUpdateOut `json:"service_integration"`
+	ServiceIntegration ServiceIntegrationUpdateOut `json:"service_integration"` // Service integration
 }

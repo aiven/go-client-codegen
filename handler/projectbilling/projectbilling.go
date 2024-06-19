@@ -109,12 +109,12 @@ func BillingGroupStateTypeChoices() []string {
 }
 
 type CreditOut struct {
-	Code           *string    `json:"code,omitempty"`
-	ExpireTime     *time.Time `json:"expire_time,omitempty"`
-	RemainingValue *string    `json:"remaining_value,omitempty"`
-	StartTime      *time.Time `json:"start_time,omitempty"`
-	Type           CreditType `json:"type,omitempty"`
-	Value          *string    `json:"value,omitempty"`
+	Code           *string    `json:"code,omitempty"`            // Credit code
+	ExpireTime     *time.Time `json:"expire_time,omitempty"`     // Timestamp in ISO 8601 format, always in UTC
+	RemainingValue *string    `json:"remaining_value,omitempty"` // Remaining credit value
+	StartTime      *time.Time `json:"start_time,omitempty"`      // Timestamp in ISO 8601 format, always in UTC
+	Type           CreditType `json:"type,omitempty"`            // Credit type
+	Value          *string    `json:"value,omitempty"`           // Original credit value, or for expired credits, the consumed credit value
 }
 type CreditType string
 
@@ -159,33 +159,34 @@ func CurrencyTypeChoices() []string {
 	return []string{"AUD", "CAD", "CHF", "DKK", "EUR", "GBP", "JPY", "NOK", "NZD", "SEK", "SGD", "USD"}
 }
 
+// InvoiceGetOut InvoiceModel
 type InvoiceGetOut struct {
-	BillingGroupId    string    `json:"billing_group_id"`
-	BillingGroupName  string    `json:"billing_group_name"`
-	BillingGroupState string    `json:"billing_group_state"`
+	BillingGroupId    string    `json:"billing_group_id"`    // Billing Group ID
+	BillingGroupName  string    `json:"billing_group_name"`  // Billing Group Name
+	BillingGroupState string    `json:"billing_group_state"` // Billing group state
 	Currency          string    `json:"currency"`
-	DownloadCookie    *string   `json:"download_cookie,omitempty"`
-	GeneratedAt       time.Time `json:"generated_at"`
-	InvoiceNumber     string    `json:"invoice_number"`
-	PeriodBegin       string    `json:"period_begin"`
-	PeriodEnd         string    `json:"period_end"`
+	DownloadCookie    *string   `json:"download_cookie,omitempty"` // Download Cookie
+	GeneratedAt       time.Time `json:"generated_at"`              // Generated At
+	InvoiceNumber     string    `json:"invoice_number"`            // Invoice Number
+	PeriodBegin       string    `json:"period_begin"`              // Period Begin
+	PeriodEnd         string    `json:"period_end"`                // Period End
 	State             string    `json:"state"`
-	TotalIncVat       string    `json:"total_inc_vat"`
-	TotalVatZero      string    `json:"total_vat_zero"`
+	TotalIncVat       string    `json:"total_inc_vat"`  // Total Inc Vat
+	TotalVatZero      string    `json:"total_vat_zero"` // Total Vat Zero
 }
 type InvoiceOut struct {
-	BillingGroupId    string                `json:"billing_group_id"`
-	BillingGroupName  string                `json:"billing_group_name"`
-	BillingGroupState BillingGroupStateType `json:"billing_group_state"`
-	Currency          CurrencyType          `json:"currency"`
-	DownloadCookie    string                `json:"download_cookie"`
-	GeneratedAt       *time.Time            `json:"generated_at,omitempty"`
-	InvoiceNumber     string                `json:"invoice_number"`
-	PeriodBegin       string                `json:"period_begin"`
-	PeriodEnd         string                `json:"period_end"`
-	State             InvoiceStateType      `json:"state"`
-	TotalIncVat       string                `json:"total_inc_vat"`
-	TotalVatZero      string                `json:"total_vat_zero"`
+	BillingGroupId    string                `json:"billing_group_id"`       // Billing group ID
+	BillingGroupName  string                `json:"billing_group_name"`     // Billing group name
+	BillingGroupState BillingGroupStateType `json:"billing_group_state"`    // Billing group state
+	Currency          CurrencyType          `json:"currency"`               // Billing currency
+	DownloadCookie    string                `json:"download_cookie"`        // Authentication cookie for downloads
+	GeneratedAt       *time.Time            `json:"generated_at,omitempty"` // The time when the invoice was generated
+	InvoiceNumber     string                `json:"invoice_number"`         // Unique invoice reference code
+	PeriodBegin       string                `json:"period_begin"`           // Period begin
+	PeriodEnd         string                `json:"period_end"`             // Period end
+	State             InvoiceStateType      `json:"state"`                  // State of this invoice
+	TotalIncVat       string                `json:"total_inc_vat"`          // Total including taxes
+	TotalVatZero      string                `json:"total_vat_zero"`         // Total excluding taxes
 }
 type InvoiceStateType string
 
@@ -210,26 +211,37 @@ func InvoiceStateTypeChoices() []string {
 	return []string{"accrual", "consolidated", "due", "estimate", "failed_credit_card_charge", "failed_no_credit_card", "mailed", "no_payment_expected", "paid", "partner_metering", "uncollectible", "waived", "due_only_project_charges_calculated", "estimate_only_project_charges_calculated"}
 }
 
+// ProjectCreditsClaimIn ProjectCreditsClaimRequestBody
 type ProjectCreditsClaimIn struct {
-	Code string `json:"code"`
+	Code string `json:"code"` // Credit code
 }
+
+// ProjectCreditsClaimOut Assigned credit
 type ProjectCreditsClaimOut struct {
-	Code           *string    `json:"code,omitempty"`
-	ExpireTime     *time.Time `json:"expire_time,omitempty"`
-	RemainingValue *string    `json:"remaining_value,omitempty"`
-	StartTime      *time.Time `json:"start_time,omitempty"`
-	Type           CreditType `json:"type,omitempty"`
-	Value          *string    `json:"value,omitempty"`
+	Code           *string    `json:"code,omitempty"`            // Credit code
+	ExpireTime     *time.Time `json:"expire_time,omitempty"`     // Timestamp in ISO 8601 format, always in UTC
+	RemainingValue *string    `json:"remaining_value,omitempty"` // Remaining credit value
+	StartTime      *time.Time `json:"start_time,omitempty"`      // Timestamp in ISO 8601 format, always in UTC
+	Type           CreditType `json:"type,omitempty"`            // Credit type
+	Value          *string    `json:"value,omitempty"`           // Original credit value, or for expired credits, the consumed credit value
 }
+
+// invoiceGetOut InvoiceGetResponse
 type invoiceGetOut struct {
-	Invoice InvoiceGetOut `json:"invoice"`
+	Invoice InvoiceGetOut `json:"invoice"` // InvoiceModel
 }
+
+// projectCreditsClaimOut ProjectCreditsClaimResponse
 type projectCreditsClaimOut struct {
-	Credit ProjectCreditsClaimOut `json:"credit"`
+	Credit ProjectCreditsClaimOut `json:"credit"` // Assigned credit
 }
+
+// projectCreditsListOut ProjectCreditsListResponse
 type projectCreditsListOut struct {
-	Credits []CreditOut `json:"credits"`
+	Credits []CreditOut `json:"credits"` // List of credits assigned to a project
 }
+
+// projectInvoiceListOut ProjectInvoiceListResponse
 type projectInvoiceListOut struct {
-	Invoices []InvoiceOut `json:"invoices"`
+	Invoices []InvoiceOut `json:"invoices"` // List of project invoices
 }

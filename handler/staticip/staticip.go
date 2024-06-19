@@ -150,16 +150,19 @@ func (h *StaticIPHandler) StaticIPList(ctx context.Context, project string) ([]S
 	return out.StaticIps, nil
 }
 
+// ProjectStaticIpassociateIn ProjectStaticIPAssociateRequestBody
 type ProjectStaticIpassociateIn struct {
-	ServiceName string `json:"service_name"`
+	ServiceName string `json:"service_name"` // Service name
 }
+
+// ProjectStaticIpassociateOut ProjectStaticIPAssociateResponse
 type ProjectStaticIpassociateOut struct {
-	CloudName             string                            `json:"cloud_name"`
-	IpAddress             string                            `json:"ip_address"`
-	ServiceName           string                            `json:"service_name"`
-	State                 ProjectStaticIpassociateStateType `json:"state"`
-	StaticIpAddressId     string                            `json:"static_ip_address_id"`
-	TerminationProtection bool                              `json:"termination_protection"`
+	CloudName             string                            `json:"cloud_name"`             // Target cloud
+	IpAddress             string                            `json:"ip_address"`             // IPv4 address
+	ServiceName           string                            `json:"service_name"`           // Service name
+	State                 ProjectStaticIpassociateStateType `json:"state"`                  // Static IP address state
+	StaticIpAddressId     string                            `json:"static_ip_address_id"`   // Static IP address identifier
+	TerminationProtection bool                              `json:"termination_protection"` // Static IP address is protected against deletion
 }
 type ProjectStaticIpassociateStateType string
 
@@ -176,13 +179,14 @@ func ProjectStaticIpassociateStateTypeChoices() []string {
 	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
 }
 
+// ProjectStaticIpdissociateOut ProjectStaticIPDissociateResponse
 type ProjectStaticIpdissociateOut struct {
-	CloudName             string                             `json:"cloud_name"`
-	IpAddress             string                             `json:"ip_address"`
-	ServiceName           string                             `json:"service_name"`
-	State                 ProjectStaticIpdissociateStateType `json:"state"`
-	StaticIpAddressId     string                             `json:"static_ip_address_id"`
-	TerminationProtection bool                               `json:"termination_protection"`
+	CloudName             string                             `json:"cloud_name"`             // Target cloud
+	IpAddress             string                             `json:"ip_address"`             // IPv4 address
+	ServiceName           string                             `json:"service_name"`           // Service name
+	State                 ProjectStaticIpdissociateStateType `json:"state"`                  // Static IP address state
+	StaticIpAddressId     string                             `json:"static_ip_address_id"`   // Static IP address identifier
+	TerminationProtection bool                               `json:"termination_protection"` // Static IP address is protected against deletion
 }
 type ProjectStaticIpdissociateStateType string
 
@@ -199,16 +203,19 @@ func ProjectStaticIpdissociateStateTypeChoices() []string {
 	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
 }
 
+// ProjectStaticIppatchIn ProjectStaticIPPatchRequestBody
 type ProjectStaticIppatchIn struct {
-	TerminationProtection *bool `json:"termination_protection,omitempty"`
+	TerminationProtection *bool `json:"termination_protection,omitempty"` // Static IP address is protected against deletion
 }
+
+// ProjectStaticIppatchOut ProjectStaticIPPatchResponse
 type ProjectStaticIppatchOut struct {
-	CloudName             string                        `json:"cloud_name"`
-	IpAddress             string                        `json:"ip_address"`
-	ServiceName           string                        `json:"service_name"`
-	State                 ProjectStaticIppatchStateType `json:"state"`
-	StaticIpAddressId     string                        `json:"static_ip_address_id"`
-	TerminationProtection bool                          `json:"termination_protection"`
+	CloudName             string                        `json:"cloud_name"`             // Target cloud
+	IpAddress             string                        `json:"ip_address"`             // IPv4 address
+	ServiceName           string                        `json:"service_name"`           // Service name
+	State                 ProjectStaticIppatchStateType `json:"state"`                  // Static IP address state
+	StaticIpAddressId     string                        `json:"static_ip_address_id"`   // Static IP address identifier
+	TerminationProtection bool                          `json:"termination_protection"` // Static IP address is protected against deletion
 }
 type ProjectStaticIppatchStateType string
 
@@ -226,16 +233,16 @@ func ProjectStaticIppatchStateTypeChoices() []string {
 }
 
 type StaticIpAddressAvailabilityOut struct {
-	CloudName string `json:"cloud_name"`
-	PriceUsd  string `json:"price_usd"`
+	CloudName string `json:"cloud_name"` // Target cloud
+	PriceUsd  string `json:"price_usd"`  // Hourly static IP address price in this cloud region
 }
 type StaticIpOut struct {
-	CloudName             string            `json:"cloud_name"`
-	IpAddress             string            `json:"ip_address"`
-	ServiceName           string            `json:"service_name"`
-	State                 StaticIpStateType `json:"state"`
-	StaticIpAddressId     string            `json:"static_ip_address_id"`
-	TerminationProtection bool              `json:"termination_protection"`
+	CloudName             string            `json:"cloud_name"`             // Target cloud
+	IpAddress             string            `json:"ip_address"`             // IPv4 address
+	ServiceName           string            `json:"service_name"`           // Service name
+	State                 StaticIpStateType `json:"state"`                  // Static IP address state
+	StaticIpAddressId     string            `json:"static_ip_address_id"`   // Static IP address identifier
+	TerminationProtection bool              `json:"termination_protection"` // Static IP address is protected against deletion
 }
 type StaticIpStateType string
 
@@ -252,17 +259,20 @@ func StaticIpStateTypeChoices() []string {
 	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
 }
 
+// StaticIpcreateIn StaticIPCreateRequestBody
 type StaticIpcreateIn struct {
-	CloudName             string `json:"cloud_name"`
-	TerminationProtection *bool  `json:"termination_protection,omitempty"`
+	CloudName             string `json:"cloud_name"`                       // Target cloud
+	TerminationProtection *bool  `json:"termination_protection,omitempty"` // Static IP address is protected against deletion
 }
+
+// StaticIpcreateOut StaticIPCreateResponse
 type StaticIpcreateOut struct {
-	CloudName             string                  `json:"cloud_name"`
-	IpAddress             string                  `json:"ip_address"`
-	ServiceName           string                  `json:"service_name"`
-	State                 StaticIpcreateStateType `json:"state"`
-	StaticIpAddressId     string                  `json:"static_ip_address_id"`
-	TerminationProtection bool                    `json:"termination_protection"`
+	CloudName             string                  `json:"cloud_name"`             // Target cloud
+	IpAddress             string                  `json:"ip_address"`             // IPv4 address
+	ServiceName           string                  `json:"service_name"`           // Service name
+	State                 StaticIpcreateStateType `json:"state"`                  // Static IP address state
+	StaticIpAddressId     string                  `json:"static_ip_address_id"`   // Static IP address identifier
+	TerminationProtection bool                    `json:"termination_protection"` // Static IP address is protected against deletion
 }
 type StaticIpcreateStateType string
 
@@ -279,12 +289,17 @@ func StaticIpcreateStateTypeChoices() []string {
 	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
 }
 
+// projectStaticIpavailabilityListOut ProjectStaticIPAvailabilityListResponse
 type projectStaticIpavailabilityListOut struct {
-	StaticIpAddressAvailability []StaticIpAddressAvailabilityOut `json:"static_ip_address_availability"`
+	StaticIpAddressAvailability []StaticIpAddressAvailabilityOut `json:"static_ip_address_availability"` // Paginated array
 }
+
+// publicStaticIpavailabilityListOut PublicStaticIPAvailabilityListResponse
 type publicStaticIpavailabilityListOut struct {
-	StaticIpAddressAvailability []StaticIpAddressAvailabilityOut `json:"static_ip_address_availability"`
+	StaticIpAddressAvailability []StaticIpAddressAvailabilityOut `json:"static_ip_address_availability"` // Paginated array
 }
+
+// staticIplistOut StaticIPListResponse
 type staticIplistOut struct {
-	StaticIps []StaticIpOut `json:"static_ips"`
+	StaticIps []StaticIpOut `json:"static_ips"` // Paginated array
 }

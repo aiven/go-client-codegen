@@ -42,48 +42,51 @@ func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project 
 	return out.Queries, nil
 }
 
+// MySqlserviceQueryStatisticsIn MySQLServiceQueryStatisticsRequestBody
 type MySqlserviceQueryStatisticsIn struct {
-	Limit   *int    `json:"limit,omitempty"`
-	Offset  *int    `json:"offset,omitempty"`
-	OrderBy *string `json:"order_by,omitempty"`
+	Limit   *int    `json:"limit,omitempty"`    // Limit for number of results
+	Offset  *int    `json:"offset,omitempty"`   // Offset for retrieved results based on sort order
+	OrderBy *string `json:"order_by,omitempty"` // Order in which to sort retrieved results
 }
 type QueryOut struct {
-	AvgTimerWait            *float64 `json:"avg_timer_wait,omitempty"`
-	CountStar               *float64 `json:"count_star,omitempty"`
-	Digest                  *string  `json:"digest,omitempty"`
-	DigestText              *string  `json:"digest_text,omitempty"`
-	FirstSeen               *string  `json:"first_seen,omitempty"`
-	LastSeen                *string  `json:"last_seen,omitempty"`
-	MaxTimerWait            *float64 `json:"max_timer_wait,omitempty"`
-	MinTimerWait            *float64 `json:"min_timer_wait,omitempty"`
-	Quantile95              *float64 `json:"quantile_95,omitempty"`
-	Quantile99              *float64 `json:"quantile_99,omitempty"`
-	Quantile999             *float64 `json:"quantile_999,omitempty"`
-	QuerySampleSeen         *string  `json:"query_sample_seen,omitempty"`
-	QuerySampleText         *string  `json:"query_sample_text,omitempty"`
-	QuerySampleTimerWait    *string  `json:"query_sample_timer_wait,omitempty"`
-	SchemaName              *string  `json:"schema_name,omitempty"`
-	SumCreatedTmpDiskTables *float64 `json:"sum_created_tmp_disk_tables,omitempty"`
-	SumCreatedTmpTables     *float64 `json:"sum_created_tmp_tables,omitempty"`
-	SumErrors               *float64 `json:"sum_errors,omitempty"`
-	SumLockTime             *float64 `json:"sum_lock_time,omitempty"`
-	SumNoGoodIndexUsed      *float64 `json:"sum_no_good_index_used,omitempty"`
-	SumNoIndexUsed          *float64 `json:"sum_no_index_used,omitempty"`
-	SumRowsAffected         *float64 `json:"sum_rows_affected,omitempty"`
-	SumRowsExamined         *float64 `json:"sum_rows_examined,omitempty"`
-	SumRowsSent             *float64 `json:"sum_rows_sent,omitempty"`
-	SumSelectFullJoin       *float64 `json:"sum_select_full_join,omitempty"`
-	SumSelectFullRangeJoin  *float64 `json:"sum_select_full_range_join,omitempty"`
-	SumSelectRange          *float64 `json:"sum_select_range,omitempty"`
-	SumSelectRangeCheck     *float64 `json:"sum_select_range_check,omitempty"`
-	SumSelectScan           *float64 `json:"sum_select_scan,omitempty"`
-	SumSortMergePasses      *float64 `json:"sum_sort_merge_passes,omitempty"`
-	SumSortRange            *float64 `json:"sum_sort_range,omitempty"`
-	SumSortRows             *float64 `json:"sum_sort_rows,omitempty"`
-	SumSortScan             *float64 `json:"sum_sort_scan,omitempty"`
-	SumTimerWait            *float64 `json:"sum_timer_wait,omitempty"`
-	SumWarnings             *float64 `json:"sum_warnings,omitempty"`
+	AvgTimerWait            *float64 `json:"avg_timer_wait,omitempty"`              // Query statistic
+	CountStar               *float64 `json:"count_star,omitempty"`                  // Query statistic
+	Digest                  *string  `json:"digest,omitempty"`                      // Query statistic
+	DigestText              *string  `json:"digest_text,omitempty"`                 // Query statistic
+	FirstSeen               *string  `json:"first_seen,omitempty"`                  // Query statistic
+	LastSeen                *string  `json:"last_seen,omitempty"`                   // Query statistic
+	MaxTimerWait            *float64 `json:"max_timer_wait,omitempty"`              // Query statistic
+	MinTimerWait            *float64 `json:"min_timer_wait,omitempty"`              // Query statistic
+	Quantile95              *float64 `json:"quantile_95,omitempty"`                 // Query statistic
+	Quantile99              *float64 `json:"quantile_99,omitempty"`                 // Query statistic
+	Quantile999             *float64 `json:"quantile_999,omitempty"`                // Query statistic
+	QuerySampleSeen         *string  `json:"query_sample_seen,omitempty"`           // Query statistic
+	QuerySampleText         *string  `json:"query_sample_text,omitempty"`           // Query statistic
+	QuerySampleTimerWait    *string  `json:"query_sample_timer_wait,omitempty"`     // Query statistic
+	SchemaName              *string  `json:"schema_name,omitempty"`                 // Query statistic
+	SumCreatedTmpDiskTables *float64 `json:"sum_created_tmp_disk_tables,omitempty"` // Query statistic
+	SumCreatedTmpTables     *float64 `json:"sum_created_tmp_tables,omitempty"`      // Query statistic
+	SumErrors               *float64 `json:"sum_errors,omitempty"`                  // Query statistic
+	SumLockTime             *float64 `json:"sum_lock_time,omitempty"`               // Query statistic
+	SumNoGoodIndexUsed      *float64 `json:"sum_no_good_index_used,omitempty"`      // Query statistic
+	SumNoIndexUsed          *float64 `json:"sum_no_index_used,omitempty"`           // Query statistic
+	SumRowsAffected         *float64 `json:"sum_rows_affected,omitempty"`           // Query statistic
+	SumRowsExamined         *float64 `json:"sum_rows_examined,omitempty"`           // Query statistic
+	SumRowsSent             *float64 `json:"sum_rows_sent,omitempty"`               // Query statistic
+	SumSelectFullJoin       *float64 `json:"sum_select_full_join,omitempty"`        // Query statistic
+	SumSelectFullRangeJoin  *float64 `json:"sum_select_full_range_join,omitempty"`  // Query statistic
+	SumSelectRange          *float64 `json:"sum_select_range,omitempty"`            // Query statistic
+	SumSelectRangeCheck     *float64 `json:"sum_select_range_check,omitempty"`      // Query statistic
+	SumSelectScan           *float64 `json:"sum_select_scan,omitempty"`             // Query statistic
+	SumSortMergePasses      *float64 `json:"sum_sort_merge_passes,omitempty"`       // Query statistic
+	SumSortRange            *float64 `json:"sum_sort_range,omitempty"`              // Query statistic
+	SumSortRows             *float64 `json:"sum_sort_rows,omitempty"`               // Query statistic
+	SumSortScan             *float64 `json:"sum_sort_scan,omitempty"`               // Query statistic
+	SumTimerWait            *float64 `json:"sum_timer_wait,omitempty"`              // Query statistic
+	SumWarnings             *float64 `json:"sum_warnings,omitempty"`                // Query statistic
 }
+
+// mySqlserviceQueryStatisticsOut MySQLServiceQueryStatisticsResponse
 type mySqlserviceQueryStatisticsOut struct {
-	Queries []QueryOut `json:"queries"`
+	Queries []QueryOut `json:"queries"` // List of query statistics
 }

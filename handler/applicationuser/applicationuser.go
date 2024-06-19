@@ -153,66 +153,83 @@ func (h *ApplicationUserHandler) ApplicationUsersList(ctx context.Context, organ
 	return out.ApplicationUsers, nil
 }
 
+// ApplicationUserAccessTokenCreateIn ApplicationUserAccessTokenCreateRequestBody
 type ApplicationUserAccessTokenCreateIn struct {
 	Description    string    `json:"description"`
-	ExtendWhenUsed *bool     `json:"extend_when_used,omitempty"`
-	MaxAgeSeconds  *int      `json:"max_age_seconds,omitempty"`
-	Scopes         *[]string `json:"scopes,omitempty"`
+	ExtendWhenUsed *bool     `json:"extend_when_used,omitempty"` // Extend token expiration time when token is used. Only applicable if max_age_seconds is specified.
+	MaxAgeSeconds  *int      `json:"max_age_seconds,omitempty"`  // Time the token remains valid since creation (or since last use if extend_when_used is true)
+	Scopes         *[]string `json:"scopes,omitempty"`           // Scopes this token is restricted to if specified
 }
+
+// ApplicationUserAccessTokenCreateOut ApplicationUserAccessTokenCreateResponse
 type ApplicationUserAccessTokenCreateOut struct {
-	FullToken   string `json:"full_token"`
-	TokenPrefix string `json:"token_prefix"`
+	FullToken   string `json:"full_token"`   // Full Token
+	TokenPrefix string `json:"token_prefix"` // Token Prefix
 }
+
+// ApplicationUserCreateIn ApplicationUserCreateRequestBody
 type ApplicationUserCreateIn struct {
-	IsSuperAdmin *bool  `json:"is_super_admin,omitempty"`
+	IsSuperAdmin *bool  `json:"is_super_admin,omitempty"` // Alters super admin state of the organization application user
 	Name         string `json:"name"`
 }
+
+// ApplicationUserCreateOut ApplicationUserCreateResponse
 type ApplicationUserCreateOut struct {
-	IsSuperAdmin bool   `json:"is_super_admin"`
+	IsSuperAdmin bool   `json:"is_super_admin"` // Super admin state of the organization application user
 	Name         string `json:"name"`
-	UserEmail    string `json:"user_email"`
-	UserId       string `json:"user_id"`
+	UserEmail    string `json:"user_email"` // User Email
+	UserId       string `json:"user_id"`    // User ID
 }
+
+// ApplicationUserGetOut ApplicationUserGetResponse
 type ApplicationUserGetOut struct {
-	IsSuperAdmin bool   `json:"is_super_admin"`
+	IsSuperAdmin bool   `json:"is_super_admin"` // Super admin state of the organization application user
 	Name         string `json:"name"`
-	UserEmail    string `json:"user_email"`
-	UserId       string `json:"user_id"`
+	UserEmail    string `json:"user_email"` // User Email
+	UserId       string `json:"user_id"`    // User ID
 }
 type ApplicationUserOut struct {
-	IsSuperAdmin bool   `json:"is_super_admin"`
+	IsSuperAdmin bool   `json:"is_super_admin"` // Super admin state of the organization application user
 	Name         string `json:"name"`
-	UserEmail    string `json:"user_email"`
-	UserId       string `json:"user_id"`
+	UserEmail    string `json:"user_email"` // User Email
+	UserId       string `json:"user_id"`    // User ID
 }
+
+// ApplicationUserUpdateIn ApplicationUserUpdateRequestBody
 type ApplicationUserUpdateIn struct {
-	IsSuperAdmin *bool  `json:"is_super_admin,omitempty"`
+	IsSuperAdmin *bool  `json:"is_super_admin,omitempty"` // Alters super admin state of the organization application user
 	Name         string `json:"name"`
 }
+
+// ApplicationUserUpdateOut ApplicationUserUpdateResponse
 type ApplicationUserUpdateOut struct {
-	IsSuperAdmin bool   `json:"is_super_admin"`
+	IsSuperAdmin bool   `json:"is_super_admin"` // Super admin state of the organization application user
 	Name         string `json:"name"`
-	UserEmail    string `json:"user_email"`
-	UserId       string `json:"user_id"`
+	UserEmail    string `json:"user_email"` // User Email
+	UserId       string `json:"user_id"`    // User ID
 }
 type TokenOut struct {
-	CreateTime                 time.Time  `json:"create_time"`
-	CreatedManually            bool       `json:"created_manually"`
-	CurrentlyActive            bool       `json:"currently_active"`
+	CreateTime                 time.Time  `json:"create_time"`      // Create Time
+	CreatedManually            bool       `json:"created_manually"` // True for tokens explicitly created via the access_tokens API, false for tokens created via login.
+	CurrentlyActive            bool       `json:"currently_active"` // true if API request was made with this access token
 	Description                *string    `json:"description,omitempty"`
-	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`
-	ExtendWhenUsed             *bool      `json:"extend_when_used,omitempty"`
-	LastIp                     *string    `json:"last_ip,omitempty"`
-	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`
-	LastUserAgent              *string    `json:"last_user_agent,omitempty"`
-	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"`
-	MaxAgeSeconds              *int       `json:"max_age_seconds,omitempty"`
-	Scopes                     []string   `json:"scopes,omitempty"`
-	TokenPrefix                string     `json:"token_prefix"`
+	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`                    // Timestamp when the access token will expire unless extended, if ever
+	ExtendWhenUsed             *bool      `json:"extend_when_used,omitempty"`               // Extend token expiration time when token is used. Only applicable if max_age_seconds is specified.
+	LastIp                     *string    `json:"last_ip,omitempty"`                        // IP address the access token was last used from in case it has ever been used
+	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`                 // Timestamp when the access token was last used, if ever
+	LastUserAgent              *string    `json:"last_user_agent,omitempty"`                // User agent string of the client that last used the token in case it has ever been used
+	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"` // Human readable user agent string of the client that last used the token in case user agent is known
+	MaxAgeSeconds              *int       `json:"max_age_seconds,omitempty"`                // Time the token remains valid since creation (or since last use if extend_when_used is true)
+	Scopes                     []string   `json:"scopes,omitempty"`                         // Scopes this token is restricted to if specified
+	TokenPrefix                string     `json:"token_prefix"`                             // First characters of the actual token value. Full value is only exposed after creation. This value is used when updating or revoking tokens. Note that the value may contain /, + and = characters and must be URL encoded when used (/ =&gt; %2F, + =&gt; %2B, = =&gt; %3D).
 }
+
+// applicationUserAccessTokensListOut ApplicationUserAccessTokensListResponse
 type applicationUserAccessTokensListOut struct {
-	Tokens []TokenOut `json:"tokens"`
+	Tokens []TokenOut `json:"tokens"` // Tokens
 }
+
+// applicationUsersListOut ApplicationUsersListResponse
 type applicationUsersListOut struct {
-	ApplicationUsers []ApplicationUserOut `json:"application_users"`
+	ApplicationUsers []ApplicationUserOut `json:"application_users"` // Application Users
 }

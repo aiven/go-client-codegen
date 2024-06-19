@@ -172,14 +172,14 @@ func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]Orga
 }
 
 type DomainOut struct {
-	ChallengeToken                string           `json:"challenge_token"`
-	CreateTime                    time.Time        `json:"create_time"`
-	DomainId                      string           `json:"domain_id"`
-	DomainName                    string           `json:"domain_name"`
-	LinkedAuthenticationMethodIds []string         `json:"linked_authentication_method_ids"`
-	OrganizationId                string           `json:"organization_id"`
-	State                         DomainStateType  `json:"state"`
-	VerificationType              VerificationType `json:"verification_type"`
+	ChallengeToken                string           `json:"challenge_token"`                  // Random string to be used for validation
+	CreateTime                    time.Time        `json:"create_time"`                      // Time of creating the domain
+	DomainId                      string           `json:"domain_id"`                        // ID of the domain
+	DomainName                    string           `json:"domain_name"`                      // Name of the domain
+	LinkedAuthenticationMethodIds []string         `json:"linked_authentication_method_ids"` // Linked Authentication Method Ids
+	OrganizationId                string           `json:"organization_id"`                  // ID of the organization owning this domain
+	State                         DomainStateType  `json:"state"`                            // State of the verification process
+	VerificationType              VerificationType `json:"verification_type"`                // Type of verification to be made
 }
 type DomainStateType string
 
@@ -193,68 +193,81 @@ func DomainStateTypeChoices() []string {
 	return []string{"deleted", "unverified", "verified"}
 }
 
+// OrganizationAuthDomainLinkIn OrganizationAuthDomainLinkRequestBody
 type OrganizationAuthDomainLinkIn struct {
-	DomainId string `json:"domain_id"`
+	DomainId string `json:"domain_id"` // ID of the domain
 }
+
+// OrganizationAuthenticationConfigGetOut OrganizationAuthenticationConfigGetResponse
 type OrganizationAuthenticationConfigGetOut struct {
-	OauthEnabled                           *bool `json:"oauth_enabled,omitempty"`
-	PasswordAuthEnabled                    *bool `json:"password_auth_enabled,omitempty"`
-	PersonalTokensEnabled                  *bool `json:"personal_tokens_enabled,omitempty"`
-	PersonalTokensRequireAllowedAuthMethod *bool `json:"personal_tokens_require_allowed_auth_method,omitempty"`
-	SamlAllowExternal                      *bool `json:"saml_allow_external,omitempty"`
-	SamlEnabled                            *bool `json:"saml_enabled,omitempty"`
-	TwoFactorRequired                      *bool `json:"two_factor_required,omitempty"`
+	OauthEnabled                           *bool `json:"oauth_enabled,omitempty"`                               // Organization users are able to use OAuth authentication.
+	PasswordAuthEnabled                    *bool `json:"password_auth_enabled,omitempty"`                       // Organization users are able to use password authentication.
+	PersonalTokensEnabled                  *bool `json:"personal_tokens_enabled,omitempty"`                     // Organization users can use their personal tokens to access the organization through the Aiven API or other applications.
+	PersonalTokensRequireAllowedAuthMethod *bool `json:"personal_tokens_require_allowed_auth_method,omitempty"` // Organization users are able to use personal tokens that were generated from one of the allowed authentication methods.
+	SamlAllowExternal                      *bool `json:"saml_allow_external,omitempty"`                         // Organization users are able to use SAML authentication of other organizations.
+	SamlEnabled                            *bool `json:"saml_enabled,omitempty"`                                // Organization users are able to use SAML authentication.
+	TwoFactorRequired                      *bool `json:"two_factor_required,omitempty"`                         // 2FA is required to access resources in this organization.
 }
+
+// OrganizationAuthenticationConfigUpdateIn OrganizationAuthenticationConfigUpdateRequestBody
 type OrganizationAuthenticationConfigUpdateIn struct {
-	OauthEnabled                           *bool `json:"oauth_enabled,omitempty"`
-	PasswordAuthEnabled                    *bool `json:"password_auth_enabled,omitempty"`
-	PersonalTokensEnabled                  *bool `json:"personal_tokens_enabled,omitempty"`
-	PersonalTokensRequireAllowedAuthMethod *bool `json:"personal_tokens_require_allowed_auth_method,omitempty"`
-	SamlAllowExternal                      *bool `json:"saml_allow_external,omitempty"`
-	SamlEnabled                            *bool `json:"saml_enabled,omitempty"`
-	TwoFactorRequired                      *bool `json:"two_factor_required,omitempty"`
+	OauthEnabled                           *bool `json:"oauth_enabled,omitempty"`                               // Organization users are able to use OAuth authentication.
+	PasswordAuthEnabled                    *bool `json:"password_auth_enabled,omitempty"`                       // Organization users are able to use password authentication.
+	PersonalTokensEnabled                  *bool `json:"personal_tokens_enabled,omitempty"`                     // Organization users can use their personal tokens to access the organization through the Aiven API or other applications.
+	PersonalTokensRequireAllowedAuthMethod *bool `json:"personal_tokens_require_allowed_auth_method,omitempty"` // Organization users are able to use personal tokens that were generated from one of the allowed authentication methods.
+	SamlAllowExternal                      *bool `json:"saml_allow_external,omitempty"`                         // Organization users are able to use SAML authentication of other organizations.
+	SamlEnabled                            *bool `json:"saml_enabled,omitempty"`                                // Organization users are able to use SAML authentication.
+	TwoFactorRequired                      *bool `json:"two_factor_required,omitempty"`                         // 2FA is required to access resources in this organization.
 }
+
+// OrganizationAuthenticationConfigUpdateOut OrganizationAuthenticationConfigUpdateResponse
 type OrganizationAuthenticationConfigUpdateOut struct {
-	OauthEnabled                           *bool `json:"oauth_enabled,omitempty"`
-	PasswordAuthEnabled                    *bool `json:"password_auth_enabled,omitempty"`
-	PersonalTokensEnabled                  *bool `json:"personal_tokens_enabled,omitempty"`
-	PersonalTokensRequireAllowedAuthMethod *bool `json:"personal_tokens_require_allowed_auth_method,omitempty"`
-	SamlAllowExternal                      *bool `json:"saml_allow_external,omitempty"`
-	SamlEnabled                            *bool `json:"saml_enabled,omitempty"`
-	TwoFactorRequired                      *bool `json:"two_factor_required,omitempty"`
+	OauthEnabled                           *bool `json:"oauth_enabled,omitempty"`                               // Organization users are able to use OAuth authentication.
+	PasswordAuthEnabled                    *bool `json:"password_auth_enabled,omitempty"`                       // Organization users are able to use password authentication.
+	PersonalTokensEnabled                  *bool `json:"personal_tokens_enabled,omitempty"`                     // Organization users can use their personal tokens to access the organization through the Aiven API or other applications.
+	PersonalTokensRequireAllowedAuthMethod *bool `json:"personal_tokens_require_allowed_auth_method,omitempty"` // Organization users are able to use personal tokens that were generated from one of the allowed authentication methods.
+	SamlAllowExternal                      *bool `json:"saml_allow_external,omitempty"`                         // Organization users are able to use SAML authentication of other organizations.
+	SamlEnabled                            *bool `json:"saml_enabled,omitempty"`                                // Organization users are able to use SAML authentication.
+	TwoFactorRequired                      *bool `json:"two_factor_required,omitempty"`                         // 2FA is required to access resources in this organization.
 }
+
+// OrganizationGetOut OrganizationGetResponse
 type OrganizationGetOut struct {
-	AccountId                    string    `json:"account_id"`
-	CreateTime                   time.Time `json:"create_time"`
-	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"`
-	OrganizationId               string    `json:"organization_id"`
-	OrganizationName             string    `json:"organization_name"`
-	Tier                         TierType  `json:"tier"`
-	UpdateTime                   time.Time `json:"update_time"`
+	AccountId                    string    `json:"account_id"`                                 // Account ID of the organization's root unit
+	CreateTime                   time.Time `json:"create_time"`                                // Time of creating the organization
+	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"` // Default governance user group ID
+	OrganizationId               string    `json:"organization_id"`                            // Organization's ID
+	OrganizationName             string    `json:"organization_name"`                          // Organization's name
+	Tier                         TierType  `json:"tier"`                                       // Tier of the organization
+	UpdateTime                   time.Time `json:"update_time"`                                // Time of the organization's latest update
 }
 type OrganizationOut struct {
-	AccountId                    string    `json:"account_id"`
-	CreateTime                   time.Time `json:"create_time"`
-	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"`
-	OrganizationId               string    `json:"organization_id"`
-	OrganizationName             string    `json:"organization_name"`
-	Tier                         TierType  `json:"tier"`
-	UpdateTime                   time.Time `json:"update_time"`
+	AccountId                    string    `json:"account_id"`                                 // Account ID of the organization's root unit
+	CreateTime                   time.Time `json:"create_time"`                                // Time of creating the organization
+	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"` // Default governance user group ID
+	OrganizationId               string    `json:"organization_id"`                            // Organization's ID
+	OrganizationName             string    `json:"organization_name"`                          // Organization's name
+	Tier                         TierType  `json:"tier"`                                       // Tier of the organization
+	UpdateTime                   time.Time `json:"update_time"`                                // Time of the organization's latest update
 }
+
+// OrganizationUpdateIn OrganizationUpdateRequestBody
 type OrganizationUpdateIn struct {
-	DefaultGovernanceUserGroupId *string  `json:"default_governance_user_group_id,omitempty"`
-	KafkaGovernanceEnabled       *bool    `json:"kafka_governance_enabled,omitempty"`
-	Name                         *string  `json:"name,omitempty"`
-	Tier                         TierType `json:"tier,omitempty"`
+	DefaultGovernanceUserGroupId *string  `json:"default_governance_user_group_id,omitempty"` // Default governance user group ID
+	KafkaGovernanceEnabled       *bool    `json:"kafka_governance_enabled,omitempty"`         // Under development - Feature flag for Kafka governance
+	Name                         *string  `json:"name,omitempty"`                             // New name of the organization
+	Tier                         TierType `json:"tier,omitempty"`                             // New tier for the organization
 }
+
+// OrganizationUpdateOut OrganizationUpdateResponse
 type OrganizationUpdateOut struct {
-	AccountId                    string    `json:"account_id"`
-	CreateTime                   time.Time `json:"create_time"`
-	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"`
-	OrganizationId               string    `json:"organization_id"`
-	OrganizationName             string    `json:"organization_name"`
-	Tier                         TierType  `json:"tier"`
-	UpdateTime                   time.Time `json:"update_time"`
+	AccountId                    string    `json:"account_id"`                                 // Account ID of the organization's root unit
+	CreateTime                   time.Time `json:"create_time"`                                // Time of creating the organization
+	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"` // Default governance user group ID
+	OrganizationId               string    `json:"organization_id"`                            // Organization's ID
+	OrganizationName             string    `json:"organization_name"`                          // Organization's name
+	Tier                         TierType  `json:"tier"`                                       // Tier of the organization
+	UpdateTime                   time.Time `json:"update_time"`                                // Time of the organization's latest update
 }
 type TierType string
 
@@ -267,19 +280,22 @@ func TierTypeChoices() []string {
 	return []string{"business", "personal"}
 }
 
+// UserOrganizationCreateIn UserOrganizationCreateRequestBody
 type UserOrganizationCreateIn struct {
-	OrganizationName      string   `json:"organization_name"`
-	PrimaryBillingGroupId *string  `json:"primary_billing_group_id,omitempty"`
-	Tier                  TierType `json:"tier"`
+	OrganizationName      string   `json:"organization_name"`                  // Organization's name
+	PrimaryBillingGroupId *string  `json:"primary_billing_group_id,omitempty"` // Billing group ID
+	Tier                  TierType `json:"tier"`                               // Tier of the organization
 }
+
+// UserOrganizationCreateOut UserOrganizationCreateResponse
 type UserOrganizationCreateOut struct {
-	AccountId                    string    `json:"account_id"`
-	CreateTime                   time.Time `json:"create_time"`
-	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"`
-	OrganizationId               string    `json:"organization_id"`
-	OrganizationName             string    `json:"organization_name"`
-	Tier                         TierType  `json:"tier"`
-	UpdateTime                   time.Time `json:"update_time"`
+	AccountId                    string    `json:"account_id"`                                 // Account ID of the organization's root unit
+	CreateTime                   time.Time `json:"create_time"`                                // Time of creating the organization
+	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"` // Default governance user group ID
+	OrganizationId               string    `json:"organization_id"`                            // Organization's ID
+	OrganizationName             string    `json:"organization_name"`                          // Organization's name
+	Tier                         TierType  `json:"tier"`                                       // Tier of the organization
+	UpdateTime                   time.Time `json:"update_time"`                                // Time of the organization's latest update
 }
 type VerificationType string
 
@@ -292,9 +308,12 @@ func VerificationTypeChoices() []string {
 	return []string{"dns", "http"}
 }
 
+// organizationAuthDomainListOut OrganizationAuthDomainListResponse
 type organizationAuthDomainListOut struct {
-	Domains []DomainOut `json:"domains"`
+	Domains []DomainOut `json:"domains"` // List of domains for the organization
 }
+
+// userOrganizationsListOut UserOrganizationsListResponse
 type userOrganizationsListOut struct {
-	Organizations []OrganizationOut `json:"organizations"`
+	Organizations []OrganizationOut `json:"organizations"` // Organizations
 }

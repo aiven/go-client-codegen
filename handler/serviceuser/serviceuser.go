@@ -107,39 +107,58 @@ func (h *ServiceUserHandler) ServiceUserGet(ctx context.Context, project string,
 	return &out.User, nil
 }
 
+/*
+AccessControlIn Service specific access controls for user
+
+Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+*/
 type AccessControlIn struct {
-	DragonflyAclCategories *[]string `json:"dragonfly_acl_categories,omitempty"`
-	DragonflyAclCommands   *[]string `json:"dragonfly_acl_commands,omitempty"`
-	DragonflyAclKeys       *[]string `json:"dragonfly_acl_keys,omitempty"`
-	M3Group                *string   `json:"m3_group,omitempty"`
-	PgAllowReplication     *bool     `json:"pg_allow_replication,omitempty"`
-	RedisAclCategories     *[]string `json:"redis_acl_categories,omitempty"`
-	RedisAclChannels       *[]string `json:"redis_acl_channels,omitempty"`
-	RedisAclCommands       *[]string `json:"redis_acl_commands,omitempty"`
-	RedisAclKeys           *[]string `json:"redis_acl_keys,omitempty"`
+	DragonflyAclCategories *[]string `json:"dragonfly_acl_categories,omitempty"` // Command category rules
+	DragonflyAclCommands   *[]string `json:"dragonfly_acl_commands,omitempty"`   // Rules for individual commands
+	DragonflyAclKeys       *[]string `json:"dragonfly_acl_keys,omitempty"`       // Key access rules
+	M3Group                *string   `json:"m3_group,omitempty"`                 // M3 access group to associate users with
+	PgAllowReplication     *bool     `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
+	RedisAclCategories     *[]string `json:"redis_acl_categories,omitempty"`     // Command category rules
+	RedisAclChannels       *[]string `json:"redis_acl_channels,omitempty"`       /*
+		Permitted pub/sub channel patterns
+
+		Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
+	*/
+	RedisAclCommands *[]string `json:"redis_acl_commands,omitempty"` // Rules for individual commands
+	RedisAclKeys     *[]string `json:"redis_acl_keys,omitempty"`     // Key access rules
 }
+
+/*
+AccessControlOut Service specific access controls for user
+
+Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+*/
 type AccessControlOut struct {
-	DragonflyAclCategories []string `json:"dragonfly_acl_categories,omitempty"`
-	DragonflyAclCommands   []string `json:"dragonfly_acl_commands,omitempty"`
-	DragonflyAclKeys       []string `json:"dragonfly_acl_keys,omitempty"`
-	M3Group                *string  `json:"m3_group,omitempty"`
-	PgAllowReplication     *bool    `json:"pg_allow_replication,omitempty"`
-	RedisAclCategories     []string `json:"redis_acl_categories,omitempty"`
-	RedisAclChannels       []string `json:"redis_acl_channels,omitempty"`
-	RedisAclCommands       []string `json:"redis_acl_commands,omitempty"`
-	RedisAclKeys           []string `json:"redis_acl_keys,omitempty"`
+	DragonflyAclCategories []string `json:"dragonfly_acl_categories,omitempty"` // Command category rules
+	DragonflyAclCommands   []string `json:"dragonfly_acl_commands,omitempty"`   // Rules for individual commands
+	DragonflyAclKeys       []string `json:"dragonfly_acl_keys,omitempty"`       // Key access rules
+	M3Group                *string  `json:"m3_group,omitempty"`                 // M3 access group to associate users with
+	PgAllowReplication     *bool    `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
+	RedisAclCategories     []string `json:"redis_acl_categories,omitempty"`     // Command category rules
+	RedisAclChannels       []string `json:"redis_acl_channels,omitempty"`       /*
+		Permitted pub/sub channel patterns
+
+		Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
+	*/
+	RedisAclCommands []string `json:"redis_acl_commands,omitempty"` // Rules for individual commands
+	RedisAclKeys     []string `json:"redis_acl_keys,omitempty"`     // Key access rules
 }
 type AclOut struct {
-	Id         *string        `json:"id,omitempty"`
-	Permission PermissionType `json:"permission"`
-	Topic      string         `json:"topic"`
+	Id         *string        `json:"id,omitempty"` // ID
+	Permission PermissionType `json:"permission"`   // Kafka permission
+	Topic      string         `json:"topic"`        // Topic name pattern
 	Username   string         `json:"username"`
 }
 type AdditionalRegionOut struct {
-	Cloud       string  `json:"cloud"`
-	PauseReason *string `json:"pause_reason,omitempty"`
-	Paused      *bool   `json:"paused,omitempty"`
-	Region      *string `json:"region,omitempty"`
+	Cloud       string  `json:"cloud"`                  // Target cloud
+	PauseReason *string `json:"pause_reason,omitempty"` // Reason for pausing the backup synchronization
+	Paused      *bool   `json:"paused,omitempty"`       // Indicates additional backup synchronization is paused
+	Region      *string `json:"region,omitempty"`       // Cloud storage region name
 }
 type AuthenticationType string
 
@@ -154,31 +173,31 @@ func AuthenticationTypeChoices() []string {
 }
 
 type BackupOut struct {
-	AdditionalRegions []AdditionalRegionOut `json:"additional_regions,omitempty"`
-	BackupName        string                `json:"backup_name"`
-	BackupTime        time.Time             `json:"backup_time"`
-	DataSize          int                   `json:"data_size"`
-	StorageLocation   *string               `json:"storage_location,omitempty"`
+	AdditionalRegions []AdditionalRegionOut `json:"additional_regions,omitempty"` // Additional backup regions, if available
+	BackupName        string                `json:"backup_name"`                  // Internal name of this backup
+	BackupTime        time.Time             `json:"backup_time"`                  // Backup timestamp (ISO 8601)
+	DataSize          int                   `json:"data_size"`                    // Backup's original size before compression
+	StorageLocation   *string               `json:"storage_location,omitempty"`   // Location where this backup is stored
 }
 type ComponentOut struct {
-	Component                 string                        `json:"component"`
-	Host                      string                        `json:"host"`
-	KafkaAuthenticationMethod KafkaAuthenticationMethodType `json:"kafka_authentication_method,omitempty"`
-	KafkaSslCa                KafkaSslCaType                `json:"kafka_ssl_ca,omitempty"`
-	Path                      *string                       `json:"path,omitempty"`
-	Port                      int                           `json:"port"`
-	PrivatelinkConnectionId   *string                       `json:"privatelink_connection_id,omitempty"`
-	Route                     RouteType                     `json:"route"`
-	Ssl                       *bool                         `json:"ssl,omitempty"`
-	Usage                     UsageType                     `json:"usage"`
+	Component                 string                        `json:"component"`                             // Service component name
+	Host                      string                        `json:"host"`                                  // DNS name for connecting to the service component
+	KafkaAuthenticationMethod KafkaAuthenticationMethodType `json:"kafka_authentication_method,omitempty"` // Kafka authentication method. This is a value specific to the 'kafka' service component
+	KafkaSslCa                KafkaSslCaType                `json:"kafka_ssl_ca,omitempty"`                // Specifies if this port uses Project CA or Letsencrypt. If not specified, the default is using Project CA.This is a value specific to the 'kafka' service component.
+	Path                      *string                       `json:"path,omitempty"`                        // Path component of the service URL (useful only if service component is HTTP or HTTPS endpoint)
+	Port                      int                           `json:"port"`                                  // Port number for connecting to the service component
+	PrivatelinkConnectionId   *string                       `json:"privatelink_connection_id,omitempty"`   // Privatelink connection ID
+	Route                     RouteType                     `json:"route"`                                 // Network access route
+	Ssl                       *bool                         `json:"ssl,omitempty"`                         // Whether the endpoint is encrypted or accepts plaintext. By default endpoints are always encrypted andthis property is only included for service components that may disable encryption.
+	Usage                     UsageType                     `json:"usage"`                                 // DNS usage name
 }
 type ConnectionPoolOut struct {
-	ConnectionUri string       `json:"connection_uri"`
-	Database      string       `json:"database"`
-	PoolMode      PoolModeType `json:"pool_mode"`
-	PoolName      string       `json:"pool_name"`
-	PoolSize      int          `json:"pool_size"`
-	Username      *string      `json:"username,omitempty"`
+	ConnectionUri string       `json:"connection_uri"`     // Connection URI for the DB pool
+	Database      string       `json:"database"`           // Database name
+	PoolMode      PoolModeType `json:"pool_mode"`          // PGBouncer pool mode
+	PoolName      string       `json:"pool_name"`          // Connection pool name
+	PoolSize      int          `json:"pool_size"`          // Size of PGBouncer's PostgreSQL side connection pool
+	Username      *string      `json:"username,omitempty"` // Pool username
 }
 type DowType string
 
@@ -197,9 +216,10 @@ func DowTypeChoices() []string {
 	return []string{"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "never"}
 }
 
+// IntegrationStatusOut Integration status
 type IntegrationStatusOut struct {
-	State          StateOut `json:"state"`
-	StatusUserDesc string   `json:"status_user_desc"`
+	State          StateOut `json:"state"`            // Service integration state
+	StatusUserDesc string   `json:"status_user_desc"` // Integration status description
 }
 type IntegrationStatusType string
 
@@ -262,24 +282,27 @@ func LikelyErrorCauseTypeChoices() []string {
 	return []string{"null", "destination", "integration", "source", "unknown"}
 }
 
+// MaintenanceOut Automatic maintenance settings
 type MaintenanceOut struct {
-	Dow     DowType     `json:"dow"`
-	Time    string      `json:"time"`
-	Updates []UpdateOut `json:"updates"`
+	Dow     DowType     `json:"dow"`     // Day of week for installing updates
+	Time    string      `json:"time"`    // Time for installing updates, UTC
+	Updates []UpdateOut `json:"updates"` // List of updates waiting to be installed
 }
+
+// MetadataOut Notification metadata
 type MetadataOut struct {
-	EndOfLifeHelpArticleUrl *string    `json:"end_of_life_help_article_url,omitempty"`
-	EndOfLifePolicyUrl      *string    `json:"end_of_life_policy_url,omitempty"`
-	ServiceEndOfLifeTime    *time.Time `json:"service_end_of_life_time,omitempty"`
-	UpgradeToServiceType    *string    `json:"upgrade_to_service_type,omitempty"`
-	UpgradeToVersion        *string    `json:"upgrade_to_version,omitempty"`
+	EndOfLifeHelpArticleUrl *string    `json:"end_of_life_help_article_url,omitempty"` // Link to the help article
+	EndOfLifePolicyUrl      *string    `json:"end_of_life_policy_url,omitempty"`       // Link to the help article
+	ServiceEndOfLifeTime    *time.Time `json:"service_end_of_life_time,omitempty"`     // Timestamp in ISO 8601 format, always in UTC
+	UpgradeToServiceType    *string    `json:"upgrade_to_service_type,omitempty"`      // If the customer takes no action, the service is updated to this service type when end of life is reached on the Aiven platform. If it is the same as the service type, the platform only upgrades the version.
+	UpgradeToVersion        *string    `json:"upgrade_to_version,omitempty"`           // The version to which the service will be updated at the end of life on the Aiven platform if the user does not take any action
 }
 type NodeStateOut struct {
-	Name            string              `json:"name"`
-	ProgressUpdates []ProgressUpdateOut `json:"progress_updates,omitempty"`
-	Role            RoleType            `json:"role,omitempty"`
-	Shard           *ShardOut           `json:"shard,omitempty"`
-	State           NodeStateType       `json:"state"`
+	Name            string              `json:"name"`                       // Name of the service node
+	ProgressUpdates []ProgressUpdateOut `json:"progress_updates,omitempty"` // Extra information regarding the progress for current state
+	Role            RoleType            `json:"role,omitempty"`             // Role of this node. Only returned for a subset of service types
+	Shard           *ShardOut           `json:"shard,omitempty"`            // Shard of this node. Only returned for a subset of service types
+	State           NodeStateType       `json:"state"`                      // Current state of the service node
 }
 type NodeStateType string
 
@@ -358,12 +381,12 @@ func PoolModeTypeChoices() []string {
 }
 
 type ProgressUpdateOut struct {
-	Completed bool      `json:"completed"`
-	Current   *int      `json:"current,omitempty"`
-	Max       *int      `json:"max,omitempty"`
-	Min       *int      `json:"min,omitempty"`
-	Phase     PhaseType `json:"phase"`
-	Unit      UnitType  `json:"unit,omitempty"`
+	Completed bool      `json:"completed"`         // Indicates whether this phase has been completed or not
+	Current   *int      `json:"current,omitempty"` // Current progress for this phase. May be missing or null.
+	Max       *int      `json:"max,omitempty"`     // Maximum progress value for this phase. May be missing or null. May change.
+	Min       *int      `json:"min,omitempty"`     // Minimum progress value for this phase. May be missing or null.
+	Phase     PhaseType `json:"phase"`             // Key identifying this phase
+	Unit      UnitType  `json:"unit,omitempty"`    // Unit for current/min/max values. New units may be added. If null should be treated as generic unit
 }
 type RoleType string
 
@@ -391,35 +414,35 @@ func RouteTypeChoices() []string {
 }
 
 type SchemaRegistryAclOut struct {
-	Id         *string           `json:"id,omitempty"`
-	Permission PermissionTypeAlt `json:"permission"`
-	Resource   string            `json:"resource"`
+	Id         *string           `json:"id,omitempty"` // ID
+	Permission PermissionTypeAlt `json:"permission"`   // ACL entry for Schema Registry
+	Resource   string            `json:"resource"`     // Schema Registry ACL entry resource name pattern
 	Username   string            `json:"username"`
 }
 type ServiceIntegrationOut struct {
-	Active               bool                  `json:"active"`
-	Description          string                `json:"description"`
-	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`
-	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`
-	DestProject          string                `json:"dest_project"`
-	DestService          *string               `json:"dest_service,omitempty"`
-	DestServiceType      string                `json:"dest_service_type"`
-	Enabled              bool                  `json:"enabled"`
-	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"`
-	IntegrationType      string                `json:"integration_type"`
-	ServiceIntegrationId string                `json:"service_integration_id"`
-	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`
-	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"`
-	SourceProject        string                `json:"source_project"`
-	SourceService        string                `json:"source_service"`
-	SourceServiceType    string                `json:"source_service_type"`
-	UserConfig           map[string]any        `json:"user_config,omitempty"`
+	Active               bool                  `json:"active"`                       // True when integration is active
+	Description          string                `json:"description"`                  // Description of the integration
+	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`      // Destination endpoint name
+	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`   // Destination endpoint id
+	DestProject          string                `json:"dest_project"`                 // Project name
+	DestService          *string               `json:"dest_service,omitempty"`       // Destination service name
+	DestServiceType      string                `json:"dest_service_type"`            // Service type code
+	Enabled              bool                  `json:"enabled"`                      // True when integration is enabled
+	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"` // Integration status
+	IntegrationType      string                `json:"integration_type"`             // Type of the integration
+	ServiceIntegrationId string                `json:"service_integration_id"`       // Integration ID
+	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`    // Source endpoint name
+	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"` // Source endpoint ID
+	SourceProject        string                `json:"source_project"`               // Project name
+	SourceService        string                `json:"source_service"`               // Source service name
+	SourceServiceType    string                `json:"source_service_type"`          // Service type code
+	UserConfig           map[string]any        `json:"user_config,omitempty"`        // Service integration settings
 }
 type ServiceNotificationOut struct {
-	Level    LevelType               `json:"level"`
-	Message  string                  `json:"message"`
-	Metadata MetadataOut             `json:"metadata"`
-	Type     ServiceNotificationType `json:"type"`
+	Level    LevelType               `json:"level"`    // Notification level
+	Message  string                  `json:"message"`  // Human notification message
+	Metadata MetadataOut             `json:"metadata"` // Notification metadata
+	Type     ServiceNotificationType `json:"type"`     // Notification type
 }
 type ServiceNotificationType string
 
@@ -445,137 +468,168 @@ func ServiceStateTypeChoices() []string {
 	return []string{"POWEROFF", "REBALANCING", "REBUILDING", "RUNNING"}
 }
 
+// ServiceUserCreateIn ServiceUserCreateRequestBody
 type ServiceUserCreateIn struct {
-	AccessControl  *AccessControlIn   `json:"access_control,omitempty"`
-	Authentication AuthenticationType `json:"authentication,omitempty"`
-	Username       string             `json:"username"`
+	AccessControl *AccessControlIn `json:"access_control,omitempty"` /*
+		Service specific access controls for user
+
+		Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	*/
+	Authentication AuthenticationType `json:"authentication,omitempty"` // Authentication details
+	Username       string             `json:"username"`                 // Service username
 }
+
+// ServiceUserCreateOut Service user account
 type ServiceUserCreateOut struct {
-	AccessCert                    *string            `json:"access_cert,omitempty"`
-	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`
-	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`
-	AccessKey                     *string            `json:"access_key,omitempty"`
-	Authentication                AuthenticationType `json:"authentication,omitempty"`
-	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"`
-	Password                      string             `json:"password"`
-	Type                          string             `json:"type"`
-	Username                      string             `json:"username"`
+	AccessCert                  *string           `json:"access_cert,omitempty"`                      // Access certificate for TLS client authentication
+	AccessCertNotValidAfterTime *time.Time        `json:"access_cert_not_valid_after_time,omitempty"` // Validity end time (ISO8601) for the current access certificate
+	AccessControl               *AccessControlOut `json:"access_control,omitempty"`                   /*
+		Service specific access controls for user
+
+		Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	*/
+	AccessKey                     *string            `json:"access_key,omitempty"`                         // Access key for TLS client authentication
+	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Authentication details
+	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // Validity end time (ISO8601) for the expiring access certificate
+	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
+	Type                          string             `json:"type"`                                         // Account type
+	Username                      string             `json:"username"`                                     // Account username
 }
+
+// ServiceUserCredentialsModifyIn ServiceUserCredentialsModifyRequestBody
 type ServiceUserCredentialsModifyIn struct {
-	AccessControl  *AccessControlIn   `json:"access_control,omitempty"`
-	Authentication AuthenticationType `json:"authentication,omitempty"`
-	NewPassword    *string            `json:"new_password,omitempty"`
-	Operation      OperationType      `json:"operation"`
+	AccessControl *AccessControlIn `json:"access_control,omitempty"` /*
+		Service specific access controls for user
+
+		Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	*/
+	Authentication AuthenticationType `json:"authentication,omitempty"` // Authentication details
+	NewPassword    *string            `json:"new_password,omitempty"`   // New password
+	Operation      OperationType      `json:"operation"`                // Operation type
 }
+
+// ServiceUserCredentialsModifyOut Service information
 type ServiceUserCredentialsModifyOut struct {
-	Acl                    []AclOut                 `json:"acl,omitempty"`
-	Backups                []BackupOut              `json:"backups,omitempty"`
-	CloudDescription       *string                  `json:"cloud_description,omitempty"`
-	CloudName              string                   `json:"cloud_name"`
-	Components             []ComponentOut           `json:"components,omitempty"`
-	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`
-	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`
-	CreateTime             time.Time                `json:"create_time"`
-	Databases              []string                 `json:"databases,omitempty"`
-	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`
-	Features               map[string]any           `json:"features,omitempty"`
-	GroupList              []string                 `json:"group_list"`
-	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`
-	Metadata               map[string]any           `json:"metadata,omitempty"`
-	NodeCount              *int                     `json:"node_count,omitempty"`
-	NodeCpuCount           *int                     `json:"node_cpu_count,omitempty"`
-	NodeMemoryMb           *float64                 `json:"node_memory_mb,omitempty"`
-	NodeStates             []NodeStateOut           `json:"node_states,omitempty"`
-	Plan                   string                   `json:"plan"`
-	ProjectVpcId           string                   `json:"project_vpc_id"`
-	SchemaRegistryAcl      []SchemaRegistryAclOut   `json:"schema_registry_acl,omitempty"`
-	ServiceIntegrations    []ServiceIntegrationOut  `json:"service_integrations"`
-	ServiceName            string                   `json:"service_name"`
-	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`
-	ServiceType            string                   `json:"service_type"`
-	ServiceTypeDescription *string                  `json:"service_type_description,omitempty"`
-	ServiceUri             string                   `json:"service_uri"`
-	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`
-	State                  ServiceStateType         `json:"state"`
-	Tags                   map[string]string        `json:"tags,omitempty"`
-	TechEmails             []TechEmailOut           `json:"tech_emails,omitempty"`
-	TerminationProtection  bool                     `json:"termination_protection"`
-	Topics                 []TopicOut               `json:"topics,omitempty"`
-	UpdateTime             time.Time                `json:"update_time"`
-	UserConfig             map[string]any           `json:"user_config"`
-	Users                  []UserOut                `json:"users,omitempty"`
+	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Kafka ACL entries
+	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
+	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
+	CloudName              string                   `json:"cloud_name"`                         // Target cloud
+	Components             []ComponentOut           `json:"components,omitempty"`               // Service component information objects
+	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`          // Service-specific connection information properties
+	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`         // PostgreSQL PGBouncer connection pools
+	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
+	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
+	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
+	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
+	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
+	NodeCount              *int                     `json:"node_count,omitempty"`               // Number of service nodes in the active plan
+	NodeCpuCount           *int                     `json:"node_cpu_count,omitempty"`           // Number of CPUs for each node
+	NodeMemoryMb           *float64                 `json:"node_memory_mb,omitempty"`           // Megabytes of memory for each node
+	NodeStates             []NodeStateOut           `json:"node_states,omitempty"`              // State of individual service nodes
+	Plan                   string                   `json:"plan"`                               // Subscription plan
+	ProjectVpcId           string                   `json:"project_vpc_id"`                     // Project VPC ID
+	SchemaRegistryAcl      []SchemaRegistryAclOut   `json:"schema_registry_acl,omitempty"`      // List of Schema Registry ACL entries
+	ServiceIntegrations    []ServiceIntegrationOut  `json:"service_integrations"`               // Integrations with other services
+	ServiceName            string                   `json:"service_name"`                       // Service name
+	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`    // Service notifications
+	ServiceType            string                   `json:"service_type"`                       // Service type code
+	ServiceTypeDescription *string                  `json:"service_type_description,omitempty"` // Single line description of the service
+	ServiceUri             string                   `json:"service_uri"`                        // URI for connecting to the service (may be null)
+	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`       // service_uri parameterized into key-value pairs
+	State                  ServiceStateType         `json:"state"`                              // State of the service
+	Tags                   map[string]string        `json:"tags,omitempty"`                     // Set of resource tags
+	TechEmails             []TechEmailOut           `json:"tech_emails,omitempty"`              // List of service technical email addresses
+	TerminationProtection  bool                     `json:"termination_protection"`             // Service is protected against termination and powering off
+	Topics                 []TopicOut               `json:"topics,omitempty"`                   // Kafka topics. DEPRECATED: Use /project/$project/service/$service/topic instead
+	UpdateTime             time.Time                `json:"update_time"`                        // Service last update timestamp (ISO 8601)
+	UserConfig             map[string]any           `json:"user_config"`                        // Service type-specific settings
+	Users                  []UserOut                `json:"users,omitempty"`                    // List of service users
 }
+
+// ServiceUserCredentialsResetOut Service information
 type ServiceUserCredentialsResetOut struct {
-	Acl                    []AclOut                 `json:"acl,omitempty"`
-	Backups                []BackupOut              `json:"backups,omitempty"`
-	CloudDescription       *string                  `json:"cloud_description,omitempty"`
-	CloudName              string                   `json:"cloud_name"`
-	Components             []ComponentOut           `json:"components,omitempty"`
-	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`
-	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`
-	CreateTime             time.Time                `json:"create_time"`
-	Databases              []string                 `json:"databases,omitempty"`
-	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`
-	Features               map[string]any           `json:"features,omitempty"`
-	GroupList              []string                 `json:"group_list"`
-	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`
-	Metadata               map[string]any           `json:"metadata,omitempty"`
-	NodeCount              *int                     `json:"node_count,omitempty"`
-	NodeCpuCount           *int                     `json:"node_cpu_count,omitempty"`
-	NodeMemoryMb           *float64                 `json:"node_memory_mb,omitempty"`
-	NodeStates             []NodeStateOut           `json:"node_states,omitempty"`
-	Plan                   string                   `json:"plan"`
-	ProjectVpcId           string                   `json:"project_vpc_id"`
-	SchemaRegistryAcl      []SchemaRegistryAclOut   `json:"schema_registry_acl,omitempty"`
-	ServiceIntegrations    []ServiceIntegrationOut  `json:"service_integrations"`
-	ServiceName            string                   `json:"service_name"`
-	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`
-	ServiceType            string                   `json:"service_type"`
-	ServiceTypeDescription *string                  `json:"service_type_description,omitempty"`
-	ServiceUri             string                   `json:"service_uri"`
-	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`
-	State                  ServiceStateType         `json:"state"`
-	Tags                   map[string]string        `json:"tags,omitempty"`
-	TechEmails             []TechEmailOut           `json:"tech_emails,omitempty"`
-	TerminationProtection  bool                     `json:"termination_protection"`
-	Topics                 []TopicOut               `json:"topics,omitempty"`
-	UpdateTime             time.Time                `json:"update_time"`
-	UserConfig             map[string]any           `json:"user_config"`
-	Users                  []UserOut                `json:"users,omitempty"`
+	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Kafka ACL entries
+	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
+	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
+	CloudName              string                   `json:"cloud_name"`                         // Target cloud
+	Components             []ComponentOut           `json:"components,omitempty"`               // Service component information objects
+	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`          // Service-specific connection information properties
+	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`         // PostgreSQL PGBouncer connection pools
+	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
+	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
+	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
+	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
+	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
+	NodeCount              *int                     `json:"node_count,omitempty"`               // Number of service nodes in the active plan
+	NodeCpuCount           *int                     `json:"node_cpu_count,omitempty"`           // Number of CPUs for each node
+	NodeMemoryMb           *float64                 `json:"node_memory_mb,omitempty"`           // Megabytes of memory for each node
+	NodeStates             []NodeStateOut           `json:"node_states,omitempty"`              // State of individual service nodes
+	Plan                   string                   `json:"plan"`                               // Subscription plan
+	ProjectVpcId           string                   `json:"project_vpc_id"`                     // Project VPC ID
+	SchemaRegistryAcl      []SchemaRegistryAclOut   `json:"schema_registry_acl,omitempty"`      // List of Schema Registry ACL entries
+	ServiceIntegrations    []ServiceIntegrationOut  `json:"service_integrations"`               // Integrations with other services
+	ServiceName            string                   `json:"service_name"`                       // Service name
+	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`    // Service notifications
+	ServiceType            string                   `json:"service_type"`                       // Service type code
+	ServiceTypeDescription *string                  `json:"service_type_description,omitempty"` // Single line description of the service
+	ServiceUri             string                   `json:"service_uri"`                        // URI for connecting to the service (may be null)
+	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`       // service_uri parameterized into key-value pairs
+	State                  ServiceStateType         `json:"state"`                              // State of the service
+	Tags                   map[string]string        `json:"tags,omitempty"`                     // Set of resource tags
+	TechEmails             []TechEmailOut           `json:"tech_emails,omitempty"`              // List of service technical email addresses
+	TerminationProtection  bool                     `json:"termination_protection"`             // Service is protected against termination and powering off
+	Topics                 []TopicOut               `json:"topics,omitempty"`                   // Kafka topics. DEPRECATED: Use /project/$project/service/$service/topic instead
+	UpdateTime             time.Time                `json:"update_time"`                        // Service last update timestamp (ISO 8601)
+	UserConfig             map[string]any           `json:"user_config"`                        // Service type-specific settings
+	Users                  []UserOut                `json:"users,omitempty"`                    // List of service users
 }
+
+// ServiceUserGetOut Service user account
 type ServiceUserGetOut struct {
-	AccessCert                    *string            `json:"access_cert,omitempty"`
-	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`
-	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`
-	AccessKey                     *string            `json:"access_key,omitempty"`
-	Authentication                AuthenticationType `json:"authentication,omitempty"`
-	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"`
-	Password                      string             `json:"password"`
-	Type                          string             `json:"type"`
-	Username                      string             `json:"username"`
+	AccessCert                  *string           `json:"access_cert,omitempty"`                      // Access certificate for TLS client authentication
+	AccessCertNotValidAfterTime *time.Time        `json:"access_cert_not_valid_after_time,omitempty"` // Validity end time (ISO8601) for the current access certificate
+	AccessControl               *AccessControlOut `json:"access_control,omitempty"`                   /*
+		Service specific access controls for user
+
+		Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	*/
+	AccessKey                     *string            `json:"access_key,omitempty"`                         // Access key for TLS client authentication
+	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Authentication details
+	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // Validity end time (ISO8601) for the expiring access certificate
+	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
+	Type                          string             `json:"type"`                                         // Account type
+	Username                      string             `json:"username"`                                     // Account username
 }
+
+// ShardOut Shard of this node. Only returned for a subset of service types
 type ShardOut struct {
-	Name     *string `json:"name,omitempty"`
-	Position *int    `json:"position,omitempty"`
+	Name     *string `json:"name,omitempty"`     // Name of the shard.
+	Position *int    `json:"position,omitempty"` // Position of this shard within the service
 }
+
+// StateOut Service integration state
 type StateOut struct {
 	Errors           []string              `json:"errors"`
-	LikelyErrorCause LikelyErrorCauseType  `json:"likely_error_cause,omitempty"`
+	LikelyErrorCause LikelyErrorCauseType  `json:"likely_error_cause,omitempty"` // Most likely cause of the errors
 	Nodes            map[string]any        `json:"nodes"`
-	Status           IntegrationStatusType `json:"status"`
+	Status           IntegrationStatusType `json:"status"` // Service integration status
 }
 type TechEmailOut struct {
-	Email string `json:"email"`
+	Email string `json:"email"` // User email address
 }
 type TopicOut struct {
-	CleanupPolicy     string         `json:"cleanup_policy"`
-	MinInsyncReplicas int            `json:"min_insync_replicas"`
-	Partitions        int            `json:"partitions"`
-	Replication       int            `json:"replication"`
-	RetentionBytes    int            `json:"retention_bytes"`
-	RetentionHours    int            `json:"retention_hours"`
-	State             TopicStateType `json:"state,omitempty"`
-	TopicName         string         `json:"topic_name"`
+	CleanupPolicy     string         `json:"cleanup_policy"`      // cleanup.policy
+	MinInsyncReplicas int            `json:"min_insync_replicas"` // min.insync.replicas
+	Partitions        int            `json:"partitions"`          // Number of partitions
+	Replication       int            `json:"replication"`         // Number of replicas
+	RetentionBytes    int            `json:"retention_bytes"`     // retention.bytes
+	RetentionHours    int            `json:"retention_hours"`     // Retention period (hours)
+	State             TopicStateType `json:"state,omitempty"`     // Topic state
+	TopicName         string         `json:"topic_name"`          // Topic name
 }
 type TopicStateType string
 
@@ -603,10 +657,10 @@ func UnitTypeChoices() []string {
 }
 
 type UpdateOut struct {
-	Deadline    *string    `json:"deadline,omitempty"`
-	Description *string    `json:"description,omitempty"`
-	StartAfter  *string    `json:"start_after,omitempty"`
-	StartAt     *time.Time `json:"start_at,omitempty"`
+	Deadline    *string    `json:"deadline,omitempty"`    // Deadline for installing the update
+	Description *string    `json:"description,omitempty"` // Description of the update
+	StartAfter  *string    `json:"start_after,omitempty"` // The earliest time the update will be automatically applied
+	StartAt     *time.Time `json:"start_at,omitempty"`    // The time when the update will be automatically applied
 }
 type UsageType string
 
@@ -620,25 +674,37 @@ func UsageTypeChoices() []string {
 }
 
 type UserOut struct {
-	AccessCert                    *string            `json:"access_cert,omitempty"`
-	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`
-	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`
-	AccessKey                     *string            `json:"access_key,omitempty"`
-	Authentication                AuthenticationType `json:"authentication,omitempty"`
-	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"`
-	Password                      string             `json:"password"`
-	Type                          string             `json:"type"`
-	Username                      string             `json:"username"`
+	AccessCert                  *string           `json:"access_cert,omitempty"`                      // Access certificate for TLS client authentication
+	AccessCertNotValidAfterTime *time.Time        `json:"access_cert_not_valid_after_time,omitempty"` // Validity end time (ISO8601) for the current access certificate
+	AccessControl               *AccessControlOut `json:"access_control,omitempty"`                   /*
+		Service specific access controls for user
+
+		Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	*/
+	AccessKey                     *string            `json:"access_key,omitempty"`                         // Access key for TLS client authentication
+	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Authentication details
+	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // Validity end time (ISO8601) for the expiring access certificate
+	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
+	Type                          string             `json:"type"`                                         // Account type
+	Username                      string             `json:"username"`                                     // Account username
 }
+
+// serviceUserCreateOut ServiceUserCreateResponse
 type serviceUserCreateOut struct {
-	User ServiceUserCreateOut `json:"user"`
+	User ServiceUserCreateOut `json:"user"` // Service user account
 }
+
+// serviceUserCredentialsModifyOut ServiceUserCredentialsModifyResponse
 type serviceUserCredentialsModifyOut struct {
-	Service ServiceUserCredentialsModifyOut `json:"service"`
+	Service ServiceUserCredentialsModifyOut `json:"service"` // Service information
 }
+
+// serviceUserCredentialsResetOut ServiceUserCredentialsResetResponse
 type serviceUserCredentialsResetOut struct {
-	Service ServiceUserCredentialsResetOut `json:"service"`
+	Service ServiceUserCredentialsResetOut `json:"service"` // Service information
 }
+
+// serviceUserGetOut ServiceUserGetResponse
 type serviceUserGetOut struct {
-	User ServiceUserGetOut `json:"user"`
+	User ServiceUserGetOut `json:"user"` // Service user account
 }

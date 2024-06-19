@@ -189,15 +189,15 @@ func (h *KafkaHandler) ServiceKafkaTieredStorageSummary(ctx context.Context, pro
 }
 
 type AclOut struct {
-	Id         *string        `json:"id,omitempty"`
-	Permission PermissionType `json:"permission"`
-	Topic      string         `json:"topic"`
+	Id         *string        `json:"id,omitempty"` // ID
+	Permission PermissionType `json:"permission"`   // Kafka permission
+	Topic      string         `json:"topic"`        // Topic name pattern
 	Username   string         `json:"username"`
 }
 type HourlyOut struct {
-	EstimatedCost   *string `json:"estimated_cost,omitempty"`
-	HourStart       string  `json:"hour_start"`
-	PeakStoredBytes int     `json:"peak_stored_bytes"`
+	EstimatedCost   *string `json:"estimated_cost,omitempty"` // The estimated cost in USD of tiered storage for this hour
+	HourStart       string  `json:"hour_start"`               // Timestamp in ISO 8601 format, always in UTC
+	PeakStoredBytes int     `json:"peak_stored_bytes"`        // Peak bytes stored on object storage at this hour
 }
 type PermissionType string
 
@@ -213,59 +213,83 @@ func PermissionTypeChoices() []string {
 }
 
 type QuotaOut struct {
-	ClientId          *string `json:"client-id,omitempty"`
-	ConsumerByteRate  float64 `json:"consumer_byte_rate"`
-	ProducerByteRate  float64 `json:"producer_byte_rate"`
-	RequestPercentage float64 `json:"request_percentage"`
-	User              string  `json:"user"`
+	ClientId          *string `json:"client-id,omitempty"` // client-id
+	ConsumerByteRate  float64 `json:"consumer_byte_rate"`  // consumer network throttle
+	ProducerByteRate  float64 `json:"producer_byte_rate"`  // producer network throttle
+	RequestPercentage float64 `json:"request_percentage"`  // cpu percentage throttle
+	User              string  `json:"user"`                // user
 }
+
+// ServiceKafkaAclAddIn ServiceKafkaAclAddRequestBody
 type ServiceKafkaAclAddIn struct {
-	Permission PermissionType `json:"permission"`
-	Topic      string         `json:"topic"`
+	Permission PermissionType `json:"permission"` // Kafka permission
+	Topic      string         `json:"topic"`      // Topic name pattern
 	Username   string         `json:"username"`
 }
+
+// ServiceKafkaQuotaCreateIn ServiceKafkaQuotaCreateRequestBody
 type ServiceKafkaQuotaCreateIn struct {
-	ClientId          *string  `json:"client-id,omitempty"`
-	ConsumerByteRate  *float64 `json:"consumer_byte_rate,omitempty"`
-	ProducerByteRate  *float64 `json:"producer_byte_rate,omitempty"`
-	RequestPercentage *float64 `json:"request_percentage,omitempty"`
-	User              *string  `json:"user,omitempty"`
+	ClientId          *string  `json:"client-id,omitempty"`          // client-id
+	ConsumerByteRate  *float64 `json:"consumer_byte_rate,omitempty"` // consumer network throttle
+	ProducerByteRate  *float64 `json:"producer_byte_rate,omitempty"` // producer network throttle
+	RequestPercentage *float64 `json:"request_percentage,omitempty"` // cpu percentage throttle
+	User              *string  `json:"user,omitempty"`               // user
 }
+
+// ServiceKafkaQuotaDescribeOut kafka quota
 type ServiceKafkaQuotaDescribeOut struct {
-	ClientId          *string `json:"client-id,omitempty"`
-	ConsumerByteRate  float64 `json:"consumer_byte_rate"`
-	ProducerByteRate  float64 `json:"producer_byte_rate"`
-	RequestPercentage float64 `json:"request_percentage"`
-	User              string  `json:"user"`
+	ClientId          *string `json:"client-id,omitempty"` // client-id
+	ConsumerByteRate  float64 `json:"consumer_byte_rate"`  // consumer network throttle
+	ProducerByteRate  float64 `json:"producer_byte_rate"`  // producer network throttle
+	RequestPercentage float64 `json:"request_percentage"`  // cpu percentage throttle
+	User              string  `json:"user"`                // user
 }
+
+// ServiceKafkaTieredStorageSummaryOut ServiceKafkaTieredStorageSummaryResponse
 type ServiceKafkaTieredStorageSummaryOut struct {
-	CurrentCost         string                 `json:"current_cost"`
-	ForecastedCost      string                 `json:"forecasted_cost"`
-	ForecastedRate      *string                `json:"forecasted_rate,omitempty"`
-	StorageUsageHistory StorageUsageHistoryOut `json:"storage_usage_history"`
-	TotalStorageUsage   int                    `json:"total_storage_usage"`
+	CurrentCost         string                 `json:"current_cost"`              // The current cost in USD of tiered storage since the beginning of the billing period
+	ForecastedCost      string                 `json:"forecasted_cost"`           // The forecasted cost in USD of tiered storage in the billing period
+	ForecastedRate      *string                `json:"forecasted_rate,omitempty"` // The rate on GBs/hour used to calculate the forecasted cost
+	StorageUsageHistory StorageUsageHistoryOut `json:"storage_usage_history"`     // History of usage and cumulative costs in the billing period
+	TotalStorageUsage   int                    `json:"total_storage_usage"`       // Total storage usage by tiered storage, in bytes
 }
+
+// StorageUsageHistoryOut History of usage and cumulative costs in the billing period
 type StorageUsageHistoryOut struct {
-	Hourly []HourlyOut `json:"hourly"`
+	Hourly []HourlyOut `json:"hourly"` // History by hour
 }
+
+// serviceKafkaAclAddOut ServiceKafkaAclAddResponse
 type serviceKafkaAclAddOut struct {
-	Acl []AclOut `json:"acl"`
+	Acl []AclOut `json:"acl"` // List of Kafka ACL entries
 }
+
+// serviceKafkaAclDeleteOut ServiceKafkaAclDeleteResponse
 type serviceKafkaAclDeleteOut struct {
-	Acl []AclOut `json:"acl"`
+	Acl []AclOut `json:"acl"` // List of Kafka ACL entries
 }
+
+// serviceKafkaAclListOut ServiceKafkaAclListResponse
 type serviceKafkaAclListOut struct {
-	Acl []AclOut `json:"acl"`
+	Acl []AclOut `json:"acl"` // List of Kafka ACL entries
 }
+
+// serviceKafkaQuotaDescribeOut ServiceKafkaQuotaDescribeResponse
 type serviceKafkaQuotaDescribeOut struct {
-	Quota ServiceKafkaQuotaDescribeOut `json:"quota"`
+	Quota ServiceKafkaQuotaDescribeOut `json:"quota"` // kafka quota
 }
+
+// serviceKafkaQuotaListOut ServiceKafkaQuotaListResponse
 type serviceKafkaQuotaListOut struct {
-	Quotas []QuotaOut `json:"quotas"`
+	Quotas []QuotaOut `json:"quotas"` // List of kafka quotas
 }
+
+// serviceKafkaTieredStorageUsageByTopicOut ServiceKafkaTieredStorageStorageUsageByTopicResponse
 type serviceKafkaTieredStorageUsageByTopicOut struct {
-	StorageUsage map[string]any `json:"storage_usage"`
+	StorageUsage map[string]any `json:"storage_usage"` // Storage usage by tiered storage by topics
 }
+
+// serviceKafkaTieredStorageUsageTotalOut ServiceKafkaTieredStorageStorageUsageTotalResponse
 type serviceKafkaTieredStorageUsageTotalOut struct {
-	TotalStorageUsage int `json:"total_storage_usage"`
+	TotalStorageUsage int `json:"total_storage_usage"` // Total storage usage by tiered storage, in bytes
 }
