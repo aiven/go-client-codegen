@@ -124,7 +124,7 @@ type ReplicationFlowOut struct {
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
 	TargetCluster                   string                       `json:"target_cluster"`
 	Topics                          []string                     `json:"topics,omitempty"`
-	TopicsBlacklist                 *string                      `json:"topics.blacklist,omitempty"`
+	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`
 }
 type ReplicationPolicyClassType string
 
@@ -151,7 +151,7 @@ type ServiceKafkaMirrorMakerCreateReplicationFlowIn struct {
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
 	TargetCluster                   string                       `json:"target_cluster"`
 	Topics                          *[]string                    `json:"topics,omitempty"`
-	TopicsBlacklist                 *string                      `json:"topics.blacklist,omitempty"`
+	TopicsBlacklist                 *[]string                    `json:"topics.blacklist,omitempty"`
 }
 type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
 	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`
@@ -168,7 +168,7 @@ type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
 	TargetCluster                   string                       `json:"target_cluster"`
 	Topics                          []string                     `json:"topics,omitempty"`
-	TopicsBlacklist                 *string                      `json:"topics.blacklist,omitempty"`
+	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`
 }
 type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
 	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`
@@ -182,7 +182,7 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
 	Topics                          *[]string                    `json:"topics,omitempty"`
-	TopicsBlacklist                 *string                      `json:"topics.blacklist,omitempty"`
+	TopicsBlacklist                 *[]string                    `json:"topics.blacklist,omitempty"`
 }
 type ServiceKafkaMirrorMakerPatchReplicationFlowOut struct {
 	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`
@@ -199,7 +199,7 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowOut struct {
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
 	TargetCluster                   string                       `json:"target_cluster"`
 	Topics                          []string                     `json:"topics,omitempty"`
-	TopicsBlacklist                 *string                      `json:"topics.blacklist,omitempty"`
+	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`
 }
 type serviceKafkaMirrorMakerGetReplicationFlowOut struct {
 	ReplicationFlow ServiceKafkaMirrorMakerGetReplicationFlowOut `json:"replication_flow"`

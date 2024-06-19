@@ -226,6 +226,12 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 		}
 	}
 
+	// fixme: on the backend
+	if s.name == "topics.blacklist" && s.parent.Type != SchemaTypeArray {
+		s.Type = SchemaTypeArray
+		s.Items = &Schema{Type: SchemaTypeString}
+	}
+
 	if s.Type == SchemaTypeString {
 		parts := strings.Split(s.name, "_")
 		suffix := parts[len(parts)-1]
