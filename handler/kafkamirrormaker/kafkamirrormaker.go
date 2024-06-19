@@ -123,12 +123,8 @@ type ReplicationFlowOut struct {
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Sync consumer group offsets
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
 	TargetCluster                   string                       `json:"target_cluster"`                                // Target cluster alias
-	Topics                          []string                     `json:"topics,omitempty"`                              /*
-		List of topics and/or regular expressions to replicate.
-
-		Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by &quot;topics.blacklist&quot;. Currently defaults to [&quot;.*&quot;].
-	*/
-	TopicsBlacklist []string `json:"topics.blacklist,omitempty"` // Topic or topic regular expression matching topic
+	Topics                          []string                     `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by &quot;topics.blacklist&quot;. Currently defaults to [&quot;.*&quot;].
+	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // Topic or topic regular expression matching topic
 }
 type ReplicationPolicyClassType string
 
@@ -155,12 +151,8 @@ type ServiceKafkaMirrorMakerCreateReplicationFlowIn struct {
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Sync consumer group offsets
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
 	TargetCluster                   string                       `json:"target_cluster"`                                // Target cluster alias
-	Topics                          *[]string                    `json:"topics,omitempty"`                              /*
-		List of topics and/or regular expressions to replicate.
-
-		Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by &quot;topics.blacklist&quot;. Currently defaults to [&quot;.*&quot;].
-	*/
-	TopicsBlacklist *[]string `json:"topics.blacklist,omitempty"` // Topic or topic regular expression matching topic
+	Topics                          *[]string                    `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by &quot;topics.blacklist&quot;. Currently defaults to [&quot;.*&quot;].
+	TopicsBlacklist                 *[]string                    `json:"topics.blacklist,omitempty"`                    // Topic or topic regular expression matching topic
 }
 
 // ServiceKafkaMirrorMakerGetReplicationFlowOut Replication flow
@@ -178,12 +170,8 @@ type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Sync consumer group offsets
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
 	TargetCluster                   string                       `json:"target_cluster"`                                // Target cluster alias
-	Topics                          []string                     `json:"topics,omitempty"`                              /*
-		List of topics and/or regular expressions to replicate.
-
-		Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by &quot;topics.blacklist&quot;. Currently defaults to [&quot;.*&quot;].
-	*/
-	TopicsBlacklist []string `json:"topics.blacklist,omitempty"` // Topic or topic regular expression matching topic
+	Topics                          []string                     `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by &quot;topics.blacklist&quot;. Currently defaults to [&quot;.*&quot;].
+	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // Topic or topic regular expression matching topic
 }
 
 // ServiceKafkaMirrorMakerPatchReplicationFlowIn ServiceKafkaMirrorMakerPatchReplicationFlowRequestBody
@@ -198,12 +186,8 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
 	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`            // Replication policy class
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Sync consumer group offsets
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
-	Topics                          *[]string                    `json:"topics,omitempty"`                              /*
-		List of topics and/or regular expressions to replicate.
-
-		Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by &quot;topics.blacklist&quot;. Currently defaults to [&quot;.*&quot;].
-	*/
-	TopicsBlacklist *[]string `json:"topics.blacklist,omitempty"` // Topic or topic regular expression matching topic
+	Topics                          *[]string                    `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by &quot;topics.blacklist&quot;. Currently defaults to [&quot;.*&quot;].
+	TopicsBlacklist                 *[]string                    `json:"topics.blacklist,omitempty"`                    // Topic or topic regular expression matching topic
 }
 
 // ServiceKafkaMirrorMakerPatchReplicationFlowOut Replication flow
@@ -221,12 +205,8 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowOut struct {
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Sync consumer group offsets
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
 	TargetCluster                   string                       `json:"target_cluster"`                                // Target cluster alias
-	Topics                          []string                     `json:"topics,omitempty"`                              /*
-		List of topics and/or regular expressions to replicate.
-
-		Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by &quot;topics.blacklist&quot;. Currently defaults to [&quot;.*&quot;].
-	*/
-	TopicsBlacklist []string `json:"topics.blacklist,omitempty"` // Topic or topic regular expression matching topic
+	Topics                          []string                     `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by &quot;topics.blacklist&quot;. Currently defaults to [&quot;.*&quot;].
+	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // Topic or topic regular expression matching topic
 }
 
 // serviceKafkaMirrorMakerGetReplicationFlowOut ServiceKafkaMirrorMakerGetReplicationFlowResponse
@@ -236,11 +216,7 @@ type serviceKafkaMirrorMakerGetReplicationFlowOut struct {
 
 // serviceKafkaMirrorMakerGetReplicationFlowsOut ServiceKafkaMirrorMakerGetReplicationFlowsResponse
 type serviceKafkaMirrorMakerGetReplicationFlowsOut struct {
-	ReplicationFlows []ReplicationFlowOut `json:"replication_flows"` /*
-		Replication flows
-
-		Describes data replication flows between Kafka clusters
-	*/
+	ReplicationFlows []ReplicationFlowOut `json:"replication_flows"` // Replication flows. Describes data replication flows between Kafka clusters
 }
 
 // serviceKafkaMirrorMakerPatchReplicationFlowOut ServiceKafkaMirrorMakerPatchReplicationFlowResponse

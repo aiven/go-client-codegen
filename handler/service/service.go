@@ -517,11 +517,7 @@ func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serv
 	return &out.Service, nil
 }
 
-/*
-AccessControlOut Service specific access controls for user
-
-Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
-*/
+// AccessControlOut Service specific access controls for user. Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
 type AccessControlOut struct {
 	DragonflyAclCategories []string `json:"dragonfly_acl_categories,omitempty"` // Command category rules
 	DragonflyAclCommands   []string `json:"dragonfly_acl_commands,omitempty"`   // Rules for individual commands
@@ -529,13 +525,9 @@ type AccessControlOut struct {
 	M3Group                *string  `json:"m3_group,omitempty"`                 // M3 access group to associate users with
 	PgAllowReplication     *bool    `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
 	RedisAclCategories     []string `json:"redis_acl_categories,omitempty"`     // Command category rules
-	RedisAclChannels       []string `json:"redis_acl_channels,omitempty"`       /*
-		Permitted pub/sub channel patterns
-
-		Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
-	*/
-	RedisAclCommands []string `json:"redis_acl_commands,omitempty"` // Rules for individual commands
-	RedisAclKeys     []string `json:"redis_acl_keys,omitempty"`     // Key access rules
+	RedisAclChannels       []string `json:"redis_acl_channels,omitempty"`       // Permitted pub/sub channel patterns. Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
+	RedisAclCommands       []string `json:"redis_acl_commands,omitempty"`       // Rules for individual commands
+	RedisAclKeys           []string `json:"redis_acl_keys,omitempty"`           // Key access rules
 }
 type AclOut struct {
 	Id         *string        `json:"id,omitempty"` // ID
@@ -1730,13 +1722,9 @@ func UsageTypeChoices() []string {
 }
 
 type UserOut struct {
-	AccessCert                  *string           `json:"access_cert,omitempty"`                      // Access certificate for TLS client authentication
-	AccessCertNotValidAfterTime *time.Time        `json:"access_cert_not_valid_after_time,omitempty"` // Validity end time (ISO8601) for the current access certificate
-	AccessControl               *AccessControlOut `json:"access_control,omitempty"`                   /*
-		Service specific access controls for user
-
-		Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
-	*/
+	AccessCert                    *string            `json:"access_cert,omitempty"`                        // Access certificate for TLS client authentication
+	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`   // Validity end time (ISO8601) for the current access certificate
+	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`                     // Service specific access controls for user. Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
 	AccessKey                     *string            `json:"access_key,omitempty"`                         // Access key for TLS client authentication
 	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Authentication details
 	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // Validity end time (ISO8601) for the expiring access certificate
