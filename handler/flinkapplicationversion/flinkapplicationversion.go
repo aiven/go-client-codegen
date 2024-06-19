@@ -98,105 +98,121 @@ func (h *FlinkApplicationVersionHandler) ServiceFlinkValidateApplicationVersion(
 }
 
 type ColumnOut struct {
-	DataType  string  `json:"data_type"`
-	Extras    *string `json:"extras,omitempty"`
-	Key       *string `json:"key,omitempty"`
-	Name      string  `json:"name"`
-	Nullable  bool    `json:"nullable"`
-	Watermark *string `json:"watermark,omitempty"`
+	DataType  string  `json:"data_type"`           // The data type of the column
+	Extras    *string `json:"extras,omitempty"`    // Column extra information
+	Key       *string `json:"key,omitempty"`       // The key info of the column
+	Name      string  `json:"name"`                // The name of the column
+	Nullable  bool    `json:"nullable"`            // Whether the column is nullable, i.e. if true, the column is NOT NULL
+	Watermark *string `json:"watermark,omitempty"` // Information of the watermark if the column is used for watermark.
 }
+
+// PositionOut Error position in the SQL.
 type PositionOut struct {
-	CharacterNumber    int `json:"character_number"`
-	EndCharacterNumber int `json:"end_character_number"`
-	EndLineNumber      int `json:"end_line_number"`
-	LineNumber         int `json:"line_number"`
+	CharacterNumber    int `json:"character_number"`     // Character number of where the error starts, starting from 1.
+	EndCharacterNumber int `json:"end_character_number"` // Character number of where the error starts, starting from 1.
+	EndLineNumber      int `json:"end_line_number"`      // Line number of where the error ends, starting from 1.
+	LineNumber         int `json:"line_number"`          // Line number of where the error starts, starting from 1.
 }
+
+// ServiceFlinkCreateApplicationVersionIn ServiceFlinkCreateApplicationVersionRequestBody
 type ServiceFlinkCreateApplicationVersionIn struct {
 	Sinks     []SinkIn   `json:"sinks"`
 	Sources   []SourceIn `json:"sources"`
-	Statement string     `json:"statement"`
+	Statement string     `json:"statement"` // Job SQL statement
 }
+
+// ServiceFlinkCreateApplicationVersionOut ServiceFlinkCreateApplicationVersionResponse
 type ServiceFlinkCreateApplicationVersionOut struct {
-	CreatedAt time.Time   `json:"created_at"`
-	CreatedBy string      `json:"created_by"`
-	Id        string      `json:"id"`
+	CreatedAt time.Time   `json:"created_at"` // Created at
+	CreatedBy string      `json:"created_by"` // Created by
+	Id        string      `json:"id"`         // ApplicationVersion ID
 	Sinks     []SinkOut   `json:"sinks"`
 	Sources   []SourceOut `json:"sources"`
-	Statement string      `json:"statement"`
-	Version   int         `json:"version"`
+	Statement string      `json:"statement"` // Job SQL statement
+	Version   int         `json:"version"`   // Version number
 }
+
+// ServiceFlinkDeleteApplicationVersionOut ServiceFlinkDeleteApplicationVersionResponse
 type ServiceFlinkDeleteApplicationVersionOut struct {
-	CreatedAt time.Time   `json:"created_at"`
-	CreatedBy string      `json:"created_by"`
-	Id        string      `json:"id"`
+	CreatedAt time.Time   `json:"created_at"` // Created at
+	CreatedBy string      `json:"created_by"` // Created by
+	Id        string      `json:"id"`         // ApplicationVersion ID
 	Sinks     []SinkOut   `json:"sinks"`
 	Sources   []SourceOut `json:"sources"`
-	Statement string      `json:"statement"`
-	Version   int         `json:"version"`
+	Statement string      `json:"statement"` // Job SQL statement
+	Version   int         `json:"version"`   // Version number
 }
+
+// ServiceFlinkGetApplicationVersionOut ServiceFlinkGetApplicationVersionResponse
 type ServiceFlinkGetApplicationVersionOut struct {
-	CreatedAt time.Time   `json:"created_at"`
-	CreatedBy string      `json:"created_by"`
-	Id        string      `json:"id"`
+	CreatedAt time.Time   `json:"created_at"` // Created at
+	CreatedBy string      `json:"created_by"` // Created by
+	Id        string      `json:"id"`         // ApplicationVersion ID
 	Sinks     []SinkOut   `json:"sinks"`
 	Sources   []SourceOut `json:"sources"`
-	Statement string      `json:"statement"`
-	Version   int         `json:"version"`
+	Statement string      `json:"statement"` // Job SQL statement
+	Version   int         `json:"version"`   // Version number
 }
+
+// ServiceFlinkValidateApplicationVersionIn ServiceFlinkValidateApplicationVersionRequestBody
 type ServiceFlinkValidateApplicationVersionIn struct {
 	Sinks     []SinkIn   `json:"sinks"`
 	Sources   []SourceIn `json:"sources"`
-	Statement *string    `json:"statement,omitempty"`
+	Statement *string    `json:"statement,omitempty"` // Job SQL statement
 }
+
+// ServiceFlinkValidateApplicationVersionOut ServiceFlinkValidateApplicationVersionResponse
 type ServiceFlinkValidateApplicationVersionOut struct {
-	Sinks          []SinkOutAlt       `json:"sinks"`
-	Sources        []SourceOutAlt     `json:"sources"`
-	Statement      *string            `json:"statement,omitempty"`
-	StatementError *StatementErrorOut `json:"statement_error,omitempty"`
+	Sinks          []SinkOutAlt       `json:"sinks"`                     // Sinks and sink validation errors
+	Sources        []SourceOutAlt     `json:"sources"`                   // Sources and source validation errors
+	Statement      *string            `json:"statement,omitempty"`       // Job SQL statement
+	StatementError *StatementErrorOut `json:"statement_error,omitempty"` // Job validation error
 }
 type SinkIn struct {
-	CreateTable   string  `json:"create_table"`
-	IntegrationId *string `json:"integration_id,omitempty"`
+	CreateTable   string  `json:"create_table"`             // The CREATE TABLE statement
+	IntegrationId *string `json:"integration_id,omitempty"` // Integration ID
 }
 type SinkOut struct {
 	Columns       []ColumnOut    `json:"columns"`
-	CreateTable   string         `json:"create_table"`
-	IntegrationId *string        `json:"integration_id,omitempty"`
-	Options       map[string]any `json:"options"`
-	TableId       string         `json:"table_id"`
-	TableName     string         `json:"table_name"`
+	CreateTable   string         `json:"create_table"`             // The CREATE TABLE statement
+	IntegrationId *string        `json:"integration_id,omitempty"` // Integration ID
+	Options       map[string]any `json:"options"`                  // Option
+	TableId       string         `json:"table_id"`                 // Sink ID
+	TableName     string         `json:"table_name"`               // Table name
 }
 type SinkOutAlt struct {
 	Columns       []ColumnOut    `json:"columns,omitempty"`
-	CreateTable   string         `json:"create_table"`
-	IntegrationId *string        `json:"integration_id,omitempty"`
-	Message       *string        `json:"message,omitempty"`
-	Options       map[string]any `json:"options,omitempty"`
-	Position      *PositionOut   `json:"position,omitempty"`
-	TableName     *string        `json:"table_name,omitempty"`
+	CreateTable   string         `json:"create_table"`             // The CREATE TABLE statement
+	IntegrationId *string        `json:"integration_id,omitempty"` // Integration ID
+	Message       *string        `json:"message,omitempty"`        // The error message.
+	Options       map[string]any `json:"options,omitempty"`        // Option
+	Position      *PositionOut   `json:"position,omitempty"`       // Error position in the SQL.
+	TableName     *string        `json:"table_name,omitempty"`     // Table name
 }
 type SourceIn struct {
-	CreateTable   string  `json:"create_table"`
-	IntegrationId *string `json:"integration_id,omitempty"`
+	CreateTable   string  `json:"create_table"`             // The CREATE TABLE statement
+	IntegrationId *string `json:"integration_id,omitempty"` // Integration ID
 }
 type SourceOut struct {
 	Columns       []ColumnOut    `json:"columns"`
-	CreateTable   string         `json:"create_table"`
-	IntegrationId *string        `json:"integration_id,omitempty"`
-	Options       map[string]any `json:"options"`
-	TableId       string         `json:"table_id"`
-	TableName     string         `json:"table_name"`
+	CreateTable   string         `json:"create_table"`             // The CREATE TABLE statement
+	IntegrationId *string        `json:"integration_id,omitempty"` // Integration ID
+	Options       map[string]any `json:"options"`                  // Option
+	TableId       string         `json:"table_id"`                 // Source ID
+	TableName     string         `json:"table_name"`               // Table name
 }
 type SourceOutAlt struct {
 	Columns       []ColumnOut    `json:"columns,omitempty"`
-	CreateTable   string         `json:"create_table"`
-	IntegrationId *string        `json:"integration_id,omitempty"`
-	Message       *string        `json:"message,omitempty"`
-	Options       map[string]any `json:"options,omitempty"`
-	Position      *PositionOut   `json:"position,omitempty"`
-	TableName     *string        `json:"table_name,omitempty"`
+	CreateTable   string         `json:"create_table"`             // The CREATE TABLE statement
+	IntegrationId *string        `json:"integration_id,omitempty"` // Integration ID
+	Message       *string        `json:"message,omitempty"`        // The error message.
+	Options       map[string]any `json:"options,omitempty"`        // Option
+	Position      *PositionOut   `json:"position,omitempty"`       // Error position in the SQL.
+	TableName     *string        `json:"table_name,omitempty"`     // Table name
 }
+
+// StatementErrorOut Job validation error
 type StatementErrorOut struct {
-	Message  string       `json:"message"`
-	Position *PositionOut `json:"position,omitempty"`
+	Message  string       `json:"message"`            // The error message.
+	Position *PositionOut `json:"position,omitempty"` // Error position in the SQL.
 }

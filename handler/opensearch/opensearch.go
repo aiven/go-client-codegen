@@ -162,11 +162,11 @@ func (h *OpenSearchHandler) ServiceOpenSearchSecuritySet(ctx context.Context, pr
 }
 
 type AclIn struct {
-	Rules    []RuleIn `json:"rules"`
+	Rules    []RuleIn `json:"rules"` // OpenSearch rules
 	Username string   `json:"username"`
 }
 type AclOut struct {
-	Rules    []RuleOut `json:"rules"`
+	Rules    []RuleOut `json:"rules"` // OpenSearch rules
 	Username string    `json:"username"`
 }
 type HealthType string
@@ -184,16 +184,16 @@ func HealthTypeChoices() []string {
 }
 
 type IndexeOut struct {
-	CreateTime          time.Time        `json:"create_time"`
-	Docs                *int             `json:"docs,omitempty"`
-	Health              HealthType       `json:"health,omitempty"`
-	IndexName           string           `json:"index_name"`
-	NumberOfReplicas    int              `json:"number_of_replicas"`
-	NumberOfShards      int              `json:"number_of_shards"`
-	ReadOnlyAllowDelete *bool            `json:"read_only_allow_delete,omitempty"`
-	Replication         *ReplicationOut  `json:"replication,omitempty"`
-	Size                *int             `json:"size,omitempty"`
-	Status              IndexeStatusType `json:"status,omitempty"`
+	CreateTime          time.Time        `json:"create_time"`                      // Timestamp in ISO 8601 format, always in UTC
+	Docs                *int             `json:"docs,omitempty"`                   // Number of documents in index. -1 means not available.
+	Health              HealthType       `json:"health,omitempty"`                 // Index health
+	IndexName           string           `json:"index_name"`                       // Index name
+	NumberOfReplicas    int              `json:"number_of_replicas"`               // Number of replicas for an index
+	NumberOfShards      int              `json:"number_of_shards"`                 // Number of shards in an index
+	ReadOnlyAllowDelete *bool            `json:"read_only_allow_delete,omitempty"` // Whether an index is set as read-only (but allows deletion). null means unknown.
+	Replication         *ReplicationOut  `json:"replication,omitempty"`            // Index replication
+	Size                *int             `json:"size,omitempty"`                   // Index size in bytes. -1 means not available.
+	Status              IndexeStatusType `json:"status,omitempty"`                 // Index status
 }
 type IndexeStatusType string
 
@@ -208,13 +208,16 @@ func IndexeStatusTypeChoices() []string {
 	return []string{"unknown", "open", "close", "none"}
 }
 
+// OpensearchAclConfigIn OpenSearch ACL configuration
 type OpensearchAclConfigIn struct {
-	Acls    []AclIn `json:"acls"`
-	Enabled bool    `json:"enabled"`
+	Acls    []AclIn `json:"acls"`    // List of OpenSearch ACLs
+	Enabled bool    `json:"enabled"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
 }
+
+// OpensearchAclConfigInAlt OpenSearch ACL configuration
 type OpensearchAclConfigInAlt struct {
-	Acls    *[]AclIn `json:"acls,omitempty"`
-	Enabled *bool    `json:"enabled,omitempty"`
+	Acls    *[]AclIn `json:"acls,omitempty"`    // List of OpenSearch ACLs
+	Enabled *bool    `json:"enabled,omitempty"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
 }
 type PermissionType string
 
@@ -230,68 +233,97 @@ func PermissionTypeChoices() []string {
 	return []string{"deny", "admin", "read", "readwrite", "write"}
 }
 
+// ReplicationOut Index replication
 type ReplicationOut struct {
-	LeaderIndex   *string `json:"leader_index,omitempty"`
-	LeaderProject *string `json:"leader_project,omitempty"`
-	LeaderService *string `json:"leader_service,omitempty"`
+	LeaderIndex   *string `json:"leader_index,omitempty"`   // Leader index name
+	LeaderProject *string `json:"leader_project,omitempty"` // Leader project name
+	LeaderService *string `json:"leader_service,omitempty"` // Leader service name
 }
 type RuleIn struct {
-	Index      string         `json:"index"`
-	Permission PermissionType `json:"permission"`
+	Index      string         `json:"index"`      // OpenSearch index pattern
+	Permission PermissionType `json:"permission"` // OpenSearch permission
 }
 type RuleOut struct {
-	Index      string         `json:"index"`
-	Permission PermissionType `json:"permission"`
+	Index      string         `json:"index"`      // OpenSearch index pattern
+	Permission PermissionType `json:"permission"` // OpenSearch permission
 }
+
+// ServiceOpenSearchAclGetOut OpenSearch ACL configuration
 type ServiceOpenSearchAclGetOut struct {
-	Acls    []AclOut `json:"acls"`
-	Enabled bool     `json:"enabled"`
+	Acls    []AclOut `json:"acls"`    // List of OpenSearch ACLs
+	Enabled bool     `json:"enabled"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
 }
+
+// ServiceOpenSearchAclSetIn ServiceOpenSearchAclSetRequestBody
 type ServiceOpenSearchAclSetIn struct {
-	OpensearchAclConfig OpensearchAclConfigIn `json:"opensearch_acl_config"`
+	OpensearchAclConfig OpensearchAclConfigIn `json:"opensearch_acl_config"` // OpenSearch ACL configuration
 }
+
+// ServiceOpenSearchAclSetOut OpenSearch ACL configuration
 type ServiceOpenSearchAclSetOut struct {
-	Acls    []AclOut `json:"acls"`
-	Enabled bool     `json:"enabled"`
+	Acls    []AclOut `json:"acls"`    // List of OpenSearch ACLs
+	Enabled bool     `json:"enabled"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
 }
+
+// ServiceOpenSearchAclUpdateIn ServiceOpenSearchAclUpdateRequestBody
 type ServiceOpenSearchAclUpdateIn struct {
-	OpensearchAclConfig OpensearchAclConfigInAlt `json:"opensearch_acl_config"`
+	OpensearchAclConfig OpensearchAclConfigInAlt `json:"opensearch_acl_config"` // OpenSearch ACL configuration
 }
+
+// ServiceOpenSearchAclUpdateOut OpenSearch ACL configuration
 type ServiceOpenSearchAclUpdateOut struct {
-	Acls    []AclOut `json:"acls"`
-	Enabled bool     `json:"enabled"`
+	Acls    []AclOut `json:"acls"`    // List of OpenSearch ACLs
+	Enabled bool     `json:"enabled"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
 }
+
+// ServiceOpenSearchSecurityGetOut ServiceOpenSearchSecurityGetResponse
 type ServiceOpenSearchSecurityGetOut struct {
-	SecurityPluginAdminEnabled bool  `json:"security_plugin_admin_enabled"`
-	SecurityPluginAvailable    bool  `json:"security_plugin_available"`
-	SecurityPluginEnabled      *bool `json:"security_plugin_enabled,omitempty"`
+	SecurityPluginAdminEnabled bool  `json:"security_plugin_admin_enabled"`     // security plugin admin defined
+	SecurityPluginAvailable    bool  `json:"security_plugin_available"`         // Opensearch security available for the service
+	SecurityPluginEnabled      *bool `json:"security_plugin_enabled,omitempty"` // Opensearch security enabled for the service
 }
+
+// ServiceOpenSearchSecurityResetIn ServiceOpenSearchSecurityResetRequestBody
 type ServiceOpenSearchSecurityResetIn struct {
-	AdminPassword string `json:"admin_password"`
-	NewPassword   string `json:"new_password"`
+	AdminPassword string `json:"admin_password"` // Current os-sec-admin password
+	NewPassword   string `json:"new_password"`   // New os-sec-admin password
 }
+
+// ServiceOpenSearchSecurityResetOut ServiceOpenSearchSecurityResetResponse
 type ServiceOpenSearchSecurityResetOut struct {
-	SecurityPluginAdminEnabled bool  `json:"security_plugin_admin_enabled"`
-	SecurityPluginAvailable    bool  `json:"security_plugin_available"`
-	SecurityPluginEnabled      *bool `json:"security_plugin_enabled,omitempty"`
+	SecurityPluginAdminEnabled bool  `json:"security_plugin_admin_enabled"`     // security plugin admin defined
+	SecurityPluginAvailable    bool  `json:"security_plugin_available"`         // Opensearch security available for the service
+	SecurityPluginEnabled      *bool `json:"security_plugin_enabled,omitempty"` // Opensearch security enabled for the service
 }
+
+// ServiceOpenSearchSecuritySetIn ServiceOpenSearchSecuritySetRequestBody
 type ServiceOpenSearchSecuritySetIn struct {
-	AdminPassword string `json:"admin_password"`
+	AdminPassword string `json:"admin_password"` // os-sec-admin password
 }
+
+// ServiceOpenSearchSecuritySetOut ServiceOpenSearchSecuritySetResponse
 type ServiceOpenSearchSecuritySetOut struct {
-	SecurityPluginAdminEnabled bool  `json:"security_plugin_admin_enabled"`
-	SecurityPluginAvailable    bool  `json:"security_plugin_available"`
-	SecurityPluginEnabled      *bool `json:"security_plugin_enabled,omitempty"`
+	SecurityPluginAdminEnabled bool  `json:"security_plugin_admin_enabled"`     // security plugin admin defined
+	SecurityPluginAvailable    bool  `json:"security_plugin_available"`         // Opensearch security available for the service
+	SecurityPluginEnabled      *bool `json:"security_plugin_enabled,omitempty"` // Opensearch security enabled for the service
 }
+
+// serviceOpenSearchAclGetOut ServiceOpenSearchAclGetResponse
 type serviceOpenSearchAclGetOut struct {
-	OpensearchAclConfig ServiceOpenSearchAclGetOut `json:"opensearch_acl_config"`
+	OpensearchAclConfig ServiceOpenSearchAclGetOut `json:"opensearch_acl_config"` // OpenSearch ACL configuration
 }
+
+// serviceOpenSearchAclSetOut ServiceOpenSearchAclSetResponse
 type serviceOpenSearchAclSetOut struct {
-	OpensearchAclConfig ServiceOpenSearchAclSetOut `json:"opensearch_acl_config"`
+	OpensearchAclConfig ServiceOpenSearchAclSetOut `json:"opensearch_acl_config"` // OpenSearch ACL configuration
 }
+
+// serviceOpenSearchAclUpdateOut ServiceOpenSearchAclUpdateResponse
 type serviceOpenSearchAclUpdateOut struct {
-	OpensearchAclConfig ServiceOpenSearchAclUpdateOut `json:"opensearch_acl_config"`
+	OpensearchAclConfig ServiceOpenSearchAclUpdateOut `json:"opensearch_acl_config"` // OpenSearch ACL configuration
 }
+
+// serviceOpenSearchIndexListOut ServiceOpenSearchIndexListResponse
 type serviceOpenSearchIndexListOut struct {
-	Indexes []IndexeOut `json:"indexes"`
+	Indexes []IndexeOut `json:"indexes"` // List of OpenSearch indexes
 }

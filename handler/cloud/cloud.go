@@ -61,17 +61,21 @@ func (h *CloudHandler) ListProjectClouds(ctx context.Context, project string) ([
 }
 
 type CloudOut struct {
-	CloudDescription    *string  `json:"cloud_description,omitempty"`
-	CloudName           string   `json:"cloud_name"`
-	GeoLatitude         *float64 `json:"geo_latitude,omitempty"`
-	GeoLongitude        *float64 `json:"geo_longitude,omitempty"`
-	GeoRegion           string   `json:"geo_region"`
-	Provider            *string  `json:"provider,omitempty"`
-	ProviderDescription *string  `json:"provider_description,omitempty"`
+	CloudDescription    *string  `json:"cloud_description,omitempty"`    // Cloud provider and location
+	CloudName           string   `json:"cloud_name"`                     // Target cloud
+	GeoLatitude         *float64 `json:"geo_latitude,omitempty"`         // Approximate geographic latitude of the datacenters
+	GeoLongitude        *float64 `json:"geo_longitude,omitempty"`        // Approximate geographic longitude of the datacenters
+	GeoRegion           string   `json:"geo_region"`                     // Geographical region
+	Provider            *string  `json:"provider,omitempty"`             // Cloud provider name
+	ProviderDescription *string  `json:"provider_description,omitempty"` // Cloud provider description
 }
+
+// listCloudsOut ListCloudsResponse
 type listCloudsOut struct {
-	Clouds []CloudOut `json:"clouds"`
+	Clouds []CloudOut `json:"clouds"` // List of available clouds
 }
+
+// listProjectCloudsOut ListProjectCloudsResponse
 type listProjectCloudsOut struct {
-	Clouds []CloudOut `json:"clouds"`
+	Clouds []CloudOut `json:"clouds"` // List of available clouds
 }

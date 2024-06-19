@@ -28,7 +28,7 @@ type Handler interface {
 	// ServiceKafkaConnectGetAvailableConnectors get available Kafka Connect connectors
 	// GET /v1/project/{project}/service/{service_name}/available-connectors
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectGetAvailableConnectors
-	ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]PluginOut, error)
+	ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]PluginOutAlt, error)
 
 	// ServiceKafkaConnectGetConnectorConfiguration get Kafka Connect connector configuration schema
 	// GET /v1/project/{project}/service/{service_name}/connector-plugins/{connector_name}/configuration
@@ -109,7 +109,7 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectEditConnector(ctx context.Conte
 	}
 	return &out.Connector, nil
 }
-func (h *KafkaConnectHandler) ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]PluginOut, error) {
+func (h *KafkaConnectHandler) ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]PluginOutAlt, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/available-connectors", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetAvailableConnectors", "GET", path, nil)
 	if err != nil {
@@ -182,21 +182,22 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectResumeConnector(ctx context.Con
 	return err
 }
 
+// ConfigOut Connector configuration parameters
 type ConfigOut struct {
-	ConnectorClass *string `json:"connector.class,omitempty"`
-	Name           string  `json:"name"`
+	ConnectorClass *string `json:"connector.class,omitempty"` // The Java class for the connector
+	Name           string  `json:"name"`                      // Unique name for the connector
 }
 type ConfigurationSchemaOut struct {
-	DefaultValue  string                  `json:"default_value"`
-	DisplayName   string                  `json:"display_name"`
-	Documentation string                  `json:"documentation"`
-	Group         string                  `json:"group"`
-	Importance    ImportanceType          `json:"importance"`
-	Name          string                  `json:"name"`
-	Order         int                     `json:"order"`
-	Required      bool                    `json:"required"`
-	Type          ConfigurationSchemaType `json:"type"`
-	Width         WidthType               `json:"width"`
+	DefaultValue  string                  `json:"default_value"` // Default value to be set if field omitted in configuration
+	DisplayName   string                  `json:"display_name"`  // Human friendly name of the field
+	Documentation string                  `json:"documentation"` // Assisting help text
+	Group         string                  `json:"group"`         // Name of the field group to which the field belongs to
+	Importance    ImportanceType          `json:"importance"`    // How important is the field
+	Name          string                  `json:"name"`          // Machine friendly name of the field
+	Order         int                     `json:"order"`         // Position of the field in the configuration form
+	Required      bool                    `json:"required"`      // Defines if the field value is mandatory or not
+	Type          ConfigurationSchemaType `json:"type"`          // Configuration value type
+	Width         WidthType               `json:"width"`         // Expected length of the input value
 }
 type ConfigurationSchemaType string
 
@@ -217,10 +218,10 @@ func ConfigurationSchemaTypeChoices() []string {
 }
 
 type ConnectorOut struct {
-	Config ConfigOut `json:"config"`
-	Name   string    `json:"name"`
-	Plugin PluginOut `json:"plugin"`
-	Tasks  []TaskOut `json:"tasks"`
+	Config ConfigOut `json:"config"` // Connector configuration parameters
+	Name   string    `json:"name"`   // Connector name
+	Plugin PluginOut `json:"plugin"` // Kafka Connector plugin information
+	Tasks  []TaskOut `json:"tasks"`  // List of tasks of a connector
 }
 type ImportanceType string
 
@@ -234,15 +235,26 @@ func ImportanceTypeChoices() []string {
 	return []string{"LOW", "MEDIUM", "HIGH"}
 }
 
+// PluginOut Kafka Connector plugin information
 type PluginOut struct {
-	Author      string     `json:"author"`
-	Class       string     `json:"class"`
-	DocUrl      string     `json:"docURL"`
-	Preview     *bool      `json:"preview,omitempty"`
-	PreviewInfo *string    `json:"preview_info,omitempty"`
-	Title       string     `json:"title"`
-	Type        PluginType `json:"type"`
-	Version     string     `json:"version"`
+	Author      string     `json:"author"`                 // Connector author name
+	Class       string     `json:"class"`                  // Connector class name
+	DocUrl      string     `json:"docURL"`                 // Connector documentation URL
+	Preview     *bool      `json:"preview,omitempty"`      // Describes if connector is in beta
+	PreviewInfo *string    `json:"preview_info,omitempty"` // Information about beta stage of connector
+	Title       string     `json:"title"`                  // Descriptive human readable name defined by Aiven
+	Type        PluginType `json:"type"`                   // Describes whether data flows from or to Kafka
+	Version     string     `json:"version"`                // Connector version number
+}
+type PluginOutAlt struct {
+	Author      string     `json:"author"`                 // Connector author name
+	Class       string     `json:"class"`                  // Connector class name
+	DocUrl      string     `json:"docURL"`                 // Connector documentation URL
+	Preview     *bool      `json:"preview,omitempty"`      // Describes if connector is in beta
+	PreviewInfo *string    `json:"preview_info,omitempty"` // Information about beta stage of connector
+	Title       string     `json:"title"`                  // Descriptive human readable name defined by Aiven
+	Type        PluginType `json:"type"`                   // Describes whether data flows from or to Kafka
+	Version     string     `json:"version"`                // Connector version number
 }
 type PluginType string
 
@@ -269,38 +281,47 @@ func ServiceKafkaConnectConnectorStateTypeChoices() []string {
 	return []string{"FAILED", "PAUSED", "RUNNING", "UNASSIGNED"}
 }
 
+// ServiceKafkaConnectCreateConnectorIn ServiceKafkaConnectCreateConnectorRequestBody
 type ServiceKafkaConnectCreateConnectorIn struct {
-	ConnectorClass *string `json:"connector.class,omitempty"`
-	Name           string  `json:"name"`
+	ConnectorClass *string `json:"connector.class,omitempty"` // The Java class for the connector
+	Name           string  `json:"name"`                      // Unique name for the connector
 }
+
+// ServiceKafkaConnectCreateConnectorOut Kafka connector information
 type ServiceKafkaConnectCreateConnectorOut struct {
-	Config ConfigOut `json:"config"`
-	Name   string    `json:"name"`
-	Plugin PluginOut `json:"plugin"`
-	Tasks  []TaskOut `json:"tasks"`
+	Config ConfigOut `json:"config"` // Connector configuration parameters
+	Name   string    `json:"name"`   // Connector name
+	Plugin PluginOut `json:"plugin"` // Kafka Connector plugin information
+	Tasks  []TaskOut `json:"tasks"`  // List of tasks of a connector
 }
+
+// ServiceKafkaConnectEditConnectorIn ServiceKafkaConnectEditConnectorRequestBody
 type ServiceKafkaConnectEditConnectorIn struct {
-	ConnectorClass *string `json:"connector.class,omitempty"`
-	Name           string  `json:"name"`
+	ConnectorClass *string `json:"connector.class,omitempty"` // The Java class for the connector
+	Name           string  `json:"name"`                      // Unique name for the connector
 }
+
+// ServiceKafkaConnectEditConnectorOut Kafka connector information
 type ServiceKafkaConnectEditConnectorOut struct {
-	Config ConfigOut `json:"config"`
-	Name   string    `json:"name"`
-	Plugin PluginOut `json:"plugin"`
-	Tasks  []TaskOut `json:"tasks"`
+	Config ConfigOut `json:"config"` // Connector configuration parameters
+	Name   string    `json:"name"`   // Connector name
+	Plugin PluginOut `json:"plugin"` // Kafka Connector plugin information
+	Tasks  []TaskOut `json:"tasks"`  // List of tasks of a connector
 }
+
+// ServiceKafkaConnectGetConnectorStatusOut Connector status information
 type ServiceKafkaConnectGetConnectorStatusOut struct {
-	State ServiceKafkaConnectConnectorStateType `json:"state"`
-	Tasks []TaskOutAlt                          `json:"tasks"`
+	State ServiceKafkaConnectConnectorStateType `json:"state"` // Current status of the connector
+	Tasks []TaskOutAlt                          `json:"tasks"` // List of tasks currently running for the connector
 }
 type TaskOut struct {
-	Connector string `json:"connector"`
-	Task      int    `json:"task"`
+	Connector string `json:"connector"` // Related connector name
+	Task      int    `json:"task"`      // Task id / number
 }
 type TaskOutAlt struct {
-	Id    int           `json:"id"`
-	State TaskStateType `json:"state"`
-	Trace string        `json:"trace"`
+	Id    int           `json:"id"`    // Task identifier
+	State TaskStateType `json:"state"` // Current status of the task
+	Trace string        `json:"trace"` // Task error information
 }
 type TaskStateType string
 
@@ -328,21 +349,32 @@ func WidthTypeChoices() []string {
 	return []string{"NONE", "SHORT", "MEDIUM", "LONG"}
 }
 
+// serviceKafkaConnectCreateConnectorOut ServiceKafkaConnectCreateConnectorResponse
 type serviceKafkaConnectCreateConnectorOut struct {
-	Connector ServiceKafkaConnectCreateConnectorOut `json:"connector"`
+	Connector ServiceKafkaConnectCreateConnectorOut `json:"connector"` // Kafka connector information
 }
+
+// serviceKafkaConnectEditConnectorOut ServiceKafkaConnectEditConnectorResponse
 type serviceKafkaConnectEditConnectorOut struct {
-	Connector ServiceKafkaConnectEditConnectorOut `json:"connector"`
+	Connector ServiceKafkaConnectEditConnectorOut `json:"connector"` // Kafka connector information
 }
+
+// serviceKafkaConnectGetAvailableConnectorsOut ServiceKafkaConnectGetAvailableConnectorsResponse
 type serviceKafkaConnectGetAvailableConnectorsOut struct {
-	Plugins []PluginOut `json:"plugins"`
+	Plugins []PluginOutAlt `json:"plugins"` // List of available Kafka Connect connector plugins
 }
+
+// serviceKafkaConnectGetConnectorConfigurationOut ServiceKafkaConnectGetConnectorConfigurationResponse
 type serviceKafkaConnectGetConnectorConfigurationOut struct {
-	ConfigurationSchema []ConfigurationSchemaOut `json:"configuration_schema"`
+	ConfigurationSchema []ConfigurationSchemaOut `json:"configuration_schema"` // List of connector configuration field definitions
 }
+
+// serviceKafkaConnectGetConnectorStatusOut ServiceKafkaConnectGetConnectorStatusResponse
 type serviceKafkaConnectGetConnectorStatusOut struct {
-	Status ServiceKafkaConnectGetConnectorStatusOut `json:"status"`
+	Status ServiceKafkaConnectGetConnectorStatusOut `json:"status"` // Connector status information
 }
+
+// serviceKafkaConnectListOut ServiceKafkaConnectListResponse
 type serviceKafkaConnectListOut struct {
-	Connectors []ConnectorOut `json:"connectors"`
+	Connectors []ConnectorOut `json:"connectors"` // List of active Kafka Connect connectors
 }

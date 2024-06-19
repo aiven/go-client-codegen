@@ -457,7 +457,17 @@ func writeStruct(f *jen.File, s *Schema) error {
 		}
 
 		field = field.Tag(map[string]string{"json": strings.ReplaceAll(tag, `\`, "")})
+
+		// Adds a comment if it's not equal to the field name
+		if p.Description != "" && p.Description != p.CamelName {
+			field = field.Add(jen.Comment(p.Description))
+		}
+
 		fields = append(fields, field)
+	}
+
+	if s.Description != "" {
+		f.Comment(fmt.Sprintf("%s %s", s.CamelName, s.Description))
 	}
 
 	f.Type().Id(s.CamelName).Struct(fields...)

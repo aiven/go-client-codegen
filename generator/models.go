@@ -139,6 +139,7 @@ type Schema struct {
 	Default       any                `json:"default"`
 	MinItems      int                `json:"minItems"`
 	Ref           string             `json:"$ref"`
+	Description   string             `json:"description"`
 	CamelName     string             `json:"for-hash-only!"`
 	required      bool
 	name          string

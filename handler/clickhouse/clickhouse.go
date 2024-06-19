@@ -135,10 +135,10 @@ func (h *ClickHouseHandler) ServiceClickHouseTieredStorageSummary(ctx context.Co
 }
 
 type DatabaseOut struct {
-	Engine   string            `json:"engine"`
-	Name     string            `json:"name"`
-	Required bool              `json:"required"`
-	State    DatabaseStateType `json:"state,omitempty"`
+	Engine   string            `json:"engine"`          // Database engine
+	Name     string            `json:"name"`            // Database name
+	Required bool              `json:"required"`        // Required database
+	State    DatabaseStateType `json:"state,omitempty"` // Database state
 }
 type DatabaseStateType string
 
@@ -153,70 +153,88 @@ func DatabaseStateTypeChoices() []string {
 }
 
 type HourlyOut struct {
-	EstimatedCost   *string `json:"estimated_cost,omitempty"`
-	HourStart       string  `json:"hour_start"`
-	PeakStoredBytes int     `json:"peak_stored_bytes"`
+	EstimatedCost   *string `json:"estimated_cost,omitempty"` // The estimated cost in USD of tiered storage for this hour
+	HourStart       string  `json:"hour_start"`               // Timestamp in ISO 8601 format, always in UTC
+	PeakStoredBytes int     `json:"peak_stored_bytes"`        // Peak bytes stored on object storage at this hour
 }
 type MetaOut struct {
-	Name string `json:"name"`
-	Type string `json:"type"`
+	Name string `json:"name"` // Column name
+	Type string `json:"type"` // Column type
 }
 type QueryOut struct {
-	ClientName *string  `json:"client_name,omitempty"`
+	ClientName *string  `json:"client_name,omitempty"` // Client name, if set
 	Database   *string  `json:"database,omitempty"`
-	Elapsed    *float64 `json:"elapsed,omitempty"`
-	Query      *string  `json:"query,omitempty"`
-	User       *string  `json:"user,omitempty"`
+	Elapsed    *float64 `json:"elapsed,omitempty"` // The time in seconds since request execution started
+	Query      *string  `json:"query,omitempty"`   // The query text
+	User       *string  `json:"user,omitempty"`    // The user who made the query
 }
 type QueryOutAlt struct {
-	Calls      *int     `json:"calls,omitempty"`
+	Calls      *int     `json:"calls,omitempty"` // Number of calls
 	Database   *string  `json:"database,omitempty"`
-	MaxTime    *int     `json:"max_time,omitempty"`
-	MeanTime   *int     `json:"mean_time,omitempty"`
-	MinTime    *int     `json:"min_time,omitempty"`
-	P95Time    *int     `json:"p95_time,omitempty"`
-	Query      *string  `json:"query,omitempty"`
-	Rows       *float64 `json:"rows,omitempty"`
-	StddevTime *int     `json:"stddev_time,omitempty"`
-	TotalTime  *int     `json:"total_time,omitempty"`
+	MaxTime    *int     `json:"max_time,omitempty"`    // Maximum query duration in milliseconds
+	MeanTime   *int     `json:"mean_time,omitempty"`   // Average query duration in milliseconds
+	MinTime    *int     `json:"min_time,omitempty"`    // Minimum query duration in milliseconds
+	P95Time    *int     `json:"p95_time,omitempty"`    // Query duration 95th percentile in milliseconds
+	Query      *string  `json:"query,omitempty"`       // Normalized query
+	Rows       *float64 `json:"rows,omitempty"`        // Average number of rows per call
+	StddevTime *int     `json:"stddev_time,omitempty"` // Query duration standard deviation in milliseconds
+	TotalTime  *int     `json:"total_time,omitempty"`  // Total duration of all calls in milliseconds
 }
+
+// ServiceClickHouseDatabaseCreateIn ServiceClickHouseDatabaseCreateRequestBody
 type ServiceClickHouseDatabaseCreateIn struct {
-	Database string `json:"database"`
+	Database string `json:"database"` // Service database name
 }
+
+// ServiceClickHouseQueryIn ServiceClickHouseQueryRequestBody
 type ServiceClickHouseQueryIn struct {
-	Database string `json:"database"`
+	Database string `json:"database"` // Service database name
 	Query    string `json:"query"`
 }
+
+// ServiceClickHouseQueryOut ServiceClickHouseQueryResponse
 type ServiceClickHouseQueryOut struct {
 	Data    [][]any    `json:"data"`
 	Meta    []MetaOut  `json:"meta"`
-	Summary SummaryOut `json:"summary"`
+	Summary SummaryOut `json:"summary"` // Summary
 }
+
+// ServiceClickHouseTieredStorageSummaryOut ServiceClickHouseTieredStorageSummaryResponse
 type ServiceClickHouseTieredStorageSummaryOut struct {
-	CurrentCost         string                 `json:"current_cost"`
-	ForecastedCost      string                 `json:"forecasted_cost"`
-	ForecastedRate      *string                `json:"forecasted_rate,omitempty"`
-	StorageUsageHistory StorageUsageHistoryOut `json:"storage_usage_history"`
-	TotalStorageUsage   int                    `json:"total_storage_usage"`
+	CurrentCost         string                 `json:"current_cost"`              // The current cost in USD of tiered storage since the beginning of the billing period
+	ForecastedCost      string                 `json:"forecasted_cost"`           // The forecasted cost in USD of tiered storage in the billing period
+	ForecastedRate      *string                `json:"forecasted_rate,omitempty"` // The rate on GBs/hour used to calculate the forecasted cost
+	StorageUsageHistory StorageUsageHistoryOut `json:"storage_usage_history"`     // History of usage and cumulative costs in the billing period
+	TotalStorageUsage   int                    `json:"total_storage_usage"`       // Total storage usage by tiered storage, in bytes
 }
+
+// StorageUsageHistoryOut History of usage and cumulative costs in the billing period
 type StorageUsageHistoryOut struct {
-	Hourly []HourlyOut `json:"hourly"`
+	Hourly []HourlyOut `json:"hourly"` // History by hour
 }
+
+// SummaryOut Summary
 type SummaryOut struct {
-	ElapsedNs    *int `json:"elapsed_ns,omitempty"`
-	ReadBytes    *int `json:"read_bytes,omitempty"`
-	ReadRows     *int `json:"read_rows,omitempty"`
-	ResultBytes  *int `json:"result_bytes,omitempty"`
-	ResultRows   *int `json:"result_rows,omitempty"`
-	WrittenBytes *int `json:"written_bytes,omitempty"`
-	WrittenRows  *int `json:"written_rows,omitempty"`
+	ElapsedNs    *int `json:"elapsed_ns,omitempty"`    // Elapsed time in nanoseconds
+	ReadBytes    *int `json:"read_bytes,omitempty"`    // Number of bytes read
+	ReadRows     *int `json:"read_rows,omitempty"`     // Number of rows read
+	ResultBytes  *int `json:"result_bytes,omitempty"`  // Number of bytes in the result
+	ResultRows   *int `json:"result_rows,omitempty"`   // Number of rows in the result
+	WrittenBytes *int `json:"written_bytes,omitempty"` // Number of bytes written
+	WrittenRows  *int `json:"written_rows,omitempty"`  // Number of rows written
 }
+
+// serviceClickHouseCurrentQueriesOut ServiceClickHouseCurrentQueriesResponse
 type serviceClickHouseCurrentQueriesOut struct {
-	Queries []QueryOut `json:"queries"`
+	Queries []QueryOut `json:"queries"` // List of currently running queries
 }
+
+// serviceClickHouseDatabaseListOut ServiceClickHouseDatabaseListResponse
 type serviceClickHouseDatabaseListOut struct {
-	Databases []DatabaseOut `json:"databases"`
+	Databases []DatabaseOut `json:"databases"` // List of databases
 }
+
+// serviceClickHouseQueryStatsOut ServiceClickHouseQueryStatsResponse
 type serviceClickHouseQueryStatsOut struct {
-	Queries []QueryOutAlt `json:"queries"`
+	Queries []QueryOutAlt `json:"queries"` // List of query statistics
 }

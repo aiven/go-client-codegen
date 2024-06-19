@@ -204,35 +204,41 @@ func ActionTypeChoices() []string {
 }
 
 type AuthenticationMethodOut struct {
-	IsEnabled2Fa     *bool      `json:"is_enabled_2fa,omitempty"`
-	LastUsedTime     *time.Time `json:"last_used_time,omitempty"`
-	LocalProviderId  *string    `json:"local_provider_id,omitempty"`
-	MethodId         *string    `json:"method_id,omitempty"`
-	Name             *string    `json:"name,omitempty"`
-	OrganizationId   *string    `json:"organization_id,omitempty"`
-	RemoteProviderId string     `json:"remote_provider_id"`
-	Type             *string    `json:"type,omitempty"`
-	UserEmail        *string    `json:"user_email,omitempty"`
-	UserId           *string    `json:"user_id,omitempty"`
+	IsEnabled2Fa     *bool      `json:"is_enabled_2fa,omitempty"`    // Verifies if 2FA is enabled for the user
+	LastUsedTime     *time.Time `json:"last_used_time,omitempty"`    // Last activity time with the authentication method
+	LocalProviderId  *string    `json:"local_provider_id,omitempty"` // Local authentication method provider resource ID
+	MethodId         *string    `json:"method_id,omitempty"`         // User authentication method ID
+	Name             *string    `json:"name,omitempty"`              // Name of the organization authentication method
+	OrganizationId   *string    `json:"organization_id,omitempty"`   // Organization ID
+	RemoteProviderId string     `json:"remote_provider_id"`          // Remote authentication method provider ID
+	Type             *string    `json:"type,omitempty"`              // Type of the organization authentication method
+	UserEmail        *string    `json:"user_email,omitempty"`        // User's email address for the authentication method
+	UserId           *string    `json:"user_id,omitempty"`           // User ID
 }
 type InvitationOut struct {
-	CreateTime time.Time `json:"create_time"`
-	ExpiryTime time.Time `json:"expiry_time"`
-	InvitedBy  string    `json:"invited_by"`
-	UserEmail  string    `json:"user_email"`
+	CreateTime time.Time `json:"create_time"` // Time of creating the invitation
+	ExpiryTime time.Time `json:"expiry_time"` // By when the invitation is valid
+	InvitedBy  string    `json:"invited_by"`  // Name of the invitation creator
+	UserEmail  string    `json:"user_email"`  // User Email
 }
+
+// OrganizationUserGetOut OrganizationUserGetResponse
 type OrganizationUserGetOut struct {
-	IsSuperAdmin     bool        `json:"is_super_admin"`
-	JoinTime         time.Time   `json:"join_time"`
-	LastActivityTime time.Time   `json:"last_activity_time"`
-	UserId           string      `json:"user_id"`
-	UserInfo         UserInfoOut `json:"user_info"`
+	IsSuperAdmin     bool        `json:"is_super_admin"`     // Super admin state of the organization user
+	JoinTime         time.Time   `json:"join_time"`          // Join time
+	LastActivityTime time.Time   `json:"last_activity_time"` // Last activity time
+	UserId           string      `json:"user_id"`            // User ID
+	UserInfo         UserInfoOut `json:"user_info"`          // OrganizationUserInfo
 }
+
+// OrganizationUserInvitationAcceptIn OrganizationUserInvitationAcceptRequestBody
 type OrganizationUserInvitationAcceptIn struct {
-	Action ActionType `json:"action,omitempty"`
+	Action ActionType `json:"action,omitempty"` // Action to be performed on the invitation
 }
+
+// OrganizationUserInviteIn OrganizationUserInviteRequestBody
 type OrganizationUserInviteIn struct {
-	UserEmail string `json:"user_email"`
+	UserEmail string `json:"user_email"` // User Email
 }
 type OrganizationUserStateType string
 
@@ -246,58 +252,71 @@ func OrganizationUserStateTypeChoices() []string {
 	return []string{"active", "deactivated", "deleted"}
 }
 
+// OrganizationUserUpdateIn OrganizationUserUpdateRequestBody
 type OrganizationUserUpdateIn struct {
 	City         *string                   `json:"city,omitempty"`
 	Country      *string                   `json:"country,omitempty"`
 	Department   *string                   `json:"department,omitempty"`
-	IsSuperAdmin *bool                     `json:"is_super_admin,omitempty"`
-	JobTitle     *string                   `json:"job_title,omitempty"`
-	RealName     *string                   `json:"real_name,omitempty"`
-	State        OrganizationUserStateType `json:"state,omitempty"`
+	IsSuperAdmin *bool                     `json:"is_super_admin,omitempty"` // Alters super admin state of the organization user
+	JobTitle     *string                   `json:"job_title,omitempty"`      // Job Title
+	RealName     *string                   `json:"real_name,omitempty"`      // Real Name
+	State        OrganizationUserStateType `json:"state,omitempty"`          // State of the user in the organization
 }
+
+// OrganizationUserUpdateOut OrganizationUserUpdateResponse
 type OrganizationUserUpdateOut struct {
-	IsSuperAdmin     bool        `json:"is_super_admin"`
-	JoinTime         time.Time   `json:"join_time"`
-	LastActivityTime time.Time   `json:"last_activity_time"`
-	UserId           string      `json:"user_id"`
-	UserInfo         UserInfoOut `json:"user_info"`
+	IsSuperAdmin     bool        `json:"is_super_admin"`     // Super admin state of the organization user
+	JoinTime         time.Time   `json:"join_time"`          // Join time
+	LastActivityTime time.Time   `json:"last_activity_time"` // Last activity time
+	UserId           string      `json:"user_id"`            // User ID
+	UserInfo         UserInfoOut `json:"user_info"`          // OrganizationUserInfo
 }
 type TokenOut struct {
 	Description   string    `json:"description"`
-	LastIp        string    `json:"last_ip"`
-	LastUsedTime  time.Time `json:"last_used_time"`
-	LastUserAgent string    `json:"last_user_agent"`
-	TokenPrefix   string    `json:"token_prefix"`
+	LastIp        string    `json:"last_ip"`         // Last-used IP
+	LastUsedTime  time.Time `json:"last_used_time"`  // Last-used time
+	LastUserAgent string    `json:"last_user_agent"` // Last-used user agent
+	TokenPrefix   string    `json:"token_prefix"`    // Token prefix
 }
+
+// UserInfoOut OrganizationUserInfo
 type UserInfoOut struct {
 	City                   *string   `json:"city,omitempty"`
 	Country                *string   `json:"country,omitempty"`
-	CreateTime             time.Time `json:"create_time"`
+	CreateTime             time.Time `json:"create_time"` // Creation time
 	Department             *string   `json:"department,omitempty"`
-	IsApplicationUser      bool      `json:"is_application_user"`
-	JobTitle               *string   `json:"job_title,omitempty"`
-	ManagedByScim          bool      `json:"managed_by_scim"`
-	ManagingOrganizationId *string   `json:"managing_organization_id,omitempty"`
-	RealName               string    `json:"real_name"`
+	IsApplicationUser      bool      `json:"is_application_user"`                // Is Application User
+	JobTitle               *string   `json:"job_title,omitempty"`                // Job Title
+	ManagedByScim          bool      `json:"managed_by_scim"`                    // Managed By Scim
+	ManagingOrganizationId *string   `json:"managing_organization_id,omitempty"` // Managing Organization ID
+	RealName               string    `json:"real_name"`                          // Real Name
 	State                  string    `json:"state"`
-	UserEmail              string    `json:"user_email"`
+	UserEmail              string    `json:"user_email"` // User Email
 }
 type UserOut struct {
-	IsSuperAdmin     bool        `json:"is_super_admin"`
-	JoinTime         time.Time   `json:"join_time"`
-	LastActivityTime time.Time   `json:"last_activity_time"`
-	UserId           string      `json:"user_id"`
-	UserInfo         UserInfoOut `json:"user_info"`
+	IsSuperAdmin     bool        `json:"is_super_admin"`     // Super admin state of the organization user
+	JoinTime         time.Time   `json:"join_time"`          // Join time
+	LastActivityTime time.Time   `json:"last_activity_time"` // Last activity time
+	UserId           string      `json:"user_id"`            // User ID
+	UserInfo         UserInfoOut `json:"user_info"`          // OrganizationUserInfo
 }
+
+// organizationUserAuthenticationMethodsListOut OrganizationUserAuthenticationMethodsListResponse
 type organizationUserAuthenticationMethodsListOut struct {
-	AuthenticationMethods []AuthenticationMethodOut `json:"authentication_methods"`
+	AuthenticationMethods []AuthenticationMethodOut `json:"authentication_methods"` // List of authentication methods for the organization user
 }
+
+// organizationUserInvitationsListOut OrganizationUserInvitationsListResponse
 type organizationUserInvitationsListOut struct {
-	Invitations []InvitationOut `json:"invitations"`
+	Invitations []InvitationOut `json:"invitations"` // List of user invitations for the organization
 }
+
+// organizationUserListOut OrganizationUserListResponse
 type organizationUserListOut struct {
-	Users []UserOut `json:"users"`
+	Users []UserOut `json:"users"` // List of users of the organization
 }
+
+// organizationUserTokensListOut OrganizationUserTokensListResponse
 type organizationUserTokensListOut struct {
-	Tokens []TokenOut `json:"tokens"`
+	Tokens []TokenOut `json:"tokens"` // List of user tokens accessible to the organization
 }

@@ -188,118 +188,134 @@ func (h *VpcHandler) VpcPeeringConnectionWithResourceGroupDelete(ctx context.Con
 }
 
 type AddIn struct {
-	Cidr              string  `json:"cidr"`
-	PeerCloudAccount  string  `json:"peer_cloud_account"`
-	PeerResourceGroup *string `json:"peer_resource_group,omitempty"`
-	PeerVpc           string  `json:"peer_vpc"`
+	Cidr              string  `json:"cidr"`                          // IPv4 network range CIDR
+	PeerCloudAccount  string  `json:"peer_cloud_account"`            // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerResourceGroup *string `json:"peer_resource_group,omitempty"` // Azure resource group name of the peered VPC
+	PeerVpc           string  `json:"peer_vpc"`                      // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
 }
 type PeeringConnectionIn struct {
-	PeerAzureAppId       *string   `json:"peer_azure_app_id,omitempty"`
-	PeerAzureTenantId    *string   `json:"peer_azure_tenant_id,omitempty"`
-	PeerCloudAccount     string    `json:"peer_cloud_account"`
-	PeerRegion           *string   `json:"peer_region,omitempty"`
-	PeerResourceGroup    *string   `json:"peer_resource_group,omitempty"`
-	PeerVpc              string    `json:"peer_vpc"`
-	UserPeerNetworkCidrs *[]string `json:"user_peer_network_cidrs,omitempty"`
+	PeerAzureAppId       *string   `json:"peer_azure_app_id,omitempty"`       // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
+	PeerAzureTenantId    *string   `json:"peer_azure_tenant_id,omitempty"`    // Azure tenant id in UUID4 form
+	PeerCloudAccount     string    `json:"peer_cloud_account"`                // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerRegion           *string   `json:"peer_region,omitempty"`             // The peer VPC's region on AWS. May be omitted or set to null if the peer is in the same region as the Aiven project VPC. Omit or set to null on GCP, Azure, or UpCloud.
+	PeerResourceGroup    *string   `json:"peer_resource_group,omitempty"`     // Azure resource group name of the peered VPC
+	PeerVpc              string    `json:"peer_vpc"`                          // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
+	UserPeerNetworkCidrs *[]string `json:"user_peer_network_cidrs,omitempty"` // List of private IPv4 ranges to route through the peering connection
 }
 type PeeringConnectionOut struct {
-	CreateTime               time.Time                     `json:"create_time"`
-	PeerAzureAppId           string                        `json:"peer_azure_app_id"`
-	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`
-	PeerCloudAccount         string                        `json:"peer_cloud_account"`
-	PeerRegion               *string                       `json:"peer_region,omitempty"`
-	PeerResourceGroup        string                        `json:"peer_resource_group"`
-	PeerVpc                  string                        `json:"peer_vpc"`
-	State                    VpcPeeringConnectionStateType `json:"state"`
-	StateInfo                StateInfoOut                  `json:"state_info"`
-	UpdateTime               time.Time                     `json:"update_time"`
-	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`
-	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"`
+	CreateTime               time.Time                     `json:"create_time"`                 // VPC peering connection creation timestamp
+	PeerAzureAppId           string                        `json:"peer_azure_app_id"`           // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
+	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`        // Azure tenant id in UUID4 form
+	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerRegion               *string                       `json:"peer_region,omitempty"`       // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
+	PeerResourceGroup        string                        `json:"peer_resource_group"`         // Azure resource group name of the peered VPC
+	PeerVpc                  string                        `json:"peer_vpc"`                    // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
+	State                    VpcPeeringConnectionStateType `json:"state"`                       // Project VPC peering connection state
+	StateInfo                StateInfoOut                  `json:"state_info"`                  // State-specific help or error information
+	UpdateTime               time.Time                     `json:"update_time"`                 // Timestamp of last change to the VPC peering connection
+	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`     // List of private IPv4 ranges to route through the peering connection
+	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"` // Type of network connection from the VPC
 }
+
+// StateInfoOut State-specific help or error information
 type StateInfoOut struct {
-	Message  string       `json:"message"`
-	Type     string       `json:"type"`
-	Warnings []WarningOut `json:"warnings,omitempty"`
+	Message  string       `json:"message"`            // Human-readable information message
+	Type     string       `json:"type"`               // Type of state information
+	Warnings []WarningOut `json:"warnings,omitempty"` // List of warnings if any
 }
+
+// VpcCreateIn VpcCreateRequestBody
 type VpcCreateIn struct {
-	CloudName          string                `json:"cloud_name"`
-	NetworkCidr        string                `json:"network_cidr"`
-	PeeringConnections []PeeringConnectionIn `json:"peering_connections"`
+	CloudName          string                `json:"cloud_name"`          // Target cloud
+	NetworkCidr        string                `json:"network_cidr"`        // IPv4 network range CIDR
+	PeeringConnections []PeeringConnectionIn `json:"peering_connections"` // List of peering connection requests for the VPC
 }
+
+// VpcCreateOut VpcCreateResponse
 type VpcCreateOut struct {
-	CloudName                          string                 `json:"cloud_name"`
-	CreateTime                         time.Time              `json:"create_time"`
-	NetworkCidr                        string                 `json:"network_cidr"`
-	PeeringConnections                 []PeeringConnectionOut `json:"peering_connections"`
-	PendingBuildOnlyPeeringConnections *string                `json:"pending_build_only_peering_connections,omitempty"`
-	ProjectVpcId                       string                 `json:"project_vpc_id"`
-	State                              VpcStateType           `json:"state"`
-	UpdateTime                         time.Time              `json:"update_time"`
+	CloudName                          string                 `json:"cloud_name"`                                       // Target cloud
+	CreateTime                         time.Time              `json:"create_time"`                                      // VPC creation timestamp
+	NetworkCidr                        string                 `json:"network_cidr"`                                     // IPv4 network range CIDR
+	PeeringConnections                 []PeeringConnectionOut `json:"peering_connections"`                              // List of peering connections
+	PendingBuildOnlyPeeringConnections *string                `json:"pending_build_only_peering_connections,omitempty"` // VPC rebuild is scheduled
+	ProjectVpcId                       string                 `json:"project_vpc_id"`                                   // Project VPC ID
+	State                              VpcStateType           `json:"state"`                                            // Project VPC state
+	UpdateTime                         time.Time              `json:"update_time"`                                      // Timestamp of last change to VPC
 }
+
+// VpcDeleteOut VpcDeleteResponse
 type VpcDeleteOut struct {
-	CloudName                          string                 `json:"cloud_name"`
-	CreateTime                         time.Time              `json:"create_time"`
-	NetworkCidr                        string                 `json:"network_cidr"`
-	PeeringConnections                 []PeeringConnectionOut `json:"peering_connections"`
-	PendingBuildOnlyPeeringConnections *string                `json:"pending_build_only_peering_connections,omitempty"`
-	ProjectVpcId                       string                 `json:"project_vpc_id"`
-	State                              VpcStateType           `json:"state"`
-	UpdateTime                         time.Time              `json:"update_time"`
+	CloudName                          string                 `json:"cloud_name"`                                       // Target cloud
+	CreateTime                         time.Time              `json:"create_time"`                                      // VPC creation timestamp
+	NetworkCidr                        string                 `json:"network_cidr"`                                     // IPv4 network range CIDR
+	PeeringConnections                 []PeeringConnectionOut `json:"peering_connections"`                              // List of peering connections
+	PendingBuildOnlyPeeringConnections *string                `json:"pending_build_only_peering_connections,omitempty"` // VPC rebuild is scheduled
+	ProjectVpcId                       string                 `json:"project_vpc_id"`                                   // Project VPC ID
+	State                              VpcStateType           `json:"state"`                                            // Project VPC state
+	UpdateTime                         time.Time              `json:"update_time"`                                      // Timestamp of last change to VPC
 }
+
+// VpcGetOut VpcGetResponse
 type VpcGetOut struct {
-	CloudName                          string                 `json:"cloud_name"`
-	CreateTime                         time.Time              `json:"create_time"`
-	NetworkCidr                        string                 `json:"network_cidr"`
-	PeeringConnections                 []PeeringConnectionOut `json:"peering_connections"`
-	PendingBuildOnlyPeeringConnections *string                `json:"pending_build_only_peering_connections,omitempty"`
-	ProjectVpcId                       string                 `json:"project_vpc_id"`
-	State                              VpcStateType           `json:"state"`
-	UpdateTime                         time.Time              `json:"update_time"`
+	CloudName                          string                 `json:"cloud_name"`                                       // Target cloud
+	CreateTime                         time.Time              `json:"create_time"`                                      // VPC creation timestamp
+	NetworkCidr                        string                 `json:"network_cidr"`                                     // IPv4 network range CIDR
+	PeeringConnections                 []PeeringConnectionOut `json:"peering_connections"`                              // List of peering connections
+	PendingBuildOnlyPeeringConnections *string                `json:"pending_build_only_peering_connections,omitempty"` // VPC rebuild is scheduled
+	ProjectVpcId                       string                 `json:"project_vpc_id"`                                   // Project VPC ID
+	State                              VpcStateType           `json:"state"`                                            // Project VPC state
+	UpdateTime                         time.Time              `json:"update_time"`                                      // Timestamp of last change to VPC
 }
 type VpcOut struct {
-	CloudName    string       `json:"cloud_name"`
-	CreateTime   time.Time    `json:"create_time"`
-	NetworkCidr  string       `json:"network_cidr"`
-	ProjectVpcId string       `json:"project_vpc_id"`
-	State        VpcStateType `json:"state"`
-	UpdateTime   time.Time    `json:"update_time"`
+	CloudName    string       `json:"cloud_name"`     // Target cloud
+	CreateTime   time.Time    `json:"create_time"`    // VPC creation timestamp
+	NetworkCidr  string       `json:"network_cidr"`   // IPv4 network range CIDR
+	ProjectVpcId string       `json:"project_vpc_id"` // Project VPC ID
+	State        VpcStateType `json:"state"`          // Project VPC state
+	UpdateTime   time.Time    `json:"update_time"`    // Timestamp of last change to VPC
 }
+
+// VpcPeeringConnectionCreateIn VpcPeeringConnectionCreateRequestBody
 type VpcPeeringConnectionCreateIn struct {
-	PeerAzureAppId       *string   `json:"peer_azure_app_id,omitempty"`
-	PeerAzureTenantId    *string   `json:"peer_azure_tenant_id,omitempty"`
-	PeerCloudAccount     string    `json:"peer_cloud_account"`
-	PeerRegion           *string   `json:"peer_region,omitempty"`
-	PeerResourceGroup    *string   `json:"peer_resource_group,omitempty"`
-	PeerVpc              string    `json:"peer_vpc"`
-	UserPeerNetworkCidrs *[]string `json:"user_peer_network_cidrs,omitempty"`
+	PeerAzureAppId       *string   `json:"peer_azure_app_id,omitempty"`       // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
+	PeerAzureTenantId    *string   `json:"peer_azure_tenant_id,omitempty"`    // Azure tenant id in UUID4 form
+	PeerCloudAccount     string    `json:"peer_cloud_account"`                // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerRegion           *string   `json:"peer_region,omitempty"`             // The peer VPC's region on AWS. May be omitted or set to null if the peer is in the same region as the Aiven project VPC. Omit or set to null on GCP, Azure, or UpCloud.
+	PeerResourceGroup    *string   `json:"peer_resource_group,omitempty"`     // Azure resource group name of the peered VPC
+	PeerVpc              string    `json:"peer_vpc"`                          // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
+	UserPeerNetworkCidrs *[]string `json:"user_peer_network_cidrs,omitempty"` // List of private IPv4 ranges to route through the peering connection
 }
+
+// VpcPeeringConnectionCreateOut VpcPeeringConnectionCreateResponse
 type VpcPeeringConnectionCreateOut struct {
-	CreateTime               time.Time                     `json:"create_time"`
-	PeerAzureAppId           string                        `json:"peer_azure_app_id"`
-	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`
-	PeerCloudAccount         string                        `json:"peer_cloud_account"`
-	PeerRegion               *string                       `json:"peer_region,omitempty"`
-	PeerResourceGroup        string                        `json:"peer_resource_group"`
-	PeerVpc                  string                        `json:"peer_vpc"`
-	State                    VpcPeeringConnectionStateType `json:"state"`
-	StateInfo                StateInfoOut                  `json:"state_info"`
-	UpdateTime               time.Time                     `json:"update_time"`
-	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`
-	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"`
+	CreateTime               time.Time                     `json:"create_time"`                 // VPC peering connection creation timestamp
+	PeerAzureAppId           string                        `json:"peer_azure_app_id"`           // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
+	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`        // Azure tenant id in UUID4 form
+	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerRegion               *string                       `json:"peer_region,omitempty"`       // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
+	PeerResourceGroup        string                        `json:"peer_resource_group"`         // Azure resource group name of the peered VPC
+	PeerVpc                  string                        `json:"peer_vpc"`                    // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
+	State                    VpcPeeringConnectionStateType `json:"state"`                       // Project VPC peering connection state
+	StateInfo                StateInfoOut                  `json:"state_info"`                  // State-specific help or error information
+	UpdateTime               time.Time                     `json:"update_time"`                 // Timestamp of last change to the VPC peering connection
+	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`     // List of private IPv4 ranges to route through the peering connection
+	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"` // Type of network connection from the VPC
 }
+
+// VpcPeeringConnectionDeleteOut VpcPeeringConnectionDeleteResponse
 type VpcPeeringConnectionDeleteOut struct {
-	CreateTime               time.Time                     `json:"create_time"`
-	PeerAzureAppId           string                        `json:"peer_azure_app_id"`
-	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`
-	PeerCloudAccount         string                        `json:"peer_cloud_account"`
-	PeerRegion               *string                       `json:"peer_region,omitempty"`
-	PeerResourceGroup        string                        `json:"peer_resource_group"`
-	PeerVpc                  string                        `json:"peer_vpc"`
-	State                    VpcPeeringConnectionStateType `json:"state"`
-	StateInfo                StateInfoOut                  `json:"state_info"`
-	UpdateTime               time.Time                     `json:"update_time"`
-	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`
-	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"`
+	CreateTime               time.Time                     `json:"create_time"`                 // VPC peering connection creation timestamp
+	PeerAzureAppId           string                        `json:"peer_azure_app_id"`           // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
+	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`        // Azure tenant id in UUID4 form
+	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerRegion               *string                       `json:"peer_region,omitempty"`       // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
+	PeerResourceGroup        string                        `json:"peer_resource_group"`         // Azure resource group name of the peered VPC
+	PeerVpc                  string                        `json:"peer_vpc"`                    // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
+	State                    VpcPeeringConnectionStateType `json:"state"`                       // Project VPC peering connection state
+	StateInfo                StateInfoOut                  `json:"state_info"`                  // State-specific help or error information
+	UpdateTime               time.Time                     `json:"update_time"`                 // Timestamp of last change to the VPC peering connection
+	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`     // List of private IPv4 ranges to route through the peering connection
+	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"` // Type of network connection from the VPC
 }
 type VpcPeeringConnectionStateType string
 
@@ -347,47 +363,54 @@ func VpcPeeringConnectionTypeChoices() []string {
 	return []string{"aws-tgw-vpc-attachment", "aws-vpc-peering-connection", "azure-vnet-peering", "google-vpc-peering", "upcloud-vpc-peering"}
 }
 
+// VpcPeeringConnectionUpdateIn VpcPeeringConnectionUpdateRequestBody
 type VpcPeeringConnectionUpdateIn struct {
-	Add    *[]AddIn  `json:"add,omitempty"`
-	Delete *[]string `json:"delete,omitempty"`
+	Add    *[]AddIn  `json:"add,omitempty"`    // CIDRs to add using a specific peering connection
+	Delete *[]string `json:"delete,omitempty"` // Network CIDRs to remove from the VPC's peering connections' user_peer_network_cidrs
 }
+
+// VpcPeeringConnectionUpdateOut VpcPeeringConnectionUpdateResponse
 type VpcPeeringConnectionUpdateOut struct {
-	CloudName                          string                           `json:"cloud_name"`
-	CreateTime                         time.Time                        `json:"create_time"`
-	NetworkCidr                        string                           `json:"network_cidr"`
-	PeeringConnections                 []PeeringConnectionOut           `json:"peering_connections"`
-	PendingBuildOnlyPeeringConnections *string                          `json:"pending_build_only_peering_connections,omitempty"`
-	ProjectVpcId                       string                           `json:"project_vpc_id"`
-	State                              VpcPeeringConnectionStateTypeAlt `json:"state"`
-	UpdateTime                         time.Time                        `json:"update_time"`
+	CloudName                          string                           `json:"cloud_name"`                                       // Target cloud
+	CreateTime                         time.Time                        `json:"create_time"`                                      // VPC creation timestamp
+	NetworkCidr                        string                           `json:"network_cidr"`                                     // IPv4 network range CIDR
+	PeeringConnections                 []PeeringConnectionOut           `json:"peering_connections"`                              // List of peering connections
+	PendingBuildOnlyPeeringConnections *string                          `json:"pending_build_only_peering_connections,omitempty"` // VPC rebuild is scheduled
+	ProjectVpcId                       string                           `json:"project_vpc_id"`                                   // Project VPC ID
+	State                              VpcPeeringConnectionStateTypeAlt `json:"state"`                                            // Project VPC state
+	UpdateTime                         time.Time                        `json:"update_time"`                                      // Timestamp of last change to VPC
 }
+
+// VpcPeeringConnectionWithRegionDeleteOut VpcPeeringConnectionWithRegionDeleteResponse
 type VpcPeeringConnectionWithRegionDeleteOut struct {
-	CreateTime               time.Time                     `json:"create_time"`
-	PeerAzureAppId           string                        `json:"peer_azure_app_id"`
-	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`
-	PeerCloudAccount         string                        `json:"peer_cloud_account"`
-	PeerRegion               *string                       `json:"peer_region,omitempty"`
-	PeerResourceGroup        string                        `json:"peer_resource_group"`
-	PeerVpc                  string                        `json:"peer_vpc"`
-	State                    VpcPeeringConnectionStateType `json:"state"`
-	StateInfo                StateInfoOut                  `json:"state_info"`
-	UpdateTime               time.Time                     `json:"update_time"`
-	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`
-	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"`
+	CreateTime               time.Time                     `json:"create_time"`                 // VPC peering connection creation timestamp
+	PeerAzureAppId           string                        `json:"peer_azure_app_id"`           // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
+	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`        // Azure tenant id in UUID4 form
+	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerRegion               *string                       `json:"peer_region,omitempty"`       // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
+	PeerResourceGroup        string                        `json:"peer_resource_group"`         // Azure resource group name of the peered VPC
+	PeerVpc                  string                        `json:"peer_vpc"`                    // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
+	State                    VpcPeeringConnectionStateType `json:"state"`                       // Project VPC peering connection state
+	StateInfo                StateInfoOut                  `json:"state_info"`                  // State-specific help or error information
+	UpdateTime               time.Time                     `json:"update_time"`                 // Timestamp of last change to the VPC peering connection
+	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`     // List of private IPv4 ranges to route through the peering connection
+	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"` // Type of network connection from the VPC
 }
+
+// VpcPeeringConnectionWithResourceGroupDeleteOut VpcPeeringConnectionWithResourceGroupDeleteResponse
 type VpcPeeringConnectionWithResourceGroupDeleteOut struct {
-	CreateTime               time.Time                     `json:"create_time"`
-	PeerAzureAppId           string                        `json:"peer_azure_app_id"`
-	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`
-	PeerCloudAccount         string                        `json:"peer_cloud_account"`
-	PeerRegion               *string                       `json:"peer_region,omitempty"`
-	PeerResourceGroup        string                        `json:"peer_resource_group"`
-	PeerVpc                  string                        `json:"peer_vpc"`
-	State                    VpcPeeringConnectionStateType `json:"state"`
-	StateInfo                StateInfoOut                  `json:"state_info"`
-	UpdateTime               time.Time                     `json:"update_time"`
-	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`
-	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"`
+	CreateTime               time.Time                     `json:"create_time"`                 // VPC peering connection creation timestamp
+	PeerAzureAppId           string                        `json:"peer_azure_app_id"`           // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
+	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`        // Azure tenant id in UUID4 form
+	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerRegion               *string                       `json:"peer_region,omitempty"`       // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
+	PeerResourceGroup        string                        `json:"peer_resource_group"`         // Azure resource group name of the peered VPC
+	PeerVpc                  string                        `json:"peer_vpc"`                    // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
+	State                    VpcPeeringConnectionStateType `json:"state"`                       // Project VPC peering connection state
+	StateInfo                StateInfoOut                  `json:"state_info"`                  // State-specific help or error information
+	UpdateTime               time.Time                     `json:"update_time"`                 // Timestamp of last change to the VPC peering connection
+	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`     // List of private IPv4 ranges to route through the peering connection
+	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"` // Type of network connection from the VPC
 }
 type VpcStateType string
 
@@ -403,11 +426,11 @@ func VpcStateTypeChoices() []string {
 }
 
 type WarningOut struct {
-	ConflictingAwsAccountId              *string     `json:"conflicting_aws_account_id,omitempty"`
-	ConflictingAwsVpcId                  *string     `json:"conflicting_aws_vpc_id,omitempty"`
-	ConflictingAwsVpcPeeringConnectionId *string     `json:"conflicting_aws_vpc_peering_connection_id,omitempty"`
-	Message                              string      `json:"message"`
-	Type                                 WarningType `json:"type"`
+	ConflictingAwsAccountId              *string     `json:"conflicting_aws_account_id,omitempty"`                // AWS account id of conflicting VPC
+	ConflictingAwsVpcId                  *string     `json:"conflicting_aws_vpc_id,omitempty"`                    // VPC id which is conflicting with the current one
+	ConflictingAwsVpcPeeringConnectionId *string     `json:"conflicting_aws_vpc_peering_connection_id,omitempty"` // AWS VPC connection id which is conflicting with current VPC
+	Message                              string      `json:"message"`                                             // Warning message to be shown to the user
+	Type                                 WarningType `json:"type"`                                                // Type of warning
 }
 type WarningType string
 
@@ -420,6 +443,7 @@ func WarningTypeChoices() []string {
 	return []string{"overlapping-peer-vpc-ip-ranges", "upcloud-peering-in-error"}
 }
 
+// vpcListOut VpcListResponse
 type vpcListOut struct {
-	Vpcs []VpcOut `json:"vpcs"`
+	Vpcs []VpcOut `json:"vpcs"` // List of VPCs
 }

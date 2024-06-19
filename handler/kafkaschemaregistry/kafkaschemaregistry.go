@@ -263,9 +263,9 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjects(ctx context.C
 }
 
 type AclOut struct {
-	Id         *string        `json:"id,omitempty"`
-	Permission PermissionType `json:"permission"`
-	Resource   string         `json:"resource"`
+	Id         *string        `json:"id,omitempty"` // ID
+	Permission PermissionType `json:"permission"`   // ACL entry for Schema Registry
+	Resource   string         `json:"resource"`     // Schema Registry ACL entry resource name pattern
 	Username   string         `json:"username"`
 }
 type CompatibilityType string
@@ -312,56 +312,87 @@ func SchemaTypeChoices() []string {
 	return []string{"AVRO", "JSON", "PROTOBUF"}
 }
 
+// ServiceSchemaRegistryAclAddIn ServiceSchemaRegistryAclAddRequestBody
 type ServiceSchemaRegistryAclAddIn struct {
-	Permission PermissionType `json:"permission"`
-	Resource   string         `json:"resource"`
+	Permission PermissionType `json:"permission"` // ACL entry for Schema Registry
+	Resource   string         `json:"resource"`   // Schema Registry ACL entry resource name pattern
 	Username   string         `json:"username"`
 }
+
+// ServiceSchemaRegistryCompatibilityIn ServiceSchemaRegistryCompatibilityRequestBody
 type ServiceSchemaRegistryCompatibilityIn struct {
 	Schema     string     `json:"schema"`
-	SchemaType SchemaType `json:"schemaType,omitempty"`
+	SchemaType SchemaType `json:"schemaType,omitempty"` // Schema type
 }
+
+// ServiceSchemaRegistryGlobalConfigPutIn ServiceSchemaRegistryGlobalConfigPutRequestBody
 type ServiceSchemaRegistryGlobalConfigPutIn struct {
-	Compatibility CompatibilityType `json:"compatibility"`
+	Compatibility CompatibilityType `json:"compatibility"` // Configuration
 }
+
+// ServiceSchemaRegistrySubjectConfigPutIn ServiceSchemaRegistrySubjectConfigPutRequestBody
 type ServiceSchemaRegistrySubjectConfigPutIn struct {
-	Compatibility CompatibilityType `json:"compatibility"`
+	Compatibility CompatibilityType `json:"compatibility"` // Configuration
 }
+
+// ServiceSchemaRegistrySubjectVersionPostIn ServiceSchemaRegistrySubjectVersionPostRequestBody
 type ServiceSchemaRegistrySubjectVersionPostIn struct {
-	References *[]ReferenceIn `json:"references,omitempty"`
+	References *[]ReferenceIn `json:"references,omitempty"` // Schema references
 	Schema     string         `json:"schema"`
-	SchemaType SchemaType     `json:"schemaType,omitempty"`
+	SchemaType SchemaType     `json:"schemaType,omitempty"` // Schema type
 }
+
+// serviceSchemaRegistryAclAddOut ServiceSchemaRegistryAclAddResponse
 type serviceSchemaRegistryAclAddOut struct {
-	Acl []AclOut `json:"acl"`
+	Acl []AclOut `json:"acl"` // List of Schema Registry ACL entries
 }
+
+// serviceSchemaRegistryAclDeleteOut ServiceSchemaRegistryAclDeleteResponse
 type serviceSchemaRegistryAclDeleteOut struct {
-	Acl []AclOut `json:"acl"`
+	Acl []AclOut `json:"acl"` // List of Schema Registry ACL entries
 }
+
+// serviceSchemaRegistryAclListOut ServiceSchemaRegistryAclListResponse
 type serviceSchemaRegistryAclListOut struct {
-	Acl []AclOut `json:"acl"`
+	Acl []AclOut `json:"acl"` // List of Schema Registry ACL entries
 }
+
+// serviceSchemaRegistryCompatibilityOut ServiceSchemaRegistryCompatibilityResponse
 type serviceSchemaRegistryCompatibilityOut struct {
-	IsCompatible bool `json:"is_compatible"`
+	IsCompatible bool `json:"is_compatible"` // Compatibility
 }
+
+// serviceSchemaRegistryGlobalConfigGetOut ServiceSchemaRegistryGlobalConfigGetResponse
 type serviceSchemaRegistryGlobalConfigGetOut struct {
-	CompatibilityLevel CompatibilityType `json:"compatibilityLevel"`
+	CompatibilityLevel CompatibilityType `json:"compatibilityLevel"` // Configuration
 }
+
+// serviceSchemaRegistryGlobalConfigPutOut ServiceSchemaRegistryGlobalConfigPutResponse
 type serviceSchemaRegistryGlobalConfigPutOut struct {
-	Compatibility CompatibilityType `json:"compatibility"`
+	Compatibility CompatibilityType `json:"compatibility"` // Configuration
 }
+
+// serviceSchemaRegistrySubjectConfigGetOut ServiceSchemaRegistrySubjectConfigGetResponse
 type serviceSchemaRegistrySubjectConfigGetOut struct {
-	CompatibilityLevel CompatibilityType `json:"compatibilityLevel"`
+	CompatibilityLevel CompatibilityType `json:"compatibilityLevel"` // Configuration
 }
+
+// serviceSchemaRegistrySubjectConfigPutOut ServiceSchemaRegistrySubjectConfigPutResponse
 type serviceSchemaRegistrySubjectConfigPutOut struct {
-	Compatibility CompatibilityType `json:"compatibility"`
+	Compatibility CompatibilityType `json:"compatibility"` // Configuration
 }
+
+// serviceSchemaRegistrySubjectVersionPostOut ServiceSchemaRegistrySubjectVersionPostResponse
 type serviceSchemaRegistrySubjectVersionPostOut struct {
-	Id int `json:"id"`
+	Id int `json:"id"` // Version
 }
+
+// serviceSchemaRegistrySubjectVersionsGetOut ServiceSchemaRegistrySubjectVersionsGetResponse
 type serviceSchemaRegistrySubjectVersionsGetOut struct {
-	Versions []int `json:"versions"`
+	Versions []int `json:"versions"` // List of available versions for a Schema Registry subject
 }
+
+// serviceSchemaRegistrySubjectsOut ServiceSchemaRegistrySubjectsResponse
 type serviceSchemaRegistrySubjectsOut struct {
-	Subjects []string `json:"subjects"`
+	Subjects []string `json:"subjects"` // List of available Schema Registry subjects
 }

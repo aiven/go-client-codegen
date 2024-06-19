@@ -109,17 +109,19 @@ func (h *PostgreSQLHandler) ServicePGBouncerUpdate(ctx context.Context, project 
 }
 
 type ExtensionOut struct {
-	Name     string   `json:"name"`
-	Versions []string `json:"versions,omitempty"`
+	Name     string   `json:"name"`               // Extension name
+	Versions []string `json:"versions,omitempty"` // Extension versions available
 }
 type PgOut struct {
-	Extensions []ExtensionOut `json:"extensions"`
-	Version    string         `json:"version"`
+	Extensions []ExtensionOut `json:"extensions"` // Extensions available for loading with CREATE EXTENSION in this service
+	Version    string         `json:"version"`    // PostgreSQL version
 }
+
+// PgserviceQueryStatisticsIn PGServiceQueryStatisticsRequestBody
 type PgserviceQueryStatisticsIn struct {
-	Limit   *int    `json:"limit,omitempty"`
-	Offset  *int    `json:"offset,omitempty"`
-	OrderBy *string `json:"order_by,omitempty"`
+	Limit   *int    `json:"limit,omitempty"`    // Limit for number of results
+	Offset  *int    `json:"offset,omitempty"`   // Offset for retrieved results based on sort order
+	OrderBy *string `json:"order_by,omitempty"` // Order in which to sort retrieved results
 }
 type PoolModeType string
 
@@ -134,62 +136,72 @@ func PoolModeTypeChoices() []string {
 }
 
 type QueryOut struct {
-	BlkReadTime       *float64 `json:"blk_read_time,omitempty"`
-	BlkWriteTime      *float64 `json:"blk_write_time,omitempty"`
-	Calls             *float64 `json:"calls,omitempty"`
-	DatabaseName      *string  `json:"database_name,omitempty"`
-	LocalBlksDirtied  *float64 `json:"local_blks_dirtied,omitempty"`
-	LocalBlksHit      *float64 `json:"local_blks_hit,omitempty"`
-	LocalBlksRead     *float64 `json:"local_blks_read,omitempty"`
-	LocalBlksWritten  *float64 `json:"local_blks_written,omitempty"`
-	MaxExecTime       *float64 `json:"max_exec_time,omitempty"`
-	MaxPlanTime       *float64 `json:"max_plan_time,omitempty"`
-	MaxTime           *float64 `json:"max_time,omitempty"`
-	MeanExecTime      *float64 `json:"mean_exec_time,omitempty"`
-	MeanPlanTime      *float64 `json:"mean_plan_time,omitempty"`
-	MeanTime          *float64 `json:"mean_time,omitempty"`
-	MinExecTime       *float64 `json:"min_exec_time,omitempty"`
-	MinPlanTime       *float64 `json:"min_plan_time,omitempty"`
-	MinTime           *float64 `json:"min_time,omitempty"`
-	Query             *string  `json:"query,omitempty"`
-	Queryid           *float64 `json:"queryid,omitempty"`
-	Rows              *float64 `json:"rows,omitempty"`
-	SharedBlksDirtied *float64 `json:"shared_blks_dirtied,omitempty"`
-	SharedBlksHit     *float64 `json:"shared_blks_hit,omitempty"`
-	SharedBlksRead    *float64 `json:"shared_blks_read,omitempty"`
-	SharedBlksWritten *float64 `json:"shared_blks_written,omitempty"`
-	StddevExecTime    *float64 `json:"stddev_exec_time,omitempty"`
-	StddevPlanTime    *float64 `json:"stddev_plan_time,omitempty"`
-	StddevTime        *float64 `json:"stddev_time,omitempty"`
-	TempBlksRead      *float64 `json:"temp_blks_read,omitempty"`
-	TempBlksWritten   *float64 `json:"temp_blks_written,omitempty"`
-	TotalExecTime     *float64 `json:"total_exec_time,omitempty"`
-	TotalPlanTime     *float64 `json:"total_plan_time,omitempty"`
-	TotalTime         *float64 `json:"total_time,omitempty"`
-	UserName          *string  `json:"user_name,omitempty"`
-	WalBytes          *string  `json:"wal_bytes,omitempty"`
-	WalFpi            *float64 `json:"wal_fpi,omitempty"`
-	WalRecords        *float64 `json:"wal_records,omitempty"`
+	BlkReadTime       *float64 `json:"blk_read_time,omitempty"`       // Query statistic
+	BlkWriteTime      *float64 `json:"blk_write_time,omitempty"`      // Query statistic
+	Calls             *float64 `json:"calls,omitempty"`               // Query statistic
+	DatabaseName      *string  `json:"database_name,omitempty"`       // Query statistic
+	LocalBlksDirtied  *float64 `json:"local_blks_dirtied,omitempty"`  // Query statistic
+	LocalBlksHit      *float64 `json:"local_blks_hit,omitempty"`      // Query statistic
+	LocalBlksRead     *float64 `json:"local_blks_read,omitempty"`     // Query statistic
+	LocalBlksWritten  *float64 `json:"local_blks_written,omitempty"`  // Query statistic
+	MaxExecTime       *float64 `json:"max_exec_time,omitempty"`       // Query statistic
+	MaxPlanTime       *float64 `json:"max_plan_time,omitempty"`       // Query statistic
+	MaxTime           *float64 `json:"max_time,omitempty"`            // Query statistic
+	MeanExecTime      *float64 `json:"mean_exec_time,omitempty"`      // Query statistic
+	MeanPlanTime      *float64 `json:"mean_plan_time,omitempty"`      // Query statistic
+	MeanTime          *float64 `json:"mean_time,omitempty"`           // Query statistic
+	MinExecTime       *float64 `json:"min_exec_time,omitempty"`       // Query statistic
+	MinPlanTime       *float64 `json:"min_plan_time,omitempty"`       // Query statistic
+	MinTime           *float64 `json:"min_time,omitempty"`            // Query statistic
+	Query             *string  `json:"query,omitempty"`               // Query statistic
+	Queryid           *float64 `json:"queryid,omitempty"`             // Query statistic
+	Rows              *float64 `json:"rows,omitempty"`                // Query statistic
+	SharedBlksDirtied *float64 `json:"shared_blks_dirtied,omitempty"` // Query statistic
+	SharedBlksHit     *float64 `json:"shared_blks_hit,omitempty"`     // Query statistic
+	SharedBlksRead    *float64 `json:"shared_blks_read,omitempty"`    // Query statistic
+	SharedBlksWritten *float64 `json:"shared_blks_written,omitempty"` // Query statistic
+	StddevExecTime    *float64 `json:"stddev_exec_time,omitempty"`    // Query statistic
+	StddevPlanTime    *float64 `json:"stddev_plan_time,omitempty"`    // Query statistic
+	StddevTime        *float64 `json:"stddev_time,omitempty"`         // Query statistic
+	TempBlksRead      *float64 `json:"temp_blks_read,omitempty"`      // Query statistic
+	TempBlksWritten   *float64 `json:"temp_blks_written,omitempty"`   // Query statistic
+	TotalExecTime     *float64 `json:"total_exec_time,omitempty"`     // Query statistic
+	TotalPlanTime     *float64 `json:"total_plan_time,omitempty"`     // Query statistic
+	TotalTime         *float64 `json:"total_time,omitempty"`          // Query statistic
+	UserName          *string  `json:"user_name,omitempty"`           // Query statistic
+	WalBytes          *string  `json:"wal_bytes,omitempty"`           // Query statistic
+	WalFpi            *float64 `json:"wal_fpi,omitempty"`             // Query statistic
+	WalRecords        *float64 `json:"wal_records,omitempty"`         // Query statistic
 }
+
+// ServicePgbouncerCreateIn ServicePGBouncerCreateRequestBody
 type ServicePgbouncerCreateIn struct {
-	Database string       `json:"database"`
-	PoolMode PoolModeType `json:"pool_mode,omitempty"`
-	PoolName string       `json:"pool_name"`
-	PoolSize *int         `json:"pool_size,omitempty"`
-	Username *string      `json:"username,omitempty"`
+	Database string       `json:"database"`            // Service database name
+	PoolMode PoolModeType `json:"pool_mode,omitempty"` // PGBouncer pool mode
+	PoolName string       `json:"pool_name"`           // Connection pool name
+	PoolSize *int         `json:"pool_size,omitempty"` // Size of PGBouncer's PostgreSQL side connection pool
+	Username *string      `json:"username,omitempty"`  // Service username
 }
+
+// ServicePgbouncerUpdateIn ServicePGBouncerUpdateRequestBody
 type ServicePgbouncerUpdateIn struct {
-	Database *string      `json:"database,omitempty"`
-	PoolMode PoolModeType `json:"pool_mode,omitempty"`
-	PoolSize *int         `json:"pool_size,omitempty"`
-	Username *string      `json:"username,omitempty"`
+	Database *string      `json:"database,omitempty"`  // Service database name
+	PoolMode PoolModeType `json:"pool_mode,omitempty"` // PGBouncer pool mode
+	PoolSize *int         `json:"pool_size,omitempty"` // Size of PGBouncer's PostgreSQL side connection pool
+	Username *string      `json:"username,omitempty"`  // Service username
 }
+
+// pgAvailableExtensionsOut PgAvailableExtensionsResponse
 type pgAvailableExtensionsOut struct {
-	Pg []PgOut `json:"pg,omitempty"`
+	Pg []PgOut `json:"pg,omitempty"` // Supported PostgreSQL versions
 }
+
+// pgserviceAvailableExtensionsOut PGServiceAvailableExtensionsResponse
 type pgserviceAvailableExtensionsOut struct {
-	Extensions []ExtensionOut `json:"extensions"`
+	Extensions []ExtensionOut `json:"extensions"` // Extensions available for loading with CREATE EXTENSION in this service
 }
+
+// pgserviceQueryStatisticsOut PGServiceQueryStatisticsResponse
 type pgserviceQueryStatisticsOut struct {
-	Queries []QueryOut `json:"queries"`
+	Queries []QueryOut `json:"queries"` // List of query statistics
 }

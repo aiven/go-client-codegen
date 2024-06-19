@@ -81,24 +81,31 @@ func (h *AccountTeamMemberHandler) AccountTeamMembersList(ctx context.Context, a
 	return out.Members, nil
 }
 
+// AccountTeamMemberVerifyInviteOut Details of verified invite
 type AccountTeamMemberVerifyInviteOut struct {
-	UserEmail string `json:"user_email"`
+	UserEmail string `json:"user_email"` // User email address
 }
+
+// AccountTeamMembersInviteIn AccountTeamMembersInviteRequestBody
 type AccountTeamMembersInviteIn struct {
-	Email string `json:"email"`
+	Email string `json:"email"` // User email address
 }
 type MemberOut struct {
-	CreateTime time.Time `json:"create_time"`
-	RealName   string    `json:"real_name"`
-	TeamId     string    `json:"team_id"`
-	TeamName   string    `json:"team_name"`
-	UpdateTime time.Time `json:"update_time"`
-	UserEmail  string    `json:"user_email"`
-	UserId     string    `json:"user_id"`
+	CreateTime time.Time `json:"create_time"` // Timestamp in ISO 8601 format, always in UTC
+	RealName   string    `json:"real_name"`   // User real name
+	TeamId     string    `json:"team_id"`     // Team ID
+	TeamName   string    `json:"team_name"`   // Team name
+	UpdateTime time.Time `json:"update_time"` // Timestamp in ISO 8601 format, always in UTC
+	UserEmail  string    `json:"user_email"`  // User email address
+	UserId     string    `json:"user_id"`     // User ID
 }
+
+// accountTeamMemberVerifyInviteOut AccountTeamMemberVerifyInviteResponse
 type accountTeamMemberVerifyInviteOut struct {
-	InviteDetails AccountTeamMemberVerifyInviteOut `json:"invite_details"`
+	InviteDetails AccountTeamMemberVerifyInviteOut `json:"invite_details"` // Details of verified invite
 }
+
+// accountTeamMembersListOut AccountTeamMembersListResponse
 type accountTeamMembersListOut struct {
-	Members []MemberOut `json:"members"`
+	Members []MemberOut `json:"members"` // List of account team members
 }
