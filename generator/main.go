@@ -460,14 +460,14 @@ func writeStruct(f *jen.File, s *Schema) error {
 
 		// Adds a comment if it's not equal to the field name
 		if p.Description != "" && p.Description != p.CamelName {
-			field = field.Add(jen.Comment(p.Description))
+			field = field.Add(jen.Comment(fmtComment(p.Description)))
 		}
 
 		fields = append(fields, field)
 	}
 
 	if s.Description != "" {
-		f.Comment(fmt.Sprintf("%s %s", s.CamelName, s.Description))
+		f.Comment(fmt.Sprintf("%s %s", s.CamelName, fmtComment(s.Description)))
 	}
 
 	f.Type().Id(s.CamelName).Struct(fields...)
@@ -538,4 +538,12 @@ func readConfig(path string) (map[string][]string, error) {
 	}
 
 	return c, nil
+}
+
+// reComment finds new lines and trailing period,
+// which is added in fmtComment as a separater
+var reComment = regexp.MustCompile(`\.?[\r\n]+\s*?`)
+
+func fmtComment(c string) string {
+	return reComment.ReplaceAllString(c, ". ")
 }
