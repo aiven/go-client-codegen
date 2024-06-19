@@ -206,14 +206,14 @@ func ActionTypeChoices() []string {
 type AuthenticationMethodOut struct {
 	IsEnabled2Fa     *bool      `json:"is_enabled_2fa,omitempty"`
 	LastUsedTime     *time.Time `json:"last_used_time,omitempty"`
-	LocalProviderId  string     `json:"local_provider_id,omitempty"`
-	MethodId         string     `json:"method_id,omitempty"`
-	Name             string     `json:"name,omitempty"`
-	OrganizationId   string     `json:"organization_id,omitempty"`
+	LocalProviderId  *string    `json:"local_provider_id,omitempty"`
+	MethodId         *string    `json:"method_id,omitempty"`
+	Name             *string    `json:"name,omitempty"`
+	OrganizationId   *string    `json:"organization_id,omitempty"`
 	RemoteProviderId string     `json:"remote_provider_id"`
-	Type             string     `json:"type,omitempty"`
-	UserEmail        string     `json:"user_email,omitempty"`
-	UserId           string     `json:"user_id,omitempty"`
+	Type             *string    `json:"type,omitempty"`
+	UserEmail        *string    `json:"user_email,omitempty"`
+	UserId           *string    `json:"user_id,omitempty"`
 }
 type InvitationOut struct {
 	CreateTime time.Time `json:"create_time"`
@@ -247,12 +247,12 @@ func OrganizationUserStateTypeChoices() []string {
 }
 
 type OrganizationUserUpdateIn struct {
-	City         string                    `json:"city,omitempty"`
-	Country      string                    `json:"country,omitempty"`
-	Department   string                    `json:"department,omitempty"`
+	City         *string                   `json:"city,omitempty"`
+	Country      *string                   `json:"country,omitempty"`
+	Department   *string                   `json:"department,omitempty"`
 	IsSuperAdmin *bool                     `json:"is_super_admin,omitempty"`
-	JobTitle     string                    `json:"job_title,omitempty"`
-	RealName     string                    `json:"real_name,omitempty"`
+	JobTitle     *string                   `json:"job_title,omitempty"`
+	RealName     *string                   `json:"real_name,omitempty"`
 	State        OrganizationUserStateType `json:"state,omitempty"`
 }
 type OrganizationUserUpdateOut struct {
@@ -270,14 +270,14 @@ type TokenOut struct {
 	TokenPrefix   string    `json:"token_prefix"`
 }
 type UserInfoOut struct {
-	City                   string    `json:"city,omitempty"`
-	Country                string    `json:"country,omitempty"`
+	City                   *string   `json:"city,omitempty"`
+	Country                *string   `json:"country,omitempty"`
 	CreateTime             time.Time `json:"create_time"`
-	Department             string    `json:"department,omitempty"`
+	Department             *string   `json:"department,omitempty"`
 	IsApplicationUser      bool      `json:"is_application_user"`
-	JobTitle               string    `json:"job_title,omitempty"`
+	JobTitle               *string   `json:"job_title,omitempty"`
 	ManagedByScim          bool      `json:"managed_by_scim"`
-	ManagingOrganizationId string    `json:"managing_organization_id,omitempty"`
+	ManagingOrganizationId *string   `json:"managing_organization_id,omitempty"`
 	RealName               string    `json:"real_name"`
 	State                  string    `json:"state"`
 	UserEmail              string    `json:"user_email"`

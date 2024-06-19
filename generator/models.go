@@ -361,11 +361,11 @@ func getType(s *Schema) *jen.Statement {
 		return jen.Id(s.CamelName)
 	case s.isScalar():
 		scalar := getScalarType(s)
-		if !s.required && s.Type != SchemaTypeString {
-			return jen.Op("*").Add(scalar)
+		if s.required {
+			return scalar
 		}
 
-		return scalar
+		return jen.Op("*").Add(scalar)
 	}
 
 	switch {

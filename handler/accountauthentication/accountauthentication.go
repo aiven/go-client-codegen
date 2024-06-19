@@ -112,17 +112,17 @@ type AccountAuthenticationMethodCreateIn struct {
 	AuthTokenMaxAgeSeconds           *int                       `json:"auth_token_max_age_seconds,omitempty"`
 	AuthenticationMethodName         string                     `json:"authentication_method_name"`
 	AuthenticationMethodType         AuthenticationMethodType   `json:"authentication_method_type"`
-	AutoJoinTeamId                   string                     `json:"auto_join_team_id,omitempty"`
-	AutoJoinUserGroupId              string                     `json:"auto_join_user_group_id,omitempty"`
+	AutoJoinTeamId                   *string                    `json:"auto_join_team_id,omitempty"`
+	AutoJoinUserGroupId              *string                    `json:"auto_join_user_group_id,omitempty"`
 	LinkedDomains                    *[]LinkedDomainIn          `json:"linked_domains,omitempty"`
 	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`
 	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`
-	SamlCertificate                  string                     `json:"saml_certificate,omitempty"`
+	SamlCertificate                  *string                    `json:"saml_certificate,omitempty"`
 	SamlDigestAlgorithm              SamlDigestAlgorithmType    `json:"saml_digest_algorithm,omitempty"`
-	SamlEntityId                     string                     `json:"saml_entity_id,omitempty"`
+	SamlEntityId                     *string                    `json:"saml_entity_id,omitempty"`
 	SamlFieldMapping                 *SamlFieldMappingIn        `json:"saml_field_mapping,omitempty"`
 	SamlIdpLoginAllowed              *bool                      `json:"saml_idp_login_allowed,omitempty"`
-	SamlIdpUrl                       string                     `json:"saml_idp_url,omitempty"`
+	SamlIdpUrl                       *string                    `json:"saml_idp_url,omitempty"`
 	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"`
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
@@ -134,34 +134,34 @@ type AccountAuthenticationMethodCreateOut struct {
 	AuthTokenMaxAgeSeconds           *int                          `json:"auth_token_max_age_seconds,omitempty"`
 	AuthenticationMethodEnabled      bool                          `json:"authentication_method_enabled"`
 	AuthenticationMethodId           string                        `json:"authentication_method_id"`
-	AuthenticationMethodName         string                        `json:"authentication_method_name,omitempty"`
+	AuthenticationMethodName         *string                       `json:"authentication_method_name,omitempty"`
 	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`
 	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`
 	CreateTime                       time.Time                     `json:"create_time"`
 	DeleteTime                       time.Time                     `json:"delete_time"`
-	OrganizationId                   string                        `json:"organization_id,omitempty"`
-	SamlAcsUrl                       string                        `json:"saml_acs_url,omitempty"`
+	OrganizationId                   *string                       `json:"organization_id,omitempty"`
+	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`
 	SamlAuthnRequestsSignedEnabled   *bool                         `json:"saml_authn_requests_signed_enabled,omitempty"`
 	SamlCert                         SamlCertType                  `json:"saml_cert,omitempty"`
-	SamlCertificate                  string                        `json:"saml_certificate,omitempty"`
-	SamlCertificateIssuer            string                        `json:"saml_certificate_issuer,omitempty"`
-	SamlCertificateNotValidAfter     string                        `json:"saml_certificate_not_valid_after,omitempty"`
-	SamlCertificateNotValidBefore    string                        `json:"saml_certificate_not_valid_before,omitempty"`
-	SamlCertificateSubject           string                        `json:"saml_certificate_subject,omitempty"`
+	SamlCertificate                  *string                       `json:"saml_certificate,omitempty"`
+	SamlCertificateIssuer            *string                       `json:"saml_certificate_issuer,omitempty"`
+	SamlCertificateNotValidAfter     *string                       `json:"saml_certificate_not_valid_after,omitempty"`
+	SamlCertificateNotValidBefore    *string                       `json:"saml_certificate_not_valid_before,omitempty"`
+	SamlCertificateSubject           *string                       `json:"saml_certificate_subject,omitempty"`
 	SamlDigestAlgorithm              SamlDigestAlgorithmType       `json:"saml_digest_algorithm,omitempty"`
-	SamlEntityId                     string                        `json:"saml_entity_id,omitempty"`
+	SamlEntityId                     *string                       `json:"saml_entity_id,omitempty"`
 	SamlFieldMapping                 *SamlFieldMappingOut          `json:"saml_field_mapping,omitempty"`
 	SamlIdpLoginAllowed              *bool                         `json:"saml_idp_login_allowed,omitempty"`
-	SamlIdpUrl                       string                        `json:"saml_idp_url,omitempty"`
-	SamlMetadataUrl                  string                        `json:"saml_metadata_url,omitempty"`
+	SamlIdpUrl                       *string                       `json:"saml_idp_url,omitempty"`
+	SamlMetadataUrl                  *string                       `json:"saml_metadata_url,omitempty"`
 	SamlRequestedAuthnContextEnabled *bool                         `json:"saml_requested_authn_context_enabled,omitempty"`
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`
-	SamlSpCertificate                string                        `json:"saml_sp_certificate,omitempty"`
+	SamlSpCertificate                *string                       `json:"saml_sp_certificate,omitempty"`
 	SamlVariant                      SamlVariantType               `json:"saml_variant,omitempty"`
 	ScimEnabled                      *bool                         `json:"scim_enabled,omitempty"`
-	ScimUrl                          string                        `json:"scim_url,omitempty"`
+	ScimUrl                          *string                       `json:"scim_url,omitempty"`
 	State                            AuthenticationMethodStateType `json:"state"`
 	UpdateTime                       time.Time                     `json:"update_time"`
 }
@@ -171,34 +171,34 @@ type AccountAuthenticationMethodGetOut struct {
 	AuthTokenMaxAgeSeconds           *int                          `json:"auth_token_max_age_seconds,omitempty"`
 	AuthenticationMethodEnabled      bool                          `json:"authentication_method_enabled"`
 	AuthenticationMethodId           string                        `json:"authentication_method_id"`
-	AuthenticationMethodName         string                        `json:"authentication_method_name,omitempty"`
+	AuthenticationMethodName         *string                       `json:"authentication_method_name,omitempty"`
 	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`
 	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`
 	CreateTime                       time.Time                     `json:"create_time"`
 	DeleteTime                       time.Time                     `json:"delete_time"`
-	OrganizationId                   string                        `json:"organization_id,omitempty"`
-	SamlAcsUrl                       string                        `json:"saml_acs_url,omitempty"`
+	OrganizationId                   *string                       `json:"organization_id,omitempty"`
+	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`
 	SamlAuthnRequestsSignedEnabled   *bool                         `json:"saml_authn_requests_signed_enabled,omitempty"`
 	SamlCert                         SamlCertType                  `json:"saml_cert,omitempty"`
-	SamlCertificate                  string                        `json:"saml_certificate,omitempty"`
-	SamlCertificateIssuer            string                        `json:"saml_certificate_issuer,omitempty"`
-	SamlCertificateNotValidAfter     string                        `json:"saml_certificate_not_valid_after,omitempty"`
-	SamlCertificateNotValidBefore    string                        `json:"saml_certificate_not_valid_before,omitempty"`
-	SamlCertificateSubject           string                        `json:"saml_certificate_subject,omitempty"`
+	SamlCertificate                  *string                       `json:"saml_certificate,omitempty"`
+	SamlCertificateIssuer            *string                       `json:"saml_certificate_issuer,omitempty"`
+	SamlCertificateNotValidAfter     *string                       `json:"saml_certificate_not_valid_after,omitempty"`
+	SamlCertificateNotValidBefore    *string                       `json:"saml_certificate_not_valid_before,omitempty"`
+	SamlCertificateSubject           *string                       `json:"saml_certificate_subject,omitempty"`
 	SamlDigestAlgorithm              SamlDigestAlgorithmType       `json:"saml_digest_algorithm,omitempty"`
-	SamlEntityId                     string                        `json:"saml_entity_id,omitempty"`
+	SamlEntityId                     *string                       `json:"saml_entity_id,omitempty"`
 	SamlFieldMapping                 *SamlFieldMappingOut          `json:"saml_field_mapping,omitempty"`
 	SamlIdpLoginAllowed              *bool                         `json:"saml_idp_login_allowed,omitempty"`
-	SamlIdpUrl                       string                        `json:"saml_idp_url,omitempty"`
-	SamlMetadataUrl                  string                        `json:"saml_metadata_url,omitempty"`
+	SamlIdpUrl                       *string                       `json:"saml_idp_url,omitempty"`
+	SamlMetadataUrl                  *string                       `json:"saml_metadata_url,omitempty"`
 	SamlRequestedAuthnContextEnabled *bool                         `json:"saml_requested_authn_context_enabled,omitempty"`
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`
-	SamlSpCertificate                string                        `json:"saml_sp_certificate,omitempty"`
+	SamlSpCertificate                *string                       `json:"saml_sp_certificate,omitempty"`
 	SamlVariant                      SamlVariantType               `json:"saml_variant,omitempty"`
 	ScimEnabled                      *bool                         `json:"scim_enabled,omitempty"`
-	ScimUrl                          string                        `json:"scim_url,omitempty"`
+	ScimUrl                          *string                       `json:"scim_url,omitempty"`
 	State                            AuthenticationMethodStateType `json:"state"`
 	UpdateTime                       time.Time                     `json:"update_time"`
 }
@@ -206,17 +206,17 @@ type AccountAuthenticationMethodUpdateIn struct {
 	AuthTokenExtendWhenUsed          *bool                      `json:"auth_token_extend_when_used,omitempty"`
 	AuthTokenMaxAgeSeconds           *int                       `json:"auth_token_max_age_seconds,omitempty"`
 	AuthenticationMethodEnabled      *bool                      `json:"authentication_method_enabled,omitempty"`
-	AuthenticationMethodName         string                     `json:"authentication_method_name,omitempty"`
-	AutoJoinTeamId                   string                     `json:"auto_join_team_id,omitempty"`
-	AutoJoinUserGroupId              string                     `json:"auto_join_user_group_id,omitempty"`
+	AuthenticationMethodName         *string                    `json:"authentication_method_name,omitempty"`
+	AutoJoinTeamId                   *string                    `json:"auto_join_team_id,omitempty"`
+	AutoJoinUserGroupId              *string                    `json:"auto_join_user_group_id,omitempty"`
 	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`
 	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`
-	SamlCertificate                  string                     `json:"saml_certificate,omitempty"`
+	SamlCertificate                  *string                    `json:"saml_certificate,omitempty"`
 	SamlDigestAlgorithm              SamlDigestAlgorithmType    `json:"saml_digest_algorithm,omitempty"`
-	SamlEntityId                     string                     `json:"saml_entity_id,omitempty"`
+	SamlEntityId                     *string                    `json:"saml_entity_id,omitempty"`
 	SamlFieldMapping                 *SamlFieldMappingIn        `json:"saml_field_mapping,omitempty"`
 	SamlIdpLoginAllowed              *bool                      `json:"saml_idp_login_allowed,omitempty"`
-	SamlIdpUrl                       string                     `json:"saml_idp_url,omitempty"`
+	SamlIdpUrl                       *string                    `json:"saml_idp_url,omitempty"`
 	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"`
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`
@@ -228,34 +228,34 @@ type AccountAuthenticationMethodUpdateOut struct {
 	AuthTokenMaxAgeSeconds           *int                          `json:"auth_token_max_age_seconds,omitempty"`
 	AuthenticationMethodEnabled      bool                          `json:"authentication_method_enabled"`
 	AuthenticationMethodId           string                        `json:"authentication_method_id"`
-	AuthenticationMethodName         string                        `json:"authentication_method_name,omitempty"`
+	AuthenticationMethodName         *string                       `json:"authentication_method_name,omitempty"`
 	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`
 	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`
 	CreateTime                       time.Time                     `json:"create_time"`
 	DeleteTime                       time.Time                     `json:"delete_time"`
-	OrganizationId                   string                        `json:"organization_id,omitempty"`
-	SamlAcsUrl                       string                        `json:"saml_acs_url,omitempty"`
+	OrganizationId                   *string                       `json:"organization_id,omitempty"`
+	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`
 	SamlAuthnRequestsSignedEnabled   *bool                         `json:"saml_authn_requests_signed_enabled,omitempty"`
 	SamlCert                         SamlCertType                  `json:"saml_cert,omitempty"`
-	SamlCertificate                  string                        `json:"saml_certificate,omitempty"`
-	SamlCertificateIssuer            string                        `json:"saml_certificate_issuer,omitempty"`
-	SamlCertificateNotValidAfter     string                        `json:"saml_certificate_not_valid_after,omitempty"`
-	SamlCertificateNotValidBefore    string                        `json:"saml_certificate_not_valid_before,omitempty"`
-	SamlCertificateSubject           string                        `json:"saml_certificate_subject,omitempty"`
+	SamlCertificate                  *string                       `json:"saml_certificate,omitempty"`
+	SamlCertificateIssuer            *string                       `json:"saml_certificate_issuer,omitempty"`
+	SamlCertificateNotValidAfter     *string                       `json:"saml_certificate_not_valid_after,omitempty"`
+	SamlCertificateNotValidBefore    *string                       `json:"saml_certificate_not_valid_before,omitempty"`
+	SamlCertificateSubject           *string                       `json:"saml_certificate_subject,omitempty"`
 	SamlDigestAlgorithm              SamlDigestAlgorithmType       `json:"saml_digest_algorithm,omitempty"`
-	SamlEntityId                     string                        `json:"saml_entity_id,omitempty"`
+	SamlEntityId                     *string                       `json:"saml_entity_id,omitempty"`
 	SamlFieldMapping                 *SamlFieldMappingOut          `json:"saml_field_mapping,omitempty"`
 	SamlIdpLoginAllowed              *bool                         `json:"saml_idp_login_allowed,omitempty"`
-	SamlIdpUrl                       string                        `json:"saml_idp_url,omitempty"`
-	SamlMetadataUrl                  string                        `json:"saml_metadata_url,omitempty"`
+	SamlIdpUrl                       *string                       `json:"saml_idp_url,omitempty"`
+	SamlMetadataUrl                  *string                       `json:"saml_metadata_url,omitempty"`
 	SamlRequestedAuthnContextEnabled *bool                         `json:"saml_requested_authn_context_enabled,omitempty"`
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`
-	SamlSpCertificate                string                        `json:"saml_sp_certificate,omitempty"`
+	SamlSpCertificate                *string                       `json:"saml_sp_certificate,omitempty"`
 	SamlVariant                      SamlVariantType               `json:"saml_variant,omitempty"`
 	ScimEnabled                      *bool                         `json:"scim_enabled,omitempty"`
-	ScimUrl                          string                        `json:"scim_url,omitempty"`
+	ScimUrl                          *string                       `json:"scim_url,omitempty"`
 	State                            AuthenticationMethodStateType `json:"state"`
 	UpdateTime                       time.Time                     `json:"update_time"`
 }
@@ -265,34 +265,34 @@ type AuthenticationMethodOut struct {
 	AuthTokenMaxAgeSeconds           *int                          `json:"auth_token_max_age_seconds,omitempty"`
 	AuthenticationMethodEnabled      bool                          `json:"authentication_method_enabled"`
 	AuthenticationMethodId           string                        `json:"authentication_method_id"`
-	AuthenticationMethodName         string                        `json:"authentication_method_name,omitempty"`
+	AuthenticationMethodName         *string                       `json:"authentication_method_name,omitempty"`
 	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`
 	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`
 	CreateTime                       time.Time                     `json:"create_time"`
 	DeleteTime                       time.Time                     `json:"delete_time"`
-	OrganizationId                   string                        `json:"organization_id,omitempty"`
-	SamlAcsUrl                       string                        `json:"saml_acs_url,omitempty"`
+	OrganizationId                   *string                       `json:"organization_id,omitempty"`
+	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`
 	SamlAuthnRequestsSignedEnabled   *bool                         `json:"saml_authn_requests_signed_enabled,omitempty"`
 	SamlCert                         SamlCertType                  `json:"saml_cert,omitempty"`
-	SamlCertificate                  string                        `json:"saml_certificate,omitempty"`
-	SamlCertificateIssuer            string                        `json:"saml_certificate_issuer,omitempty"`
-	SamlCertificateNotValidAfter     string                        `json:"saml_certificate_not_valid_after,omitempty"`
-	SamlCertificateNotValidBefore    string                        `json:"saml_certificate_not_valid_before,omitempty"`
-	SamlCertificateSubject           string                        `json:"saml_certificate_subject,omitempty"`
+	SamlCertificate                  *string                       `json:"saml_certificate,omitempty"`
+	SamlCertificateIssuer            *string                       `json:"saml_certificate_issuer,omitempty"`
+	SamlCertificateNotValidAfter     *string                       `json:"saml_certificate_not_valid_after,omitempty"`
+	SamlCertificateNotValidBefore    *string                       `json:"saml_certificate_not_valid_before,omitempty"`
+	SamlCertificateSubject           *string                       `json:"saml_certificate_subject,omitempty"`
 	SamlDigestAlgorithm              SamlDigestAlgorithmType       `json:"saml_digest_algorithm,omitempty"`
-	SamlEntityId                     string                        `json:"saml_entity_id,omitempty"`
+	SamlEntityId                     *string                       `json:"saml_entity_id,omitempty"`
 	SamlFieldMapping                 *SamlFieldMappingOut          `json:"saml_field_mapping,omitempty"`
 	SamlIdpLoginAllowed              *bool                         `json:"saml_idp_login_allowed,omitempty"`
-	SamlIdpUrl                       string                        `json:"saml_idp_url,omitempty"`
-	SamlMetadataUrl                  string                        `json:"saml_metadata_url,omitempty"`
+	SamlIdpUrl                       *string                       `json:"saml_idp_url,omitempty"`
+	SamlMetadataUrl                  *string                       `json:"saml_metadata_url,omitempty"`
 	SamlRequestedAuthnContextEnabled *bool                         `json:"saml_requested_authn_context_enabled,omitempty"`
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`
-	SamlSpCertificate                string                        `json:"saml_sp_certificate,omitempty"`
+	SamlSpCertificate                *string                       `json:"saml_sp_certificate,omitempty"`
 	SamlVariant                      SamlVariantType               `json:"saml_variant,omitempty"`
 	ScimEnabled                      *bool                         `json:"scim_enabled,omitempty"`
-	ScimUrl                          string                        `json:"scim_url,omitempty"`
+	ScimUrl                          *string                       `json:"scim_url,omitempty"`
 	State                            AuthenticationMethodStateType `json:"state"`
 	UpdateTime                       time.Time                     `json:"update_time"`
 }
@@ -346,18 +346,18 @@ func SamlDigestAlgorithmTypeChoices() []string {
 }
 
 type SamlFieldMappingIn struct {
-	Email     string `json:"email,omitempty"`
-	FirstName string `json:"first_name,omitempty"`
-	Identity  string `json:"identity,omitempty"`
-	LastName  string `json:"last_name,omitempty"`
-	RealName  string `json:"real_name,omitempty"`
+	Email     *string `json:"email,omitempty"`
+	FirstName *string `json:"first_name,omitempty"`
+	Identity  *string `json:"identity,omitempty"`
+	LastName  *string `json:"last_name,omitempty"`
+	RealName  *string `json:"real_name,omitempty"`
 }
 type SamlFieldMappingOut struct {
-	Email     string `json:"email,omitempty"`
-	FirstName string `json:"first_name,omitempty"`
-	Identity  string `json:"identity,omitempty"`
-	LastName  string `json:"last_name,omitempty"`
-	RealName  string `json:"real_name,omitempty"`
+	Email     *string `json:"email,omitempty"`
+	FirstName *string `json:"first_name,omitempty"`
+	Identity  *string `json:"identity,omitempty"`
+	LastName  *string `json:"last_name,omitempty"`
+	RealName  *string `json:"real_name,omitempty"`
 }
 type SamlSignatureAlgorithmType string
 

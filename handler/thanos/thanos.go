@@ -43,14 +43,14 @@ func (h *ThanosHandler) ServiceThanosStorageSummary(ctx context.Context, project
 }
 
 type HourlyOut struct {
-	EstimatedCost   string `json:"estimated_cost,omitempty"`
-	HourStart       string `json:"hour_start"`
-	PeakStoredBytes int    `json:"peak_stored_bytes"`
+	EstimatedCost   *string `json:"estimated_cost,omitempty"`
+	HourStart       string  `json:"hour_start"`
+	PeakStoredBytes int     `json:"peak_stored_bytes"`
 }
 type ServiceThanosStorageSummaryOut struct {
 	CurrentCost         string                 `json:"current_cost"`
 	ForecastedCost      string                 `json:"forecasted_cost"`
-	ForecastedRate      string                 `json:"forecasted_rate,omitempty"`
+	ForecastedRate      *string                `json:"forecasted_rate,omitempty"`
 	StorageUsageHistory StorageUsageHistoryOut `json:"storage_usage_history"`
 	TotalStorageUsage   int                    `json:"total_storage_usage"`
 }

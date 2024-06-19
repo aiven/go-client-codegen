@@ -199,13 +199,13 @@ type TokenOut struct {
 	CreateTime                 time.Time  `json:"create_time"`
 	CreatedManually            bool       `json:"created_manually"`
 	CurrentlyActive            bool       `json:"currently_active"`
-	Description                string     `json:"description,omitempty"`
+	Description                *string    `json:"description,omitempty"`
 	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`
 	ExtendWhenUsed             *bool      `json:"extend_when_used,omitempty"`
-	LastIp                     string     `json:"last_ip,omitempty"`
+	LastIp                     *string    `json:"last_ip,omitempty"`
 	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`
-	LastUserAgent              string     `json:"last_user_agent,omitempty"`
-	LastUserAgentHumanReadable string     `json:"last_user_agent_human_readable,omitempty"`
+	LastUserAgent              *string    `json:"last_user_agent,omitempty"`
+	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"`
 	MaxAgeSeconds              *int       `json:"max_age_seconds,omitempty"`
 	Scopes                     []string   `json:"scopes,omitempty"`
 	TokenPrefix                string     `json:"token_prefix"`

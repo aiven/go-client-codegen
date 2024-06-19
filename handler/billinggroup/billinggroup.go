@@ -263,26 +263,26 @@ type BillingEmailOut struct {
 	Email string `json:"email"`
 }
 type BillingGroupCreateIn struct {
-	AccountId            string              `json:"account_id,omitempty"`
+	AccountId            *string             `json:"account_id,omitempty"`
 	AddressLines         *[]string           `json:"address_lines,omitempty"`
 	BillingCurrency      BillingCurrencyType `json:"billing_currency,omitempty"`
 	BillingEmails        *[]BillingEmailIn   `json:"billing_emails,omitempty"`
-	BillingExtraText     string              `json:"billing_extra_text,omitempty"`
+	BillingExtraText     *string             `json:"billing_extra_text,omitempty"`
 	BillingGroupName     string              `json:"billing_group_name"`
-	CardId               string              `json:"card_id,omitempty"`
-	City                 string              `json:"city,omitempty"`
-	Company              string              `json:"company,omitempty"`
-	CopyFromBillingGroup string              `json:"copy_from_billing_group,omitempty"`
-	CountryCode          string              `json:"country_code,omitempty"`
-	State                string              `json:"state,omitempty"`
-	VatId                string              `json:"vat_id,omitempty"`
-	ZipCode              string              `json:"zip_code,omitempty"`
+	CardId               *string             `json:"card_id,omitempty"`
+	City                 *string             `json:"city,omitempty"`
+	Company              *string             `json:"company,omitempty"`
+	CopyFromBillingGroup *string             `json:"copy_from_billing_group,omitempty"`
+	CountryCode          *string             `json:"country_code,omitempty"`
+	State                *string             `json:"state,omitempty"`
+	VatId                *string             `json:"vat_id,omitempty"`
+	ZipCode              *string             `json:"zip_code,omitempty"`
 }
 type BillingGroupCreateOut struct {
 	AccountId             string              `json:"account_id"`
 	AccountName           string              `json:"account_name"`
 	AddressLines          []string            `json:"address_lines"`
-	BillingAddress        string              `json:"billing_address,omitempty"`
+	BillingAddress        *string             `json:"billing_address,omitempty"`
 	BillingCurrency       BillingCurrencyType `json:"billing_currency"`
 	BillingEmails         []BillingEmailOut   `json:"billing_emails"`
 	BillingExtraText      string              `json:"billing_extra_text"`
@@ -305,18 +305,18 @@ type BillingGroupCreditsClaimIn struct {
 	Code string `json:"code"`
 }
 type BillingGroupCreditsClaimOut struct {
-	Code           string     `json:"code,omitempty"`
+	Code           *string    `json:"code,omitempty"`
 	ExpireTime     *time.Time `json:"expire_time,omitempty"`
-	RemainingValue string     `json:"remaining_value,omitempty"`
+	RemainingValue *string    `json:"remaining_value,omitempty"`
 	StartTime      *time.Time `json:"start_time,omitempty"`
 	Type           CreditType `json:"type,omitempty"`
-	Value          string     `json:"value,omitempty"`
+	Value          *string    `json:"value,omitempty"`
 }
 type BillingGroupGetOut struct {
 	AccountId             string              `json:"account_id"`
 	AccountName           string              `json:"account_name"`
 	AddressLines          []string            `json:"address_lines"`
-	BillingAddress        string              `json:"billing_address,omitempty"`
+	BillingAddress        *string             `json:"billing_address,omitempty"`
 	BillingCurrency       BillingCurrencyType `json:"billing_currency"`
 	BillingEmails         []BillingEmailOut   `json:"billing_emails"`
 	BillingExtraText      string              `json:"billing_extra_text"`
@@ -339,7 +339,7 @@ type BillingGroupOut struct {
 	AccountId             string              `json:"account_id"`
 	AccountName           string              `json:"account_name"`
 	AddressLines          []string            `json:"address_lines"`
-	BillingAddress        string              `json:"billing_address,omitempty"`
+	BillingAddress        *string             `json:"billing_address,omitempty"`
 	BillingCurrency       BillingCurrencyType `json:"billing_currency"`
 	BillingEmails         []BillingEmailOut   `json:"billing_emails"`
 	BillingExtraText      string              `json:"billing_extra_text"`
@@ -373,25 +373,25 @@ func BillingGroupStateTypeChoices() []string {
 }
 
 type BillingGroupUpdateIn struct {
-	AccountId        string              `json:"account_id,omitempty"`
+	AccountId        *string             `json:"account_id,omitempty"`
 	AddressLines     *[]string           `json:"address_lines,omitempty"`
 	BillingCurrency  BillingCurrencyType `json:"billing_currency,omitempty"`
 	BillingEmails    *[]BillingEmailIn   `json:"billing_emails,omitempty"`
-	BillingExtraText string              `json:"billing_extra_text,omitempty"`
-	BillingGroupName string              `json:"billing_group_name,omitempty"`
-	CardId           string              `json:"card_id,omitempty"`
-	City             string              `json:"city,omitempty"`
-	Company          string              `json:"company,omitempty"`
-	CountryCode      string              `json:"country_code,omitempty"`
-	State            string              `json:"state,omitempty"`
-	VatId            string              `json:"vat_id,omitempty"`
-	ZipCode          string              `json:"zip_code,omitempty"`
+	BillingExtraText *string             `json:"billing_extra_text,omitempty"`
+	BillingGroupName *string             `json:"billing_group_name,omitempty"`
+	CardId           *string             `json:"card_id,omitempty"`
+	City             *string             `json:"city,omitempty"`
+	Company          *string             `json:"company,omitempty"`
+	CountryCode      *string             `json:"country_code,omitempty"`
+	State            *string             `json:"state,omitempty"`
+	VatId            *string             `json:"vat_id,omitempty"`
+	ZipCode          *string             `json:"zip_code,omitempty"`
 }
 type BillingGroupUpdateOut struct {
 	AccountId             string              `json:"account_id"`
 	AccountName           string              `json:"account_name"`
 	AddressLines          []string            `json:"address_lines"`
-	BillingAddress        string              `json:"billing_address,omitempty"`
+	BillingAddress        *string             `json:"billing_address,omitempty"`
 	BillingCurrency       BillingCurrencyType `json:"billing_currency"`
 	BillingEmails         []BillingEmailOut   `json:"billing_emails"`
 	BillingExtraText      string              `json:"billing_extra_text"`
@@ -422,12 +422,12 @@ type CardInfoOut struct {
 	UserEmail   string `json:"user_email"`
 }
 type CreditOut struct {
-	Code           string     `json:"code,omitempty"`
+	Code           *string    `json:"code,omitempty"`
 	ExpireTime     *time.Time `json:"expire_time,omitempty"`
-	RemainingValue string     `json:"remaining_value,omitempty"`
+	RemainingValue *string    `json:"remaining_value,omitempty"`
 	StartTime      *time.Time `json:"start_time,omitempty"`
 	Type           CreditType `json:"type,omitempty"`
-	Value          string     `json:"value,omitempty"`
+	Value          *string    `json:"value,omitempty"`
 }
 type CreditType string
 
@@ -473,14 +473,14 @@ func CurrencyTypeChoices() []string {
 }
 
 type EventOut struct {
-	Actor          string     `json:"actor,omitempty"`
-	BillingGroupId string     `json:"billing_group_id,omitempty"`
+	Actor          *string    `json:"actor,omitempty"`
+	BillingGroupId *string    `json:"billing_group_id,omitempty"`
 	CreateTime     *time.Time `json:"create_time,omitempty"`
-	EventDesc      string     `json:"event_desc,omitempty"`
-	EventType      string     `json:"event_type,omitempty"`
+	EventDesc      *string    `json:"event_desc,omitempty"`
+	EventType      *string    `json:"event_type,omitempty"`
 	LogEntryId     *int       `json:"log_entry_id,omitempty"`
-	ProjectId      string     `json:"project_id,omitempty"`
-	ProjectName    string     `json:"project_name,omitempty"`
+	ProjectId      *string    `json:"project_id,omitempty"`
+	ProjectName    *string    `json:"project_name,omitempty"`
 }
 type InvoiceOut struct {
 	BillingGroupId    string                `json:"billing_group_id"`
@@ -520,21 +520,21 @@ func InvoiceStateTypeChoices() []string {
 }
 
 type LineOut struct {
-	CloudName            string            `json:"cloud_name,omitempty"`
-	CommitmentName       string            `json:"commitment_name,omitempty"`
+	CloudName            *string           `json:"cloud_name,omitempty"`
+	CommitmentName       *string           `json:"commitment_name,omitempty"`
 	Description          string            `json:"description"`
-	LinePreDiscountLocal string            `json:"line_pre_discount_local,omitempty"`
-	LineTotalLocal       string            `json:"line_total_local,omitempty"`
+	LinePreDiscountLocal *string           `json:"line_pre_discount_local,omitempty"`
+	LineTotalLocal       *string           `json:"line_total_local,omitempty"`
 	LineTotalUsd         string            `json:"line_total_usd"`
 	LineType             LineType          `json:"line_type"`
-	LocalCurrency        string            `json:"local_currency,omitempty"`
-	ProjectName          string            `json:"project_name,omitempty"`
-	ServiceName          string            `json:"service_name,omitempty"`
-	ServicePlan          string            `json:"service_plan,omitempty"`
+	LocalCurrency        *string           `json:"local_currency,omitempty"`
+	ProjectName          *string           `json:"project_name,omitempty"`
+	ServiceName          *string           `json:"service_name,omitempty"`
+	ServicePlan          *string           `json:"service_plan,omitempty"`
 	ServiceType          ServiceType       `json:"service_type,omitempty"`
 	Tags                 map[string]string `json:"tags,omitempty"`
-	TimestampBegin       string            `json:"timestamp_begin,omitempty"`
-	TimestampEnd         string            `json:"timestamp_end,omitempty"`
+	TimestampBegin       *string           `json:"timestamp_begin,omitempty"`
+	TimestampEnd         *string           `json:"timestamp_end,omitempty"`
 }
 type LineType string
 

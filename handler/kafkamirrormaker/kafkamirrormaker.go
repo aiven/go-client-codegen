@@ -110,7 +110,7 @@ func OffsetSyncsTopicLocationTypeChoices() []string {
 }
 
 type ReplicationFlowOut struct {
-	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
+	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
 	Enabled                         bool                         `json:"enabled"`
@@ -124,7 +124,7 @@ type ReplicationFlowOut struct {
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
 	TargetCluster                   string                       `json:"target_cluster"`
 	Topics                          []string                     `json:"topics,omitempty"`
-	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
+	TopicsBlacklist                 *string                      `json:"topics.blacklist,omitempty"`
 }
 type ReplicationPolicyClassType string
 
@@ -138,7 +138,7 @@ func ReplicationPolicyClassTypeChoices() []string {
 }
 
 type ServiceKafkaMirrorMakerCreateReplicationFlowIn struct {
-	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
+	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
 	Enabled                         bool                         `json:"enabled"`
@@ -151,10 +151,10 @@ type ServiceKafkaMirrorMakerCreateReplicationFlowIn struct {
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
 	TargetCluster                   string                       `json:"target_cluster"`
 	Topics                          *[]string                    `json:"topics,omitempty"`
-	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
+	TopicsBlacklist                 *string                      `json:"topics.blacklist,omitempty"`
 }
 type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
-	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
+	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
 	Enabled                         bool                         `json:"enabled"`
@@ -168,10 +168,10 @@ type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
 	TargetCluster                   string                       `json:"target_cluster"`
 	Topics                          []string                     `json:"topics,omitempty"`
-	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
+	TopicsBlacklist                 *string                      `json:"topics.blacklist,omitempty"`
 }
 type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
-	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
+	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
 	Enabled                         *bool                        `json:"enabled,omitempty"`
@@ -182,10 +182,10 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
 	Topics                          *[]string                    `json:"topics,omitempty"`
-	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
+	TopicsBlacklist                 *string                      `json:"topics.blacklist,omitempty"`
 }
 type ServiceKafkaMirrorMakerPatchReplicationFlowOut struct {
-	ConfigPropertiesExclude         string                       `json:"config_properties_exclude,omitempty"`
+	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`
 	Enabled                         bool                         `json:"enabled"`
@@ -199,7 +199,7 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowOut struct {
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"`
 	TargetCluster                   string                       `json:"target_cluster"`
 	Topics                          []string                     `json:"topics,omitempty"`
-	TopicsBlacklist                 string                       `json:"topics.blacklist,omitempty"`
+	TopicsBlacklist                 *string                      `json:"topics.blacklist,omitempty"`
 }
 type serviceKafkaMirrorMakerGetReplicationFlowOut struct {
 	ReplicationFlow ServiceKafkaMirrorMakerGetReplicationFlowOut `json:"replication_flow"`

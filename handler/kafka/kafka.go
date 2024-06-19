@@ -189,15 +189,15 @@ func (h *KafkaHandler) ServiceKafkaTieredStorageSummary(ctx context.Context, pro
 }
 
 type AclOut struct {
-	Id         string         `json:"id,omitempty"`
+	Id         *string        `json:"id,omitempty"`
 	Permission PermissionType `json:"permission"`
 	Topic      string         `json:"topic"`
 	Username   string         `json:"username"`
 }
 type HourlyOut struct {
-	EstimatedCost   string `json:"estimated_cost,omitempty"`
-	HourStart       string `json:"hour_start"`
-	PeakStoredBytes int    `json:"peak_stored_bytes"`
+	EstimatedCost   *string `json:"estimated_cost,omitempty"`
+	HourStart       string  `json:"hour_start"`
+	PeakStoredBytes int     `json:"peak_stored_bytes"`
 }
 type PermissionType string
 
@@ -213,7 +213,7 @@ func PermissionTypeChoices() []string {
 }
 
 type QuotaOut struct {
-	ClientId          string  `json:"client-id,omitempty"`
+	ClientId          *string `json:"client-id,omitempty"`
 	ConsumerByteRate  float64 `json:"consumer_byte_rate"`
 	ProducerByteRate  float64 `json:"producer_byte_rate"`
 	RequestPercentage float64 `json:"request_percentage"`
@@ -225,14 +225,14 @@ type ServiceKafkaAclAddIn struct {
 	Username   string         `json:"username"`
 }
 type ServiceKafkaQuotaCreateIn struct {
-	ClientId          string   `json:"client-id,omitempty"`
+	ClientId          *string  `json:"client-id,omitempty"`
 	ConsumerByteRate  *float64 `json:"consumer_byte_rate,omitempty"`
 	ProducerByteRate  *float64 `json:"producer_byte_rate,omitempty"`
 	RequestPercentage *float64 `json:"request_percentage,omitempty"`
-	User              string   `json:"user,omitempty"`
+	User              *string  `json:"user,omitempty"`
 }
 type ServiceKafkaQuotaDescribeOut struct {
-	ClientId          string  `json:"client-id,omitempty"`
+	ClientId          *string `json:"client-id,omitempty"`
 	ConsumerByteRate  float64 `json:"consumer_byte_rate"`
 	ProducerByteRate  float64 `json:"producer_byte_rate"`
 	RequestPercentage float64 `json:"request_percentage"`
@@ -241,7 +241,7 @@ type ServiceKafkaQuotaDescribeOut struct {
 type ServiceKafkaTieredStorageSummaryOut struct {
 	CurrentCost         string                 `json:"current_cost"`
 	ForecastedCost      string                 `json:"forecasted_cost"`
-	ForecastedRate      string                 `json:"forecasted_rate,omitempty"`
+	ForecastedRate      *string                `json:"forecasted_rate,omitempty"`
 	StorageUsageHistory StorageUsageHistoryOut `json:"storage_usage_history"`
 	TotalStorageUsage   int                    `json:"total_storage_usage"`
 }

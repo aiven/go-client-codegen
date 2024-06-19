@@ -94,7 +94,7 @@ type Handler interface {
 	// ServiceEnableWrites temporarily enable writes for a service in read-only mode. Will only work if disk usage is lower than 99.0%
 	// POST /v1/project/{project}/service/{service_name}/enable-writes
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceEnableWrites
-	ServiceEnableWrites(ctx context.Context, project string, serviceName string) (string, error)
+	ServiceEnableWrites(ctx context.Context, project string, serviceName string) (*string, error)
 
 	// ServiceGet get service information
 	// GET /v1/project/{project}/service/{service_name}
@@ -342,16 +342,16 @@ func (h *ServiceHandler) ServiceDelete(ctx context.Context, project string, serv
 	_, err := h.doer.Do(ctx, "ServiceDelete", "DELETE", path, nil)
 	return err
 }
-func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string, serviceName string) (string, error) {
+func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string, serviceName string) (*string, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/enable-writes", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceEnableWrites", "POST", path, nil)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	out := new(serviceEnableWritesOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	return out.Until, nil
 }
@@ -521,7 +521,7 @@ type AccessControlOut struct {
 	DragonflyAclCategories []string `json:"dragonfly_acl_categories,omitempty"`
 	DragonflyAclCommands   []string `json:"dragonfly_acl_commands,omitempty"`
 	DragonflyAclKeys       []string `json:"dragonfly_acl_keys,omitempty"`
-	M3Group                string   `json:"m3_group,omitempty"`
+	M3Group                *string  `json:"m3_group,omitempty"`
 	PgAllowReplication     *bool    `json:"pg_allow_replication,omitempty"`
 	RedisAclCategories     []string `json:"redis_acl_categories,omitempty"`
 	RedisAclChannels       []string `json:"redis_acl_channels,omitempty"`
@@ -529,31 +529,31 @@ type AccessControlOut struct {
 	RedisAclKeys           []string `json:"redis_acl_keys,omitempty"`
 }
 type AclOut struct {
-	Id         string         `json:"id,omitempty"`
+	Id         *string        `json:"id,omitempty"`
 	Permission PermissionType `json:"permission"`
 	Topic      string         `json:"topic"`
 	Username   string         `json:"username"`
 }
 type AdditionalRegionOut struct {
-	Cloud       string `json:"cloud"`
-	PauseReason string `json:"pause_reason,omitempty"`
-	Paused      *bool  `json:"paused,omitempty"`
-	Region      string `json:"region,omitempty"`
+	Cloud       string  `json:"cloud"`
+	PauseReason *string `json:"pause_reason,omitempty"`
+	Paused      *bool   `json:"paused,omitempty"`
+	Region      *string `json:"region,omitempty"`
 }
 type AggregatorOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
 type AlertOut struct {
 	CreateTime  time.Time `json:"create_time"`
 	Event       string    `json:"event"`
-	NodeName    string    `json:"node_name,omitempty"`
+	NodeName    *string   `json:"node_name,omitempty"`
 	ProjectName string    `json:"project_name"`
-	ServiceName string    `json:"service_name,omitempty"`
-	ServiceType string    `json:"service_type,omitempty"`
+	ServiceName *string   `json:"service_name,omitempty"`
+	ServiceType *string   `json:"service_type,omitempty"`
 	Severity    string    `json:"severity"`
 }
 type AuthenticationType string
@@ -582,19 +582,19 @@ type BackupOut struct {
 	BackupName        string                `json:"backup_name"`
 	BackupTime        time.Time             `json:"backup_time"`
 	DataSize          int                   `json:"data_size"`
-	StorageLocation   string                `json:"storage_location,omitempty"`
+	StorageLocation   *string               `json:"storage_location,omitempty"`
 }
 type CassandraOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
 type ClickhouseOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
@@ -603,9 +603,9 @@ type ComponentOut struct {
 	Host                      string                        `json:"host"`
 	KafkaAuthenticationMethod KafkaAuthenticationMethodType `json:"kafka_authentication_method,omitempty"`
 	KafkaSslCa                KafkaSslCaType                `json:"kafka_ssl_ca,omitempty"`
-	Path                      string                        `json:"path,omitempty"`
+	Path                      *string                       `json:"path,omitempty"`
 	Port                      int                           `json:"port"`
-	PrivatelinkConnectionId   string                        `json:"privatelink_connection_id,omitempty"`
+	PrivatelinkConnectionId   *string                       `json:"privatelink_connection_id,omitempty"`
 	Route                     RouteType                     `json:"route"`
 	Ssl                       *bool                         `json:"ssl,omitempty"`
 	Usage                     UsageType                     `json:"usage"`
@@ -616,7 +616,7 @@ type ConnectionPoolOut struct {
 	PoolMode      PoolModeType `json:"pool_mode"`
 	PoolName      string       `json:"pool_name"`
 	PoolSize      int          `json:"pool_size"`
-	Username      string       `json:"username,omitempty"`
+	Username      *string      `json:"username,omitempty"`
 }
 type DatabaseOut struct {
 	DatabaseName string `json:"database_name"`
@@ -635,9 +635,9 @@ func DatasetNameTypeChoices() []string {
 }
 
 type DbOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
@@ -675,37 +675,37 @@ func DowTypeAltChoices() []string {
 }
 
 type DragonflyOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
 type ElasticsearchOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
 type FlinkOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
 type GrafanaOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
 type InfluxdbOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
@@ -790,23 +790,23 @@ func KafkaAuthenticationMethodTypeChoices() []string {
 }
 
 type KafkaConnectOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
 type KafkaMirrormakerOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
 type KafkaOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
@@ -883,13 +883,13 @@ type ListPublicServiceTypesOut struct {
 	Redis            *RedisOut            `json:"redis,omitempty"`
 }
 type LogOut struct {
-	Msg  string `json:"msg"`
-	Time string `json:"time,omitempty"`
-	Unit string `json:"unit,omitempty"`
+	Msg  string  `json:"msg"`
+	Time *string `json:"time,omitempty"`
+	Unit *string `json:"unit,omitempty"`
 }
 type MaintenanceIn struct {
 	Dow  DowType `json:"dow,omitempty"`
-	Time string  `json:"time,omitempty"`
+	Time *string `json:"time,omitempty"`
 }
 type MaintenanceOut struct {
 	Dow     DowTypeAlt  `json:"dow"`
@@ -908,11 +908,11 @@ func MasterLinkStatusTypeChoices() []string {
 }
 
 type MetadataOut struct {
-	EndOfLifeHelpArticleUrl string     `json:"end_of_life_help_article_url,omitempty"`
-	EndOfLifePolicyUrl      string     `json:"end_of_life_policy_url,omitempty"`
+	EndOfLifeHelpArticleUrl *string    `json:"end_of_life_help_article_url,omitempty"`
+	EndOfLifePolicyUrl      *string    `json:"end_of_life_policy_url,omitempty"`
 	ServiceEndOfLifeTime    *time.Time `json:"service_end_of_life_time,omitempty"`
-	UpgradeToServiceType    string     `json:"upgrade_to_service_type,omitempty"`
-	UpgradeToVersion        string     `json:"upgrade_to_version,omitempty"`
+	UpgradeToServiceType    *string    `json:"upgrade_to_service_type,omitempty"`
+	UpgradeToVersion        *string    `json:"upgrade_to_version,omitempty"`
 }
 type MethodType string
 
@@ -940,15 +940,15 @@ func MethodTypeAltChoices() []string {
 }
 
 type MigrationCheckIn struct {
-	IgnoreDbs         string        `json:"ignore_dbs,omitempty"`
+	IgnoreDbs         *string       `json:"ignore_dbs,omitempty"`
 	Method            MethodTypeAlt `json:"method,omitempty"`
-	SourceProjectName string        `json:"source_project_name,omitempty"`
-	SourceServiceName string        `json:"source_service_name,omitempty"`
-	SourceServiceUri  string        `json:"source_service_uri,omitempty"`
+	SourceProjectName *string       `json:"source_project_name,omitempty"`
+	SourceServiceName *string       `json:"source_service_name,omitempty"`
+	SourceServiceUri  *string       `json:"source_service_uri,omitempty"`
 }
 type MigrationDetailOut struct {
 	Dbname string                    `json:"dbname"`
-	Error  string                    `json:"error,omitempty"`
+	Error  *string                   `json:"error,omitempty"`
 	Method MethodType                `json:"method"`
 	Status MigrationDetailStatusType `json:"status"`
 }
@@ -966,7 +966,7 @@ func MigrationDetailStatusTypeChoices() []string {
 }
 
 type MigrationOut struct {
-	Error                  string               `json:"error,omitempty"`
+	Error                  *string              `json:"error,omitempty"`
 	MasterLastIoSecondsAgo *int                 `json:"master_last_io_seconds_ago,omitempty"`
 	MasterLinkStatus       MasterLinkStatusType `json:"master_link_status,omitempty"`
 	Method                 MethodType           `json:"method"`
@@ -986,9 +986,9 @@ func MigrationStatusTypeChoices() []string {
 }
 
 type MysqlOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
@@ -1015,9 +1015,9 @@ func NodeStateTypeChoices() []string {
 }
 
 type OpensearchOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
@@ -1060,9 +1060,9 @@ func PermissionTypeAltChoices() []string {
 }
 
 type PgOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
@@ -1101,7 +1101,7 @@ type ProgressUpdateOut struct {
 }
 type ProjectGetServiceLogsIn struct {
 	Limit     *int          `json:"limit,omitempty"`
-	Offset    string        `json:"offset,omitempty"`
+	Offset    *string       `json:"offset,omitempty"`
 	SortOrder SortOrderType `json:"sort_order,omitempty"`
 }
 type ProjectGetServiceLogsOut struct {
@@ -1117,44 +1117,44 @@ type ProjectServiceTagsUpdateIn struct {
 }
 type QueryOut struct {
 	ActiveChannelSubscriptions                *int     `json:"active_channel_subscriptions,omitempty"`
-	ActiveDatabase                            string   `json:"active_database,omitempty"`
+	ActiveDatabase                            *string  `json:"active_database,omitempty"`
 	ActivePatternMatchingChannelSubscriptions *int     `json:"active_pattern_matching_channel_subscriptions,omitempty"`
-	ApplicationName                           string   `json:"application_name,omitempty"`
-	BackendStart                              string   `json:"backend_start,omitempty"`
-	BackendType                               string   `json:"backend_type,omitempty"`
+	ApplicationName                           *string  `json:"application_name,omitempty"`
+	BackendStart                              *string  `json:"backend_start,omitempty"`
+	BackendType                               *string  `json:"backend_type,omitempty"`
 	BackendXid                                *int     `json:"backend_xid,omitempty"`
 	BackendXmin                               *int     `json:"backend_xmin,omitempty"`
-	ClientAddr                                string   `json:"client_addr,omitempty"`
-	ClientHostname                            string   `json:"client_hostname,omitempty"`
+	ClientAddr                                *string  `json:"client_addr,omitempty"`
+	ClientHostname                            *string  `json:"client_hostname,omitempty"`
 	ClientPort                                *int     `json:"client_port,omitempty"`
 	ConnectionAgeSeconds                      *float64 `json:"connection_age_seconds,omitempty"`
 	ConnectionIdleSeconds                     *float64 `json:"connection_idle_seconds,omitempty"`
 	Datid                                     *int     `json:"datid,omitempty"`
-	Datname                                   string   `json:"datname,omitempty"`
+	Datname                                   *string  `json:"datname,omitempty"`
 	Flags                                     []string `json:"flags,omitempty"`
-	FlagsRaw                                  string   `json:"flags_raw,omitempty"`
-	Id                                        string   `json:"id,omitempty"`
+	FlagsRaw                                  *string  `json:"flags_raw,omitempty"`
+	Id                                        *string  `json:"id,omitempty"`
 	LeaderPid                                 *int     `json:"leader_pid,omitempty"`
 	MultiExecCommands                         *int     `json:"multi_exec_commands,omitempty"`
-	Name                                      string   `json:"name,omitempty"`
+	Name                                      *string  `json:"name,omitempty"`
 	OutputBuffer                              *int     `json:"output_buffer,omitempty"`
 	OutputBufferMemory                        *int     `json:"output_buffer_memory,omitempty"`
 	OutputListLength                          *int     `json:"output_list_length,omitempty"`
 	Pid                                       *int     `json:"pid,omitempty"`
-	Query                                     string   `json:"query,omitempty"`
+	Query                                     *string  `json:"query,omitempty"`
 	QueryBuffer                               *int     `json:"query_buffer,omitempty"`
 	QueryBufferFree                           *int     `json:"query_buffer_free,omitempty"`
 	QueryDuration                             *float64 `json:"query_duration,omitempty"`
 	QueryId                                   *int     `json:"query_id,omitempty"`
-	QueryStart                                string   `json:"query_start,omitempty"`
-	State                                     string   `json:"state,omitempty"`
-	StateChange                               string   `json:"state_change,omitempty"`
-	Usename                                   string   `json:"usename,omitempty"`
+	QueryStart                                *string  `json:"query_start,omitempty"`
+	State                                     *string  `json:"state,omitempty"`
+	StateChange                               *string  `json:"state_change,omitempty"`
+	Usename                                   *string  `json:"usename,omitempty"`
 	Usesysid                                  *int     `json:"usesysid,omitempty"`
-	WaitEvent                                 string   `json:"wait_event,omitempty"`
-	WaitEventType                             string   `json:"wait_event_type,omitempty"`
+	WaitEvent                                 *string  `json:"wait_event,omitempty"`
+	WaitEventType                             *string  `json:"wait_event_type,omitempty"`
 	Waiting                                   *bool    `json:"waiting,omitempty"`
-	XactStart                                 string   `json:"xact_start,omitempty"`
+	XactStart                                 *string  `json:"xact_start,omitempty"`
 }
 type RecoveryModeType string
 
@@ -1168,15 +1168,15 @@ func RecoveryModeTypeChoices() []string {
 }
 
 type RedisOut struct {
-	DefaultVersion         string           `json:"default_version,omitempty"`
+	DefaultVersion         *string          `json:"default_version,omitempty"`
 	Description            string           `json:"description"`
-	LatestAvailableVersion string           `json:"latest_available_version,omitempty"`
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"`
 	ServicePlans           []ServicePlanOut `json:"service_plans"`
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`
 }
 type ResultCodeOut struct {
-	Code   string `json:"code"`
-	Dbname string `json:"dbname,omitempty"`
+	Code   string  `json:"code"`
+	Dbname *string `json:"dbname,omitempty"`
 }
 type RoleType string
 
@@ -1204,7 +1204,7 @@ func RouteTypeChoices() []string {
 }
 
 type SchemaRegistryAclOut struct {
-	Id         string            `json:"id,omitempty"`
+	Id         *string           `json:"id,omitempty"`
 	Permission PermissionTypeAlt `json:"permission"`
 	Resource   string            `json:"resource"`
 	Username   string            `json:"username"`
@@ -1217,13 +1217,13 @@ type ServiceCancelQueryIn struct {
 	Terminate *bool `json:"terminate,omitempty"`
 }
 type ServiceCreateIn struct {
-	Cloud                 string                  `json:"cloud,omitempty"`
+	Cloud                 *string                 `json:"cloud,omitempty"`
 	CopyTags              *bool                   `json:"copy_tags,omitempty"`
 	DiskSpaceMb           *float64                `json:"disk_space_mb,omitempty"`
-	GroupName             string                  `json:"group_name,omitempty"`
+	GroupName             *string                 `json:"group_name,omitempty"`
 	Maintenance           *MaintenanceIn          `json:"maintenance,omitempty"`
 	Plan                  string                  `json:"plan"`
-	ProjectVpcId          string                  `json:"project_vpc_id,omitempty"`
+	ProjectVpcId          *string                 `json:"project_vpc_id,omitempty"`
 	ServiceIntegrations   *[]ServiceIntegrationIn `json:"service_integrations,omitempty"`
 	ServiceName           string                  `json:"service_name"`
 	ServiceType           string                  `json:"service_type"`
@@ -1236,7 +1236,7 @@ type ServiceCreateIn struct {
 type ServiceCreateOut struct {
 	Acl                    []AclOut                 `json:"acl,omitempty"`
 	Backups                []BackupOut              `json:"backups,omitempty"`
-	CloudDescription       string                   `json:"cloud_description,omitempty"`
+	CloudDescription       *string                  `json:"cloud_description,omitempty"`
 	CloudName              string                   `json:"cloud_name"`
 	Components             []ComponentOut           `json:"components,omitempty"`
 	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`
@@ -1259,7 +1259,7 @@ type ServiceCreateOut struct {
 	ServiceName            string                   `json:"service_name"`
 	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`
 	ServiceType            string                   `json:"service_type"`
-	ServiceTypeDescription string                   `json:"service_type_description,omitempty"`
+	ServiceTypeDescription *string                  `json:"service_type_description,omitempty"`
 	ServiceUri             string                   `json:"service_uri"`
 	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`
 	State                  ServiceStateType         `json:"state"`
@@ -1272,9 +1272,9 @@ type ServiceCreateOut struct {
 	Users                  []UserOut                `json:"users,omitempty"`
 }
 type ServiceDatabaseCreateIn struct {
-	Database  string `json:"database"`
-	LcCollate string `json:"lc_collate,omitempty"`
-	LcCtype   string `json:"lc_ctype,omitempty"`
+	Database  string  `json:"database"`
+	LcCollate *string `json:"lc_collate,omitempty"`
+	LcCtype   *string `json:"lc_ctype,omitempty"`
 }
 type ServiceGetMigrationStatusOut struct {
 	Migration       MigrationOut         `json:"migration"`
@@ -1283,7 +1283,7 @@ type ServiceGetMigrationStatusOut struct {
 type ServiceGetOut struct {
 	Acl                    []AclOut                 `json:"acl,omitempty"`
 	Backups                []BackupOut              `json:"backups,omitempty"`
-	CloudDescription       string                   `json:"cloud_description,omitempty"`
+	CloudDescription       *string                  `json:"cloud_description,omitempty"`
 	CloudName              string                   `json:"cloud_name"`
 	Components             []ComponentOut           `json:"components,omitempty"`
 	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`
@@ -1306,7 +1306,7 @@ type ServiceGetOut struct {
 	ServiceName            string                   `json:"service_name"`
 	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`
 	ServiceType            string                   `json:"service_type"`
-	ServiceTypeDescription string                   `json:"service_type_description,omitempty"`
+	ServiceTypeDescription *string                  `json:"service_type_description,omitempty"`
 	ServiceUri             string                   `json:"service_uri"`
 	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`
 	State                  ServiceStateType         `json:"state"`
@@ -1319,29 +1319,29 @@ type ServiceGetOut struct {
 	Users                  []UserOut                `json:"users,omitempty"`
 }
 type ServiceIntegrationIn struct {
-	DestEndpointId   string          `json:"dest_endpoint_id,omitempty"`
-	DestProject      string          `json:"dest_project,omitempty"`
-	DestService      string          `json:"dest_service,omitempty"`
+	DestEndpointId   *string         `json:"dest_endpoint_id,omitempty"`
+	DestProject      *string         `json:"dest_project,omitempty"`
+	DestService      *string         `json:"dest_service,omitempty"`
 	IntegrationType  IntegrationType `json:"integration_type"`
-	SourceEndpointId string          `json:"source_endpoint_id,omitempty"`
-	SourceProject    string          `json:"source_project,omitempty"`
-	SourceService    string          `json:"source_service,omitempty"`
+	SourceEndpointId *string         `json:"source_endpoint_id,omitempty"`
+	SourceProject    *string         `json:"source_project,omitempty"`
+	SourceService    *string         `json:"source_service,omitempty"`
 	UserConfig       *map[string]any `json:"user_config,omitempty"`
 }
 type ServiceIntegrationOut struct {
 	Active               bool                  `json:"active"`
 	Description          string                `json:"description"`
-	DestEndpoint         string                `json:"dest_endpoint,omitempty"`
-	DestEndpointId       string                `json:"dest_endpoint_id,omitempty"`
+	DestEndpoint         *string               `json:"dest_endpoint,omitempty"`
+	DestEndpointId       *string               `json:"dest_endpoint_id,omitempty"`
 	DestProject          string                `json:"dest_project"`
-	DestService          string                `json:"dest_service,omitempty"`
+	DestService          *string               `json:"dest_service,omitempty"`
 	DestServiceType      string                `json:"dest_service_type"`
 	Enabled              bool                  `json:"enabled"`
 	IntegrationStatus    *IntegrationStatusOut `json:"integration_status,omitempty"`
 	IntegrationType      string                `json:"integration_type"`
 	ServiceIntegrationId string                `json:"service_integration_id"`
-	SourceEndpoint       string                `json:"source_endpoint,omitempty"`
-	SourceEndpointId     string                `json:"source_endpoint_id,omitempty"`
+	SourceEndpoint       *string               `json:"source_endpoint,omitempty"`
+	SourceEndpointId     *string               `json:"source_endpoint_id,omitempty"`
 	SourceProject        string                `json:"source_project"`
 	SourceService        string                `json:"source_service"`
 	SourceServiceType    string                `json:"source_service_type"`
@@ -1374,7 +1374,7 @@ func ServiceNotificationTypeChoices() []string {
 type ServiceOut struct {
 	Acl                    []AclOut                 `json:"acl,omitempty"`
 	Backups                []BackupOut              `json:"backups,omitempty"`
-	CloudDescription       string                   `json:"cloud_description,omitempty"`
+	CloudDescription       *string                  `json:"cloud_description,omitempty"`
 	CloudName              string                   `json:"cloud_name"`
 	Components             []ComponentOut           `json:"components,omitempty"`
 	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`
@@ -1397,7 +1397,7 @@ type ServiceOut struct {
 	ServiceName            string                   `json:"service_name"`
 	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`
 	ServiceType            string                   `json:"service_type"`
-	ServiceTypeDescription string                   `json:"service_type_description,omitempty"`
+	ServiceTypeDescription *string                  `json:"service_type_description,omitempty"`
 	ServiceUri             string                   `json:"service_uri"`
 	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`
 	State                  ServiceStateType         `json:"state"`
@@ -1419,9 +1419,9 @@ type ServicePlanOut struct {
 	ShardCount       *int            `json:"shard_count,omitempty"`
 }
 type ServiceQueryActivityIn struct {
-	Limit   *int   `json:"limit,omitempty"`
-	Offset  *int   `json:"offset,omitempty"`
-	OrderBy string `json:"order_by,omitempty"`
+	Limit   *int    `json:"limit,omitempty"`
+	Offset  *int    `json:"offset,omitempty"`
+	OrderBy *string `json:"order_by,omitempty"`
 }
 type ServiceStateType string
 
@@ -1459,14 +1459,14 @@ type ServiceTaskGetOut struct {
 	TaskType    string          `json:"task_type"`
 }
 type ServiceUpdateIn struct {
-	Cloud                 string          `json:"cloud,omitempty"`
+	Cloud                 *string         `json:"cloud,omitempty"`
 	DiskSpaceMb           *float64        `json:"disk_space_mb,omitempty"`
-	GroupName             string          `json:"group_name,omitempty"`
+	GroupName             *string         `json:"group_name,omitempty"`
 	Karapace              *bool           `json:"karapace,omitempty"`
 	Maintenance           *MaintenanceIn  `json:"maintenance,omitempty"`
-	Plan                  string          `json:"plan,omitempty"`
+	Plan                  *string         `json:"plan,omitempty"`
 	Powered               *bool           `json:"powered,omitempty"`
-	ProjectVpcId          string          `json:"project_vpc_id,omitempty"`
+	ProjectVpcId          *string         `json:"project_vpc_id,omitempty"`
 	SchemaRegistryAuthz   *bool           `json:"schema_registry_authz,omitempty"`
 	TechEmails            *[]TechEmailIn  `json:"tech_emails,omitempty"`
 	TerminationProtection *bool           `json:"termination_protection,omitempty"`
@@ -1475,7 +1475,7 @@ type ServiceUpdateIn struct {
 type ServiceUpdateOut struct {
 	Acl                    []AclOut                 `json:"acl,omitempty"`
 	Backups                []BackupOut              `json:"backups,omitempty"`
-	CloudDescription       string                   `json:"cloud_description,omitempty"`
+	CloudDescription       *string                  `json:"cloud_description,omitempty"`
 	CloudName              string                   `json:"cloud_name"`
 	Components             []ComponentOut           `json:"components,omitempty"`
 	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`
@@ -1498,7 +1498,7 @@ type ServiceUpdateOut struct {
 	ServiceName            string                   `json:"service_name"`
 	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`
 	ServiceType            string                   `json:"service_type"`
-	ServiceTypeDescription string                   `json:"service_type_description,omitempty"`
+	ServiceTypeDescription *string                  `json:"service_type_description,omitempty"`
 	ServiceUri             string                   `json:"service_uri"`
 	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`
 	State                  ServiceStateType         `json:"state"`
@@ -1514,13 +1514,13 @@ type ServiceVersionOut struct {
 	AivenEndOfLifeTime      *time.Time              `json:"aiven_end_of_life_time,omitempty"`
 	AvailabilityEndTime     *time.Time              `json:"availability_end_time,omitempty"`
 	AvailabilityStartTime   *time.Time              `json:"availability_start_time,omitempty"`
-	EndOfLifeHelpArticleUrl string                  `json:"end_of_life_help_article_url,omitempty"`
-	MajorVersion            string                  `json:"major_version,omitempty"`
-	ServiceType             string                  `json:"service_type,omitempty"`
+	EndOfLifeHelpArticleUrl *string                 `json:"end_of_life_help_article_url,omitempty"`
+	MajorVersion            *string                 `json:"major_version,omitempty"`
+	ServiceType             *string                 `json:"service_type,omitempty"`
 	State                   ServiceVersionStateType `json:"state,omitempty"`
 	TerminationTime         *time.Time              `json:"termination_time,omitempty"`
-	UpgradeToServiceType    string                  `json:"upgrade_to_service_type,omitempty"`
-	UpgradeToVersion        string                  `json:"upgrade_to_version,omitempty"`
+	UpgradeToServiceType    *string                 `json:"upgrade_to_service_type,omitempty"`
+	UpgradeToVersion        *string                 `json:"upgrade_to_version,omitempty"`
 	UpstreamEndOfLifeTime   *time.Time              `json:"upstream_end_of_life_time,omitempty"`
 }
 type ServiceVersionStateType string
@@ -1538,8 +1538,8 @@ func ServiceVersionStateTypeChoices() []string {
 }
 
 type ShardOut struct {
-	Name     string `json:"name,omitempty"`
-	Position *int   `json:"position,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	Position *int    `json:"position,omitempty"`
 }
 type SortOrderType string
 
@@ -1625,9 +1625,9 @@ func UnitTypeChoices() []string {
 }
 
 type UpdateOut struct {
-	Deadline    string     `json:"deadline,omitempty"`
-	Description string     `json:"description,omitempty"`
-	StartAfter  string     `json:"start_after,omitempty"`
+	Deadline    *string    `json:"deadline,omitempty"`
+	Description *string    `json:"description,omitempty"`
+	StartAfter  *string    `json:"start_after,omitempty"`
 	StartAt     *time.Time `json:"start_at,omitempty"`
 }
 type UsageType string
@@ -1642,10 +1642,10 @@ func UsageTypeChoices() []string {
 }
 
 type UserOut struct {
-	AccessCert                    string             `json:"access_cert,omitempty"`
+	AccessCert                    *string            `json:"access_cert,omitempty"`
 	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`
 	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`
-	AccessKey                     string             `json:"access_key,omitempty"`
+	AccessKey                     *string            `json:"access_key,omitempty"`
 	Authentication                AuthenticationType `json:"authentication,omitempty"`
 	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"`
 	Password                      string             `json:"password"`
@@ -1683,7 +1683,7 @@ type serviceDatabaseListOut struct {
 	Databases []DatabaseOut `json:"databases"`
 }
 type serviceEnableWritesOut struct {
-	Until string `json:"until,omitempty"`
+	Until *string `json:"until,omitempty"`
 }
 type serviceGetOut struct {
 	Service ServiceGetOut `json:"service"`

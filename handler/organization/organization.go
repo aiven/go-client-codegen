@@ -226,7 +226,7 @@ type OrganizationAuthenticationConfigUpdateOut struct {
 type OrganizationGetOut struct {
 	AccountId                    string    `json:"account_id"`
 	CreateTime                   time.Time `json:"create_time"`
-	DefaultGovernanceUserGroupId string    `json:"default_governance_user_group_id,omitempty"`
+	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"`
 	OrganizationId               string    `json:"organization_id"`
 	OrganizationName             string    `json:"organization_name"`
 	Tier                         TierType  `json:"tier"`
@@ -235,22 +235,22 @@ type OrganizationGetOut struct {
 type OrganizationOut struct {
 	AccountId                    string    `json:"account_id"`
 	CreateTime                   time.Time `json:"create_time"`
-	DefaultGovernanceUserGroupId string    `json:"default_governance_user_group_id,omitempty"`
+	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"`
 	OrganizationId               string    `json:"organization_id"`
 	OrganizationName             string    `json:"organization_name"`
 	Tier                         TierType  `json:"tier"`
 	UpdateTime                   time.Time `json:"update_time"`
 }
 type OrganizationUpdateIn struct {
-	DefaultGovernanceUserGroupId string   `json:"default_governance_user_group_id,omitempty"`
+	DefaultGovernanceUserGroupId *string  `json:"default_governance_user_group_id,omitempty"`
 	KafkaGovernanceEnabled       *bool    `json:"kafka_governance_enabled,omitempty"`
-	Name                         string   `json:"name,omitempty"`
+	Name                         *string  `json:"name,omitempty"`
 	Tier                         TierType `json:"tier,omitempty"`
 }
 type OrganizationUpdateOut struct {
 	AccountId                    string    `json:"account_id"`
 	CreateTime                   time.Time `json:"create_time"`
-	DefaultGovernanceUserGroupId string    `json:"default_governance_user_group_id,omitempty"`
+	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"`
 	OrganizationId               string    `json:"organization_id"`
 	OrganizationName             string    `json:"organization_name"`
 	Tier                         TierType  `json:"tier"`
@@ -269,13 +269,13 @@ func TierTypeChoices() []string {
 
 type UserOrganizationCreateIn struct {
 	OrganizationName      string   `json:"organization_name"`
-	PrimaryBillingGroupId string   `json:"primary_billing_group_id,omitempty"`
+	PrimaryBillingGroupId *string  `json:"primary_billing_group_id,omitempty"`
 	Tier                  TierType `json:"tier"`
 }
 type UserOrganizationCreateOut struct {
 	AccountId                    string    `json:"account_id"`
 	CreateTime                   time.Time `json:"create_time"`
-	DefaultGovernanceUserGroupId string    `json:"default_governance_user_group_id,omitempty"`
+	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"`
 	OrganizationId               string    `json:"organization_id"`
 	OrganizationName             string    `json:"organization_name"`
 	Tier                         TierType  `json:"tier"`

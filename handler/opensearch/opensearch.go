@@ -231,9 +231,9 @@ func PermissionTypeChoices() []string {
 }
 
 type ReplicationOut struct {
-	LeaderIndex   string `json:"leader_index,omitempty"`
-	LeaderProject string `json:"leader_project,omitempty"`
-	LeaderService string `json:"leader_service,omitempty"`
+	LeaderIndex   *string `json:"leader_index,omitempty"`
+	LeaderProject *string `json:"leader_project,omitempty"`
+	LeaderService *string `json:"leader_service,omitempty"`
 }
 type RuleIn struct {
 	Index      string         `json:"index"`
