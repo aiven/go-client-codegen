@@ -528,6 +528,10 @@ type AccessControlOut struct {
 	RedisAclChannels       []string `json:"redis_acl_channels,omitempty"`       // Permitted pub/sub channel patterns. Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
 	RedisAclCommands       []string `json:"redis_acl_commands,omitempty"`       // Rules for individual commands
 	RedisAclKeys           []string `json:"redis_acl_keys,omitempty"`           // Key access rules
+	ValkeyAclCategories    []string `json:"valkey_acl_categories,omitempty"`    // Command category rules
+	ValkeyAclChannels      []string `json:"valkey_acl_channels,omitempty"`      // Permitted pub/sub channel patterns. Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
+	ValkeyAclCommands      []string `json:"valkey_acl_commands,omitempty"`      // Rules for individual commands
+	ValkeyAclKeys          []string `json:"valkey_acl_keys,omitempty"`          // Key access rules
 }
 type AclOut struct {
 	Id         *string        `json:"id,omitempty"` // ID
