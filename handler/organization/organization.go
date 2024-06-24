@@ -253,10 +253,8 @@ type OrganizationOut struct {
 
 // OrganizationUpdateIn OrganizationUpdateRequestBody
 type OrganizationUpdateIn struct {
-	DefaultGovernanceUserGroupId *string  `json:"default_governance_user_group_id,omitempty"` // Default governance user group ID
-	KafkaGovernanceEnabled       *bool    `json:"kafka_governance_enabled,omitempty"`         // Under development - Feature flag for Kafka governance
-	Name                         *string  `json:"name,omitempty"`                             // New name of the organization
-	Tier                         TierType `json:"tier,omitempty"`                             // New tier for the organization
+	Name *string  `json:"name,omitempty"` // New name of the organization
+	Tier TierType `json:"tier,omitempty"` // New tier for the organization
 }
 
 // OrganizationUpdateOut OrganizationUpdateResponse
