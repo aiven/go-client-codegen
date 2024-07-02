@@ -895,6 +895,7 @@ type ListProjectServiceTypesOut struct {
 	Opensearch       *OpensearchOut       `json:"opensearch,omitempty"`        // Service type information
 	Pg               *PgOut               `json:"pg,omitempty"`                // Service type information
 	Redis            *RedisOut            `json:"redis,omitempty"`             // Service type information
+	Valkey           *ValkeyOut           `json:"valkey,omitempty"`            // Service type information
 }
 
 // ListPublicServiceTypesOut Service plans by service type
@@ -915,6 +916,7 @@ type ListPublicServiceTypesOut struct {
 	Opensearch       *OpensearchOut       `json:"opensearch,omitempty"`        // Service type information
 	Pg               *PgOut               `json:"pg,omitempty"`                // Service type information
 	Redis            *RedisOut            `json:"redis,omitempty"`             // Service type information
+	Valkey           *ValkeyOut           `json:"valkey,omitempty"`            // Service type information
 }
 type LogOut struct {
 	Msg  string  `json:"msg"`            // Log message
@@ -1735,6 +1737,15 @@ type UserOut struct {
 	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
 	Type                          string             `json:"type"`                                         // Account type
 	Username                      string             `json:"username"`                                     // Account username
+}
+
+// ValkeyOut Service type information
+type ValkeyOut struct {
+	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string           `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
+	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
+	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
 
 // listProjectServiceTypesOut ListProjectServiceTypesResponse
