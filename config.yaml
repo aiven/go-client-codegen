@@ -10,8 +10,10 @@ Account:
   - AccountPaymentMethodDelete
   - AccountPaymentMethodsList
   - AccountProjectsList
+  - AccountProjectsTeamsList
   - AccountUpdate
   - AccountUserProjectsList
+  - AccountUserTeamsList
   - AccountUsersSearch
 AccountAuthentication:
   - AccountAuthenticationMethodCreate
@@ -20,17 +22,20 @@ AccountAuthentication:
   - AccountAuthenticationMethodUpdate
   - AccountAuthenticationMethodsList
 AccountTeam:
+  - AccountTeamCreate
   - AccountTeamDelete
   - AccountTeamGet
   - AccountTeamInvitesList
   - AccountTeamList
   - AccountTeamProjectAssociate
+  - AccountTeamProjectAssociationUpdate
   - AccountTeamProjectDisassociate
   - AccountTeamProjectList
   - AccountTeamUpdate
 AccountTeamMember:
   - AccountTeamMemberCancelInvite
   - AccountTeamMemberVerifyInvite
+  - AccountTeamMembersDelete
   - AccountTeamMembersInvite
   - AccountTeamMembersList
 ApplicationUser:
@@ -141,6 +146,7 @@ KafkaSchemaRegistry:
   - ServiceSchemaRegistrySubjectVersionDelete
   - ServiceSchemaRegistrySubjectVersionGet
   - ServiceSchemaRegistrySubjectVersionPost
+  - ServiceSchemaRegistrySubjectVersionSchemaGet
   - ServiceSchemaRegistrySubjectVersionsGet
   - ServiceSchemaRegistrySubjects
 KafkaTopic:

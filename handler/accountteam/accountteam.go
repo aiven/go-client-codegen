@@ -11,42 +11,52 @@ import (
 )
 
 type Handler interface {
-	// AccountTeamDelete delete a team
+	// Deprecated: AccountTeamCreate create a new team
+	// POST /v1/account/{account_id}/teams
+	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamCreate
+	AccountTeamCreate(ctx context.Context, accountId string, in *AccountTeamCreateIn) (*AccountTeamCreateOut, error)
+
+	// Deprecated: AccountTeamDelete delete a team
 	// DELETE /v1/account/{account_id}/team/{team_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamDelete
 	AccountTeamDelete(ctx context.Context, accountId string, teamId string) error
 
-	// AccountTeamGet get details for a single team
+	// Deprecated: AccountTeamGet get details for a single team
 	// GET /v1/account/{account_id}/team/{team_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamGet
 	AccountTeamGet(ctx context.Context, accountId string, teamId string) (*AccountTeamGetOut, error)
 
-	// AccountTeamInvitesList list pending invites
+	// Deprecated: AccountTeamInvitesList list pending invites
 	// GET /v1/account/{account_id}/team/{team_id}/invites
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamInvitesList
 	AccountTeamInvitesList(ctx context.Context, accountId string, teamId string) ([]AccountInviteOut, error)
 
-	// AccountTeamList list teams belonging to an account
+	// Deprecated: AccountTeamList list teams belonging to an account
 	// GET /v1/account/{account_id}/teams
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamList
 	AccountTeamList(ctx context.Context, accountId string) ([]TeamOut, error)
 
-	// AccountTeamProjectAssociate associate team to a project
+	// Deprecated: AccountTeamProjectAssociate associate team to a project
 	// POST /v1/account/{account_id}/team/{team_id}/project/{project}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectAssociate
 	AccountTeamProjectAssociate(ctx context.Context, accountId string, teamId string, project string, in *AccountTeamProjectAssociateIn) error
 
-	// AccountTeamProjectDisassociate disassociate team from a project
+	// Deprecated: AccountTeamProjectAssociationUpdate update team-project association
+	// PUT /v1/account/{account_id}/team/{team_id}/project/{project}
+	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectAssociationUpdate
+	AccountTeamProjectAssociationUpdate(ctx context.Context, accountId string, teamId string, project string, in *AccountTeamProjectAssociationUpdateIn) error
+
+	// Deprecated: AccountTeamProjectDisassociate disassociate team from a project
 	// DELETE /v1/account/{account_id}/team/{team_id}/project/{project}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectDisassociate
 	AccountTeamProjectDisassociate(ctx context.Context, accountId string, teamId string, project string) error
 
-	// AccountTeamProjectList list projects associated to a team
+	// Deprecated: AccountTeamProjectList list projects associated to a team
 	// GET /v1/account/{account_id}/team/{team_id}/projects
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectList
 	AccountTeamProjectList(ctx context.Context, accountId string, teamId string) ([]ProjectOut, error)
 
-	// AccountTeamUpdate update team details
+	// Deprecated: AccountTeamUpdate update team details
 	// PUT /v1/account/{account_id}/team/{team_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamUpdate
 	AccountTeamUpdate(ctx context.Context, accountId string, teamId string, in *AccountTeamUpdateIn) (*AccountTeamUpdateOut, error)
@@ -64,6 +74,19 @@ type AccountTeamHandler struct {
 	doer doer
 }
 
+func (h *AccountTeamHandler) AccountTeamCreate(ctx context.Context, accountId string, in *AccountTeamCreateIn) (*AccountTeamCreateOut, error) {
+	path := fmt.Sprintf("/v1/account/%s/teams", url.PathEscape(accountId))
+	b, err := h.doer.Do(ctx, "AccountTeamCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
+	out := new(accountTeamCreateOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return &out.Team, nil
+}
 func (h *AccountTeamHandler) AccountTeamDelete(ctx context.Context, accountId string, teamId string) error {
 	path := fmt.Sprintf("/v1/account/%s/team/%s", url.PathEscape(accountId), url.PathEscape(teamId))
 	_, err := h.doer.Do(ctx, "AccountTeamDelete", "DELETE", path, nil)
@@ -113,6 +136,11 @@ func (h *AccountTeamHandler) AccountTeamProjectAssociate(ctx context.Context, ac
 	_, err := h.doer.Do(ctx, "AccountTeamProjectAssociate", "POST", path, in)
 	return err
 }
+func (h *AccountTeamHandler) AccountTeamProjectAssociationUpdate(ctx context.Context, accountId string, teamId string, project string, in *AccountTeamProjectAssociationUpdateIn) error {
+	path := fmt.Sprintf("/v1/account/%s/team/%s/project/%s", url.PathEscape(accountId), url.PathEscape(teamId), url.PathEscape(project))
+	_, err := h.doer.Do(ctx, "AccountTeamProjectAssociationUpdate", "PUT", path, in)
+	return err
+}
 func (h *AccountTeamHandler) AccountTeamProjectDisassociate(ctx context.Context, accountId string, teamId string, project string) error {
 	path := fmt.Sprintf("/v1/account/%s/team/%s/project/%s", url.PathEscape(accountId), url.PathEscape(teamId), url.PathEscape(project))
 	_, err := h.doer.Do(ctx, "AccountTeamProjectDisassociate", "DELETE", path, nil)
@@ -155,6 +183,20 @@ type AccountInviteOut struct {
 	UserEmail          string    `json:"user_email"`            // User email address
 }
 
+// AccountTeamCreateIn AccountTeamCreateRequestBody
+type AccountTeamCreateIn struct {
+	TeamName string `json:"team_name"` // Team name
+}
+
+// AccountTeamCreateOut Account Team details
+type AccountTeamCreateOut struct {
+	AccountId  *string    `json:"account_id,omitempty"`  // Account ID
+	CreateTime *time.Time `json:"create_time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
+	TeamId     string     `json:"team_id"`               // Team ID
+	TeamName   string     `json:"team_name"`             // Team name
+	UpdateTime *time.Time `json:"update_time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
+}
+
 // AccountTeamGetOut Account Team details
 type AccountTeamGetOut struct {
 	AccountId  *string    `json:"account_id,omitempty"`  // Account ID
@@ -167,6 +209,11 @@ type AccountTeamGetOut struct {
 // AccountTeamProjectAssociateIn AccountTeamProjectAssociateRequestBody
 type AccountTeamProjectAssociateIn struct {
 	TeamType TeamType `json:"team_type"` // Team type (permission level)
+}
+
+// AccountTeamProjectAssociationUpdateIn AccountTeamProjectAssociationUpdateRequestBody
+type AccountTeamProjectAssociationUpdateIn struct {
+	TeamType TeamType `json:"team_type,omitempty"` // Team type (permission level)
 }
 
 // AccountTeamUpdateIn AccountTeamUpdateRequestBody
@@ -204,6 +251,11 @@ const (
 
 func TeamTypeChoices() []string {
 	return []string{"admin", "operator", "developer", "read_only"}
+}
+
+// accountTeamCreateOut AccountTeamCreateResponse
+type accountTeamCreateOut struct {
+	Team AccountTeamCreateOut `json:"team"` // Account Team details
 }
 
 // accountTeamGetOut AccountTeamGetResponse

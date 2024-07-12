@@ -83,10 +83,6 @@ func exec() error {
 	for path := range doc.Paths {
 		v := doc.Paths[path]
 		for meth, p := range v {
-			if p.Deprecated {
-				continue
-			}
-
 			if !pathVersioning.MatchString(path) {
 				path = fmt.Sprintf("/%s%s", defaultAPIVersion, path)
 			}

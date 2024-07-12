@@ -66,6 +66,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountProjectsList
 	AccountProjectsList(ctx context.Context, accountId string) (*AccountProjectsListOut, error)
 
+	// Deprecated: AccountProjectsTeamsList list account teams associated to a project
+	// GET /v1/account/{account_id}/project/{project_name}/teams
+	// https://api.aiven.io/doc/#tag/Account/operation/AccountProjectsTeamsList
+	AccountProjectsTeamsList(ctx context.Context, accountId string, projectName string) ([]TeamOut, error)
+
 	// AccountUpdate update existing account
 	// PUT /v1/account/{account_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUpdate
@@ -75,6 +80,11 @@ type Handler interface {
 	// GET /v1/account/{account_id}/user/{user_id}/projects
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUserProjectsList
 	AccountUserProjectsList(ctx context.Context, accountId string, userId string) ([]UserProjectOut, error)
+
+	// Deprecated: AccountUserTeamsList list all teams for user
+	// GET /v1/account/{account_id}/user/{user_id}/teams
+	// https://api.aiven.io/doc/#tag/Account/operation/AccountUserTeamsList
+	AccountUserTeamsList(ctx context.Context, accountId string, userId string) ([]TeamOutAlt, error)
 
 	// AccountUsersSearch list/search users who are members of any team on this account
 	// POST /v1/account/{account_id}/users/search
@@ -221,6 +231,19 @@ func (h *AccountHandler) AccountProjectsList(ctx context.Context, accountId stri
 	}
 	return out, nil
 }
+func (h *AccountHandler) AccountProjectsTeamsList(ctx context.Context, accountId string, projectName string) ([]TeamOut, error) {
+	path := fmt.Sprintf("/v1/account/%s/project/%s/teams", url.PathEscape(accountId), url.PathEscape(projectName))
+	b, err := h.doer.Do(ctx, "AccountProjectsTeamsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(accountProjectsTeamsListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Teams, nil
+}
 func (h *AccountHandler) AccountUpdate(ctx context.Context, accountId string, in *AccountUpdateIn) (*AccountUpdateOut, error) {
 	path := fmt.Sprintf("/v1/account/%s", url.PathEscape(accountId))
 	b, err := h.doer.Do(ctx, "AccountUpdate", "PUT", path, in)
@@ -246,6 +269,19 @@ func (h *AccountHandler) AccountUserProjectsList(ctx context.Context, accountId 
 		return nil, err
 	}
 	return out.UserProjects, nil
+}
+func (h *AccountHandler) AccountUserTeamsList(ctx context.Context, accountId string, userId string) ([]TeamOutAlt, error) {
+	path := fmt.Sprintf("/v1/account/%s/user/%s/teams", url.PathEscape(accountId), url.PathEscape(userId))
+	b, err := h.doer.Do(ctx, "AccountUserTeamsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(accountUserTeamsListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Teams, nil
 }
 func (h *AccountHandler) AccountUsersSearch(ctx context.Context, accountId string, in *AccountUsersSearchIn) ([]UserOut, error) {
 	path := fmt.Sprintf("/v1/account/%s/users/search", url.PathEscape(accountId))
@@ -577,6 +613,33 @@ type ProjectOut struct {
 	VatId                 string                 `json:"vat_id"`                            // EU VAT Identification Number
 	ZipCode               *string                `json:"zip_code,omitempty"`                // Address zip code
 }
+type TeamOut struct {
+	AccountId  *string    `json:"account_id,omitempty"`  // Account ID
+	CreateTime *time.Time `json:"create_time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
+	TeamId     string     `json:"team_id"`               // Team ID
+	TeamName   string     `json:"team_name"`             // Team name
+	TeamType   TeamType   `json:"team_type,omitempty"`   // Team type (permission level)
+	UpdateTime *time.Time `json:"update_time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
+}
+type TeamOutAlt struct {
+	AccountId   string `json:"account_id"`   // Account ID
+	AccountName string `json:"account_name"` // Account name
+	TeamId      string `json:"team_id"`      // Team ID
+	TeamName    string `json:"team_name"`    // Team name
+}
+type TeamType string
+
+const (
+	TeamTypeAdmin     TeamType = "admin"
+	TeamTypeOperator  TeamType = "operator"
+	TeamTypeDeveloper TeamType = "developer"
+	TeamTypeReadOnly  TeamType = "read_only"
+)
+
+func TeamTypeChoices() []string {
+	return []string{"admin", "operator", "developer", "read_only"}
+}
+
 type TechEmailOut struct {
 	Email string `json:"email"` // User email address
 }
@@ -637,6 +700,11 @@ type accountPaymentMethodsListOut struct {
 	Cards []CardOut `json:"cards"` // List of account's credit cards
 }
 
+// accountProjectsTeamsListOut AccountProjectsTeamsListResponse
+type accountProjectsTeamsListOut struct {
+	Teams []TeamOut `json:"teams"` // List of teams
+}
+
 // accountUpdateOut AccountUpdateResponse
 type accountUpdateOut struct {
 	Account AccountUpdateOut `json:"account"` // Account details
@@ -645,6 +713,11 @@ type accountUpdateOut struct {
 // accountUserProjectsListOut AccountUserProjectsListResponse
 type accountUserProjectsListOut struct {
 	UserProjects []UserProjectOut `json:"user_projects"` // List of user's projects
+}
+
+// accountUserTeamsListOut AccountUserTeamsListResponse
+type accountUserTeamsListOut struct {
+	Teams []TeamOutAlt `json:"teams"` // List of teams
 }
 
 // accountUsersSearchOut AccountUsersSearchResponse

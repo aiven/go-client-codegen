@@ -76,8 +76,12 @@ func (p *Path) Comment() *jen.Statement {
 	// For instance, there is always "List" method and that's a common verb
 	// But IDE will highlight it as a reference
 	// Lowers first letter
-	s := lowerFirst(p.Summary)
-	c := jen.Comment(fmt.Sprintf("%s %s", p.FuncName, s))
+	s := fmt.Sprintf("%s %s", p.FuncName, lowerFirst(p.Summary))
+	if p.Deprecated {
+		s = "Deprecated: " + s
+	}
+
+	c := jen.Comment(s)
 	c.Line().Comment(fmt.Sprintf("%s %s", p.Method, p.Path))
 
 	if p.Tags[0] == "" {
