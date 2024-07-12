@@ -7,29 +7,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/url"
-	"time"
 )
 
 type Handler interface {
-	// AccountTeamMemberCancelInvite cancel pending user invite
-	// DELETE /v1/account/{account_id}/team/{team_id}/invites/{user_email}
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberCancelInvite
-	AccountTeamMemberCancelInvite(ctx context.Context, accountId string, teamId string, userEmail string) error
-
 	// AccountTeamMemberVerifyInvite confirm account team invite
 	// POST /v1/account/{account_id}/invite/{invite_verification_code}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberVerifyInvite
 	AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*AccountTeamMemberVerifyInviteOut, error)
-
-	// AccountTeamMembersInvite invite a new member to join the team
-	// POST /v1/account/{account_id}/team/{team_id}/members
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersInvite
-	AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string, in *AccountTeamMembersInviteIn) error
-
-	// AccountTeamMembersList list members of a single team
-	// GET /v1/account/{account_id}/team/{team_id}/members
-	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersList
-	AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error)
 }
 
 func NewHandler(doer doer) AccountTeamMemberHandler {
@@ -44,11 +28,6 @@ type AccountTeamMemberHandler struct {
 	doer doer
 }
 
-func (h *AccountTeamMemberHandler) AccountTeamMemberCancelInvite(ctx context.Context, accountId string, teamId string, userEmail string) error {
-	path := fmt.Sprintf("/v1/account/%s/team/%s/invites/%s", url.PathEscape(accountId), url.PathEscape(teamId), url.PathEscape(userEmail))
-	_, err := h.doer.Do(ctx, "AccountTeamMemberCancelInvite", "DELETE", path, nil)
-	return err
-}
 func (h *AccountTeamMemberHandler) AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*AccountTeamMemberVerifyInviteOut, error) {
 	path := fmt.Sprintf("/v1/account/%s/invite/%s", url.PathEscape(accountId), url.PathEscape(inviteVerificationCode))
 	b, err := h.doer.Do(ctx, "AccountTeamMemberVerifyInvite", "POST", path, nil)
@@ -62,50 +41,13 @@ func (h *AccountTeamMemberHandler) AccountTeamMemberVerifyInvite(ctx context.Con
 	}
 	return &out.InviteDetails, nil
 }
-func (h *AccountTeamMemberHandler) AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string, in *AccountTeamMembersInviteIn) error {
-	path := fmt.Sprintf("/v1/account/%s/team/%s/members", url.PathEscape(accountId), url.PathEscape(teamId))
-	_, err := h.doer.Do(ctx, "AccountTeamMembersInvite", "POST", path, in)
-	return err
-}
-func (h *AccountTeamMemberHandler) AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error) {
-	path := fmt.Sprintf("/v1/account/%s/team/%s/members", url.PathEscape(accountId), url.PathEscape(teamId))
-	b, err := h.doer.Do(ctx, "AccountTeamMembersList", "GET", path, nil)
-	if err != nil {
-		return nil, err
-	}
-	out := new(accountTeamMembersListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.Members, nil
-}
 
 // AccountTeamMemberVerifyInviteOut Details of verified invite
 type AccountTeamMemberVerifyInviteOut struct {
 	UserEmail string `json:"user_email"` // User email address
 }
 
-// AccountTeamMembersInviteIn AccountTeamMembersInviteRequestBody
-type AccountTeamMembersInviteIn struct {
-	Email string `json:"email"` // User email address
-}
-type MemberOut struct {
-	CreateTime time.Time `json:"create_time"` // Timestamp in ISO 8601 format, always in UTC
-	RealName   string    `json:"real_name"`   // User real name
-	TeamId     string    `json:"team_id"`     // Team ID
-	TeamName   string    `json:"team_name"`   // Team name
-	UpdateTime time.Time `json:"update_time"` // Timestamp in ISO 8601 format, always in UTC
-	UserEmail  string    `json:"user_email"`  // User email address
-	UserId     string    `json:"user_id"`     // User ID
-}
-
 // accountTeamMemberVerifyInviteOut AccountTeamMemberVerifyInviteResponse
 type accountTeamMemberVerifyInviteOut struct {
 	InviteDetails AccountTeamMemberVerifyInviteOut `json:"invite_details"` // Details of verified invite
-}
-
-// accountTeamMembersListOut AccountTeamMembersListResponse
-type accountTeamMembersListOut struct {
-	Members []MemberOut `json:"members"` // List of account team members
 }

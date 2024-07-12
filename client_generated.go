@@ -7,7 +7,6 @@ import (
 
 	account "github.com/aiven/go-client-codegen/handler/account"
 	accountauthentication "github.com/aiven/go-client-codegen/handler/accountauthentication"
-	accountteam "github.com/aiven/go-client-codegen/handler/accountteam"
 	accountteammember "github.com/aiven/go-client-codegen/handler/accountteammember"
 	applicationuser "github.com/aiven/go-client-codegen/handler/applicationuser"
 	billinggroup "github.com/aiven/go-client-codegen/handler/billinggroup"
@@ -50,7 +49,6 @@ func newClient(doer doer) Client {
 	return &client{
 		AccountAuthenticationHandler:      accountauthentication.NewHandler(doer),
 		AccountHandler:                    account.NewHandler(doer),
-		AccountTeamHandler:                accountteam.NewHandler(doer),
 		AccountTeamMemberHandler:          accountteammember.NewHandler(doer),
 		ApplicationUserHandler:            applicationuser.NewHandler(doer),
 		BillingGroupHandler:               billinggroup.NewHandler(doer),
@@ -89,7 +87,6 @@ func newClient(doer doer) Client {
 type client struct {
 	account.AccountHandler
 	accountauthentication.AccountAuthenticationHandler
-	accountteam.AccountTeamHandler
 	accountteammember.AccountTeamMemberHandler
 	applicationuser.ApplicationUserHandler
 	billinggroup.BillingGroupHandler
@@ -126,7 +123,6 @@ type client struct {
 type Client interface {
 	account.Handler
 	accountauthentication.Handler
-	accountteam.Handler
 	accountteammember.Handler
 	applicationuser.Handler
 	billinggroup.Handler
