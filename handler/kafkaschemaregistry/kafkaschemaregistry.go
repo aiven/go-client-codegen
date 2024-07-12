@@ -75,6 +75,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionPost
 	ServiceSchemaRegistrySubjectVersionPost(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectVersionPostIn) (int, error)
 
+	// Deprecated: ServiceSchemaRegistrySubjectVersionSchemaGet dEPRECATED: Get raw schema of a specific version in Schema Registry
+	// GET /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id}/schema
+	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionSchemaGet
+	ServiceSchemaRegistrySubjectVersionSchemaGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error
+
 	// ServiceSchemaRegistrySubjectVersionsGet get Schema Registry subject versions
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionsGet
@@ -234,6 +239,11 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionPost(ctx
 		return 0, err
 	}
 	return out.Id, nil
+}
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionSchemaGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/schema/subjects/%s/versions/%d/schema", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(subjectName), versionId)
+	_, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionSchemaGet", "GET", path, nil)
+	return err
 }
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionsGet(ctx context.Context, project string, serviceName string, subjectName string) ([]int, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/schema/subjects/%s/versions", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(subjectName))

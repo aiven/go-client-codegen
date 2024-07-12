@@ -11,7 +11,7 @@ import (
 )
 
 type Handler interface {
-	// AccountTeamMemberCancelInvite cancel pending user invite
+	// Deprecated: AccountTeamMemberCancelInvite cancel pending user invite
 	// DELETE /v1/account/{account_id}/team/{team_id}/invites/{user_email}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberCancelInvite
 	AccountTeamMemberCancelInvite(ctx context.Context, accountId string, teamId string, userEmail string) error
@@ -21,12 +21,17 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberVerifyInvite
 	AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*AccountTeamMemberVerifyInviteOut, error)
 
-	// AccountTeamMembersInvite invite a new member to join the team
+	// Deprecated: AccountTeamMembersDelete remove a member from the team
+	// DELETE /v1/account/{account_id}/team/{team_id}/member/{user_id}
+	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersDelete
+	AccountTeamMembersDelete(ctx context.Context, accountId string, teamId string, userId string) error
+
+	// Deprecated: AccountTeamMembersInvite invite a new member to join the team
 	// POST /v1/account/{account_id}/team/{team_id}/members
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersInvite
 	AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string, in *AccountTeamMembersInviteIn) error
 
-	// AccountTeamMembersList list members of a single team
+	// Deprecated: AccountTeamMembersList list members of a single team
 	// GET /v1/account/{account_id}/team/{team_id}/members
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersList
 	AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error)
@@ -61,6 +66,11 @@ func (h *AccountTeamMemberHandler) AccountTeamMemberVerifyInvite(ctx context.Con
 		return nil, err
 	}
 	return &out.InviteDetails, nil
+}
+func (h *AccountTeamMemberHandler) AccountTeamMembersDelete(ctx context.Context, accountId string, teamId string, userId string) error {
+	path := fmt.Sprintf("/v1/account/%s/team/%s/member/%s", url.PathEscape(accountId), url.PathEscape(teamId), url.PathEscape(userId))
+	_, err := h.doer.Do(ctx, "AccountTeamMembersDelete", "DELETE", path, nil)
+	return err
 }
 func (h *AccountTeamMemberHandler) AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string, in *AccountTeamMembersInviteIn) error {
 	path := fmt.Sprintf("/v1/account/%s/team/%s/members", url.PathEscape(accountId), url.PathEscape(teamId))
