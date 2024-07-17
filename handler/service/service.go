@@ -983,6 +983,7 @@ func MethodTypeAltChoices() []string {
 // MigrationCheckIn Payload to be used with migration_check
 type MigrationCheckIn struct {
 	IgnoreDbs         *string       `json:"ignore_dbs,omitempty"`          // Comma-separated list of databases, which should be ignored during migration (supported by MySQL and PostgreSQL only at the moment)
+	IgnoreRoles       *string       `json:"ignore_roles,omitempty"`        // Comma-separated list of database roles, which should be ignored during migration (supported by PostgreSQL only at the moment)
 	Method            MethodTypeAlt `json:"method,omitempty"`              // The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
 	SourceProjectName *string       `json:"source_project_name,omitempty"` // Project name
 	SourceServiceName *string       `json:"source_service_name,omitempty"` // Service name
