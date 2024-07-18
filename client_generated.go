@@ -32,7 +32,6 @@ import (
 	privatelink "github.com/aiven/go-client-codegen/handler/privatelink"
 	project "github.com/aiven/go-client-codegen/handler/project"
 	projectbilling "github.com/aiven/go-client-codegen/handler/projectbilling"
-	projectuser "github.com/aiven/go-client-codegen/handler/projectuser"
 	service "github.com/aiven/go-client-codegen/handler/service"
 	serviceintegration "github.com/aiven/go-client-codegen/handler/serviceintegration"
 	serviceuser "github.com/aiven/go-client-codegen/handler/serviceuser"
@@ -76,7 +75,6 @@ func newClient(doer doer) Client {
 		PrivatelinkHandler:                privatelink.NewHandler(doer),
 		ProjectBillingHandler:             projectbilling.NewHandler(doer),
 		ProjectHandler:                    project.NewHandler(doer),
-		ProjectUserHandler:                projectuser.NewHandler(doer),
 		ServiceHandler:                    service.NewHandler(doer),
 		ServiceIntegrationHandler:         serviceintegration.NewHandler(doer),
 		ServiceUserHandler:                serviceuser.NewHandler(doer),
@@ -116,7 +114,6 @@ type client struct {
 	privatelink.PrivatelinkHandler
 	project.ProjectHandler
 	projectbilling.ProjectBillingHandler
-	projectuser.ProjectUserHandler
 	service.ServiceHandler
 	serviceintegration.ServiceIntegrationHandler
 	serviceuser.ServiceUserHandler
@@ -154,7 +151,6 @@ type Client interface {
 	privatelink.Handler
 	project.Handler
 	projectbilling.Handler
-	projectuser.Handler
 	service.Handler
 	serviceintegration.Handler
 	serviceuser.Handler
