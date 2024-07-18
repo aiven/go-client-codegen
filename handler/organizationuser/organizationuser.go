@@ -70,6 +70,16 @@ type Handler interface {
 	// PATCH /v1/organization/{organization_id}/user/{member_user_id}
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserUpdate
 	OrganizationUserUpdate(ctx context.Context, organizationId string, memberUserId string, in *OrganizationUserUpdateIn) (*OrganizationUserUpdateOut, error)
+
+	// ProjectUserAccessGrantRemove remove direct access to a project for a user
+	// DELETE /v1/organization/{organization_id}/projects/{project_id}/access/users/{user_id}
+	// https://api.aiven.io/doc/#tag/Organizations/operation/ProjectUserAccessGrantRemove
+	ProjectUserAccessGrantRemove(ctx context.Context, organizationId string, projectId string, userId string) error
+
+	// ProjectUserAccessGrantSet add or update direct access to a project for a user with a given role
+	// PUT /v1/organization/{organization_id}/projects/{project_id}/access/users/{user_id}
+	// https://api.aiven.io/doc/#tag/Organizations/operation/ProjectUserAccessGrantSet
+	ProjectUserAccessGrantSet(ctx context.Context, organizationId string, projectId string, userId string, in *ProjectUserAccessGrantSetIn) (*ProjectUserAccessGrantSetOut, error)
 }
 
 func NewHandler(doer doer) OrganizationUserHandler {
@@ -192,6 +202,24 @@ func (h *OrganizationUserHandler) OrganizationUserUpdate(ctx context.Context, or
 	}
 	return out, nil
 }
+func (h *OrganizationUserHandler) ProjectUserAccessGrantRemove(ctx context.Context, organizationId string, projectId string, userId string) error {
+	path := fmt.Sprintf("/v1/organization/%s/projects/%s/access/users/%s", url.PathEscape(organizationId), url.PathEscape(projectId), url.PathEscape(userId))
+	_, err := h.doer.Do(ctx, "ProjectUserAccessGrantRemove", "DELETE", path, nil)
+	return err
+}
+func (h *OrganizationUserHandler) ProjectUserAccessGrantSet(ctx context.Context, organizationId string, projectId string, userId string, in *ProjectUserAccessGrantSetIn) (*ProjectUserAccessGrantSetOut, error) {
+	path := fmt.Sprintf("/v1/organization/%s/projects/%s/access/users/%s", url.PathEscape(organizationId), url.PathEscape(projectId), url.PathEscape(userId))
+	b, err := h.doer.Do(ctx, "ProjectUserAccessGrantSet", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
+	out := new(ProjectUserAccessGrantSetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
 
 type ActionType string
 
@@ -271,6 +299,43 @@ type OrganizationUserUpdateOut struct {
 	UserId           string      `json:"user_id"`            // User ID
 	UserInfo         UserInfoOut `json:"user_info"`          // OrganizationUserInfo
 }
+
+// ProjectUserAccessGrantSetIn ProjectUserAccessGrantSetRequestBody
+type ProjectUserAccessGrantSetIn struct {
+	Role RoleType `json:"role"` // The granted role
+}
+
+// ProjectUserAccessGrantSetOut ProjectUserAccessGrantSetResponse
+type ProjectUserAccessGrantSetOut struct {
+	CreateTime time.Time                     `json:"create_time"`    // Time the grant was created
+	Role       RoleType                      `json:"role"`           // Granted role
+	Type       ProjectUserAccessGrantSetType `json:"type,omitempty"` // The principal type for the grant
+	UpdateTime time.Time                     `json:"update_time"`    // Time the grant was last modified
+	UserId     string                        `json:"user_id"`        // User ID
+}
+type ProjectUserAccessGrantSetType string
+
+const (
+	ProjectUserAccessGrantSetTypeUser ProjectUserAccessGrantSetType = "user"
+)
+
+func ProjectUserAccessGrantSetTypeChoices() []string {
+	return []string{"user"}
+}
+
+type RoleType string
+
+const (
+	RoleTypeAdmin     RoleType = "admin"
+	RoleTypeOperator  RoleType = "operator"
+	RoleTypeDeveloper RoleType = "developer"
+	RoleTypeReadOnly  RoleType = "read_only"
+)
+
+func RoleTypeChoices() []string {
+	return []string{"admin", "operator", "developer", "read_only"}
+}
+
 type TokenOut struct {
 	Description   string    `json:"description"`
 	LastIp        string    `json:"last_ip"`         // Last-used IP

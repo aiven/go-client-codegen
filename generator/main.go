@@ -48,14 +48,13 @@ func main() {
 
 	err := exec()
 	if err != nil {
-		log.Err(err)
+		log.Fatal().Err(err).Send()
 	}
 }
 
 // nolint:funlen,gocognit,gocyclo // It's a generator, it's supposed to be long, and we won't expand it.
 func exec() error {
 	cfg := new(envConfig)
-
 	err := envconfig.Process(configPrefix, cfg)
 	if err != nil {
 		return err
@@ -80,6 +79,17 @@ func exec() error {
 
 	pkgs := make(map[string][]*Path)
 
+	// Validates endpoint names
+	operationIDs := make(map[string]string)
+	for pkg, group := range config {
+		for _, id := range group {
+			if _, ok := operationIDs[id]; ok {
+				return fmt.Errorf("operationID duplicate: %s", id)
+			}
+			operationIDs[id] = pkg
+		}
+	}
+
 	for path := range doc.Paths {
 		v := doc.Paths[path]
 		for meth, p := range v {
@@ -91,23 +101,14 @@ func exec() error {
 			p.Method = strings.ToUpper(meth)
 			p.ID = p.OperationID
 
-			var pkg string
-		outer:
-			for k, idList := range config {
-				for _, id := range idList {
-					if p.ID == id {
-						pkg = k
-
-						break outer
-					}
-				}
-			}
-
+			// Adds to a package, and removes it know which ids weren't found
+			pkg := operationIDs[p.ID]
 			if pkg == "" {
 				log.Error().Msgf("%q id not found in config!", p.ID)
 
 				continue
 			}
+			delete(operationIDs, p.ID)
 
 			pkgs[pkg] = append(pkgs[pkg], p)
 			params := make([]*Parameter, 0)
@@ -137,6 +138,10 @@ func exec() error {
 
 			p.Parameters = params
 		}
+	}
+
+	for id, pkg := range operationIDs {
+		return fmt.Errorf("unknown operation id %s in pkg %s", id, pkg)
 	}
 
 	const doerName = "doer"

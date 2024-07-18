@@ -175,7 +175,6 @@ Organization:
   - OrganizationAuthenticationConfigGet
   - OrganizationAuthenticationConfigUpdate
   - OrganizationGet
-  - OrganizationProjectsList
   - OrganizationUpdate
   - UserOrganizationCreate
   - UserOrganizationsList
@@ -190,9 +189,10 @@ OrganizationUser:
   - OrganizationUserList
   - OrganizationUserPasswordReset
   - OrganizationUserRevokeToken
-  - OrganizationUserSet
   - OrganizationUserTokensList
   - OrganizationUserUpdate
+  - ProjectUserAccessGrantRemove
+  - ProjectUserAccessGrantSet
 PostgreSQL:
   - PGServiceAvailableExtensions
   - PGServiceQueryStatistics
@@ -272,7 +272,6 @@ Service:
   - ServiceQueryStatisticsReset
   - ServiceTaskCreate
   - ServiceTaskGet
-  - ServiceUpdate
   - ServiceUpdate
 ServiceIntegration:
   - ServiceIntegrationCreate
