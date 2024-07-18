@@ -95,21 +95,6 @@ type Handler interface {
 	// PUT /v1/project/{project}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUpdate
 	ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*ProjectUpdateOut, error)
-
-	// ProjectUserList list users with access to the project. May contain same user multiple times if they belong to multiple teams associated to the project
-	// GET /v1/project/{project}/users
-	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserList
-	ProjectUserList(ctx context.Context, project string) (*ProjectUserListOut, error)
-
-	// ProjectUserRemove remove user from the project
-	// DELETE /v1/project/{project}/user/{user_email}
-	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserRemove
-	ProjectUserRemove(ctx context.Context, project string, userEmail string) error
-
-	// ProjectUserUpdate update a project user
-	// PUT /v1/project/{project}/user/{user_email}
-	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserUpdate
-	ProjectUserUpdate(ctx context.Context, project string, userEmail string, in *ProjectUserUpdateIn) error
 }
 
 func NewHandler(doer doer) ProjectHandler {
@@ -305,29 +290,6 @@ func (h *ProjectHandler) ProjectUpdate(ctx context.Context, project string, in *
 	}
 	return &out.Project, nil
 }
-func (h *ProjectHandler) ProjectUserList(ctx context.Context, project string) (*ProjectUserListOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/users", url.PathEscape(project))
-	b, err := h.doer.Do(ctx, "ProjectUserList", "GET", path, nil)
-	if err != nil {
-		return nil, err
-	}
-	out := new(ProjectUserListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-func (h *ProjectHandler) ProjectUserRemove(ctx context.Context, project string, userEmail string) error {
-	path := fmt.Sprintf("/v1/project/%s/user/%s", url.PathEscape(project), url.PathEscape(userEmail))
-	_, err := h.doer.Do(ctx, "ProjectUserRemove", "DELETE", path, nil)
-	return err
-}
-func (h *ProjectHandler) ProjectUserUpdate(ctx context.Context, project string, userEmail string, in *ProjectUserUpdateIn) error {
-	path := fmt.Sprintf("/v1/project/%s/user/%s", url.PathEscape(project), url.PathEscape(userEmail))
-	_, err := h.doer.Do(ctx, "ProjectUserUpdate", "PUT", path, in)
-	return err
-}
 
 type AlertOut struct {
 	CreateTime  time.Time `json:"create_time"`            // Event creation timestamp (ISO 8601)
@@ -409,18 +371,6 @@ type EventOut struct {
 	Id          string `json:"id"`           // Event identifier (unique across all projects)
 	ServiceName string `json:"service_name"` // Service name
 	Time        string `json:"time"`         // Timestamp in ISO 8601 format, always in UTC
-}
-type GroupUserOut struct {
-	MemberType  MemberType `json:"member_type"`   // Project member type
-	RealName    string     `json:"real_name"`     // User real name
-	UserEmail   string     `json:"user_email"`    // User email address
-	UserGroupId string     `json:"user_group_id"` // User group ID
-}
-type InvitationOut struct {
-	InviteTime        time.Time  `json:"invite_time"`         // Timestamp in ISO 8601 format, always in UTC
-	InvitedUserEmail  string     `json:"invited_user_email"`  // User email address
-	InvitingUserEmail string     `json:"inviting_user_email"` // User email address
-	MemberType        MemberType `json:"member_type"`         // Project member type
 }
 type MemberType string
 
@@ -661,33 +611,11 @@ type ProjectUpdateOut struct {
 	VatId                 string                 `json:"vat_id"`                            // EU VAT Identification Number
 	ZipCode               *string                `json:"zip_code,omitempty"`                // Address zip code
 }
-
-// ProjectUserListOut ProjectUserListResponse
-type ProjectUserListOut struct {
-	GroupUsers  []GroupUserOut  `json:"group_users"` // List of users in groups that have access to the project
-	Invitations []InvitationOut `json:"invitations"` // List of pending invitations
-	Users       []UserOut       `json:"users"`       // List of project's users
-}
-
-// ProjectUserUpdateIn ProjectUserUpdateRequestBody
-type ProjectUserUpdateIn struct {
-	MemberType MemberType `json:"member_type"` // Project member type
-}
 type TechEmailIn struct {
 	Email string `json:"email"` // User email address
 }
 type TechEmailOut struct {
 	Email string `json:"email"` // User email address
-}
-type UserOut struct {
-	Auth           []string   `json:"auth"`                // List of user's required authentication methods
-	BillingContact bool       `json:"billing_contact"`     // Set for project's billing contacts
-	CreateTime     time.Time  `json:"create_time"`         // Timestamp in ISO 8601 format, always in UTC
-	MemberType     MemberType `json:"member_type"`         // Project member type
-	RealName       *string    `json:"real_name,omitempty"` // User real name
-	TeamId         string     `json:"team_id"`             // Team ID
-	TeamName       string     `json:"team_name"`           // Team name
-	UserEmail      string     `json:"user_email"`          // User email address
 }
 type VpcPeeringConnectionType string
 

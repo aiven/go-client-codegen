@@ -233,15 +233,16 @@ Project:
   - ProjectTagsReplace
   - ProjectTagsUpdate
   - ProjectUpdate
-  - ProjectUserList
-  - ProjectUserRemove
-  - ProjectUserUpdate
 ProjectBilling:
   - InvoiceGet
   - ProjectCreditsClaim
   - ProjectCreditsList
   - ProjectInvoiceGet
   - ProjectInvoiceList
+ProjectUser:
+  - ProjectUserList
+  - ProjectUserRemove
+  - ProjectUserUpdate
 Service:
   - ListProjectServiceTypes
   - ListPublicServiceTypes
