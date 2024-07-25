@@ -68,7 +68,7 @@ type Handler interface {
 	// ServiceSchemaRegistrySubjectVersionGet get Schema Registry Subject version
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionGet
-	ServiceSchemaRegistrySubjectVersionGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error
+	ServiceSchemaRegistrySubjectVersionGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) (*ServiceSchemaRegistrySubjectVersionGetOut, error)
 
 	// ServiceSchemaRegistrySubjectVersionPost register a new Schema in Schema Registry
 	// POST /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions
@@ -222,10 +222,18 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionDelete(c
 	_, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionDelete", "DELETE", path, nil)
 	return err
 }
-func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) (*ServiceSchemaRegistrySubjectVersionGetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/schema/subjects/%s/versions/%d", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(subjectName), versionId)
-	_, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionGet", "GET", path, nil)
-	return err
+	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(serviceSchemaRegistrySubjectVersionGetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return &out.Version, nil
 }
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionPost(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectVersionPostIn) (int, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/schema/subjects/%s/versions", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(subjectName))
@@ -345,6 +353,15 @@ type ServiceSchemaRegistrySubjectConfigPutIn struct {
 	Compatibility CompatibilityType `json:"compatibility"` // Configuration
 }
 
+// ServiceSchemaRegistrySubjectVersionGetOut Version
+type ServiceSchemaRegistrySubjectVersionGetOut struct {
+	Id         int        `json:"id"` // Schema Id
+	Schema     string     `json:"schema"`
+	SchemaType SchemaType `json:"schemaType,omitempty"` // Schema type
+	Subject    string     `json:"subject"`
+	Version    int        `json:"version"`
+}
+
 // ServiceSchemaRegistrySubjectVersionPostIn ServiceSchemaRegistrySubjectVersionPostRequestBody
 type ServiceSchemaRegistrySubjectVersionPostIn struct {
 	References *[]ReferenceIn `json:"references,omitempty"` // Schema references
@@ -392,9 +409,14 @@ type serviceSchemaRegistrySubjectConfigPutOut struct {
 	Compatibility CompatibilityType `json:"compatibility"` // Configuration
 }
 
+// serviceSchemaRegistrySubjectVersionGetOut ServiceSchemaRegistrySubjectVersionGetResponse
+type serviceSchemaRegistrySubjectVersionGetOut struct {
+	Version ServiceSchemaRegistrySubjectVersionGetOut `json:"version"` // Version
+}
+
 // serviceSchemaRegistrySubjectVersionPostOut ServiceSchemaRegistrySubjectVersionPostResponse
 type serviceSchemaRegistrySubjectVersionPostOut struct {
-	Id int `json:"id"` // Version
+	Id int `json:"id"` // Schema Id
 }
 
 // serviceSchemaRegistrySubjectVersionsGetOut ServiceSchemaRegistrySubjectVersionsGetResponse
