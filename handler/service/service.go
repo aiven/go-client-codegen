@@ -792,6 +792,7 @@ const (
 	IntegrationTypeRsyslog                           IntegrationType = "rsyslog"
 	IntegrationTypeSchemaRegistryProxy               IntegrationType = "schema_registry_proxy"
 	IntegrationTypeStresstester                      IntegrationType = "stresstester"
+	IntegrationTypeThanosDistributedQuery            IntegrationType = "thanos_distributed_query"
 	IntegrationTypeThanosMigrate                     IntegrationType = "thanos_migrate"
 	IntegrationTypeThanoscompactor                   IntegrationType = "thanoscompactor"
 	IntegrationTypeThanosquery                       IntegrationType = "thanosquery"
@@ -801,7 +802,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanos_migrate", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
+	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
 }
 
 type KafkaAuthenticationMethodType string
@@ -1652,10 +1653,11 @@ const (
 	TargetVersionType14 TargetVersionType = "14"
 	TargetVersionType15 TargetVersionType = "15"
 	TargetVersionType16 TargetVersionType = "16"
+	TargetVersionType17 TargetVersionType = "17"
 )
 
 func TargetVersionTypeChoices() []string {
-	return []string{"13", "14", "15", "16"}
+	return []string{"13", "14", "15", "16", "17"}
 }
 
 type TaskType string
