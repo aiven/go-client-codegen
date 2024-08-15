@@ -338,6 +338,7 @@ type AccountBillingGroupOut struct {
 	BillingExtraText      string              `json:"billing_extra_text"`        // Extra text to be included in all project invoices, e.g. purchase order or cost center number
 	BillingGroupId        string              `json:"billing_group_id"`          // Billing group ID
 	BillingGroupName      string              `json:"billing_group_name"`        // Billing group name
+	BillingType           string              `json:"billing_type"`              // Method of charging/invoicing this project
 	CardInfo              CardInfoOut         `json:"card_info"`                 // Credit card assigned to the project
 	City                  string              `json:"city"`                      // Address city
 	Company               string              `json:"company"`                   // Name of a company
