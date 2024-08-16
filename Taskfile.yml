@@ -15,11 +15,11 @@ tasks:
     cmds:
       - rm -rf {{.GEN_OUT_DIR}}
       - GEN_OUT_DIR={{.GEN_OUT_DIR}} go run -tags=generator ./generator/...
+      - task: fmt-imports
   generate:
     cmds:
       - task: get-openapi-spec
       - task: go-generate
-      - task: fmt-imports
   test:
     cmds:
       - go test -v ./...

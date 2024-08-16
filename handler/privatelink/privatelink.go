@@ -76,12 +76,13 @@ type Handler interface {
 	ServicePrivatelinkAzureUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureUpdateIn) (*ServicePrivatelinkAzureUpdateOut, error)
 }
 
-func NewHandler(doer doer) PrivatelinkHandler {
-	return PrivatelinkHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) PrivatelinkHandler {
+	return PrivatelinkHandler{doer}
 }
 
 type PrivatelinkHandler struct {

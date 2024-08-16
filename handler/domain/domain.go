@@ -37,12 +37,13 @@ type Handler interface {
 	OrganizationDomainsRemove(ctx context.Context, organizationId string, domainId string) error
 }
 
-func NewHandler(doer doer) DomainHandler {
-	return DomainHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) DomainHandler {
+	return DomainHandler{doer}
 }
 
 type DomainHandler struct {

@@ -36,12 +36,13 @@ type Handler interface {
 	ServiceKafkaMirrorMakerPatchReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string, in *ServiceKafkaMirrorMakerPatchReplicationFlowIn) (*ServiceKafkaMirrorMakerPatchReplicationFlowOut, error)
 }
 
-func NewHandler(doer doer) KafkaMirrorMakerHandler {
-	return KafkaMirrorMakerHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) KafkaMirrorMakerHandler {
+	return KafkaMirrorMakerHandler{doer}
 }
 
 type KafkaMirrorMakerHandler struct {

@@ -46,12 +46,13 @@ type Handler interface {
 	ServiceKafkaTopicUpdate(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicUpdateIn) error
 }
 
-func NewHandler(doer doer) KafkaTopicHandler {
-	return KafkaTopicHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) KafkaTopicHandler {
+	return KafkaTopicHandler{doer}
 }
 
 type KafkaTopicHandler struct {
