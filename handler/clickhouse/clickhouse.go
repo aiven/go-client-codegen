@@ -38,7 +38,7 @@ type Handler interface {
 	// ServiceClickHouseQueryStats return statistics on recent queries
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQueryStats
-	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOutAlt, error)
+	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, query ...queryParam) ([]QueryOutAlt, error)
 
 	// ServiceClickHouseTieredStorageSummary get the ClickHouse tiered storage summary
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/tiered-storage/summary
@@ -46,12 +46,16 @@ type Handler interface {
 	ServiceClickHouseTieredStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceClickHouseTieredStorageSummaryOut, error)
 }
 
-func NewHandler(doer doer) ClickHouseHandler {
-	return ClickHouseHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+// queryParam http query params private type
+type queryParam [2]string
+
+func NewHandler(doer doer) ClickHouseHandler {
+	return ClickHouseHandler{doer}
 }
 
 type ClickHouseHandler struct {
@@ -107,9 +111,28 @@ func (h *ClickHouseHandler) ServiceClickHouseQuery(ctx context.Context, project 
 	}
 	return out, nil
 }
-func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string) ([]QueryOutAlt, error) {
+
+// ServiceClickHouseQueryStatsLimit Limit for number of results
+func ServiceClickHouseQueryStatsLimit(limit int) queryParam {
+	return queryParam{"limit", fmt.Sprintf("%d", limit)}
+}
+
+// ServiceClickHouseQueryStatsOffset Offset for retrieved results based on sort order
+func ServiceClickHouseQueryStatsOffset(offset int) queryParam {
+	return queryParam{"offset", fmt.Sprintf("%d", offset)}
+}
+
+// ServiceClickHouseQueryStatsOrderByType Order in which to sort retrieved results
+func ServiceClickHouseQueryStatsOrderByType(orderByType OrderByType) queryParam {
+	return queryParam{"order_by", fmt.Sprintf("%s", orderByType)}
+}
+func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, query ...queryParam) ([]QueryOutAlt, error) {
+	p := make([][2]string, 0, len(query))
+	for _, v := range query {
+		p = append(p, v)
+	}
 	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/query/stats", url.PathEscape(project), url.PathEscape(serviceName))
-	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil, p...)
 	if err != nil {
 		return nil, err
 	}
@@ -161,6 +184,29 @@ type MetaOut struct {
 	Name string `json:"name"` // Column name
 	Type string `json:"type"` // Column type
 }
+type OrderByType string
+
+const (
+	OrderByTypeCallsasc       OrderByType = "calls:asc"
+	OrderByTypeCallsdesc      OrderByType = "calls:desc"
+	OrderByTypeMinTimeasc     OrderByType = "min_time:asc"
+	OrderByTypeMinTimedesc    OrderByType = "min_time:desc"
+	OrderByTypeMaxTimeasc     OrderByType = "max_time:asc"
+	OrderByTypeMaxTimedesc    OrderByType = "max_time:desc"
+	OrderByTypeMeanTimeasc    OrderByType = "mean_time:asc"
+	OrderByTypeMeanTimedesc   OrderByType = "mean_time:desc"
+	OrderByTypeP95Timeasc     OrderByType = "p95_time:asc"
+	OrderByTypeP95Timedesc    OrderByType = "p95_time:desc"
+	OrderByTypeStddevTimeasc  OrderByType = "stddev_time:asc"
+	OrderByTypeStddevTimedesc OrderByType = "stddev_time:desc"
+	OrderByTypeTotalTimeasc   OrderByType = "total_time:asc"
+	OrderByTypeTotalTimedesc  OrderByType = "total_time:desc"
+)
+
+func OrderByTypeChoices() []string {
+	return []string{"calls:asc", "calls:desc", "min_time:asc", "min_time:desc", "max_time:asc", "max_time:desc", "mean_time:asc", "mean_time:desc", "p95_time:asc", "p95_time:desc", "stddev_time:asc", "stddev_time:desc", "total_time:asc", "total_time:desc"}
+}
+
 type QueryOut struct {
 	ClientName *string  `json:"client_name,omitempty"` // Client name, if set
 	Database   *string  `json:"database,omitempty"`

@@ -42,8 +42,9 @@ import (
 	vpc "github.com/aiven/go-client-codegen/handler/vpc"
 )
 
+// doer http client
 type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
 func newClient(doer doer) Client {

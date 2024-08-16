@@ -105,7 +105,6 @@ const (
 type Parameter struct {
 	Ref         string      `json:"$ref"`
 	In          ParameterIn `json:"in"`
-	Required    bool        `json:"required"`
 	Name        string      `json:"name"`
 	Description string      `json:"description"`
 	Schema      *Schema     `json:"schema"`
@@ -344,6 +343,10 @@ func (s *Schema) isIn() bool {
 // isOut is response object
 func (s *Schema) isOut() bool {
 	return s.root().out
+}
+
+func (s *Schema) lowerCamel() string {
+	return strcase.ToLowerCamel(s.CamelName)
 }
 
 func getScalarType(s *Schema) *jen.Statement {
