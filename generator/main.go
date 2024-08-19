@@ -12,6 +12,7 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/dave/jennifer/jen"
@@ -43,14 +44,29 @@ var (
 	pathVersioning = regexp.MustCompile(`^/v[0-9]/`)
 )
 
+var strFormatters = map[SchemaType]string{
+	SchemaTypeInteger: "%d",
+	SchemaTypeNumber:  "%f",
+	SchemaTypeString:  "%s",
+	SchemaTypeBoolean: "%t",
+}
+
 func main() {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339})
 
 	err := exec()
 	if err != nil {
-		log.Err(err)
+		log.Err(err).Send()
 	}
 }
+
+const (
+	doerName            = "doer"
+	handlerTypeName     = "Handler"
+	queryParamName      = "query"
+	queryParamTypeName  = "queryParam"
+	queryParamArraySize = 2
+)
 
 // nolint:funlen,gocognit,gocyclo // It's a generator, it's supposed to be long, and we won't expand it.
 func exec() error {
@@ -105,7 +121,6 @@ func exec() error {
 
 			if pkg == "" {
 				log.Error().Msgf("%q id not found in config!", p.ID)
-
 				continue
 			}
 
@@ -121,12 +136,6 @@ func exec() error {
 					return fmt.Errorf("param %q not found", ref.Ref)
 				}
 
-				if param.In != ParameterInPath {
-					log.Printf("%q param %s in %q", p.OperationID, param.Name, param.In)
-
-					continue
-				}
-
 				if param.Name == "version_id" {
 					param.Schema.Type = SchemaTypeInteger
 				}
@@ -139,27 +148,28 @@ func exec() error {
 		}
 	}
 
-	const doerName = "doer"
-
 	ctx := jen.Id("ctx").Qual("context", "Context")
-	doer := jen.Type().Id(doerName).Interface(
+	doer := jen.Comment(doerName + " http client").Line().Type().Id(doerName).Interface(
 		jen.Id("Do").Params(
 			ctx,
 			jen.List(jen.Id("operationID"), jen.Id("method"), jen.Id("path")).String(),
-			jen.Id("v").Any(),
+			jen.Id("in").Any(),
+			jen.Id(queryParamName).Op("...").Add(fmtQueryParamType()),
 		).Parens(jen.List(jen.Index().Byte(), jen.Error())),
 	).Line()
+
+	// A private type to limit query params to the declared keys/values list
+	queryParamType := jen.Type().Id(queryParamTypeName).Index(jen.Lit(queryParamArraySize)).String()
+
 	clientFields := make([]jen.Code, 0, len(pkgs))
 	clientValues := jen.Dict{}
 	clientTypeValues := make([]jen.Code, 0, len(pkgs))
 
 	for _, pkg := range sortedKeys(pkgs) {
-		const handlerType = "Handler"
-
 		paths := pkgs[pkg]
 		fileName := strings.ToLower(pkg)
-		handlerName := pkg + handlerType
-		newHandler := "New" + handlerType
+		handlerName := pkg + handlerTypeName
+		newHandler := "New" + handlerTypeName
 		scope := make(map[string]*Schema)
 
 		for _, p := range paths {
@@ -172,35 +182,71 @@ func exec() error {
 
 		file := jen.NewFile(fileName)
 		file.HeaderComment(generatedHeader)
-		handler := file.Type().Id(handlerType)
+
+		// Creates the handler's type (interface)
+		// Reserves the line in the file
+		handlerType := file.Type().Id(handlerTypeName)
+
+		// Adds private types (interfaces)
+		privateTypes := file.Add(doer)
+
+		// We want to add the query params type when there is any param
+		addQueryParams := new(sync.Once)
+
+		// Creates the "new" constructor
 		file.Func().Id(newHandler).Params(jen.Id(doerName).Id(doerName)).Id(handlerName).Block(
 			jen.Return(jen.Id(handlerName).Values(jen.Id(doerName))),
 		)
-		file.Add(doer)
+
+		// Creates the handler's implementation
 		file.Type().Id(handlerName).Struct(jen.Id(doerName).Id(doerName))
 
 		var typeMethods []jen.Code
-
 		for _, path := range paths {
 			// todo: support 204
 			out := path.Out.OK.Content["application/json"]
 			if out == nil && path.Out.NoContent.Content == nil {
 				log.Printf("%q has no json response. Skipping", path.OperationID)
-
 				continue
 			}
 
+			// Method's schemas and query params
 			schemas := make([]*Schema, 0)
-			params := make([]jen.Code, 0, len(path.Parameters))
-			params = append(params, ctx)
+			queryParams := make([]*Schema, 0)
 
+			// Interface and implementation args
+			funcArgs := []jen.Code{ctx}
+
+			// Collects params: in path and in query
+			// Adds to schemas to render enums
 			for _, p := range path.Parameters {
-				p.Schema.in = true
 				p.Schema.required = true
 				p.Schema.init(doc, scope, p.Name)
-				schemas = append(schemas, p.Schema)
-				param := jen.Id(strcase.ToLowerCamel(p.Schema.CamelName)).Add(getType(p.Schema))
-				params = append(params, param)
+
+				if p.In == ParameterInPath {
+					schemas = append(schemas, p.Schema)
+					param := jen.Id(p.Schema.lowerCamel()).Add(getType(p.Schema))
+					funcArgs = append(funcArgs, param)
+					continue
+				}
+
+				// Adds query params type once
+				addQueryParams.Do(func() {
+					privateTypes.Add(
+						jen.Comment(queryParamTypeName+" http query params private type").Line(),
+						queryParamType.Clone().Line(),
+					)
+				})
+
+				queryParams = append(queryParams, p.Schema)
+
+				// Adds param function (request modifier)
+				var code *jen.Statement
+				code, err = fmtQueryParam(path.FuncName, p)
+				if err != nil {
+					return err
+				}
+				file.Add(code)
 			}
 
 			in := path.In.Content["application/json"]
@@ -213,14 +259,18 @@ func exec() error {
 				}
 
 				schemaIn.in = true
-
 				schemaIn.init(doc, scope, path.FuncName)
 				schemas = append(schemas, schemaIn)
-				params = append(params, jen.Id("in").Id("*"+schemaIn.CamelName))
+				funcArgs = append(funcArgs, jen.Id("in").Id("*"+schemaIn.CamelName))
 			}
 
-			typeMeth := jen.Id(path.FuncName).Params(params...)
-			structMeth := jen.Func().Params(jen.Id("h").Id("*" + handlerName)).Id(path.FuncName).Params(params...)
+			// Adds queryParams options
+			if len(queryParams) > 0 {
+				funcArgs = append(funcArgs, jen.Id(queryParamName).Op("...").Id(queryParamTypeName))
+			}
+
+			typeMeth := jen.Id(path.FuncName).Params(funcArgs...)
+			structMeth := jen.Func().Params(jen.Id("h").Id("*" + handlerName)).Id(path.FuncName).Params(funcArgs...)
 
 			var rsp, schemaOut *Schema
 			if out != nil {
@@ -230,7 +280,6 @@ func exec() error {
 				}
 
 				schemaOut.out = true
-
 				schemaOut.init(doc, scope, path.FuncName)
 				rsp = getResponse(schemaOut)
 			}
@@ -254,33 +303,36 @@ func exec() error {
 
 			typeMethods = append(typeMethods, path.Comment(), typeMeth.Line())
 
+			// Crates a go formattable path, i.e.:
+			// /foo/{foo}/ => /foo/%s/
 			paramIndex := -1
 			url := pathClean.ReplaceAllStringFunc(path.Path, func(_ string) string {
 				paramIndex++
-
-				switch t := path.Parameters[paramIndex].Schema.Type; t {
-				case SchemaTypeInteger:
-					return "%d"
-				case SchemaTypeString:
-					return "%s"
-				default:
+				t, ok := strFormatters[path.Parameters[paramIndex].Schema.Type]
+				if !ok {
 					panic(fmt.Sprintf("%s unexpected parameter type %s", path.OperationID, t))
 				}
+				return t
 			})
-			urlParams := make([]jen.Code, 0, len(params))
+
+			urlParams := make([]jen.Code, 0, len(funcArgs))
 			urlParams = append(urlParams, jen.Lit(url))
 			inObj := jen.Nil()
-
 			for _, s := range schemas {
 				if s.isObject() {
 					inObj = jen.Id("in")
-
 					continue
 				}
 
-				v := jen.Id(strcase.ToLowerCamel(s.CamelName))
+				v := jen.Id(s.lowerCamel())
+				if s.isEnum() {
+					// Stringifies enums
+					v = jen.String().Call(v)
+				}
+
+				// Escapes string values
 				if s.Type == SchemaTypeString {
-					v = jen.Id("url.PathEscape").Call(v)
+					v = jen.Qual("net/url", "PathEscape").Call(v)
 				}
 
 				urlParams = append(urlParams, v)
@@ -289,6 +341,7 @@ func exec() error {
 			outObj := jen.Id("_")
 			returnErr := jen.Return(jen.Err())
 
+			// Formats "return" statement
 			if rsp != nil {
 				outObj = jen.Id("b")
 
@@ -308,24 +361,43 @@ func exec() error {
 				}
 			}
 
-			block := []jen.Code{
-				jen.Id("path").Op(":=").Qual("fmt", "Sprintf").Call(urlParams...),
-				jen.List(outObj, jen.Err()).Op(":=").Id("h.doer.Do").Call(
-					jen.Id("ctx"),
-					jen.Lit(path.OperationID),
-					jen.Lit(path.Method),
-					jen.Id("path"),
-					inObj,
-				),
+			// The Doer call
+			callOpts := []jen.Code{
+				jen.Id("ctx"),
+				jen.Lit(path.OperationID),
+				jen.Lit(path.Method),
+				jen.Id("path"),
+				inObj,
 			}
 
-			ifErr := jen.If(jen.Err().Op("!=").Nil()).Block(returnErr)
+			var block []jen.Code
 
+			// Adds unpacking for query params
+			if len(queryParams) > 1 {
+				q := jen.Id(queryParamName)
+				p := jen.Id("p")
+				v := jen.Id("v")
+				callOpts = append(callOpts, p.Clone().Op("..."))
+				block = append(
+					block,
+					p.Clone().Op(":=").Make(jen.Index().Index(jen.Lit(queryParamArraySize)).String(), jen.Lit(0), jen.Len(q)),
+					jen.For(jen.List(jen.Id("_"), v.Clone().Op(":=").Range().Add(jen.Id(queryParamName)))).
+						Block(p.Clone().Op("=").Append(p, v)),
+				)
+			}
+
+			// Implementation (method's) body
+			block = append(
+				block,
+				jen.Id("path").Op(":=").Qual("fmt", "Sprintf").Call(urlParams...),
+				jen.List(outObj, jen.Err()).Op(":=").Id("h.doer.Do").Call(callOpts...),
+			)
+
+			ifErr := jen.If(jen.Err().Op("!=").Nil()).Block(returnErr)
 			if rsp == nil {
 				block = append(block, jen.Return(jen.Err()))
 			} else {
 				block = append(block, ifErr)
-
 				outReturn := jen.Id("out")
 
 				if rsp.CamelName != schemaOut.CamelName {
@@ -367,7 +439,7 @@ func exec() error {
 			return err
 		}
 
-		handler.Interface(typeMethods...)
+		handlerType.Interface(typeMethods...)
 
 		err = file.Save(filepath.Join(dirPath, fileName+".go"))
 		if err != nil {
@@ -377,7 +449,7 @@ func exec() error {
 		pkgName := filepath.Join(cfg.Module, cfg.HandlerDir, fileName)
 		clientFields = append(clientFields, jen.Qual(pkgName, handlerName))
 		clientValues[jen.Id(handlerName)] = jen.Qual(pkgName, newHandler).Call(jen.Id(doerName))
-		clientTypeValues = append(clientTypeValues, jen.Qual(pkgName, handlerType))
+		clientTypeValues = append(clientTypeValues, jen.Qual(pkgName, handlerTypeName))
 	}
 
 	client := jen.NewFile(cfg.Package)
@@ -542,4 +614,31 @@ var reComment = regexp.MustCompile(`\.?[\r\n]+\s*?`)
 
 func fmtComment(c string) string {
 	return reComment.ReplaceAllString(c, ". ")
+}
+
+// fmtQueryParam returns a query param
+func fmtQueryParam(funcName string, p *Parameter) (*jen.Statement, error) {
+	keyFuncName := funcName + p.Schema.CamelName
+	keyVarName := jen.Id(p.Schema.lowerCamel())
+
+	var value *jen.Statement
+	format, ok := strFormatters[p.Schema.Type]
+	if !ok {
+		return nil, fmt.Errorf("query param with type %q is not supported", p.Schema.Type)
+	}
+	value = jen.Qual("fmt", "Sprintf").Call(jen.Lit(format), keyVarName.Clone())
+
+	param := jen.Comment(fmt.Sprintf("%s %s", keyFuncName, fmtComment(p.Description)))
+	param.Line()
+	param.Func().Id(keyFuncName).
+		Params(keyVarName.Clone().Add(getType(p.Schema))).Params(jen.Id(queryParamTypeName)).
+		Block(
+			jen.Return(jen.Id(queryParamTypeName).Values(jen.Lit(p.Schema.name), value)),
+		)
+	return param, nil
+}
+
+// fmtQueryParamType literally returns: [2]string
+func fmtQueryParamType() *jen.Statement {
+	return jen.Index(jen.Lit(queryParamArraySize)).String()
 }

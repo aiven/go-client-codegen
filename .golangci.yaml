@@ -11,7 +11,6 @@ linters:
     - errorlint
     - forbidigo
     - forcetypeassert
-    - funlen
     - gocognit
     - goconst
     - gocyclo
@@ -23,13 +22,11 @@ linters:
     - govet
     - importas
     - ineffassign
-    - lll
     - makezero
     - misspell
     - nakedret
     - nestif
     - nilerr
-    - nlreturn
     - prealloc
     - revive
     - staticcheck
@@ -37,7 +34,6 @@ linters:
     - unconvert
     - unused
     - whitespace
-    - wsl
 
 linters-settings:
   gocognit:

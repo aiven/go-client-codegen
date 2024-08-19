@@ -159,15 +159,19 @@ type Handler interface {
 	// ServiceUpdate update service configuration
 	// PUT /v1/project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUpdate
-	ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn) (*ServiceUpdateOut, error)
+	ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn, query ...queryParam) (*ServiceUpdateOut, error)
 }
+
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
+}
+
+// queryParam http query params private type
+type queryParam [2]string
 
 func NewHandler(doer doer) ServiceHandler {
 	return ServiceHandler{doer}
-}
-
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
 }
 
 type ServiceHandler struct {
@@ -503,7 +507,12 @@ func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, ser
 	}
 	return &out.Task, nil
 }
-func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn) (*ServiceUpdateOut, error) {
+
+// ServiceUpdateAllowUncleanPoweroff Allows or disallows powering off a service if some WAL segments are not available for a future restoration of the service, which might result in data loss when powering the service back on
+func ServiceUpdateAllowUncleanPoweroff(allowUncleanPoweroff bool) queryParam {
+	return queryParam{"allow_unclean_poweroff", fmt.Sprintf("%t", allowUncleanPoweroff)}
+}
+func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn, query ...queryParam) (*ServiceUpdateOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceUpdate", "PUT", path, in)
 	if err != nil {

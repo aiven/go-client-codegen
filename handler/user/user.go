@@ -147,12 +147,13 @@ type Handler interface {
 	ValidateReferralCode(ctx context.Context, referralCode string) error
 }
 
-func NewHandler(doer doer) UserHandler {
-	return UserHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) UserHandler {
+	return UserHandler{doer}
 }
 
 type UserHandler struct {

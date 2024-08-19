@@ -77,11 +77,9 @@ type aivenClient struct {
 // OperationIDKey is the key used to store the operation ID in the context.
 type OperationIDKey struct{}
 
-func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error) {
+func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error) {
 	ctx = context.WithValue(ctx, OperationIDKey{}, operationID)
-
 	var rsp *http.Response
-
 	var err error
 
 	if d.Debug {
@@ -105,7 +103,7 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 		}()
 	}
 
-	rsp, err = d.do(ctx, method, path, v)
+	rsp, err = d.do(ctx, method, path, in, query...)
 	if err != nil {
 		return nil, err
 	}
@@ -122,11 +120,11 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 	return b, err
 }
 
-func (d *aivenClient) do(ctx context.Context, method, path string, v any) (*http.Response, error) {
+func (d *aivenClient) do(ctx context.Context, method, path string, in any, query ...[2]string) (*http.Response, error) {
 	var body io.Reader
 
-	if !(v == nil || isEmpty(v)) {
-		b, err := json.Marshal(v)
+	if !(in == nil || isEmpty(in)) {
+		b, err := json.Marshal(in)
 		if err != nil {
 			return nil, err
 		}
@@ -143,13 +141,19 @@ func (d *aivenClient) do(ctx context.Context, method, path string, v any) (*http
 	req.Header.Set("User-Agent", d.UserAgent)
 	req.Header.Set("Authorization", "aivenv1 "+d.Token)
 
-	// TODO: BAD hack to get around pagination in most cases
-	// we should implement this properly at some point but for now
-	// that should be its own issue
-	query := req.URL.Query()
-	query.Add("limit", "999")
-	req.URL.RawQuery = query.Encode()
+	q := req.URL.Query()
+	for _, v := range query {
+		q.Set(v[0], v[1])
+	}
 
+	if !q.Has("limit") {
+		// TODO: BAD hack to get around pagination in most cases
+		// we should implement this properly at some point but for now
+		// that should be its own issue
+		q.Set("limit", "999")
+	}
+
+	req.URL.RawQuery = q.Encode()
 	return d.doer.Do(req)
 }
 

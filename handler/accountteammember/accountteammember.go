@@ -37,12 +37,13 @@ type Handler interface {
 	AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error)
 }
 
-func NewHandler(doer doer) AccountTeamMemberHandler {
-	return AccountTeamMemberHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) AccountTeamMemberHandler {
+	return AccountTeamMemberHandler{doer}
 }
 
 type AccountTeamMemberHandler struct {

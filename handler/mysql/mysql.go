@@ -16,12 +16,13 @@ type Handler interface {
 	MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]QueryOut, error)
 }
 
-func NewHandler(doer doer) MySQLHandler {
-	return MySQLHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) MySQLHandler {
+	return MySQLHandler{doer}
 }
 
 type MySQLHandler struct {

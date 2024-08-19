@@ -21,12 +21,13 @@ type Handler interface {
 	ServiceFlinkJobsList(ctx context.Context, project string, serviceName string) ([]JobOut, error)
 }
 
-func NewHandler(doer doer) FlinkJobHandler {
-	return FlinkJobHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) FlinkJobHandler {
+	return FlinkJobHandler{doer}
 }
 
 type FlinkJobHandler struct {

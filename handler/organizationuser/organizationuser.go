@@ -72,12 +72,13 @@ type Handler interface {
 	OrganizationUserUpdate(ctx context.Context, organizationId string, memberUserId string, in *OrganizationUserUpdateIn) (*OrganizationUserUpdateOut, error)
 }
 
-func NewHandler(doer doer) OrganizationUserHandler {
-	return OrganizationUserHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) OrganizationUserHandler {
+	return OrganizationUserHandler{doer}
 }
 
 type OrganizationUserHandler struct {

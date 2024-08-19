@@ -37,12 +37,13 @@ type Handler interface {
 	ServiceUserGet(ctx context.Context, project string, serviceName string, serviceUsername string) (*ServiceUserGetOut, error)
 }
 
-func NewHandler(doer doer) ServiceUserHandler {
-	return ServiceUserHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) ServiceUserHandler {
+	return ServiceUserHandler{doer}
 }
 
 type ServiceUserHandler struct {

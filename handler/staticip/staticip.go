@@ -46,12 +46,13 @@ type Handler interface {
 	StaticIPList(ctx context.Context, project string) ([]StaticIpOut, error)
 }
 
-func NewHandler(doer doer) StaticIPHandler {
-	return StaticIPHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) StaticIPHandler {
+	return StaticIPHandler{doer}
 }
 
 type StaticIPHandler struct {

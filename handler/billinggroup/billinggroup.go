@@ -77,12 +77,13 @@ type Handler interface {
 	BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroupUpdateOut, error)
 }
 
-func NewHandler(doer doer) BillingGroupHandler {
-	return BillingGroupHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) BillingGroupHandler {
+	return BillingGroupHandler{doer}
 }
 
 type BillingGroupHandler struct {

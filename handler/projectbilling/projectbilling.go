@@ -32,12 +32,13 @@ type Handler interface {
 	ProjectInvoiceList(ctx context.Context, project string) ([]InvoiceOut, error)
 }
 
-func NewHandler(doer doer) ProjectBillingHandler {
-	return ProjectBillingHandler{doer}
+// doer http client
+type doer interface {
+	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
 
-type doer interface {
-	Do(ctx context.Context, operationID, method, path string, v any) ([]byte, error)
+func NewHandler(doer doer) ProjectBillingHandler {
+	return ProjectBillingHandler{doer}
 }
 
 type ProjectBillingHandler struct {
