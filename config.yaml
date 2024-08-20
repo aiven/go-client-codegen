@@ -177,6 +177,8 @@ Organization:
   - OrganizationGet
   - OrganizationProjectsList
   - OrganizationUpdate
+  - PermissionsGet
+  - PermissionsUpdate
   - UserOrganizationCreate
   - UserOrganizationsList
 OrganizationUser:
