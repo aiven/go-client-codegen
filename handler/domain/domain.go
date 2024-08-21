@@ -132,8 +132,8 @@ func DomainStateTypeChoices() []string {
 
 // OrganizationDomainAddIn OrganizationDomainAddRequestBody
 type OrganizationDomainAddIn struct {
-	DomainName       string           `json:"domain_name"`       // Name of the domain to be added
-	VerificationType VerificationType `json:"verification_type"` // Type of verification to be made
+	DomainName       string           `json:"domain_name"`                 // Name of the domain to be added
+	VerificationType VerificationType `json:"verification_type,omitempty"` // Type of verification to be made
 }
 
 // OrganizationDomainAddOut OrganizationDomainAddResponse
