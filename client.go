@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
 	"reflect"
 	"strings"
@@ -23,6 +24,11 @@ import (
 var errTokenIsRequired = errors.New(
 	"token is required. See https://api.aiven.io/doc/#section/Get-started/Authentication",
 )
+
+// Doer aka http.Client
+type Doer interface {
+	Do(req *http.Request) (*http.Response, error)
+}
 
 // NewClient creates a new Aiven client.
 func NewClient(opts ...Option) (Client, error) {
@@ -95,10 +101,11 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 			}
 
 			event.Ctx(ctx).
-				Stringer("took", end).
+				Stringer("duration", end).
 				Str("operationID", operationID).
 				Str("method", method).
 				Str("path", path).
+				Str("query", fmtQuery(query...)).
 				Send()
 		}()
 	}
@@ -112,12 +119,7 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 		err = multierror.Append(rsp.Body.Close()).ErrorOrNil()
 	}()
 
-	b, err := io.ReadAll(rsp.Body)
-	if err != nil || rsp.StatusCode < 200 || rsp.StatusCode >= 300 {
-		return nil, Error{Message: string(b), Status: rsp.StatusCode, MoreInfo: operationID}
-	}
-
-	return b, err
+	return fromResponse(operationID, rsp)
 }
 
 func (d *aivenClient) do(ctx context.Context, method, path string, in any, query ...[2]string) (*http.Response, error) {
@@ -140,30 +142,27 @@ func (d *aivenClient) do(ctx context.Context, method, path string, in any, query
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("User-Agent", d.UserAgent)
 	req.Header.Set("Authorization", "aivenv1 "+d.Token)
+	req.URL.RawQuery = fmtQuery(query...)
+	return d.doer.Do(req)
+}
 
-	q := req.URL.Query()
+func isEmpty(a any) bool {
+	v := reflect.ValueOf(a)
+	return v.IsZero() || v.Kind() == reflect.Ptr && v.IsNil()
+}
+
+func fmtQuery(query ...[2]string) string {
+	q := make(url.Values)
 	for _, v := range query {
-		q.Set(v[0], v[1])
+		q.Add(v[0], v[1])
 	}
 
 	if !q.Has("limit") {
 		// TODO: BAD hack to get around pagination in most cases
 		// we should implement this properly at some point but for now
 		// that should be its own issue
-		q.Set("limit", "999")
+		q.Add("limit", "999")
 	}
 
-	req.URL.RawQuery = q.Encode()
-	return d.doer.Do(req)
-}
-
-func isEmpty(a any) bool {
-	v := reflect.ValueOf(a)
-
-	return v.IsZero() || v.Kind() == reflect.Ptr && v.IsNil()
-}
-
-// Doer aka http.Client
-type Doer interface {
-	Do(req *http.Request) (*http.Response, error)
+	return q.Encode()
 }

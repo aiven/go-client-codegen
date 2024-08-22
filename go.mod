@@ -4,6 +4,7 @@ go 1.22
 
 require (
 	github.com/dave/jennifer v1.7.0
+	github.com/google/go-cmp v0.5.8
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hashicorp/go-retryablehttp v0.7.7
 	github.com/iancoleman/strcase v0.3.0
