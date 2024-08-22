@@ -99,7 +99,7 @@ type Handler interface {
 	// ServiceGet get service information
 	// GET /v1/project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceGet
-	ServiceGet(ctx context.Context, project string, serviceName string) (*ServiceGetOut, error)
+	ServiceGet(ctx context.Context, project string, serviceName string, query ...queryParam) (*ServiceGetOut, error)
 
 	// ServiceGetMigrationStatus get migration status
 	// GET /v1/project/{project}/service/{service_name}/migration
@@ -359,7 +359,12 @@ func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string
 	}
 	return out.Until, nil
 }
-func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, serviceName string) (*ServiceGetOut, error) {
+
+// ServiceGetIncludeSecrets Explicitly indicates that the client wants to read secrets that might be returned by this endpoint.
+func ServiceGetIncludeSecrets(includeSecrets bool) queryParam {
+	return queryParam{"include_secrets", fmt.Sprintf("%t", includeSecrets)}
+}
+func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, serviceName string, query ...queryParam) (*ServiceGetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceGet", "GET", path, nil)
 	if err != nil {
