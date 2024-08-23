@@ -12,7 +12,6 @@ import (
 	"regexp"
 	"sort"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/dave/jennifer/jen"
@@ -61,11 +60,11 @@ func main() {
 }
 
 const (
-	doerName            = "doer"
-	handlerTypeName     = "Handler"
-	queryParamName      = "query"
-	queryParamTypeName  = "queryParam"
-	queryParamArraySize = 2
+	doerName             = "doer"
+	handlerTypeName      = "Handler"
+	queryParamName       = "query"
+	queryParamTypeSuffix = "Query"
+	queryParamArraySize  = 2
 )
 
 // nolint:funlen,gocognit,gocyclo // It's a generator, it's supposed to be long, and we won't expand it.
@@ -158,9 +157,6 @@ func exec() error {
 		).Parens(jen.List(jen.Index().Byte(), jen.Error())),
 	).Line()
 
-	// A private type to limit query params to the declared keys/values list
-	queryParamType := jen.Type().Id(queryParamTypeName).Index(jen.Lit(queryParamArraySize)).String()
-
 	clientFields := make([]jen.Code, 0, len(pkgs))
 	clientValues := jen.Dict{}
 	clientTypeValues := make([]jen.Code, 0, len(pkgs))
@@ -188,10 +184,7 @@ func exec() error {
 		handlerType := file.Type().Id(handlerTypeName)
 
 		// Adds private types (interfaces)
-		privateTypes := file.Add(doer)
-
-		// We want to add the query params type when there is any param
-		addQueryParams := new(sync.Once)
+		file.Add(doer)
 
 		// Creates the "new" constructor
 		file.Func().Id(newHandler).Params(jen.Id(doerName).Id(doerName)).Id(handlerName).Block(
@@ -217,6 +210,10 @@ func exec() error {
 			// Interface and implementation args
 			funcArgs := []jen.Code{ctx}
 
+			// We want to add the query params type when there is any param
+			addQueryParams := true
+			queryParamType := lowerFirst(path.FuncName) + queryParamTypeSuffix
+
 			// Collects params: in path and in query
 			// Adds to schemas to render enums
 			for _, p := range path.Parameters {
@@ -231,18 +228,17 @@ func exec() error {
 				}
 
 				// Adds query params type once
-				addQueryParams.Do(func() {
-					privateTypes.Add(
-						jen.Comment(queryParamTypeName+" http query params private type").Line(),
-						queryParamType.Clone().Line(),
-					)
-				})
+				if addQueryParams {
+					file.Comment(queryParamType + " http query params private type").Line()
+					file.Type().Id(queryParamType).Index(jen.Lit(queryParamArraySize)).String()
+					addQueryParams = false
+				}
 
 				queryParams = append(queryParams, p.Schema)
 
 				// Adds param function (request modifier)
 				var code *jen.Statement
-				code, err = fmtQueryParam(path.FuncName, p)
+				code, err = fmtQueryParam(path.FuncName, queryParamType, p)
 				if err != nil {
 					return err
 				}
@@ -266,7 +262,7 @@ func exec() error {
 
 			// Adds queryParams options
 			if len(queryParams) > 0 {
-				funcArgs = append(funcArgs, jen.Id(queryParamName).Op("...").Id(queryParamTypeName))
+				funcArgs = append(funcArgs, jen.Id(queryParamName).Op("...").Id(queryParamType))
 			}
 
 			typeMeth := jen.Id(path.FuncName).Params(funcArgs...)
@@ -617,7 +613,7 @@ func fmtComment(c string) string {
 }
 
 // fmtQueryParam returns a query param
-func fmtQueryParam(funcName string, p *Parameter) (*jen.Statement, error) {
+func fmtQueryParam(funcName, queryParamType string, p *Parameter) (*jen.Statement, error) {
 	keyFuncName := funcName + p.Schema.CamelName
 	keyVarName := jen.Id(p.Schema.lowerCamel())
 
@@ -631,9 +627,9 @@ func fmtQueryParam(funcName string, p *Parameter) (*jen.Statement, error) {
 	param := jen.Comment(fmt.Sprintf("%s %s", keyFuncName, fmtComment(p.Description)))
 	param.Line()
 	param.Func().Id(keyFuncName).
-		Params(keyVarName.Clone().Add(getType(p.Schema))).Params(jen.Id(queryParamTypeName)).
+		Params(keyVarName.Clone().Add(getType(p.Schema))).Params(jen.Id(queryParamType)).
 		Block(
-			jen.Return(jen.Id(queryParamTypeName).Values(jen.Lit(p.Schema.name), value)),
+			jen.Return(jen.Id(queryParamType).Values(jen.Lit(p.Schema.name), value)),
 		)
 	return param, nil
 }
