@@ -99,7 +99,7 @@ type Handler interface {
 	// ServiceGet get service information
 	// GET /v1/project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceGet
-	ServiceGet(ctx context.Context, project string, serviceName string, query ...queryParam) (*ServiceGetOut, error)
+	ServiceGet(ctx context.Context, project string, serviceName string, query ...serviceGetQuery) (*ServiceGetOut, error)
 
 	// ServiceGetMigrationStatus get migration status
 	// GET /v1/project/{project}/service/{service_name}/migration
@@ -159,16 +159,13 @@ type Handler interface {
 	// ServiceUpdate update service configuration
 	// PUT /v1/project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUpdate
-	ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn, query ...queryParam) (*ServiceUpdateOut, error)
+	ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn, query ...serviceUpdateQuery) (*ServiceUpdateOut, error)
 }
 
 // doer http client
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
-
-// queryParam http query params private type
-type queryParam [2]string
 
 func NewHandler(doer doer) ServiceHandler {
 	return ServiceHandler{doer}
@@ -360,11 +357,15 @@ func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string
 	return out.Until, nil
 }
 
+// serviceGetQuery http query params private type
+
+type serviceGetQuery [2]string
+
 // ServiceGetIncludeSecrets Explicitly indicates that the client wants to read secrets that might be returned by this endpoint.
-func ServiceGetIncludeSecrets(includeSecrets bool) queryParam {
-	return queryParam{"include_secrets", fmt.Sprintf("%t", includeSecrets)}
+func ServiceGetIncludeSecrets(includeSecrets bool) serviceGetQuery {
+	return serviceGetQuery{"include_secrets", fmt.Sprintf("%t", includeSecrets)}
 }
-func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, serviceName string, query ...queryParam) (*ServiceGetOut, error) {
+func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, serviceName string, query ...serviceGetQuery) (*ServiceGetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceGet", "GET", path, nil)
 	if err != nil {
@@ -513,11 +514,15 @@ func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, ser
 	return &out.Task, nil
 }
 
+// serviceUpdateQuery http query params private type
+
+type serviceUpdateQuery [2]string
+
 // ServiceUpdateAllowUncleanPoweroff Allows or disallows powering off a service if some WAL segments are not available for a future restoration of the service, which might result in data loss when powering the service back on
-func ServiceUpdateAllowUncleanPoweroff(allowUncleanPoweroff bool) queryParam {
-	return queryParam{"allow_unclean_poweroff", fmt.Sprintf("%t", allowUncleanPoweroff)}
+func ServiceUpdateAllowUncleanPoweroff(allowUncleanPoweroff bool) serviceUpdateQuery {
+	return serviceUpdateQuery{"allow_unclean_poweroff", fmt.Sprintf("%t", allowUncleanPoweroff)}
 }
-func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn, query ...queryParam) (*ServiceUpdateOut, error) {
+func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn, query ...serviceUpdateQuery) (*ServiceUpdateOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceUpdate", "PUT", path, in)
 	if err != nil {

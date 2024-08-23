@@ -38,7 +38,7 @@ type Handler interface {
 	// ServiceClickHouseQueryStats return statistics on recent queries
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQueryStats
-	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, query ...queryParam) ([]QueryOutAlt, error)
+	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, query ...serviceClickHouseQueryStatsQuery) ([]QueryOutAlt, error)
 
 	// ServiceClickHouseTieredStorageSummary get the ClickHouse tiered storage summary
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/tiered-storage/summary
@@ -50,9 +50,6 @@ type Handler interface {
 type doer interface {
 	Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error)
 }
-
-// queryParam http query params private type
-type queryParam [2]string
 
 func NewHandler(doer doer) ClickHouseHandler {
 	return ClickHouseHandler{doer}
@@ -112,21 +109,25 @@ func (h *ClickHouseHandler) ServiceClickHouseQuery(ctx context.Context, project 
 	return out, nil
 }
 
+// serviceClickHouseQueryStatsQuery http query params private type
+
+type serviceClickHouseQueryStatsQuery [2]string
+
 // ServiceClickHouseQueryStatsLimit Limit for number of results
-func ServiceClickHouseQueryStatsLimit(limit int) queryParam {
-	return queryParam{"limit", fmt.Sprintf("%d", limit)}
+func ServiceClickHouseQueryStatsLimit(limit int) serviceClickHouseQueryStatsQuery {
+	return serviceClickHouseQueryStatsQuery{"limit", fmt.Sprintf("%d", limit)}
 }
 
 // ServiceClickHouseQueryStatsOffset Offset for retrieved results based on sort order
-func ServiceClickHouseQueryStatsOffset(offset int) queryParam {
-	return queryParam{"offset", fmt.Sprintf("%d", offset)}
+func ServiceClickHouseQueryStatsOffset(offset int) serviceClickHouseQueryStatsQuery {
+	return serviceClickHouseQueryStatsQuery{"offset", fmt.Sprintf("%d", offset)}
 }
 
 // ServiceClickHouseQueryStatsOrderByType Order in which to sort retrieved results
-func ServiceClickHouseQueryStatsOrderByType(orderByType OrderByType) queryParam {
-	return queryParam{"order_by", fmt.Sprintf("%s", orderByType)}
+func ServiceClickHouseQueryStatsOrderByType(orderByType OrderByType) serviceClickHouseQueryStatsQuery {
+	return serviceClickHouseQueryStatsQuery{"order_by", fmt.Sprintf("%s", orderByType)}
 }
-func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, query ...queryParam) ([]QueryOutAlt, error) {
+func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, query ...serviceClickHouseQueryStatsQuery) ([]QueryOutAlt, error) {
 	p := make([][2]string, 0, len(query))
 	for _, v := range query {
 		p = append(p, v)
