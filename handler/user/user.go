@@ -576,12 +576,6 @@ type CheckPasswordStrengthNewUserOut struct {
 	Message      string `json:"message"`                 // Password strength message
 	Score        int    `json:"score"`                   // Password strength score
 }
-
-// IntercomOut Intercom settings
-type IntercomOut struct {
-	AppId string `json:"app_id"` // Intercom application ID
-	Hmac  string `json:"hmac"`   // Intercom authentication HMAC
-}
 type InvitationOut struct {
 	InviteCode        string    `json:"invite_code"`         // Code for accepting the invitation
 	InviteTime        time.Time `json:"invite_time"`         // Timestamp in ISO 8601 format, always in UTC
@@ -723,7 +717,6 @@ type UserInfoOut struct {
 	CreateTime             *time.Time             `json:"create_time,omitempty"`              // User registration time
 	Department             *string                `json:"department,omitempty"`               // Job department
 	Features               map[string]any         `json:"features,omitempty"`                 // Feature flags
-	Intercom               IntercomOut            `json:"intercom"`                           // Intercom settings
 	Invitations            []InvitationOut        `json:"invitations"`                        // List of pending invitations
 	JobTitle               *string                `json:"job_title,omitempty"`                // Job title
 	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`          // User management status
@@ -793,7 +786,6 @@ type UserUpdateOut struct {
 	CreateTime             *time.Time             `json:"create_time,omitempty"`              // User registration time
 	Department             *string                `json:"department,omitempty"`               // Job department
 	Features               map[string]any         `json:"features,omitempty"`                 // Feature flags
-	Intercom               IntercomOut            `json:"intercom"`                           // Intercom settings
 	Invitations            []InvitationOut        `json:"invitations"`                        // List of pending invitations
 	JobTitle               *string                `json:"job_title,omitempty"`                // Job title
 	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`          // User management status
