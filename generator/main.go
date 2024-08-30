@@ -422,7 +422,6 @@ func exec() error {
 		for _, k := range sortedKeys(scope) {
 			v := scope[k]
 			err = writeStruct(file, v)
-
 			if err != nil {
 				return err
 			}
@@ -430,7 +429,7 @@ func exec() error {
 
 		dirPath := filepath.Join(cfg.HandlerDir, fileName)
 
-		err = os.MkdirAll(dirPath, os.ModePerm)
+		err = os.MkdirAll(dirPath, dirMode)
 		if err != nil {
 			return err
 		}
@@ -562,7 +561,8 @@ func toSingle(src string) string {
 
 const (
 	yamlTabSize = 2
-	writeMode   = os.FileMode(0644)
+	writeMode   = os.FileMode(0o644)
+	dirMode     = os.FileMode(0o750)
 )
 
 // readConfig reads and formats the config
