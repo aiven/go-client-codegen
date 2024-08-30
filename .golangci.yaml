@@ -16,7 +16,7 @@ linters:
     - gocyclo
     - gofmt
     - goimports
-    - gomnd
+    - mnd
     - gosec
     - gosimple
     - govet
