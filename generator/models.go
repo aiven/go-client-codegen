@@ -151,7 +151,7 @@ type Schema struct {
 	in, out       bool // Request or Response DTO
 }
 
-// nolint:funlen,gocognit,gocyclo // It is easy to maintain and read, we don't need to split it
+//nolint:funlen,gocognit,gocyclo // It is easy to maintain and read, we don't need to split it
 func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 	if s.Ref != "" {
 		other, err := doc.getSchema(s.Ref)

@@ -67,7 +67,7 @@ const (
 	queryParamArraySize  = 2
 )
 
-// nolint:funlen,gocognit,gocyclo // It's a generator, it's supposed to be long, and we won't expand it.
+//nolint:funlen,gocognit,gocyclo // It's a generator, it's supposed to be long, and we won't expand it.
 func exec() error {
 	cfg := new(envConfig)
 
@@ -463,9 +463,8 @@ func exec() error {
 // reMakesSense sometimes there are invalid enums, for instance just a comma ","
 var reMakesSense = regexp.MustCompile(`\w`)
 
-// nolint:funlen // It's a generator, it's supposed to be long, and we won't expand it.
+//nolint:funlen // It's a generator, it's supposed to be long, and we won't expand it.
 func writeStruct(f *jen.File, s *Schema) error {
-	// nolint:nestif // It's a generator, it's supposed to be long, and we won't expand it.
 	if s.isEnum() {
 		kind := getScalarType(s)
 		o := f.Type().Id(s.CamelName)
