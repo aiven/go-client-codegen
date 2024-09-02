@@ -67,7 +67,7 @@ const (
 	queryParamArraySize  = 2
 )
 
-// nolint:funlen,gocognit,gocyclo // It's a generator, it's supposed to be long, and we won't expand it.
+//nolint:funlen,gocognit,gocyclo // It's a generator, it's supposed to be long, and we won't expand it.
 func exec() error {
 	cfg := new(envConfig)
 
@@ -422,7 +422,6 @@ func exec() error {
 		for _, k := range sortedKeys(scope) {
 			v := scope[k]
 			err = writeStruct(file, v)
-
 			if err != nil {
 				return err
 			}
@@ -430,7 +429,7 @@ func exec() error {
 
 		dirPath := filepath.Join(cfg.HandlerDir, fileName)
 
-		err = os.MkdirAll(dirPath, os.ModePerm)
+		err = os.MkdirAll(dirPath, dirMode)
 		if err != nil {
 			return err
 		}
@@ -463,9 +462,8 @@ func exec() error {
 // reMakesSense sometimes there are invalid enums, for instance just a comma ","
 var reMakesSense = regexp.MustCompile(`\w`)
 
-// nolint:funlen // It's a generator, it's supposed to be long, and we won't expand it.
+//nolint:funlen // It's a generator, it's supposed to be long, and we won't expand it.
 func writeStruct(f *jen.File, s *Schema) error {
-	// nolint:nestif // It's a generator, it's supposed to be long, and we won't expand it.
 	if s.isEnum() {
 		kind := getScalarType(s)
 		o := f.Type().Id(s.CamelName)
@@ -563,7 +561,8 @@ func toSingle(src string) string {
 
 const (
 	yamlTabSize = 2
-	writeMode   = os.FileMode(0644)
+	writeMode   = os.FileMode(0o644)
+	dirMode     = os.FileMode(0o750)
 )
 
 // readConfig reads and formats the config

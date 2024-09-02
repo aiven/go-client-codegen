@@ -16,7 +16,7 @@ linters:
     - gocyclo
     - gofmt
     - goimports
-    - gomnd
+    - mnd
     - gosec
     - gosimple
     - govet
@@ -27,6 +27,7 @@ linters:
     - nakedret
     - nestif
     - nilerr
+    - nolintlint
     - prealloc
     - revive
     - staticcheck
@@ -42,7 +43,9 @@ linters-settings:
     min-len: 2
     min-occurrences: 2
   govet:
-    check-shadowing: true
+    enable-all: true
+    disable:
+      - fieldalignment
   lll:
     line-length: 120
     tab-width: 4
