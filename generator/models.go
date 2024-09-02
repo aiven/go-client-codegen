@@ -134,21 +134,22 @@ const (
 
 // Schema represents a parsed OpenAPI schema.
 type Schema struct {
-	Type          SchemaType         `json:"type"`
-	Properties    map[string]*Schema `json:"properties"`
-	Items         *Schema            `json:"items"`
-	RequiredProps []string           `json:"required"`
-	Enum          []any              `json:"enum"`
-	Default       any                `json:"default"`
-	MinItems      int                `json:"minItems"`
-	Ref           string             `json:"$ref"`
-	Description   string             `json:"description"`
-	CamelName     string             `json:"for-hash-only!"`
-	required      bool
-	name          string
-	propertyNames []string
-	parent        *Schema
-	in, out       bool // Request or Response DTO
+	Type                 SchemaType         `json:"type"`
+	Properties           map[string]*Schema `json:"properties"`
+	AdditionalProperties *Schema            `json:"additionalProperties"`
+	Items                *Schema            `json:"items"`
+	RequiredProps        []string           `json:"required"`
+	Enum                 []any              `json:"enum"`
+	Default              any                `json:"default"`
+	MinItems             int                `json:"minItems"`
+	Ref                  string             `json:"$ref"`
+	Description          string             `json:"description"`
+	CamelName            string             `json:"for-hash-only!"`
+	required             bool
+	name                 string
+	propertyNames        []string
+	parent               *Schema
+	in, out              bool // Request or Response DTO
 }
 
 //nolint:funlen,gocognit,gocyclo // It is easy to maintain and read, we don't need to split it
@@ -228,12 +229,6 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 		if s.isEnum() {
 			s.CamelName = "CompatibilityType"
 		}
-	}
-
-	// fixme: on the backend
-	if s.name == "topics.blacklist" && s.parent.Type != SchemaTypeArray {
-		s.Type = SchemaTypeArray
-		s.Items = &Schema{Type: SchemaTypeString}
 	}
 
 	if s.Type == SchemaTypeString {
@@ -410,7 +405,11 @@ func getType(s *Schema) *jen.Statement {
 			a = jen.Op("*").Map(jen.String())
 		}
 
-		if isMapString(s) {
+		if s.AdditionalProperties != nil {
+			s.AdditionalProperties.required = true
+			return a.Add(getType(s.AdditionalProperties))
+		} else if s.name == "tags" {
+			// tags are everywhere in the schema, better not to use the patch
 			return a.String()
 		} else {
 			return a.Any()
@@ -427,11 +426,6 @@ func mustMarshal(s any) string {
 	}
 
 	return string(b)
-}
-
-// isMapString for hacking schemaless maps
-func isMapString(s *Schema) bool {
-	return s.name == "tags"
 }
 
 func lowerFirst(s string) string {
