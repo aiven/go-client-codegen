@@ -30,12 +30,13 @@ const (
 )
 
 type envConfig struct {
-	Module      string `envconfig:"MODULE" default:"github.com/aiven/go-client-codegen"`
-	Package     string `envconfig:"PACKAGE" default:"aiven"`
-	HandlerDir  string `envconfig:"HANDLER_DIR" default:"handler"`
-	ConfigFile  string `envconfig:"CONFIG_FILE" default:"config.yaml"`
-	ClientFile  string `envconfig:"CLIENT_FILE" default:"client_generated.go"`
-	OpenAPIFile string `envconfig:"OPENAPI_FILE" default:"openapi.json"`
+	Module           string `envconfig:"MODULE" default:"github.com/aiven/go-client-codegen"`
+	Package          string `envconfig:"PACKAGE" default:"aiven"`
+	HandlerDir       string `envconfig:"HANDLER_DIR" default:"handler"`
+	ConfigFile       string `envconfig:"CONFIG_FILE" default:"config.yaml"`
+	ClientFile       string `envconfig:"CLIENT_FILE" default:"client_generated.go"`
+	OpenAPIFile      string `envconfig:"OPENAPI_FILE" default:"openapi.json"`
+	OpenAPIPatchFile string `envconfig:"OPENAPI_PATCH_FILE" default:"openapi_patch.yaml"`
 }
 
 var (
@@ -81,20 +82,19 @@ func exec() error {
 		return err
 	}
 
-	docBytes, err := os.ReadFile(cfg.OpenAPIFile)
+	// Reads OpenAPI file and applies a patch
+	docBytes, err := readOpenAPIPatched(cfg.OpenAPIFile, cfg.OpenAPIPatchFile)
 	if err != nil {
 		return err
 	}
 
 	doc := new(Doc)
-
 	err = json.Unmarshal(docBytes, doc)
 	if err != nil {
 		return err
 	}
 
 	pkgs := make(map[string][]*Path)
-
 	for path := range doc.Paths {
 		v := doc.Paths[path]
 		for meth, p := range v {
@@ -229,7 +229,7 @@ func exec() error {
 
 				// Adds query params type once
 				if addQueryParams {
-					file.Comment(queryParamType + " http query params private type").Line()
+					file.Comment(queryParamType + " http query params private type")
 					file.Type().Id(queryParamType).Index(jen.Lit(queryParamArraySize)).String()
 					addQueryParams = false
 				}

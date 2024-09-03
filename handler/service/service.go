@@ -358,7 +358,6 @@ func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string
 }
 
 // serviceGetQuery http query params private type
-
 type serviceGetQuery [2]string
 
 // ServiceGetIncludeSecrets Explicitly indicates that the client wants to read secrets that might be returned by this endpoint.
@@ -515,7 +514,6 @@ func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, ser
 }
 
 // serviceUpdateQuery http query params private type
-
 type serviceUpdateQuery [2]string
 
 // ServiceUpdateAllowUncleanPoweroff Allows or disallows powering off a service if some WAL segments are not available for a future restoration of the service, which might result in data loss when powering the service back on
@@ -640,6 +638,60 @@ type ComponentOut struct {
 	Route                     RouteType                     `json:"route"`                                 // Network access route
 	Ssl                       *bool                         `json:"ssl,omitempty"`                         // Whether the endpoint is encrypted or accepts plaintext. By default endpoints are always encrypted andthis property is only included for service components that may disable encryption.
 	Usage                     UsageType                     `json:"usage"`                                 // DNS usage name
+}
+
+// ConnectionInfoOut Service-specific connection information properties
+type ConnectionInfoOut struct {
+	AggregatorHttpUri               *string         `json:"aggregator_http_uri,omitempty"`
+	Cassandra                       []string        `json:"cassandra,omitempty"`
+	Clickhouse                      []string        `json:"clickhouse,omitempty"`
+	Flink                           []string        `json:"flink,omitempty"`
+	Grafana                         []string        `json:"grafana,omitempty"`
+	HttpClusterUri                  *string         `json:"http_cluster_uri,omitempty"`
+	HttpNodeUri                     *string         `json:"http_node_uri,omitempty"`
+	Influxdb                        []string        `json:"influxdb,omitempty"`
+	InfluxdbDbname                  *string         `json:"influxdb_dbname,omitempty"`
+	InfluxdbPassword                *string         `json:"influxdb_password,omitempty"`
+	InfluxdbUri                     *string         `json:"influxdb_uri,omitempty"`
+	InfluxdbUsername                *string         `json:"influxdb_username,omitempty"`
+	Kafka                           []string        `json:"kafka,omitempty"`
+	KafkaAccessCert                 *string         `json:"kafka_access_cert,omitempty"`
+	KafkaAccessKey                  *string         `json:"kafka_access_key,omitempty"`
+	KafkaConnect                    []string        `json:"kafka_connect,omitempty"`
+	KafkaConnectUri                 *string         `json:"kafka_connect_uri,omitempty"`
+	KafkaMirrormaker                []string        `json:"kafka_mirrormaker,omitempty"`
+	KafkaRestUri                    *string         `json:"kafka_rest_uri,omitempty"`
+	M3Aggregator                    []string        `json:"m3aggregator,omitempty"`
+	M3Db                            []string        `json:"m3db,omitempty"`
+	Mysql                           []string        `json:"mysql,omitempty"`
+	MysqlParams                     []MysqlParamOut `json:"mysql_params,omitempty"`
+	MysqlReplicaUri                 *string         `json:"mysql_replica_uri,omitempty"`
+	MysqlStandby                    []string        `json:"mysql_standby,omitempty"`
+	Opensearch                      []string        `json:"opensearch,omitempty"`
+	OpensearchDashboardsUri         *string         `json:"opensearch_dashboards_uri,omitempty"`
+	OpensearchPassword              *string         `json:"opensearch_password,omitempty"`
+	OpensearchUsername              *string         `json:"opensearch_username,omitempty"`
+	Pg                              []string        `json:"pg,omitempty"`
+	PgParams                        []PgParamOut    `json:"pg_params,omitempty"`
+	PgReplicaUri                    *string         `json:"pg_replica_uri,omitempty"`
+	PgStandby                       []string        `json:"pg_standby,omitempty"`
+	PgSyncing                       []string        `json:"pg_syncing,omitempty"`
+	PrometheusRemoteReadUri         *string         `json:"prometheus_remote_read_uri,omitempty"`
+	PrometheusRemoteWriteUri        *string         `json:"prometheus_remote_write_uri,omitempty"`
+	QueryFrontendUri                *string         `json:"query_frontend_uri,omitempty"`
+	QueryUri                        *string         `json:"query_uri,omitempty"`
+	ReceiverIngestingRemoteWriteUri *string         `json:"receiver_ingesting_remote_write_uri,omitempty"`
+	ReceiverRemoteWriteUri          *string         `json:"receiver_remote_write_uri,omitempty"`
+	Redis                           []string        `json:"redis,omitempty"`
+	RedisPassword                   *string         `json:"redis_password,omitempty"`
+	RedisReplicaUri                 *string         `json:"redis_replica_uri,omitempty"`
+	RedisSlave                      []string        `json:"redis_slave,omitempty"`
+	SchemaRegistryUri               *string         `json:"schema_registry_uri,omitempty"`
+	Thanos                          []string        `json:"thanos,omitempty"`
+	Valkey                          []string        `json:"valkey,omitempty"`
+	ValkeyPassword                  *string         `json:"valkey_password,omitempty"`
+	ValkeyReplicaUri                *string         `json:"valkey_replica_uri,omitempty"`
+	ValkeySlave                     []string        `json:"valkey_slave,omitempty"`
 }
 type ConnectionPoolOut struct {
 	ConnectionUri string       `json:"connection_uri"`     // Connection URI for the DB pool
@@ -1057,6 +1109,14 @@ type MysqlOut struct {
 	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
+type MysqlParamOut struct {
+	Dbname   string `json:"dbname"`
+	Host     string `json:"host"`
+	Password string `json:"password"`
+	Port     string `json:"port"`
+	SslMode  string `json:"ssl-mode"`
+	User     string `json:"user"`
+}
 type NodeStateOut struct {
 	Name            string              `json:"name"`                       // Name of the service node
 	ProgressUpdates []ProgressUpdateOut `json:"progress_updates,omitempty"` // Extra information regarding the progress for current state
@@ -1132,6 +1192,14 @@ type PgOut struct {
 	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
 	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+type PgParamOut struct {
+	Dbname   string `json:"dbname"`
+	Host     string `json:"host"`
+	Password string `json:"password"`
+	Port     string `json:"port"`
+	Sslmode  string `json:"sslmode"`
+	User     string `json:"user"`
 }
 type PhaseType string
 
@@ -1376,7 +1444,7 @@ type ServiceGetOut struct {
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
 	Components             []ComponentOut           `json:"components,omitempty"`               // Service component information objects
-	ConnectionInfo         map[string]any           `json:"connection_info,omitempty"`          // Service-specific connection information properties
+	ConnectionInfo         *ConnectionInfoOut       `json:"connection_info,omitempty"`          // Service-specific connection information properties
 	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`         // PostgreSQL PGBouncer connection pools
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
@@ -1398,7 +1466,7 @@ type ServiceGetOut struct {
 	ServiceType            string                   `json:"service_type"`                       // Service type code
 	ServiceTypeDescription *string                  `json:"service_type_description,omitempty"` // Single line description of the service
 	ServiceUri             string                   `json:"service_uri"`                        // URI for connecting to the service (may be null)
-	ServiceUriParams       map[string]any           `json:"service_uri_params,omitempty"`       // service_uri parameterized into key-value pairs
+	ServiceUriParams       map[string]string        `json:"service_uri_params,omitempty"`       // service_uri parameterized into key-value pairs
 	State                  ServiceStateType         `json:"state"`                              // State of the service
 	Tags                   map[string]string        `json:"tags,omitempty"`                     // Set of resource tags
 	TechEmails             []TechEmailOut           `json:"tech_emails,omitempty"`              // List of service technical email addresses

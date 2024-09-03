@@ -110,7 +110,6 @@ func (h *ClickHouseHandler) ServiceClickHouseQuery(ctx context.Context, project 
 }
 
 // serviceClickHouseQueryStatsQuery http query params private type
-
 type serviceClickHouseQueryStatsQuery [2]string
 
 // ServiceClickHouseQueryStatsLimit Limit for number of results

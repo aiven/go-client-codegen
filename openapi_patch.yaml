@@ -1,0 +1,250 @@
+components:
+  schemas:
+    ServiceKafkaMirrorMakerCreateReplicationFlowRequestBody:
+      properties:
+        topics.blacklist:
+          type: array
+          items:
+            type: string
+    ServiceKafkaMirrorMakerGetReplicationFlowResponse:
+      properties:
+        replication_flow:
+          properties:
+            topics.blacklist:
+              type: array
+              items:
+                type: string
+    ServiceKafkaMirrorMakerGetReplicationFlowsResponse:
+      properties:
+        replication_flows:
+          items:
+            properties:
+              topics.blacklist:
+                type: array
+                items:
+                  type: string
+    ServiceKafkaMirrorMakerPatchReplicationFlowRequestBody:
+      properties:
+        topics.blacklist:
+          type: array
+          items:
+            type: string
+    ServiceKafkaMirrorMakerPatchReplicationFlowResponse:
+      properties:
+        replication_flow:
+          properties:
+            topics.blacklist:
+              type: array
+              items:
+                type: string
+    ServiceGetResponse:
+      properties:
+        service:
+          properties:
+            service_uri_params:
+              additionalProperties:
+                type: string
+            connection_info:
+              properties:
+                # M3DB aggregator (EOL)
+                m3aggregator:
+                  items:
+                    type: string
+                  type: array
+                aggregator_http_uri:
+                  type: string
+                # M3DB (EOL)
+                m3db:
+                  items:
+                    type: string
+                  type: array
+                http_cluster_uri:
+                  type: string
+                http_node_uri:
+                  type: string
+                influxdb_uri:
+                  type: string
+                prometheus_remote_read_uri:
+                  type: string
+                prometheus_remote_write_uri:
+                  type: string
+                # InfluxDB (EOL)
+                influxdb:
+                  items:
+                    type: string
+                  type: array
+                influxdb_dbname:
+                  type: string
+                influxdb_password:
+                  type: string
+                influxdb_username:
+                  type: string
+                # Cassandra
+                cassandra:
+                  items:
+                    type: string
+                  type: array
+                # Clickhouse
+                clickhouse:
+                  items:
+                    type: string
+                  type: array
+                # Flink
+                flink:
+                  items:
+                    type: string
+                  type: array
+                # Grafana
+                grafana:
+                  items:
+                    type: string
+                  type: array
+                # Kafka
+                kafka:
+                  items:
+                    type: string
+                  type: array
+                kafka_access_key:
+                  type: string
+                kafka_access_cert:
+                  type: string
+                kafka_connect_uri:
+                  type: string
+                kafka_rest_uri:
+                  type: string
+                schema_registry_uri:
+                  type: string
+                # Kafka Connect
+                kafka_connect:
+                  items:
+                    type: string
+                  type: array
+                # Kafka MirrorMaker
+                kafka_mirrormaker:
+                  items:
+                    type: string
+                  type: array
+                # MySQL
+                mysql:
+                  items:
+                    type: string
+                  type: array
+                mysql_params:
+                  type: array
+                  items:
+                    properties:
+                      dbname:
+                        type: string
+                      host:
+                        type: string
+                      password:
+                        type: string
+                      port:
+                        type: string
+                      ssl-mode:
+                        type: string
+                      user:
+                        type: string
+                    type: object
+                    required:
+                      - dbname
+                      - host
+                      - password
+                      - port
+                      - ssl-mode
+                      - user
+                mysql_replica_uri:
+                  type: string
+                mysql_standby:
+                  items:
+                    type: string
+                  type: array
+                # OpenSearch
+                opensearch:
+                  items:
+                    type: string
+                  type: array
+                opensearch_dashboards_uri:
+                  type: string
+                opensearch_password:
+                  type: string
+                opensearch_username:
+                  type: string
+                # PostgreSQL
+                pg:
+                  items:
+                    type: string
+                  type: array
+                pg_params:
+                  type: array
+                  items:
+                    properties:
+                      dbname:
+                        type: string
+                      host:
+                        type: string
+                      password:
+                        type: string
+                      port:
+                        type: string
+                      sslmode:
+                        type: string
+                      user:
+                        type: string
+                    type: object
+                    required:
+                      - dbname
+                      - host
+                      - password
+                      - port
+                      - sslmode
+                      - user
+                pg_replica_uri:
+                  type: string
+                pg_standby:
+                  items:
+                    type: string
+                  type: array
+                pg_syncing:
+                  items:
+                    type: string
+                  type: array
+                # Thanos
+                thanos:
+                  items:
+                    type: string
+                  type: array
+                query_frontend_uri:
+                  type: string
+                query_uri:
+                  type: string
+                receiver_ingesting_remote_write_uri:
+                  type: string
+                receiver_remote_write_uri:
+                  type: string
+                # Redis (EOL) + Dragonfly
+                redis:
+                  items:
+                    type: string
+                  type: array
+                redis_password:
+                  type: string
+                redis_replica_uri:
+                  type: string
+                redis_slave:
+                  items:
+                    type: string
+                  type: array
+                # Valkey
+                valkey:
+                  items:
+                    type: string
+                  type: array
+                valkey_password:
+                  type: string
+                valkey_replica_uri:
+                  type: string
+                valkey_slave:
+                  items:
+                    type: string
+                  type: array
