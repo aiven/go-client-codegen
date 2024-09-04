@@ -33,7 +33,7 @@ type Handler interface {
 	// ServiceIntegrationEndpointGet get service integration endpoint
 	// GET /v1/project/{project}/integration_endpoint/{integration_endpoint_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointGet
-	ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string) (*ServiceIntegrationEndpointGetOut, error)
+	ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string, query ...serviceIntegrationEndpointGetQuery) (*ServiceIntegrationEndpointGetOut, error)
 
 	// ServiceIntegrationEndpointList list available integration endpoints for project
 	// GET /v1/project/{project}/integration_endpoint
@@ -120,7 +120,15 @@ func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointDelete(ctx context
 	_, err := h.doer.Do(ctx, "ServiceIntegrationEndpointDelete", "DELETE", path, nil)
 	return err
 }
-func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string) (*ServiceIntegrationEndpointGetOut, error) {
+
+// serviceIntegrationEndpointGetQuery http query params private type
+type serviceIntegrationEndpointGetQuery [2]string
+
+// ServiceIntegrationEndpointGetIncludeSecrets Explicitly indicates that the client wants to read secrets that might be returned by this endpoint.
+func ServiceIntegrationEndpointGetIncludeSecrets(includeSecrets bool) serviceIntegrationEndpointGetQuery {
+	return serviceIntegrationEndpointGetQuery{"include_secrets", fmt.Sprintf("%t", includeSecrets)}
+}
+func (h *ServiceIntegrationHandler) ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string, query ...serviceIntegrationEndpointGetQuery) (*ServiceIntegrationEndpointGetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/integration_endpoint/%s", url.PathEscape(project), url.PathEscape(integrationEndpointId))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointGet", "GET", path, nil)
 	if err != nil {

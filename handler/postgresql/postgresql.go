@@ -145,13 +145,10 @@ type QueryOut struct {
 	LocalBlksHit      *float64 `json:"local_blks_hit,omitempty"`      // Query statistic
 	LocalBlksRead     *float64 `json:"local_blks_read,omitempty"`     // Query statistic
 	LocalBlksWritten  *float64 `json:"local_blks_written,omitempty"`  // Query statistic
-	MaxExecTime       *float64 `json:"max_exec_time,omitempty"`       // Query statistic
 	MaxPlanTime       *float64 `json:"max_plan_time,omitempty"`       // Query statistic
 	MaxTime           *float64 `json:"max_time,omitempty"`            // Query statistic
-	MeanExecTime      *float64 `json:"mean_exec_time,omitempty"`      // Query statistic
 	MeanPlanTime      *float64 `json:"mean_plan_time,omitempty"`      // Query statistic
 	MeanTime          *float64 `json:"mean_time,omitempty"`           // Query statistic
-	MinExecTime       *float64 `json:"min_exec_time,omitempty"`       // Query statistic
 	MinPlanTime       *float64 `json:"min_plan_time,omitempty"`       // Query statistic
 	MinTime           *float64 `json:"min_time,omitempty"`            // Query statistic
 	Query             *string  `json:"query,omitempty"`               // Query statistic
@@ -161,12 +158,10 @@ type QueryOut struct {
 	SharedBlksHit     *float64 `json:"shared_blks_hit,omitempty"`     // Query statistic
 	SharedBlksRead    *float64 `json:"shared_blks_read,omitempty"`    // Query statistic
 	SharedBlksWritten *float64 `json:"shared_blks_written,omitempty"` // Query statistic
-	StddevExecTime    *float64 `json:"stddev_exec_time,omitempty"`    // Query statistic
 	StddevPlanTime    *float64 `json:"stddev_plan_time,omitempty"`    // Query statistic
 	StddevTime        *float64 `json:"stddev_time,omitempty"`         // Query statistic
 	TempBlksRead      *float64 `json:"temp_blks_read,omitempty"`      // Query statistic
 	TempBlksWritten   *float64 `json:"temp_blks_written,omitempty"`   // Query statistic
-	TotalExecTime     *float64 `json:"total_exec_time,omitempty"`     // Query statistic
 	TotalPlanTime     *float64 `json:"total_plan_time,omitempty"`     // Query statistic
 	TotalTime         *float64 `json:"total_time,omitempty"`          // Query statistic
 	UserName          *string  `json:"user_name,omitempty"`           // Query statistic
