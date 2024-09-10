@@ -46,6 +46,16 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUpdate
 	OrganizationUpdate(ctx context.Context, organizationId string, in *OrganizationUpdateIn) (*OrganizationUpdateOut, error)
 
+	// PermissionsGet [EXPERIMENTAL] List of permissions
+	// GET /v1/organization/{organization_id}/permissions/{resource_type}/{resource_id}
+	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsGet
+	PermissionsGet(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string) ([]PermissionOut, error)
+
+	// PermissionsUpdate [EXPERIMENTAL] Update permissions
+	// PATCH /v1/organization/{organization_id}/permissions/{resource_type}/{resource_id}
+	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsUpdate
+	PermissionsUpdate(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string, in *PermissionsUpdateIn) error
+
 	// UserOrganizationCreate create an organization
 	// POST /v1/organizations
 	// https://api.aiven.io/doc/#tag/Organizations/operation/UserOrganizationCreate
@@ -144,6 +154,24 @@ func (h *OrganizationHandler) OrganizationUpdate(ctx context.Context, organizati
 		return nil, err
 	}
 	return out, nil
+}
+func (h *OrganizationHandler) PermissionsGet(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string) ([]PermissionOut, error) {
+	path := fmt.Sprintf("/v1/organization/%s/permissions/%s/%s", url.PathEscape(organizationId), url.PathEscape(string(resourceType)), url.PathEscape(resourceId))
+	b, err := h.doer.Do(ctx, "PermissionsGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(permissionsGetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Permissions, nil
+}
+func (h *OrganizationHandler) PermissionsUpdate(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string, in *PermissionsUpdateIn) error {
+	path := fmt.Sprintf("/v1/organization/%s/permissions/%s/%s", url.PathEscape(organizationId), url.PathEscape(string(resourceType)), url.PathEscape(resourceId))
+	_, err := h.doer.Do(ctx, "PermissionsUpdate", "PATCH", path, in)
+	return err
 }
 func (h *OrganizationHandler) UserOrganizationCreate(ctx context.Context, in *UserOrganizationCreateIn) (*UserOrganizationCreateOut, error) {
 	path := fmt.Sprintf("/v1/organizations")
@@ -268,6 +296,45 @@ type OrganizationUpdateOut struct {
 	Tier                         TierType  `json:"tier"`                                       // Tier of the organization
 	UpdateTime                   time.Time `json:"update_time"`                                // Time of the organization's latest update
 }
+type PermissionIn struct {
+	Permissions   []string      `json:"permissions"`    // List of roles
+	PrincipalId   string        `json:"principal_id"`   // ID of the principal
+	PrincipalType PrincipalType `json:"principal_type"` // Type of the principal
+}
+type PermissionOut struct {
+	CreateTime    time.Time     `json:"create_time"`    // Create Time
+	Permissions   []string      `json:"permissions"`    // List of roles
+	PrincipalId   string        `json:"principal_id"`   // ID of the principal
+	PrincipalType PrincipalType `json:"principal_type"` // Type of the principal
+	UpdateTime    time.Time     `json:"update_time"`    // Update Time
+}
+
+// PermissionsUpdateIn PermissionsUpdateRequestBody
+type PermissionsUpdateIn struct {
+	Permissions []PermissionIn `json:"permissions"` // List of roles to set
+}
+type PrincipalType string
+
+const (
+	PrincipalTypeUser      PrincipalType = "user"
+	PrincipalTypeUserGroup PrincipalType = "user_group"
+)
+
+func PrincipalTypeChoices() []string {
+	return []string{"user", "user_group"}
+}
+
+type ResourceType string
+
+const (
+	ResourceTypeAccount ResourceType = "account"
+	ResourceTypeProject ResourceType = "project"
+)
+
+func ResourceTypeChoices() []string {
+	return []string{"account", "project"}
+}
+
 type TierType string
 
 const (
@@ -310,6 +377,11 @@ func VerificationTypeChoices() []string {
 // organizationAuthDomainListOut OrganizationAuthDomainListResponse
 type organizationAuthDomainListOut struct {
 	Domains []DomainOut `json:"domains"` // List of domains for the organization
+}
+
+// permissionsGetOut PermissionsGetResponse
+type permissionsGetOut struct {
+	Permissions []PermissionOut `json:"permissions"` // List of roles
 }
 
 // userOrganizationsListOut UserOrganizationsListResponse
