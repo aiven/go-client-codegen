@@ -76,6 +76,31 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectPrivatelinkAvailabilityList
 	ProjectPrivatelinkAvailabilityList(ctx context.Context, project string) ([]PrivatelinkAvailabilityOut, error)
 
+	// ProjectServicePlanList list service plans
+	// GET /v1/project/{project}/service-types/{service_type}/plans
+	// https://api.aiven.io/doc/#tag/Project/operation/ProjectServicePlanList
+	ProjectServicePlanList(ctx context.Context, project string, serviceType string) ([]ServicePlanOut, error)
+
+	// ProjectServicePlanPriceGet get plan pricing
+	// GET /v1/project/{project}/pricing/service-types/{service_type}/plans/{service_plan}/clouds/{cloud}
+	// https://api.aiven.io/doc/#tag/Project/operation/ProjectServicePlanPriceGet
+	ProjectServicePlanPriceGet(ctx context.Context, project string, serviceType string, servicePlan string, cloud string) (*ProjectServicePlanPriceGetOut, error)
+
+	// ProjectServicePlanSpecsGet get service plan details
+	// GET /v1/project/{project}/service-types/{service_type}/plans/{service_plan}
+	// https://api.aiven.io/doc/#tag/Project/operation/ProjectServicePlanSpecsGet
+	ProjectServicePlanSpecsGet(ctx context.Context, project string, serviceType string, servicePlan string) (*ProjectServicePlanSpecsGetOut, error)
+
+	// ProjectServiceTypesGet get service type details
+	// GET /v1/project/{project}/service-types/{service_type}
+	// https://api.aiven.io/doc/#tag/Project/operation/ProjectServiceTypesGet
+	ProjectServiceTypesGet(ctx context.Context, project string, serviceType string) (*ProjectServiceTypesGetOut, error)
+
+	// ProjectServiceTypesList list service types
+	// GET /v1/project/{project}/service-types
+	// https://api.aiven.io/doc/#tag/Project/operation/ProjectServiceTypesList
+	ProjectServiceTypesList(ctx context.Context, project string) (*ProjectServiceTypesListOut, error)
+
 	// ProjectTagsList list all tags attached to this project
 	// GET /v1/project/{project}/tags
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectTagsList
@@ -270,6 +295,71 @@ func (h *ProjectHandler) ProjectPrivatelinkAvailabilityList(ctx context.Context,
 	}
 	return out.PrivatelinkAvailability, nil
 }
+func (h *ProjectHandler) ProjectServicePlanList(ctx context.Context, project string, serviceType string) ([]ServicePlanOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service-types/%s/plans", url.PathEscape(project), url.PathEscape(serviceType))
+	b, err := h.doer.Do(ctx, "ProjectServicePlanList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(projectServicePlanListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.ServicePlans, nil
+}
+func (h *ProjectHandler) ProjectServicePlanPriceGet(ctx context.Context, project string, serviceType string, servicePlan string, cloud string) (*ProjectServicePlanPriceGetOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/pricing/service-types/%s/plans/%s/clouds/%s", url.PathEscape(project), url.PathEscape(serviceType), url.PathEscape(servicePlan), url.PathEscape(cloud))
+	b, err := h.doer.Do(ctx, "ProjectServicePlanPriceGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(ProjectServicePlanPriceGetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *ProjectHandler) ProjectServicePlanSpecsGet(ctx context.Context, project string, serviceType string, servicePlan string) (*ProjectServicePlanSpecsGetOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service-types/%s/plans/%s", url.PathEscape(project), url.PathEscape(serviceType), url.PathEscape(servicePlan))
+	b, err := h.doer.Do(ctx, "ProjectServicePlanSpecsGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(ProjectServicePlanSpecsGetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *ProjectHandler) ProjectServiceTypesGet(ctx context.Context, project string, serviceType string) (*ProjectServiceTypesGetOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service-types/%s", url.PathEscape(project), url.PathEscape(serviceType))
+	b, err := h.doer.Do(ctx, "ProjectServiceTypesGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(ProjectServiceTypesGetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *ProjectHandler) ProjectServiceTypesList(ctx context.Context, project string) (*ProjectServiceTypesListOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service-types", url.PathEscape(project))
+	b, err := h.doer.Do(ctx, "ProjectServiceTypesList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(ProjectServiceTypesListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
 func (h *ProjectHandler) ProjectTagsList(ctx context.Context, project string) (map[string]string, error) {
 	path := fmt.Sprintf("/v1/project/%s/tags", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectTagsList", "GET", path, nil)
@@ -330,6 +420,13 @@ func (h *ProjectHandler) ProjectUserUpdate(ctx context.Context, project string, 
 	return err
 }
 
+// AggregatorOut Service type information
+type AggregatorOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
 type AlertOut struct {
 	CreateTime  time.Time `json:"create_time"`            // Event creation timestamp (ISO 8601)
 	Event       string    `json:"event"`                  // Name of the alerting event
@@ -352,6 +449,16 @@ func AnyTypeChoices() []string {
 	return []string{"admin", "developer", "operator", "read_only"}
 }
 
+// BackupConfigOut Backup configuration for this service plan
+type BackupConfigOut struct {
+	FrequentIntervalMinutes    *int             `json:"frequent_interval_minutes,omitempty"`     // Interval of taking a frequent backup in service types supporting different backup schedules
+	FrequentOldestAgeMinutes   *int             `json:"frequent_oldest_age_minutes,omitempty"`   // Maximum age of the oldest frequent backup in service types supporting different backup schedules
+	InfrequentIntervalMinutes  *int             `json:"infrequent_interval_minutes,omitempty"`   // Interval of taking an infrequent backup in service types supporting different backup schedules
+	InfrequentOldestAgeMinutes *int             `json:"infrequent_oldest_age_minutes,omitempty"` // Maximum age of the oldest infrequent backup in service types supporting different backup schedules
+	Interval                   int              `json:"interval"`                                // The interval, in hours, at which backups are generated. For some services, like PostgreSQL, this is the interval at which full snapshots are taken and continuous incremental backup stream is maintained in addition to that.
+	MaxCount                   int              `json:"max_count"`                               // Maximum number of backups to keep. Zero when no backups are created.
+	RecoveryMode               RecoveryModeType `json:"recovery_mode"`                           // Mechanism how backups can be restored. 'basic' means a backup is restored as is so that the system is restored to the state it was when the backup was generated. 'pitr' means point-in-time-recovery, which allows restoring the system to any state since the first available full snapshot.
+}
 type BillingCurrencyType string
 
 const (
@@ -393,10 +500,50 @@ type CardInfoOut struct {
 	UserEmail   string `json:"user_email"`   // User email address
 }
 
+// CassandraOut Service type information
+type CassandraOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
+// ClickhouseOut Service type information
+type ClickhouseOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
+// DbOut Service type information
+type DbOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
+// DragonflyOut Service type information
+type DragonflyOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
 // ElasticsearchOut Service EOL extension
 type ElasticsearchOut struct {
 	EolDate string `json:"eol_date"` // Extended EOL date
 	Version string `json:"version"`  // Service version
+}
+
+// ElasticsearchOutAlt Service type information
+type ElasticsearchOutAlt struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
 
 // EndOfLifeExtensionOut End of life extension information
@@ -411,17 +558,65 @@ type EventOut struct {
 	ServiceName string `json:"service_name"` // Service name
 	Time        string `json:"time"`         // Timestamp in ISO 8601 format, always in UTC
 }
+
+// FlinkOut Service type information
+type FlinkOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
+// GrafanaOut Service type information
+type GrafanaOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
 type GroupUserOut struct {
 	MemberType  MemberType `json:"member_type"`   // Project member type
 	RealName    string     `json:"real_name"`     // User real name
 	UserEmail   string     `json:"user_email"`    // User email address
 	UserGroupId string     `json:"user_group_id"` // User group ID
 }
+
+// InfluxdbOut Service type information
+type InfluxdbOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
 type InvitationOut struct {
 	InviteTime        time.Time  `json:"invite_time"`         // Timestamp in ISO 8601 format, always in UTC
 	InvitedUserEmail  string     `json:"invited_user_email"`  // User email address
 	InvitingUserEmail string     `json:"inviting_user_email"` // User email address
 	MemberType        MemberType `json:"member_type"`         // Project member type
+}
+
+// KafkaConnectOut Service type information
+type KafkaConnectOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
+// KafkaMirrormakerOut Service type information
+type KafkaMirrormakerOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
+// KafkaOut Service type information
+type KafkaOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
 type MemberType string
 
@@ -436,6 +631,29 @@ func MemberTypeChoices() []string {
 	return []string{"admin", "developer", "operator", "read_only"}
 }
 
+// MysqlOut Service type information
+type MysqlOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
+// OpensearchOut Service type information
+type OpensearchOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
+// PgOut Service type information
+type PgOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
 type PrivatelinkAvailabilityOut struct {
 	CloudName string `json:"cloud_name"` // Target cloud
 	PriceUsd  string `json:"price_usd"`  // Hourly privatelink price in this cloud region
@@ -596,6 +814,58 @@ type ProjectOut struct {
 	ZipCode               *string                `json:"zip_code,omitempty"`                // Address zip code
 }
 
+// ProjectServicePlanPriceGetOut ProjectServicePlanPriceGetResponse
+type ProjectServicePlanPriceGetOut struct {
+	BasePriceUsd            string  `json:"base_price_usd"`                        // Hourly service price in this region
+	CloudName               string  `json:"cloud_name"`                            // Target cloud
+	ExtraDiskPricePerGbUsd  *string `json:"extra_disk_price_per_gb_usd,omitempty"` // Hourly additional disk space price per GiB in this region
+	ObjectStorageGbPriceUsd *string `json:"object_storage_gb_price_usd,omitempty"` // Hourly additional disk space price per GiB in this region
+	ServicePlan             string  `json:"service_plan"`                          // Subscription plan
+	ServiceType             string  `json:"service_type"`                          // Service type code
+}
+
+// ProjectServicePlanSpecsGetOut ProjectServicePlanSpecsGetResponse
+type ProjectServicePlanSpecsGetOut struct {
+	BackupConfig     BackupConfigOut `json:"backup_config"`                // Backup configuration for this service plan
+	DiskSpaceCapMb   *int            `json:"disk_space_cap_mb,omitempty"`  // Maximum amount of disk space possible for the plan in the given region
+	DiskSpaceMb      int             `json:"disk_space_mb"`                // Combined amount of service disk space of all service nodes in megabytes
+	DiskSpaceStepMb  *int            `json:"disk_space_step_mb,omitempty"` // Disk space change step size
+	MaxMemoryPercent *int            `json:"max_memory_percent,omitempty"` // Maximum amount of system memory as a percentage (0-100) the service can actually use after taking into account management overhead. This is relevant for memory bound services for which some service management operations require allocating proportional amount of memory on top the basic load.
+	NodeCount        int             `json:"node_count"`                   // Number of nodes in this service plan
+	ServicePlan      string          `json:"service_plan"`                 // Subscription plan
+	ServiceType      string          `json:"service_type"`                 // Service type code
+	ShardCount       *int            `json:"shard_count,omitempty"`        // Number of shards in this service plan
+}
+
+// ProjectServiceTypesGetOut ProjectServiceTypesGetResponse
+type ProjectServiceTypesGetOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
+// ProjectServiceTypesListOut ProjectServiceTypesListResponse
+type ProjectServiceTypesListOut struct {
+	Cassandra        *CassandraOut        `json:"cassandra,omitempty"`         // Service type information
+	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`        // Service type information
+	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`         // Service type information
+	Elasticsearch    *ElasticsearchOutAlt `json:"elasticsearch,omitempty"`     // Service type information
+	Flink            *FlinkOut            `json:"flink,omitempty"`             // Service type information
+	Grafana          *GrafanaOut          `json:"grafana,omitempty"`           // Service type information
+	Influxdb         *InfluxdbOut         `json:"influxdb,omitempty"`          // Service type information
+	Kafka            *KafkaOut            `json:"kafka,omitempty"`             // Service type information
+	KafkaConnect     *KafkaConnectOut     `json:"kafka_connect,omitempty"`     // Service type information
+	KafkaMirrormaker *KafkaMirrormakerOut `json:"kafka_mirrormaker,omitempty"` // Service type information
+	M3Aggregator     *AggregatorOut       `json:"m3aggregator,omitempty"`      // Service type information
+	M3Db             *DbOut               `json:"m3db,omitempty"`              // Service type information
+	Mysql            *MysqlOut            `json:"mysql,omitempty"`             // Service type information
+	Opensearch       *OpensearchOut       `json:"opensearch,omitempty"`        // Service type information
+	Pg               *PgOut               `json:"pg,omitempty"`                // Service type information
+	Redis            *RedisOut            `json:"redis,omitempty"`             // Service type information
+	Valkey           *ValkeyOut           `json:"valkey,omitempty"`            // Service type information
+}
+
 // ProjectTagsReplaceIn ProjectTagsReplaceRequestBody
 type ProjectTagsReplaceIn struct {
 	Tags map[string]string `json:"tags"` // Set of resource tags
@@ -674,6 +944,33 @@ type ProjectUserListOut struct {
 type ProjectUserUpdateIn struct {
 	MemberType MemberType `json:"member_type"` // Project member type
 }
+type RecoveryModeType string
+
+const (
+	RecoveryModeTypeBasic RecoveryModeType = "basic"
+	RecoveryModeTypePitr  RecoveryModeType = "pitr"
+)
+
+func RecoveryModeTypeChoices() []string {
+	return []string{"basic", "pitr"}
+}
+
+// RedisOut Service type information
+type RedisOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+type ServicePlanOut struct {
+	BackupConfig     BackupConfigOut `json:"backup_config"`                // Backup configuration for this service plan
+	MaxMemoryPercent *int            `json:"max_memory_percent,omitempty"` // Maximum amount of system memory as a percentage (0-100) the service can actually use after taking into account management overhead. This is relevant for memory bound services for which some service management operations require allocating proportional amount of memory on top the basic load.
+	NodeCount        *int            `json:"node_count,omitempty"`         // Number of nodes in this service plan
+	Regions          map[string]any  `json:"regions,omitempty"`            // Service plan hourly price per cloud region
+	ServicePlan      string          `json:"service_plan"`                 // Subscription plan
+	ServiceType      string          `json:"service_type"`                 // Service type code
+	ShardCount       *int            `json:"shard_count,omitempty"`        // Number of shards in this service plan
+}
 type TechEmailIn struct {
 	Email string `json:"email"` // User email address
 }
@@ -689,6 +986,15 @@ type UserOut struct {
 	TeamId         string     `json:"team_id"`             // Team ID
 	TeamName       string     `json:"team_name"`           // Team name
 	UserEmail      string     `json:"user_email"`          // User email address
+	UserId         string     `json:"user_id"`             // User ID
+}
+
+// ValkeyOut Service type information
+type ValkeyOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
 type VpcPeeringConnectionType string
 
@@ -753,6 +1059,11 @@ type projectKmsGetCaOut struct {
 // projectPrivatelinkAvailabilityListOut ProjectPrivatelinkAvailabilityListResponse
 type projectPrivatelinkAvailabilityListOut struct {
 	PrivatelinkAvailability []PrivatelinkAvailabilityOut `json:"privatelink_availability"` // Privatelink pricing information for supported clouds
+}
+
+// projectServicePlanListOut ProjectServicePlanListResponse
+type projectServicePlanListOut struct {
+	ServicePlans []ServicePlanOut `json:"service_plans"` // List of plans available for this type of service
 }
 
 // projectTagsListOut ProjectTagsListResponse

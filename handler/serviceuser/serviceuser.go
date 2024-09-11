@@ -634,10 +634,13 @@ func UnitTypeChoices() []string {
 }
 
 type UpdateOut struct {
-	Deadline    *string    `json:"deadline,omitempty"`    // Deadline for installing the update
-	Description *string    `json:"description,omitempty"` // Description of the update
-	StartAfter  *string    `json:"start_after,omitempty"` // The earliest time the update will be automatically applied
-	StartAt     *time.Time `json:"start_at,omitempty"`    // The time when the update will be automatically applied
+	Deadline           *string    `json:"deadline,omitempty"`             // Deadline for installing the update
+	Description        *string    `json:"description,omitempty"`          // Description of the update
+	DocumentationLink  *string    `json:"documentation_link,omitempty"`   // Optional link
+	Impact             *string    `json:"impact,omitempty"`               // Impact statement of the update
+	ImpactPortableText *string    `json:"impact_portable_text,omitempty"` // Impact statement in portable text format
+	StartAfter         *string    `json:"start_after,omitempty"`          // The earliest time the update will be automatically applied
+	StartAt            *time.Time `json:"start_at,omitempty"`             // The time when the update will be automatically applied
 }
 type UsageType string
 

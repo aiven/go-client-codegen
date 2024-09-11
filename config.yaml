@@ -231,6 +231,11 @@ Project:
   - ProjectKmsGetCA
   - ProjectList
   - ProjectPrivatelinkAvailabilityList
+  - ProjectServicePlanList
+  - ProjectServicePlanPriceGet
+  - ProjectServicePlanSpecsGet
+  - ProjectServiceTypesGet
+  - ProjectServiceTypesList
   - ProjectTagsList
   - ProjectTagsReplace
   - ProjectTagsUpdate

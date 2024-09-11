@@ -570,11 +570,13 @@ type ServiceKafkaTopicCreateIn struct {
 	CleanupPolicy     CleanupPolicyType `json:"cleanup_policy,omitempty"`      // DEPRECATED: use config.cleanup_policy
 	Config            *ConfigIn         `json:"config,omitempty"`              // Kafka topic configuration
 	MinInsyncReplicas *int              `json:"min_insync_replicas,omitempty"` // DEPRECATED: use config.min_insync_replicas
+	OwnerUserGroupId  *string           `json:"owner_user_group_id,omitempty"` // The user group that owns this topic
 	Partitions        *int              `json:"partitions,omitempty"`          // Number of partitions
 	Replication       *int              `json:"replication,omitempty"`         // Number of replicas
 	RetentionBytes    *int              `json:"retention_bytes,omitempty"`     // DEPRECATED: use config.retention_bytes
 	RetentionHours    *int              `json:"retention_hours,omitempty"`     // DEPRECATED: use config.retention_ms
 	Tags              *[]TagIn          `json:"tags,omitempty"`                // Topic tags
+	TopicDescription  *string           `json:"topic_description,omitempty"`   // Topic description
 	TopicName         string            `json:"topic_name"`                    // Topic name
 }
 
@@ -583,12 +585,14 @@ type ServiceKafkaTopicGetOut struct {
 	CleanupPolicy     string         `json:"cleanup_policy"`      // DEPRECATED: use config.cleanup_policy
 	Config            ConfigOut      `json:"config"`              // Kafka topic configuration
 	MinInsyncReplicas int            `json:"min_insync_replicas"` // DEPRECATED: use config.min_insync_replicas
+	OwnerUserGroupId  string         `json:"owner_user_group_id"` // The user group that owns this topic
 	Partitions        []PartitionOut `json:"partitions"`          // Topic partitions
 	Replication       int            `json:"replication"`         // Number of replicas
 	RetentionBytes    int            `json:"retention_bytes"`     // DEPRECATED: use config.retention_bytes
 	RetentionHours    int            `json:"retention_hours"`     // DEPRECATED: use config.retention_ms
 	State             TopicStateType `json:"state"`               // Topic state
 	Tags              []TagOut       `json:"tags"`                // Topic tags
+	TopicDescription  string         `json:"topic_description"`   // Topic description
 	TopicName         string         `json:"topic_name"`          // Topic name
 }
 
@@ -621,11 +625,13 @@ type ServiceKafkaTopicMessageProduceOut struct {
 type ServiceKafkaTopicUpdateIn struct {
 	Config            *ConfigIn `json:"config,omitempty"`              // Kafka topic configuration
 	MinInsyncReplicas *int      `json:"min_insync_replicas,omitempty"` // DEPRECATED: use config.min_insync_replicas
+	OwnerUserGroupId  *string   `json:"owner_user_group_id,omitempty"` // The user group that owns this topic
 	Partitions        *int      `json:"partitions,omitempty"`          // Number of partitions
 	Replication       *int      `json:"replication,omitempty"`         // Number of replicas
 	RetentionBytes    *int      `json:"retention_bytes,omitempty"`     // DEPRECATED: use config.retention_bytes
 	RetentionHours    *int      `json:"retention_hours,omitempty"`     // DEPRECATED: use config.retention_ms
 	Tags              *[]TagIn  `json:"tags,omitempty"`                // Topic tags
+	TopicDescription  *string   `json:"topic_description,omitempty"`   // Topic description
 }
 type SourceType string
 
@@ -659,6 +665,7 @@ type TagOut struct {
 type TopicOut struct {
 	CleanupPolicy       string         `json:"cleanup_policy"`                  // cleanup.policy
 	MinInsyncReplicas   int            `json:"min_insync_replicas"`             // min.insync.replicas
+	OwnerUserGroupId    string         `json:"owner_user_group_id"`             // The user group that owns this topic
 	Partitions          int            `json:"partitions"`                      // Number of partitions
 	RemoteStorageEnable *bool          `json:"remote_storage_enable,omitempty"` // remote.storage.enable
 	Replication         int            `json:"replication"`                     // Number of replicas
@@ -666,6 +673,7 @@ type TopicOut struct {
 	RetentionHours      int            `json:"retention_hours"`                 // Retention period (hours)
 	State               TopicStateType `json:"state"`                           // Topic state
 	Tags                []TagOut       `json:"tags"`                            // Topic tags
+	TopicDescription    string         `json:"topic_description"`               // Topic description
 	TopicName           string         `json:"topic_name"`                      // Topic name
 }
 type TopicStateType string
