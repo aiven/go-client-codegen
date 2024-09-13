@@ -270,18 +270,6 @@ Service:
   - ServiceGet
   - ServiceGetMigrationStatus
   - ServiceInfluxDBStats
-  - ServiceKmsGetCA
-  - ServiceKmsGetKeypair
-  - ServiceList
-  - ServiceMaintenanceStart
-  - ServiceMetricsFetch
-  - ServiceQueryActivity
-  - ServiceQueryStatisticsReset
-  - ServiceTaskCreate
-  - ServiceTaskGet
-  - ServiceUpdate
-  - ServiceUpdate
-ServiceIntegration:
   - ServiceIntegrationCreate
   - ServiceIntegrationDelete
   - ServiceIntegrationEndpointCreate
@@ -294,6 +282,17 @@ ServiceIntegration:
   - ServiceIntegrationList
   - ServiceIntegrationTypes
   - ServiceIntegrationUpdate
+  - ServiceKmsGetCA
+  - ServiceKmsGetKeypair
+  - ServiceList
+  - ServiceMaintenanceStart
+  - ServiceMetricsFetch
+  - ServiceQueryActivity
+  - ServiceQueryStatisticsReset
+  - ServiceTaskCreate
+  - ServiceTaskGet
+  - ServiceUpdate
+  - ServiceUpdate
 ServiceUser:
   - ServiceUserCreate
   - ServiceUserCredentialsModify

@@ -33,7 +33,6 @@ import (
 	project "github.com/aiven/go-client-codegen/handler/project"
 	projectbilling "github.com/aiven/go-client-codegen/handler/projectbilling"
 	service "github.com/aiven/go-client-codegen/handler/service"
-	serviceintegration "github.com/aiven/go-client-codegen/handler/serviceintegration"
 	serviceuser "github.com/aiven/go-client-codegen/handler/serviceuser"
 	staticip "github.com/aiven/go-client-codegen/handler/staticip"
 	thanos "github.com/aiven/go-client-codegen/handler/thanos"
@@ -77,7 +76,6 @@ func newClient(doer doer) Client {
 		ProjectBillingHandler:             projectbilling.NewHandler(doer),
 		ProjectHandler:                    project.NewHandler(doer),
 		ServiceHandler:                    service.NewHandler(doer),
-		ServiceIntegrationHandler:         serviceintegration.NewHandler(doer),
 		ServiceUserHandler:                serviceuser.NewHandler(doer),
 		StaticIPHandler:                   staticip.NewHandler(doer),
 		ThanosHandler:                     thanos.NewHandler(doer),
@@ -116,7 +114,6 @@ type client struct {
 	project.ProjectHandler
 	projectbilling.ProjectBillingHandler
 	service.ServiceHandler
-	serviceintegration.ServiceIntegrationHandler
 	serviceuser.ServiceUserHandler
 	staticip.StaticIPHandler
 	thanos.ThanosHandler
@@ -153,7 +150,6 @@ type Client interface {
 	project.Handler
 	projectbilling.Handler
 	service.Handler
-	serviceintegration.Handler
 	serviceuser.Handler
 	staticip.Handler
 	thanos.Handler
