@@ -43,25 +43,25 @@ func NewClient(opts ...Option) (Client, error) {
 
 	// Retry settings explanation:
 	// Default values (retryWaitMin = 1s, retryWaitMax = 30s, retryMax = 4)
-	// Changed values (retryWaitMin = 2s, retryWaitMax = 10s, retryMax = 6)
+	// Changed values (retryWaitMin = 2s, retryWaitMax = 15s, retryMax = 6)
 	//
 	// Default values       | Changed values
 	// Run  Seconds         | Run  Seconds
 	// 0    0.000           | 0    0.000
 	// 1    1.000           | 1    2.000
 	// 2    3.000           | 2    6.000
-	// 3    7.000           | 3    10.000
-	// 4    15.000          | 4    10.000 (capped at retryWaitMax)
-	//                      | 5    10.000 (capped at retryWaitMax)
-	//                      | 6    10.000 (capped at retryWaitMax)
+	// 3    7.000           | 3    14.000
+	// 4    15.000          | 4    15.000 (capped at retryWaitMax)
+	//                      | 5    15.000 (capped at retryWaitMax)
+	//                      | 6    15.000 (capped at retryWaitMax)
 	//
 	// Maximum wait time if all attempts fail:
-	// Default values: 2 seconds
-	// Changed values: 48 seconds
+	// Default values: 26 seconds
+	// Changed values: 67 seconds
 	const (
 		//nolint:revive
 		retryWaitMin = 2 * time.Second
-		retryWaitMax = 10 * time.Second
+		retryWaitMax = 15 * time.Second
 		retryMax     = 6
 	)
 	c.RetryWaitMin = retryWaitMin // Default is 1 second
