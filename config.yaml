@@ -292,7 +292,6 @@ Service:
   - ServiceTaskCreate
   - ServiceTaskGet
   - ServiceUpdate
-  - ServiceUpdate
 ServiceUser:
   - ServiceUserCreate
   - ServiceUserCredentialsModify
