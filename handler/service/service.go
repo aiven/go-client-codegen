@@ -1079,6 +1079,7 @@ const (
 	IntegrationTypeDashboard                         IntegrationType = "dashboard"
 	IntegrationTypeDatadog                           IntegrationType = "datadog"
 	IntegrationTypeDatasource                        IntegrationType = "datasource"
+	IntegrationTypeDisasterRecovery                  IntegrationType = "disaster_recovery"
 	IntegrationTypeExternalAwsCloudwatchLogs         IntegrationType = "external_aws_cloudwatch_logs"
 	IntegrationTypeExternalAwsCloudwatchMetrics      IntegrationType = "external_aws_cloudwatch_metrics"
 	IntegrationTypeExternalElasticsearchLogs         IntegrationType = "external_elasticsearch_logs"
@@ -1109,13 +1110,14 @@ const (
 	IntegrationTypeThanosMigrate                     IntegrationType = "thanos_migrate"
 	IntegrationTypeThanoscompactor                   IntegrationType = "thanoscompactor"
 	IntegrationTypeThanosquery                       IntegrationType = "thanosquery"
+	IntegrationTypeThanosruler                       IntegrationType = "thanosruler"
 	IntegrationTypeThanosstore                       IntegrationType = "thanosstore"
 	IntegrationTypeVector                            IntegrationType = "vector"
 	IntegrationTypeVmalert                           IntegrationType = "vmalert"
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanoscompactor", "thanosquery", "thanosstore", "vector", "vmalert"}
+	return []string{"alertmanager", "autoscaler", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
 }
 
 type IntegrationTypeOut struct {
