@@ -244,14 +244,15 @@ type TeamOut struct {
 type TeamType string
 
 const (
-	TeamTypeAdmin     TeamType = "admin"
-	TeamTypeOperator  TeamType = "operator"
-	TeamTypeDeveloper TeamType = "developer"
-	TeamTypeReadOnly  TeamType = "read_only"
+	TeamTypeAdmin                  TeamType = "admin"
+	TeamTypeOperator               TeamType = "operator"
+	TeamTypeDeveloper              TeamType = "developer"
+	TeamTypeReadOnly               TeamType = "read_only"
+	TeamTypeProjectreadPermissions TeamType = "project:read_permissions"
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only"}
+	return []string{"admin", "operator", "developer", "read_only", "project:read_permissions"}
 }
 
 // accountTeamCreateOut AccountTeamCreateResponse

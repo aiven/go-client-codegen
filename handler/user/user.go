@@ -515,14 +515,15 @@ func ActionTypeChoices() []string {
 type AnyType string
 
 const (
-	AnyTypeAdmin     AnyType = "admin"
-	AnyTypeDeveloper AnyType = "developer"
-	AnyTypeOperator  AnyType = "operator"
-	AnyTypeReadOnly  AnyType = "read_only"
+	AnyTypeAdmin                  AnyType = "admin"
+	AnyTypeDeveloper              AnyType = "developer"
+	AnyTypeOperator               AnyType = "operator"
+	AnyTypeProjectreadPermissions AnyType = "project:read_permissions"
+	AnyTypeReadOnly               AnyType = "read_only"
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "read_only"}
+	return []string{"admin", "developer", "operator", "project:read_permissions", "read_only"}
 }
 
 type AuthenticationMethodOut struct {
