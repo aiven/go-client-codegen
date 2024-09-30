@@ -439,14 +439,15 @@ type AlertOut struct {
 type AnyType string
 
 const (
-	AnyTypeAdmin     AnyType = "admin"
-	AnyTypeDeveloper AnyType = "developer"
-	AnyTypeOperator  AnyType = "operator"
-	AnyTypeReadOnly  AnyType = "read_only"
+	AnyTypeAdmin                  AnyType = "admin"
+	AnyTypeDeveloper              AnyType = "developer"
+	AnyTypeOperator               AnyType = "operator"
+	AnyTypeProjectreadPermissions AnyType = "project:read_permissions"
+	AnyTypeReadOnly               AnyType = "read_only"
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "read_only"}
+	return []string{"admin", "developer", "operator", "project:read_permissions", "read_only"}
 }
 
 // BackupConfigOut Backup configuration for this service plan
@@ -621,14 +622,15 @@ type KafkaOut struct {
 type MemberType string
 
 const (
-	MemberTypeAdmin     MemberType = "admin"
-	MemberTypeDeveloper MemberType = "developer"
-	MemberTypeOperator  MemberType = "operator"
-	MemberTypeReadOnly  MemberType = "read_only"
+	MemberTypeAdmin                  MemberType = "admin"
+	MemberTypeDeveloper              MemberType = "developer"
+	MemberTypeOperator               MemberType = "operator"
+	MemberTypeProjectreadPermissions MemberType = "project:read_permissions"
+	MemberTypeReadOnly               MemberType = "read_only"
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "read_only"}
+	return []string{"admin", "developer", "operator", "project:read_permissions", "read_only"}
 }
 
 // MysqlOut Service type information
