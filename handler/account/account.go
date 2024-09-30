@@ -543,14 +543,15 @@ type EventOut struct {
 type MemberType string
 
 const (
-	MemberTypeAdmin     MemberType = "admin"
-	MemberTypeDeveloper MemberType = "developer"
-	MemberTypeOperator  MemberType = "operator"
-	MemberTypeReadOnly  MemberType = "read_only"
+	MemberTypeAdmin                  MemberType = "admin"
+	MemberTypeDeveloper              MemberType = "developer"
+	MemberTypeOperator               MemberType = "operator"
+	MemberTypeProjectreadPermissions MemberType = "project:read_permissions"
+	MemberTypeReadOnly               MemberType = "read_only"
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "read_only"}
+	return []string{"admin", "developer", "operator", "project:read_permissions", "read_only"}
 }
 
 type OrderByType string
@@ -632,14 +633,15 @@ type TeamOutAlt struct {
 type TeamType string
 
 const (
-	TeamTypeAdmin     TeamType = "admin"
-	TeamTypeOperator  TeamType = "operator"
-	TeamTypeDeveloper TeamType = "developer"
-	TeamTypeReadOnly  TeamType = "read_only"
+	TeamTypeAdmin                  TeamType = "admin"
+	TeamTypeOperator               TeamType = "operator"
+	TeamTypeDeveloper              TeamType = "developer"
+	TeamTypeReadOnly               TeamType = "read_only"
+	TeamTypeProjectreadPermissions TeamType = "project:read_permissions"
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only"}
+	return []string{"admin", "operator", "developer", "read_only", "project:read_permissions"}
 }
 
 type TechEmailOut struct {
