@@ -546,12 +546,12 @@ const (
 	MemberTypeAdmin                  MemberType = "admin"
 	MemberTypeDeveloper              MemberType = "developer"
 	MemberTypeOperator               MemberType = "operator"
-	MemberTypeProjectreadPermissions MemberType = "project:read_permissions"
+	MemberTypeProjectpermissionsread MemberType = "project:permissions:read"
 	MemberTypeReadOnly               MemberType = "read_only"
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:read_permissions", "read_only"}
+	return []string{"admin", "developer", "operator", "project:permissions:read", "read_only"}
 }
 
 type OrderByType string
@@ -637,11 +637,11 @@ const (
 	TeamTypeOperator               TeamType = "operator"
 	TeamTypeDeveloper              TeamType = "developer"
 	TeamTypeReadOnly               TeamType = "read_only"
-	TeamTypeProjectreadPermissions TeamType = "project:read_permissions"
+	TeamTypeProjectpermissionsread TeamType = "project:permissions:read"
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only", "project:read_permissions"}
+	return []string{"admin", "operator", "developer", "read_only", "project:permissions:read"}
 }
 
 type TechEmailOut struct {
