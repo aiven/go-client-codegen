@@ -442,12 +442,12 @@ const (
 	AnyTypeAdmin                  AnyType = "admin"
 	AnyTypeDeveloper              AnyType = "developer"
 	AnyTypeOperator               AnyType = "operator"
-	AnyTypeProjectreadPermissions AnyType = "project:read_permissions"
+	AnyTypeProjectpermissionsread AnyType = "project:permissions:read"
 	AnyTypeReadOnly               AnyType = "read_only"
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:read_permissions", "read_only"}
+	return []string{"admin", "developer", "operator", "project:permissions:read", "read_only"}
 }
 
 // BackupConfigOut Backup configuration for this service plan
@@ -625,12 +625,12 @@ const (
 	MemberTypeAdmin                  MemberType = "admin"
 	MemberTypeDeveloper              MemberType = "developer"
 	MemberTypeOperator               MemberType = "operator"
-	MemberTypeProjectreadPermissions MemberType = "project:read_permissions"
+	MemberTypeProjectpermissionsread MemberType = "project:permissions:read"
 	MemberTypeReadOnly               MemberType = "read_only"
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:read_permissions", "read_only"}
+	return []string{"admin", "developer", "operator", "project:permissions:read", "read_only"}
 }
 
 // MysqlOut Service type information

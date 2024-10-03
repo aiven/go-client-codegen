@@ -518,12 +518,12 @@ const (
 	AnyTypeAdmin                  AnyType = "admin"
 	AnyTypeDeveloper              AnyType = "developer"
 	AnyTypeOperator               AnyType = "operator"
-	AnyTypeProjectreadPermissions AnyType = "project:read_permissions"
+	AnyTypeProjectpermissionsread AnyType = "project:permissions:read"
 	AnyTypeReadOnly               AnyType = "read_only"
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:read_permissions", "read_only"}
+	return []string{"admin", "developer", "operator", "project:permissions:read", "read_only"}
 }
 
 type AuthenticationMethodOut struct {
