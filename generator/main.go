@@ -82,6 +82,12 @@ func exec() error {
 		return err
 	}
 
+	// Check for duplicate endpoints
+	err = checkDuplicateEndpoints(config)
+	if err != nil {
+		return err
+	}
+
 	// Reads OpenAPI file and applies a patch
 	docBytes, err := readOpenAPIPatched(cfg.OpenAPIFile, cfg.OpenAPIPatchFile)
 	if err != nil {
