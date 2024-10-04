@@ -48,7 +48,7 @@ type Handler interface {
 	// ServicePrivatelinkAzureConnectionList list private endpoint connections for an Azure Privatelink Service
 	// GET /v1/project/{project}/service/{service_name}/privatelink/azure/connections
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureConnectionList
-	ServicePrivatelinkAzureConnectionList(ctx context.Context, project string, serviceName string) ([]ConnectionOutAlt, error)
+	ServicePrivatelinkAzureConnectionList(ctx context.Context, project string, serviceName string) ([]ServicePrivatelinkAzureConnectionListOut, error)
 
 	// ServicePrivatelinkAzureConnectionUpdate update a private endpoint connection for an Azure Privatelink Service
 	// PUT /v1/project/{project}/service/{service_name}/privatelink/azure/connections/{privatelink_connection_id}
@@ -180,7 +180,7 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionApproval(ctx conte
 	}
 	return out, nil
 }
-func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionList(ctx context.Context, project string, serviceName string) ([]ConnectionOutAlt, error) {
+func (h *PrivatelinkHandler) ServicePrivatelinkAzureConnectionList(ctx context.Context, project string, serviceName string) ([]ServicePrivatelinkAzureConnectionListOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure/connections", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAzureConnectionList", "GET", path, nil)
 	if err != nil {
@@ -264,12 +264,6 @@ type ConnectionOut struct {
 	PrivatelinkConnectionId *string             `json:"privatelink_connection_id,omitempty"` // Privatelink connection ID
 	State                   ConnectionStateType `json:"state"`                               // Privatelink connection state
 	VpcEndpointId           string              `json:"vpc_endpoint_id"`                     // AWS VPC Endpoint ID
-}
-type ConnectionOutAlt struct {
-	PrivateEndpointId       string              `json:"private_endpoint_id"`                 // Azure private endpoint ID
-	PrivatelinkConnectionId *string             `json:"privatelink_connection_id,omitempty"` // Privatelink connection ID
-	State                   ConnectionStateType `json:"state"`                               // Privatelink connection state
-	UserIpAddress           string              `json:"user_ip_address"`                     // (Private) IP address of Privatelink endpoint
 }
 type ConnectionStateType string
 
@@ -395,6 +389,12 @@ func ServicePrivatelinkAzureConnectionApprovalStateTypeChoices() []string {
 	return []string{"pending-user-approval", "user-approved", "connected", "active"}
 }
 
+type ServicePrivatelinkAzureConnectionListOut struct {
+	PrivateEndpointId       string              `json:"private_endpoint_id"`                 // Azure private endpoint ID
+	PrivatelinkConnectionId *string             `json:"privatelink_connection_id,omitempty"` // Privatelink connection ID
+	State                   ConnectionStateType `json:"state"`                               // Privatelink connection state
+	UserIpAddress           string              `json:"user_ip_address"`                     // (Private) IP address of Privatelink endpoint
+}
 type ServicePrivatelinkAzureConnectionStateType string
 
 const (
@@ -486,5 +486,5 @@ type servicePrivatelinkAwsconnectionListOut struct {
 
 // servicePrivatelinkAzureConnectionListOut ServicePrivatelinkAzureConnectionListResponse
 type servicePrivatelinkAzureConnectionListOut struct {
-	Connections []ConnectionOutAlt `json:"connections"` // Private endpoint connection list
+	Connections []ServicePrivatelinkAzureConnectionListOut `json:"connections"` // Private endpoint connection list
 }

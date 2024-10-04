@@ -129,9 +129,13 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicUpdate(ctx context.Context, project
 
 // CleanupPolicyOut cleanup.policy value, source and synonyms
 type CleanupPolicyOut struct {
-	Source   SourceType   `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOut `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    string       `json:"value"`              // cleanup.policy
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  string     `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value string `json:"value"` // cleanup.policy
 }
 type CleanupPolicyType string
 
@@ -162,9 +166,13 @@ func CompressionTypeChoices() []string {
 
 // CompressionTypeOut compression.type value, source and synonyms
 type CompressionTypeOut struct {
-	Source   SourceType           `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOut         `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    CompressionTypeValue `json:"value"`              // compression.type
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  string     `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value CompressionTypeValue `json:"value"` // compression.type
 }
 type CompressionTypeValue string
 
@@ -249,30 +257,46 @@ type ConsumerGroupOut struct {
 
 // DeleteRetentionMsOut delete.retention.ms value, source and synonyms
 type DeleteRetentionMsOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // delete.retention.ms
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // delete.retention.ms
 }
 
 // FileDeleteDelayMsOut file.delete.delay.ms value, source and synonyms
 type FileDeleteDelayMsOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // file.delete.delay.ms
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // file.delete.delay.ms
 }
 
 // FlushMessagesOut flush.messages value, source and synonyms
 type FlushMessagesOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // flush.messages
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // flush.messages
 }
 
 // FlushMsOut flush.ms value, source and synonyms
 type FlushMsOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // flush.ms
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // flush.ms
 }
 type FormatType string
 
@@ -290,51 +314,79 @@ func FormatTypeChoices() []string {
 
 // IndexIntervalBytesOut index.interval.bytes value, source and synonyms
 type IndexIntervalBytesOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // index.interval.bytes
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // index.interval.bytes
 }
 
 // LocalRetentionBytesOut local.retention.bytes value, source and synonyms
 type LocalRetentionBytesOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // local.retention.bytes
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // local.retention.bytes
 }
 
 // LocalRetentionMsOut local.retention.ms value, source and synonyms
 type LocalRetentionMsOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // local.retention.ms
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // local.retention.ms
 }
 
 // MaxCompactionLagMsOut max.compaction.lag.ms value, source and synonyms
 type MaxCompactionLagMsOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // max.compaction.lag.ms
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // max.compaction.lag.ms
 }
 
 // MaxMessageBytesOut max.message.bytes value, source and synonyms
 type MaxMessageBytesOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // max.message.bytes
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // max.message.bytes
 }
 
 // MessageDownconversionEnableOut message.downconversion.enable value, source and synonyms
 type MessageDownconversionEnableOut struct {
-	Source   SourceType         `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAltAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    bool               `json:"value"`              // message.downconversion.enable
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  bool       `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value bool `json:"value"` // message.downconversion.enable
 }
 
 // MessageFormatVersionOut message.format.version value, source and synonyms
 type MessageFormatVersionOut struct {
-	Source   SourceType               `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOut             `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    MessageFormatVersionType `json:"value"`              // message.format.version
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  string     `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value MessageFormatVersionType `json:"value"` // message.format.version
 }
 type MessageFormatVersionType string
 
@@ -436,9 +488,13 @@ type MessageOut struct {
 
 // MessageTimestampDifferenceMaxMsOut message.timestamp.difference.max.ms value, source and synonyms
 type MessageTimestampDifferenceMaxMsOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // message.timestamp.difference.max.ms
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // message.timestamp.difference.max.ms
 }
 type MessageTimestampType string
 
@@ -453,9 +509,13 @@ func MessageTimestampTypeChoices() []string {
 
 // MessageTimestampTypeOut message.timestamp.type value, source and synonyms
 type MessageTimestampTypeOut struct {
-	Source   SourceType                `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOut              `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    MessageTimestampTypeValue `json:"value"`              // message.timestamp.type
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  string     `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value MessageTimestampTypeValue `json:"value"` // message.timestamp.type
 }
 type MessageTimestampTypeValue string
 
@@ -470,23 +530,35 @@ func MessageTimestampTypeValueChoices() []string {
 
 // MinCleanableDirtyRatioOut min.cleanable.dirty.ratio value, source and synonyms
 type MinCleanableDirtyRatioOut struct {
-	Source   SourceType            `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAltAltAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    float64               `json:"value"`              // min.cleanable.dirty.ratio
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  float64    `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value float64 `json:"value"` // min.cleanable.dirty.ratio
 }
 
 // MinCompactionLagMsOut min.compaction.lag.ms value, source and synonyms
 type MinCompactionLagMsOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // min.compaction.lag.ms
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // min.compaction.lag.ms
 }
 
 // MinInsyncReplicasOut min.insync.replicas value, source and synonyms
 type MinInsyncReplicasOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // min.insync.replicas
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // min.insync.replicas
 }
 type OffsetOut struct {
 	Error     *string `json:"error,omitempty"`      // An error message describing why the operation failed, or null if it succeeded
@@ -506,9 +578,13 @@ type PartitionOut struct {
 
 // PreallocateOut preallocate value, source and synonyms
 type PreallocateOut struct {
-	Source   SourceType         `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAltAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    bool               `json:"value"`              // preallocate
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  bool       `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value bool `json:"value"` // preallocate
 }
 type RecordIn struct {
 	Key       *map[string]any `json:"key,omitempty"`       // Key for the produced record
@@ -518,51 +594,79 @@ type RecordIn struct {
 
 // RemoteStorageEnableOut remote.storage.enable value, source and synonyms
 type RemoteStorageEnableOut struct {
-	Source   SourceType         `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAltAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    bool               `json:"value"`              // remote.storage.enable
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  bool       `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value bool `json:"value"` // remote.storage.enable
 }
 
 // RetentionBytesOut retention.bytes value, source and synonyms
 type RetentionBytesOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // retention.bytes
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // retention.bytes
 }
 
 // RetentionMsOut retention.ms value, source and synonyms
 type RetentionMsOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // retention.ms
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // retention.ms
 }
 
 // SegmentBytesOut segment.bytes value, source and synonyms
 type SegmentBytesOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // segment.bytes
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // segment.bytes
 }
 
 // SegmentIndexBytesOut segment.index.bytes value, source and synonyms
 type SegmentIndexBytesOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // segment.index.bytes
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // segment.index.bytes
 }
 
 // SegmentJitterMsOut segment.jitter.ms value, source and synonyms
 type SegmentJitterMsOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // segment.jitter.ms
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // segment.jitter.ms
 }
 
 // SegmentMsOut segment.ms value, source and synonyms
 type SegmentMsOut struct {
-	Source   SourceType      `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    int             `json:"value"`              // segment.ms
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // segment.ms
 }
 
 // ServiceKafkaTopicCreateIn ServiceKafkaTopicCreateRequestBody
@@ -649,26 +753,6 @@ func SourceTypeChoices() []string {
 	return []string{"unknown_config", "topic_config", "dynamic_broker_config", "dynamic_default_broker_config", "static_broker_config", "default_config", "dynamic_broker_logger_config"}
 }
 
-type SynonymOut struct {
-	Name   string     `json:"name"`   // Synonym name
-	Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
-	Value  string     `json:"value"`  // Synonym value
-}
-type SynonymOutAlt struct {
-	Name   string     `json:"name"`   // Synonym name
-	Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
-	Value  int        `json:"value"`  // Synonym value
-}
-type SynonymOutAltAlt struct {
-	Name   string     `json:"name"`   // Synonym name
-	Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
-	Value  bool       `json:"value"`  // Synonym value
-}
-type SynonymOutAltAltAlt struct {
-	Name   string     `json:"name"`   // Synonym name
-	Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
-	Value  float64    `json:"value"`  // Synonym value
-}
 type TagIn struct {
 	Key   string `json:"key"`   // Tag key
 	Value string `json:"value"` // Tag value
@@ -705,9 +789,13 @@ func TopicStateTypeChoices() []string {
 
 // UncleanLeaderElectionEnableOut unclean.leader.election.enable value, source and synonyms
 type UncleanLeaderElectionEnableOut struct {
-	Source   SourceType         `json:"source"`             // Source of the Kafka topic configuration entry
-	Synonyms []SynonymOutAltAlt `json:"synonyms,omitempty"` // Configuration synonyms
-	Value    bool               `json:"value"`              // unclean.leader.election.enable
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  bool       `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value bool `json:"value"` // unclean.leader.election.enable
 }
 
 // serviceKafkaTopicGetOut ServiceKafkaTopicGetResponse

@@ -149,7 +149,9 @@ type Schema struct {
 	name                 string
 	propertyNames        []string
 	parent               *Schema
-	in, out              bool // Request or Response DTO
+	in, out              bool      // Request or Response DTO
+	hasCollision         bool      // Means this struct has a collision with another one with different type of fields
+	duplicates           []*Schema // Refs to structs with exactly the same fields
 }
 
 //nolint:funlen,gocognit,gocyclo // It is easy to maintain and read, we don't need to split it
@@ -194,13 +196,17 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 		}
 	}
 
+	// Adds suffix to reduce name collision
+	suffix := ""
+	switch {
+	case s.isIn():
+		suffix = "In"
+	case s.isOut():
+		suffix = "Out"
+	}
+
 	if s.isObject() {
-		switch {
-		case s.isIn():
-			s.CamelName += "In"
-		case s.isOut():
-			s.CamelName += "Out"
-		}
+		s.CamelName += suffix
 	}
 
 	// Cleans duplicates like StatusStatus
@@ -233,9 +239,9 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 
 	if s.Type == SchemaTypeString {
 		parts := strings.Split(s.name, "_")
-		suffix := parts[len(parts)-1]
+		suffx := parts[len(parts)-1]
 
-		if len(parts) > 1 && (suffix == "at" || suffix == "time") {
+		if len(parts) > 1 && (suffx == "at" || suffx == "time") {
 			s.Type = SchemaTypeTime
 		}
 	}
@@ -261,7 +267,7 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 		}
 	}
 
-	if s.isObject() || s.isEnum() {
+	if s.isObject() || s.isEnum() { //nolint:nestif
 		for s.parent != nil {
 			v, ok := scope[s.CamelName]
 			if !ok {
@@ -269,23 +275,47 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 			}
 
 			if v.hash() == s.hash() {
-				// This is a duplicate
+				v.duplicates = append(v.duplicates, s)
 				return
 			}
 
-			s.CamelName += "Alt"
+			// Resolves name collision
+			// Takes parent's name as prefix or uses parent's name
+			parent := s.parent
+			if s.parent.isArray() {
+				parent = parent.parent
+			}
+
+			if parent.isPrivate() {
+				s.CamelName = strcase.ToCamel(parent.CamelName)
+			} else {
+				s.CamelName = strings.TrimSuffix(strcase.ToCamel(parent.CamelName), suffix) + s.CamelName
+			}
+
+			// Marks all have collision
+			// We don't know in the beginning that there will be a collision
+			// That's why we need this "duplicates" field
+			v.hasCollision = true
+			for _, d := range v.duplicates {
+				d.hasCollision = true
+			}
+			s.hasCollision = true
 		}
 
 		scope[s.CamelName] = s
 	}
 }
 
+// isPrivate returns true when a struct is just a wrapper for one field,
+// so we can just return the field value making things less nested
 func (s *Schema) isPrivate() bool {
 	return s.parent == nil && s.out && len(s.Properties) == 1
 }
 
+// hash is for comparison
 func (s *Schema) hash() string {
 	if s.isEnum() {
+		// Compares enums by values
 		return mustMarshal(s.Enum)
 	}
 
@@ -298,19 +328,6 @@ func (s *Schema) isObject() bool {
 
 func (s *Schema) isArray() bool {
 	return s.Type == SchemaTypeArray
-}
-
-func (s *Schema) isNestedArray() bool {
-	return s.isArray() && s.Items.isArray()
-}
-
-func (s *Schema) isScalar() bool {
-	switch s.Type {
-	case SchemaTypeString, SchemaTypeInteger, SchemaTypeNumber, SchemaTypeBoolean, SchemaTypeTime:
-		return true
-	}
-
-	return false
 }
 
 // isMap schemaless map
@@ -344,6 +361,21 @@ func (s *Schema) lowerCamel() string {
 	return strcase.ToLowerCamel(s.CamelName)
 }
 
+func (s *Schema) level() int {
+	level := 0
+	p := s.parent
+	for p != nil {
+		level++
+		p = p.parent
+	}
+	return level
+}
+
+// isAnonymous returns true when a struct should be rendered anonymous to reduce scope noise
+func (s *Schema) isAnonymous() bool {
+	return s.hasCollision && s.isObject() && s.level() > 3
+}
+
 func getScalarType(s *Schema) *jen.Statement {
 	switch s.Type {
 	case SchemaTypeString:
@@ -363,48 +395,29 @@ func getScalarType(s *Schema) *jen.Statement {
 
 // getType returns go type with/wo a pointer
 func getType(s *Schema) *jen.Statement {
-	switch {
-	case s.Type == SchemaTypeAny:
-		return jen.Any()
-	case s.isEnum():
+	if s.isEnum() {
 		return jen.Id(s.CamelName)
-	case s.isScalar():
-		scalar := getScalarType(s)
-		if s.required {
-			return scalar
-		}
+	}
 
-		return jen.Op("*").Add(scalar)
+	switch s.Type {
+	case SchemaTypeAny:
+		return jen.Any()
+	case SchemaTypeString, SchemaTypeInteger, SchemaTypeNumber, SchemaTypeBoolean, SchemaTypeTime:
+		return withPointer(getScalarType(s), s.required)
 	}
 
 	switch {
 	case s.isArray():
-		a := jen.Index()
-		if !(s.required || s.isOut()) {
-			a = jen.Op("*").Index()
-		}
-
-		// No pointers for complex objects
-		switch {
-		case s.isNestedArray():
-			// but not nested array
-		case s.Items.isObject() || s.Items.isArray():
-			return a.Id(s.Items.CamelName)
-		}
-
-		return a.Add(getType(s.Items))
+		return withPointer(jen.Index(), s.required || s.isOut()).Add(getType(s.Items))
 	case s.isObject():
-		if !s.required {
-			return jen.Id("*" + s.CamelName)
+		o := jen.Id(s.CamelName)
+		if s.isAnonymous() {
+			o = fmtStruct(s)
 		}
 
-		return jen.Id(s.CamelName)
+		return withPointer(o, s.required)
 	case s.isMap():
-		a := jen.Map(jen.String())
-		if !(s.required || s.isOut()) {
-			a = jen.Op("*").Map(jen.String())
-		}
-
+		a := withPointer(jen.Map(jen.String()), s.required || s.isOut())
 		if s.AdditionalProperties != nil {
 			s.AdditionalProperties.required = true
 			return a.Add(getType(s.AdditionalProperties))
@@ -417,6 +430,13 @@ func getType(s *Schema) *jen.Statement {
 	default:
 		panic(fmt.Errorf("unknown type %q for %q and parent %q", s.Type, s.name, s.parent.name))
 	}
+}
+
+func withPointer(j *jen.Statement, required bool) *jen.Statement {
+	if required {
+		return j
+	}
+	return jen.Op("*").Add(j)
 }
 
 func mustMarshal(s any) string {

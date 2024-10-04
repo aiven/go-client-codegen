@@ -84,7 +84,7 @@ type Handler interface {
 	// Deprecated: AccountUserTeamsList list all teams for user
 	// GET /v1/account/{account_id}/user/{user_id}/teams
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUserTeamsList
-	AccountUserTeamsList(ctx context.Context, accountId string, userId string) ([]TeamOutAlt, error)
+	AccountUserTeamsList(ctx context.Context, accountId string, userId string) ([]AccountUserTeamsListOut, error)
 
 	// AccountUsersSearch list/search users who are members of any team on this account
 	// POST /v1/account/{account_id}/users/search
@@ -271,7 +271,7 @@ func (h *AccountHandler) AccountUserProjectsList(ctx context.Context, accountId 
 	}
 	return out.UserProjects, nil
 }
-func (h *AccountHandler) AccountUserTeamsList(ctx context.Context, accountId string, userId string) ([]TeamOutAlt, error) {
+func (h *AccountHandler) AccountUserTeamsList(ctx context.Context, accountId string, userId string) ([]AccountUserTeamsListOut, error) {
 	path := fmt.Sprintf("/v1/account/%s/user/%s/teams", url.PathEscape(accountId), url.PathEscape(userId))
 	b, err := h.doer.Do(ctx, "AccountUserTeamsList", "GET", path, nil)
 	if err != nil {
@@ -465,6 +465,12 @@ type AccountUpdateOut struct {
 	TenantId              *string          `json:"tenant_id,omitempty"`         // Tenant identifier
 	UpdateTime            time.Time        `json:"update_time"`                 // Timestamp in ISO 8601 format, always in UTC
 }
+type AccountUserTeamsListOut struct {
+	AccountId   string `json:"account_id"`   // Account ID
+	AccountName string `json:"account_name"` // Account name
+	TeamId      string `json:"team_id"`      // Team ID
+	TeamName    string `json:"team_name"`    // Team name
+}
 
 // AccountUsersSearchIn AccountUsersSearchRequestBody
 type AccountUsersSearchIn struct {
@@ -624,12 +630,6 @@ type TeamOut struct {
 	TeamType   TeamType   `json:"team_type,omitempty"`   // Team type (permission level)
 	UpdateTime *time.Time `json:"update_time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
 }
-type TeamOutAlt struct {
-	AccountId   string `json:"account_id"`   // Account ID
-	AccountName string `json:"account_name"` // Account name
-	TeamId      string `json:"team_id"`      // Team ID
-	TeamName    string `json:"team_name"`    // Team name
-}
 type TeamType string
 
 const (
@@ -721,7 +721,7 @@ type accountUserProjectsListOut struct {
 
 // accountUserTeamsListOut AccountUserTeamsListResponse
 type accountUserTeamsListOut struct {
-	Teams []TeamOutAlt `json:"teams"` // List of teams
+	Teams []AccountUserTeamsListOut `json:"teams"` // List of teams
 }
 
 // accountUsersSearchOut AccountUsersSearchResponse

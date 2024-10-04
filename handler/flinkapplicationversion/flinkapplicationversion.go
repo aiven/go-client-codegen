@@ -164,10 +164,28 @@ type ServiceFlinkValidateApplicationVersionIn struct {
 
 // ServiceFlinkValidateApplicationVersionOut ServiceFlinkValidateApplicationVersionResponse
 type ServiceFlinkValidateApplicationVersionOut struct {
-	Sinks          []SinkOutAlt       `json:"sinks"`                     // Sinks and sink validation errors
-	Sources        []SourceOutAlt     `json:"sources"`                   // Sources and source validation errors
-	Statement      *string            `json:"statement,omitempty"`       // Job SQL statement
-	StatementError *StatementErrorOut `json:"statement_error,omitempty"` // Job validation error
+	Sinks          []ServiceFlinkValidateApplicationVersionSinkOut   `json:"sinks"`                     // Sinks and sink validation errors
+	Sources        []ServiceFlinkValidateApplicationVersionSourceOut `json:"sources"`                   // Sources and source validation errors
+	Statement      *string                                           `json:"statement,omitempty"`       // Job SQL statement
+	StatementError *StatementErrorOut                                `json:"statement_error,omitempty"` // Job validation error
+}
+type ServiceFlinkValidateApplicationVersionSinkOut struct {
+	Columns       []ColumnOut    `json:"columns,omitempty"`
+	CreateTable   string         `json:"create_table"`             // The CREATE TABLE statement
+	IntegrationId *string        `json:"integration_id,omitempty"` // Integration ID
+	Message       *string        `json:"message,omitempty"`        // The error message.
+	Options       map[string]any `json:"options,omitempty"`        // Option
+	Position      *PositionOut   `json:"position,omitempty"`       // Error position in the SQL.
+	TableName     *string        `json:"table_name,omitempty"`     // Table name
+}
+type ServiceFlinkValidateApplicationVersionSourceOut struct {
+	Columns       []ColumnOut    `json:"columns,omitempty"`
+	CreateTable   string         `json:"create_table"`             // The CREATE TABLE statement
+	IntegrationId *string        `json:"integration_id,omitempty"` // Integration ID
+	Message       *string        `json:"message,omitempty"`        // The error message.
+	Options       map[string]any `json:"options,omitempty"`        // Option
+	Position      *PositionOut   `json:"position,omitempty"`       // Error position in the SQL.
+	TableName     *string        `json:"table_name,omitempty"`     // Table name
 }
 type SinkIn struct {
 	CreateTable   string  `json:"create_table"`             // The CREATE TABLE statement
@@ -181,15 +199,6 @@ type SinkOut struct {
 	TableId       string         `json:"table_id"`                 // Sink ID
 	TableName     string         `json:"table_name"`               // Table name
 }
-type SinkOutAlt struct {
-	Columns       []ColumnOut    `json:"columns,omitempty"`
-	CreateTable   string         `json:"create_table"`             // The CREATE TABLE statement
-	IntegrationId *string        `json:"integration_id,omitempty"` // Integration ID
-	Message       *string        `json:"message,omitempty"`        // The error message.
-	Options       map[string]any `json:"options,omitempty"`        // Option
-	Position      *PositionOut   `json:"position,omitempty"`       // Error position in the SQL.
-	TableName     *string        `json:"table_name,omitempty"`     // Table name
-}
 type SourceIn struct {
 	CreateTable   string  `json:"create_table"`             // The CREATE TABLE statement
 	IntegrationId *string `json:"integration_id,omitempty"` // Integration ID
@@ -201,15 +210,6 @@ type SourceOut struct {
 	Options       map[string]any `json:"options"`                  // Option
 	TableId       string         `json:"table_id"`                 // Source ID
 	TableName     string         `json:"table_name"`               // Table name
-}
-type SourceOutAlt struct {
-	Columns       []ColumnOut    `json:"columns,omitempty"`
-	CreateTable   string         `json:"create_table"`             // The CREATE TABLE statement
-	IntegrationId *string        `json:"integration_id,omitempty"` // Integration ID
-	Message       *string        `json:"message,omitempty"`        // The error message.
-	Options       map[string]any `json:"options,omitempty"`        // Option
-	Position      *PositionOut   `json:"position,omitempty"`       // Error position in the SQL.
-	TableName     *string        `json:"table_name,omitempty"`     // Table name
 }
 
 // StatementErrorOut Job validation error

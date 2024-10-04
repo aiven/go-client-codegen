@@ -951,23 +951,6 @@ func DowTypeChoices() []string {
 	return []string{"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"}
 }
 
-type DowTypeAlt string
-
-const (
-	DowTypeAltMonday    DowTypeAlt = "monday"
-	DowTypeAltTuesday   DowTypeAlt = "tuesday"
-	DowTypeAltWednesday DowTypeAlt = "wednesday"
-	DowTypeAltThursday  DowTypeAlt = "thursday"
-	DowTypeAltFriday    DowTypeAlt = "friday"
-	DowTypeAltSaturday  DowTypeAlt = "saturday"
-	DowTypeAltSunday    DowTypeAlt = "sunday"
-	DowTypeAltNever     DowTypeAlt = "never"
-)
-
-func DowTypeAltChoices() []string {
-	return []string{"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "never"}
-}
-
 // DragonflyOut Service type information
 type DragonflyOut struct {
 	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
@@ -1248,6 +1231,22 @@ type LogOut struct {
 	Time *string `json:"time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
 	Unit *string `json:"unit,omitempty"` // SystemD unit name
 }
+type MaintenanceDowType string
+
+const (
+	MaintenanceDowTypeMonday    MaintenanceDowType = "monday"
+	MaintenanceDowTypeTuesday   MaintenanceDowType = "tuesday"
+	MaintenanceDowTypeWednesday MaintenanceDowType = "wednesday"
+	MaintenanceDowTypeThursday  MaintenanceDowType = "thursday"
+	MaintenanceDowTypeFriday    MaintenanceDowType = "friday"
+	MaintenanceDowTypeSaturday  MaintenanceDowType = "saturday"
+	MaintenanceDowTypeSunday    MaintenanceDowType = "sunday"
+	MaintenanceDowTypeNever     MaintenanceDowType = "never"
+)
+
+func MaintenanceDowTypeChoices() []string {
+	return []string{"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "never"}
+}
 
 // MaintenanceIn Automatic maintenance settings
 type MaintenanceIn struct {
@@ -1257,9 +1256,9 @@ type MaintenanceIn struct {
 
 // MaintenanceOut Automatic maintenance settings
 type MaintenanceOut struct {
-	Dow     DowTypeAlt  `json:"dow"`     // Day of week for installing updates
-	Time    string      `json:"time"`    // Time for installing updates, UTC
-	Updates []UpdateOut `json:"updates"` // List of updates waiting to be installed
+	Dow     MaintenanceDowType `json:"dow"`     // Day of week for installing updates
+	Time    string             `json:"time"`    // Time for installing updates, UTC
+	Updates []UpdateOut        `json:"updates"` // List of updates waiting to be installed
 }
 type MasterLinkStatusType string
 
@@ -1294,26 +1293,26 @@ func MethodTypeChoices() []string {
 	return []string{"dump", "mysqldump", "pg_dump", "replication", "scan"}
 }
 
-type MethodTypeAlt string
+// MigrationCheckIn Payload to be used with migration_check
+type MigrationCheckIn struct {
+	IgnoreDbs         *string                  `json:"ignore_dbs,omitempty"`          // Comma-separated list of databases, which should be ignored during migration (supported by MySQL and PostgreSQL only at the moment)
+	IgnoreRoles       *string                  `json:"ignore_roles,omitempty"`        // Comma-separated list of database roles, which should be ignored during migration (supported by PostgreSQL only at the moment)
+	Method            MigrationCheckMethodType `json:"method,omitempty"`              // The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
+	SourceProjectName *string                  `json:"source_project_name,omitempty"` // Project name
+	SourceServiceName *string                  `json:"source_service_name,omitempty"` // Service name
+	SourceServiceUri  *string                  `json:"source_service_uri,omitempty"`  // Service URI of the source MySQL or PostgreSQL database with admin credentials. Used with migration_check.
+}
+type MigrationCheckMethodType string
 
 const (
-	MethodTypeAltDump        MethodTypeAlt = "dump"
-	MethodTypeAltReplication MethodTypeAlt = "replication"
+	MigrationCheckMethodTypeDump        MigrationCheckMethodType = "dump"
+	MigrationCheckMethodTypeReplication MigrationCheckMethodType = "replication"
 )
 
-func MethodTypeAltChoices() []string {
+func MigrationCheckMethodTypeChoices() []string {
 	return []string{"dump", "replication"}
 }
 
-// MigrationCheckIn Payload to be used with migration_check
-type MigrationCheckIn struct {
-	IgnoreDbs         *string       `json:"ignore_dbs,omitempty"`          // Comma-separated list of databases, which should be ignored during migration (supported by MySQL and PostgreSQL only at the moment)
-	IgnoreRoles       *string       `json:"ignore_roles,omitempty"`        // Comma-separated list of database roles, which should be ignored during migration (supported by PostgreSQL only at the moment)
-	Method            MethodTypeAlt `json:"method,omitempty"`              // The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
-	SourceProjectName *string       `json:"source_project_name,omitempty"` // Project name
-	SourceServiceName *string       `json:"source_service_name,omitempty"` // Service name
-	SourceServiceUri  *string       `json:"source_service_uri,omitempty"`  // Service URI of the source MySQL or PostgreSQL database with admin credentials. Used with migration_check.
-}
 type MigrationDetailOut struct {
 	Dbname string                    `json:"dbname"`          // Migrated db name (PG, MySQL) or number (Redis, Dragonfly)
 	Error  *string                   `json:"error,omitempty"` // Error message in case that migration has failed
@@ -1425,17 +1424,6 @@ const (
 
 func PermissionTypeChoices() []string {
 	return []string{"admin", "read", "readwrite", "write"}
-}
-
-type PermissionTypeAlt string
-
-const (
-	PermissionTypeAltSchemaRegistryRead  PermissionTypeAlt = "schema_registry_read"
-	PermissionTypeAltSchemaRegistryWrite PermissionTypeAlt = "schema_registry_write"
-)
-
-func PermissionTypeAltChoices() []string {
-	return []string{"schema_registry_read", "schema_registry_write"}
 }
 
 // PgOut Service type information
@@ -1601,10 +1589,20 @@ func RouteTypeChoices() []string {
 }
 
 type SchemaRegistryAclOut struct {
-	Id         *string           `json:"id,omitempty"` // ID
-	Permission PermissionTypeAlt `json:"permission"`   // ACL entry for Schema Registry
-	Resource   string            `json:"resource"`     // Schema Registry ACL entry resource name pattern
-	Username   string            `json:"username"`
+	Id         *string                         `json:"id,omitempty"` // ID
+	Permission SchemaRegistryAclPermissionType `json:"permission"`   // ACL entry for Schema Registry
+	Resource   string                          `json:"resource"`     // Schema Registry ACL entry resource name pattern
+	Username   string                          `json:"username"`
+}
+type SchemaRegistryAclPermissionType string
+
+const (
+	SchemaRegistryAclPermissionTypeSchemaRegistryRead  SchemaRegistryAclPermissionType = "schema_registry_read"
+	SchemaRegistryAclPermissionTypeSchemaRegistryWrite SchemaRegistryAclPermissionType = "schema_registry_write"
+)
+
+func SchemaRegistryAclPermissionTypeChoices() []string {
+	return []string{"schema_registry_read", "schema_registry_write"}
 }
 
 // ServiceBackupToAnotherRegionReportIn ServiceBackupToAnotherRegionReportRequestBody

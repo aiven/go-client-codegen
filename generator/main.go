@@ -459,11 +459,15 @@ func exec() error {
 	return client.Save(cfg.ClientFile)
 }
 
-// reMakesSense sometimes there are invalid enums, for instance just a comma ","
+// reMakesSense sometimes there are invalid enums, for instance, just a comma ","
 var reMakesSense = regexp.MustCompile(`\w`)
 
 //nolint:funlen // It's a generator, it's supposed to be long, and we won't expand it.
 func writeStruct(f *jen.File, s *Schema) error {
+	if s.isAnonymous() {
+		return nil
+	}
+
 	if s.isEnum() {
 		kind := getScalarType(s)
 		o := f.Type().Id(s.CamelName)
@@ -499,7 +503,6 @@ func writeStruct(f *jen.File, s *Schema) error {
 		}
 
 		o.Line().Const().Defs(enums...)
-
 		o.Line().Func().Id(s.CamelName + "Choices").Params().Index().Add(kind).Block(
 			jen.Return(jen.Index().Add(kind).Values(values...)),
 		)
@@ -507,8 +510,17 @@ func writeStruct(f *jen.File, s *Schema) error {
 		return nil
 	}
 
-	fields := make([]jen.Code, 0, len(s.Properties))
+	if s.Description != "" {
+		f.Comment(fmt.Sprintf("%s %s", s.CamelName, fmtComment(s.Description)))
+	}
 
+	f.Type().Id(s.CamelName).Add(fmtStruct(s))
+	return nil
+}
+
+// fmtStruct returns anynonous struct
+func fmtStruct(s *Schema) *jen.Statement {
+	fields := make([]jen.Code, 0, len(s.Properties))
 	for _, k := range s.propertyNames {
 		p := s.Properties[k]
 		field := jen.Id(strcase.ToCamel(k)).Add(getType(p))
@@ -527,14 +539,7 @@ func writeStruct(f *jen.File, s *Schema) error {
 
 		fields = append(fields, field)
 	}
-
-	if s.Description != "" {
-		f.Comment(fmt.Sprintf("%s %s", s.CamelName, fmtComment(s.Description)))
-	}
-
-	f.Type().Id(s.CamelName).Struct(fields...)
-
-	return nil
+	return jen.Struct(fields...)
 }
 
 func getResponse(s *Schema) *Schema {

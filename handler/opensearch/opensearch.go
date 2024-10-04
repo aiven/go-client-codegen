@@ -214,12 +214,6 @@ type OpensearchAclConfigIn struct {
 	Acls    []AclIn `json:"acls"`    // List of OpenSearch ACLs
 	Enabled bool    `json:"enabled"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
 }
-
-// OpensearchAclConfigInAlt OpenSearch ACL configuration
-type OpensearchAclConfigInAlt struct {
-	Acls    *[]AclIn `json:"acls,omitempty"`    // List of OpenSearch ACLs
-	Enabled *bool    `json:"enabled,omitempty"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
-}
 type PermissionType string
 
 const (
@@ -268,7 +262,13 @@ type ServiceOpenSearchAclSetOut struct {
 
 // ServiceOpenSearchAclUpdateIn ServiceOpenSearchAclUpdateRequestBody
 type ServiceOpenSearchAclUpdateIn struct {
-	OpensearchAclConfig OpensearchAclConfigInAlt `json:"opensearch_acl_config"` // OpenSearch ACL configuration
+	OpensearchAclConfig ServiceOpenSearchAclUpdateOpensearchAclConfigIn `json:"opensearch_acl_config"` // OpenSearch ACL configuration
+}
+
+// ServiceOpenSearchAclUpdateOpensearchAclConfigIn OpenSearch ACL configuration
+type ServiceOpenSearchAclUpdateOpensearchAclConfigIn struct {
+	Acls    *[]AclIn `json:"acls,omitempty"`    // List of OpenSearch ACLs
+	Enabled *bool    `json:"enabled,omitempty"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
 }
 
 // ServiceOpenSearchAclUpdateOut OpenSearch ACL configuration

@@ -28,7 +28,7 @@ type Handler interface {
 	// ServiceKafkaConnectGetAvailableConnectors get available Kafka Connect connectors
 	// GET /v1/project/{project}/service/{service_name}/available-connectors
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectGetAvailableConnectors
-	ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]PluginOutAlt, error)
+	ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]ServiceKafkaConnectGetAvailableConnectorsOut, error)
 
 	// ServiceKafkaConnectGetConnectorConfiguration get Kafka Connect connector configuration schema
 	// GET /v1/project/{project}/service/{service_name}/connector-plugins/{connector_name}/configuration
@@ -110,7 +110,7 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectEditConnector(ctx context.Conte
 	}
 	return &out.Connector, nil
 }
-func (h *KafkaConnectHandler) ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]PluginOutAlt, error) {
+func (h *KafkaConnectHandler) ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]ServiceKafkaConnectGetAvailableConnectorsOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/available-connectors", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectGetAvailableConnectors", "GET", path, nil)
 	if err != nil {
@@ -247,16 +247,6 @@ type PluginOut struct {
 	Type        PluginType `json:"type"`                   // Describes whether data flows from or to Kafka
 	Version     string     `json:"version"`                // Connector version number
 }
-type PluginOutAlt struct {
-	Author      string     `json:"author"`                 // Connector author name
-	Class       string     `json:"class"`                  // Connector class name
-	DocUrl      string     `json:"docURL"`                 // Connector documentation URL
-	Preview     *bool      `json:"preview,omitempty"`      // Describes if connector is in beta
-	PreviewInfo *string    `json:"preview_info,omitempty"` // Information about beta stage of connector
-	Title       string     `json:"title"`                  // Descriptive human readable name defined by Aiven
-	Type        PluginType `json:"type"`                   // Describes whether data flows from or to Kafka
-	Version     string     `json:"version"`                // Connector version number
-}
 type PluginType string
 
 const (
@@ -309,20 +299,30 @@ type ServiceKafkaConnectEditConnectorOut struct {
 	Plugin PluginOut `json:"plugin"` // Kafka Connector plugin information
 	Tasks  []TaskOut `json:"tasks"`  // List of tasks of a connector
 }
+type ServiceKafkaConnectGetAvailableConnectorsOut struct {
+	Author      string     `json:"author"`                 // Connector author name
+	Class       string     `json:"class"`                  // Connector class name
+	DocUrl      string     `json:"docURL"`                 // Connector documentation URL
+	Preview     *bool      `json:"preview,omitempty"`      // Describes if connector is in beta
+	PreviewInfo *string    `json:"preview_info,omitempty"` // Information about beta stage of connector
+	Title       string     `json:"title"`                  // Descriptive human readable name defined by Aiven
+	Type        PluginType `json:"type"`                   // Describes whether data flows from or to Kafka
+	Version     string     `json:"version"`                // Connector version number
+}
 
 // ServiceKafkaConnectGetConnectorStatusOut Connector status information
 type ServiceKafkaConnectGetConnectorStatusOut struct {
-	State ServiceKafkaConnectConnectorStateType `json:"state"` // Current status of the connector
-	Tasks []TaskOutAlt                          `json:"tasks"` // List of tasks currently running for the connector
+	State ServiceKafkaConnectConnectorStateType          `json:"state"` // Current status of the connector
+	Tasks []ServiceKafkaConnectGetConnectorStatusTaskOut `json:"tasks"` // List of tasks currently running for the connector
+}
+type ServiceKafkaConnectGetConnectorStatusTaskOut struct {
+	Id    int           `json:"id"`    // Task identifier
+	State TaskStateType `json:"state"` // Current status of the task
+	Trace string        `json:"trace"` // Task error information
 }
 type TaskOut struct {
 	Connector string `json:"connector"` // Related connector name
 	Task      int    `json:"task"`      // Task id / number
-}
-type TaskOutAlt struct {
-	Id    int           `json:"id"`    // Task identifier
-	State TaskStateType `json:"state"` // Current status of the task
-	Trace string        `json:"trace"` // Task error information
 }
 type TaskStateType string
 
@@ -362,7 +362,7 @@ type serviceKafkaConnectEditConnectorOut struct {
 
 // serviceKafkaConnectGetAvailableConnectorsOut ServiceKafkaConnectGetAvailableConnectorsResponse
 type serviceKafkaConnectGetAvailableConnectorsOut struct {
-	Plugins []PluginOutAlt `json:"plugins"` // List of available Kafka Connect connector plugins
+	Plugins []ServiceKafkaConnectGetAvailableConnectorsOut `json:"plugins"` // List of available Kafka Connect connector plugins
 }
 
 // serviceKafkaConnectGetConnectorConfigurationOut ServiceKafkaConnectGetConnectorConfigurationResponse
