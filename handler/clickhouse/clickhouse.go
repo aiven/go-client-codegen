@@ -38,7 +38,7 @@ type Handler interface {
 	// ServiceClickHouseQueryStats return statistics on recent queries
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQueryStats
-	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, query ...serviceClickHouseQueryStatsQuery) ([]QueryOutAlt, error)
+	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, query ...serviceClickHouseQueryStatsQuery) ([]ServiceClickHouseQueryStatsOut, error)
 
 	// ServiceClickHouseTieredStorageSummary get the ClickHouse tiered storage summary
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/tiered-storage/summary
@@ -126,7 +126,7 @@ func ServiceClickHouseQueryStatsOffset(offset int) serviceClickHouseQueryStatsQu
 func ServiceClickHouseQueryStatsOrderByType(orderByType OrderByType) serviceClickHouseQueryStatsQuery {
 	return serviceClickHouseQueryStatsQuery{"order_by", fmt.Sprintf("%s", orderByType)}
 }
-func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, query ...serviceClickHouseQueryStatsQuery) ([]QueryOutAlt, error) {
+func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, query ...serviceClickHouseQueryStatsQuery) ([]ServiceClickHouseQueryStatsOut, error) {
 	p := make([][2]string, 0, len(query))
 	for _, v := range query {
 		p = append(p, v)
@@ -214,18 +214,6 @@ type QueryOut struct {
 	Query      *string  `json:"query,omitempty"`   // The query text
 	User       *string  `json:"user,omitempty"`    // The user who made the query
 }
-type QueryOutAlt struct {
-	Calls      *int     `json:"calls,omitempty"` // Number of calls
-	Database   *string  `json:"database,omitempty"`
-	MaxTime    *int     `json:"max_time,omitempty"`    // Maximum query duration in milliseconds
-	MeanTime   *int     `json:"mean_time,omitempty"`   // Average query duration in milliseconds
-	MinTime    *int     `json:"min_time,omitempty"`    // Minimum query duration in milliseconds
-	P95Time    *int     `json:"p95_time,omitempty"`    // Query duration 95th percentile in milliseconds
-	Query      *string  `json:"query,omitempty"`       // Normalized query
-	Rows       *float64 `json:"rows,omitempty"`        // Average number of rows per call
-	StddevTime *int     `json:"stddev_time,omitempty"` // Query duration standard deviation in milliseconds
-	TotalTime  *int     `json:"total_time,omitempty"`  // Total duration of all calls in milliseconds
-}
 
 // ServiceClickHouseDatabaseCreateIn ServiceClickHouseDatabaseCreateRequestBody
 type ServiceClickHouseDatabaseCreateIn struct {
@@ -243,6 +231,18 @@ type ServiceClickHouseQueryOut struct {
 	Data    [][]any    `json:"data"`
 	Meta    []MetaOut  `json:"meta"`
 	Summary SummaryOut `json:"summary"` // Summary
+}
+type ServiceClickHouseQueryStatsOut struct {
+	Calls      *int     `json:"calls,omitempty"` // Number of calls
+	Database   *string  `json:"database,omitempty"`
+	MaxTime    *int     `json:"max_time,omitempty"`    // Maximum query duration in milliseconds
+	MeanTime   *int     `json:"mean_time,omitempty"`   // Average query duration in milliseconds
+	MinTime    *int     `json:"min_time,omitempty"`    // Minimum query duration in milliseconds
+	P95Time    *int     `json:"p95_time,omitempty"`    // Query duration 95th percentile in milliseconds
+	Query      *string  `json:"query,omitempty"`       // Normalized query
+	Rows       *float64 `json:"rows,omitempty"`        // Average number of rows per call
+	StddevTime *int     `json:"stddev_time,omitempty"` // Query duration standard deviation in milliseconds
+	TotalTime  *int     `json:"total_time,omitempty"`  // Total duration of all calls in milliseconds
 }
 
 // ServiceClickHouseTieredStorageSummaryOut ServiceClickHouseTieredStorageSummaryResponse
@@ -282,5 +282,5 @@ type serviceClickHouseDatabaseListOut struct {
 
 // serviceClickHouseQueryStatsOut ServiceClickHouseQueryStatsResponse
 type serviceClickHouseQueryStatsOut struct {
-	Queries []QueryOutAlt `json:"queries"` // List of query statistics
+	Queries []ServiceClickHouseQueryStatsOut `json:"queries"` // List of query statistics
 }

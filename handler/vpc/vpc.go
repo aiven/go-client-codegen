@@ -337,19 +337,6 @@ func VpcPeeringConnectionStateTypeChoices() []string {
 	return []string{"ACTIVE", "APPROVED", "APPROVED_PEER_REQUESTED", "DELETED", "DELETED_BY_PEER", "DELETING", "ERROR", "INVALID_SPECIFICATION", "PENDING_PEER", "REJECTED_BY_PEER"}
 }
 
-type VpcPeeringConnectionStateTypeAlt string
-
-const (
-	VpcPeeringConnectionStateTypeAltActive   VpcPeeringConnectionStateTypeAlt = "ACTIVE"
-	VpcPeeringConnectionStateTypeAltApproved VpcPeeringConnectionStateTypeAlt = "APPROVED"
-	VpcPeeringConnectionStateTypeAltDeleted  VpcPeeringConnectionStateTypeAlt = "DELETED"
-	VpcPeeringConnectionStateTypeAltDeleting VpcPeeringConnectionStateTypeAlt = "DELETING"
-)
-
-func VpcPeeringConnectionStateTypeAltChoices() []string {
-	return []string{"ACTIVE", "APPROVED", "DELETED", "DELETING"}
-}
-
 type VpcPeeringConnectionType string
 
 const (
@@ -372,14 +359,26 @@ type VpcPeeringConnectionUpdateIn struct {
 
 // VpcPeeringConnectionUpdateOut VpcPeeringConnectionUpdateResponse
 type VpcPeeringConnectionUpdateOut struct {
-	CloudName                          string                           `json:"cloud_name"`                                       // Target cloud
-	CreateTime                         time.Time                        `json:"create_time"`                                      // VPC creation timestamp
-	NetworkCidr                        string                           `json:"network_cidr"`                                     // IPv4 network range CIDR
-	PeeringConnections                 []PeeringConnectionOut           `json:"peering_connections"`                              // List of peering connections
-	PendingBuildOnlyPeeringConnections *string                          `json:"pending_build_only_peering_connections,omitempty"` // VPC rebuild is scheduled
-	ProjectVpcId                       string                           `json:"project_vpc_id"`                                   // Project VPC ID
-	State                              VpcPeeringConnectionStateTypeAlt `json:"state"`                                            // Project VPC state
-	UpdateTime                         time.Time                        `json:"update_time"`                                      // Timestamp of last change to VPC
+	CloudName                          string                                                  `json:"cloud_name"`                                       // Target cloud
+	CreateTime                         time.Time                                               `json:"create_time"`                                      // VPC creation timestamp
+	NetworkCidr                        string                                                  `json:"network_cidr"`                                     // IPv4 network range CIDR
+	PeeringConnections                 []PeeringConnectionOut                                  `json:"peering_connections"`                              // List of peering connections
+	PendingBuildOnlyPeeringConnections *string                                                 `json:"pending_build_only_peering_connections,omitempty"` // VPC rebuild is scheduled
+	ProjectVpcId                       string                                                  `json:"project_vpc_id"`                                   // Project VPC ID
+	State                              VpcPeeringConnectionUpdateVpcPeeringConnectionStateType `json:"state"`                                            // Project VPC state
+	UpdateTime                         time.Time                                               `json:"update_time"`                                      // Timestamp of last change to VPC
+}
+type VpcPeeringConnectionUpdateVpcPeeringConnectionStateType string
+
+const (
+	VpcPeeringConnectionUpdateVpcPeeringConnectionStateTypeActive   VpcPeeringConnectionUpdateVpcPeeringConnectionStateType = "ACTIVE"
+	VpcPeeringConnectionUpdateVpcPeeringConnectionStateTypeApproved VpcPeeringConnectionUpdateVpcPeeringConnectionStateType = "APPROVED"
+	VpcPeeringConnectionUpdateVpcPeeringConnectionStateTypeDeleted  VpcPeeringConnectionUpdateVpcPeeringConnectionStateType = "DELETED"
+	VpcPeeringConnectionUpdateVpcPeeringConnectionStateTypeDeleting VpcPeeringConnectionUpdateVpcPeeringConnectionStateType = "DELETING"
+)
+
+func VpcPeeringConnectionUpdateVpcPeeringConnectionStateTypeChoices() []string {
+	return []string{"ACTIVE", "APPROVED", "DELETED", "DELETING"}
 }
 
 // VpcPeeringConnectionWithRegionDeleteOut VpcPeeringConnectionWithRegionDeleteResponse

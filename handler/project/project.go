@@ -539,14 +539,6 @@ type ElasticsearchOut struct {
 	Version string `json:"version"`  // Service version
 }
 
-// ElasticsearchOutAlt Service type information
-type ElasticsearchOutAlt struct {
-	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string         `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
-	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
-
 // EndOfLifeExtensionOut End of life extension information
 type EndOfLifeExtensionOut struct {
 	Elasticsearch *ElasticsearchOut `json:"elasticsearch,omitempty"` // Service EOL extension
@@ -847,25 +839,33 @@ type ProjectServiceTypesGetOut struct {
 	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
 
+// ProjectServiceTypesListElasticsearchOut Service type information
+type ProjectServiceTypesListElasticsearchOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
 // ProjectServiceTypesListOut ProjectServiceTypesListResponse
 type ProjectServiceTypesListOut struct {
-	Cassandra        *CassandraOut        `json:"cassandra,omitempty"`         // Service type information
-	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`        // Service type information
-	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`         // Service type information
-	Elasticsearch    *ElasticsearchOutAlt `json:"elasticsearch,omitempty"`     // Service type information
-	Flink            *FlinkOut            `json:"flink,omitempty"`             // Service type information
-	Grafana          *GrafanaOut          `json:"grafana,omitempty"`           // Service type information
-	Influxdb         *InfluxdbOut         `json:"influxdb,omitempty"`          // Service type information
-	Kafka            *KafkaOut            `json:"kafka,omitempty"`             // Service type information
-	KafkaConnect     *KafkaConnectOut     `json:"kafka_connect,omitempty"`     // Service type information
-	KafkaMirrormaker *KafkaMirrormakerOut `json:"kafka_mirrormaker,omitempty"` // Service type information
-	M3Aggregator     *AggregatorOut       `json:"m3aggregator,omitempty"`      // Service type information
-	M3Db             *DbOut               `json:"m3db,omitempty"`              // Service type information
-	Mysql            *MysqlOut            `json:"mysql,omitempty"`             // Service type information
-	Opensearch       *OpensearchOut       `json:"opensearch,omitempty"`        // Service type information
-	Pg               *PgOut               `json:"pg,omitempty"`                // Service type information
-	Redis            *RedisOut            `json:"redis,omitempty"`             // Service type information
-	Valkey           *ValkeyOut           `json:"valkey,omitempty"`            // Service type information
+	Cassandra        *CassandraOut                            `json:"cassandra,omitempty"`         // Service type information
+	Clickhouse       *ClickhouseOut                           `json:"clickhouse,omitempty"`        // Service type information
+	Dragonfly        *DragonflyOut                            `json:"dragonfly,omitempty"`         // Service type information
+	Elasticsearch    *ProjectServiceTypesListElasticsearchOut `json:"elasticsearch,omitempty"`     // Service type information
+	Flink            *FlinkOut                                `json:"flink,omitempty"`             // Service type information
+	Grafana          *GrafanaOut                              `json:"grafana,omitempty"`           // Service type information
+	Influxdb         *InfluxdbOut                             `json:"influxdb,omitempty"`          // Service type information
+	Kafka            *KafkaOut                                `json:"kafka,omitempty"`             // Service type information
+	KafkaConnect     *KafkaConnectOut                         `json:"kafka_connect,omitempty"`     // Service type information
+	KafkaMirrormaker *KafkaMirrormakerOut                     `json:"kafka_mirrormaker,omitempty"` // Service type information
+	M3Aggregator     *AggregatorOut                           `json:"m3aggregator,omitempty"`      // Service type information
+	M3Db             *DbOut                                   `json:"m3db,omitempty"`              // Service type information
+	Mysql            *MysqlOut                                `json:"mysql,omitempty"`             // Service type information
+	Opensearch       *OpensearchOut                           `json:"opensearch,omitempty"`        // Service type information
+	Pg               *PgOut                                   `json:"pg,omitempty"`                // Service type information
+	Redis            *RedisOut                                `json:"redis,omitempty"`             // Service type information
+	Valkey           *ValkeyOut                               `json:"valkey,omitempty"`            // Service type information
 }
 
 // ProjectTagsReplaceIn ProjectTagsReplaceRequestBody

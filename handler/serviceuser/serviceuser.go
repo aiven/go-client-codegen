@@ -337,17 +337,6 @@ func PermissionTypeChoices() []string {
 	return []string{"admin", "read", "readwrite", "write"}
 }
 
-type PermissionTypeAlt string
-
-const (
-	PermissionTypeAltSchemaRegistryRead  PermissionTypeAlt = "schema_registry_read"
-	PermissionTypeAltSchemaRegistryWrite PermissionTypeAlt = "schema_registry_write"
-)
-
-func PermissionTypeAltChoices() []string {
-	return []string{"schema_registry_read", "schema_registry_write"}
-}
-
 type PhaseType string
 
 const (
@@ -407,11 +396,22 @@ func RouteTypeChoices() []string {
 }
 
 type SchemaRegistryAclOut struct {
-	Id         *string           `json:"id,omitempty"` // ID
-	Permission PermissionTypeAlt `json:"permission"`   // ACL entry for Schema Registry
-	Resource   string            `json:"resource"`     // Schema Registry ACL entry resource name pattern
-	Username   string            `json:"username"`
+	Id         *string                         `json:"id,omitempty"` // ID
+	Permission SchemaRegistryAclPermissionType `json:"permission"`   // ACL entry for Schema Registry
+	Resource   string                          `json:"resource"`     // Schema Registry ACL entry resource name pattern
+	Username   string                          `json:"username"`
 }
+type SchemaRegistryAclPermissionType string
+
+const (
+	SchemaRegistryAclPermissionTypeSchemaRegistryRead  SchemaRegistryAclPermissionType = "schema_registry_read"
+	SchemaRegistryAclPermissionTypeSchemaRegistryWrite SchemaRegistryAclPermissionType = "schema_registry_write"
+)
+
+func SchemaRegistryAclPermissionTypeChoices() []string {
+	return []string{"schema_registry_read", "schema_registry_write"}
+}
+
 type ServiceIntegrationOut struct {
 	Active               bool                  `json:"active"`                       // True when integration is active
 	Description          string                `json:"description"`                  // Description of the integration
