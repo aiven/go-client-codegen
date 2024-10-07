@@ -26,10 +26,28 @@ type Doc struct {
 	} `json:"components"`
 }
 
-func (d *Doc) getSchema(path string) (*Schema, error) {
-	name := strings.Split(path, "/")[3]
+const componentIndex = 3
 
+func (d *Doc) getSchema(path string) (*Schema, error) {
+	chunks := strings.Split(path, "/")
+	if len(chunks) < componentIndex+1 {
+		return nil, fmt.Errorf("invalid schema path %q", path)
+	}
+
+	name := chunks[componentIndex]
 	schema := d.Components.Schemas[name]
+	for i := componentIndex + 1; i < len(chunks); i++ {
+		switch k := chunks[i]; k {
+		case "items":
+			schema = schema.Items
+		case "properties":
+			schema = schema.Properties[chunks[i+1]]
+			i++
+		default:
+			return nil, fmt.Errorf("unknown schema path %v: %s", chunks, k)
+		}
+	}
+
 	if schema == nil {
 		return nil, fmt.Errorf("schema %q not found", path)
 	}
