@@ -1,5 +1,70 @@
 components:
   schemas:
+    ServiceListResponse:
+      properties:
+        services:
+          items:
+            properties:
+              service_integrations:
+                items:
+                  properties:
+                    integration_type:
+                      $ref: "#/components/schemas/ServiceCreateRequestBody/properties/service_integrations/items/properties/integration_type"
+    ServiceCreateResponse:
+      properties:
+        service:
+          properties:
+            service_integrations:
+              items:
+                properties:
+                  integration_type:
+                    $ref: "#/components/schemas/ServiceCreateRequestBody/properties/service_integrations/items/properties/integration_type"
+    ServiceUpdateResponse:
+      properties:
+        service:
+          properties:
+            service_integrations:
+              items:
+                properties:
+                  integration_type:
+                    $ref: "#/components/schemas/ServiceCreateRequestBody/properties/service_integrations/items/properties/integration_type"
+    ServiceUserCredentialsModifyResponse:
+      properties:
+        service:
+          properties:
+            service_integrations:
+              items:
+                properties:
+                  integration_type:
+                    $ref: "#/components/schemas/ServiceCreateRequestBody/properties/service_integrations/items/properties/integration_type"
+    ServiceUserCredentialsResetResponse:
+      properties:
+        service:
+          properties:
+            service_integrations:
+              items:
+                properties:
+                  integration_type:
+                    $ref: "#/components/schemas/ServiceCreateRequestBody/properties/service_integrations/items/properties/integration_type"
+    ServiceIntegrationCreateResponse:
+      properties:
+        service_integration:
+          properties:
+            integration_type:
+              $ref: "#/components/schemas/ServiceCreateRequestBody/properties/service_integrations/items/properties/integration_type"
+    ServiceIntegrationGetResponse:
+      properties:
+        service_integration:
+          properties:
+            integration_type:
+              $ref: "#/components/schemas/ServiceCreateRequestBody/properties/service_integrations/items/properties/integration_type"
+    ServiceIntegrationListResponse:
+      properties:
+        service_integrations:
+          items:
+            properties:
+              integration_type:
+                $ref: "#/components/schemas/ServiceCreateRequestBody/properties/service_integrations/items/properties/integration_type"
     ServiceKafkaMirrorMakerCreateReplicationFlowRequestBody:
       properties:
         topics.blacklist:
@@ -41,6 +106,11 @@ components:
       properties:
         service:
           properties:
+            service_integrations:
+              items:
+                properties:
+                  integration_type:
+                    $ref: "#/components/schemas/ServiceCreateRequestBody/properties/service_integrations/items/properties/integration_type"
             service_uri_params:
               additionalProperties:
                 type: string
