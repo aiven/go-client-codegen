@@ -436,6 +436,14 @@ type AlertOut struct {
 	ServiceType *string   `json:"service_type,omitempty"` // Service type code
 	Severity    string    `json:"severity"`               // Severity of the event
 }
+
+// AlloydbomniOut Service type information
+type AlloydbomniOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
 type AnyType string
 
 const (
@@ -849,6 +857,7 @@ type ProjectServiceTypesListElasticsearchOut struct {
 
 // ProjectServiceTypesListOut ProjectServiceTypesListResponse
 type ProjectServiceTypesListOut struct {
+	Alloydbomni      *AlloydbomniOut                          `json:"alloydbomni,omitempty"`       // Service type information
 	Cassandra        *CassandraOut                            `json:"cassandra,omitempty"`         // Service type information
 	Clickhouse       *ClickhouseOut                           `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut                            `json:"dragonfly,omitempty"`         // Service type information

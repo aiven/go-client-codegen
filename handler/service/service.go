@@ -887,6 +887,15 @@ type AlertOut struct {
 	ServiceType *string   `json:"service_type,omitempty"` // Service type code
 	Severity    string    `json:"severity"`               // Severity of the event
 }
+
+// AlloydbomniOut Service type information
+type AlloydbomniOut struct {
+	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string           `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
+	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
+	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
 type AuthenticationType string
 
 const (
@@ -1286,6 +1295,7 @@ func LikelyErrorCauseTypeChoices() []string {
 
 // ListProjectServiceTypesOut Service plans by service type
 type ListProjectServiceTypesOut struct {
+	Alloydbomni      *AlloydbomniOut      `json:"alloydbomni,omitempty"`       // Service type information
 	Cassandra        *CassandraOut        `json:"cassandra,omitempty"`         // Service type information
 	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`         // Service type information
@@ -1307,6 +1317,7 @@ type ListProjectServiceTypesOut struct {
 
 // ListPublicServiceTypesOut Service plans by service type
 type ListPublicServiceTypesOut struct {
+	Alloydbomni      *AlloydbomniOut      `json:"alloydbomni,omitempty"`       // Service type information
 	Cassandra        *CassandraOut        `json:"cassandra,omitempty"`         // Service type information
 	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`         // Service type information
@@ -1731,7 +1742,7 @@ type ServiceCancelQueryIn struct {
 type ServiceCreateIn struct {
 	Cloud                 *string                 `json:"cloud,omitempty"`                  // Target cloud
 	CopyTags              *bool                   `json:"copy_tags,omitempty"`              // If this is a forked service, copy tags from the source service. If request contains additional tags, the tags copied from source are updated with them.
-	DiskSpaceMb           *float64                `json:"disk_space_mb,omitempty"`          // Megabytes of disk space for data storage
+	DiskSpaceMb           *int                    `json:"disk_space_mb,omitempty"`          // Megabytes of disk space for data storage
 	GroupName             *string                 `json:"group_name,omitempty"`             // Service group name (DEPRECATED: do not use)
 	Maintenance           *MaintenanceIn          `json:"maintenance,omitempty"`            // Automatic maintenance settings
 	Plan                  string                  `json:"plan"`                             // Subscription plan
@@ -1757,7 +1768,7 @@ type ServiceCreateOut struct {
 	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`         // PostgreSQL PGBouncer connection pools
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
-	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
+	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
@@ -1810,7 +1821,7 @@ type ServiceGetOut struct {
 	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`         // PostgreSQL PGBouncer connection pools
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
-	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
+	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
@@ -2031,7 +2042,7 @@ type ServiceOut struct {
 	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`         // PostgreSQL PGBouncer connection pools
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
-	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
+	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
@@ -2119,7 +2130,7 @@ type ServiceTaskGetOut struct {
 // ServiceUpdateIn ServiceUpdateRequestBody
 type ServiceUpdateIn struct {
 	Cloud                 *string         `json:"cloud,omitempty"`                  // Target cloud
-	DiskSpaceMb           *float64        `json:"disk_space_mb,omitempty"`          // Megabytes of disk space for data storage
+	DiskSpaceMb           *int            `json:"disk_space_mb,omitempty"`          // Megabytes of disk space for data storage
 	GroupName             *string         `json:"group_name,omitempty"`             // Service group name (DEPRECATED: do not use)
 	Karapace              *bool           `json:"karapace,omitempty"`               // Switch the service to use Karapace for schema registry and REST proxy
 	Maintenance           *MaintenanceIn  `json:"maintenance,omitempty"`            // Automatic maintenance settings
@@ -2143,7 +2154,7 @@ type ServiceUpdateOut struct {
 	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`         // PostgreSQL PGBouncer connection pools
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
-	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
+	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
@@ -2211,7 +2222,7 @@ type ServiceUserCredentialsModifyOut struct {
 	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`         // PostgreSQL PGBouncer connection pools
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
-	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
+	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
@@ -2251,7 +2262,7 @@ type ServiceUserCredentialsResetOut struct {
 	ConnectionPools        []ConnectionPoolOut      `json:"connection_pools,omitempty"`         // PostgreSQL PGBouncer connection pools
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
-	DiskSpaceMb            *float64                 `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
+	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
@@ -2421,12 +2432,13 @@ type UpdateOut struct {
 type UsageType string
 
 const (
-	UsageTypePrimary UsageType = "primary"
-	UsageTypeReplica UsageType = "replica"
+	UsageTypeDisasterRecovery UsageType = "disaster_recovery"
+	UsageTypePrimary          UsageType = "primary"
+	UsageTypeReplica          UsageType = "replica"
 )
 
 func UsageTypeChoices() []string {
-	return []string{"primary", "replica"}
+	return []string{"disaster_recovery", "primary", "replica"}
 }
 
 type UserOut struct {
