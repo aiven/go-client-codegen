@@ -288,8 +288,6 @@ components:
                   type: string
                 query_uri:
                   type: string
-                receiver_ingesting_remote_write_uri:
-                  type: string
                 receiver_remote_write_uri:
                   type: string
                 # Redis (EOL) + Dragonfly
