@@ -159,6 +159,7 @@ type AccountAuthenticationMethodCreateOut struct {
 	SamlFieldMapping                 *SamlFieldMappingOut          `json:"saml_field_mapping,omitempty"`                   // SAMLFieldMapping
 	SamlIdpLoginAllowed              *bool                         `json:"saml_idp_login_allowed,omitempty"`               // Set to 'true' to enable IdP initiated login
 	SamlIdpUrl                       *string                       `json:"saml_idp_url,omitempty"`                         // Saml Idp Url
+	SamlJoinGroups                   *bool                         `json:"saml_join_groups,omitempty"`                     // SAML join groups enabled
 	SamlMetadataUrl                  *string                       `json:"saml_metadata_url,omitempty"`                    // Saml Metadata Url
 	SamlRequestedAuthnContextEnabled *bool                         `json:"saml_requested_authn_context_enabled,omitempty"` // Set to 'false' to disable RequestedAuthnContext
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`             // SAMLSignatureAlgorithm
@@ -198,6 +199,7 @@ type AccountAuthenticationMethodGetOut struct {
 	SamlFieldMapping                 *SamlFieldMappingOut          `json:"saml_field_mapping,omitempty"`                   // SAMLFieldMapping
 	SamlIdpLoginAllowed              *bool                         `json:"saml_idp_login_allowed,omitempty"`               // Set to 'true' to enable IdP initiated login
 	SamlIdpUrl                       *string                       `json:"saml_idp_url,omitempty"`                         // Saml Idp Url
+	SamlJoinGroups                   *bool                         `json:"saml_join_groups,omitempty"`                     // SAML join groups enabled
 	SamlMetadataUrl                  *string                       `json:"saml_metadata_url,omitempty"`                    // Saml Metadata Url
 	SamlRequestedAuthnContextEnabled *bool                         `json:"saml_requested_authn_context_enabled,omitempty"` // Set to 'false' to disable RequestedAuthnContext
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`             // SAMLSignatureAlgorithm
@@ -259,6 +261,7 @@ type AccountAuthenticationMethodUpdateOut struct {
 	SamlFieldMapping                 *SamlFieldMappingOut          `json:"saml_field_mapping,omitempty"`                   // SAMLFieldMapping
 	SamlIdpLoginAllowed              *bool                         `json:"saml_idp_login_allowed,omitempty"`               // Set to 'true' to enable IdP initiated login
 	SamlIdpUrl                       *string                       `json:"saml_idp_url,omitempty"`                         // Saml Idp Url
+	SamlJoinGroups                   *bool                         `json:"saml_join_groups,omitempty"`                     // SAML join groups enabled
 	SamlMetadataUrl                  *string                       `json:"saml_metadata_url,omitempty"`                    // Saml Metadata Url
 	SamlRequestedAuthnContextEnabled *bool                         `json:"saml_requested_authn_context_enabled,omitempty"` // Set to 'false' to disable RequestedAuthnContext
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`             // SAMLSignatureAlgorithm
@@ -296,6 +299,7 @@ type AuthenticationMethodOut struct {
 	SamlFieldMapping                 *SamlFieldMappingOut          `json:"saml_field_mapping,omitempty"`                   // SAMLFieldMapping
 	SamlIdpLoginAllowed              *bool                         `json:"saml_idp_login_allowed,omitempty"`               // Set to 'true' to enable IdP initiated login
 	SamlIdpUrl                       *string                       `json:"saml_idp_url,omitempty"`                         // Saml Idp Url
+	SamlJoinGroups                   *bool                         `json:"saml_join_groups,omitempty"`                     // SAML join groups enabled
 	SamlMetadataUrl                  *string                       `json:"saml_metadata_url,omitempty"`                    // Saml Metadata Url
 	SamlRequestedAuthnContextEnabled *bool                         `json:"saml_requested_authn_context_enabled,omitempty"` // Set to 'false' to disable RequestedAuthnContext
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`             // SAMLSignatureAlgorithm
