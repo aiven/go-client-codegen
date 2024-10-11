@@ -1435,10 +1435,11 @@ const (
 	MigrationDetailStatusTypeFailed  MigrationDetailStatusType = "failed"
 	MigrationDetailStatusTypeRunning MigrationDetailStatusType = "running"
 	MigrationDetailStatusTypeSyncing MigrationDetailStatusType = "syncing"
+	MigrationDetailStatusTypeWaiting MigrationDetailStatusType = "waiting"
 )
 
 func MigrationDetailStatusTypeChoices() []string {
-	return []string{"done", "failed", "running", "syncing"}
+	return []string{"done", "failed", "running", "syncing", "waiting"}
 }
 
 // MigrationOut Service migration info
@@ -1456,10 +1457,11 @@ const (
 	MigrationStatusTypeFailed  MigrationStatusType = "failed"
 	MigrationStatusTypeRunning MigrationStatusType = "running"
 	MigrationStatusTypeSyncing MigrationStatusType = "syncing"
+	MigrationStatusTypeWaiting MigrationStatusType = "waiting"
 )
 
 func MigrationStatusTypeChoices() []string {
-	return []string{"done", "failed", "running", "syncing"}
+	return []string{"done", "failed", "running", "syncing", "waiting"}
 }
 
 // MysqlOut Service type information

@@ -520,10 +520,11 @@ const (
 	AnyTypeOperator               AnyType = "operator"
 	AnyTypeProjectpermissionsread AnyType = "project:permissions:read"
 	AnyTypeReadOnly               AnyType = "read_only"
+	AnyTypeServicelogsread        AnyType = "service:logs:read"
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:permissions:read", "read_only"}
+	return []string{"admin", "developer", "operator", "project:permissions:read", "read_only", "service:logs:read"}
 }
 
 type AuthenticationMethodOut struct {
