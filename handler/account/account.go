@@ -549,27 +549,29 @@ type EventOut struct {
 type MemberType string
 
 const (
-	MemberTypeAdmin                  MemberType = "admin"
-	MemberTypeDeveloper              MemberType = "developer"
-	MemberTypeOperator               MemberType = "operator"
-	MemberTypeProjectpermissionsread MemberType = "project:permissions:read"
-	MemberTypeReadOnly               MemberType = "read_only"
-	MemberTypeServicelogsread        MemberType = "service:logs:read"
+	MemberTypeAdmin                   MemberType = "admin"
+	MemberTypeDeveloper               MemberType = "developer"
+	MemberTypeOperator                MemberType = "operator"
+	MemberTypeProjectIntegrationsRead MemberType = "project:integrations:read"
+	MemberTypeProjectPermissionsRead  MemberType = "project:permissions:read"
+	MemberTypeProjectServicesRead     MemberType = "project:services:read"
+	MemberTypeReadOnly                MemberType = "read_only"
+	MemberTypeServiceLogsRead         MemberType = "service:logs:read"
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:permissions:read", "read_only", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:integrations:read", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
 }
 
 type OrderByType string
 
 const (
-	OrderByTypeUserEmailasc  OrderByType = "user_email:asc"
-	OrderByTypeUserEmaildesc OrderByType = "user_email:desc"
-	OrderByTypeUserIdasc     OrderByType = "user_id:asc"
-	OrderByTypeUserIddesc    OrderByType = "user_id:desc"
-	OrderByTypeRealNameasc   OrderByType = "real_name:asc"
-	OrderByTypeRealNamedesc  OrderByType = "real_name:desc"
+	OrderByTypeUserEmailAsc  OrderByType = "user_email:asc"
+	OrderByTypeUserEmailDesc OrderByType = "user_email:desc"
+	OrderByTypeUserIdAsc     OrderByType = "user_id:asc"
+	OrderByTypeUserIdDesc    OrderByType = "user_id:desc"
+	OrderByTypeRealNameAsc   OrderByType = "real_name:asc"
+	OrderByTypeRealNameDesc  OrderByType = "real_name:desc"
 )
 
 func OrderByTypeChoices() []string {
@@ -634,16 +636,18 @@ type TeamOut struct {
 type TeamType string
 
 const (
-	TeamTypeAdmin                  TeamType = "admin"
-	TeamTypeOperator               TeamType = "operator"
-	TeamTypeDeveloper              TeamType = "developer"
-	TeamTypeReadOnly               TeamType = "read_only"
-	TeamTypeProjectpermissionsread TeamType = "project:permissions:read"
-	TeamTypeServicelogsread        TeamType = "service:logs:read"
+	TeamTypeAdmin                   TeamType = "admin"
+	TeamTypeOperator                TeamType = "operator"
+	TeamTypeDeveloper               TeamType = "developer"
+	TeamTypeReadOnly                TeamType = "read_only"
+	TeamTypeProjectIntegrationsRead TeamType = "project:integrations:read"
+	TeamTypeProjectPermissionsRead  TeamType = "project:permissions:read"
+	TeamTypeServiceLogsRead         TeamType = "service:logs:read"
+	TeamTypeProjectServicesRead     TeamType = "project:services:read"
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only", "project:permissions:read", "service:logs:read"}
+	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:permissions:read", "service:logs:read", "project:services:read"}
 }
 
 type TechEmailOut struct {
