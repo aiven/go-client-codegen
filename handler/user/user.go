@@ -515,16 +515,18 @@ func ActionTypeChoices() []string {
 type AnyType string
 
 const (
-	AnyTypeAdmin                  AnyType = "admin"
-	AnyTypeDeveloper              AnyType = "developer"
-	AnyTypeOperator               AnyType = "operator"
-	AnyTypeProjectpermissionsread AnyType = "project:permissions:read"
-	AnyTypeReadOnly               AnyType = "read_only"
-	AnyTypeServicelogsread        AnyType = "service:logs:read"
+	AnyTypeAdmin                   AnyType = "admin"
+	AnyTypeDeveloper               AnyType = "developer"
+	AnyTypeOperator                AnyType = "operator"
+	AnyTypeProjectintegrationsread AnyType = "project:integrations:read"
+	AnyTypeProjectpermissionsread  AnyType = "project:permissions:read"
+	AnyTypeProjectservicesread     AnyType = "project:services:read"
+	AnyTypeReadOnly                AnyType = "read_only"
+	AnyTypeServicelogsread         AnyType = "service:logs:read"
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:permissions:read", "read_only", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:integrations:read", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
 }
 
 type AuthenticationMethodOut struct {

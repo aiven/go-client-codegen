@@ -125,6 +125,7 @@ type AccountAuthenticationMethodCreateIn struct {
 	SamlFieldMapping                 *SamlFieldMappingIn        `json:"saml_field_mapping,omitempty"`                   // SAMLFieldMapping
 	SamlIdpLoginAllowed              *bool                      `json:"saml_idp_login_allowed,omitempty"`               // Set to 'true' to enable IdP initiated login
 	SamlIdpUrl                       *string                    `json:"saml_idp_url,omitempty"`                         // Saml Idp Url
+	SamlJoinGroups                   *bool                      `json:"saml_join_groups,omitempty"`                     // SAML join groups enabled
 	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"` // Set to 'false' to disable RequestedAuthnContext
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`             // SAMLSignatureAlgorithm
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`                         // SAMLVariant
@@ -227,6 +228,7 @@ type AccountAuthenticationMethodUpdateIn struct {
 	SamlFieldMapping                 *SamlFieldMappingIn        `json:"saml_field_mapping,omitempty"`                   // SAMLFieldMapping
 	SamlIdpLoginAllowed              *bool                      `json:"saml_idp_login_allowed,omitempty"`               // Set to 'true' to enable IdP initiated login
 	SamlIdpUrl                       *string                    `json:"saml_idp_url,omitempty"`                         // Saml Idp Url
+	SamlJoinGroups                   *bool                      `json:"saml_join_groups,omitempty"`                     // SAML join groups enabled
 	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"` // Set to 'false' to disable RequestedAuthnContext
 	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`             // SAMLSignatureAlgorithm
 	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`                         // SAMLVariant
@@ -363,6 +365,7 @@ func SamlDigestAlgorithmTypeChoices() []string {
 type SamlFieldMappingIn struct {
 	Email     *string `json:"email,omitempty"`      // Field name for user email
 	FirstName *string `json:"first_name,omitempty"` // Field name for user's first name
+	Groups    *string `json:"groups,omitempty"`     // Field name for user's groups memberships. Contents of this field are used to handle group memberships when SCIM is not available and SAML is used to manage group memberships.
 	Identity  *string `json:"identity,omitempty"`   // Field name for user's identity. This field must always exist in responses, and must be immutable and unique. Contents of this field are used to identify the user. Using user ID (such as unix user ID) is highly recommended, as email address may change, requiring relinking user to Aiven user.
 	LastName  *string `json:"last_name,omitempty"`  // Field name for user's lastname
 	RealName  *string `json:"real_name,omitempty"`  // Field name for user's full name. If specified, first_name and last_name mappings are ignored
@@ -372,6 +375,7 @@ type SamlFieldMappingIn struct {
 type SamlFieldMappingOut struct {
 	Email     *string `json:"email,omitempty"`      // Field name for user email
 	FirstName *string `json:"first_name,omitempty"` // Field name for user's first name
+	Groups    *string `json:"groups,omitempty"`     // Field name for user's groups memberships. Contents of this field are used to handle group memberships when SCIM is not available and SAML is used to manage group memberships.
 	Identity  *string `json:"identity,omitempty"`   // Field name for user's identity. This field must always exist in responses, and must be immutable and unique. Contents of this field are used to identify the user. Using user ID (such as unix user ID) is highly recommended, as email address may change, requiring relinking user to Aiven user.
 	LastName  *string `json:"last_name,omitempty"`  // Field name for user's lastname
 	RealName  *string `json:"real_name,omitempty"`  // Field name for user's full name. If specified, first_name and last_name mappings are ignored

@@ -549,16 +549,18 @@ type EventOut struct {
 type MemberType string
 
 const (
-	MemberTypeAdmin                  MemberType = "admin"
-	MemberTypeDeveloper              MemberType = "developer"
-	MemberTypeOperator               MemberType = "operator"
-	MemberTypeProjectpermissionsread MemberType = "project:permissions:read"
-	MemberTypeReadOnly               MemberType = "read_only"
-	MemberTypeServicelogsread        MemberType = "service:logs:read"
+	MemberTypeAdmin                   MemberType = "admin"
+	MemberTypeDeveloper               MemberType = "developer"
+	MemberTypeOperator                MemberType = "operator"
+	MemberTypeProjectintegrationsread MemberType = "project:integrations:read"
+	MemberTypeProjectpermissionsread  MemberType = "project:permissions:read"
+	MemberTypeProjectservicesread     MemberType = "project:services:read"
+	MemberTypeReadOnly                MemberType = "read_only"
+	MemberTypeServicelogsread         MemberType = "service:logs:read"
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:permissions:read", "read_only", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:integrations:read", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
 }
 
 type OrderByType string
@@ -634,16 +636,18 @@ type TeamOut struct {
 type TeamType string
 
 const (
-	TeamTypeAdmin                  TeamType = "admin"
-	TeamTypeOperator               TeamType = "operator"
-	TeamTypeDeveloper              TeamType = "developer"
-	TeamTypeReadOnly               TeamType = "read_only"
-	TeamTypeProjectpermissionsread TeamType = "project:permissions:read"
-	TeamTypeServicelogsread        TeamType = "service:logs:read"
+	TeamTypeAdmin                   TeamType = "admin"
+	TeamTypeOperator                TeamType = "operator"
+	TeamTypeDeveloper               TeamType = "developer"
+	TeamTypeReadOnly                TeamType = "read_only"
+	TeamTypeProjectintegrationsread TeamType = "project:integrations:read"
+	TeamTypeProjectpermissionsread  TeamType = "project:permissions:read"
+	TeamTypeServicelogsread         TeamType = "service:logs:read"
+	TeamTypeProjectservicesread     TeamType = "project:services:read"
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only", "project:permissions:read", "service:logs:read"}
+	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:permissions:read", "service:logs:read", "project:services:read"}
 }
 
 type TechEmailOut struct {

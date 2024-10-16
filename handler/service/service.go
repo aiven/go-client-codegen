@@ -1091,6 +1091,7 @@ const (
 	EndpointTypeExternalMysql                EndpointType = "external_mysql"
 	EndpointTypeExternalOpensearchLogs       EndpointType = "external_opensearch_logs"
 	EndpointTypeExternalPostgresql           EndpointType = "external_postgresql"
+	EndpointTypeExternalPrometheus           EndpointType = "external_prometheus"
 	EndpointTypeExternalRedis                EndpointType = "external_redis"
 	EndpointTypeExternalSchemaRegistry       EndpointType = "external_schema_registry"
 	EndpointTypeExternalSumologicLogs        EndpointType = "external_sumologic_logs"
@@ -1100,7 +1101,7 @@ const (
 )
 
 func EndpointTypeChoices() []string {
-	return []string{"autoscaler", "datadog", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_aws_s3", "external_clickhouse", "external_elasticsearch_logs", "external_google_cloud_bigquery", "external_google_cloud_logging", "external_kafka", "external_mysql", "external_opensearch_logs", "external_postgresql", "external_redis", "external_schema_registry", "external_sumologic_logs", "jolokia", "prometheus", "rsyslog"}
+	return []string{"autoscaler", "datadog", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_aws_s3", "external_clickhouse", "external_elasticsearch_logs", "external_google_cloud_bigquery", "external_google_cloud_logging", "external_kafka", "external_mysql", "external_opensearch_logs", "external_postgresql", "external_prometheus", "external_redis", "external_schema_registry", "external_sumologic_logs", "jolokia", "prometheus", "rsyslog"}
 }
 
 type EndpointTypeOut struct {
