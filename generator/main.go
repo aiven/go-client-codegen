@@ -649,13 +649,8 @@ func fmtQueryParamType() *jen.Statement {
 	return jen.Index(jen.Lit(queryParamArraySize)).String()
 }
 
+var reNonWord = regexp.MustCompile(`\W+`)
+
 func customCamelCase(s string) string {
-	// Split the string by ":"
-	parts := strings.Split(s, ":")
-	for i, part := range parts {
-		// Convert each part to camelCase using strcase.ToCamel
-		parts[i] = strcase.ToCamel(part)
-	}
-	// Join the parts back together
-	return strings.Join(parts, "")
+	return strcase.ToCamel(reNonWord.ReplaceAllString(s, "_"))
 }

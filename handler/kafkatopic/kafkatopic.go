@@ -142,7 +142,7 @@ type CleanupPolicyType string
 const (
 	CleanupPolicyTypeDelete        CleanupPolicyType = "delete"
 	CleanupPolicyTypeCompact       CleanupPolicyType = "compact"
-	CleanupPolicyTypeCompactdelete CleanupPolicyType = "compact,delete"
+	CleanupPolicyTypeCompactDelete CleanupPolicyType = "compact,delete"
 )
 
 func CleanupPolicyTypeChoices() []string {
