@@ -268,6 +268,7 @@ type BillingEmailOut struct {
 type BillingGroupCreateIn struct {
 	AccountId            *string             `json:"account_id,omitempty"`              // Account ID
 	AddressLines         *[]string           `json:"address_lines,omitempty"`           // Address lines
+	BillingAddressId     *string             `json:"billing_address_id,omitempty"`      // Address ID
 	BillingCurrency      BillingCurrencyType `json:"billing_currency,omitempty"`        // Billing currency
 	BillingEmails        *[]BillingEmailIn   `json:"billing_emails,omitempty"`          // List of project billing email addresses
 	BillingExtraText     *string             `json:"billing_extra_text,omitempty"`      // Extra text to be included in all project invoices, e.g. purchase order or cost center number
@@ -392,6 +393,7 @@ func BillingGroupStateTypeChoices() []string {
 type BillingGroupUpdateIn struct {
 	AccountId        *string             `json:"account_id,omitempty"`         // Account ID
 	AddressLines     *[]string           `json:"address_lines,omitempty"`      // Address lines
+	BillingAddressId *string             `json:"billing_address_id,omitempty"` // Address ID
 	BillingCurrency  BillingCurrencyType `json:"billing_currency,omitempty"`   // Billing currency
 	BillingEmails    *[]BillingEmailIn   `json:"billing_emails,omitempty"`     // List of project billing email addresses
 	BillingExtraText *string             `json:"billing_extra_text,omitempty"` // Extra text to be included in all project invoices, e.g. purchase order or cost center number

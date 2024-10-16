@@ -450,6 +450,7 @@ const (
 	AnyTypeAdmin                   AnyType = "admin"
 	AnyTypeDeveloper               AnyType = "developer"
 	AnyTypeOperator                AnyType = "operator"
+	AnyTypeProjectAuditLogsRead    AnyType = "project:audit_logs:read"
 	AnyTypeProjectIntegrationsRead AnyType = "project:integrations:read"
 	AnyTypeProjectPermissionsRead  AnyType = "project:permissions:read"
 	AnyTypeProjectServicesRead     AnyType = "project:services:read"
@@ -458,7 +459,7 @@ const (
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:integrations:read", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
 }
 
 // BackupConfigOut Backup configuration for this service plan
@@ -628,6 +629,7 @@ const (
 	MemberTypeAdmin                   MemberType = "admin"
 	MemberTypeDeveloper               MemberType = "developer"
 	MemberTypeOperator                MemberType = "operator"
+	MemberTypeProjectAuditLogsRead    MemberType = "project:audit_logs:read"
 	MemberTypeProjectIntegrationsRead MemberType = "project:integrations:read"
 	MemberTypeProjectPermissionsRead  MemberType = "project:permissions:read"
 	MemberTypeProjectServicesRead     MemberType = "project:services:read"
@@ -636,7 +638,7 @@ const (
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:integrations:read", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
 }
 
 // MysqlOut Service type information
@@ -880,6 +882,7 @@ type ProjectServiceTypesListOut struct {
 	Opensearch       *OpensearchOut                           `json:"opensearch,omitempty"`        // Service type information
 	Pg               *PgOut                                   `json:"pg,omitempty"`                // Service type information
 	Redis            *RedisOut                                `json:"redis,omitempty"`             // Service type information
+	Thanos           *ThanosOut                               `json:"thanos,omitempty"`            // Service type information
 	Valkey           *ValkeyOut                               `json:"valkey,omitempty"`            // Service type information
 }
 
@@ -993,6 +996,14 @@ type TechEmailIn struct {
 }
 type TechEmailOut struct {
 	Email string `json:"email"` // User email address
+}
+
+// ThanosOut Service type information
+type ThanosOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
 type UserOut struct {
 	Auth           []string   `json:"auth"`                // List of user's required authentication methods

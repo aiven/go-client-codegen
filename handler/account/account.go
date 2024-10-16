@@ -552,6 +552,7 @@ const (
 	MemberTypeAdmin                   MemberType = "admin"
 	MemberTypeDeveloper               MemberType = "developer"
 	MemberTypeOperator                MemberType = "operator"
+	MemberTypeProjectAuditLogsRead    MemberType = "project:audit_logs:read"
 	MemberTypeProjectIntegrationsRead MemberType = "project:integrations:read"
 	MemberTypeProjectPermissionsRead  MemberType = "project:permissions:read"
 	MemberTypeProjectServicesRead     MemberType = "project:services:read"
@@ -560,7 +561,7 @@ const (
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:integrations:read", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
 }
 
 type OrderByType string
@@ -644,10 +645,11 @@ const (
 	TeamTypeProjectPermissionsRead  TeamType = "project:permissions:read"
 	TeamTypeServiceLogsRead         TeamType = "service:logs:read"
 	TeamTypeProjectServicesRead     TeamType = "project:services:read"
+	TeamTypeProjectAuditLogsRead    TeamType = "project:audit_logs:read"
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:permissions:read", "service:logs:read", "project:services:read"}
+	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:permissions:read", "service:logs:read", "project:services:read", "project:audit_logs:read"}
 }
 
 type TechEmailOut struct {
