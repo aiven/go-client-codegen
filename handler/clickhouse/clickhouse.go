@@ -187,20 +187,20 @@ type MetaOut struct {
 type OrderByType string
 
 const (
-	OrderByTypeCallsasc       OrderByType = "calls:asc"
-	OrderByTypeCallsdesc      OrderByType = "calls:desc"
-	OrderByTypeMinTimeasc     OrderByType = "min_time:asc"
-	OrderByTypeMinTimedesc    OrderByType = "min_time:desc"
-	OrderByTypeMaxTimeasc     OrderByType = "max_time:asc"
-	OrderByTypeMaxTimedesc    OrderByType = "max_time:desc"
-	OrderByTypeMeanTimeasc    OrderByType = "mean_time:asc"
-	OrderByTypeMeanTimedesc   OrderByType = "mean_time:desc"
-	OrderByTypeP95Timeasc     OrderByType = "p95_time:asc"
-	OrderByTypeP95Timedesc    OrderByType = "p95_time:desc"
-	OrderByTypeStddevTimeasc  OrderByType = "stddev_time:asc"
-	OrderByTypeStddevTimedesc OrderByType = "stddev_time:desc"
-	OrderByTypeTotalTimeasc   OrderByType = "total_time:asc"
-	OrderByTypeTotalTimedesc  OrderByType = "total_time:desc"
+	OrderByTypeCallsAsc       OrderByType = "calls:asc"
+	OrderByTypeCallsDesc      OrderByType = "calls:desc"
+	OrderByTypeMinTimeAsc     OrderByType = "min_time:asc"
+	OrderByTypeMinTimeDesc    OrderByType = "min_time:desc"
+	OrderByTypeMaxTimeAsc     OrderByType = "max_time:asc"
+	OrderByTypeMaxTimeDesc    OrderByType = "max_time:desc"
+	OrderByTypeMeanTimeAsc    OrderByType = "mean_time:asc"
+	OrderByTypeMeanTimeDesc   OrderByType = "mean_time:desc"
+	OrderByTypeP95TimeAsc     OrderByType = "p95_time:asc"
+	OrderByTypeP95TimeDesc    OrderByType = "p95_time:desc"
+	OrderByTypeStddevTimeAsc  OrderByType = "stddev_time:asc"
+	OrderByTypeStddevTimeDesc OrderByType = "stddev_time:desc"
+	OrderByTypeTotalTimeAsc   OrderByType = "total_time:asc"
+	OrderByTypeTotalTimeDesc  OrderByType = "total_time:desc"
 )
 
 func OrderByTypeChoices() []string {

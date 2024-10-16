@@ -199,14 +199,14 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 	}
 
 	s.name = name
-	s.CamelName = strcase.ToCamel(s.name)
+	s.CamelName = customCamelCase(s.name)
 
 	if s.isEnum() {
 		const enumTypeSuffix = "Type"
 
 		betterName := getEnumName(s)
 		if betterName != s.name {
-			s.CamelName = cleanEnumName.ReplaceAllString(strcase.ToCamel(betterName), "") + s.CamelName
+			s.CamelName = cleanEnumName.ReplaceAllString(customCamelCase(betterName), "") + s.CamelName
 		}
 
 		if !strings.Contains(s.CamelName, enumTypeSuffix) {
@@ -236,7 +236,7 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 	}
 
 	if s.parent != nil && s.parent.isPrivate() {
-		s.CamelName = strcase.ToCamel(s.parent.CamelName)
+		s.CamelName = customCamelCase(s.parent.CamelName)
 	}
 
 	// Some cases just impossible to cover
@@ -305,9 +305,9 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 			}
 
 			if parent.isPrivate() {
-				s.CamelName = strcase.ToCamel(parent.CamelName)
+				s.CamelName = customCamelCase(parent.CamelName)
 			} else {
-				s.CamelName = strings.TrimSuffix(strcase.ToCamel(parent.CamelName), suffix) + s.CamelName
+				s.CamelName = strings.TrimSuffix(customCamelCase(parent.CamelName), suffix) + s.CamelName
 			}
 
 			// Marks all have collision

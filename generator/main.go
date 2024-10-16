@@ -405,7 +405,7 @@ func exec() error {
 				if rsp.CamelName != schemaOut.CamelName {
 					// Takes original name and turns to camel.
 					// "CamelName" field might have been modified because of name collisions
-					outReturn.Dot(strcase.ToCamel(rsp.name))
+					outReturn.Dot(customCamelCase(rsp.name))
 
 					if forcePointer {
 						// return &out.Foo
@@ -488,7 +488,7 @@ func writeStruct(f *jen.File, s *Schema) error {
 				continue
 			}
 
-			constant := s.CamelName + strcase.ToCamel(literal)
+			constant := s.CamelName + customCamelCase(literal)
 
 			// KafkaMirror ReplicationPolicyClassType makes bad generated name
 			if strings.HasPrefix(literal, "org.apache.kafka.connect.mirror.") {
@@ -529,7 +529,7 @@ func fmtStruct(s *Schema) *jen.Statement {
 	fields := make([]jen.Code, 0, len(s.Properties))
 	for _, k := range s.propertyNames {
 		p := s.Properties[k]
-		field := jen.Id(strcase.ToCamel(k)).Add(getType(p))
+		field := jen.Id(customCamelCase(k)).Add(getType(p))
 		tag := k
 
 		if !p.required {
@@ -647,4 +647,15 @@ func fmtQueryParam(funcName, queryParamType string, p *Parameter) (*jen.Statemen
 // fmtQueryParamType literally returns: [2]string
 func fmtQueryParamType() *jen.Statement {
 	return jen.Index(jen.Lit(queryParamArraySize)).String()
+}
+
+func customCamelCase(s string) string {
+	// Split the string by ":"
+	parts := strings.Split(s, ":")
+	for i, part := range parts {
+		// Convert each part to camelCase using strcase.ToCamel
+		parts[i] = strcase.ToCamel(part)
+	}
+	// Join the parts back together
+	return strings.Join(parts, "")
 }

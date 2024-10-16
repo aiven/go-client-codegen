@@ -106,7 +106,7 @@ func TestServiceCreate(t *testing.T) {
 	stats, err := c.ServiceClickHouseQueryStats(
 		ctx, project, in.ServiceName,
 		clickhouse.ServiceClickHouseQueryStatsLimit(1),
-		clickhouse.ServiceClickHouseQueryStatsOrderByType(clickhouse.OrderByTypeMaxTimeasc),
+		clickhouse.ServiceClickHouseQueryStatsOrderByType(clickhouse.OrderByTypeMaxTimeAsc),
 	)
 	require.NoError(t, err)
 	assert.Len(t, stats, 1)
