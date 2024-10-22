@@ -521,6 +521,7 @@ const (
 	AnyTypeProjectAuditLogsRead    AnyType = "project:audit_logs:read"
 	AnyTypeProjectIntegrationsRead AnyType = "project:integrations:read"
 	AnyTypeProjectNetworkingRead   AnyType = "project:networking:read"
+	AnyTypeProjectNetworkingWrite  AnyType = "project:networking:write"
 	AnyTypeProjectPermissionsRead  AnyType = "project:permissions:read"
 	AnyTypeProjectServicesRead     AnyType = "project:services:read"
 	AnyTypeReadOnly                AnyType = "read_only"
@@ -528,7 +529,7 @@ const (
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:networking:read", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
 }
 
 type AuthenticationMethodOut struct {

@@ -555,6 +555,7 @@ const (
 	MemberTypeProjectAuditLogsRead    MemberType = "project:audit_logs:read"
 	MemberTypeProjectIntegrationsRead MemberType = "project:integrations:read"
 	MemberTypeProjectNetworkingRead   MemberType = "project:networking:read"
+	MemberTypeProjectNetworkingWrite  MemberType = "project:networking:write"
 	MemberTypeProjectPermissionsRead  MemberType = "project:permissions:read"
 	MemberTypeProjectServicesRead     MemberType = "project:services:read"
 	MemberTypeReadOnly                MemberType = "read_only"
@@ -562,7 +563,7 @@ const (
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:networking:read", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
 }
 
 type OrderByType string
@@ -644,6 +645,7 @@ const (
 	TeamTypeReadOnly                TeamType = "read_only"
 	TeamTypeProjectIntegrationsRead TeamType = "project:integrations:read"
 	TeamTypeProjectNetworkingRead   TeamType = "project:networking:read"
+	TeamTypeProjectNetworkingWrite  TeamType = "project:networking:write"
 	TeamTypeProjectPermissionsRead  TeamType = "project:permissions:read"
 	TeamTypeServiceLogsRead         TeamType = "service:logs:read"
 	TeamTypeProjectServicesRead     TeamType = "project:services:read"
@@ -651,7 +653,7 @@ const (
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:networking:read", "project:permissions:read", "service:logs:read", "project:services:read", "project:audit_logs:read"}
+	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:networking:read", "project:networking:write", "project:permissions:read", "service:logs:read", "project:services:read", "project:audit_logs:read"}
 }
 
 type TechEmailOut struct {
