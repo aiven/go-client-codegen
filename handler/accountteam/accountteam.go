@@ -244,21 +244,22 @@ type TeamOut struct {
 type TeamType string
 
 const (
-	TeamTypeAdmin                   TeamType = "admin"
-	TeamTypeOperator                TeamType = "operator"
-	TeamTypeDeveloper               TeamType = "developer"
-	TeamTypeReadOnly                TeamType = "read_only"
-	TeamTypeProjectIntegrationsRead TeamType = "project:integrations:read"
-	TeamTypeProjectNetworkingRead   TeamType = "project:networking:read"
-	TeamTypeProjectNetworkingWrite  TeamType = "project:networking:write"
-	TeamTypeProjectPermissionsRead  TeamType = "project:permissions:read"
-	TeamTypeServiceLogsRead         TeamType = "service:logs:read"
-	TeamTypeProjectServicesRead     TeamType = "project:services:read"
-	TeamTypeProjectAuditLogsRead    TeamType = "project:audit_logs:read"
+	TeamTypeAdmin                    TeamType = "admin"
+	TeamTypeOperator                 TeamType = "operator"
+	TeamTypeDeveloper                TeamType = "developer"
+	TeamTypeReadOnly                 TeamType = "read_only"
+	TeamTypeProjectIntegrationsRead  TeamType = "project:integrations:read"
+	TeamTypeProjectIntegrationsWrite TeamType = "project:integrations:write"
+	TeamTypeProjectNetworkingRead    TeamType = "project:networking:read"
+	TeamTypeProjectNetworkingWrite   TeamType = "project:networking:write"
+	TeamTypeProjectPermissionsRead   TeamType = "project:permissions:read"
+	TeamTypeServiceLogsRead          TeamType = "service:logs:read"
+	TeamTypeProjectServicesRead      TeamType = "project:services:read"
+	TeamTypeProjectAuditLogsRead     TeamType = "project:audit_logs:read"
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:networking:read", "project:networking:write", "project:permissions:read", "service:logs:read", "project:services:read", "project:audit_logs:read"}
+	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "service:logs:read", "project:services:read", "project:audit_logs:read"}
 }
 
 // accountTeamCreateOut AccountTeamCreateResponse

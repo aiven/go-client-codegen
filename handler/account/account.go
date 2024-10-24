@@ -549,21 +549,22 @@ type EventOut struct {
 type MemberType string
 
 const (
-	MemberTypeAdmin                   MemberType = "admin"
-	MemberTypeDeveloper               MemberType = "developer"
-	MemberTypeOperator                MemberType = "operator"
-	MemberTypeProjectAuditLogsRead    MemberType = "project:audit_logs:read"
-	MemberTypeProjectIntegrationsRead MemberType = "project:integrations:read"
-	MemberTypeProjectNetworkingRead   MemberType = "project:networking:read"
-	MemberTypeProjectNetworkingWrite  MemberType = "project:networking:write"
-	MemberTypeProjectPermissionsRead  MemberType = "project:permissions:read"
-	MemberTypeProjectServicesRead     MemberType = "project:services:read"
-	MemberTypeReadOnly                MemberType = "read_only"
-	MemberTypeServiceLogsRead         MemberType = "service:logs:read"
+	MemberTypeAdmin                    MemberType = "admin"
+	MemberTypeDeveloper                MemberType = "developer"
+	MemberTypeOperator                 MemberType = "operator"
+	MemberTypeProjectAuditLogsRead     MemberType = "project:audit_logs:read"
+	MemberTypeProjectIntegrationsRead  MemberType = "project:integrations:read"
+	MemberTypeProjectIntegrationsWrite MemberType = "project:integrations:write"
+	MemberTypeProjectNetworkingRead    MemberType = "project:networking:read"
+	MemberTypeProjectNetworkingWrite   MemberType = "project:networking:write"
+	MemberTypeProjectPermissionsRead   MemberType = "project:permissions:read"
+	MemberTypeProjectServicesRead      MemberType = "project:services:read"
+	MemberTypeReadOnly                 MemberType = "read_only"
+	MemberTypeServiceLogsRead          MemberType = "service:logs:read"
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
 }
 
 type OrderByType string
@@ -639,21 +640,22 @@ type TeamOut struct {
 type TeamType string
 
 const (
-	TeamTypeAdmin                   TeamType = "admin"
-	TeamTypeOperator                TeamType = "operator"
-	TeamTypeDeveloper               TeamType = "developer"
-	TeamTypeReadOnly                TeamType = "read_only"
-	TeamTypeProjectIntegrationsRead TeamType = "project:integrations:read"
-	TeamTypeProjectNetworkingRead   TeamType = "project:networking:read"
-	TeamTypeProjectNetworkingWrite  TeamType = "project:networking:write"
-	TeamTypeProjectPermissionsRead  TeamType = "project:permissions:read"
-	TeamTypeServiceLogsRead         TeamType = "service:logs:read"
-	TeamTypeProjectServicesRead     TeamType = "project:services:read"
-	TeamTypeProjectAuditLogsRead    TeamType = "project:audit_logs:read"
+	TeamTypeAdmin                    TeamType = "admin"
+	TeamTypeOperator                 TeamType = "operator"
+	TeamTypeDeveloper                TeamType = "developer"
+	TeamTypeReadOnly                 TeamType = "read_only"
+	TeamTypeProjectIntegrationsRead  TeamType = "project:integrations:read"
+	TeamTypeProjectIntegrationsWrite TeamType = "project:integrations:write"
+	TeamTypeProjectNetworkingRead    TeamType = "project:networking:read"
+	TeamTypeProjectNetworkingWrite   TeamType = "project:networking:write"
+	TeamTypeProjectPermissionsRead   TeamType = "project:permissions:read"
+	TeamTypeServiceLogsRead          TeamType = "service:logs:read"
+	TeamTypeProjectServicesRead      TeamType = "project:services:read"
+	TeamTypeProjectAuditLogsRead     TeamType = "project:audit_logs:read"
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:networking:read", "project:networking:write", "project:permissions:read", "service:logs:read", "project:services:read", "project:audit_logs:read"}
+	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "service:logs:read", "project:services:read", "project:audit_logs:read"}
 }
 
 type TechEmailOut struct {
