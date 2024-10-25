@@ -28,7 +28,7 @@ type Handler interface {
 	// ServiceSchemaRegistryCompatibility check compatibility of schema in Schema Registry
 	// POST /v1/project/{project}/service/{service_name}/kafka/schema/compatibility/subjects/{subject_name}/versions/{version_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryCompatibility
-	ServiceSchemaRegistryCompatibility(ctx context.Context, project string, serviceName string, subjectName string, versionId int, in *ServiceSchemaRegistryCompatibilityIn) (bool, error)
+	ServiceSchemaRegistryCompatibility(ctx context.Context, project string, serviceName string, subjectName string, versionId int, in *ServiceSchemaRegistryCompatibilityIn) (*ServiceSchemaRegistryCompatibilityOut, error)
 
 	// ServiceSchemaRegistryGlobalConfigGet get global configuration for Schema Registry
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/config
@@ -143,18 +143,18 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryAclList(ctx context.Co
 	}
 	return out.Acl, nil
 }
-func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryCompatibility(ctx context.Context, project string, serviceName string, subjectName string, versionId int, in *ServiceSchemaRegistryCompatibilityIn) (bool, error) {
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryCompatibility(ctx context.Context, project string, serviceName string, subjectName string, versionId int, in *ServiceSchemaRegistryCompatibilityIn) (*ServiceSchemaRegistryCompatibilityOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/schema/compatibility/subjects/%s/versions/%d", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(subjectName), versionId)
 	b, err := h.doer.Do(ctx, "ServiceSchemaRegistryCompatibility", "POST", path, in)
 	if err != nil {
-		return false, err
+		return nil, err
 	}
-	out := new(serviceSchemaRegistryCompatibilityOut)
+	out := new(ServiceSchemaRegistryCompatibilityOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
-		return false, err
+		return nil, err
 	}
-	return out.IsCompatible, nil
+	return out, nil
 }
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistryGlobalConfigGet(ctx context.Context, project string, serviceName string) (CompatibilityType, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/schema/config", url.PathEscape(project), url.PathEscape(serviceName))
@@ -349,6 +349,12 @@ type ServiceSchemaRegistryCompatibilityIn struct {
 	SchemaType SchemaType `json:"schemaType,omitempty"` // Schema type
 }
 
+// ServiceSchemaRegistryCompatibilityOut ServiceSchemaRegistryCompatibilityResponse
+type ServiceSchemaRegistryCompatibilityOut struct {
+	IsCompatible bool     `json:"is_compatible"`      // Compatibility
+	Messages     []string `json:"messages,omitempty"` // Compatibility check messages
+}
+
 // ServiceSchemaRegistryGlobalConfigPutIn ServiceSchemaRegistryGlobalConfigPutRequestBody
 type ServiceSchemaRegistryGlobalConfigPutIn struct {
 	Compatibility CompatibilityType `json:"compatibility"` // Compatibility level
@@ -389,11 +395,6 @@ type serviceSchemaRegistryAclDeleteOut struct {
 // serviceSchemaRegistryAclListOut ServiceSchemaRegistryAclListResponse
 type serviceSchemaRegistryAclListOut struct {
 	Acl []AclOut `json:"acl"` // List of Schema Registry ACL entries
-}
-
-// serviceSchemaRegistryCompatibilityOut ServiceSchemaRegistryCompatibilityResponse
-type serviceSchemaRegistryCompatibilityOut struct {
-	IsCompatible bool `json:"is_compatible"` // Compatibility
 }
 
 // serviceSchemaRegistryGlobalConfigGetOut ServiceSchemaRegistryGlobalConfigGetResponse

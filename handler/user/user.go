@@ -515,22 +515,23 @@ func ActionTypeChoices() []string {
 type AnyType string
 
 const (
-	AnyTypeAdmin                    AnyType = "admin"
-	AnyTypeDeveloper                AnyType = "developer"
-	AnyTypeOperator                 AnyType = "operator"
-	AnyTypeProjectAuditLogsRead     AnyType = "project:audit_logs:read"
-	AnyTypeProjectIntegrationsRead  AnyType = "project:integrations:read"
-	AnyTypeProjectIntegrationsWrite AnyType = "project:integrations:write"
-	AnyTypeProjectNetworkingRead    AnyType = "project:networking:read"
-	AnyTypeProjectNetworkingWrite   AnyType = "project:networking:write"
-	AnyTypeProjectPermissionsRead   AnyType = "project:permissions:read"
-	AnyTypeProjectServicesRead      AnyType = "project:services:read"
-	AnyTypeReadOnly                 AnyType = "read_only"
-	AnyTypeServiceLogsRead          AnyType = "service:logs:read"
+	AnyTypeAdmin                     AnyType = "admin"
+	AnyTypeDeveloper                 AnyType = "developer"
+	AnyTypeOperator                  AnyType = "operator"
+	AnyTypeProjectAuditLogsRead      AnyType = "project:audit_logs:read"
+	AnyTypeProjectIntegrationsRead   AnyType = "project:integrations:read"
+	AnyTypeProjectIntegrationsWrite  AnyType = "project:integrations:write"
+	AnyTypeProjectNetworkingRead     AnyType = "project:networking:read"
+	AnyTypeProjectNetworkingWrite    AnyType = "project:networking:write"
+	AnyTypeProjectPermissionsRead    AnyType = "project:permissions:read"
+	AnyTypeProjectServicesRead       AnyType = "project:services:read"
+	AnyTypeReadOnly                  AnyType = "read_only"
+	AnyTypeServiceConfigurationWrite AnyType = "service:configuration:write"
+	AnyTypeServiceLogsRead           AnyType = "service:logs:read"
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:configuration:write", "service:logs:read"}
 }
 
 type AuthenticationMethodOut struct {
