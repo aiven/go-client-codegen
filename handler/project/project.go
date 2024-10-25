@@ -447,22 +447,23 @@ type AlloydbomniOut struct {
 type AnyType string
 
 const (
-	AnyTypeAdmin                    AnyType = "admin"
-	AnyTypeDeveloper                AnyType = "developer"
-	AnyTypeOperator                 AnyType = "operator"
-	AnyTypeProjectAuditLogsRead     AnyType = "project:audit_logs:read"
-	AnyTypeProjectIntegrationsRead  AnyType = "project:integrations:read"
-	AnyTypeProjectIntegrationsWrite AnyType = "project:integrations:write"
-	AnyTypeProjectNetworkingRead    AnyType = "project:networking:read"
-	AnyTypeProjectNetworkingWrite   AnyType = "project:networking:write"
-	AnyTypeProjectPermissionsRead   AnyType = "project:permissions:read"
-	AnyTypeProjectServicesRead      AnyType = "project:services:read"
-	AnyTypeReadOnly                 AnyType = "read_only"
-	AnyTypeServiceLogsRead          AnyType = "service:logs:read"
+	AnyTypeAdmin                     AnyType = "admin"
+	AnyTypeDeveloper                 AnyType = "developer"
+	AnyTypeOperator                  AnyType = "operator"
+	AnyTypeProjectAuditLogsRead      AnyType = "project:audit_logs:read"
+	AnyTypeProjectIntegrationsRead   AnyType = "project:integrations:read"
+	AnyTypeProjectIntegrationsWrite  AnyType = "project:integrations:write"
+	AnyTypeProjectNetworkingRead     AnyType = "project:networking:read"
+	AnyTypeProjectNetworkingWrite    AnyType = "project:networking:write"
+	AnyTypeProjectPermissionsRead    AnyType = "project:permissions:read"
+	AnyTypeProjectServicesRead       AnyType = "project:services:read"
+	AnyTypeReadOnly                  AnyType = "read_only"
+	AnyTypeServiceConfigurationWrite AnyType = "service:configuration:write"
+	AnyTypeServiceLogsRead           AnyType = "service:logs:read"
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:configuration:write", "service:logs:read"}
 }
 
 // BackupConfigOut Backup configuration for this service plan
@@ -629,22 +630,23 @@ type KafkaOut struct {
 type MemberType string
 
 const (
-	MemberTypeAdmin                    MemberType = "admin"
-	MemberTypeDeveloper                MemberType = "developer"
-	MemberTypeOperator                 MemberType = "operator"
-	MemberTypeProjectAuditLogsRead     MemberType = "project:audit_logs:read"
-	MemberTypeProjectIntegrationsRead  MemberType = "project:integrations:read"
-	MemberTypeProjectIntegrationsWrite MemberType = "project:integrations:write"
-	MemberTypeProjectNetworkingRead    MemberType = "project:networking:read"
-	MemberTypeProjectNetworkingWrite   MemberType = "project:networking:write"
-	MemberTypeProjectPermissionsRead   MemberType = "project:permissions:read"
-	MemberTypeProjectServicesRead      MemberType = "project:services:read"
-	MemberTypeReadOnly                 MemberType = "read_only"
-	MemberTypeServiceLogsRead          MemberType = "service:logs:read"
+	MemberTypeAdmin                     MemberType = "admin"
+	MemberTypeDeveloper                 MemberType = "developer"
+	MemberTypeOperator                  MemberType = "operator"
+	MemberTypeProjectAuditLogsRead      MemberType = "project:audit_logs:read"
+	MemberTypeProjectIntegrationsRead   MemberType = "project:integrations:read"
+	MemberTypeProjectIntegrationsWrite  MemberType = "project:integrations:write"
+	MemberTypeProjectNetworkingRead     MemberType = "project:networking:read"
+	MemberTypeProjectNetworkingWrite    MemberType = "project:networking:write"
+	MemberTypeProjectPermissionsRead    MemberType = "project:permissions:read"
+	MemberTypeProjectServicesRead       MemberType = "project:services:read"
+	MemberTypeReadOnly                  MemberType = "read_only"
+	MemberTypeServiceConfigurationWrite MemberType = "service:configuration:write"
+	MemberTypeServiceLogsRead           MemberType = "service:logs:read"
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:configuration:write", "service:logs:read"}
 }
 
 // MysqlOut Service type information
