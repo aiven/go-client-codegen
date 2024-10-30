@@ -460,10 +460,11 @@ const (
 	AnyTypeReadOnly                  AnyType = "read_only"
 	AnyTypeServiceConfigurationWrite AnyType = "service:configuration:write"
 	AnyTypeServiceLogsRead           AnyType = "service:logs:read"
+	AnyTypeServicesMaintenance       AnyType = "services:maintenance"
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:configuration:write", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:configuration:write", "service:logs:read", "services:maintenance"}
 }
 
 // BackupConfigOut Backup configuration for this service plan
@@ -643,10 +644,11 @@ const (
 	MemberTypeReadOnly                  MemberType = "read_only"
 	MemberTypeServiceConfigurationWrite MemberType = "service:configuration:write"
 	MemberTypeServiceLogsRead           MemberType = "service:logs:read"
+	MemberTypeServicesMaintenance       MemberType = "services:maintenance"
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:configuration:write", "service:logs:read"}
+	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:configuration:write", "service:logs:read", "services:maintenance"}
 }
 
 // MysqlOut Service type information
