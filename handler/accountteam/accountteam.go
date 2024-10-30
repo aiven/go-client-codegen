@@ -254,13 +254,14 @@ const (
 	TeamTypeProjectNetworkingWrite    TeamType = "project:networking:write"
 	TeamTypeProjectPermissionsRead    TeamType = "project:permissions:read"
 	TeamTypeServiceConfigurationWrite TeamType = "service:configuration:write"
+	TeamTypeServicesMaintenance       TeamType = "services:maintenance"
 	TeamTypeServiceLogsRead           TeamType = "service:logs:read"
 	TeamTypeProjectServicesRead       TeamType = "project:services:read"
 	TeamTypeProjectAuditLogsRead      TeamType = "project:audit_logs:read"
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "service:configuration:write", "service:logs:read", "project:services:read", "project:audit_logs:read"}
+	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "service:configuration:write", "services:maintenance", "service:logs:read", "project:services:read", "project:audit_logs:read"}
 }
 
 // accountTeamCreateOut AccountTeamCreateResponse
