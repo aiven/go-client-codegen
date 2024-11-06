@@ -515,24 +515,42 @@ func ActionTypeChoices() []string {
 type AnyType string
 
 const (
-	AnyTypeAdmin                     AnyType = "admin"
-	AnyTypeDeveloper                 AnyType = "developer"
-	AnyTypeOperator                  AnyType = "operator"
-	AnyTypeProjectAuditLogsRead      AnyType = "project:audit_logs:read"
-	AnyTypeProjectIntegrationsRead   AnyType = "project:integrations:read"
-	AnyTypeProjectIntegrationsWrite  AnyType = "project:integrations:write"
-	AnyTypeProjectNetworkingRead     AnyType = "project:networking:read"
-	AnyTypeProjectNetworkingWrite    AnyType = "project:networking:write"
-	AnyTypeProjectPermissionsRead    AnyType = "project:permissions:read"
-	AnyTypeProjectServicesRead       AnyType = "project:services:read"
-	AnyTypeReadOnly                  AnyType = "read_only"
-	AnyTypeServiceConfigurationWrite AnyType = "service:configuration:write"
-	AnyTypeServiceLogsRead           AnyType = "service:logs:read"
-	AnyTypeServicesMaintenance       AnyType = "services:maintenance"
+	AnyTypeAdmin                        AnyType = "admin"
+	AnyTypeDeveloper                    AnyType = "developer"
+	AnyTypeOperator                     AnyType = "operator"
+	AnyTypeOrganizationAppUsersWrite    AnyType = "organization:app_users:write"
+	AnyTypeOrganizationAuditLogsRead    AnyType = "organization:audit_logs:read"
+	AnyTypeOrganizationBillingRead      AnyType = "organization:billing:read"
+	AnyTypeOrganizationBillingWrite     AnyType = "organization:billing:write"
+	AnyTypeOrganizationDomainsWrite     AnyType = "organization:domains:write"
+	AnyTypeOrganizationGroupsWrite      AnyType = "organization:groups:write"
+	AnyTypeOrganizationIdpsWrite        AnyType = "organization:idps:write"
+	AnyTypeOrganizationNetworkRead      AnyType = "organization:network:read"
+	AnyTypeOrganizationNetworkWrite     AnyType = "organization:network:write"
+	AnyTypeOrganizationPermissionsRead  AnyType = "organization:permissions:read"
+	AnyTypeOrganizationPermissionsWrite AnyType = "organization:permissions:write"
+	AnyTypeOrganizationProjectsRead     AnyType = "organization:projects:read"
+	AnyTypeOrganizationProjectsWrite    AnyType = "organization:projects:write"
+	AnyTypeOrganizationUsersWrite       AnyType = "organization:users:write"
+	AnyTypeProjectAuditLogsRead         AnyType = "project:audit_logs:read"
+	AnyTypeProjectIntegrationsRead      AnyType = "project:integrations:read"
+	AnyTypeProjectIntegrationsWrite     AnyType = "project:integrations:write"
+	AnyTypeProjectNetworkingRead        AnyType = "project:networking:read"
+	AnyTypeProjectNetworkingWrite       AnyType = "project:networking:write"
+	AnyTypeProjectPermissionsRead       AnyType = "project:permissions:read"
+	AnyTypeProjectServicesRead          AnyType = "project:services:read"
+	AnyTypeReadOnly                     AnyType = "read_only"
+	AnyTypeRoleOrganizationAdmin        AnyType = "role:organization:admin"
+	AnyTypeRoleServicesMaintenance      AnyType = "role:services:maintenance"
+	AnyTypeRoleServicesRecover          AnyType = "role:services:recover"
+	AnyTypeServiceConfigurationWrite    AnyType = "service:configuration:write"
+	AnyTypeServiceDataWrite             AnyType = "service:data:write"
+	AnyTypeServiceLogsRead              AnyType = "service:logs:read"
+	AnyTypeServiceSecretsRead           AnyType = "service:secrets:read"
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:configuration:write", "service:logs:read", "services:maintenance"}
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:network:read", "organization:network:write", "organization:permissions:read", "organization:permissions:write", "organization:projects:read", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read"}
 }
 
 type AuthenticationMethodOut struct {

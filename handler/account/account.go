@@ -330,28 +330,30 @@ type AccountAttachPaymentMethodOut struct {
 	Projects       []string `json:"projects"`                  // List of projects the card is assigned to
 }
 type AccountBillingGroupOut struct {
-	AccountId             string              `json:"account_id"`                // Account ID
-	AccountName           string              `json:"account_name"`              // Account name
-	AddressLines          []string            `json:"address_lines"`             // Address lines
-	BillingAddress        *string             `json:"billing_address,omitempty"` // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
-	BillingCurrency       BillingCurrencyType `json:"billing_currency"`          // Billing currency
-	BillingEmails         []BillingEmailOut   `json:"billing_emails"`            // List of project billing email addresses
-	BillingExtraText      string              `json:"billing_extra_text"`        // Extra text to be included in all project invoices, e.g. purchase order or cost center number
-	BillingGroupId        string              `json:"billing_group_id"`          // Billing group ID
-	BillingGroupName      string              `json:"billing_group_name"`        // Billing group name
-	BillingType           string              `json:"billing_type"`              // Method of charging/invoicing this project
-	CardInfo              CardInfoOut         `json:"card_info"`                 // Credit card assigned to the project
-	City                  string              `json:"city"`                      // Address city
-	Company               string              `json:"company"`                   // Name of a company
-	Country               string              `json:"country"`                   // Billing country
-	CountryCode           string              `json:"country_code"`              // Two letter ISO country code
-	CreateTime            time.Time           `json:"create_time"`               // Timestamp in ISO 8601 format, always in UTC
-	EstimatedBalanceLocal string              `json:"estimated_balance_local"`   // Estimated balance in billing currency, before tax
-	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`     // Estimated balance in USD, before tax
-	PaymentMethod         PaymentMethodType   `json:"payment_method"`            // Payment method
-	State                 string              `json:"state"`                     // Address state
-	VatId                 string              `json:"vat_id"`                    // EU VAT Identification Number
-	ZipCode               string              `json:"zip_code"`                  // Address zip code
+	AccountId             string              `json:"account_id"`                    // Account ID
+	AccountName           string              `json:"account_name"`                  // Account name
+	AddressLines          []string            `json:"address_lines"`                 // Address lines
+	BillingAddress        *string             `json:"billing_address,omitempty"`     // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
+	BillingAddressId      *string             `json:"billing_address_id,omitempty"`  // Address ID
+	BillingCurrency       BillingCurrencyType `json:"billing_currency"`              // Billing currency
+	BillingEmails         []BillingEmailOut   `json:"billing_emails"`                // List of project billing email addresses
+	BillingExtraText      string              `json:"billing_extra_text"`            // Extra text to be included in all project invoices, e.g. purchase order or cost center number
+	BillingGroupId        string              `json:"billing_group_id"`              // Billing group ID
+	BillingGroupName      string              `json:"billing_group_name"`            // Billing group name
+	BillingType           string              `json:"billing_type"`                  // Method of charging/invoicing this project
+	CardInfo              CardInfoOut         `json:"card_info"`                     // Credit card assigned to the project
+	City                  string              `json:"city"`                          // Address city
+	Company               string              `json:"company"`                       // Name of a company
+	Country               string              `json:"country"`                       // Billing country
+	CountryCode           string              `json:"country_code"`                  // Two letter ISO country code
+	CreateTime            time.Time           `json:"create_time"`                   // Timestamp in ISO 8601 format, always in UTC
+	EstimatedBalanceLocal string              `json:"estimated_balance_local"`       // Estimated balance in billing currency, before tax
+	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
+	PaymentMethod         PaymentMethodType   `json:"payment_method"`                // Payment method
+	ShippingAddressId     *string             `json:"shipping_address_id,omitempty"` // Address ID
+	State                 string              `json:"state"`                         // Address state
+	VatId                 string              `json:"vat_id"`                        // EU VAT Identification Number
+	ZipCode               string              `json:"zip_code"`                      // Address zip code
 }
 
 // AccountCreateIn AccountCreateRequestBody
@@ -549,24 +551,42 @@ type EventOut struct {
 type MemberType string
 
 const (
-	MemberTypeAdmin                     MemberType = "admin"
-	MemberTypeDeveloper                 MemberType = "developer"
-	MemberTypeOperator                  MemberType = "operator"
-	MemberTypeProjectAuditLogsRead      MemberType = "project:audit_logs:read"
-	MemberTypeProjectIntegrationsRead   MemberType = "project:integrations:read"
-	MemberTypeProjectIntegrationsWrite  MemberType = "project:integrations:write"
-	MemberTypeProjectNetworkingRead     MemberType = "project:networking:read"
-	MemberTypeProjectNetworkingWrite    MemberType = "project:networking:write"
-	MemberTypeProjectPermissionsRead    MemberType = "project:permissions:read"
-	MemberTypeProjectServicesRead       MemberType = "project:services:read"
-	MemberTypeReadOnly                  MemberType = "read_only"
-	MemberTypeServiceConfigurationWrite MemberType = "service:configuration:write"
-	MemberTypeServiceLogsRead           MemberType = "service:logs:read"
-	MemberTypeServicesMaintenance       MemberType = "services:maintenance"
+	MemberTypeAdmin                        MemberType = "admin"
+	MemberTypeDeveloper                    MemberType = "developer"
+	MemberTypeOperator                     MemberType = "operator"
+	MemberTypeOrganizationAppUsersWrite    MemberType = "organization:app_users:write"
+	MemberTypeOrganizationAuditLogsRead    MemberType = "organization:audit_logs:read"
+	MemberTypeOrganizationBillingRead      MemberType = "organization:billing:read"
+	MemberTypeOrganizationBillingWrite     MemberType = "organization:billing:write"
+	MemberTypeOrganizationDomainsWrite     MemberType = "organization:domains:write"
+	MemberTypeOrganizationGroupsWrite      MemberType = "organization:groups:write"
+	MemberTypeOrganizationIdpsWrite        MemberType = "organization:idps:write"
+	MemberTypeOrganizationNetworkRead      MemberType = "organization:network:read"
+	MemberTypeOrganizationNetworkWrite     MemberType = "organization:network:write"
+	MemberTypeOrganizationPermissionsRead  MemberType = "organization:permissions:read"
+	MemberTypeOrganizationPermissionsWrite MemberType = "organization:permissions:write"
+	MemberTypeOrganizationProjectsRead     MemberType = "organization:projects:read"
+	MemberTypeOrganizationProjectsWrite    MemberType = "organization:projects:write"
+	MemberTypeOrganizationUsersWrite       MemberType = "organization:users:write"
+	MemberTypeProjectAuditLogsRead         MemberType = "project:audit_logs:read"
+	MemberTypeProjectIntegrationsRead      MemberType = "project:integrations:read"
+	MemberTypeProjectIntegrationsWrite     MemberType = "project:integrations:write"
+	MemberTypeProjectNetworkingRead        MemberType = "project:networking:read"
+	MemberTypeProjectNetworkingWrite       MemberType = "project:networking:write"
+	MemberTypeProjectPermissionsRead       MemberType = "project:permissions:read"
+	MemberTypeProjectServicesRead          MemberType = "project:services:read"
+	MemberTypeReadOnly                     MemberType = "read_only"
+	MemberTypeRoleOrganizationAdmin        MemberType = "role:organization:admin"
+	MemberTypeRoleServicesMaintenance      MemberType = "role:services:maintenance"
+	MemberTypeRoleServicesRecover          MemberType = "role:services:recover"
+	MemberTypeServiceConfigurationWrite    MemberType = "service:configuration:write"
+	MemberTypeServiceDataWrite             MemberType = "service:data:write"
+	MemberTypeServiceLogsRead              MemberType = "service:logs:read"
+	MemberTypeServiceSecretsRead           MemberType = "service:secrets:read"
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "service:configuration:write", "service:logs:read", "services:maintenance"}
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:network:read", "organization:network:write", "organization:permissions:read", "organization:permissions:write", "organization:projects:read", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read"}
 }
 
 type OrderByType string
@@ -642,24 +662,42 @@ type TeamOut struct {
 type TeamType string
 
 const (
-	TeamTypeAdmin                     TeamType = "admin"
-	TeamTypeOperator                  TeamType = "operator"
-	TeamTypeDeveloper                 TeamType = "developer"
-	TeamTypeReadOnly                  TeamType = "read_only"
-	TeamTypeProjectIntegrationsRead   TeamType = "project:integrations:read"
-	TeamTypeProjectIntegrationsWrite  TeamType = "project:integrations:write"
-	TeamTypeProjectNetworkingRead     TeamType = "project:networking:read"
-	TeamTypeProjectNetworkingWrite    TeamType = "project:networking:write"
-	TeamTypeProjectPermissionsRead    TeamType = "project:permissions:read"
-	TeamTypeServiceConfigurationWrite TeamType = "service:configuration:write"
-	TeamTypeServicesMaintenance       TeamType = "services:maintenance"
-	TeamTypeServiceLogsRead           TeamType = "service:logs:read"
-	TeamTypeProjectServicesRead       TeamType = "project:services:read"
-	TeamTypeProjectAuditLogsRead      TeamType = "project:audit_logs:read"
+	TeamTypeAdmin                        TeamType = "admin"
+	TeamTypeOperator                     TeamType = "operator"
+	TeamTypeDeveloper                    TeamType = "developer"
+	TeamTypeReadOnly                     TeamType = "read_only"
+	TeamTypeProjectIntegrationsRead      TeamType = "project:integrations:read"
+	TeamTypeProjectIntegrationsWrite     TeamType = "project:integrations:write"
+	TeamTypeProjectNetworkingRead        TeamType = "project:networking:read"
+	TeamTypeProjectNetworkingWrite       TeamType = "project:networking:write"
+	TeamTypeProjectPermissionsRead       TeamType = "project:permissions:read"
+	TeamTypeServiceConfigurationWrite    TeamType = "service:configuration:write"
+	TeamTypeRoleServicesMaintenance      TeamType = "role:services:maintenance"
+	TeamTypeRoleServicesRecover          TeamType = "role:services:recover"
+	TeamTypeServiceLogsRead              TeamType = "service:logs:read"
+	TeamTypeProjectServicesRead          TeamType = "project:services:read"
+	TeamTypeProjectAuditLogsRead         TeamType = "project:audit_logs:read"
+	TeamTypeServiceDataWrite             TeamType = "service:data:write"
+	TeamTypeServiceSecretsRead           TeamType = "service:secrets:read"
+	TeamTypeOrganizationBillingRead      TeamType = "organization:billing:read"
+	TeamTypeOrganizationBillingWrite     TeamType = "organization:billing:write"
+	TeamTypeOrganizationAuditLogsRead    TeamType = "organization:audit_logs:read"
+	TeamTypeOrganizationProjectsRead     TeamType = "organization:projects:read"
+	TeamTypeOrganizationProjectsWrite    TeamType = "organization:projects:write"
+	TeamTypeOrganizationUsersWrite       TeamType = "organization:users:write"
+	TeamTypeOrganizationPermissionsRead  TeamType = "organization:permissions:read"
+	TeamTypeOrganizationPermissionsWrite TeamType = "organization:permissions:write"
+	TeamTypeOrganizationAppUsersWrite    TeamType = "organization:app_users:write"
+	TeamTypeOrganizationGroupsWrite      TeamType = "organization:groups:write"
+	TeamTypeOrganizationIdpsWrite        TeamType = "organization:idps:write"
+	TeamTypeOrganizationDomainsWrite     TeamType = "organization:domains:write"
+	TeamTypeOrganizationNetworkRead      TeamType = "organization:network:read"
+	TeamTypeOrganizationNetworkWrite     TeamType = "organization:network:write"
+	TeamTypeRoleOrganizationAdmin        TeamType = "role:organization:admin"
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "service:configuration:write", "services:maintenance", "service:logs:read", "project:services:read", "project:audit_logs:read"}
+	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "service:configuration:write", "role:services:maintenance", "role:services:recover", "service:logs:read", "project:services:read", "project:audit_logs:read", "service:data:write", "service:secrets:read", "organization:billing:read", "organization:billing:write", "organization:audit_logs:read", "organization:projects:read", "organization:projects:write", "organization:users:write", "organization:permissions:read", "organization:permissions:write", "organization:app_users:write", "organization:groups:write", "organization:idps:write", "organization:domains:write", "organization:network:read", "organization:network:write", "role:organization:admin"}
 }
 
 type TechEmailOut struct {
