@@ -244,24 +244,42 @@ type TeamOut struct {
 type TeamType string
 
 const (
-	TeamTypeAdmin                     TeamType = "admin"
-	TeamTypeOperator                  TeamType = "operator"
-	TeamTypeDeveloper                 TeamType = "developer"
-	TeamTypeReadOnly                  TeamType = "read_only"
-	TeamTypeProjectIntegrationsRead   TeamType = "project:integrations:read"
-	TeamTypeProjectIntegrationsWrite  TeamType = "project:integrations:write"
-	TeamTypeProjectNetworkingRead     TeamType = "project:networking:read"
-	TeamTypeProjectNetworkingWrite    TeamType = "project:networking:write"
-	TeamTypeProjectPermissionsRead    TeamType = "project:permissions:read"
-	TeamTypeServiceConfigurationWrite TeamType = "service:configuration:write"
-	TeamTypeServicesMaintenance       TeamType = "services:maintenance"
-	TeamTypeServiceLogsRead           TeamType = "service:logs:read"
-	TeamTypeProjectServicesRead       TeamType = "project:services:read"
-	TeamTypeProjectAuditLogsRead      TeamType = "project:audit_logs:read"
+	TeamTypeAdmin                        TeamType = "admin"
+	TeamTypeOperator                     TeamType = "operator"
+	TeamTypeDeveloper                    TeamType = "developer"
+	TeamTypeReadOnly                     TeamType = "read_only"
+	TeamTypeProjectIntegrationsRead      TeamType = "project:integrations:read"
+	TeamTypeProjectIntegrationsWrite     TeamType = "project:integrations:write"
+	TeamTypeProjectNetworkingRead        TeamType = "project:networking:read"
+	TeamTypeProjectNetworkingWrite       TeamType = "project:networking:write"
+	TeamTypeProjectPermissionsRead       TeamType = "project:permissions:read"
+	TeamTypeServiceConfigurationWrite    TeamType = "service:configuration:write"
+	TeamTypeRoleServicesMaintenance      TeamType = "role:services:maintenance"
+	TeamTypeRoleServicesRecover          TeamType = "role:services:recover"
+	TeamTypeServiceLogsRead              TeamType = "service:logs:read"
+	TeamTypeProjectServicesRead          TeamType = "project:services:read"
+	TeamTypeProjectAuditLogsRead         TeamType = "project:audit_logs:read"
+	TeamTypeServiceDataWrite             TeamType = "service:data:write"
+	TeamTypeServiceSecretsRead           TeamType = "service:secrets:read"
+	TeamTypeOrganizationBillingRead      TeamType = "organization:billing:read"
+	TeamTypeOrganizationBillingWrite     TeamType = "organization:billing:write"
+	TeamTypeOrganizationAuditLogsRead    TeamType = "organization:audit_logs:read"
+	TeamTypeOrganizationProjectsRead     TeamType = "organization:projects:read"
+	TeamTypeOrganizationProjectsWrite    TeamType = "organization:projects:write"
+	TeamTypeOrganizationUsersWrite       TeamType = "organization:users:write"
+	TeamTypeOrganizationPermissionsRead  TeamType = "organization:permissions:read"
+	TeamTypeOrganizationPermissionsWrite TeamType = "organization:permissions:write"
+	TeamTypeOrganizationAppUsersWrite    TeamType = "organization:app_users:write"
+	TeamTypeOrganizationGroupsWrite      TeamType = "organization:groups:write"
+	TeamTypeOrganizationIdpsWrite        TeamType = "organization:idps:write"
+	TeamTypeOrganizationDomainsWrite     TeamType = "organization:domains:write"
+	TeamTypeOrganizationNetworkRead      TeamType = "organization:network:read"
+	TeamTypeOrganizationNetworkWrite     TeamType = "organization:network:write"
+	TeamTypeRoleOrganizationAdmin        TeamType = "role:organization:admin"
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "service:configuration:write", "services:maintenance", "service:logs:read", "project:services:read", "project:audit_logs:read"}
+	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "service:configuration:write", "role:services:maintenance", "role:services:recover", "service:logs:read", "project:services:read", "project:audit_logs:read", "service:data:write", "service:secrets:read", "organization:billing:read", "organization:billing:write", "organization:audit_logs:read", "organization:projects:read", "organization:projects:write", "organization:users:write", "organization:permissions:read", "organization:permissions:write", "organization:app_users:write", "organization:groups:write", "organization:idps:write", "organization:domains:write", "organization:network:read", "organization:network:write", "role:organization:admin"}
 }
 
 // accountTeamCreateOut AccountTeamCreateResponse
