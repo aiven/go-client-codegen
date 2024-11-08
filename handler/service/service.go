@@ -1731,6 +1731,12 @@ func SchemaRegistryAclPermissionTypeChoices() []string {
 	return []string{"schema_registry_read", "schema_registry_write"}
 }
 
+// ServerGroupOut Service IaaS server group
+type ServerGroupOut struct {
+	Enabled *bool   `json:"enabled,omitempty"` // Flag set if server group is in use for the service
+	Type    *string `json:"type,omitempty"`    // IaaS server group type
+}
+
 // ServiceBackupToAnotherRegionReportIn ServiceBackupToAnotherRegionReportRequestBody
 type ServiceBackupToAnotherRegionReportIn struct {
 	Period PeriodType `json:"period,omitempty"` // Metrics time period
@@ -1784,6 +1790,7 @@ type ServiceCreateOut struct {
 	Plan                   string                   `json:"plan"`                               // Subscription plan
 	ProjectVpcId           string                   `json:"project_vpc_id"`                     // Project VPC ID
 	SchemaRegistryAcl      []SchemaRegistryAclOut   `json:"schema_registry_acl,omitempty"`      // List of Schema Registry ACL entries
+	ServerGroup            *ServerGroupOut          `json:"server_group,omitempty"`             // Service IaaS server group
 	ServiceIntegrations    []ServiceIntegrationOut  `json:"service_integrations"`               // Integrations with other services
 	ServiceName            string                   `json:"service_name"`                       // Service name
 	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`    // Service notifications
@@ -1837,6 +1844,7 @@ type ServiceGetOut struct {
 	Plan                   string                   `json:"plan"`                               // Subscription plan
 	ProjectVpcId           string                   `json:"project_vpc_id"`                     // Project VPC ID
 	SchemaRegistryAcl      []SchemaRegistryAclOut   `json:"schema_registry_acl,omitempty"`      // List of Schema Registry ACL entries
+	ServerGroup            *ServerGroupOut          `json:"server_group,omitempty"`             // Service IaaS server group
 	ServiceIntegrations    []ServiceIntegrationOut  `json:"service_integrations"`               // Integrations with other services
 	ServiceName            string                   `json:"service_name"`                       // Service name
 	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`    // Service notifications
@@ -2058,6 +2066,7 @@ type ServiceOut struct {
 	Plan                   string                   `json:"plan"`                               // Subscription plan
 	ProjectVpcId           string                   `json:"project_vpc_id"`                     // Project VPC ID
 	SchemaRegistryAcl      []SchemaRegistryAclOut   `json:"schema_registry_acl,omitempty"`      // List of Schema Registry ACL entries
+	ServerGroup            *ServerGroupOut          `json:"server_group,omitempty"`             // Service IaaS server group
 	ServiceIntegrations    []ServiceIntegrationOut  `json:"service_integrations"`               // Integrations with other services
 	ServiceName            string                   `json:"service_name"`                       // Service name
 	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`    // Service notifications
@@ -2170,6 +2179,7 @@ type ServiceUpdateOut struct {
 	Plan                   string                   `json:"plan"`                               // Subscription plan
 	ProjectVpcId           string                   `json:"project_vpc_id"`                     // Project VPC ID
 	SchemaRegistryAcl      []SchemaRegistryAclOut   `json:"schema_registry_acl,omitempty"`      // List of Schema Registry ACL entries
+	ServerGroup            *ServerGroupOut          `json:"server_group,omitempty"`             // Service IaaS server group
 	ServiceIntegrations    []ServiceIntegrationOut  `json:"service_integrations"`               // Integrations with other services
 	ServiceName            string                   `json:"service_name"`                       // Service name
 	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`    // Service notifications
@@ -2238,6 +2248,7 @@ type ServiceUserCredentialsModifyOut struct {
 	Plan                   string                   `json:"plan"`                               // Subscription plan
 	ProjectVpcId           string                   `json:"project_vpc_id"`                     // Project VPC ID
 	SchemaRegistryAcl      []SchemaRegistryAclOut   `json:"schema_registry_acl,omitempty"`      // List of Schema Registry ACL entries
+	ServerGroup            *ServerGroupOut          `json:"server_group,omitempty"`             // Service IaaS server group
 	ServiceIntegrations    []ServiceIntegrationOut  `json:"service_integrations"`               // Integrations with other services
 	ServiceName            string                   `json:"service_name"`                       // Service name
 	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`    // Service notifications
@@ -2278,6 +2289,7 @@ type ServiceUserCredentialsResetOut struct {
 	Plan                   string                   `json:"plan"`                               // Subscription plan
 	ProjectVpcId           string                   `json:"project_vpc_id"`                     // Project VPC ID
 	SchemaRegistryAcl      []SchemaRegistryAclOut   `json:"schema_registry_acl,omitempty"`      // List of Schema Registry ACL entries
+	ServerGroup            *ServerGroupOut          `json:"server_group,omitempty"`             // Service IaaS server group
 	ServiceIntegrations    []ServiceIntegrationOut  `json:"service_integrations"`               // Integrations with other services
 	ServiceName            string                   `json:"service_name"`                       // Service name
 	ServiceNotifications   []ServiceNotificationOut `json:"service_notifications,omitempty"`    // Service notifications

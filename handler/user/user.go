@@ -547,10 +547,11 @@ const (
 	AnyTypeServiceDataWrite             AnyType = "service:data:write"
 	AnyTypeServiceLogsRead              AnyType = "service:logs:read"
 	AnyTypeServiceSecretsRead           AnyType = "service:secrets:read"
+	AnyTypeServiceUsersWrite            AnyType = "service:users:write"
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:network:read", "organization:network:write", "organization:permissions:read", "organization:permissions:write", "organization:projects:read", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read"}
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:network:read", "organization:network:write", "organization:permissions:read", "organization:permissions:write", "organization:projects:read", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
 }
 
 type AuthenticationMethodOut struct {
@@ -739,46 +740,46 @@ type UserGroupOut struct {
 
 // UserInfoOut User information
 type UserInfoOut struct {
-	Auth                   []string               `json:"auth"` // List of user's required authentication methods
-	City                   *string                `json:"city,omitempty"`
-	Country                *string                `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2
-	CreateTime             *time.Time             `json:"create_time,omitempty"`              // User registration time
-	Department             *string                `json:"department,omitempty"`               // Job department
-	Features               map[string]any         `json:"features,omitempty"`                 // Feature flags
-	Invitations            []InvitationOut        `json:"invitations"`                        // List of pending invitations
-	JobTitle               *string                `json:"job_title,omitempty"`                // Job title
-	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`          // User management status
-	ManagingOrganizationId *string                `json:"managing_organization_id,omitempty"` // Organization ID
-	ProjectMembership      ProjectMembershipOut   `json:"project_membership"`                 // Project membership and type of membership
-	ProjectMemberships     *ProjectMembershipsOut `json:"project_memberships,omitempty"`      // List of project membership and type of membership
-	Projects               []string               `json:"projects"`                           // List of projects the user is a member of
-	RealName               string                 `json:"real_name"`                          // User real name
-	State                  string                 `json:"state"`                              // User account state
-	TokenValidityBegin     *string                `json:"token_validity_begin,omitempty"`     // Earliest valid authentication token timestamp
-	User                   string                 `json:"user"`                               // User email address
-	UserId                 string                 `json:"user_id"`                            // User ID
+	Auth                   []string              `json:"auth"` // List of user's required authentication methods
+	City                   *string               `json:"city,omitempty"`
+	Country                *string               `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2
+	CreateTime             *time.Time            `json:"create_time,omitempty"`              // User registration time
+	Department             *string               `json:"department,omitempty"`               // Job department
+	Features               map[string]any        `json:"features,omitempty"`                 // Feature flags
+	Invitations            []InvitationOut       `json:"invitations"`                        // List of pending invitations
+	JobTitle               *string               `json:"job_title,omitempty"`                // Job title
+	ManagedByScim          *bool                 `json:"managed_by_scim,omitempty"`          // User management status
+	ManagingOrganizationId *string               `json:"managing_organization_id,omitempty"` // Organization ID
+	ProjectMembership      ProjectMembershipOut  `json:"project_membership"`                 // Project membership and type of membership
+	ProjectMemberships     ProjectMembershipsOut `json:"project_memberships"`                // List of project membership and type of membership
+	Projects               []string              `json:"projects"`                           // List of projects the user is a member of
+	RealName               string                `json:"real_name"`                          // User real name
+	State                  string                `json:"state"`                              // User account state
+	TokenValidityBegin     *string               `json:"token_validity_begin,omitempty"`     // Earliest valid authentication token timestamp
+	User                   string                `json:"user"`                               // User email address
+	UserId                 string                `json:"user_id"`                            // User ID
 }
 
 // UserOut User information
 type UserOut struct {
-	Auth                   []string               `json:"auth"` // List of user's required authentication methods
-	City                   *string                `json:"city,omitempty"`
-	Country                *string                `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2
-	CreateTime             *time.Time             `json:"create_time,omitempty"`              // User registration time
-	Department             *string                `json:"department,omitempty"`               // Job department
-	Features               map[string]any         `json:"features,omitempty"`                 // Feature flags
-	Invitations            []InvitationOut        `json:"invitations"`                        // List of pending invitations
-	JobTitle               *string                `json:"job_title,omitempty"`                // Job title
-	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`          // User management status
-	ManagingOrganizationId *string                `json:"managing_organization_id,omitempty"` // Organization ID
-	ProjectMembership      ProjectMembershipOut   `json:"project_membership"`                 // Project membership and type of membership
-	ProjectMemberships     *ProjectMembershipsOut `json:"project_memberships,omitempty"`      // List of project membership and type of membership
-	Projects               []string               `json:"projects"`                           // List of projects the user is a member of
-	RealName               string                 `json:"real_name"`                          // User real name
-	State                  string                 `json:"state"`                              // User account state
-	TokenValidityBegin     *string                `json:"token_validity_begin,omitempty"`     // Earliest valid authentication token timestamp
-	User                   string                 `json:"user"`                               // User email address
-	UserId                 string                 `json:"user_id"`                            // User ID
+	Auth                   []string              `json:"auth"` // List of user's required authentication methods
+	City                   *string               `json:"city,omitempty"`
+	Country                *string               `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2
+	CreateTime             *time.Time            `json:"create_time,omitempty"`              // User registration time
+	Department             *string               `json:"department,omitempty"`               // Job department
+	Features               map[string]any        `json:"features,omitempty"`                 // Feature flags
+	Invitations            []InvitationOut       `json:"invitations"`                        // List of pending invitations
+	JobTitle               *string               `json:"job_title,omitempty"`                // Job title
+	ManagedByScim          *bool                 `json:"managed_by_scim,omitempty"`          // User management status
+	ManagingOrganizationId *string               `json:"managing_organization_id,omitempty"` // Organization ID
+	ProjectMembership      ProjectMembershipOut  `json:"project_membership"`                 // Project membership and type of membership
+	ProjectMemberships     ProjectMembershipsOut `json:"project_memberships"`                // List of project membership and type of membership
+	Projects               []string              `json:"projects"`                           // List of projects the user is a member of
+	RealName               string                `json:"real_name"`                          // User real name
+	State                  string                `json:"state"`                              // User account state
+	TokenValidityBegin     *string               `json:"token_validity_begin,omitempty"`     // Earliest valid authentication token timestamp
+	User                   string                `json:"user"`                               // User email address
+	UserId                 string                `json:"user_id"`                            // User ID
 }
 
 // UserPasswordChangeIn UserPasswordChangeRequestBody
@@ -808,24 +809,24 @@ type UserUpdateIn struct {
 
 // UserUpdateOut User information
 type UserUpdateOut struct {
-	Auth                   []string               `json:"auth"` // List of user's required authentication methods
-	City                   *string                `json:"city,omitempty"`
-	Country                *string                `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2
-	CreateTime             *time.Time             `json:"create_time,omitempty"`              // User registration time
-	Department             *string                `json:"department,omitempty"`               // Job department
-	Features               map[string]any         `json:"features,omitempty"`                 // Feature flags
-	Invitations            []InvitationOut        `json:"invitations"`                        // List of pending invitations
-	JobTitle               *string                `json:"job_title,omitempty"`                // Job title
-	ManagedByScim          *bool                  `json:"managed_by_scim,omitempty"`          // User management status
-	ManagingOrganizationId *string                `json:"managing_organization_id,omitempty"` // Organization ID
-	ProjectMembership      ProjectMembershipOut   `json:"project_membership"`                 // Project membership and type of membership
-	ProjectMemberships     *ProjectMembershipsOut `json:"project_memberships,omitempty"`      // List of project membership and type of membership
-	Projects               []string               `json:"projects"`                           // List of projects the user is a member of
-	RealName               string                 `json:"real_name"`                          // User real name
-	State                  string                 `json:"state"`                              // User account state
-	TokenValidityBegin     *string                `json:"token_validity_begin,omitempty"`     // Earliest valid authentication token timestamp
-	User                   string                 `json:"user"`                               // User email address
-	UserId                 string                 `json:"user_id"`                            // User ID
+	Auth                   []string              `json:"auth"` // List of user's required authentication methods
+	City                   *string               `json:"city,omitempty"`
+	Country                *string               `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2
+	CreateTime             *time.Time            `json:"create_time,omitempty"`              // User registration time
+	Department             *string               `json:"department,omitempty"`               // Job department
+	Features               map[string]any        `json:"features,omitempty"`                 // Feature flags
+	Invitations            []InvitationOut       `json:"invitations"`                        // List of pending invitations
+	JobTitle               *string               `json:"job_title,omitempty"`                // Job title
+	ManagedByScim          *bool                 `json:"managed_by_scim,omitempty"`          // User management status
+	ManagingOrganizationId *string               `json:"managing_organization_id,omitempty"` // Organization ID
+	ProjectMembership      ProjectMembershipOut  `json:"project_membership"`                 // Project membership and type of membership
+	ProjectMemberships     ProjectMembershipsOut `json:"project_memberships"`                // List of project membership and type of membership
+	Projects               []string              `json:"projects"`                           // List of projects the user is a member of
+	RealName               string                `json:"real_name"`                          // User real name
+	State                  string                `json:"state"`                              // User account state
+	TokenValidityBegin     *string               `json:"token_validity_begin,omitempty"`     // Earliest valid authentication token timestamp
+	User                   string                `json:"user"`                               // User email address
+	UserId                 string                `json:"user_id"`                            // User ID
 }
 
 // UserVerifyEmailOut Details of verified invite
