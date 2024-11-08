@@ -43,6 +43,7 @@ jobs:
             schema bump
             automated pr
       - name: Close previous update PRs
+        if: steps.create_pr.outputs.pull-request-operation == 'created'
         run: |
           new_pr_number=${{ steps.create_pr.outputs.pull-request-number }}
           prs=$(gh pr list --state open --json number,headRefName --jq '.[] | select(.headRefName | startswith("update/")) | .number')
