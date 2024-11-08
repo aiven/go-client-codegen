@@ -327,11 +327,13 @@ func PrincipalTypeChoices() []string {
 type ResourceType string
 
 const (
-	ResourceTypeProject ResourceType = "project"
+	ResourceTypeProject          ResourceType = "project"
+	ResourceTypeOrganization     ResourceType = "organization"
+	ResourceTypeOrganizationUnit ResourceType = "organization_unit"
 )
 
 func ResourceTypeChoices() []string {
-	return []string{"project"}
+	return []string{"project", "organization", "organization_unit"}
 }
 
 type TierType string
