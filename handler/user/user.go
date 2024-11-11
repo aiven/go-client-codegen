@@ -456,14 +456,14 @@ type AccessTokenCreateOut struct {
 	Description                *string    `json:"description,omitempty"`                    // Name / description of an access token
 	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`                    // Timestamp when the access token will expire unless extended, if ever
 	ExtendWhenUsed             bool       `json:"extend_when_used"`                         // Extend token expiration time when token is used. Only applicable if max_age_seconds is specified.
-	FullToken                  string     `json:"full_token"`                               // This full access token can be used to make API calls. This can also be used to update or revoke tokens. Note that when using this token with the update and revoke APIs it must be URL encoded because it may contain /, + and = characters (/ =&gt; %2F, + =&gt; %2B, = =&gt; %3D).
+	FullToken                  string     `json:"full_token"`                               // This full access token can be used to make API calls. This can also be used to update or revoke tokens. Note that when using this token with the update and revoke APIs it must be URL encoded because it may contain /, + and = characters (/ => %2F, + => %2B, = => %3D).
 	LastIp                     *string    `json:"last_ip,omitempty"`                        // IP address the access token was last used from in case it has ever been used
 	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`                 // Timestamp when the access token was last used, if ever
 	LastUserAgent              *string    `json:"last_user_agent,omitempty"`                // User agent string of the client that last used the token in case it has ever been used
 	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"` // Human readable user agent string of the client that last used the token in case user agent is known
 	MaxAgeSeconds              float64    `json:"max_age_seconds"`                          // Time the token remains valid since creation (or since last use if extend_when_used is true)
 	Scopes                     []string   `json:"scopes,omitempty"`                         // Scopes this token is restricted to, if specified
-	TokenPrefix                string     `json:"token_prefix"`                             // First characters of the actual token value. Full value is only exposed after creation. This value is used when updating or revoking tokens. Note that the value may contain /, + and = characters and must be URL encoded when used (/ =&gt; %2F, + =&gt; %2B, = =&gt; %3D).
+	TokenPrefix                string     `json:"token_prefix"`                             // First characters of the actual token value. Full value is only exposed after creation. This value is used when updating or revoking tokens. Note that the value may contain /, + and = characters and must be URL encoded when used (/ => %2F, + => %2B, = => %3D).
 }
 
 // AccessTokenUpdateIn AccessTokenUpdateRequestBody
@@ -485,7 +485,7 @@ type AccessTokenUpdateOut struct {
 	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"` // Human readable user agent string of the client that last used the token in case user agent is known
 	MaxAgeSeconds              float64    `json:"max_age_seconds"`                          // Time the token remains valid since creation (or since last use if extend_when_used is true)
 	Scopes                     []string   `json:"scopes,omitempty"`                         // Scopes this token is restricted to, if specified
-	TokenPrefix                string     `json:"token_prefix"`                             // First characters of the actual token value. Full value is only exposed after creation. This value is used when updating or revoking tokens. Note that the value may contain /, + and = characters and must be URL encoded when used (/ =&gt; %2F, + =&gt; %2B, = =&gt; %3D).
+	TokenPrefix                string     `json:"token_prefix"`                             // First characters of the actual token value. Full value is only exposed after creation. This value is used when updating or revoking tokens. Note that the value may contain /, + and = characters and must be URL encoded when used (/ => %2F, + => %2B, = => %3D).
 }
 type AccountInviteOut struct {
 	AccountId          string    `json:"account_id"`            // Account ID
@@ -539,6 +539,7 @@ const (
 	AnyTypeProjectNetworkingWrite       AnyType = "project:networking:write"
 	AnyTypeProjectPermissionsRead       AnyType = "project:permissions:read"
 	AnyTypeProjectServicesRead          AnyType = "project:services:read"
+	AnyTypeProjectServicesWrite         AnyType = "project:services:write"
 	AnyTypeReadOnly                     AnyType = "read_only"
 	AnyTypeRoleOrganizationAdmin        AnyType = "role:organization:admin"
 	AnyTypeRoleServicesMaintenance      AnyType = "role:services:maintenance"
@@ -551,7 +552,7 @@ const (
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:network:read", "organization:network:write", "organization:permissions:read", "organization:permissions:write", "organization:projects:read", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:network:read", "organization:network:write", "organization:permissions:read", "organization:permissions:write", "organization:projects:read", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
 }
 
 type AuthenticationMethodOut struct {
@@ -644,7 +645,7 @@ type TokenOut struct {
 	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"` // Human readable user agent string of the client that last used the token in case user agent is known
 	MaxAgeSeconds              float64    `json:"max_age_seconds"`                          // Time the token remains valid since creation (or since last use if extend_when_used is true)
 	Scopes                     []string   `json:"scopes,omitempty"`                         // Scopes this token is restricted to, if specified
-	TokenPrefix                string     `json:"token_prefix"`                             // First characters of the actual token value. Full value is only exposed after creation. This value is used when updating or revoking tokens. Note that the value may contain /, + and = characters and must be URL encoded when used (/ =&gt; %2F, + =&gt; %2B, = =&gt; %3D).
+	TokenPrefix                string     `json:"token_prefix"`                             // First characters of the actual token value. Full value is only exposed after creation. This value is used when updating or revoking tokens. Note that the value may contain /, + and = characters and must be URL encoded when used (/ => %2F, + => %2B, = => %3D).
 }
 
 // TwoFactorAuthConfigureIn TwoFactorAuthConfigureRequestBody

@@ -190,14 +190,14 @@ func (h *VpcHandler) VpcPeeringConnectionWithResourceGroupDelete(ctx context.Con
 
 type AddIn struct {
 	Cidr              string  `json:"cidr"`                          // IPv4 network range CIDR
-	PeerCloudAccount  string  `json:"peer_cloud_account"`            // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerCloudAccount  string  `json:"peer_cloud_account"`            // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
 	PeerResourceGroup *string `json:"peer_resource_group,omitempty"` // Azure resource group name of the peered VPC
 	PeerVpc           string  `json:"peer_vpc"`                      // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
 }
 type PeeringConnectionIn struct {
 	PeerAzureAppId       *string   `json:"peer_azure_app_id,omitempty"`       // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
 	PeerAzureTenantId    *string   `json:"peer_azure_tenant_id,omitempty"`    // Azure tenant id in UUID4 form
-	PeerCloudAccount     string    `json:"peer_cloud_account"`                // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerCloudAccount     string    `json:"peer_cloud_account"`                // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
 	PeerRegion           *string   `json:"peer_region,omitempty"`             // The peer VPC's region on AWS. May be omitted or set to null if the peer is in the same region as the Aiven project VPC. Omit or set to null on GCP, Azure, or UpCloud.
 	PeerResourceGroup    *string   `json:"peer_resource_group,omitempty"`     // Azure resource group name of the peered VPC
 	PeerVpc              string    `json:"peer_vpc"`                          // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
@@ -207,7 +207,7 @@ type PeeringConnectionOut struct {
 	CreateTime               time.Time                     `json:"create_time"`                 // VPC peering connection creation timestamp
 	PeerAzureAppId           string                        `json:"peer_azure_app_id"`           // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
 	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`        // Azure tenant id in UUID4 form
-	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
 	PeerRegion               *string                       `json:"peer_region,omitempty"`       // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
 	PeerResourceGroup        string                        `json:"peer_resource_group"`         // Azure resource group name of the peered VPC
 	PeerVpc                  string                        `json:"peer_vpc"`                    // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
@@ -280,7 +280,7 @@ type VpcOut struct {
 type VpcPeeringConnectionCreateIn struct {
 	PeerAzureAppId       *string   `json:"peer_azure_app_id,omitempty"`       // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
 	PeerAzureTenantId    *string   `json:"peer_azure_tenant_id,omitempty"`    // Azure tenant id in UUID4 form
-	PeerCloudAccount     string    `json:"peer_cloud_account"`                // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerCloudAccount     string    `json:"peer_cloud_account"`                // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
 	PeerRegion           *string   `json:"peer_region,omitempty"`             // The peer VPC's region on AWS. May be omitted or set to null if the peer is in the same region as the Aiven project VPC. Omit or set to null on GCP, Azure, or UpCloud.
 	PeerResourceGroup    *string   `json:"peer_resource_group,omitempty"`     // Azure resource group name of the peered VPC
 	PeerVpc              string    `json:"peer_vpc"`                          // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
@@ -292,7 +292,7 @@ type VpcPeeringConnectionCreateOut struct {
 	CreateTime               time.Time                     `json:"create_time"`                 // VPC peering connection creation timestamp
 	PeerAzureAppId           string                        `json:"peer_azure_app_id"`           // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
 	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`        // Azure tenant id in UUID4 form
-	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
 	PeerRegion               *string                       `json:"peer_region,omitempty"`       // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
 	PeerResourceGroup        string                        `json:"peer_resource_group"`         // Azure resource group name of the peered VPC
 	PeerVpc                  string                        `json:"peer_vpc"`                    // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
@@ -308,7 +308,7 @@ type VpcPeeringConnectionDeleteOut struct {
 	CreateTime               time.Time                     `json:"create_time"`                 // VPC peering connection creation timestamp
 	PeerAzureAppId           string                        `json:"peer_azure_app_id"`           // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
 	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`        // Azure tenant id in UUID4 form
-	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
 	PeerRegion               *string                       `json:"peer_region,omitempty"`       // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
 	PeerResourceGroup        string                        `json:"peer_resource_group"`         // Azure resource group name of the peered VPC
 	PeerVpc                  string                        `json:"peer_vpc"`                    // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
@@ -386,7 +386,7 @@ type VpcPeeringConnectionWithRegionDeleteOut struct {
 	CreateTime               time.Time                     `json:"create_time"`                 // VPC peering connection creation timestamp
 	PeerAzureAppId           string                        `json:"peer_azure_app_id"`           // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
 	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`        // Azure tenant id in UUID4 form
-	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
 	PeerRegion               *string                       `json:"peer_region,omitempty"`       // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
 	PeerResourceGroup        string                        `json:"peer_resource_group"`         // Azure resource group name of the peered VPC
 	PeerVpc                  string                        `json:"peer_vpc"`                    // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
@@ -402,7 +402,7 @@ type VpcPeeringConnectionWithResourceGroupDeleteOut struct {
 	CreateTime               time.Time                     `json:"create_time"`                 // VPC peering connection creation timestamp
 	PeerAzureAppId           string                        `json:"peer_azure_app_id"`           // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
 	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`        // Azure tenant id in UUID4 form
-	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string &quot;upcloud&quot; for UpCloud peering connections
+	PeerCloudAccount         string                        `json:"peer_cloud_account"`          // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
 	PeerRegion               *string                       `json:"peer_region,omitempty"`       // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
 	PeerResourceGroup        string                        `json:"peer_resource_group"`         // Azure resource group name of the peered VPC
 	PeerVpc                  string                        `json:"peer_vpc"`                    // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
