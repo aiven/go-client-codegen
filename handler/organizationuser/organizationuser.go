@@ -29,7 +29,7 @@ type Handler interface {
 	// OrganizationUserInvitationAccept accept a user invitation to the organization
 	// POST /v1/organization/{organization_id}/invitation/{user_email}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationAccept
-	OrganizationUserInvitationAccept(ctx context.Context, organizationId string, userEmail string, in *OrganizationUserInvitationAcceptIn) error
+	OrganizationUserInvitationAccept(ctx context.Context, organizationId string, userEmail string) error
 
 	// OrganizationUserInvitationDelete remove an invitation to the organization
 	// DELETE /v1/organization/{organization_id}/invitation/{user_email}
@@ -116,9 +116,9 @@ func (h *OrganizationUserHandler) OrganizationUserGet(ctx context.Context, organ
 	}
 	return out, nil
 }
-func (h *OrganizationUserHandler) OrganizationUserInvitationAccept(ctx context.Context, organizationId string, userEmail string, in *OrganizationUserInvitationAcceptIn) error {
+func (h *OrganizationUserHandler) OrganizationUserInvitationAccept(ctx context.Context, organizationId string, userEmail string) error {
 	path := fmt.Sprintf("/v1/organization/%s/invitation/%s", url.PathEscape(organizationId), url.PathEscape(userEmail))
-	_, err := h.doer.Do(ctx, "OrganizationUserInvitationAccept", "POST", path, in)
+	_, err := h.doer.Do(ctx, "OrganizationUserInvitationAccept", "POST", path, nil)
 	return err
 }
 func (h *OrganizationUserHandler) OrganizationUserInvitationDelete(ctx context.Context, organizationId string, userEmail string) error {
@@ -194,16 +194,6 @@ func (h *OrganizationUserHandler) OrganizationUserUpdate(ctx context.Context, or
 	return out, nil
 }
 
-type ActionType string
-
-const (
-	ActionTypeAccept ActionType = "accept"
-)
-
-func ActionTypeChoices() []string {
-	return []string{"accept"}
-}
-
 type AuthenticationMethodOut struct {
 	IsEnabled2Fa     *bool      `json:"is_enabled_2fa,omitempty"`    // Verifies if 2FA is enabled for the user
 	LastUsedTime     *time.Time `json:"last_used_time,omitempty"`    // Last activity time with the authentication method
@@ -230,11 +220,6 @@ type OrganizationUserGetOut struct {
 	LastActivityTime time.Time   `json:"last_activity_time"` // Last activity time
 	UserId           string      `json:"user_id"`            // User ID
 	UserInfo         UserInfoOut `json:"user_info"`          // OrganizationUserInfo
-}
-
-// OrganizationUserInvitationAcceptIn OrganizationUserInvitationAcceptRequestBody
-type OrganizationUserInvitationAcceptIn struct {
-	Action ActionType `json:"action,omitempty"` // Action to be performed on the invitation
 }
 
 // OrganizationUserInviteIn OrganizationUserInviteRequestBody

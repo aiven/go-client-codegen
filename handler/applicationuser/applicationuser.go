@@ -222,7 +222,7 @@ type TokenOut struct {
 	LastUserAgentHumanReadable *string    `json:"last_user_agent_human_readable,omitempty"` // Human readable user agent string of the client that last used the token in case user agent is known
 	MaxAgeSeconds              *int       `json:"max_age_seconds,omitempty"`                // Time the token remains valid since creation (or since last use if extend_when_used is true)
 	Scopes                     []string   `json:"scopes,omitempty"`                         // Scopes this token is restricted to if specified
-	TokenPrefix                string     `json:"token_prefix"`                             // First characters of the actual token value. Full value is only exposed after creation. This value is used when updating or revoking tokens. Note that the value may contain /, + and = characters and must be URL encoded when used (/ =&gt; %2F, + =&gt; %2B, = =&gt; %3D).
+	TokenPrefix                string     `json:"token_prefix"`                             // First characters of the actual token value. Full value is only exposed after creation. This value is used when updating or revoking tokens. Note that the value may contain /, + and = characters and must be URL encoded when used (/ => %2F, + => %2B, = => %3D).
 }
 
 // applicationUserAccessTokensListOut ApplicationUserAccessTokensListResponse

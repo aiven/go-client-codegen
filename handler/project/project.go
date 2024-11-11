@@ -471,6 +471,7 @@ const (
 	AnyTypeProjectNetworkingWrite       AnyType = "project:networking:write"
 	AnyTypeProjectPermissionsRead       AnyType = "project:permissions:read"
 	AnyTypeProjectServicesRead          AnyType = "project:services:read"
+	AnyTypeProjectServicesWrite         AnyType = "project:services:write"
 	AnyTypeReadOnly                     AnyType = "read_only"
 	AnyTypeRoleOrganizationAdmin        AnyType = "role:organization:admin"
 	AnyTypeRoleServicesMaintenance      AnyType = "role:services:maintenance"
@@ -483,7 +484,7 @@ const (
 )
 
 func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:network:read", "organization:network:write", "organization:permissions:read", "organization:permissions:write", "organization:projects:read", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:network:read", "organization:network:write", "organization:permissions:read", "organization:permissions:write", "organization:projects:read", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
 }
 
 // BackupConfigOut Backup configuration for this service plan
@@ -674,6 +675,7 @@ const (
 	MemberTypeProjectNetworkingWrite       MemberType = "project:networking:write"
 	MemberTypeProjectPermissionsRead       MemberType = "project:permissions:read"
 	MemberTypeProjectServicesRead          MemberType = "project:services:read"
+	MemberTypeProjectServicesWrite         MemberType = "project:services:write"
 	MemberTypeReadOnly                     MemberType = "read_only"
 	MemberTypeRoleOrganizationAdmin        MemberType = "role:organization:admin"
 	MemberTypeRoleServicesMaintenance      MemberType = "role:services:maintenance"
@@ -686,7 +688,7 @@ const (
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:network:read", "organization:network:write", "organization:permissions:read", "organization:permissions:write", "organization:projects:read", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:network:read", "organization:network:write", "organization:permissions:read", "organization:permissions:write", "organization:projects:read", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
 }
 
 // MysqlOut Service type information

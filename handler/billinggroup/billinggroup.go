@@ -278,6 +278,7 @@ type BillingGroupCreateIn struct {
 	Company              *string             `json:"company,omitempty"`                 // Name of a company
 	CopyFromBillingGroup *string             `json:"copy_from_billing_group,omitempty"` // Billing group ID
 	CountryCode          *string             `json:"country_code,omitempty"`            // Two letter country code for billing country
+	ShippingAddressId    *string             `json:"shipping_address_id,omitempty"`     // Address ID
 	State                *string             `json:"state,omitempty"`                   // Address state
 	VatId                *string             `json:"vat_id,omitempty"`                  // EU VAT Identification Number
 	ZipCode              *string             `json:"zip_code,omitempty"`                // Address zip code
@@ -397,20 +398,21 @@ func BillingGroupStateTypeChoices() []string {
 
 // BillingGroupUpdateIn BillingGroupUpdateRequestBody
 type BillingGroupUpdateIn struct {
-	AccountId        *string             `json:"account_id,omitempty"`         // Account ID
-	AddressLines     *[]string           `json:"address_lines,omitempty"`      // Address lines
-	BillingAddressId *string             `json:"billing_address_id,omitempty"` // Address ID
-	BillingCurrency  BillingCurrencyType `json:"billing_currency,omitempty"`   // Billing currency
-	BillingEmails    *[]BillingEmailIn   `json:"billing_emails,omitempty"`     // List of project billing email addresses
-	BillingExtraText *string             `json:"billing_extra_text,omitempty"` // Extra text to be included in all project invoices, e.g. purchase order or cost center number
-	BillingGroupName *string             `json:"billing_group_name,omitempty"` // Billing group name
-	CardId           *string             `json:"card_id,omitempty"`            // Credit card ID
-	City             *string             `json:"city,omitempty"`               // Address city
-	Company          *string             `json:"company,omitempty"`            // Name of a company
-	CountryCode      *string             `json:"country_code,omitempty"`       // Two letter country code for billing country
-	State            *string             `json:"state,omitempty"`              // Address state
-	VatId            *string             `json:"vat_id,omitempty"`             // EU VAT Identification Number
-	ZipCode          *string             `json:"zip_code,omitempty"`           // Address zip code
+	AccountId         *string             `json:"account_id,omitempty"`          // Account ID
+	AddressLines      *[]string           `json:"address_lines,omitempty"`       // Address lines
+	BillingAddressId  *string             `json:"billing_address_id,omitempty"`  // Address ID
+	BillingCurrency   BillingCurrencyType `json:"billing_currency,omitempty"`    // Billing currency
+	BillingEmails     *[]BillingEmailIn   `json:"billing_emails,omitempty"`      // List of project billing email addresses
+	BillingExtraText  *string             `json:"billing_extra_text,omitempty"`  // Extra text to be included in all project invoices, e.g. purchase order or cost center number
+	BillingGroupName  *string             `json:"billing_group_name,omitempty"`  // Billing group name
+	CardId            *string             `json:"card_id,omitempty"`             // Credit card ID
+	City              *string             `json:"city,omitempty"`                // Address city
+	Company           *string             `json:"company,omitempty"`             // Name of a company
+	CountryCode       *string             `json:"country_code,omitempty"`        // Two letter country code for billing country
+	ShippingAddressId *string             `json:"shipping_address_id,omitempty"` // Address ID
+	State             *string             `json:"state,omitempty"`               // Address state
+	VatId             *string             `json:"vat_id,omitempty"`              // EU VAT Identification Number
+	ZipCode           *string             `json:"zip_code,omitempty"`            // Address zip code
 }
 
 // BillingGroupUpdateOut Billing group information

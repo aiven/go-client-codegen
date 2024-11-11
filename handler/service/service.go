@@ -1016,6 +1016,11 @@ type ConnectionPoolOut struct {
 	PoolSize      int          `json:"pool_size"`          // Size of PGBouncer's PostgreSQL side connection pool
 	Username      *string      `json:"username,omitempty"` // Pool username
 }
+
+// CreateUserBackupIn Payload to be used with create_user_backup
+type CreateUserBackupIn struct {
+	BackupName string `json:"backup_name"` // The output file name.
+}
 type DatabaseOut struct {
 	DatabaseName string `json:"database_name"` // Database name or ID
 }
@@ -2114,10 +2119,11 @@ func ServiceStateTypeChoices() []string {
 
 // ServiceTaskCreateIn ServiceTaskCreateRequestBody
 type ServiceTaskCreateIn struct {
-	DatasetImport  *DatasetImportIn  `json:"dataset_import,omitempty"`  // Payload to be used with dataset_import
-	MigrationCheck *MigrationCheckIn `json:"migration_check,omitempty"` // Payload to be used with migration_check
-	TargetVersion  TargetVersionType `json:"target_version,omitempty"`  // Target version used with upgrade_check
-	TaskType       TaskType          `json:"task_type"`                 // Service task type
+	CreateUserBackup *CreateUserBackupIn `json:"create_user_backup,omitempty"` // Payload to be used with create_user_backup
+	DatasetImport    *DatasetImportIn    `json:"dataset_import,omitempty"`     // Payload to be used with dataset_import
+	MigrationCheck   *MigrationCheckIn   `json:"migration_check,omitempty"`    // Payload to be used with migration_check
+	TargetVersion    TargetVersionType   `json:"target_version,omitempty"`     // Target version used with upgrade_check
+	TaskType         TaskType            `json:"task_type"`                    // Service task type
 }
 
 // ServiceTaskCreateOut Task info
@@ -2386,13 +2392,14 @@ func TargetVersionTypeChoices() []string {
 type TaskType string
 
 const (
-	TaskTypeUpgradeCheck   TaskType = "upgrade_check"
-	TaskTypeMigrationCheck TaskType = "migration_check"
-	TaskTypeDatasetImport  TaskType = "dataset_import"
+	TaskTypeUpgradeCheck     TaskType = "upgrade_check"
+	TaskTypeMigrationCheck   TaskType = "migration_check"
+	TaskTypeDatasetImport    TaskType = "dataset_import"
+	TaskTypeCreateUserBackup TaskType = "create_user_backup"
 )
 
 func TaskTypeChoices() []string {
-	return []string{"upgrade_check", "migration_check", "dataset_import"}
+	return []string{"upgrade_check", "migration_check", "dataset_import", "create_user_backup"}
 }
 
 type TechEmailIn struct {

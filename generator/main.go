@@ -7,6 +7,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"html"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -619,7 +620,7 @@ func readConfig(path string) (map[string][]string, error) {
 var reComment = regexp.MustCompile(`\.?[\r\n]+\s*?`)
 
 func fmtComment(c string) string {
-	return reComment.ReplaceAllString(c, ". ")
+	return html.UnescapeString(reComment.ReplaceAllString(c, ". "))
 }
 
 // fmtQueryParam returns a query param
