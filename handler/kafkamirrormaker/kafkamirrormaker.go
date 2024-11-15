@@ -125,8 +125,8 @@ type ReplicationFlowOut struct {
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
 	TargetCluster                   string                       `json:"target_cluster"`                                // Target cluster alias
 	Topics                          []string                     `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
-	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // Topic or topic regular expression matching topic
-	TopicsExclude                   *string                      `json:"topics.exclude,omitempty"`                      // Topic or topic regular expression matching topic
+	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	TopicsExclude                   []string                     `json:"topics.exclude,omitempty"`                      // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
 }
 type ReplicationPolicyClassType string
 
@@ -154,8 +154,8 @@ type ServiceKafkaMirrorMakerCreateReplicationFlowIn struct {
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
 	TargetCluster                   string                       `json:"target_cluster"`                                // Target cluster alias
 	Topics                          *[]string                    `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
-	TopicsBlacklist                 *[]string                    `json:"topics.blacklist,omitempty"`                    // Topic or topic regular expression matching topic
-	TopicsExclude                   *string                      `json:"topics.exclude,omitempty"`                      // Topic or topic regular expression matching topic
+	TopicsBlacklist                 *[]string                    `json:"topics.blacklist,omitempty"`                    // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	TopicsExclude                   *[]string                    `json:"topics.exclude,omitempty"`                      // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
 }
 
 // ServiceKafkaMirrorMakerGetReplicationFlowOut Replication flow
@@ -174,8 +174,8 @@ type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
 	TargetCluster                   string                       `json:"target_cluster"`                                // Target cluster alias
 	Topics                          []string                     `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
-	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // Topic or topic regular expression matching topic
-	TopicsExclude                   *string                      `json:"topics.exclude,omitempty"`                      // Topic or topic regular expression matching topic
+	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	TopicsExclude                   []string                     `json:"topics.exclude,omitempty"`                      // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
 }
 
 // ServiceKafkaMirrorMakerPatchReplicationFlowIn ServiceKafkaMirrorMakerPatchReplicationFlowRequestBody
@@ -191,8 +191,8 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
 	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Sync consumer group offsets
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
 	Topics                          *[]string                    `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
-	TopicsBlacklist                 *[]string                    `json:"topics.blacklist,omitempty"`                    // Topic or topic regular expression matching topic
-	TopicsExclude                   *string                      `json:"topics.exclude,omitempty"`                      // Topic or topic regular expression matching topic
+	TopicsBlacklist                 *[]string                    `json:"topics.blacklist,omitempty"`                    // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	TopicsExclude                   *[]string                    `json:"topics.exclude,omitempty"`                      // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
 }
 
 // ServiceKafkaMirrorMakerPatchReplicationFlowOut Replication flow
@@ -211,8 +211,8 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowOut struct {
 	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
 	TargetCluster                   string                       `json:"target_cluster"`                                // Target cluster alias
 	Topics                          []string                     `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
-	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // Topic or topic regular expression matching topic
-	TopicsExclude                   *string                      `json:"topics.exclude,omitempty"`                      // Topic or topic regular expression matching topic
+	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	TopicsExclude                   []string                     `json:"topics.exclude,omitempty"`                      // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
 }
 
 // serviceKafkaMirrorMakerGetReplicationFlowOut ServiceKafkaMirrorMakerGetReplicationFlowResponse
