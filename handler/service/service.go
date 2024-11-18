@@ -1227,6 +1227,27 @@ type IntegrationTypeOut struct {
 	SourceServiceTypes []string       `json:"source_service_types"` // Supported source service types
 	UserConfigSchema   map[string]any `json:"user_config_schema"`   // JSON-Schema for the 'user_config' properties
 }
+type KafkaAclOut struct {
+	Host           string                 `json:"host"`            // the host or * for all hosts
+	Id             string                 `json:"id"`              // ID
+	Operation      OperationType          `json:"operation"`       // Kafka ACL operation represents an operation which an ACL grants or denies permission to perform
+	PatternType    PatternType            `json:"pattern_type"`    // Kafka ACL pattern type of resource name
+	PermissionType KafkaAclPermissionType `json:"permission_type"` // Kafka ACL permission type
+	Principal      string                 `json:"principal"`       // principal is in 'principalType:name' format
+	ResourceName   string                 `json:"resource_name"`   // Resource pattern used to match specified resources
+	ResourceType   ResourceType           `json:"resource_type"`   // Kafka ACL resource type represents a type of resource which an ACL can be applied to
+}
+type KafkaAclPermissionType string
+
+const (
+	KafkaAclPermissionTypeAllow KafkaAclPermissionType = "ALLOW"
+	KafkaAclPermissionTypeDeny  KafkaAclPermissionType = "DENY"
+)
+
+func KafkaAclPermissionTypeChoices() []string {
+	return []string{"ALLOW", "DENY"}
+}
+
 type KafkaAuthenticationMethodType string
 
 const (
@@ -1523,13 +1544,34 @@ type OpensearchOut struct {
 type OperationType string
 
 const (
-	OperationTypeAcknowledgeRenewal OperationType = "acknowledge-renewal"
-	OperationTypeResetCredentials   OperationType = "reset-credentials"
-	OperationTypeSetAccessControl   OperationType = "set-access-control"
+	OperationTypeAll             OperationType = "All"
+	OperationTypeAlter           OperationType = "Alter"
+	OperationTypeAlterConfigs    OperationType = "AlterConfigs"
+	OperationTypeClusterAction   OperationType = "ClusterAction"
+	OperationTypeCreate          OperationType = "Create"
+	OperationTypeCreateTokens    OperationType = "CreateTokens"
+	OperationTypeDelete          OperationType = "Delete"
+	OperationTypeDescribe        OperationType = "Describe"
+	OperationTypeDescribeConfigs OperationType = "DescribeConfigs"
+	OperationTypeDescribeTokens  OperationType = "DescribeTokens"
+	OperationTypeIdempotentWrite OperationType = "IdempotentWrite"
+	OperationTypeRead            OperationType = "Read"
+	OperationTypeWrite           OperationType = "Write"
 )
 
 func OperationTypeChoices() []string {
-	return []string{"acknowledge-renewal", "reset-credentials", "set-access-control"}
+	return []string{"All", "Alter", "AlterConfigs", "ClusterAction", "Create", "CreateTokens", "Delete", "Describe", "DescribeConfigs", "DescribeTokens", "IdempotentWrite", "Read", "Write"}
+}
+
+type PatternType string
+
+const (
+	PatternTypeLiteral  PatternType = "LITERAL"
+	PatternTypePrefixed PatternType = "PREFIXED"
+)
+
+func PatternTypeChoices() []string {
+	return []string{"LITERAL", "PREFIXED"}
 }
 
 type PeriodType string
@@ -1692,6 +1734,21 @@ type RedisOut struct {
 	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
+type ResourceType string
+
+const (
+	ResourceTypeTopic           ResourceType = "Topic"
+	ResourceTypeGroup           ResourceType = "Group"
+	ResourceTypeCluster         ResourceType = "Cluster"
+	ResourceTypeTransactionalId ResourceType = "TransactionalId"
+	ResourceTypeDelegationToken ResourceType = "DelegationToken"
+	ResourceTypeUser            ResourceType = "User"
+)
+
+func ResourceTypeChoices() []string {
+	return []string{"Topic", "Group", "Cluster", "TransactionalId", "DelegationToken", "User"}
+}
+
 type ResultCodeOut struct {
 	Code   string  `json:"code"`             // Machine-readable key code, which represents the result of the task
 	Dbname *string `json:"dbname,omitempty"` // Database which related to the result code
@@ -1776,7 +1833,7 @@ type ServiceCreateIn struct {
 
 // ServiceCreateOut Service information
 type ServiceCreateOut struct {
-	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Kafka ACL entries
+	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Aiven ACL entries for Kafka service
 	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
@@ -1788,6 +1845,7 @@ type ServiceCreateOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
 	NodeCount              *int                     `json:"node_count,omitempty"`               // Number of service nodes in the active plan
@@ -1830,7 +1888,7 @@ type ServiceGetMigrationStatusOut struct {
 
 // ServiceGetOut Service information
 type ServiceGetOut struct {
-	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Kafka ACL entries
+	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Aiven ACL entries for Kafka service
 	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
@@ -1842,6 +1900,7 @@ type ServiceGetOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
 	NodeCount              *int                     `json:"node_count,omitempty"`               // Number of service nodes in the active plan
@@ -2052,7 +2111,7 @@ func ServiceNotificationTypeChoices() []string {
 }
 
 type ServiceOut struct {
-	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Kafka ACL entries
+	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Aiven ACL entries for Kafka service
 	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
@@ -2064,6 +2123,7 @@ type ServiceOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
 	NodeCount              *int                     `json:"node_count,omitempty"`               // Number of service nodes in the active plan
@@ -2166,7 +2226,7 @@ type ServiceUpdateIn struct {
 
 // ServiceUpdateOut Service information
 type ServiceUpdateOut struct {
-	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Kafka ACL entries
+	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Aiven ACL entries for Kafka service
 	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
@@ -2178,6 +2238,7 @@ type ServiceUpdateOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
 	NodeCount              *int                     `json:"node_count,omitempty"`               // Number of service nodes in the active plan
@@ -2227,15 +2288,26 @@ type ServiceUserCreateOut struct {
 
 // ServiceUserCredentialsModifyIn ServiceUserCredentialsModifyRequestBody
 type ServiceUserCredentialsModifyIn struct {
-	AccessControl  *AccessControlIn   `json:"access_control,omitempty"` // Service specific access controls for user. Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
-	Authentication AuthenticationType `json:"authentication,omitempty"` // Authentication details
-	NewPassword    *string            `json:"new_password,omitempty"`   // New password
-	Operation      OperationType      `json:"operation"`                // Operation type
+	AccessControl  *AccessControlIn                          `json:"access_control,omitempty"` // Service specific access controls for user. Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	Authentication AuthenticationType                        `json:"authentication,omitempty"` // Authentication details
+	NewPassword    *string                                   `json:"new_password,omitempty"`   // New password
+	Operation      ServiceUserCredentialsModifyOperationType `json:"operation"`                // Operation type
+}
+type ServiceUserCredentialsModifyOperationType string
+
+const (
+	ServiceUserCredentialsModifyOperationTypeAcknowledgeRenewal ServiceUserCredentialsModifyOperationType = "acknowledge-renewal"
+	ServiceUserCredentialsModifyOperationTypeResetCredentials   ServiceUserCredentialsModifyOperationType = "reset-credentials"
+	ServiceUserCredentialsModifyOperationTypeSetAccessControl   ServiceUserCredentialsModifyOperationType = "set-access-control"
+)
+
+func ServiceUserCredentialsModifyOperationTypeChoices() []string {
+	return []string{"acknowledge-renewal", "reset-credentials", "set-access-control"}
 }
 
 // ServiceUserCredentialsModifyOut Service information
 type ServiceUserCredentialsModifyOut struct {
-	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Kafka ACL entries
+	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Aiven ACL entries for Kafka service
 	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
@@ -2247,6 +2319,7 @@ type ServiceUserCredentialsModifyOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
 	NodeCount              *int                     `json:"node_count,omitempty"`               // Number of service nodes in the active plan
@@ -2276,7 +2349,7 @@ type ServiceUserCredentialsModifyOut struct {
 
 // ServiceUserCredentialsResetOut Service information
 type ServiceUserCredentialsResetOut struct {
-	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Kafka ACL entries
+	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Aiven ACL entries for Kafka service
 	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
@@ -2288,6 +2361,7 @@ type ServiceUserCredentialsResetOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
 	NodeCount              *int                     `json:"node_count,omitempty"`               // Number of service nodes in the active plan

@@ -111,6 +111,10 @@ Kafka:
   - ServiceKafkaAclAdd
   - ServiceKafkaAclDelete
   - ServiceKafkaAclList
+  - ServiceKafkaNativeAclAdd
+  - ServiceKafkaNativeAclDelete
+  - ServiceKafkaNativeAclGet
+  - ServiceKafkaNativeAclList
   - ServiceKafkaQuotaCreate
   - ServiceKafkaQuotaDelete
   - ServiceKafkaQuotaDescribe
