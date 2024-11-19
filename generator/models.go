@@ -389,6 +389,17 @@ func (s *Schema) level() int {
 	return level
 }
 
+func (s *Schema) path() string {
+	path := []string{s.name}
+	p := s.parent
+	for p != nil {
+		path = append(path, p.name)
+		p = p.parent
+	}
+	slices.Reverse(path)
+	return strings.Join(path, "/")
+}
+
 // isAnonymous returns true when a struct should be rendered anonymous to reduce scope noise
 func (s *Schema) isAnonymous() bool {
 	return s.hasCollision && s.isObject() && s.level() > 3

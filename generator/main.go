@@ -20,6 +20,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 	"gopkg.in/yaml.v3"
 )
@@ -525,19 +526,47 @@ func writeStruct(f *jen.File, s *Schema) error {
 	return nil
 }
 
-// fmtStruct returns anynonous struct
-func fmtStruct(s *Schema) *jen.Statement {
-	fields := make([]jen.Code, 0, len(s.Properties))
-	for _, k := range s.propertyNames {
-		p := s.Properties[k]
-		field := jen.Id(customCamelCase(k)).Add(getType(p))
-		tag := k
+// reInvertSnakeCase snake case name pattern reversed
+var reInvertSnakeCase = regexp.MustCompile("[^a-zA-Z0-9_]+")
 
+// fmtStruct returns anonymous struct
+func fmtStruct(s *Schema) *jen.Statement {
+	// Sorts field names
+	// Resolves field name collision when a new more conventional JSON name replaces an existing field
+	jsonNames := maps.Keys(s.Properties)
+	sort.Slice(jsonNames, func(i, j int) bool {
+		return reInvertSnakeCase.ReplaceAllString(jsonNames[i], "") > reInvertSnakeCase.ReplaceAllString(jsonNames[j], "")
+	})
+
+	// Resolves collisions
+	uniqueNames := make(map[string]string, len(jsonNames))
+	for _, jsonName := range jsonNames {
+		p := s.Properties[jsonName]
+		goName := customCamelCase(jsonName)
+		if exist, ok := uniqueNames[goName]; ok {
+			log.Warn().Msgf("Field collision: %q overrides %q", p.path(), exist)
+		}
+		// WARNING: This is a hack to avoid name collisions in Go fields
+		// overrides duplicate fields
+		uniqueNames[goName] = jsonName
+	}
+
+	fields := make([]jen.Code, 0, len(uniqueNames))
+	for _, goName := range sortedKeys(uniqueNames) {
+		jsonName := uniqueNames[goName]
+		p := s.Properties[jsonName]
+
+		// Adds json tags
+		tag := jsonName
 		if !p.required {
 			tag += ",omitempty"
 		}
 
-		field = field.Tag(map[string]string{"json": strings.ReplaceAll(tag, `\`, "")})
+		// Some fields have special characters escaped in the name
+		tag = strings.ReplaceAll(tag, `\`, "")
+
+		field := jen.Id(goName).Add(getType(p))
+		field = field.Tag(map[string]string{"json": tag})
 
 		// Adds a comment if it's not equal to the field name
 		if p.Description != "" && p.Description != p.CamelName {
