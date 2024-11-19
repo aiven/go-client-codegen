@@ -65,43 +65,6 @@ components:
             properties:
               integration_type:
                 $ref: "#/components/schemas/ServiceCreateRequestBody/properties/service_integrations/items/properties/integration_type"
-    ServiceKafkaMirrorMakerCreateReplicationFlowRequestBody:
-      properties:
-        topics.blacklist:
-          type: array
-          items:
-            type: string
-    ServiceKafkaMirrorMakerGetReplicationFlowResponse:
-      properties:
-        replication_flow:
-          properties:
-            topics.blacklist:
-              type: array
-              items:
-                type: string
-    ServiceKafkaMirrorMakerGetReplicationFlowsResponse:
-      properties:
-        replication_flows:
-          items:
-            properties:
-              topics.blacklist:
-                type: array
-                items:
-                  type: string
-    ServiceKafkaMirrorMakerPatchReplicationFlowRequestBody:
-      properties:
-        topics.blacklist:
-          type: array
-          items:
-            type: string
-    ServiceKafkaMirrorMakerPatchReplicationFlowResponse:
-      properties:
-        replication_flow:
-          properties:
-            topics.blacklist:
-              type: array
-              items:
-                type: string
     ServiceGetResponse:
       properties:
         service:

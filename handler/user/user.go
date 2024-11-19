@@ -694,10 +694,10 @@ type UserAuthLoginOptionsIn struct {
 
 // UserAuthLoginOptionsOut UserAuthLoginOptionsResponse
 type UserAuthLoginOptionsOut struct {
-	None        []map[string]any `json:"None,omitempty"`         // List of available login methods
 	Action      ActionType       `json:"action"`                 // Action
 	Method      MethodType       `json:"method,omitempty"`       // HTTP method used for redirecting
 	Name        *string          `json:"name,omitempty"`         // Human readable name
+	None        []map[string]any `json:"None,omitempty"`         // List of available login methods
 	RedirectUrl *string          `json:"redirect_url,omitempty"` // Redirect URL for signing in
 }
 
