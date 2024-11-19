@@ -185,8 +185,8 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectResumeConnector(ctx context.Con
 
 // ConfigOut Connector configuration parameters
 type ConfigOut struct {
-	ConnectorClass *string `json:"connector.class,omitempty"` // The Java class for the connector
-	Name           string  `json:"name"`                      // Unique name for the connector
+	ConnectorClass string `json:"connector.class"` // The Java class for the connector
+	Name           string `json:"name"`            // Unique name for the connector
 }
 type ConfigurationSchemaOut struct {
 	DefaultValue  string                  `json:"default_value"` // Default value to be set if field omitted in configuration
@@ -274,8 +274,8 @@ func ServiceKafkaConnectConnectorStateTypeChoices() []string {
 
 // ServiceKafkaConnectCreateConnectorIn ServiceKafkaConnectCreateConnectorRequestBody
 type ServiceKafkaConnectCreateConnectorIn struct {
-	ConnectorClass *string `json:"connector.class,omitempty"` // The Java class for the connector
-	Name           string  `json:"name"`                      // Unique name for the connector
+	ConnectorClass string `json:"connector.class"` // The Java class for the connector
+	Name           string `json:"name"`            // Unique name for the connector
 }
 
 // ServiceKafkaConnectCreateConnectorOut Kafka connector information
@@ -288,8 +288,8 @@ type ServiceKafkaConnectCreateConnectorOut struct {
 
 // ServiceKafkaConnectEditConnectorIn ServiceKafkaConnectEditConnectorRequestBody
 type ServiceKafkaConnectEditConnectorIn struct {
-	ConnectorClass *string `json:"connector.class,omitempty"` // The Java class for the connector
-	Name           string  `json:"name"`                      // Unique name for the connector
+	ConnectorClass string `json:"connector.class"` // The Java class for the connector
+	Name           string `json:"name"`            // Unique name for the connector
 }
 
 // ServiceKafkaConnectEditConnectorOut Kafka connector information

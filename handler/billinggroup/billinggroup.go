@@ -522,6 +522,7 @@ type InvoiceOut struct {
 	BillingGroupState BillingGroupStateType `json:"billing_group_state"`    // Billing group state
 	Currency          CurrencyType          `json:"currency"`               // Billing currency
 	DownloadCookie    string                `json:"download_cookie"`        // Authentication cookie for downloads
+	DueDate           *string               `json:"due_date,omitempty"`     // The time when the invoice is due
 	GeneratedAt       *time.Time            `json:"generated_at,omitempty"` // The time when the invoice was generated
 	InvoiceNumber     string                `json:"invoice_number"`         // Unique invoice reference code
 	PeriodBegin       string                `json:"period_begin"`           // Period begin
