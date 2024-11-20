@@ -39,42 +39,27 @@ func NewClient(opts ...Option) (Client, error) {
 		return nil, err
 	}
 
-	c := retryablehttp.NewClient()
-
-	// Retry settings explanation:
-	// Default values (retryWaitMin = 1s, retryWaitMax = 30s, retryMax = 4)
-	// Changed values (retryWaitMin = 2s, retryWaitMax = 15s, retryMax = 6)
-	//
-	// Default values       | Changed values
-	// Run  Seconds         | Run  Seconds
-	// 0    0.000           | 0    0.000
-	// 1    1.000           | 1    2.000
-	// 2    3.000           | 2    6.000
-	// 3    7.000           | 3    14.000
-	// 4    15.000          | 4    15.000 (capped at retryWaitMax)
-	//                      | 5    15.000 (capped at retryWaitMax)
-	//                      | 6    15.000 (capped at retryWaitMax)
-	//
-	// Maximum wait time if all attempts fail:
-	// Default values: 26 seconds
-	// Changed values: 67 seconds
-	const (
-		//nolint:revive
-		retryWaitMin = 2 * time.Second
-		retryWaitMax = 15 * time.Second
-		retryMax     = 6
-	)
-	c.RetryWaitMin = retryWaitMin // Default is 1 second
-	c.RetryWaitMax = retryWaitMax // Default is 30 seconds
-	c.RetryMax = retryMax         // Default is 4 retries (5 attempts in total)
-	c.CheckRetry = checkRetry
-
-	c.Logger = nil
-	d.doer = c.StandardClient()
-
 	// User settings
 	for _, opt := range opts {
 		opt(d)
+	}
+
+	// When DoerOpt is not applied
+	if d.doer == nil {
+		c := retryablehttp.NewClient()
+		c.RetryMax = d.RetryMax
+		c.RetryWaitMin = d.RetryWaitMin
+		c.RetryWaitMax = d.RetryWaitMax
+		c.CheckRetry = checkRetry
+
+		// Disables retryablehttp logger which outputs a lot of debug information
+		c.Logger = nil
+
+		// By default, when retryablehttp gets 500 (or any error),
+		// it doesn't return the body which might contain useful information.
+		// Instead, it returns `giving up after %d attempt(s)` for the given url and method.
+		c.ErrorHandler = retryablehttp.PassthroughErrorHandler
+		d.doer = c.StandardClient()
 	}
 
 	if d.Debug {
@@ -99,13 +84,34 @@ func NewClient(opts ...Option) (Client, error) {
 	return newClient(d), nil
 }
 
+// Retry settings explanation:
+// Default values (retryWaitMin = 1s, retryWaitMax = 30s, retryMax = 4)
+// Changed values (retryWaitMin = 2s, retryWaitMax = 15s, retryMax = 6)
+//
+// Default values       | Changed values
+// Run  Seconds         | Run  Seconds
+// 0    0.000           | 0    0.000
+// 1    1.000           | 1    2.000
+// 2    3.000           | 2    6.000
+// 3    7.000           | 3    14.000
+// 4    15.000          | 4    15.000 (capped at retryWaitMax)
+//
+//	| 5    15.000 (capped at retryWaitMax)
+//	| 6    15.000 (capped at retryWaitMax)
+//
+// Maximum wait time if all attempts fail:
+// Default values: 26 seconds
+// Changed values: 67 seconds
 type aivenClient struct {
-	Host      string `envconfig:"AIVEN_WEB_URL" default:"https://api.aiven.io"`
-	UserAgent string `envconfig:"AIVEN_USER_AGENT" default:"aiven-go-client/v3"`
-	Token     string `envconfig:"AIVEN_TOKEN"`
-	Debug     bool   `envconfig:"AIVEN_DEBUG"`
-	logger    zerolog.Logger
-	doer      Doer
+	Host         string        `envconfig:"AIVEN_WEB_URL" default:"https://api.aiven.io"`
+	UserAgent    string        `envconfig:"AIVEN_USER_AGENT" default:"aiven-go-client/v3"`
+	Token        string        `envconfig:"AIVEN_TOKEN"`
+	Debug        bool          `envconfig:"AIVEN_DEBUG"`
+	RetryMax     int           `envconfig:"AIVEN_CLIENT_RETRY_MAX" default:"6"`
+	RetryWaitMin time.Duration `envconfig:"AIVEN_CLIENT_RETRY_WAIT_MIN" default:"2s"`
+	RetryWaitMax time.Duration `envconfig:"AIVEN_CLIENT_RETRY_WAIT_MAX" default:"15s"`
+	logger       zerolog.Logger
+	doer         Doer
 }
 
 // OperationIDKey is the key used to store the operation ID in the context.
