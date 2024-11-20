@@ -10,6 +10,7 @@ import (
 	"strings"
 	"sync/atomic"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -113,4 +114,87 @@ func TestServiceCreate(t *testing.T) {
 
 	// All calls are received
 	assert.EqualValues(t, 2, callCount)
+}
+
+func TestServiceCreateErrorsRetries(t *testing.T) {
+	cases := []struct {
+		Name         string
+		ResponseBody string
+		ErrorExpect  string
+		RetryMax     int
+		CallsExpect  int
+	}{
+		{
+			Name:         "message field only",
+			ResponseBody: `{"message": "Internal Server Error"}`,
+			ErrorExpect:  "[500 ServiceCreate]: Internal Server Error",
+			RetryMax:     6,
+			CallsExpect:  7,
+		},
+		{
+			Name:         "with errors field, list",
+			ResponseBody: `{"message": "Something went wrong", "errors": ["oh!", "no!"]}`,
+			ErrorExpect:  `[500 ServiceCreate]: Something went wrong: ["oh!","no!"]`,
+			RetryMax:     1,
+			CallsExpect:  2,
+		},
+		{
+			Name:         "with errors field, string",
+			ResponseBody: `{"message": "Something went wrong", "errors": "wow!"}`,
+			ErrorExpect:  `[500 ServiceCreate]: Something went wrong: "wow!"`,
+			RetryMax:     1,
+			CallsExpect:  2,
+		},
+	}
+
+	for _, tt := range cases {
+		t.Run(tt.Name, func(t *testing.T) {
+			var callsActual int64
+
+			// Creates a test server
+			mux := http.NewServeMux()
+			mux.HandleFunc(
+				"/v1/project/aiven-project/service",
+				func(w http.ResponseWriter, _ *http.Request) {
+					// Creates response
+					w.Header().Set("Content-Type", "application/json")
+					w.WriteHeader(http.StatusInternalServerError)
+					_, err := w.Write([]byte(tt.ResponseBody))
+					require.NoError(t, err)
+					atomic.AddInt64(&callsActual, 1)
+				},
+			)
+
+			server := httptest.NewServer(mux)
+
+			// Points a new client to the server url
+			c, err := NewClient(
+				TokenOpt("token"),
+				UserAgentOpt("unit-test"),
+				HostOpt(server.URL),
+				RetryMaxOpt(tt.RetryMax),
+				RetryWaitMinOpt(1*time.Millisecond),
+				RetryWaitMaxOpt(3*time.Millisecond),
+				DebugOpt(false),
+			)
+			require.NotNil(t, c)
+			require.NoError(t, err)
+
+			// Makes create request
+			in := &service.ServiceCreateIn{
+				ServiceName: "my-clickhouse",
+				ServiceType: "clickhouse",
+			}
+
+			ctx := context.Background()
+			project := "aiven-project"
+			out, err := c.ServiceCreate(ctx, project, in)
+			assert.Nil(t, out)
+			assert.Equal(t, err.Error(), tt.ErrorExpect)
+
+			// All calls are received
+			assert.EqualValues(t, tt.CallsExpect, callsActual)
+			server.Close()
+		})
+	}
 }

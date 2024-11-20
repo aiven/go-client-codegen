@@ -159,7 +159,7 @@ func TestFromResponse(t *testing.T) {
 			statusCode:     http.StatusInternalServerError,
 			body:           []byte(`unknown error`),
 			expectBytes:    nil,
-			expectStringer: `[500 UserAuth]: unknown error: null`,
+			expectStringer: `[500 UserAuth]: unknown error`,
 			expectErr: Error{
 				OperationID: "UserAuth",
 				Message:     "unknown error",
@@ -171,7 +171,7 @@ func TestFromResponse(t *testing.T) {
 			operationID:    "UserAuth",
 			statusCode:     http.StatusBadRequest,
 			body:           []byte(`{"message": {"key": "value"}}`), // message is not string
-			expectStringer: `[400 UserAuth]: json: cannot unmarshal object into Go struct field Error.message of type string: null`,
+			expectStringer: `[400 UserAuth]: json: cannot unmarshal object into Go struct field Error.message of type string`,
 			expectBytes:    nil,
 			expectErr: Error{
 				OperationID: "UserAuth",
