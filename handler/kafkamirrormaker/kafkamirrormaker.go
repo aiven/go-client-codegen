@@ -115,6 +115,7 @@ type ReplicationFlowOut struct {
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Emit backward heartbeats enabled
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Emit heartbeats enabled
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
+	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Enable exactly-once message delivery
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // Offset syncs topic location
 	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor
@@ -145,6 +146,7 @@ type ServiceKafkaMirrorMakerCreateReplicationFlowIn struct {
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Emit backward heartbeats enabled
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Emit heartbeats enabled
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
+	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Enable exactly-once message delivery
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // Offset syncs topic location
 	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor
@@ -164,6 +166,7 @@ type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Emit backward heartbeats enabled
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Emit heartbeats enabled
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
+	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Enable exactly-once message delivery
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // Offset syncs topic location
 	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor
@@ -184,6 +187,7 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Emit backward heartbeats enabled
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Emit heartbeats enabled
 	Enabled                         *bool                        `json:"enabled,omitempty"`                             // Is replication flow enabled
+	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Enable exactly-once message delivery
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // Offset syncs topic location
 	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor
@@ -201,6 +205,7 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowOut struct {
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Emit backward heartbeats enabled
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Emit heartbeats enabled
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
+	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Enable exactly-once message delivery
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // Offset syncs topic location
 	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor
