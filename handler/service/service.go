@@ -1022,7 +1022,9 @@ type CreateUserBackupIn struct {
 	BackupName string `json:"backup_name"` // The output file name.
 }
 type DatabaseOut struct {
-	DatabaseName string `json:"database_name"` // Database name or ID
+	DatabaseName string  `json:"database_name"` // Database name or ID
+	LcCollate    *string `json:"lc_collate,omitempty"`
+	LcCtype      *string `json:"lc_ctype,omitempty"`
 }
 
 // DatasetImportIn Payload to be used with dataset_import

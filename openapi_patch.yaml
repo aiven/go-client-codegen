@@ -1,5 +1,14 @@
 components:
   schemas:
+    ServiceDatabaseListResponse:
+      properties:
+        databases:
+          items:
+            properties:
+              lc_ctype:
+                type: string
+              lc_collate:
+                type: string
     ServiceListResponse:
       properties:
         services:
