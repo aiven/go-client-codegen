@@ -250,6 +250,9 @@ ProjectBilling:
   - ProjectInvoiceGet
   - ProjectInvoiceList
 Service:
+  - AlloyDbOmniGoogleCloudPrivateKeyIdentify
+  - AlloyDbOmniGoogleCloudPrivateKeyRemove
+  - AlloyDbOmniGoogleCloudPrivateKeySet
   - ListProjectServiceTypes
   - ListPublicServiceTypes
   - ListServiceVersions
