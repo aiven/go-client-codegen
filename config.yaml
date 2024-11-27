@@ -38,6 +38,10 @@ AccountTeamMember:
   - AccountTeamMembersDelete
   - AccountTeamMembersInvite
   - AccountTeamMembersList
+AlloyDBOmni:
+  - AlloyDbOmniGoogleCloudPrivateKeyIdentify
+  - AlloyDbOmniGoogleCloudPrivateKeyRemove
+  - AlloyDbOmniGoogleCloudPrivateKeySet
 ApplicationUser:
   - ApplicationUserAccessTokenCreate
   - ApplicationUserAccessTokenDelete
@@ -250,9 +254,6 @@ ProjectBilling:
   - ProjectInvoiceGet
   - ProjectInvoiceList
 Service:
-  - AlloyDbOmniGoogleCloudPrivateKeyIdentify
-  - AlloyDbOmniGoogleCloudPrivateKeyRemove
-  - AlloyDbOmniGoogleCloudPrivateKeySet
   - ListProjectServiceTypes
   - ListPublicServiceTypes
   - ListServiceVersions
