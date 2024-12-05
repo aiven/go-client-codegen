@@ -487,6 +487,14 @@ func AnyTypeChoices() []string {
 	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:network:read", "organization:network:write", "organization:permissions:read", "organization:permissions:write", "organization:projects:read", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
 }
 
+// ApplicationOut Service type information
+type ApplicationOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
 // BackupConfigOut Backup configuration for this service plan
 type BackupConfigOut struct {
 	FrequentIntervalMinutes    *int             `json:"frequent_interval_minutes,omitempty"`     // Interval of taking a frequent backup in service types supporting different backup schedules
@@ -916,6 +924,7 @@ type ProjectServiceTypesListElasticsearchOut struct {
 // ProjectServiceTypesListOut ProjectServiceTypesListResponse
 type ProjectServiceTypesListOut struct {
 	Alloydbomni      *AlloydbomniOut                          `json:"alloydbomni,omitempty"`       // Service type information
+	Application      *ApplicationOut                          `json:"application,omitempty"`       // Service type information
 	Cassandra        *CassandraOut                            `json:"cassandra,omitempty"`         // Service type information
 	Clickhouse       *ClickhouseOut                           `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut                            `json:"dragonfly,omitempty"`         // Service type information
