@@ -719,7 +719,7 @@ type UserCreateIn struct {
 	Origin                       *string   `json:"origin,omitempty"`                         // Origin of the user
 	Password                     *string   `json:"password,omitempty"`                       // User password
 	RealName                     string    `json:"real_name"`                                // User real name
-	State                        *string   `json:"state,omitempty"`                          // Address state or province
+	State                        *string   `json:"state,omitempty"`                          // Address state
 	Token                        *string   `json:"token,omitempty"`                          // Signup token for single sign-on linking
 }
 

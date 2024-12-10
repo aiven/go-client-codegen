@@ -338,6 +338,7 @@ type QuotaOut struct {
 	RequestPercentage float64 `json:"request_percentage"` // cpu percentage throttle
 	User              string  `json:"user"`               // user
 }
+
 type ResourceType string
 
 const (

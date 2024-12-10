@@ -771,7 +771,7 @@ type ProjectCreateOut struct {
 	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
 	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
 	ProjectName           string                 `json:"project_name"`                      // Project name
-	State                 *string                `json:"state,omitempty"`                   // Address state or province
+	State                 *string                `json:"state,omitempty"`                   // Address state
 	Tags                  map[string]string      `json:"tags,omitempty"`                    // Set of resource tags
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`             // List of project tech email addresses
 	TenantId              *string                `json:"tenant_id,omitempty"`               // Tenant ID
@@ -805,7 +805,7 @@ type ProjectGetOut struct {
 	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
 	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
 	ProjectName           string                 `json:"project_name"`                      // Project name
-	State                 *string                `json:"state,omitempty"`                   // Address state or province
+	State                 *string                `json:"state,omitempty"`                   // Address state
 	Tags                  map[string]string      `json:"tags,omitempty"`                    // Set of resource tags
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`             // List of project tech email addresses
 	TenantId              *string                `json:"tenant_id,omitempty"`               // Tenant ID
@@ -865,7 +865,7 @@ type ProjectOut struct {
 	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
 	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
 	ProjectName           string                 `json:"project_name"`                      // Project name
-	State                 *string                `json:"state,omitempty"`                   // Address state or province
+	State                 *string                `json:"state,omitempty"`                   // Address state
 	Tags                  map[string]string      `json:"tags,omitempty"`                    // Set of resource tags
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`             // List of project tech email addresses
 	TenantId              *string                `json:"tenant_id,omitempty"`               // Tenant ID
@@ -994,7 +994,7 @@ type ProjectUpdateOut struct {
 	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
 	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
 	ProjectName           string                 `json:"project_name"`                      // Project name
-	State                 *string                `json:"state,omitempty"`                   // Address state or province
+	State                 *string                `json:"state,omitempty"`                   // Address state
 	Tags                  map[string]string      `json:"tags,omitempty"`                    // Set of resource tags
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`             // List of project tech email addresses
 	TenantId              *string                `json:"tenant_id,omitempty"`               // Tenant ID
