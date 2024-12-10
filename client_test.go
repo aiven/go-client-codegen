@@ -187,8 +187,7 @@ func TestServiceCreateErrorsRetries(t *testing.T) {
 			}
 
 			ctx := context.Background()
-			project := "aiven-project"
-			out, err := c.ServiceCreate(ctx, project, in)
+			out, err := c.ServiceCreate(ctx, "aiven-project", in)
 			assert.Nil(t, out)
 			assert.Equal(t, err.Error(), tt.ErrorExpect)
 

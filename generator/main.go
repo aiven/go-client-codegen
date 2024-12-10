@@ -102,6 +102,15 @@ func exec() error {
 		return err
 	}
 
+	// To validate all operation ids in the config exist in the OpenAPI spec
+	// OperationID => Package name
+	configOperationIDs := make(map[string]string)
+	for pkg, idList := range config {
+		for _, id := range idList {
+			configOperationIDs[id] = pkg
+		}
+	}
+
 	pkgs := make(map[string][]*Path)
 	for path := range doc.Paths {
 		v := doc.Paths[path]
@@ -114,22 +123,14 @@ func exec() error {
 			p.Method = strings.ToUpper(meth)
 			p.ID = p.OperationID
 
-			var pkg string
-		outer:
-			for k, idList := range config {
-				for _, id := range idList {
-					if p.ID == id {
-						pkg = k
-
-						break outer
-					}
-				}
-			}
-
-			if pkg == "" {
-				log.Error().Msgf("%q id not found in config!", p.ID)
+			pkg, ok := configOperationIDs[p.ID]
+			if !ok {
+				log.Warn().Msgf("%q id not found in config!", p.ID)
 				continue
 			}
+
+			// Removes the operation id from the map to see which are not used
+			delete(configOperationIDs, p.ID)
 
 			pkgs[pkg] = append(pkgs[pkg], p)
 			params := make([]*Parameter, 0)
@@ -153,6 +154,10 @@ func exec() error {
 
 			p.Parameters = params
 		}
+	}
+
+	if len(configOperationIDs) > 0 {
+		return fmt.Errorf("config has unused operation ids: %s", strings.Join(sortedKeys(configOperationIDs), ", "))
 	}
 
 	ctx := jen.Id("ctx").Qual("context", "Context")

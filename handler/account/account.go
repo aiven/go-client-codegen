@@ -351,7 +351,7 @@ type AccountBillingGroupOut struct {
 	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
 	PaymentMethod         PaymentMethodType   `json:"payment_method"`                // Payment method
 	ShippingAddressId     *string             `json:"shipping_address_id,omitempty"` // Address ID
-	State                 string              `json:"state"`                         // Address state
+	State                 string              `json:"state"`                         // Address state or province
 	VatId                 string              `json:"vat_id"`                        // EU VAT Identification Number
 	ZipCode               string              `json:"zip_code"`                      // Address zip code
 }
@@ -645,7 +645,7 @@ type ProjectOut struct {
 	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
 	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
 	ProjectName           string                 `json:"project_name"`                      // Project name
-	State                 *string                `json:"state,omitempty"`                   // Address state
+	State                 *string                `json:"state,omitempty"`                   // Address state or province
 	Tags                  map[string]string      `json:"tags,omitempty"`                    // Set of resource tags
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`             // List of project tech email addresses
 	TenantId              *string                `json:"tenant_id,omitempty"`               // Tenant ID
