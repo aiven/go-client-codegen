@@ -279,7 +279,7 @@ type BillingGroupCreateIn struct {
 	CopyFromBillingGroup *string             `json:"copy_from_billing_group,omitempty"` // Billing group ID
 	CountryCode          *string             `json:"country_code,omitempty"`            // Two letter country code for billing country
 	ShippingAddressId    *string             `json:"shipping_address_id,omitempty"`     // Address ID
-	State                *string             `json:"state,omitempty"`                   // Address state
+	State                *string             `json:"state,omitempty"`                   // Address state or province
 	VatId                *string             `json:"vat_id,omitempty"`                  // EU VAT Identification Number
 	ZipCode              *string             `json:"zip_code,omitempty"`                // Address zip code
 }
@@ -307,7 +307,7 @@ type BillingGroupCreateOut struct {
 	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
 	PaymentMethod         PaymentMethodType   `json:"payment_method"`                // Payment method
 	ShippingAddressId     *string             `json:"shipping_address_id,omitempty"` // Address ID
-	State                 string              `json:"state"`                         // Address state
+	State                 string              `json:"state"`                         // Address state or province
 	VatId                 string              `json:"vat_id"`                        // EU VAT Identification Number
 	ZipCode               string              `json:"zip_code"`                      // Address zip code
 }
@@ -350,7 +350,7 @@ type BillingGroupGetOut struct {
 	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
 	PaymentMethod         PaymentMethodType   `json:"payment_method"`                // Payment method
 	ShippingAddressId     *string             `json:"shipping_address_id,omitempty"` // Address ID
-	State                 string              `json:"state"`                         // Address state
+	State                 string              `json:"state"`                         // Address state or province
 	VatId                 string              `json:"vat_id"`                        // EU VAT Identification Number
 	ZipCode               string              `json:"zip_code"`                      // Address zip code
 }
@@ -376,7 +376,7 @@ type BillingGroupOut struct {
 	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
 	PaymentMethod         PaymentMethodType   `json:"payment_method"`                // Payment method
 	ShippingAddressId     *string             `json:"shipping_address_id,omitempty"` // Address ID
-	State                 string              `json:"state"`                         // Address state
+	State                 string              `json:"state"`                         // Address state or province
 	VatId                 string              `json:"vat_id"`                        // EU VAT Identification Number
 	ZipCode               string              `json:"zip_code"`                      // Address zip code
 }
@@ -410,7 +410,7 @@ type BillingGroupUpdateIn struct {
 	Company           *string             `json:"company,omitempty"`             // Name of a company
 	CountryCode       *string             `json:"country_code,omitempty"`        // Two letter country code for billing country
 	ShippingAddressId *string             `json:"shipping_address_id,omitempty"` // Address ID
-	State             *string             `json:"state,omitempty"`               // Address state
+	State             *string             `json:"state,omitempty"`               // Address state or province
 	VatId             *string             `json:"vat_id,omitempty"`              // EU VAT Identification Number
 	ZipCode           *string             `json:"zip_code,omitempty"`            // Address zip code
 }
@@ -438,7 +438,7 @@ type BillingGroupUpdateOut struct {
 	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
 	PaymentMethod         PaymentMethodType   `json:"payment_method"`                // Payment method
 	ShippingAddressId     *string             `json:"shipping_address_id,omitempty"` // Address ID
-	State                 string              `json:"state"`                         // Address state
+	State                 string              `json:"state"`                         // Address state or province
 	VatId                 string              `json:"vat_id"`                        // EU VAT Identification Number
 	ZipCode               string              `json:"zip_code"`                      // Address zip code
 }

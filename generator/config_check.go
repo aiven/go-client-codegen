@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 func checkDuplicateEndpoints(config map[string][]string) error {
@@ -19,15 +20,7 @@ func checkDuplicateEndpoints(config map[string][]string) error {
 	}
 
 	if len(duplicates) > 0 {
-		return fmt.Errorf("Duplicate endpoints found in config: %v", keys(duplicates))
+		return fmt.Errorf("duplicate endpoints found in config: %v", strings.Join(sortedKeys(duplicates), ", "))
 	}
 	return nil
-}
-
-func keys(m map[string]struct{}) []string {
-	keys := make([]string, 0, len(m))
-	for k := range m {
-		keys = append(keys, k)
-	}
-	return keys
 }
