@@ -28,4 +28,4 @@ tasks:
       - task: go-generate
   test:
     cmds:
-      - go test -v ./...
+      - go test -v
