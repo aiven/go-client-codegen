@@ -183,7 +183,6 @@ Organization:
   - OrganizationAuthenticationConfigGet
   - OrganizationAuthenticationConfigUpdate
   - OrganizationGet
-  - OrganizationProjectsList
   - OrganizationUpdate
   - PermissionsGet
   - PermissionsUpdate
@@ -200,7 +199,6 @@ OrganizationUser:
   - OrganizationUserList
   - OrganizationUserPasswordReset
   - OrganizationUserRevokeToken
-  - OrganizationUserSet
   - OrganizationUserTokensList
   - OrganizationUserUpdate
 PostgreSQL:
