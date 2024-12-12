@@ -19,6 +19,9 @@ import (
 	flinkapplication "github.com/aiven/go-client-codegen/handler/flinkapplication"
 	flinkapplicationdeployment "github.com/aiven/go-client-codegen/handler/flinkapplicationdeployment"
 	flinkapplicationversion "github.com/aiven/go-client-codegen/handler/flinkapplicationversion"
+	flinkjarapplication "github.com/aiven/go-client-codegen/handler/flinkjarapplication"
+	flinkjarapplicationdeployment "github.com/aiven/go-client-codegen/handler/flinkjarapplicationdeployment"
+	flinkjarapplicationversion "github.com/aiven/go-client-codegen/handler/flinkjarapplicationversion"
 	flinkjob "github.com/aiven/go-client-codegen/handler/flinkjob"
 	kafka "github.com/aiven/go-client-codegen/handler/kafka"
 	kafkaconnect "github.com/aiven/go-client-codegen/handler/kafkaconnect"
@@ -48,40 +51,43 @@ type doer interface {
 
 func newClient(doer doer) Client {
 	return &client{
-		AccountAuthenticationHandler:      accountauthentication.NewHandler(doer),
-		AccountHandler:                    account.NewHandler(doer),
-		AccountTeamHandler:                accountteam.NewHandler(doer),
-		AccountTeamMemberHandler:          accountteammember.NewHandler(doer),
-		AlloyDBOmniHandler:                alloydbomni.NewHandler(doer),
-		ApplicationUserHandler:            applicationuser.NewHandler(doer),
-		BillingGroupHandler:               billinggroup.NewHandler(doer),
-		ClickHouseHandler:                 clickhouse.NewHandler(doer),
-		CloudHandler:                      cloud.NewHandler(doer),
-		DomainHandler:                     domain.NewHandler(doer),
-		FlinkApplicationDeploymentHandler: flinkapplicationdeployment.NewHandler(doer),
-		FlinkApplicationHandler:           flinkapplication.NewHandler(doer),
-		FlinkApplicationVersionHandler:    flinkapplicationversion.NewHandler(doer),
-		FlinkHandler:                      flink.NewHandler(doer),
-		FlinkJobHandler:                   flinkjob.NewHandler(doer),
-		KafkaConnectHandler:               kafkaconnect.NewHandler(doer),
-		KafkaHandler:                      kafka.NewHandler(doer),
-		KafkaMirrorMakerHandler:           kafkamirrormaker.NewHandler(doer),
-		KafkaSchemaRegistryHandler:        kafkaschemaregistry.NewHandler(doer),
-		KafkaTopicHandler:                 kafkatopic.NewHandler(doer),
-		MySQLHandler:                      mysql.NewHandler(doer),
-		OpenSearchHandler:                 opensearch.NewHandler(doer),
-		OrganizationHandler:               organization.NewHandler(doer),
-		OrganizationUserHandler:           organizationuser.NewHandler(doer),
-		PostgreSQLHandler:                 postgresql.NewHandler(doer),
-		PrivatelinkHandler:                privatelink.NewHandler(doer),
-		ProjectBillingHandler:             projectbilling.NewHandler(doer),
-		ProjectHandler:                    project.NewHandler(doer),
-		ServiceHandler:                    service.NewHandler(doer),
-		StaticIPHandler:                   staticip.NewHandler(doer),
-		ThanosHandler:                     thanos.NewHandler(doer),
-		UserGroupHandler:                  usergroup.NewHandler(doer),
-		UserHandler:                       user.NewHandler(doer),
-		VpcHandler:                        vpc.NewHandler(doer),
+		AccountAuthenticationHandler:         accountauthentication.NewHandler(doer),
+		AccountHandler:                       account.NewHandler(doer),
+		AccountTeamHandler:                   accountteam.NewHandler(doer),
+		AccountTeamMemberHandler:             accountteammember.NewHandler(doer),
+		AlloyDBOmniHandler:                   alloydbomni.NewHandler(doer),
+		ApplicationUserHandler:               applicationuser.NewHandler(doer),
+		BillingGroupHandler:                  billinggroup.NewHandler(doer),
+		ClickHouseHandler:                    clickhouse.NewHandler(doer),
+		CloudHandler:                         cloud.NewHandler(doer),
+		DomainHandler:                        domain.NewHandler(doer),
+		FlinkApplicationDeploymentHandler:    flinkapplicationdeployment.NewHandler(doer),
+		FlinkApplicationHandler:              flinkapplication.NewHandler(doer),
+		FlinkApplicationVersionHandler:       flinkapplicationversion.NewHandler(doer),
+		FlinkHandler:                         flink.NewHandler(doer),
+		FlinkJarApplicationDeploymentHandler: flinkjarapplicationdeployment.NewHandler(doer),
+		FlinkJarApplicationHandler:           flinkjarapplication.NewHandler(doer),
+		FlinkJarApplicationVersionHandler:    flinkjarapplicationversion.NewHandler(doer),
+		FlinkJobHandler:                      flinkjob.NewHandler(doer),
+		KafkaConnectHandler:                  kafkaconnect.NewHandler(doer),
+		KafkaHandler:                         kafka.NewHandler(doer),
+		KafkaMirrorMakerHandler:              kafkamirrormaker.NewHandler(doer),
+		KafkaSchemaRegistryHandler:           kafkaschemaregistry.NewHandler(doer),
+		KafkaTopicHandler:                    kafkatopic.NewHandler(doer),
+		MySQLHandler:                         mysql.NewHandler(doer),
+		OpenSearchHandler:                    opensearch.NewHandler(doer),
+		OrganizationHandler:                  organization.NewHandler(doer),
+		OrganizationUserHandler:              organizationuser.NewHandler(doer),
+		PostgreSQLHandler:                    postgresql.NewHandler(doer),
+		PrivatelinkHandler:                   privatelink.NewHandler(doer),
+		ProjectBillingHandler:                projectbilling.NewHandler(doer),
+		ProjectHandler:                       project.NewHandler(doer),
+		ServiceHandler:                       service.NewHandler(doer),
+		StaticIPHandler:                      staticip.NewHandler(doer),
+		ThanosHandler:                        thanos.NewHandler(doer),
+		UserGroupHandler:                     usergroup.NewHandler(doer),
+		UserHandler:                          user.NewHandler(doer),
+		VpcHandler:                           vpc.NewHandler(doer),
 	}
 }
 
@@ -100,6 +106,9 @@ type client struct {
 	flinkapplication.FlinkApplicationHandler
 	flinkapplicationdeployment.FlinkApplicationDeploymentHandler
 	flinkapplicationversion.FlinkApplicationVersionHandler
+	flinkjarapplication.FlinkJarApplicationHandler
+	flinkjarapplicationdeployment.FlinkJarApplicationDeploymentHandler
+	flinkjarapplicationversion.FlinkJarApplicationVersionHandler
 	flinkjob.FlinkJobHandler
 	kafka.KafkaHandler
 	kafkaconnect.KafkaConnectHandler
@@ -136,6 +145,9 @@ type Client interface {
 	flinkapplication.Handler
 	flinkapplicationdeployment.Handler
 	flinkapplicationversion.Handler
+	flinkjarapplication.Handler
+	flinkjarapplicationdeployment.Handler
+	flinkjarapplicationversion.Handler
 	flinkjob.Handler
 	kafka.Handler
 	kafkaconnect.Handler

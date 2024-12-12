@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -464,7 +465,7 @@ func exec() error {
 // reMakesSense sometimes there are invalid enums, for instance, just a comma ","
 var reMakesSense = regexp.MustCompile(`\w`)
 
-//nolint:funlen // It's a generator, it's supposed to be long, and we won't expand it.
+//nolint:funlen,nestif // It's a generator, it's supposed to be long, and we won't expand it.
 func writeStruct(f *jen.File, s *Schema) error {
 	if s.isAnonymous() {
 		return nil
@@ -477,7 +478,6 @@ func writeStruct(f *jen.File, s *Schema) error {
 
 		enums := make([]jen.Code, 0)
 		values := make([]jen.Code, 0)
-
 		for _, e := range s.Enum {
 			literal := fmt.Sprint(e)
 			if !reMakesSense.MatchString(literal) {
@@ -496,8 +496,18 @@ func writeStruct(f *jen.File, s *Schema) error {
 				constant += "Asterisk"
 			}
 
-			enums = append(enums, jen.Id(constant).Op(s.CamelName).Op("=").Lit(literal))
-			values = append(values, jen.Lit(literal))
+			// Turns integer literals into integers
+			var v any = literal
+			if s.Type == SchemaTypeInteger {
+				i, err := strconv.Atoi(literal)
+				if err != nil {
+					return err
+				}
+				v = i
+			}
+
+			enums = append(enums, jen.Id(constant).Op(s.CamelName).Op("=").Lit(v))
+			values = append(values, jen.Lit(v))
 		}
 
 		if len(enums) == 0 {
