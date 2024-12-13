@@ -662,12 +662,16 @@ func fmtQueryParam(funcName, queryParamType string, p *Parameter) (*jen.Statemen
 	keyFuncName := funcName + p.Schema.CamelName
 	keyVarName := jen.Id(p.Schema.lowerCamel())
 
-	var value *jen.Statement
 	format, ok := strFormatters[p.Schema.Type]
 	if !ok {
 		return nil, fmt.Errorf("query param with type %q is not supported", p.Schema.Type)
 	}
-	value = jen.Qual("fmt", "Sprintf").Call(jen.Lit(format), keyVarName.Clone())
+
+	// Stringifies non-string values and enums
+	value := keyVarName.Clone()
+	if p.Schema.isEnum() || p.Schema.Type != SchemaTypeString {
+		value = jen.Qual("fmt", "Sprintf").Call(jen.Lit(format), keyVarName.Clone())
+	}
 
 	param := jen.Comment(fmt.Sprintf("%s %s", keyFuncName, fmtComment(p.Description)))
 	param.Line()
