@@ -1,4 +1,4 @@
 package aiven
 
 // Version returns aiven-go-client version string
-func Version() string { return "v0.67.0" }
+func Version() string { return "v0.68.0" }
