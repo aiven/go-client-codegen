@@ -99,7 +99,7 @@ type Handler interface {
 	// ServiceGet get service information
 	// GET /v1/project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceGet
-	ServiceGet(ctx context.Context, project string, serviceName string, query ...serviceGetQuery) (*ServiceGetOut, error)
+	ServiceGet(ctx context.Context, project string, serviceName string, query ...[2]string) (*ServiceGetOut, error)
 
 	// ServiceGetMigrationStatus get migration status
 	// GET /v1/project/{project}/service/{service_name}/migration
@@ -134,7 +134,7 @@ type Handler interface {
 	// ServiceIntegrationEndpointGet get service integration endpoint
 	// GET /v1/project/{project}/integration_endpoint/{integration_endpoint_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointGet
-	ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string, query ...serviceIntegrationEndpointGetQuery) (*ServiceIntegrationEndpointGetOut, error)
+	ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string, query ...[2]string) (*ServiceIntegrationEndpointGetOut, error)
 
 	// ServiceIntegrationEndpointList list available integration endpoints for project
 	// GET /v1/project/{project}/integration_endpoint
@@ -219,7 +219,7 @@ type Handler interface {
 	// ServiceUpdate update service configuration
 	// PUT /v1/project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUpdate
-	ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn, query ...serviceUpdateQuery) (*ServiceUpdateOut, error)
+	ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn, query ...[2]string) (*ServiceUpdateOut, error)
 
 	// ServiceUserCreate create a new (sub) user for service
 	// POST /v1/project/{project}/service/{service_name}/user
@@ -442,14 +442,11 @@ func (h *ServiceHandler) ServiceEnableWrites(ctx context.Context, project string
 	return out.Until, nil
 }
 
-// serviceGetQuery http query params private type
-type serviceGetQuery [2]string
-
 // ServiceGetIncludeSecrets Explicitly indicates that the client wants to read secrets that might be returned by this endpoint.
-func ServiceGetIncludeSecrets(includeSecrets bool) serviceGetQuery {
-	return serviceGetQuery{"include_secrets", fmt.Sprintf("%t", includeSecrets)}
+func ServiceGetIncludeSecrets(includeSecrets bool) [2]string {
+	return [2]string{"include_secrets", fmt.Sprintf("%t", includeSecrets)}
 }
-func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, serviceName string, query ...serviceGetQuery) (*ServiceGetOut, error) {
+func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, serviceName string, query ...[2]string) (*ServiceGetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceGet", "GET", path, nil)
 	if err != nil {
@@ -525,14 +522,11 @@ func (h *ServiceHandler) ServiceIntegrationEndpointDelete(ctx context.Context, p
 	return err
 }
 
-// serviceIntegrationEndpointGetQuery http query params private type
-type serviceIntegrationEndpointGetQuery [2]string
-
 // ServiceIntegrationEndpointGetIncludeSecrets Explicitly indicates that the client wants to read secrets that might be returned by this endpoint.
-func ServiceIntegrationEndpointGetIncludeSecrets(includeSecrets bool) serviceIntegrationEndpointGetQuery {
-	return serviceIntegrationEndpointGetQuery{"include_secrets", fmt.Sprintf("%t", includeSecrets)}
+func ServiceIntegrationEndpointGetIncludeSecrets(includeSecrets bool) [2]string {
+	return [2]string{"include_secrets", fmt.Sprintf("%t", includeSecrets)}
 }
-func (h *ServiceHandler) ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string, query ...serviceIntegrationEndpointGetQuery) (*ServiceIntegrationEndpointGetOut, error) {
+func (h *ServiceHandler) ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string, query ...[2]string) (*ServiceIntegrationEndpointGetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/integration_endpoint/%s", url.PathEscape(project), url.PathEscape(integrationEndpointId))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointGet", "GET", path, nil)
 	if err != nil {
@@ -746,14 +740,11 @@ func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, ser
 	return &out.Task, nil
 }
 
-// serviceUpdateQuery http query params private type
-type serviceUpdateQuery [2]string
-
 // ServiceUpdateAllowUncleanPoweroff Allows or disallows powering off a service if some WAL segments are not available for a future restoration of the service, which might result in data loss when powering the service back on
-func ServiceUpdateAllowUncleanPoweroff(allowUncleanPoweroff bool) serviceUpdateQuery {
-	return serviceUpdateQuery{"allow_unclean_poweroff", fmt.Sprintf("%t", allowUncleanPoweroff)}
+func ServiceUpdateAllowUncleanPoweroff(allowUncleanPoweroff bool) [2]string {
+	return [2]string{"allow_unclean_poweroff", fmt.Sprintf("%t", allowUncleanPoweroff)}
 }
-func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn, query ...serviceUpdateQuery) (*ServiceUpdateOut, error) {
+func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn, query ...[2]string) (*ServiceUpdateOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceUpdate", "PUT", path, in)
 	if err != nil {
