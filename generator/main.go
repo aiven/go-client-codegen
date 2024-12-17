@@ -223,10 +223,6 @@ func exec() error {
 			// Interface and implementation args
 			funcArgs := []jen.Code{ctx}
 
-			// We want to add the query params type when there is any param
-			addQueryParams := true
-			queryParamType := lowerFirst(path.FuncName) + queryParamTypeSuffix
-
 			// Collects params: in path and in query
 			// Adds to schemas to render enums
 			for _, p := range path.Parameters {
@@ -240,18 +236,11 @@ func exec() error {
 					continue
 				}
 
-				// Adds query params type once
-				if addQueryParams {
-					file.Comment(queryParamType + " http query params private type")
-					file.Type().Id(queryParamType).Index(jen.Lit(queryParamArraySize)).String()
-					addQueryParams = false
-				}
-
 				queryParams = append(queryParams, p.Schema)
 
 				// Adds param function (request modifier)
 				var code *jen.Statement
-				code, err = fmtQueryParam(path.FuncName, queryParamType, p)
+				code, err = fmtQueryParam(path.FuncName, p)
 				if err != nil {
 					return err
 				}
@@ -275,7 +264,7 @@ func exec() error {
 
 			// Adds queryParams options
 			if len(queryParams) > 0 {
-				funcArgs = append(funcArgs, jen.Id(queryParamName).Op("...").Id(queryParamType))
+				funcArgs = append(funcArgs, jen.Id(queryParamName).Op("...").Add(fmtQueryParamType()))
 			}
 
 			typeMeth := jen.Id(path.FuncName).Params(funcArgs...)
@@ -658,7 +647,7 @@ func fmtComment(c string) string {
 }
 
 // fmtQueryParam returns a query param
-func fmtQueryParam(funcName, queryParamType string, p *Parameter) (*jen.Statement, error) {
+func fmtQueryParam(funcName string, p *Parameter) (*jen.Statement, error) {
 	keyFuncName := funcName + p.Schema.CamelName
 	keyVarName := jen.Id(p.Schema.lowerCamel())
 
@@ -676,9 +665,9 @@ func fmtQueryParam(funcName, queryParamType string, p *Parameter) (*jen.Statemen
 	param := jen.Comment(fmt.Sprintf("%s %s", keyFuncName, fmtComment(p.Description)))
 	param.Line()
 	param.Func().Id(keyFuncName).
-		Params(keyVarName.Clone().Add(getType(p.Schema))).Params(jen.Id(queryParamType)).
+		Params(keyVarName.Clone().Add(getType(p.Schema))).Params(fmtQueryParamType()).
 		Block(
-			jen.Return(jen.Id(queryParamType).Values(jen.Lit(p.Schema.name), value)),
+			jen.Return(fmtQueryParamType().Values(jen.Lit(p.Schema.name), value)),
 		)
 	return param, nil
 }

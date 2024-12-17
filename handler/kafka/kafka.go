@@ -53,7 +53,7 @@ type Handler interface {
 	// ServiceKafkaQuotaDelete delete Kafka quota
 	// DELETE /v1/project/{project}/service/{service_name}/quota
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaQuotaDelete
-	ServiceKafkaQuotaDelete(ctx context.Context, project string, serviceName string) error
+	ServiceKafkaQuotaDelete(ctx context.Context, project string, serviceName string, query ...[2]string) error
 
 	// ServiceKafkaQuotaDescribe describe Specific Kafka quotas
 	// GET /v1/project/{project}/service/{service_name}/quota/describe
@@ -182,9 +182,23 @@ func (h *KafkaHandler) ServiceKafkaQuotaCreate(ctx context.Context, project stri
 	_, err := h.doer.Do(ctx, "ServiceKafkaQuotaCreate", "POST", path, in)
 	return err
 }
-func (h *KafkaHandler) ServiceKafkaQuotaDelete(ctx context.Context, project string, serviceName string) error {
+
+// ServiceKafkaQuotaDeleteClientId Client ID.
+func ServiceKafkaQuotaDeleteClientId(clientId string) [2]string {
+	return [2]string{"client-id", clientId}
+}
+
+// ServiceKafkaQuotaDeleteUser Username.
+func ServiceKafkaQuotaDeleteUser(user string) [2]string {
+	return [2]string{"user", user}
+}
+func (h *KafkaHandler) ServiceKafkaQuotaDelete(ctx context.Context, project string, serviceName string, query ...[2]string) error {
+	p := make([][2]string, 0, len(query))
+	for _, v := range query {
+		p = append(p, v)
+	}
 	path := fmt.Sprintf("/v1/project/%s/service/%s/quota", url.PathEscape(project), url.PathEscape(serviceName))
-	_, err := h.doer.Do(ctx, "ServiceKafkaQuotaDelete", "DELETE", path, nil)
+	_, err := h.doer.Do(ctx, "ServiceKafkaQuotaDelete", "DELETE", path, nil, p...)
 	return err
 }
 func (h *KafkaHandler) ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string) (*ServiceKafkaQuotaDescribeOut, error) {
