@@ -23,19 +23,24 @@ type Error struct {
 
 // Error concatenates all the fields.
 func (e Error) Error() string {
+	msg := e.Message
+	if e.Errors != nil {
+		// Appends Errors if they don't contain the message
+		// Otherwise, it will be duplicated
+		b, err := json.Marshal(e.Errors)
+		errMsg := string(b)
+		if err != nil {
+			errMsg = err.Error()
+		}
+
+		if !strings.Contains(errMsg, msg) {
+			msg = fmt.Sprintf("%s (%s)", msg, errMsg)
+		}
+	}
+
 	// Must not use `%q` here which will escape every quote in the string,
 	// which might break external substring checks
-	msg := fmt.Sprintf(`[%d %s]: %s`, e.Status, e.OperationID, e.Message)
-	if e.Errors == nil {
-		return msg
-	}
-
-	errMerged, err := json.Marshal(e.Errors)
-	if err != nil {
-		errMerged = []byte(err.Error())
-	}
-
-	return fmt.Sprintf(`%s: %s`, msg, errMerged)
+	return fmt.Sprintf(`[%d %s]: %s`, e.Status, e.OperationID, msg)
 }
 
 // IsNotFound returns true if the specified error has status 404
