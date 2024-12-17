@@ -132,7 +132,7 @@ func TestFromResponse(t *testing.T) {
 				}
 			  ]
 			}`),
-			expectStringer: `[404 UserAuth]: Account does not exist: [{"error_code":"account_not_found","message":"Account does not exist","status":404}]`,
+			expectStringer: `[404 UserAuth]: Account does not exist`,
 			expectBytes:    nil,
 			expectErr: Error{
 				Message: "Account does not exist",
@@ -177,6 +177,33 @@ func TestFromResponse(t *testing.T) {
 				OperationID: "UserAuth",
 				Message:     "json: cannot unmarshal object into Go struct field Error.message of type string",
 				Status:      http.StatusBadRequest,
+			},
+		},
+		{
+			name:        "add errors, because message is different",
+			operationID: "UserAuth",
+			statusCode:  http.StatusNotFound,
+			body: []byte(`{
+			  "message": "Oh no!",
+			  "errors": [
+				{
+				  "error_code": "account_not_found",
+				  "message": "Account does not exist",
+				  "status": 404
+				}
+			  ]
+			}`),
+			expectStringer: `[404 UserAuth]: Oh no! ([{"error_code":"account_not_found","message":"Account does not exist","status":404}])`,
+			expectBytes:    nil,
+			expectErr: Error{
+				Message: "Oh no!",
+				Errors: []any{map[string]any{
+					"error_code": "account_not_found",
+					"message":    "Account does not exist",
+					"status":     float64(404),
+				}},
+				OperationID: "UserAuth",
+				Status:      http.StatusNotFound,
 			},
 		},
 	}

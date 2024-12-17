@@ -134,14 +134,14 @@ func TestServiceCreateErrorsRetries(t *testing.T) {
 		{
 			Name:         "with errors field, list",
 			ResponseBody: `{"message": "Something went wrong", "errors": ["oh!", "no!"]}`,
-			ErrorExpect:  `[500 ServiceCreate]: Something went wrong: ["oh!","no!"]`,
+			ErrorExpect:  `[500 ServiceCreate]: Something went wrong (["oh!","no!"])`,
 			RetryMax:     1,
 			CallsExpect:  2,
 		},
 		{
 			Name:         "with errors field, string",
 			ResponseBody: `{"message": "Something went wrong", "errors": "wow!"}`,
-			ErrorExpect:  `[500 ServiceCreate]: Something went wrong: "wow!"`,
+			ErrorExpect:  `[500 ServiceCreate]: Something went wrong ("wow!")`,
 			RetryMax:     1,
 			CallsExpect:  2,
 		},
