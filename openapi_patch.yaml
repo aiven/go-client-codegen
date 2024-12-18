@@ -1,3 +1,18 @@
+paths:
+  /project/{project}/service/{service_name}/quota/describe:
+    get:
+      summary: Get service quota configuration
+      description: |
+        Retrieves quota configuration for a specific service based on the following rules:
+        - When both user and client ID are specified: Returns quota for that specific combination
+        - When only user is specified: Returns ONLY the quota configured for this user without any client ID
+        - When only client ID is specified: Returns ONLY the quota configured for this client ID without any user
+      parameters:
+        - $ref: "#/components/parameters/project"
+        - $ref: "#/components/parameters/service_name"
+        - $ref: "#/components/parameters/service_kafka_quota_user"
+        - $ref: "#/components/parameters/service_kafka_quota_client_id"
+
 components:
   schemas:
     ServiceDatabaseListResponse:
@@ -288,3 +303,16 @@ components:
                   items:
                     type: string
                   type: array
+  parameters:
+    service_kafka_quota_user:
+      in: query
+      name: user
+      schema:
+        type: string
+      required: false
+    service_kafka_quota_client_id:
+      in: query
+      name: client-id
+      schema:
+        type: string
+      required: false

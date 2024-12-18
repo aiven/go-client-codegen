@@ -197,3 +197,67 @@ func TestServiceCreateErrorsRetries(t *testing.T) {
 		})
 	}
 }
+
+// Tests
+func TestFmtQuery(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name        string
+		operationID string
+		query       [][2]string
+		want        string
+	}{
+		{
+			name:        "With no params",
+			operationID: "TestOperation",
+			query:       nil,
+			want:        "limit=999",
+		},
+		{
+			name:        "With existing params",
+			operationID: "TestOperation",
+			query: [][2]string{
+				{"foo", "bar"},
+				{"baz", "qux"},
+			},
+			want: "baz=qux&foo=bar&limit=999",
+		},
+		{
+			name:        "With custom limit",
+			operationID: "TestOperation",
+			query: [][2]string{
+				{"limit", "50"},
+			},
+			want: "limit=50",
+		},
+		{
+			name:        "Ignored operation",
+			operationID: "ServiceKafkaQuotaDescribe",
+			query: [][2]string{
+				{"foo", "bar"},
+			},
+			want: "foo=bar",
+		},
+		{
+			name:        "Multiple parameters with same key",
+			operationID: "TestOperation",
+			query: [][2]string{
+				{"tag", "v1"},
+				{"tag", "v2"},
+			},
+			want: "limit=999&tag=v1&tag=v2",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got := fmtQuery(tt.operationID, tt.query...)
+			if got != tt.want {
+				t.Errorf("fmtQuery() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
