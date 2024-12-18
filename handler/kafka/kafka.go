@@ -55,10 +55,10 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaQuotaDelete
 	ServiceKafkaQuotaDelete(ctx context.Context, project string, serviceName string, query ...[2]string) error
 
-	// ServiceKafkaQuotaDescribe describe Specific Kafka quotas
+	// ServiceKafkaQuotaDescribe get service quota configuration
 	// GET /v1/project/{project}/service/{service_name}/quota/describe
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaQuotaDescribe
-	ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string) (*ServiceKafkaQuotaDescribeOut, error)
+	ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string, query ...[2]string) (*ServiceKafkaQuotaDescribeOut, error)
 
 	// ServiceKafkaQuotaList list Kafka quotas
 	// GET /v1/project/{project}/service/{service_name}/quota
@@ -201,9 +201,23 @@ func (h *KafkaHandler) ServiceKafkaQuotaDelete(ctx context.Context, project stri
 	_, err := h.doer.Do(ctx, "ServiceKafkaQuotaDelete", "DELETE", path, nil, p...)
 	return err
 }
-func (h *KafkaHandler) ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string) (*ServiceKafkaQuotaDescribeOut, error) {
+
+// ServiceKafkaQuotaDescribeUser
+func ServiceKafkaQuotaDescribeUser(user string) [2]string {
+	return [2]string{"user", user}
+}
+
+// ServiceKafkaQuotaDescribeClientId
+func ServiceKafkaQuotaDescribeClientId(clientId string) [2]string {
+	return [2]string{"client-id", clientId}
+}
+func (h *KafkaHandler) ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string, query ...[2]string) (*ServiceKafkaQuotaDescribeOut, error) {
+	p := make([][2]string, 0, len(query))
+	for _, v := range query {
+		p = append(p, v)
+	}
 	path := fmt.Sprintf("/v1/project/%s/service/%s/quota/describe", url.PathEscape(project), url.PathEscape(serviceName))
-	b, err := h.doer.Do(ctx, "ServiceKafkaQuotaDescribe", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "ServiceKafkaQuotaDescribe", "GET", path, nil, p...)
 	if err != nil {
 		return nil, err
 	}

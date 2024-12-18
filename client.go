@@ -15,6 +15,8 @@ import (
 	"strings"
 	"time"
 
+	"golang.org/x/exp/slices"
+
 	"github.com/hashicorp/go-multierror"
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/kelseyhightower/envconfig"
@@ -139,12 +141,12 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 				Str("operationID", operationID).
 				Str("method", method).
 				Str("path", path).
-				Str("query", fmtQuery(query...)).
+				Str("query", fmtQuery(operationID, query...)).
 				Send()
 		}()
 	}
 
-	rsp, err = d.do(ctx, method, path, in, query...)
+	rsp, err = d.do(ctx, operationID, method, path, in, query...)
 	if err != nil {
 		return nil, err
 	}
@@ -156,7 +158,7 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 	return fromResponse(operationID, rsp)
 }
 
-func (d *aivenClient) do(ctx context.Context, method, path string, in any, query ...[2]string) (*http.Response, error) {
+func (d *aivenClient) do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) (*http.Response, error) {
 	var body io.Reader
 
 	if !(in == nil || isEmpty(in)) {
@@ -176,7 +178,8 @@ func (d *aivenClient) do(ctx context.Context, method, path string, in any, query
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("User-Agent", d.UserAgent)
 	req.Header.Set("Authorization", "aivenv1 "+d.Token)
-	req.URL.RawQuery = fmtQuery(query...)
+	req.URL.RawQuery = fmtQuery(operationID, query...)
+
 	return d.doer.Do(req)
 }
 
@@ -185,18 +188,33 @@ func isEmpty(a any) bool {
 	return v.IsZero() || v.Kind() == reflect.Ptr && v.IsNil()
 }
 
-func fmtQuery(query ...[2]string) string {
+func fmtQuery(operationID string, query ...[2]string) string {
 	q := make(url.Values)
+
+	// Add all provided query parameters
 	for _, v := range query {
 		q.Add(v[0], v[1])
 	}
 
-	if !q.Has("limit") {
+	// Add default limit for GET requests if conditions are met
+	const defaultLimit = "999"
+	if shouldAddDefaultLimit(operationID, q) {
 		// TODO: BAD hack to get around pagination in most cases
 		// we should implement this properly at some point but for now
 		// that should be its own issue
-		q.Add("limit", "999")
+		q.Add("limit", defaultLimit)
 	}
 
 	return q.Encode()
+}
+
+// shouldAddDefaultLimit determines if default limit should be added
+func shouldAddDefaultLimit(operationID string, q url.Values) bool {
+	var operationsWithoutLimit = []string{
+		"ServiceKafkaQuotaDescribe",
+		"ServiceKafkaQuotaDelete",
+	}
+
+	return !q.Has("limit") &&
+		!slices.Contains(operationsWithoutLimit, operationID)
 }
