@@ -104,6 +104,23 @@ FlinkApplicationVersion:
   - ServiceFlinkDeleteApplicationVersion
   - ServiceFlinkGetApplicationVersion
   - ServiceFlinkValidateApplicationVersion
+FlinkJarApplication:
+  - ServiceFlinkCreateJarApplication
+  - ServiceFlinkDeleteJarApplication
+  - ServiceFlinkGetJarApplication
+  - ServiceFlinkListJarApplications
+  - ServiceFlinkUpdateJarApplication
+FlinkJarApplicationDeployment:
+  - ServiceFlinkCancelJarApplicationDeployment
+  - ServiceFlinkCreateJarApplicationDeployment
+  - ServiceFlinkDeleteJarApplicationDeployment
+  - ServiceFlinkGetJarApplicationDeployment
+  - ServiceFlinkListJarApplicationDeployments
+  - ServiceFlinkStopJarApplicationDeployment
+FlinkJarApplicationVersion:
+  - ServiceFlinkCreateJarApplicationVersion
+  - ServiceFlinkDeleteJarApplicationVersion
+  - ServiceFlinkGetJarApplicationVersion
 FlinkJob:
   - ServiceFlinkJobDetails
   - ServiceFlinkJobsList
