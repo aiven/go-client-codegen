@@ -236,6 +236,12 @@ func (h *BillingGroupHandler) BillingGroupUpdate(ctx context.Context, billingGro
 	return &out.BillingGroup, nil
 }
 
+type BillingContactEmailIn struct {
+	Email string `json:"email"` // User email address
+}
+type BillingContactEmailOut struct {
+	Email string `json:"email"` // User email address
+}
 type BillingCurrencyType string
 
 const (
@@ -266,50 +272,52 @@ type BillingEmailOut struct {
 
 // BillingGroupCreateIn BillingGroupCreateRequestBody
 type BillingGroupCreateIn struct {
-	AccountId            *string             `json:"account_id,omitempty"`              // Account ID
-	AddressLines         *[]string           `json:"address_lines,omitempty"`           // Address lines
-	BillingAddressId     *string             `json:"billing_address_id,omitempty"`      // Address ID
-	BillingCurrency      BillingCurrencyType `json:"billing_currency,omitempty"`        // Billing currency
-	BillingEmails        *[]BillingEmailIn   `json:"billing_emails,omitempty"`          // List of project billing email addresses
-	BillingExtraText     *string             `json:"billing_extra_text,omitempty"`      // Extra text to be included in all project invoices, e.g. purchase order or cost center number
-	BillingGroupName     string              `json:"billing_group_name"`                // Billing group name
-	CardId               *string             `json:"card_id,omitempty"`                 // Credit card ID
-	City                 *string             `json:"city,omitempty"`                    // Address city
-	Company              *string             `json:"company,omitempty"`                 // Name of a company
-	CopyFromBillingGroup *string             `json:"copy_from_billing_group,omitempty"` // Billing group ID
-	CountryCode          *string             `json:"country_code,omitempty"`            // Two letter country code for billing country
-	ShippingAddressId    *string             `json:"shipping_address_id,omitempty"`     // Address ID
-	State                *string             `json:"state,omitempty"`                   // Address state or province
-	VatId                *string             `json:"vat_id,omitempty"`                  // EU VAT Identification Number
-	ZipCode              *string             `json:"zip_code,omitempty"`                // Address zip code
+	AccountId            *string                  `json:"account_id,omitempty"`              // Account ID
+	AddressLines         *[]string                `json:"address_lines,omitempty"`           // Address lines
+	BillingAddressId     *string                  `json:"billing_address_id,omitempty"`      // Address ID
+	BillingContactEmails *[]BillingContactEmailIn `json:"billing_contact_emails,omitempty"`  // List of billing groups contact email addresses
+	BillingCurrency      BillingCurrencyType      `json:"billing_currency,omitempty"`        // Billing currency
+	BillingEmails        *[]BillingEmailIn        `json:"billing_emails,omitempty"`          // List of project billing email addresses
+	BillingExtraText     *string                  `json:"billing_extra_text,omitempty"`      // Extra text to be included in all project invoices, e.g. purchase order or cost center number
+	BillingGroupName     string                   `json:"billing_group_name"`                // Billing group name
+	CardId               *string                  `json:"card_id,omitempty"`                 // Credit card ID
+	City                 *string                  `json:"city,omitempty"`                    // Address city
+	Company              *string                  `json:"company,omitempty"`                 // Name of a company
+	CopyFromBillingGroup *string                  `json:"copy_from_billing_group,omitempty"` // Billing group ID
+	CountryCode          *string                  `json:"country_code,omitempty"`            // Two letter country code for billing country
+	ShippingAddressId    *string                  `json:"shipping_address_id,omitempty"`     // Address ID
+	State                *string                  `json:"state,omitempty"`                   // Address state or province
+	VatId                *string                  `json:"vat_id,omitempty"`                  // EU VAT Identification Number
+	ZipCode              *string                  `json:"zip_code,omitempty"`                // Address zip code
 }
 
 // BillingGroupCreateOut Billing group information
 type BillingGroupCreateOut struct {
-	AccountId             string              `json:"account_id"`                    // Account ID
-	AccountName           string              `json:"account_name"`                  // Account name
-	AddressLines          []string            `json:"address_lines"`                 // Address lines
-	BillingAddress        *string             `json:"billing_address,omitempty"`     // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
-	BillingAddressId      *string             `json:"billing_address_id,omitempty"`  // Address ID
-	BillingCurrency       BillingCurrencyType `json:"billing_currency"`              // Billing currency
-	BillingEmails         []BillingEmailOut   `json:"billing_emails"`                // List of project billing email addresses
-	BillingExtraText      string              `json:"billing_extra_text"`            // Extra text to be included in all project invoices, e.g. purchase order or cost center number
-	BillingGroupId        string              `json:"billing_group_id"`              // Billing group ID
-	BillingGroupName      string              `json:"billing_group_name"`            // Billing group name
-	BillingType           string              `json:"billing_type"`                  // Method of charging/invoicing this project
-	CardInfo              CardInfoOut         `json:"card_info"`                     // Credit card assigned to the project
-	City                  string              `json:"city"`                          // Address city
-	Company               string              `json:"company"`                       // Name of a company
-	Country               string              `json:"country"`                       // Billing country
-	CountryCode           string              `json:"country_code"`                  // Two letter ISO country code
-	CreateTime            time.Time           `json:"create_time"`                   // Timestamp in ISO 8601 format, always in UTC
-	EstimatedBalanceLocal string              `json:"estimated_balance_local"`       // Estimated balance in billing currency, before tax
-	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
-	PaymentMethod         PaymentMethodType   `json:"payment_method"`                // Payment method
-	ShippingAddressId     *string             `json:"shipping_address_id,omitempty"` // Address ID
-	State                 string              `json:"state"`                         // Address state or province
-	VatId                 string              `json:"vat_id"`                        // EU VAT Identification Number
-	ZipCode               string              `json:"zip_code"`                      // Address zip code
+	AccountId             string                   `json:"account_id"`                    // Account ID
+	AccountName           string                   `json:"account_name"`                  // Account name
+	AddressLines          []string                 `json:"address_lines"`                 // Address lines
+	BillingAddress        *string                  `json:"billing_address,omitempty"`     // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
+	BillingAddressId      *string                  `json:"billing_address_id,omitempty"`  // Address ID
+	BillingContactEmails  []BillingContactEmailOut `json:"billing_contact_emails"`        // List of billing groups contact email addresses
+	BillingCurrency       BillingCurrencyType      `json:"billing_currency"`              // Billing currency
+	BillingEmails         []BillingEmailOut        `json:"billing_emails"`                // List of project billing email addresses
+	BillingExtraText      string                   `json:"billing_extra_text"`            // Extra text to be included in all project invoices, e.g. purchase order or cost center number
+	BillingGroupId        string                   `json:"billing_group_id"`              // Billing group ID
+	BillingGroupName      string                   `json:"billing_group_name"`            // Billing group name
+	BillingType           string                   `json:"billing_type"`                  // Method of charging/invoicing this project
+	CardInfo              CardInfoOut              `json:"card_info"`                     // Credit card assigned to the project
+	City                  string                   `json:"city"`                          // Address city
+	Company               string                   `json:"company"`                       // Name of a company
+	Country               string                   `json:"country"`                       // Billing country
+	CountryCode           string                   `json:"country_code"`                  // Two letter ISO country code
+	CreateTime            time.Time                `json:"create_time"`                   // Timestamp in ISO 8601 format, always in UTC
+	EstimatedBalanceLocal string                   `json:"estimated_balance_local"`       // Estimated balance in billing currency, before tax
+	EstimatedBalanceUsd   string                   `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
+	PaymentMethod         PaymentMethodType        `json:"payment_method"`                // Payment method
+	ShippingAddressId     *string                  `json:"shipping_address_id,omitempty"` // Address ID
+	State                 string                   `json:"state"`                         // Address state or province
+	VatId                 string                   `json:"vat_id"`                        // EU VAT Identification Number
+	ZipCode               string                   `json:"zip_code"`                      // Address zip code
 }
 
 // BillingGroupCreditsClaimIn BillingGroupCreditsClaimRequestBody
@@ -329,56 +337,58 @@ type BillingGroupCreditsClaimOut struct {
 
 // BillingGroupGetOut Billing group information
 type BillingGroupGetOut struct {
-	AccountId             string              `json:"account_id"`                    // Account ID
-	AccountName           string              `json:"account_name"`                  // Account name
-	AddressLines          []string            `json:"address_lines"`                 // Address lines
-	BillingAddress        *string             `json:"billing_address,omitempty"`     // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
-	BillingAddressId      *string             `json:"billing_address_id,omitempty"`  // Address ID
-	BillingCurrency       BillingCurrencyType `json:"billing_currency"`              // Billing currency
-	BillingEmails         []BillingEmailOut   `json:"billing_emails"`                // List of project billing email addresses
-	BillingExtraText      string              `json:"billing_extra_text"`            // Extra text to be included in all project invoices, e.g. purchase order or cost center number
-	BillingGroupId        string              `json:"billing_group_id"`              // Billing group ID
-	BillingGroupName      string              `json:"billing_group_name"`            // Billing group name
-	BillingType           string              `json:"billing_type"`                  // Method of charging/invoicing this project
-	CardInfo              CardInfoOut         `json:"card_info"`                     // Credit card assigned to the project
-	City                  string              `json:"city"`                          // Address city
-	Company               string              `json:"company"`                       // Name of a company
-	Country               string              `json:"country"`                       // Billing country
-	CountryCode           string              `json:"country_code"`                  // Two letter ISO country code
-	CreateTime            time.Time           `json:"create_time"`                   // Timestamp in ISO 8601 format, always in UTC
-	EstimatedBalanceLocal string              `json:"estimated_balance_local"`       // Estimated balance in billing currency, before tax
-	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
-	PaymentMethod         PaymentMethodType   `json:"payment_method"`                // Payment method
-	ShippingAddressId     *string             `json:"shipping_address_id,omitempty"` // Address ID
-	State                 string              `json:"state"`                         // Address state or province
-	VatId                 string              `json:"vat_id"`                        // EU VAT Identification Number
-	ZipCode               string              `json:"zip_code"`                      // Address zip code
+	AccountId             string                   `json:"account_id"`                    // Account ID
+	AccountName           string                   `json:"account_name"`                  // Account name
+	AddressLines          []string                 `json:"address_lines"`                 // Address lines
+	BillingAddress        *string                  `json:"billing_address,omitempty"`     // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
+	BillingAddressId      *string                  `json:"billing_address_id,omitempty"`  // Address ID
+	BillingContactEmails  []BillingContactEmailOut `json:"billing_contact_emails"`        // List of billing groups contact email addresses
+	BillingCurrency       BillingCurrencyType      `json:"billing_currency"`              // Billing currency
+	BillingEmails         []BillingEmailOut        `json:"billing_emails"`                // List of project billing email addresses
+	BillingExtraText      string                   `json:"billing_extra_text"`            // Extra text to be included in all project invoices, e.g. purchase order or cost center number
+	BillingGroupId        string                   `json:"billing_group_id"`              // Billing group ID
+	BillingGroupName      string                   `json:"billing_group_name"`            // Billing group name
+	BillingType           string                   `json:"billing_type"`                  // Method of charging/invoicing this project
+	CardInfo              CardInfoOut              `json:"card_info"`                     // Credit card assigned to the project
+	City                  string                   `json:"city"`                          // Address city
+	Company               string                   `json:"company"`                       // Name of a company
+	Country               string                   `json:"country"`                       // Billing country
+	CountryCode           string                   `json:"country_code"`                  // Two letter ISO country code
+	CreateTime            time.Time                `json:"create_time"`                   // Timestamp in ISO 8601 format, always in UTC
+	EstimatedBalanceLocal string                   `json:"estimated_balance_local"`       // Estimated balance in billing currency, before tax
+	EstimatedBalanceUsd   string                   `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
+	PaymentMethod         PaymentMethodType        `json:"payment_method"`                // Payment method
+	ShippingAddressId     *string                  `json:"shipping_address_id,omitempty"` // Address ID
+	State                 string                   `json:"state"`                         // Address state or province
+	VatId                 string                   `json:"vat_id"`                        // EU VAT Identification Number
+	ZipCode               string                   `json:"zip_code"`                      // Address zip code
 }
 type BillingGroupOut struct {
-	AccountId             string              `json:"account_id"`                    // Account ID
-	AccountName           string              `json:"account_name"`                  // Account name
-	AddressLines          []string            `json:"address_lines"`                 // Address lines
-	BillingAddress        *string             `json:"billing_address,omitempty"`     // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
-	BillingAddressId      *string             `json:"billing_address_id,omitempty"`  // Address ID
-	BillingCurrency       BillingCurrencyType `json:"billing_currency"`              // Billing currency
-	BillingEmails         []BillingEmailOut   `json:"billing_emails"`                // List of project billing email addresses
-	BillingExtraText      string              `json:"billing_extra_text"`            // Extra text to be included in all project invoices, e.g. purchase order or cost center number
-	BillingGroupId        string              `json:"billing_group_id"`              // Billing group ID
-	BillingGroupName      string              `json:"billing_group_name"`            // Billing group name
-	BillingType           string              `json:"billing_type"`                  // Method of charging/invoicing this project
-	CardInfo              CardInfoOut         `json:"card_info"`                     // Credit card assigned to the project
-	City                  string              `json:"city"`                          // Address city
-	Company               string              `json:"company"`                       // Name of a company
-	Country               string              `json:"country"`                       // Billing country
-	CountryCode           string              `json:"country_code"`                  // Two letter ISO country code
-	CreateTime            time.Time           `json:"create_time"`                   // Timestamp in ISO 8601 format, always in UTC
-	EstimatedBalanceLocal string              `json:"estimated_balance_local"`       // Estimated balance in billing currency, before tax
-	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
-	PaymentMethod         PaymentMethodType   `json:"payment_method"`                // Payment method
-	ShippingAddressId     *string             `json:"shipping_address_id,omitempty"` // Address ID
-	State                 string              `json:"state"`                         // Address state or province
-	VatId                 string              `json:"vat_id"`                        // EU VAT Identification Number
-	ZipCode               string              `json:"zip_code"`                      // Address zip code
+	AccountId             string                   `json:"account_id"`                    // Account ID
+	AccountName           string                   `json:"account_name"`                  // Account name
+	AddressLines          []string                 `json:"address_lines"`                 // Address lines
+	BillingAddress        *string                  `json:"billing_address,omitempty"`     // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
+	BillingAddressId      *string                  `json:"billing_address_id,omitempty"`  // Address ID
+	BillingContactEmails  []BillingContactEmailOut `json:"billing_contact_emails"`        // List of billing groups contact email addresses
+	BillingCurrency       BillingCurrencyType      `json:"billing_currency"`              // Billing currency
+	BillingEmails         []BillingEmailOut        `json:"billing_emails"`                // List of project billing email addresses
+	BillingExtraText      string                   `json:"billing_extra_text"`            // Extra text to be included in all project invoices, e.g. purchase order or cost center number
+	BillingGroupId        string                   `json:"billing_group_id"`              // Billing group ID
+	BillingGroupName      string                   `json:"billing_group_name"`            // Billing group name
+	BillingType           string                   `json:"billing_type"`                  // Method of charging/invoicing this project
+	CardInfo              CardInfoOut              `json:"card_info"`                     // Credit card assigned to the project
+	City                  string                   `json:"city"`                          // Address city
+	Company               string                   `json:"company"`                       // Name of a company
+	Country               string                   `json:"country"`                       // Billing country
+	CountryCode           string                   `json:"country_code"`                  // Two letter ISO country code
+	CreateTime            time.Time                `json:"create_time"`                   // Timestamp in ISO 8601 format, always in UTC
+	EstimatedBalanceLocal string                   `json:"estimated_balance_local"`       // Estimated balance in billing currency, before tax
+	EstimatedBalanceUsd   string                   `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
+	PaymentMethod         PaymentMethodType        `json:"payment_method"`                // Payment method
+	ShippingAddressId     *string                  `json:"shipping_address_id,omitempty"` // Address ID
+	State                 string                   `json:"state"`                         // Address state or province
+	VatId                 string                   `json:"vat_id"`                        // EU VAT Identification Number
+	ZipCode               string                   `json:"zip_code"`                      // Address zip code
 }
 
 // BillingGroupProjectsAssignIn BillingGroupProjectsAssignRequestBody
@@ -398,49 +408,51 @@ func BillingGroupStateTypeChoices() []string {
 
 // BillingGroupUpdateIn BillingGroupUpdateRequestBody
 type BillingGroupUpdateIn struct {
-	AccountId         *string             `json:"account_id,omitempty"`          // Account ID
-	AddressLines      *[]string           `json:"address_lines,omitempty"`       // Address lines
-	BillingAddressId  *string             `json:"billing_address_id,omitempty"`  // Address ID
-	BillingCurrency   BillingCurrencyType `json:"billing_currency,omitempty"`    // Billing currency
-	BillingEmails     *[]BillingEmailIn   `json:"billing_emails,omitempty"`      // List of project billing email addresses
-	BillingExtraText  *string             `json:"billing_extra_text,omitempty"`  // Extra text to be included in all project invoices, e.g. purchase order or cost center number
-	BillingGroupName  *string             `json:"billing_group_name,omitempty"`  // Billing group name
-	CardId            *string             `json:"card_id,omitempty"`             // Credit card ID
-	City              *string             `json:"city,omitempty"`                // Address city
-	Company           *string             `json:"company,omitempty"`             // Name of a company
-	CountryCode       *string             `json:"country_code,omitempty"`        // Two letter country code for billing country
-	ShippingAddressId *string             `json:"shipping_address_id,omitempty"` // Address ID
-	State             *string             `json:"state,omitempty"`               // Address state or province
-	VatId             *string             `json:"vat_id,omitempty"`              // EU VAT Identification Number
-	ZipCode           *string             `json:"zip_code,omitempty"`            // Address zip code
+	AccountId            *string                  `json:"account_id,omitempty"`             // Account ID
+	AddressLines         *[]string                `json:"address_lines,omitempty"`          // Address lines
+	BillingAddressId     *string                  `json:"billing_address_id,omitempty"`     // Address ID
+	BillingContactEmails *[]BillingContactEmailIn `json:"billing_contact_emails,omitempty"` // List of billing groups contact email addresses
+	BillingCurrency      BillingCurrencyType      `json:"billing_currency,omitempty"`       // Billing currency
+	BillingEmails        *[]BillingEmailIn        `json:"billing_emails,omitempty"`         // List of project billing email addresses
+	BillingExtraText     *string                  `json:"billing_extra_text,omitempty"`     // Extra text to be included in all project invoices, e.g. purchase order or cost center number
+	BillingGroupName     *string                  `json:"billing_group_name,omitempty"`     // Billing group name
+	CardId               *string                  `json:"card_id,omitempty"`                // Credit card ID
+	City                 *string                  `json:"city,omitempty"`                   // Address city
+	Company              *string                  `json:"company,omitempty"`                // Name of a company
+	CountryCode          *string                  `json:"country_code,omitempty"`           // Two letter country code for billing country
+	ShippingAddressId    *string                  `json:"shipping_address_id,omitempty"`    // Address ID
+	State                *string                  `json:"state,omitempty"`                  // Address state or province
+	VatId                *string                  `json:"vat_id,omitempty"`                 // EU VAT Identification Number
+	ZipCode              *string                  `json:"zip_code,omitempty"`               // Address zip code
 }
 
 // BillingGroupUpdateOut Billing group information
 type BillingGroupUpdateOut struct {
-	AccountId             string              `json:"account_id"`                    // Account ID
-	AccountName           string              `json:"account_name"`                  // Account name
-	AddressLines          []string            `json:"address_lines"`                 // Address lines
-	BillingAddress        *string             `json:"billing_address,omitempty"`     // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
-	BillingAddressId      *string             `json:"billing_address_id,omitempty"`  // Address ID
-	BillingCurrency       BillingCurrencyType `json:"billing_currency"`              // Billing currency
-	BillingEmails         []BillingEmailOut   `json:"billing_emails"`                // List of project billing email addresses
-	BillingExtraText      string              `json:"billing_extra_text"`            // Extra text to be included in all project invoices, e.g. purchase order or cost center number
-	BillingGroupId        string              `json:"billing_group_id"`              // Billing group ID
-	BillingGroupName      string              `json:"billing_group_name"`            // Billing group name
-	BillingType           string              `json:"billing_type"`                  // Method of charging/invoicing this project
-	CardInfo              CardInfoOut         `json:"card_info"`                     // Credit card assigned to the project
-	City                  string              `json:"city"`                          // Address city
-	Company               string              `json:"company"`                       // Name of a company
-	Country               string              `json:"country"`                       // Billing country
-	CountryCode           string              `json:"country_code"`                  // Two letter ISO country code
-	CreateTime            time.Time           `json:"create_time"`                   // Timestamp in ISO 8601 format, always in UTC
-	EstimatedBalanceLocal string              `json:"estimated_balance_local"`       // Estimated balance in billing currency, before tax
-	EstimatedBalanceUsd   string              `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
-	PaymentMethod         PaymentMethodType   `json:"payment_method"`                // Payment method
-	ShippingAddressId     *string             `json:"shipping_address_id,omitempty"` // Address ID
-	State                 string              `json:"state"`                         // Address state or province
-	VatId                 string              `json:"vat_id"`                        // EU VAT Identification Number
-	ZipCode               string              `json:"zip_code"`                      // Address zip code
+	AccountId             string                   `json:"account_id"`                    // Account ID
+	AccountName           string                   `json:"account_name"`                  // Account name
+	AddressLines          []string                 `json:"address_lines"`                 // Address lines
+	BillingAddress        *string                  `json:"billing_address,omitempty"`     // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
+	BillingAddressId      *string                  `json:"billing_address_id,omitempty"`  // Address ID
+	BillingContactEmails  []BillingContactEmailOut `json:"billing_contact_emails"`        // List of billing groups contact email addresses
+	BillingCurrency       BillingCurrencyType      `json:"billing_currency"`              // Billing currency
+	BillingEmails         []BillingEmailOut        `json:"billing_emails"`                // List of project billing email addresses
+	BillingExtraText      string                   `json:"billing_extra_text"`            // Extra text to be included in all project invoices, e.g. purchase order or cost center number
+	BillingGroupId        string                   `json:"billing_group_id"`              // Billing group ID
+	BillingGroupName      string                   `json:"billing_group_name"`            // Billing group name
+	BillingType           string                   `json:"billing_type"`                  // Method of charging/invoicing this project
+	CardInfo              CardInfoOut              `json:"card_info"`                     // Credit card assigned to the project
+	City                  string                   `json:"city"`                          // Address city
+	Company               string                   `json:"company"`                       // Name of a company
+	Country               string                   `json:"country"`                       // Billing country
+	CountryCode           string                   `json:"country_code"`                  // Two letter ISO country code
+	CreateTime            time.Time                `json:"create_time"`                   // Timestamp in ISO 8601 format, always in UTC
+	EstimatedBalanceLocal string                   `json:"estimated_balance_local"`       // Estimated balance in billing currency, before tax
+	EstimatedBalanceUsd   string                   `json:"estimated_balance_usd"`         // Estimated balance in USD, before tax
+	PaymentMethod         PaymentMethodType        `json:"payment_method"`                // Payment method
+	ShippingAddressId     *string                  `json:"shipping_address_id,omitempty"` // Address ID
+	State                 string                   `json:"state"`                         // Address state or province
+	VatId                 string                   `json:"vat_id"`                        // EU VAT Identification Number
+	ZipCode               string                   `json:"zip_code"`                      // Address zip code
 }
 
 // CardInfoOut Credit card assigned to the project
@@ -614,6 +626,7 @@ type ServiceType string
 const (
 	ServiceTypeAlertmanager     ServiceType = "alertmanager"
 	ServiceTypeAlloydbomni      ServiceType = "alloydbomni"
+	ServiceTypeApplication      ServiceType = "application"
 	ServiceTypeCassandra        ServiceType = "cassandra"
 	ServiceTypeClickhouse       ServiceType = "clickhouse"
 	ServiceTypeDragonfly        ServiceType = "dragonfly"
@@ -646,7 +659,7 @@ const (
 )
 
 func ServiceTypeChoices() []string {
-	return []string{"alertmanager", "alloydbomni", "cassandra", "clickhouse", "dragonfly", "elasticsearch", "flink", "grafana", "influxdb", "kafka", "kafka_connect", "kafka_mirrormaker", "m3aggregator", "m3db", "mysql", "opensearch", "parca", "pg", "redis", "stresstester", "sw", "thanos", "thanoscompactor", "thanosquery", "thanosreceiver", "thanosruler", "thanosstore", "valkey", "vector", "vmalert", "warpstream"}
+	return []string{"alertmanager", "alloydbomni", "application", "cassandra", "clickhouse", "dragonfly", "elasticsearch", "flink", "grafana", "influxdb", "kafka", "kafka_connect", "kafka_mirrormaker", "m3aggregator", "m3db", "mysql", "opensearch", "parca", "pg", "redis", "stresstester", "sw", "thanos", "thanoscompactor", "thanosquery", "thanosreceiver", "thanosruler", "thanosstore", "valkey", "vector", "vmalert", "warpstream"}
 }
 
 // billingGroupCreateOut BillingGroupCreateResponse
