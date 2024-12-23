@@ -460,11 +460,11 @@ type ServiceKafkaQuotaCreateIn struct {
 
 // ServiceKafkaQuotaDescribeOut kafka quota
 type ServiceKafkaQuotaDescribeOut struct {
-	ClientId          string  `json:"client-id"`          // client-id
-	ConsumerByteRate  float64 `json:"consumer_byte_rate"` // consumer network throttle
-	ProducerByteRate  float64 `json:"producer_byte_rate"` // producer network throttle
-	RequestPercentage float64 `json:"request_percentage"` // cpu percentage throttle
-	User              string  `json:"user"`               // user
+	ClientId          *string  `json:"client-id,omitempty"`          // client-id
+	ConsumerByteRate  *float64 `json:"consumer_byte_rate,omitempty"` // consumer network throttle
+	ProducerByteRate  *float64 `json:"producer_byte_rate,omitempty"` // producer network throttle
+	RequestPercentage *float64 `json:"request_percentage,omitempty"` // cpu percentage throttle
+	User              *string  `json:"user,omitempty"`               // user
 }
 
 // ServiceKafkaTieredStorageSummaryOut ServiceKafkaTieredStorageSummaryResponse
