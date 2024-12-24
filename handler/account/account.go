@@ -563,6 +563,7 @@ const (
 	MemberTypeOrganizationDomainsWrite  MemberType = "organization:domains:write"
 	MemberTypeOrganizationGroupsWrite   MemberType = "organization:groups:write"
 	MemberTypeOrganizationIdpsWrite     MemberType = "organization:idps:write"
+	MemberTypeOrganizationProjectsWrite MemberType = "organization:projects:write"
 	MemberTypeOrganizationUsersWrite    MemberType = "organization:users:write"
 	MemberTypeProjectAuditLogsRead      MemberType = "project:audit_logs:read"
 	MemberTypeProjectIntegrationsRead   MemberType = "project:integrations:read"
@@ -584,7 +585,7 @@ const (
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
 }
 
 type OrderByType string
@@ -680,6 +681,7 @@ const (
 	TeamTypeRoleServicesMaintenance   TeamType = "role:services:maintenance"
 	TeamTypeRoleServicesRecover       TeamType = "role:services:recover"
 	TeamTypeOrganizationAuditLogsRead TeamType = "organization:audit_logs:read"
+	TeamTypeOrganizationProjectsWrite TeamType = "organization:projects:write"
 	TeamTypeOrganizationUsersWrite    TeamType = "organization:users:write"
 	TeamTypeOrganizationAppUsersWrite TeamType = "organization:app_users:write"
 	TeamTypeOrganizationGroupsWrite   TeamType = "organization:groups:write"
@@ -689,7 +691,7 @@ const (
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "service:configuration:write", "service:logs:read", "project:services:read", "project:services:write", "project:audit_logs:read", "service:data:write", "service:secrets:read", "service:users:write", "role:services:maintenance", "role:services:recover", "organization:audit_logs:read", "organization:users:write", "organization:app_users:write", "organization:groups:write", "organization:idps:write", "organization:domains:write", "role:organization:admin"}
+	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "service:configuration:write", "service:logs:read", "project:services:read", "project:services:write", "project:audit_logs:read", "service:data:write", "service:secrets:read", "service:users:write", "role:services:maintenance", "role:services:recover", "organization:audit_logs:read", "organization:projects:write", "organization:users:write", "organization:app_users:write", "organization:groups:write", "organization:idps:write", "organization:domains:write", "role:organization:admin"}
 }
 
 type TechEmailOut struct {
