@@ -264,6 +264,7 @@ const (
 	TeamTypeRoleServicesMaintenance   TeamType = "role:services:maintenance"
 	TeamTypeRoleServicesRecover       TeamType = "role:services:recover"
 	TeamTypeOrganizationAuditLogsRead TeamType = "organization:audit_logs:read"
+	TeamTypeOrganizationProjectsWrite TeamType = "organization:projects:write"
 	TeamTypeOrganizationUsersWrite    TeamType = "organization:users:write"
 	TeamTypeOrganizationAppUsersWrite TeamType = "organization:app_users:write"
 	TeamTypeOrganizationGroupsWrite   TeamType = "organization:groups:write"
@@ -273,7 +274,7 @@ const (
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "service:configuration:write", "service:logs:read", "project:services:read", "project:services:write", "project:audit_logs:read", "service:data:write", "service:secrets:read", "service:users:write", "role:services:maintenance", "role:services:recover", "organization:audit_logs:read", "organization:users:write", "organization:app_users:write", "organization:groups:write", "organization:idps:write", "organization:domains:write", "role:organization:admin"}
+	return []string{"admin", "operator", "developer", "read_only", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "service:configuration:write", "service:logs:read", "project:services:read", "project:services:write", "project:audit_logs:read", "service:data:write", "service:secrets:read", "service:users:write", "role:services:maintenance", "role:services:recover", "organization:audit_logs:read", "organization:projects:write", "organization:users:write", "organization:app_users:write", "organization:groups:write", "organization:idps:write", "organization:domains:write", "role:organization:admin"}
 }
 
 // accountTeamCreateOut AccountTeamCreateResponse
