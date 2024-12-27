@@ -198,7 +198,6 @@ func TestServiceCreateErrorsRetries(t *testing.T) {
 	}
 }
 
-// Tests
 func TestFmtQuery(t *testing.T) {
 	t.Parallel()
 
@@ -260,4 +259,43 @@ func TestFmtQuery(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestServiceIntegrationEndpointGet(t *testing.T) {
+	var callCount int64
+
+	// Creates a test server
+	mux := http.NewServeMux()
+	mux.HandleFunc(
+		"/v1/project/{project}/integration_endpoint/{integration_endpoint_id}",
+		func(w http.ResponseWriter, r *http.Request) {
+			assert.Regexp(t, `go-client-codegen/[0-9\.]+ unit-test`, r.Header["User-Agent"])
+			assert.Equal(t, r.RequestURI, "/v1/project/aiven-endpoint-project/integration_endpoint/foo?include_secrets=true&limit=999")
+
+			// Creates response
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, err := w.Write([]byte(`{"service_integration_endpoint": {"endpoint_name": "wow"}}`))
+			require.NoError(t, err)
+			atomic.AddInt64(&callCount, 1)
+		},
+	)
+
+	server := httptest.NewServer(mux)
+	defer server.Close()
+
+	// Points a new client to the server url
+	c, err := NewClient(TokenOpt("token"), HostOpt(server.URL), UserAgentOpt("unit-test"))
+	require.NotNil(t, c)
+	require.NoError(t, err)
+
+	ctx := context.Background()
+	project := "aiven-endpoint-project"
+	out, err := c.ServiceIntegrationEndpointGet(ctx, project, "foo", service.ServiceIntegrationEndpointGetIncludeSecrets(true))
+	require.NoError(t, err)
+	require.NotNil(t, out)
+	assert.Equal(t, "wow", out.EndpointName)
+
+	// All calls are received
+	assert.EqualValues(t, 1, callCount)
 }

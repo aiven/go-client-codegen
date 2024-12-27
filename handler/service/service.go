@@ -448,7 +448,7 @@ func ServiceGetIncludeSecrets(includeSecrets bool) [2]string {
 }
 func (h *ServiceHandler) ServiceGet(ctx context.Context, project string, serviceName string, query ...[2]string) (*ServiceGetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s", url.PathEscape(project), url.PathEscape(serviceName))
-	b, err := h.doer.Do(ctx, "ServiceGet", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "ServiceGet", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}
@@ -528,7 +528,7 @@ func ServiceIntegrationEndpointGetIncludeSecrets(includeSecrets bool) [2]string 
 }
 func (h *ServiceHandler) ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string, query ...[2]string) (*ServiceIntegrationEndpointGetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/integration_endpoint/%s", url.PathEscape(project), url.PathEscape(integrationEndpointId))
-	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointGet", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "ServiceIntegrationEndpointGet", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}
@@ -746,7 +746,7 @@ func ServiceUpdateAllowUncleanPoweroff(allowUncleanPoweroff bool) [2]string {
 }
 func (h *ServiceHandler) ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn, query ...[2]string) (*ServiceUpdateOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s", url.PathEscape(project), url.PathEscape(serviceName))
-	b, err := h.doer.Do(ctx, "ServiceUpdate", "PUT", path, in)
+	b, err := h.doer.Do(ctx, "ServiceUpdate", "PUT", path, in, query...)
 	if err != nil {
 		return nil, err
 	}
