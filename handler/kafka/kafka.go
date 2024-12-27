@@ -193,12 +193,8 @@ func ServiceKafkaQuotaDeleteUser(user string) [2]string {
 	return [2]string{"user", user}
 }
 func (h *KafkaHandler) ServiceKafkaQuotaDelete(ctx context.Context, project string, serviceName string, query ...[2]string) error {
-	p := make([][2]string, 0, len(query))
-	for _, v := range query {
-		p = append(p, v)
-	}
 	path := fmt.Sprintf("/v1/project/%s/service/%s/quota", url.PathEscape(project), url.PathEscape(serviceName))
-	_, err := h.doer.Do(ctx, "ServiceKafkaQuotaDelete", "DELETE", path, nil, p...)
+	_, err := h.doer.Do(ctx, "ServiceKafkaQuotaDelete", "DELETE", path, nil, query...)
 	return err
 }
 
@@ -212,12 +208,8 @@ func ServiceKafkaQuotaDescribeClientId(clientId string) [2]string {
 	return [2]string{"client-id", clientId}
 }
 func (h *KafkaHandler) ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string, query ...[2]string) (*ServiceKafkaQuotaDescribeOut, error) {
-	p := make([][2]string, 0, len(query))
-	for _, v := range query {
-		p = append(p, v)
-	}
 	path := fmt.Sprintf("/v1/project/%s/service/%s/quota/describe", url.PathEscape(project), url.PathEscape(serviceName))
-	b, err := h.doer.Do(ctx, "ServiceKafkaQuotaDescribe", "GET", path, nil, p...)
+	b, err := h.doer.Do(ctx, "ServiceKafkaQuotaDescribe", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}

@@ -372,17 +372,8 @@ func exec() error {
 			var block []jen.Code
 
 			// Adds unpacking for query params
-			if len(queryParams) > 1 {
-				q := jen.Id(queryParamName)
-				p := jen.Id("p")
-				v := jen.Id("v")
-				callOpts = append(callOpts, p.Clone().Op("..."))
-				block = append(
-					block,
-					p.Clone().Op(":=").Make(jen.Index().Index(jen.Lit(queryParamArraySize)).String(), jen.Lit(0), jen.Len(q)),
-					jen.For(jen.List(jen.Id("_"), v.Clone().Op(":=").Range().Add(jen.Id(queryParamName)))).
-						Block(p.Clone().Op("=").Append(p, v)),
-				)
+			if len(queryParams) > 0 {
+				callOpts = append(callOpts, jen.Id(queryParamName).Op("..."))
 			}
 
 			// Implementation (method's) body

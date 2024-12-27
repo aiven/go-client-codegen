@@ -124,12 +124,8 @@ func ServiceClickHouseQueryStatsOrderByType(orderByType OrderByType) [2]string {
 	return [2]string{"order_by", fmt.Sprintf("%s", orderByType)}
 }
 func (h *ClickHouseHandler) ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, query ...[2]string) ([]ServiceClickHouseQueryStatsOut, error) {
-	p := make([][2]string, 0, len(query))
-	for _, v := range query {
-		p = append(p, v)
-	}
 	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/query/stats", url.PathEscape(project), url.PathEscape(serviceName))
-	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil, p...)
+	b, err := h.doer.Do(ctx, "ServiceClickHouseQueryStats", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}
