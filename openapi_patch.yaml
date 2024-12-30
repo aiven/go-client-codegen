@@ -307,6 +307,16 @@ components:
                   items:
                     type: string
                   type: array
+    ServiceCreateRequestBody:
+      properties:
+        project_vpc_id:
+          # When VPC is not specified, the service will be created in the existing VPC.
+          # We must send null to create a service in the public network.
+          nullable: true
+    ServiceUpdateRequestBody:
+      properties:
+        project_vpc_id:
+          nullable: true
   parameters:
     service_kafka_quota_user:
       in: query
