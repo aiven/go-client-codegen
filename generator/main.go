@@ -553,7 +553,9 @@ func fmtStruct(s *Schema) *jen.Statement {
 
 		// Adds json tags
 		tag := jsonName
-		if !p.required {
+		if !(p.required || p.Nullable) {
+			// There are optional nullable fields.
+			// Which become required in Go.
 			tag += ",omitempty"
 		}
 
