@@ -32,6 +32,7 @@ import (
 	opensearch "github.com/aiven/go-client-codegen/handler/opensearch"
 	organization "github.com/aiven/go-client-codegen/handler/organization"
 	organizationuser "github.com/aiven/go-client-codegen/handler/organizationuser"
+	organizationvpc "github.com/aiven/go-client-codegen/handler/organizationvpc"
 	postgresql "github.com/aiven/go-client-codegen/handler/postgresql"
 	privatelink "github.com/aiven/go-client-codegen/handler/privatelink"
 	project "github.com/aiven/go-client-codegen/handler/project"
@@ -78,6 +79,7 @@ func newClient(doer doer) Client {
 		OpenSearchHandler:                    opensearch.NewHandler(doer),
 		OrganizationHandler:                  organization.NewHandler(doer),
 		OrganizationUserHandler:              organizationuser.NewHandler(doer),
+		OrganizationVpcHandler:               organizationvpc.NewHandler(doer),
 		PostgreSQLHandler:                    postgresql.NewHandler(doer),
 		PrivatelinkHandler:                   privatelink.NewHandler(doer),
 		ProjectBillingHandler:                projectbilling.NewHandler(doer),
@@ -119,6 +121,7 @@ type client struct {
 	opensearch.OpenSearchHandler
 	organization.OrganizationHandler
 	organizationuser.OrganizationUserHandler
+	organizationvpc.OrganizationVpcHandler
 	postgresql.PostgreSQLHandler
 	privatelink.PrivatelinkHandler
 	project.ProjectHandler
@@ -158,6 +161,7 @@ type Client interface {
 	opensearch.Handler
 	organization.Handler
 	organizationuser.Handler
+	organizationvpc.Handler
 	postgresql.Handler
 	privatelink.Handler
 	project.Handler
