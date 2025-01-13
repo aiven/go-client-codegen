@@ -1081,6 +1081,7 @@ const (
 	EndpointTypeExternalAwsCloudwatchLogs    EndpointType = "external_aws_cloudwatch_logs"
 	EndpointTypeExternalAwsCloudwatchMetrics EndpointType = "external_aws_cloudwatch_metrics"
 	EndpointTypeExternalAwsS3                EndpointType = "external_aws_s3"
+	EndpointTypeExternalAzureBlobStorage     EndpointType = "external_azure_blob_storage"
 	EndpointTypeExternalClickhouse           EndpointType = "external_clickhouse"
 	EndpointTypeExternalElasticsearchLogs    EndpointType = "external_elasticsearch_logs"
 	EndpointTypeExternalGoogleCloudBigquery  EndpointType = "external_google_cloud_bigquery"
@@ -1099,7 +1100,7 @@ const (
 )
 
 func EndpointTypeChoices() []string {
-	return []string{"autoscaler", "datadog", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_aws_s3", "external_clickhouse", "external_elasticsearch_logs", "external_google_cloud_bigquery", "external_google_cloud_logging", "external_kafka", "external_mysql", "external_opensearch_logs", "external_postgresql", "external_prometheus", "external_redis", "external_schema_registry", "external_sumologic_logs", "jolokia", "prometheus", "rsyslog"}
+	return []string{"autoscaler", "datadog", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_aws_s3", "external_azure_blob_storage", "external_clickhouse", "external_elasticsearch_logs", "external_google_cloud_bigquery", "external_google_cloud_logging", "external_kafka", "external_mysql", "external_opensearch_logs", "external_postgresql", "external_prometheus", "external_redis", "external_schema_registry", "external_sumologic_logs", "jolokia", "prometheus", "rsyslog"}
 }
 
 type EndpointTypeOut struct {
@@ -1729,16 +1730,16 @@ type RedisOut struct {
 type ResourceType string
 
 const (
-	ResourceTypeTopic           ResourceType = "Topic"
-	ResourceTypeGroup           ResourceType = "Group"
 	ResourceTypeCluster         ResourceType = "Cluster"
-	ResourceTypeTransactionalId ResourceType = "TransactionalId"
 	ResourceTypeDelegationToken ResourceType = "DelegationToken"
+	ResourceTypeGroup           ResourceType = "Group"
+	ResourceTypeTopic           ResourceType = "Topic"
+	ResourceTypeTransactionalId ResourceType = "TransactionalId"
 	ResourceTypeUser            ResourceType = "User"
 )
 
 func ResourceTypeChoices() []string {
-	return []string{"Topic", "Group", "Cluster", "TransactionalId", "DelegationToken", "User"}
+	return []string{"Cluster", "DelegationToken", "Group", "Topic", "TransactionalId", "User"}
 }
 
 type ResultCodeOut struct {

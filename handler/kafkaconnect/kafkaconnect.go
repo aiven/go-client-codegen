@@ -183,6 +183,12 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectResumeConnector(ctx context.Con
 	return err
 }
 
+type AvailableVersionOut struct {
+	Deprecated       *bool   `json:"deprecated,omitempty"`        // If the version is deprecated.
+	NeedsMaintenance *bool   `json:"needs_maintenance,omitempty"` // Using this version requires a maintenance update.
+	Version          *string `json:"version,omitempty"`           // Connector version number
+}
+
 // ConfigOut Connector configuration parameters
 type ConfigOut struct {
 	ConnectorClass string `json:"connector.class"` // The Java class for the connector
@@ -238,14 +244,15 @@ func ImportanceTypeChoices() []string {
 
 // PluginOut Kafka Connector plugin information
 type PluginOut struct {
-	Author      string     `json:"author"`                 // Connector author name
-	Class       string     `json:"class"`                  // Connector class name
-	DocUrl      string     `json:"docURL"`                 // Connector documentation URL
-	Preview     *bool      `json:"preview,omitempty"`      // Describes if connector is in beta
-	PreviewInfo *string    `json:"preview_info,omitempty"` // Information about beta stage of connector
-	Title       string     `json:"title"`                  // Descriptive human readable name defined by Aiven
-	Type        PluginType `json:"type"`                   // Describes whether data flows from or to Kafka
-	Version     string     `json:"version"`                // Connector version number
+	Author            string                `json:"author"`                       // Connector author name
+	AvailableVersions []AvailableVersionOut `json:"available_versions,omitempty"` // Versions available on the service
+	Class             string                `json:"class"`                        // Connector class name
+	DocUrl            string                `json:"docURL"`                       // Connector documentation URL
+	Preview           *bool                 `json:"preview,omitempty"`            // Describes if connector is in beta
+	PreviewInfo       *string               `json:"preview_info,omitempty"`       // Information about beta stage of connector
+	Title             string                `json:"title"`                        // Descriptive human readable name defined by Aiven
+	Type              PluginType            `json:"type"`                         // Describes whether data flows from or to Kafka
+	Version           string                `json:"version"`                      // Connector version number
 }
 type PluginType string
 
@@ -300,14 +307,15 @@ type ServiceKafkaConnectEditConnectorOut struct {
 	Tasks  []TaskOut `json:"tasks"`  // List of tasks of a connector
 }
 type ServiceKafkaConnectGetAvailableConnectorsOut struct {
-	Author      string     `json:"author"`                 // Connector author name
-	Class       string     `json:"class"`                  // Connector class name
-	DocUrl      string     `json:"docURL"`                 // Connector documentation URL
-	Preview     *bool      `json:"preview,omitempty"`      // Describes if connector is in beta
-	PreviewInfo *string    `json:"preview_info,omitempty"` // Information about beta stage of connector
-	Title       string     `json:"title"`                  // Descriptive human readable name defined by Aiven
-	Type        PluginType `json:"type"`                   // Describes whether data flows from or to Kafka
-	Version     string     `json:"version"`                // Connector version number
+	Author            string                `json:"author"`                       // Connector author name
+	AvailableVersions []AvailableVersionOut `json:"available_versions,omitempty"` // Versions available on the service
+	Class             string                `json:"class"`                        // Connector class name
+	DocUrl            string                `json:"docURL"`                       // Connector documentation URL
+	Preview           *bool                 `json:"preview,omitempty"`            // Describes if connector is in beta
+	PreviewInfo       *string               `json:"preview_info,omitempty"`       // Information about beta stage of connector
+	Title             string                `json:"title"`                        // Descriptive human readable name defined by Aiven
+	Type              PluginType            `json:"type"`                         // Describes whether data flows from or to Kafka
+	Version           string                `json:"version"`                      // Connector version number
 }
 
 // ServiceKafkaConnectGetConnectorStatusOut Connector status information
