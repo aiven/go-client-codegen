@@ -361,16 +361,16 @@ type QuotaOut struct {
 type ResourceType string
 
 const (
-	ResourceTypeTopic           ResourceType = "Topic"
-	ResourceTypeGroup           ResourceType = "Group"
 	ResourceTypeCluster         ResourceType = "Cluster"
-	ResourceTypeTransactionalId ResourceType = "TransactionalId"
 	ResourceTypeDelegationToken ResourceType = "DelegationToken"
+	ResourceTypeGroup           ResourceType = "Group"
+	ResourceTypeTopic           ResourceType = "Topic"
+	ResourceTypeTransactionalId ResourceType = "TransactionalId"
 	ResourceTypeUser            ResourceType = "User"
 )
 
 func ResourceTypeChoices() []string {
-	return []string{"Topic", "Group", "Cluster", "TransactionalId", "DelegationToken", "User"}
+	return []string{"Cluster", "DelegationToken", "Group", "Topic", "TransactionalId", "User"}
 }
 
 // ServiceKafkaAclAddIn ServiceKafkaAclAddRequestBody
