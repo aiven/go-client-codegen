@@ -163,6 +163,7 @@ type Schema struct {
 	Ref                  string             `json:"$ref"`
 	Description          string             `json:"description"`
 	CamelName            string             `json:"for-hash-only!"`
+	Nullable             bool               `json:"nullable"`
 	required             bool
 	name                 string
 	propertyNames        []string

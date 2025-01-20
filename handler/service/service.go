@@ -1814,7 +1814,7 @@ type ServiceCreateIn struct {
 	GroupName             *string                 `json:"group_name,omitempty"`             // Service group name (DEPRECATED: do not use)
 	Maintenance           *MaintenanceIn          `json:"maintenance,omitempty"`            // Automatic maintenance settings
 	Plan                  string                  `json:"plan"`                             // Subscription plan
-	ProjectVpcId          *string                 `json:"project_vpc_id,omitempty"`         // Project VPC ID
+	ProjectVpcId          *string                 `json:"project_vpc_id"`                   // Project VPC ID
 	ServiceIntegrations   *[]ServiceIntegrationIn `json:"service_integrations,omitempty"`   // Service integrations to enable for the service. Some integration types affect how a service is created and they must be provided as part of the creation call instead of being defined later.
 	ServiceName           string                  `json:"service_name"`                     // Service name
 	ServiceType           string                  `json:"service_type"`                     // Service type code
@@ -2211,7 +2211,7 @@ type ServiceUpdateIn struct {
 	Maintenance           *MaintenanceIn  `json:"maintenance,omitempty"`            // Automatic maintenance settings
 	Plan                  *string         `json:"plan,omitempty"`                   // Subscription plan
 	Powered               *bool           `json:"powered,omitempty"`                // Power-on the service (true) or power-off (false)
-	ProjectVpcId          *string         `json:"project_vpc_id,omitempty"`         // Project VPC ID
+	ProjectVpcId          *string         `json:"project_vpc_id"`                   // Project VPC ID
 	SchemaRegistryAuthz   *bool           `json:"schema_registry_authz,omitempty"`  // Enable or disable Schema Registry authorization
 	TechEmails            *[]TechEmailIn  `json:"tech_emails,omitempty"`            // List of service technical email addresses
 	TerminationProtection *bool           `json:"termination_protection,omitempty"` // Service is protected against termination and powering off
