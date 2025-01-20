@@ -15,6 +15,15 @@ paths:
 
 components:
   schemas:
+    OrganizationVpcGetResponse:
+      properties:
+        peering_connections:
+          items:
+            properties:
+              state_info:
+                properties:
+                  aws_vpc_peering_connection_id:
+                    type: string
     ServiceKafkaQuotaDescribeResponse:
       properties:
         quota:
