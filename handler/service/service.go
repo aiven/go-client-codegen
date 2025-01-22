@@ -59,7 +59,7 @@ type Handler interface {
 	// ServiceBackupsGet get service backup information
 	// GET /v1/project/{project}/service/{service_name}/backups
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceBackupsGet
-	ServiceBackupsGet(ctx context.Context, project string, serviceName string) ([]BackupOut, error)
+	ServiceBackupsGet(ctx context.Context, project string, serviceName string) (*ServiceBackupsGetOut, error)
 
 	// ServiceCancelQuery cancel specified query from service
 	// POST /v1/project/{project}/service/{service_name}/query/cancel
@@ -361,18 +361,18 @@ func (h *ServiceHandler) ServiceBackupToAnotherRegionReport(ctx context.Context,
 	}
 	return out.Metrics, nil
 }
-func (h *ServiceHandler) ServiceBackupsGet(ctx context.Context, project string, serviceName string) ([]BackupOut, error) {
+func (h *ServiceHandler) ServiceBackupsGet(ctx context.Context, project string, serviceName string) (*ServiceBackupsGetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/backups", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceBackupsGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
 	}
-	out := new(serviceBackupsGetOut)
+	out := new(ServiceBackupsGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.Backups, nil
+	return out, nil
 }
 func (h *ServiceHandler) ServiceCancelQuery(ctx context.Context, project string, serviceName string, in *ServiceCancelQueryIn) (bool, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/query/cancel", url.PathEscape(project), url.PathEscape(serviceName))
@@ -854,12 +854,6 @@ type AclOut struct {
 	Topic      string         `json:"topic"`        // Topic name pattern
 	Username   string         `json:"username"`
 }
-type AdditionalRegionOut struct {
-	Cloud       string  `json:"cloud"`                  // Target cloud
-	PauseReason *string `json:"pause_reason,omitempty"` // Reason for pausing the backup synchronization
-	Paused      *bool   `json:"paused,omitempty"`       // Indicates additional backup synchronization is paused
-	Region      *string `json:"region,omitempty"`       // Cloud storage region name
-}
 
 // AggregatorOut Service type information
 type AggregatorOut struct {
@@ -910,12 +904,17 @@ type BackupConfigOut struct {
 	RecoveryMode               RecoveryModeType `json:"recovery_mode"`                           // Mechanism how backups can be restored. 'basic' means a backup is restored as is so that the system is restored to the state it was when the backup was generated. 'pitr' means point-in-time-recovery, which allows restoring the system to any state since the first available full snapshot.
 }
 type BackupOut struct {
-	AdditionalRegions     []AdditionalRegionOut `json:"additional_regions,omitempty"`       // Additional backup regions, if available
-	BackupName            string                `json:"backup_name"`                        // Internal name of this backup
-	BackupTime            time.Time             `json:"backup_time"`                        // Backup timestamp (ISO 8601)
-	DataSize              int                   `json:"data_size"`                          // Backup's original size before compression
-	StorageLocation       *string               `json:"storage_location,omitempty"`         // Location where this backup is stored
-	TieredStorageDataSize *int                  `json:"tiered_storage_data_size,omitempty"` // The amount of tiered storage data in bytes referenced by this backup.
+	AdditionalRegions []struct {
+		Cloud       string  `json:"cloud"`                  // Target cloud
+		PauseReason *string `json:"pause_reason,omitempty"` // Reason for pausing the backup synchronization
+		Paused      *bool   `json:"paused,omitempty"`       // Indicates additional backup synchronization is paused
+		Region      *string `json:"region,omitempty"`       // Cloud storage region name
+	} `json:"additional_regions,omitempty"` // Additional backup regions, if available
+	BackupName            string    `json:"backup_name"`                        // Internal name of this backup
+	BackupTime            time.Time `json:"backup_time"`                        // Backup timestamp (ISO 8601)
+	DataSize              int       `json:"data_size"`                          // Backup's original size before compression
+	StorageLocation       *string   `json:"storage_location,omitempty"`         // Location where this backup is stored
+	TieredStorageDataSize *int      `json:"tiered_storage_data_size,omitempty"` // The amount of tiered storage data in bytes referenced by this backup.
 }
 
 // CassandraOut Service type information
@@ -1624,6 +1623,18 @@ func PhaseTypeChoices() []string {
 	return []string{"prepare", "basebackup", "stream", "finalize"}
 }
 
+type PitrAdditionalRegionOut struct {
+	Cloud          string `json:"cloud"`            // Target cloud
+	PitrRangeEnd   string `json:"pitr_range_end"`   // Latest timestamp usable for PITR (ISO 8601) (always set)
+	PitrRangeStart string `json:"pitr_range_start"` // Earliest timestamp usable for PITR (ISO 8601) (always set)
+	Region         string `json:"region"`           // Cloud storage region name
+}
+
+// PitrOut Backup PITR metadata. Point-in-time-recovery metadata for the service. If not set, service type does not support PITR.
+type PitrOut struct {
+	AdditionalRegions []PitrAdditionalRegionOut `json:"additional_regions"` // Backup PITR metadata for additional backup regions. Empty array if BTAR is not enabled or BTAR+PITR is not supported.
+	PrimaryRegion     PrimaryRegionOut          `json:"primary_region"`     // Backup PITR metadata primary. Point-in-time-recovery metadata related to the primary backup location of the service.
+}
 type PoolModeType string
 
 const (
@@ -1636,6 +1647,11 @@ func PoolModeTypeChoices() []string {
 	return []string{"session", "transaction", "statement"}
 }
 
+// PrimaryRegionOut Backup PITR metadata primary. Point-in-time-recovery metadata related to the primary backup location of the service.
+type PrimaryRegionOut struct {
+	PitrRangeEnd   string `json:"pitr_range_end"`   // Latest timestamp usable for PITR (ISO 8601) (null means current time)
+	PitrRangeStart string `json:"pitr_range_start"` // Earliest timestamp usable for PITR (ISO 8601) (null means no available backup for PITR)
+}
 type ProgressUpdateOut struct {
 	Completed bool      `json:"completed"`         // Indicates whether this phase has been completed or not
 	Current   *int      `json:"current,omitempty"` // Current progress for this phase. May be missing or null.
@@ -1798,6 +1814,12 @@ type ServerGroupOut struct {
 // ServiceBackupToAnotherRegionReportIn ServiceBackupToAnotherRegionReportRequestBody
 type ServiceBackupToAnotherRegionReportIn struct {
 	Period PeriodType `json:"period,omitempty"` // Metrics time period
+}
+
+// ServiceBackupsGetOut ServiceBackupsGetResponse
+type ServiceBackupsGetOut struct {
+	Backups []BackupOut `json:"backups"`        // List of backups for the service
+	Pitr    *PitrOut    `json:"pitr,omitempty"` // Backup PITR metadata. Point-in-time-recovery metadata for the service. If not set, service type does not support PITR.
 }
 
 // ServiceCancelQueryIn ServiceCancelQueryRequestBody
@@ -2592,11 +2614,6 @@ type serviceAlertsListOut struct {
 // serviceBackupToAnotherRegionReportOut ServiceBackupToAnotherRegionReportResponse
 type serviceBackupToAnotherRegionReportOut struct {
 	Metrics map[string]any `json:"metrics"` // Service metrics in Google chart compatible format
-}
-
-// serviceBackupsGetOut ServiceBackupsGetResponse
-type serviceBackupsGetOut struct {
-	Backups []BackupOut `json:"backups"` // List of backups for the service
 }
 
 // serviceCancelQueryOut ServiceCancelQueryResponse
