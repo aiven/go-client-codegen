@@ -158,6 +158,7 @@ func (h *ApplicationUserHandler) ApplicationUsersList(ctx context.Context, organ
 type ApplicationUserAccessTokenCreateIn struct {
 	Description    string    `json:"description"`
 	ExtendWhenUsed *bool     `json:"extend_when_used,omitempty"` // Extend token expiration time when token is used. Only applicable if max_age_seconds is specified.
+	IpAllowlist    *[]string `json:"ip_allowlist,omitempty"`     // List of allowed IP ranges
 	MaxAgeSeconds  *int      `json:"max_age_seconds,omitempty"`  // Time the token remains valid since creation (or since last use if extend_when_used is true)
 	Scopes         *[]string `json:"scopes,omitempty"`           // Scopes this token is restricted to if specified
 }
@@ -216,6 +217,7 @@ type TokenOut struct {
 	Description                *string    `json:"description,omitempty"`
 	ExpiryTime                 *time.Time `json:"expiry_time,omitempty"`                    // Timestamp when the access token will expire unless extended, if ever
 	ExtendWhenUsed             *bool      `json:"extend_when_used,omitempty"`               // Extend token expiration time when token is used. Only applicable if max_age_seconds is specified.
+	IpAllowlist                []string   `json:"ip_allowlist,omitempty"`                   // List of allowed IP ranges
 	LastIp                     *string    `json:"last_ip,omitempty"`                        // IP address the access token was last used from in case it has ever been used
 	LastUsedTime               *time.Time `json:"last_used_time,omitempty"`                 // Timestamp when the access token was last used, if ever
 	LastUserAgent              *string    `json:"last_user_agent,omitempty"`                // User agent string of the client that last used the token in case it has ever been used
