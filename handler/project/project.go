@@ -714,7 +714,7 @@ type ProjectCreateIn struct {
 	AccountId                    *string             `json:"account_id,omitempty"`                       // Account ID
 	AddAccountOwnersAdminAccess  *bool               `json:"add_account_owners_admin_access,omitempty"`  // [DEPRECATED] If account_id is set, grant account owner team admin access to the new project. This flag is ignored, and assumed true.
 	AddressLines                 *[]string           `json:"address_lines,omitempty"`                    // [DEPRECATED] Address lines
-	BasePort                     *int                `json:"base_port,omitempty"`                        // Base value that new services in this project will use to derive their port numbers.
+	BasePort                     *int                `json:"base_port,omitempty"`                        // New services in this project will use this value as a base when deriving their service port numbers. This allows new services to allocate predictable and specific service ports. If not provided during project creation a random base port is used.
 	BillingAddress               *string             `json:"billing_address,omitempty"`                  // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
 	BillingCurrency              BillingCurrencyType `json:"billing_currency,omitempty"`                 // [DEPRECATED] Billing currency
 	BillingEmails                *[]BillingEmailIn   `json:"billing_emails,omitempty"`                   // [DEPRECATED] Billing emails
@@ -731,7 +731,7 @@ type ProjectCreateIn struct {
 	State                        *string             `json:"state,omitempty"`                            // [DEPRECATED] Address state
 	Tags                         *map[string]string  `json:"tags,omitempty"`                             // Set of resource tags
 	TechEmails                   *[]TechEmailIn      `json:"tech_emails,omitempty"`                      // List of project tech email addresses
-	UseSourceProjectBillingGroup *bool               `json:"use_source_project_billing_group,omitempty"` // Use the same billing group that is used in source project.
+	UseSourceProjectBillingGroup *bool               `json:"use_source_project_billing_group,omitempty"` // If set to true, use the same billing group that is used in source project. If set to false, create a copy of the billing group used in the source project with the same information. If new project is not being copied from existing one this option has no effect
 	VatId                        *string             `json:"vat_id,omitempty"`                           // [DEPRECATED] EU VAT identification
 	ZipCode                      *string             `json:"zip_code,omitempty"`                         // [DEPRECATED] Address zip code
 }

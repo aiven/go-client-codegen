@@ -115,8 +115,8 @@ type DomainOut struct {
 	DomainName                    string           `json:"domain_name"`                      // Name of the domain
 	LinkedAuthenticationMethodIds []string         `json:"linked_authentication_method_ids"` // Linked Authentication Method Ids
 	OrganizationId                string           `json:"organization_id"`                  // ID of the organization owning this domain
-	State                         DomainStateType  `json:"state"`                            // State of the verification process
-	VerificationType              VerificationType `json:"verification_type"`                // Type of verification to be made
+	State                         DomainStateType  `json:"state"`                            // An enumeration.
+	VerificationType              VerificationType `json:"verification_type"`                // An enumeration.
 }
 type DomainStateType string
 
@@ -133,7 +133,7 @@ func DomainStateTypeChoices() []string {
 // OrganizationDomainAddIn OrganizationDomainAddRequestBody
 type OrganizationDomainAddIn struct {
 	DomainName       string           `json:"domain_name"`                 // Name of the domain to be added
-	VerificationType VerificationType `json:"verification_type,omitempty"` // Type of verification to be made
+	VerificationType VerificationType `json:"verification_type,omitempty"` // An enumeration.
 }
 
 // OrganizationDomainAddOut OrganizationDomainAddResponse
@@ -144,8 +144,8 @@ type OrganizationDomainAddOut struct {
 	DomainName                    string                         `json:"domain_name"`                      // Name of the domain
 	LinkedAuthenticationMethodIds []string                       `json:"linked_authentication_method_ids"` // Linked Authentication Method Ids
 	OrganizationId                string                         `json:"organization_id"`                  // ID of the organization owning this domain
-	State                         OrganizationDomainAddStateType `json:"state"`                            // State of the verification process
-	VerificationType              VerificationType               `json:"verification_type"`                // Type of verification to be made
+	State                         OrganizationDomainAddStateType `json:"state"`                            // An enumeration.
+	VerificationType              VerificationType               `json:"verification_type"`                // An enumeration.
 }
 type OrganizationDomainAddStateType string
 
@@ -173,7 +173,7 @@ func OrganizationDomainStateTypeChoices() []string {
 
 // OrganizationDomainUpdateIn OrganizationDomainUpdateRequestBody
 type OrganizationDomainUpdateIn struct {
-	VerificationType VerificationType `json:"verification_type,omitempty"` // OrganizationDomainVerificationType
+	VerificationType VerificationType `json:"verification_type,omitempty"` // An enumeration.
 }
 
 // OrganizationDomainUpdateOut OrganizationDomainUpdateResponse
@@ -184,8 +184,8 @@ type OrganizationDomainUpdateOut struct {
 	DomainName                    string                      `json:"domain_name"`                      // Name of the domain
 	LinkedAuthenticationMethodIds []string                    `json:"linked_authentication_method_ids"` // Linked Authentication Method Ids
 	OrganizationId                string                      `json:"organization_id"`                  // ID of the organization owning this domain
-	State                         OrganizationDomainStateType `json:"state"`                            // State of the verification process
-	VerificationType              VerificationType            `json:"verification_type"`                // Type of verification to be made
+	State                         OrganizationDomainStateType `json:"state"`                            // An enumeration.
+	VerificationType              VerificationType            `json:"verification_type"`                // An enumeration.
 }
 
 // OrganizationDomainVerifyOut OrganizationDomainVerifyResponse
@@ -196,8 +196,8 @@ type OrganizationDomainVerifyOut struct {
 	DomainName                    string                      `json:"domain_name"`                      // Name of the domain
 	LinkedAuthenticationMethodIds []string                    `json:"linked_authentication_method_ids"` // Linked Authentication Method Ids
 	OrganizationId                string                      `json:"organization_id"`                  // ID of the organization owning this domain
-	State                         OrganizationDomainStateType `json:"state"`                            // State of the verification process
-	VerificationType              VerificationType            `json:"verification_type"`                // Type of verification to be made
+	State                         OrganizationDomainStateType `json:"state"`                            // An enumeration.
+	VerificationType              VerificationType            `json:"verification_type"`                // An enumeration.
 }
 type VerificationType string
 

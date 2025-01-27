@@ -181,7 +181,7 @@ type UserGroupGetOut struct {
 // UserGroupMembersUpdateIn UserGroupMembersUpdateRequestBody
 type UserGroupMembersUpdateIn struct {
 	MemberIds []string      `json:"member_ids"` // List of user IDs to apply the operation on
-	Operation OperationType `json:"operation"`  // Operation to be performed on the group
+	Operation OperationType `json:"operation"`  // An enumeration.
 }
 type UserGroupOut struct {
 	CreateTime    time.Time `json:"create_time"` // User group creation time
