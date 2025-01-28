@@ -135,7 +135,7 @@ type CleanupPolicyOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  string     `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value string `json:"value"` // cleanup.policy
+	Value string `json:"value"` // The retention policy to use on old segments. Possible values include 'delete', 'compact', or a comma-separated list of them. The default policy ('delete') will discard old segments when their retention time or size limit has been reached. The 'compact' setting will enable log compaction on the topic.
 }
 type CleanupPolicyType string
 
@@ -172,7 +172,7 @@ type CompressionTypeOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  string     `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value CompressionTypeValue `json:"value"` // compression.type
+	Value CompressionTypeValue `json:"value"` // Specify the final compression type for a given topic. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'uncompressed' which is equivalent to no compression; and 'producer' which means retain the original compression codec set by the producer.
 }
 type CompressionTypeValue string
 
@@ -191,33 +191,33 @@ func CompressionTypeValueChoices() []string {
 
 // ConfigIn Kafka topic configuration
 type ConfigIn struct {
-	CleanupPolicy                   CleanupPolicyType        `json:"cleanup_policy,omitempty"`                      // cleanup.policy
-	CompressionType                 CompressionType          `json:"compression_type,omitempty"`                    // compression.type
-	DeleteRetentionMs               *int                     `json:"delete_retention_ms,omitempty"`                 // delete.retention.ms
-	FileDeleteDelayMs               *int                     `json:"file_delete_delay_ms,omitempty"`                // file.delete.delay.ms
-	FlushMessages                   *int                     `json:"flush_messages,omitempty"`                      // flush.messages
-	FlushMs                         *int                     `json:"flush_ms,omitempty"`                            // flush.ms
-	IndexIntervalBytes              *int                     `json:"index_interval_bytes,omitempty"`                // index.interval.bytes
-	LocalRetentionBytes             *int                     `json:"local_retention_bytes,omitempty"`               // local.retention.bytes
-	LocalRetentionMs                *int                     `json:"local_retention_ms,omitempty"`                  // local.retention.ms
-	MaxCompactionLagMs              *int                     `json:"max_compaction_lag_ms,omitempty"`               // max.compaction.lag.ms
-	MaxMessageBytes                 *int                     `json:"max_message_bytes,omitempty"`                   // max.message.bytes
-	MessageDownconversionEnable     *bool                    `json:"message_downconversion_enable,omitempty"`       // message.downconversion.enable
-	MessageFormatVersion            MessageFormatVersionType `json:"message_format_version,omitempty"`              // message.format.version
-	MessageTimestampDifferenceMaxMs *int                     `json:"message_timestamp_difference_max_ms,omitempty"` // message.timestamp.difference.max.ms
-	MessageTimestampType            MessageTimestampType     `json:"message_timestamp_type,omitempty"`              // message.timestamp.type
-	MinCleanableDirtyRatio          *float64                 `json:"min_cleanable_dirty_ratio,omitempty"`           // min.cleanable.dirty.ratio
-	MinCompactionLagMs              *int                     `json:"min_compaction_lag_ms,omitempty"`               // min.compaction.lag.ms
-	MinInsyncReplicas               *int                     `json:"min_insync_replicas,omitempty"`                 // min.insync.replicas
-	Preallocate                     *bool                    `json:"preallocate,omitempty"`                         // preallocate
-	RemoteStorageEnable             *bool                    `json:"remote_storage_enable,omitempty"`               // remote.storage.enable
-	RetentionBytes                  *int                     `json:"retention_bytes,omitempty"`                     // retention.bytes
-	RetentionMs                     *int                     `json:"retention_ms,omitempty"`                        // retention.ms
-	SegmentBytes                    *int                     `json:"segment_bytes,omitempty"`                       // segment.bytes
-	SegmentIndexBytes               *int                     `json:"segment_index_bytes,omitempty"`                 // segment.index.bytes
-	SegmentJitterMs                 *int                     `json:"segment_jitter_ms,omitempty"`                   // segment.jitter.ms
-	SegmentMs                       *int                     `json:"segment_ms,omitempty"`                          // segment.ms
-	UncleanLeaderElectionEnable     *bool                    `json:"unclean_leader_election_enable,omitempty"`      // unclean.leader.election.enable
+	CleanupPolicy                   CleanupPolicyType        `json:"cleanup_policy,omitempty"`                      // The retention policy to use on old segments. Possible values include 'delete', 'compact', or a comma-separated list of them. The default policy ('delete') will discard old segments when their retention time or size limit has been reached. The 'compact' setting will enable log compaction on the topic.
+	CompressionType                 CompressionType          `json:"compression_type,omitempty"`                    // Specify the final compression type for a given topic. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'uncompressed' which is equivalent to no compression; and 'producer' which means retain the original compression codec set by the producer.
+	DeleteRetentionMs               *int                     `json:"delete_retention_ms,omitempty"`                 // The amount of time to retain delete tombstone markers for log compacted topics. This setting also gives a bound on the time in which a consumer must complete a read if they begin from offset 0 to ensure that they get a valid snapshot of the final stage (otherwise delete tombstones may be collected before they complete their scan).
+	FileDeleteDelayMs               *int                     `json:"file_delete_delay_ms,omitempty"`                // The time to wait before deleting a file from the filesystem.
+	FlushMessages                   *int                     `json:"flush_messages,omitempty"`                      // This setting allows specifying an interval at which we will force an fsync of data written to the log. For example if this was set to 1 we would fsync after every message; if it were 5 we would fsync after every five messages. In general we recommend you not set this and use replication for durability and allow the operating system's background flush capabilities as it is more efficient.
+	FlushMs                         *int                     `json:"flush_ms,omitempty"`                            // This setting allows specifying a time interval at which we will force an fsync of data written to the log. For example if this was set to 1000 we would fsync after 1000 ms had passed. In general we recommend you not set this and use replication for durability and allow the operating system's background flush capabilities as it is more efficient.
+	IndexIntervalBytes              *int                     `json:"index_interval_bytes,omitempty"`                // This setting controls how frequently Kafka adds an index entry to its offset index. The default setting ensures that we index a message roughly every 4096 bytes. More indexing allows reads to jump closer to the exact position in the log but makes the index larger. You probably don't need to change this.
+	LocalRetentionBytes             *int                     `json:"local_retention_bytes,omitempty"`               // This configuration controls the maximum bytes tiered storage will retain segment files locally before it will discard old log segments to free up space. If set to -2, the limit is equal to overall retention time. If set to -1, no limit is applied but it's possible only if overall retention is also -1.
+	LocalRetentionMs                *int                     `json:"local_retention_ms,omitempty"`                  // This configuration controls the maximum time tiered storage will retain segment files locally before it will discard old log segments to free up space. If set to -2, the time limit is equal to overall retention time. If set to -1, no time limit is applied but it's possible only if overall retention is also -1.
+	MaxCompactionLagMs              *int                     `json:"max_compaction_lag_ms,omitempty"`               // The maximum time a message will remain ineligible for compaction in the log. Only applicable for logs that are being compacted.
+	MaxMessageBytes                 *int                     `json:"max_message_bytes,omitempty"`                   // The largest record batch size allowed by Kafka (after compression if compression is enabled). If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that the they can fetch record batches this large. In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.
+	MessageDownconversionEnable     *bool                    `json:"message_downconversion_enable,omitempty"`       // This configuration controls whether down-conversion of message formats is enabled to satisfy consume requests. When set to false, broker will not perform down-conversion for consumers expecting an older message format. The broker responds with UNSUPPORTED_VERSION error for consume requests from such older clients. This configuration does not apply to any message format conversion that might be required for replication to followers.
+	MessageFormatVersion            MessageFormatVersionType `json:"message_format_version,omitempty"`              // Specify the message format version the broker will use to append messages to the logs. The value should be a valid ApiVersion. Some examples are: 0.8.2, 0.9.0.0, 0.10.0, check ApiVersion for more details. By setting a particular message format version, the user is certifying that all the existing messages on disk are smaller or equal than the specified version. Setting this value incorrectly will cause consumers with older versions to break as they will receive messages with a format that they don't understand.
+	MessageTimestampDifferenceMaxMs *int                     `json:"message_timestamp_difference_max_ms,omitempty"` // The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message. If message.timestamp.type=CreateTime, a message will be rejected if the difference in timestamp exceeds this threshold. This configuration is ignored if message.timestamp.type=LogAppendTime.
+	MessageTimestampType            MessageTimestampType     `json:"message_timestamp_type,omitempty"`              // Define whether the timestamp in the message is message create time or log append time.
+	MinCleanableDirtyRatio          *float64                 `json:"min_cleanable_dirty_ratio,omitempty"`           // This configuration controls how frequently the log compactor will attempt to clean the log (assuming log compaction is enabled). By default we will avoid cleaning a log where more than 50% of the log has been compacted. This ratio bounds the maximum space wasted in the log by duplicates (at 50% at most 50% of the log could be duplicates). A higher ratio will mean fewer, more efficient cleanings but will mean more wasted space in the log. If the max.compaction.lag.ms or the min.compaction.lag.ms configurations are also specified, then the log compactor considers the log to be eligible for compaction as soon as either: (i) the dirty ratio threshold has been met and the log has had dirty (uncompacted) records for at least the min.compaction.lag.ms duration, or (ii) if the log has had dirty (uncompacted) records for at most the max.compaction.lag.ms period.
+	MinCompactionLagMs              *int                     `json:"min_compaction_lag_ms,omitempty"`               // The minimum time a message will remain uncompacted in the log. Only applicable for logs that are being compacted.
+	MinInsyncReplicas               *int                     `json:"min_insync_replicas,omitempty"`                 // When a producer sets acks to 'all' (or '-1'), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend). When used together, min.insync.replicas and acks allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set min.insync.replicas to 2, and produce with acks of 'all'. This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
+	Preallocate                     *bool                    `json:"preallocate,omitempty"`                         // True if we should preallocate the file on disk when creating a new log segment.
+	RemoteStorageEnable             *bool                    `json:"remote_storage_enable,omitempty"`               // Indicates whether tiered storage should be enabled.
+	RetentionBytes                  *int                     `json:"retention_bytes,omitempty"`                     // This configuration controls the maximum size a partition (which consists of log segments) can grow to before we will discard old log segments to free up space if we are using the 'delete' retention policy. By default there is no size limit only a time limit. Since this limit is enforced at the partition level, multiply it by the number of partitions to compute the topic retention in bytes.
+	RetentionMs                     *int                     `json:"retention_ms,omitempty"`                        // This configuration controls the maximum time we will retain a log before we will discard old log segments to free up space if we are using the 'delete' retention policy. This represents an SLA on how soon consumers must read their data. If set to -1, no time limit is applied.
+	SegmentBytes                    *int                     `json:"segment_bytes,omitempty"`                       // This configuration controls the segment file size for the log. Retention and cleaning is always done a file at a time so a larger segment size means fewer files but less granular control over retention. Setting this to a very low value has consequences, and the Aiven management plane ignores values less than 10 megabytes.
+	SegmentIndexBytes               *int                     `json:"segment_index_bytes,omitempty"`                 // This configuration controls the size of the index that maps offsets to file positions. We preallocate this index file and shrink it only after log rolls. You generally should not need to change this setting.
+	SegmentJitterMs                 *int                     `json:"segment_jitter_ms,omitempty"`                   // The maximum random jitter subtracted from the scheduled segment roll time to avoid thundering herds of segment rolling
+	SegmentMs                       *int                     `json:"segment_ms,omitempty"`                          // This configuration controls the period of time after which Kafka will force the log to roll even if the segment file isn't full to ensure that retention can delete or compact old data. Setting this to a very low value has consequences, and the Aiven management plane ignores values less than 10 seconds.
+	UncleanLeaderElectionEnable     *bool                    `json:"unclean_leader_election_enable,omitempty"`      // Indicates whether to enable replicas not in the ISR set to be elected as leader as a last resort, even though doing so may result in data loss.
 }
 
 // ConfigOut Kafka topic configuration
@@ -263,7 +263,7 @@ type DeleteRetentionMsOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // delete.retention.ms
+	Value int `json:"value"` // The amount of time to retain delete tombstone markers for log compacted topics. This setting also gives a bound on the time in which a consumer must complete a read if they begin from offset 0 to ensure that they get a valid snapshot of the final stage (otherwise delete tombstones may be collected before they complete their scan).
 }
 
 // FileDeleteDelayMsOut file.delete.delay.ms value, source and synonyms
@@ -274,7 +274,7 @@ type FileDeleteDelayMsOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // file.delete.delay.ms
+	Value int `json:"value"` // The time to wait before deleting a file from the filesystem.
 }
 
 // FlushMessagesOut flush.messages value, source and synonyms
@@ -285,7 +285,7 @@ type FlushMessagesOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // flush.messages
+	Value int `json:"value"` // This setting allows specifying an interval at which we will force an fsync of data written to the log. For example if this was set to 1 we would fsync after every message; if it were 5 we would fsync after every five messages. In general we recommend you not set this and use replication for durability and allow the operating system's background flush capabilities as it is more efficient.
 }
 
 // FlushMsOut flush.ms value, source and synonyms
@@ -296,7 +296,7 @@ type FlushMsOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // flush.ms
+	Value int `json:"value"` // This setting allows specifying a time interval at which we will force an fsync of data written to the log. For example if this was set to 1000 we would fsync after 1000 ms had passed. In general we recommend you not set this and use replication for durability and allow the operating system's background flush capabilities as it is more efficient.
 }
 type FormatType string
 
@@ -320,7 +320,7 @@ type IndexIntervalBytesOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // index.interval.bytes
+	Value int `json:"value"` // This setting controls how frequently Kafka adds an index entry to its offset index. The default setting ensures that we index a message roughly every 4096 bytes. More indexing allows reads to jump closer to the exact position in the log but makes the index larger. You probably don't need to change this.
 }
 
 // LocalRetentionBytesOut local.retention.bytes value, source and synonyms
@@ -331,7 +331,7 @@ type LocalRetentionBytesOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // local.retention.bytes
+	Value int `json:"value"` // This configuration controls the maximum bytes tiered storage will retain segment files locally before it will discard old log segments to free up space. If set to -2, the limit is equal to overall retention time. If set to -1, no limit is applied but it's possible only if overall retention is also -1.
 }
 
 // LocalRetentionMsOut local.retention.ms value, source and synonyms
@@ -342,7 +342,7 @@ type LocalRetentionMsOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // local.retention.ms
+	Value int `json:"value"` // This configuration controls the maximum time tiered storage will retain segment files locally before it will discard old log segments to free up space. If set to -2, the time limit is equal to overall retention time. If set to -1, no time limit is applied but it's possible only if overall retention is also -1.
 }
 
 // MaxCompactionLagMsOut max.compaction.lag.ms value, source and synonyms
@@ -353,7 +353,7 @@ type MaxCompactionLagMsOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // max.compaction.lag.ms
+	Value int `json:"value"` // The maximum time a message will remain ineligible for compaction in the log. Only applicable for logs that are being compacted.
 }
 
 // MaxMessageBytesOut max.message.bytes value, source and synonyms
@@ -364,7 +364,7 @@ type MaxMessageBytesOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // max.message.bytes
+	Value int `json:"value"` // The largest record batch size allowed by Kafka (after compression if compression is enabled). If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that the they can fetch record batches this large. In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.
 }
 
 // MessageDownconversionEnableOut message.downconversion.enable value, source and synonyms
@@ -375,7 +375,7 @@ type MessageDownconversionEnableOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  bool       `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value bool `json:"value"` // message.downconversion.enable
+	Value bool `json:"value"` // This configuration controls whether down-conversion of message formats is enabled to satisfy consume requests. When set to false, broker will not perform down-conversion for consumers expecting an older message format. The broker responds with UNSUPPORTED_VERSION error for consume requests from such older clients. This configuration does not apply to any message format conversion that might be required for replication to followers.
 }
 
 // MessageFormatVersionOut message.format.version value, source and synonyms
@@ -386,7 +386,7 @@ type MessageFormatVersionOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  string     `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value MessageFormatVersionType `json:"value"` // message.format.version
+	Value MessageFormatVersionType `json:"value"` // Specify the message format version the broker will use to append messages to the logs. The value should be a valid ApiVersion. Some examples are: 0.8.2, 0.9.0.0, 0.10.0, check ApiVersion for more details. By setting a particular message format version, the user is certifying that all the existing messages on disk are smaller or equal than the specified version. Setting this value incorrectly will cause consumers with older versions to break as they will receive messages with a format that they don't understand.
 }
 type MessageFormatVersionType string
 
@@ -494,7 +494,7 @@ type MessageTimestampDifferenceMaxMsOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // message.timestamp.difference.max.ms
+	Value int `json:"value"` // The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message. If message.timestamp.type=CreateTime, a message will be rejected if the difference in timestamp exceeds this threshold. This configuration is ignored if message.timestamp.type=LogAppendTime.
 }
 type MessageTimestampType string
 
@@ -515,7 +515,7 @@ type MessageTimestampTypeOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  string     `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value MessageTimestampTypeValue `json:"value"` // message.timestamp.type
+	Value MessageTimestampTypeValue `json:"value"` // Define whether the timestamp in the message is message create time or log append time.
 }
 type MessageTimestampTypeValue string
 
@@ -536,7 +536,7 @@ type MinCleanableDirtyRatioOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  float64    `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value float64 `json:"value"` // min.cleanable.dirty.ratio
+	Value float64 `json:"value"` // This configuration controls how frequently the log compactor will attempt to clean the log (assuming log compaction is enabled). By default we will avoid cleaning a log where more than 50% of the log has been compacted. This ratio bounds the maximum space wasted in the log by duplicates (at 50% at most 50% of the log could be duplicates). A higher ratio will mean fewer, more efficient cleanings but will mean more wasted space in the log. If the max.compaction.lag.ms or the min.compaction.lag.ms configurations are also specified, then the log compactor considers the log to be eligible for compaction as soon as either: (i) the dirty ratio threshold has been met and the log has had dirty (uncompacted) records for at least the min.compaction.lag.ms duration, or (ii) if the log has had dirty (uncompacted) records for at most the max.compaction.lag.ms period.
 }
 
 // MinCompactionLagMsOut min.compaction.lag.ms value, source and synonyms
@@ -547,7 +547,7 @@ type MinCompactionLagMsOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // min.compaction.lag.ms
+	Value int `json:"value"` // The minimum time a message will remain uncompacted in the log. Only applicable for logs that are being compacted.
 }
 
 // MinInsyncReplicasOut min.insync.replicas value, source and synonyms
@@ -558,7 +558,7 @@ type MinInsyncReplicasOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // min.insync.replicas
+	Value int `json:"value"` // When a producer sets acks to 'all' (or '-1'), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend). When used together, min.insync.replicas and acks allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set min.insync.replicas to 2, and produce with acks of 'all'. This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
 }
 type OffsetOut struct {
 	Error     *string `json:"error,omitempty"`      // An error message describing why the operation failed, or null if it succeeded
@@ -584,7 +584,7 @@ type PreallocateOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  bool       `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value bool `json:"value"` // preallocate
+	Value bool `json:"value"` // True if we should preallocate the file on disk when creating a new log segment.
 }
 type RecordIn struct {
 	Key       *map[string]any `json:"key,omitempty"`       // Key for the produced record
@@ -600,7 +600,7 @@ type RemoteStorageEnableOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  bool       `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value bool `json:"value"` // remote.storage.enable
+	Value bool `json:"value"` // Indicates whether tiered storage should be enabled.
 }
 
 // RetentionBytesOut retention.bytes value, source and synonyms
@@ -611,7 +611,7 @@ type RetentionBytesOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // retention.bytes
+	Value int `json:"value"` // This configuration controls the maximum size a partition (which consists of log segments) can grow to before we will discard old log segments to free up space if we are using the 'delete' retention policy. By default there is no size limit only a time limit. Since this limit is enforced at the partition level, multiply it by the number of partitions to compute the topic retention in bytes.
 }
 
 // RetentionMsOut retention.ms value, source and synonyms
@@ -622,7 +622,7 @@ type RetentionMsOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // retention.ms
+	Value int `json:"value"` // This configuration controls the maximum time we will retain a log before we will discard old log segments to free up space if we are using the 'delete' retention policy. This represents an SLA on how soon consumers must read their data. If set to -1, no time limit is applied.
 }
 
 // SegmentBytesOut segment.bytes value, source and synonyms
@@ -633,7 +633,7 @@ type SegmentBytesOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // segment.bytes
+	Value int `json:"value"` // This configuration controls the segment file size for the log. Retention and cleaning is always done a file at a time so a larger segment size means fewer files but less granular control over retention. Setting this to a very low value has consequences, and the Aiven management plane ignores values less than 10 megabytes.
 }
 
 // SegmentIndexBytesOut segment.index.bytes value, source and synonyms
@@ -644,7 +644,7 @@ type SegmentIndexBytesOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // segment.index.bytes
+	Value int `json:"value"` // This configuration controls the size of the index that maps offsets to file positions. We preallocate this index file and shrink it only after log rolls. You generally should not need to change this setting.
 }
 
 // SegmentJitterMsOut segment.jitter.ms value, source and synonyms
@@ -655,7 +655,7 @@ type SegmentJitterMsOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // segment.jitter.ms
+	Value int `json:"value"` // The maximum random jitter subtracted from the scheduled segment roll time to avoid thundering herds of segment rolling
 }
 
 // SegmentMsOut segment.ms value, source and synonyms
@@ -666,18 +666,18 @@ type SegmentMsOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value int `json:"value"` // segment.ms
+	Value int `json:"value"` // This configuration controls the period of time after which Kafka will force the log to roll even if the segment file isn't full to ensure that retention can delete or compact old data. Setting this to a very low value has consequences, and the Aiven management plane ignores values less than 10 seconds.
 }
 
 // ServiceKafkaTopicCreateIn ServiceKafkaTopicCreateRequestBody
 type ServiceKafkaTopicCreateIn struct {
-	CleanupPolicy     CleanupPolicyType `json:"cleanup_policy,omitempty"`      // DEPRECATED: use config.cleanup_policy
+	CleanupPolicy     CleanupPolicyType `json:"cleanup_policy,omitempty"`      // The retention policy to use on old segments. Possible values include 'delete', 'compact', or a comma-separated list of them. The default policy ('delete') will discard old segments when their retention time or size limit has been reached. The 'compact' setting will enable log compaction on the topic.
 	Config            *ConfigIn         `json:"config,omitempty"`              // Kafka topic configuration
-	MinInsyncReplicas *int              `json:"min_insync_replicas,omitempty"` // DEPRECATED: use config.min_insync_replicas
+	MinInsyncReplicas *int              `json:"min_insync_replicas,omitempty"` // When a producer sets acks to 'all' (or '-1'), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend). When used together, min.insync.replicas and acks allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set min.insync.replicas to 2, and produce with acks of 'all'. This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
 	OwnerUserGroupId  *string           `json:"owner_user_group_id,omitempty"` // The user group that owns this topic
 	Partitions        *int              `json:"partitions,omitempty"`          // Number of partitions
 	Replication       *int              `json:"replication,omitempty"`         // Number of replicas
-	RetentionBytes    *int              `json:"retention_bytes,omitempty"`     // DEPRECATED: use config.retention_bytes
+	RetentionBytes    *int              `json:"retention_bytes,omitempty"`     // This configuration controls the maximum size a partition (which consists of log segments) can grow to before we will discard old log segments to free up space if we are using the 'delete' retention policy. By default there is no size limit only a time limit. Since this limit is enforced at the partition level, multiply it by the number of partitions to compute the topic retention in bytes.
 	RetentionHours    *int              `json:"retention_hours,omitempty"`     // DEPRECATED: use config.retention_ms
 	Tags              *[]TagIn          `json:"tags,omitempty"`                // Topic tags
 	TopicDescription  *string           `json:"topic_description,omitempty"`   // Topic description
@@ -686,13 +686,13 @@ type ServiceKafkaTopicCreateIn struct {
 
 // ServiceKafkaTopicGetOut Kafka topic information
 type ServiceKafkaTopicGetOut struct {
-	CleanupPolicy     string         `json:"cleanup_policy"`      // DEPRECATED: use config.cleanup_policy
+	CleanupPolicy     string         `json:"cleanup_policy"`      // The retention policy to use on old segments. Possible values include 'delete', 'compact', or a comma-separated list of them. The default policy ('delete') will discard old segments when their retention time or size limit has been reached. The 'compact' setting will enable log compaction on the topic.
 	Config            ConfigOut      `json:"config"`              // Kafka topic configuration
-	MinInsyncReplicas int            `json:"min_insync_replicas"` // DEPRECATED: use config.min_insync_replicas
+	MinInsyncReplicas int            `json:"min_insync_replicas"` // When a producer sets acks to 'all' (or '-1'), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend). When used together, min.insync.replicas and acks allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set min.insync.replicas to 2, and produce with acks of 'all'. This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
 	OwnerUserGroupId  string         `json:"owner_user_group_id"` // The user group that owns this topic
 	Partitions        []PartitionOut `json:"partitions"`          // Topic partitions
 	Replication       int            `json:"replication"`         // Number of replicas
-	RetentionBytes    int            `json:"retention_bytes"`     // DEPRECATED: use config.retention_bytes
+	RetentionBytes    int            `json:"retention_bytes"`     // This configuration controls the maximum size a partition (which consists of log segments) can grow to before we will discard old log segments to free up space if we are using the 'delete' retention policy. By default there is no size limit only a time limit. Since this limit is enforced at the partition level, multiply it by the number of partitions to compute the topic retention in bytes.
 	RetentionHours    int            `json:"retention_hours"`     // DEPRECATED: use config.retention_ms
 	State             TopicStateType `json:"state"`               // Topic state
 	Tags              []TagOut       `json:"tags"`                // Topic tags
@@ -728,11 +728,11 @@ type ServiceKafkaTopicMessageProduceOut struct {
 // ServiceKafkaTopicUpdateIn ServiceKafkaTopicUpdateRequestBody
 type ServiceKafkaTopicUpdateIn struct {
 	Config            *ConfigIn `json:"config,omitempty"`              // Kafka topic configuration
-	MinInsyncReplicas *int      `json:"min_insync_replicas,omitempty"` // DEPRECATED: use config.min_insync_replicas
+	MinInsyncReplicas *int      `json:"min_insync_replicas,omitempty"` // When a producer sets acks to 'all' (or '-1'), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend). When used together, min.insync.replicas and acks allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set min.insync.replicas to 2, and produce with acks of 'all'. This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
 	OwnerUserGroupId  *string   `json:"owner_user_group_id,omitempty"` // The user group that owns this topic
 	Partitions        *int      `json:"partitions,omitempty"`          // Number of partitions
 	Replication       *int      `json:"replication,omitempty"`         // Number of replicas
-	RetentionBytes    *int      `json:"retention_bytes,omitempty"`     // DEPRECATED: use config.retention_bytes
+	RetentionBytes    *int      `json:"retention_bytes,omitempty"`     // This configuration controls the maximum size a partition (which consists of log segments) can grow to before we will discard old log segments to free up space if we are using the 'delete' retention policy. By default there is no size limit only a time limit. Since this limit is enforced at the partition level, multiply it by the number of partitions to compute the topic retention in bytes.
 	RetentionHours    *int      `json:"retention_hours,omitempty"`     // DEPRECATED: use config.retention_ms
 	Tags              *[]TagIn  `json:"tags,omitempty"`                // Topic tags
 	TopicDescription  *string   `json:"topic_description,omitempty"`   // Topic description
@@ -762,13 +762,13 @@ type TagOut struct {
 	Value string `json:"value"` // Tag value
 }
 type TopicOut struct {
-	CleanupPolicy       string         `json:"cleanup_policy"`                  // cleanup.policy
-	MinInsyncReplicas   int            `json:"min_insync_replicas"`             // min.insync.replicas
+	CleanupPolicy       string         `json:"cleanup_policy"`                  // The retention policy to use on old segments. Possible values include 'delete', 'compact', or a comma-separated list of them. The default policy ('delete') will discard old segments when their retention time or size limit has been reached. The 'compact' setting will enable log compaction on the topic.
+	MinInsyncReplicas   int            `json:"min_insync_replicas"`             // When a producer sets acks to 'all' (or '-1'), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend). When used together, min.insync.replicas and acks allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set min.insync.replicas to 2, and produce with acks of 'all'. This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
 	OwnerUserGroupId    string         `json:"owner_user_group_id"`             // The user group that owns this topic
 	Partitions          int            `json:"partitions"`                      // Number of partitions
-	RemoteStorageEnable *bool          `json:"remote_storage_enable,omitempty"` // remote.storage.enable
+	RemoteStorageEnable *bool          `json:"remote_storage_enable,omitempty"` // Indicates whether tiered storage should be enabled.
 	Replication         int            `json:"replication"`                     // Number of replicas
-	RetentionBytes      int            `json:"retention_bytes"`                 // retention.bytes
+	RetentionBytes      int            `json:"retention_bytes"`                 // This configuration controls the maximum size a partition (which consists of log segments) can grow to before we will discard old log segments to free up space if we are using the 'delete' retention policy. By default there is no size limit only a time limit. Since this limit is enforced at the partition level, multiply it by the number of partitions to compute the topic retention in bytes.
 	RetentionHours      int            `json:"retention_hours"`                 // Retention period (hours)
 	State               TopicStateType `json:"state"`                           // Topic state
 	Tags                []TagOut       `json:"tags"`                            // Topic tags
@@ -795,7 +795,7 @@ type UncleanLeaderElectionEnableOut struct {
 		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
 		Value  bool       `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value bool `json:"value"` // unclean.leader.election.enable
+	Value bool `json:"value"` // Indicates whether to enable replicas not in the ISR set to be elected as leader as a last resort, even though doing so may result in data loss.
 }
 
 // serviceKafkaTopicGetOut ServiceKafkaTopicGetResponse

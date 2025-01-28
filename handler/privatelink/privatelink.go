@@ -260,9 +260,9 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureUpdate(ctx context.Context, 
 }
 
 type ConnectionOut struct {
-	DnsName                 string              `json:"dns_name"`                            // AWS VPC Endpoint DNS name
+	DnsName                 string              `json:"dns_name"`                            // The VPC Endpoint DNS name that the Aiven privatelink access route DNS name is using as the value for itsCNAME record. This DNS name resolves to the private IP addresses of the VPC Endpoint's NICs in all configured subnets
 	PrivatelinkConnectionId *string             `json:"privatelink_connection_id,omitempty"` // Privatelink connection ID
-	State                   ConnectionStateType `json:"state"`                               // Privatelink connection state
+	State                   ConnectionStateType `json:"state"`                               // The Aiven connection state. The AWS VPC endpoint state is always available for listed connections
 	VpcEndpointId           string              `json:"vpc_endpoint_id"`                     // AWS VPC Endpoint ID
 }
 type ConnectionStateType string
@@ -285,14 +285,14 @@ type PrivatelinkAvailabilityOut struct {
 
 // ServicePrivatelinkAwscreateIn ServicePrivatelinkAWSCreateRequestBody
 type ServicePrivatelinkAwscreateIn struct {
-	Principals []string `json:"principals"` // ARN allowlist. ARNs of principals allowed connecting to the service
+	Principals []string `json:"principals"` // ARNs of principals allowed connecting to the service
 }
 
 // ServicePrivatelinkAwscreateOut ServicePrivatelinkAWSCreateResponse
 type ServicePrivatelinkAwscreateOut struct {
 	AwsServiceId   *string                              `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
 	AwsServiceName *string                              `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
-	Principals     []string                             `json:"principals"`                 // ARN allowlist. ARNs of principals allowed connecting to the service
+	Principals     []string                             `json:"principals"`                 // ARNs of principals allowed connecting to the service
 	State          ServicePrivatelinkAwscreateStateType `json:"state"`                      // Privatelink resource state
 }
 type ServicePrivatelinkAwscreateStateType string
@@ -311,7 +311,7 @@ func ServicePrivatelinkAwscreateStateTypeChoices() []string {
 type ServicePrivatelinkAwsdeleteOut struct {
 	AwsServiceId   *string                              `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
 	AwsServiceName *string                              `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
-	Principals     []string                             `json:"principals"`                 // ARN allowlist. ARNs of principals allowed connecting to the service
+	Principals     []string                             `json:"principals"`                 // ARNs of principals allowed connecting to the service
 	State          ServicePrivatelinkAwsdeleteStateType `json:"state"`                      // Privatelink resource state
 }
 type ServicePrivatelinkAwsdeleteStateType string
@@ -330,7 +330,7 @@ func ServicePrivatelinkAwsdeleteStateTypeChoices() []string {
 type ServicePrivatelinkAwsgetOut struct {
 	AwsServiceId   *string                           `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
 	AwsServiceName *string                           `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
-	Principals     []string                          `json:"principals"`                 // ARN allowlist. ARNs of principals allowed connecting to the service
+	Principals     []string                          `json:"principals"`                 // ARNs of principals allowed connecting to the service
 	State          ServicePrivatelinkAwsgetStateType `json:"state"`                      // Privatelink resource state
 }
 type ServicePrivatelinkAwsgetStateType string
@@ -347,14 +347,14 @@ func ServicePrivatelinkAwsgetStateTypeChoices() []string {
 
 // ServicePrivatelinkAwsupdateIn ServicePrivatelinkAWSUpdateRequestBody
 type ServicePrivatelinkAwsupdateIn struct {
-	Principals []string `json:"principals"` // ARN allowlist. ARNs of principals allowed connecting to the service
+	Principals []string `json:"principals"` // ARNs of principals allowed connecting to the service
 }
 
 // ServicePrivatelinkAwsupdateOut ServicePrivatelinkAWSUpdateResponse
 type ServicePrivatelinkAwsupdateOut struct {
 	AwsServiceId   *string                              `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
 	AwsServiceName *string                              `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
-	Principals     []string                             `json:"principals"`                 // ARN allowlist. ARNs of principals allowed connecting to the service
+	Principals     []string                             `json:"principals"`                 // ARNs of principals allowed connecting to the service
 	State          ServicePrivatelinkAwsupdateStateType `json:"state"`                      // Privatelink resource state
 }
 type ServicePrivatelinkAwsupdateStateType string
@@ -373,7 +373,7 @@ func ServicePrivatelinkAwsupdateStateTypeChoices() []string {
 type ServicePrivatelinkAzureConnectionApprovalOut struct {
 	PrivateEndpointId       string                                             `json:"private_endpoint_id"`                 // Azure private endpoint ID
 	PrivatelinkConnectionId *string                                            `json:"privatelink_connection_id,omitempty"` // Privatelink connection ID
-	State                   ServicePrivatelinkAzureConnectionApprovalStateType `json:"state"`                               // Privatelink connection state
+	State                   ServicePrivatelinkAzureConnectionApprovalStateType `json:"state"`                               // The Aiven connection state. The Azure connection status has a separate value
 	UserIpAddress           string                                             `json:"user_ip_address"`                     // (Private) IP address of Privatelink endpoint
 }
 type ServicePrivatelinkAzureConnectionApprovalStateType string
@@ -392,7 +392,7 @@ func ServicePrivatelinkAzureConnectionApprovalStateTypeChoices() []string {
 type ServicePrivatelinkAzureConnectionListOut struct {
 	PrivateEndpointId       string              `json:"private_endpoint_id"`                 // Azure private endpoint ID
 	PrivatelinkConnectionId *string             `json:"privatelink_connection_id,omitempty"` // Privatelink connection ID
-	State                   ConnectionStateType `json:"state"`                               // Privatelink connection state
+	State                   ConnectionStateType `json:"state"`                               // The Aiven connection state. The Azure connection status has a separate value
 	UserIpAddress           string              `json:"user_ip_address"`                     // (Private) IP address of Privatelink endpoint
 }
 type ServicePrivatelinkAzureConnectionStateType string
@@ -417,13 +417,13 @@ type ServicePrivatelinkAzureConnectionUpdateIn struct {
 type ServicePrivatelinkAzureConnectionUpdateOut struct {
 	PrivateEndpointId       string                                     `json:"private_endpoint_id"`                 // Azure private endpoint ID
 	PrivatelinkConnectionId *string                                    `json:"privatelink_connection_id,omitempty"` // Privatelink connection ID
-	State                   ServicePrivatelinkAzureConnectionStateType `json:"state"`                               // Privatelink connection state
+	State                   ServicePrivatelinkAzureConnectionStateType `json:"state"`                               // The Aiven connection state. The Azure connection status has a separate value
 	UserIpAddress           string                                     `json:"user_ip_address"`                     // (Private) IP address of Privatelink endpoint
 }
 
 // ServicePrivatelinkAzureCreateIn ServicePrivatelinkAzureCreateRequestBody
 type ServicePrivatelinkAzureCreateIn struct {
-	UserSubscriptionIds []string `json:"user_subscription_ids"` // Subscription ID allowlist. IDs of Azure subscriptions allowed to connect to the service
+	UserSubscriptionIds []string `json:"user_subscription_ids"` // IDs of Azure subscriptions allowed to connect to the service
 }
 
 // ServicePrivatelinkAzureCreateOut ServicePrivatelinkAzureCreateResponse
@@ -431,7 +431,7 @@ type ServicePrivatelinkAzureCreateOut struct {
 	AzureServiceAlias   *string                          `json:"azure_service_alias,omitempty"` // Azure Privatelink service alias
 	AzureServiceId      *string                          `json:"azure_service_id,omitempty"`    // Azure Privatelink service ID
 	State               ServicePrivatelinkAzureStateType `json:"state"`                         // Privatelink resource state
-	UserSubscriptionIds []string                         `json:"user_subscription_ids"`         // Subscription ID allowlist. IDs of Azure subscriptions allowed to connect to the service
+	UserSubscriptionIds []string                         `json:"user_subscription_ids"`         // IDs of Azure subscriptions allowed to connect to the service
 }
 
 // ServicePrivatelinkAzureDeleteOut ServicePrivatelinkAzureDeleteResponse
@@ -439,7 +439,7 @@ type ServicePrivatelinkAzureDeleteOut struct {
 	AzureServiceAlias   *string                          `json:"azure_service_alias,omitempty"` // Azure Privatelink service alias
 	AzureServiceId      *string                          `json:"azure_service_id,omitempty"`    // Azure Privatelink service ID
 	State               ServicePrivatelinkAzureStateType `json:"state"`                         // Privatelink resource state
-	UserSubscriptionIds []string                         `json:"user_subscription_ids"`         // Subscription ID allowlist. IDs of Azure subscriptions allowed to connect to the service
+	UserSubscriptionIds []string                         `json:"user_subscription_ids"`         // IDs of Azure subscriptions allowed to connect to the service
 }
 
 // ServicePrivatelinkAzureGetOut ServicePrivatelinkAzureGetResponse
@@ -447,7 +447,7 @@ type ServicePrivatelinkAzureGetOut struct {
 	AzureServiceAlias   *string                          `json:"azure_service_alias,omitempty"` // Azure Privatelink service alias
 	AzureServiceId      *string                          `json:"azure_service_id,omitempty"`    // Azure Privatelink service ID
 	State               ServicePrivatelinkAzureStateType `json:"state"`                         // Privatelink resource state
-	UserSubscriptionIds []string                         `json:"user_subscription_ids"`         // Subscription ID allowlist. IDs of Azure subscriptions allowed to connect to the service
+	UserSubscriptionIds []string                         `json:"user_subscription_ids"`         // IDs of Azure subscriptions allowed to connect to the service
 }
 type ServicePrivatelinkAzureStateType string
 
@@ -463,7 +463,7 @@ func ServicePrivatelinkAzureStateTypeChoices() []string {
 
 // ServicePrivatelinkAzureUpdateIn ServicePrivatelinkAzureUpdateRequestBody
 type ServicePrivatelinkAzureUpdateIn struct {
-	UserSubscriptionIds []string `json:"user_subscription_ids"` // Subscription ID allowlist. IDs of Azure subscriptions allowed to connect to the service
+	UserSubscriptionIds []string `json:"user_subscription_ids"` // IDs of Azure subscriptions allowed to connect to the service
 }
 
 // ServicePrivatelinkAzureUpdateOut ServicePrivatelinkAzureUpdateResponse
@@ -471,7 +471,7 @@ type ServicePrivatelinkAzureUpdateOut struct {
 	AzureServiceAlias   *string                          `json:"azure_service_alias,omitempty"` // Azure Privatelink service alias
 	AzureServiceId      *string                          `json:"azure_service_id,omitempty"`    // Azure Privatelink service ID
 	State               ServicePrivatelinkAzureStateType `json:"state"`                         // Privatelink resource state
-	UserSubscriptionIds []string                         `json:"user_subscription_ids"`         // Subscription ID allowlist. IDs of Azure subscriptions allowed to connect to the service
+	UserSubscriptionIds []string                         `json:"user_subscription_ids"`         // IDs of Azure subscriptions allowed to connect to the service
 }
 
 // publicPrivatelinkAvailabilityListOut PublicPrivatelinkAvailabilityListResponse

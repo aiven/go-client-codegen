@@ -117,16 +117,16 @@ func (h *FlinkJarApplicationHandler) ServiceFlinkUpdateJarApplication(ctx contex
 }
 
 type ApplicationOut struct {
-	CreatedAt *time.Time `json:"created_at,omitempty"` // Created at
-	CreatedBy *string    `json:"created_by,omitempty"` // Created by
+	CreatedAt *time.Time `json:"created_at,omitempty"` // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy *string    `json:"created_by,omitempty"` // The creator of this entity
 	Id        string     `json:"id"`                   // Application ID
 	Name      string     `json:"name"`                 // Application name
-	UpdatedAt *time.Time `json:"updated_at,omitempty"` // Updated at
-	UpdatedBy *string    `json:"updated_by,omitempty"` // Updated by
+	UpdatedAt *time.Time `json:"updated_at,omitempty"` // The update timestamp of this entity in ISO 8601 format, always in UTC
+	UpdatedBy *string    `json:"updated_by,omitempty"` // The latest updater of this entity
 }
 type ApplicationVersionOut struct {
-	CreatedAt time.Time    `json:"created_at"`          // Created at
-	CreatedBy string       `json:"created_by"`          // Created by
+	CreatedAt time.Time    `json:"created_at"`          // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy string       `json:"created_by"`          // The creator of this entity
 	FileInfo  *FileInfoOut `json:"file_info,omitempty"` // Flink JarApplicationVersion FileInfo
 	Id        string       `json:"id"`                  // ApplicationVersion ID
 	Version   int          `json:"version"`             // Version number
@@ -134,15 +134,15 @@ type ApplicationVersionOut struct {
 
 // CurrentDeploymentOut Flink JarApplicationDeployment
 type CurrentDeploymentOut struct {
-	CreatedAt         time.Time                   `json:"created_at"`                   // Created at
-	CreatedBy         string                      `json:"created_by"`                   // Created by
-	EntryClass        *string                     `json:"entry_class,omitempty"`        // Entry class
-	ErrorMsg          *string                     `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time                   `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string                      `json:"created_by"`                   // The creator of this entity
+	EntryClass        *string                     `json:"entry_class,omitempty"`        // The fully qualified name of the entry class to pass during Flink job submission through the entryClass parameter
+	ErrorMsg          *string                     `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string                      `json:"id"`                           // Deployment ID
 	JobId             *string                     `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string                     `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                         `json:"parallelism"`                  // Flink Job parallelism
-	ProgramArgs       []string                    `json:"program_args,omitempty"`       // Program arguments. Arguments to pass during Flink job submission through the programArgsList parameter
+	Parallelism       int                         `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
+	ProgramArgs       []string                    `json:"program_args,omitempty"`       // Arguments to pass during Flink job submission through the programArgsList parameter
 	StartingSavepoint *string                     `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            CurrentDeploymentStatusType `json:"status"`                       // Deployment status
 	VersionId         string                      `json:"version_id"`                   // ApplicationVersion ID
@@ -177,10 +177,10 @@ func CurrentDeploymentStatusTypeChoices() []string {
 type FileInfoOut struct {
 	FileSha256         *string             `json:"file_sha256,omitempty"`          // sha256 of the file if known
 	FileSize           *int                `json:"file_size,omitempty"`            // The size of the file in bytes
-	FileStatus         FileStatusType      `json:"file_status,omitempty"`          // File status
-	Url                *string             `json:"url,omitempty"`                  // AWS s3 pre-signed url
-	VerifyErrorCode    VerifyErrorCodeType `json:"verify_error_code,omitempty"`    // Verify error code
-	VerifyErrorMessage *string             `json:"verify_error_message,omitempty"` // Verify error message
+	FileStatus         FileStatusType      `json:"file_status,omitempty"`          // Indicates whether the uploaded .jar file has been verified by the system and deployment ready
+	Url                *string             `json:"url,omitempty"`                  // The pre-signed url of the bucket where the .jar file is uploaded. Becomes null when the JarApplicationVersion is ready or failed.
+	VerifyErrorCode    VerifyErrorCodeType `json:"verify_error_code,omitempty"`    // In the case file_status is FAILED, the error code of the failure.
+	VerifyErrorMessage *string             `json:"verify_error_message,omitempty"` // In the case file_status is FAILED, may contain details about the failure.
 }
 type FileStatusType string
 
@@ -202,37 +202,37 @@ type ServiceFlinkCreateJarApplicationIn struct {
 // ServiceFlinkCreateJarApplicationOut ServiceFlinkCreateJarApplicationResponse
 type ServiceFlinkCreateJarApplicationOut struct {
 	ApplicationVersions []ApplicationVersionOut `json:"application_versions"`         // JarApplicationVersions
-	CreatedAt           time.Time               `json:"created_at"`                   // Created at
-	CreatedBy           string                  `json:"created_by"`                   // Created by
+	CreatedAt           time.Time               `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy           string                  `json:"created_by"`                   // The creator of this entity
 	CurrentDeployment   *CurrentDeploymentOut   `json:"current_deployment,omitempty"` // Flink JarApplicationDeployment
 	Id                  string                  `json:"id"`                           // Application ID
 	Name                string                  `json:"name"`                         // Application name
-	UpdatedAt           time.Time               `json:"updated_at"`                   // Updated at
-	UpdatedBy           string                  `json:"updated_by"`                   // Updated by
+	UpdatedAt           time.Time               `json:"updated_at"`                   // The update timestamp of this entity in ISO 8601 format, always in UTC
+	UpdatedBy           string                  `json:"updated_by"`                   // The latest updater of this entity
 }
 
 // ServiceFlinkDeleteJarApplicationOut ServiceFlinkDeleteJarApplicationResponse
 type ServiceFlinkDeleteJarApplicationOut struct {
 	ApplicationVersions []ApplicationVersionOut `json:"application_versions"`         // JarApplicationVersions
-	CreatedAt           time.Time               `json:"created_at"`                   // Created at
-	CreatedBy           string                  `json:"created_by"`                   // Created by
+	CreatedAt           time.Time               `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy           string                  `json:"created_by"`                   // The creator of this entity
 	CurrentDeployment   *CurrentDeploymentOut   `json:"current_deployment,omitempty"` // Flink JarApplicationDeployment
 	Id                  string                  `json:"id"`                           // Application ID
 	Name                string                  `json:"name"`                         // Application name
-	UpdatedAt           time.Time               `json:"updated_at"`                   // Updated at
-	UpdatedBy           string                  `json:"updated_by"`                   // Updated by
+	UpdatedAt           time.Time               `json:"updated_at"`                   // The update timestamp of this entity in ISO 8601 format, always in UTC
+	UpdatedBy           string                  `json:"updated_by"`                   // The latest updater of this entity
 }
 
 // ServiceFlinkGetJarApplicationOut ServiceFlinkGetJarApplicationResponse
 type ServiceFlinkGetJarApplicationOut struct {
 	ApplicationVersions []ApplicationVersionOut `json:"application_versions"`         // JarApplicationVersions
-	CreatedAt           time.Time               `json:"created_at"`                   // Created at
-	CreatedBy           string                  `json:"created_by"`                   // Created by
+	CreatedAt           time.Time               `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy           string                  `json:"created_by"`                   // The creator of this entity
 	CurrentDeployment   *CurrentDeploymentOut   `json:"current_deployment,omitempty"` // Flink JarApplicationDeployment
 	Id                  string                  `json:"id"`                           // Application ID
 	Name                string                  `json:"name"`                         // Application name
-	UpdatedAt           time.Time               `json:"updated_at"`                   // Updated at
-	UpdatedBy           string                  `json:"updated_by"`                   // Updated by
+	UpdatedAt           time.Time               `json:"updated_at"`                   // The update timestamp of this entity in ISO 8601 format, always in UTC
+	UpdatedBy           string                  `json:"updated_by"`                   // The latest updater of this entity
 }
 
 // ServiceFlinkUpdateJarApplicationIn ServiceFlinkUpdateJarApplicationRequestBody
@@ -243,13 +243,13 @@ type ServiceFlinkUpdateJarApplicationIn struct {
 // ServiceFlinkUpdateJarApplicationOut ServiceFlinkUpdateJarApplicationResponse
 type ServiceFlinkUpdateJarApplicationOut struct {
 	ApplicationVersions []ApplicationVersionOut `json:"application_versions"`         // JarApplicationVersions
-	CreatedAt           time.Time               `json:"created_at"`                   // Created at
-	CreatedBy           string                  `json:"created_by"`                   // Created by
+	CreatedAt           time.Time               `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy           string                  `json:"created_by"`                   // The creator of this entity
 	CurrentDeployment   *CurrentDeploymentOut   `json:"current_deployment,omitempty"` // Flink JarApplicationDeployment
 	Id                  string                  `json:"id"`                           // Application ID
 	Name                string                  `json:"name"`                         // Application name
-	UpdatedAt           time.Time               `json:"updated_at"`                   // Updated at
-	UpdatedBy           string                  `json:"updated_by"`                   // Updated by
+	UpdatedAt           time.Time               `json:"updated_at"`                   // The update timestamp of this entity in ISO 8601 format, always in UTC
+	UpdatedBy           string                  `json:"updated_by"`                   // The latest updater of this entity
 }
 type VerifyErrorCodeType int
 

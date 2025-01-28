@@ -815,36 +815,36 @@ func (h *ServiceHandler) ServiceUserGet(ctx context.Context, project string, ser
 	return &out.User, nil
 }
 
-// AccessControlIn Service specific access controls for user. Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+// AccessControlIn Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
 type AccessControlIn struct {
 	DragonflyAclCategories *[]string `json:"dragonfly_acl_categories,omitempty"` // Command category rules
 	DragonflyAclCommands   *[]string `json:"dragonfly_acl_commands,omitempty"`   // Rules for individual commands
 	DragonflyAclKeys       *[]string `json:"dragonfly_acl_keys,omitempty"`       // Key access rules
-	M3Group                *string   `json:"m3_group,omitempty"`                 // M3 access group to associate users with
+	M3Group                *string   `json:"m3_group,omitempty"`                 // The M3 tag-value-limited access group to associate the user with. By default, if not set, user sees (and can publish) all metrics. If set non-empty, submitted metrics will include the group value in the avng tag, and the user will see only metrics matching the avng tag.
 	PgAllowReplication     *bool     `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
 	RedisAclCategories     *[]string `json:"redis_acl_categories,omitempty"`     // Command category rules
-	RedisAclChannels       *[]string `json:"redis_acl_channels,omitempty"`       // Permitted pub/sub channel patterns. Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
+	RedisAclChannels       *[]string `json:"redis_acl_channels,omitempty"`       // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
 	RedisAclCommands       *[]string `json:"redis_acl_commands,omitempty"`       // Rules for individual commands
 	RedisAclKeys           *[]string `json:"redis_acl_keys,omitempty"`           // Key access rules
 	ValkeyAclCategories    *[]string `json:"valkey_acl_categories,omitempty"`    // Command category rules
-	ValkeyAclChannels      *[]string `json:"valkey_acl_channels,omitempty"`      // Permitted pub/sub channel patterns. Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
+	ValkeyAclChannels      *[]string `json:"valkey_acl_channels,omitempty"`      // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
 	ValkeyAclCommands      *[]string `json:"valkey_acl_commands,omitempty"`      // Rules for individual commands
 	ValkeyAclKeys          *[]string `json:"valkey_acl_keys,omitempty"`          // Key access rules
 }
 
-// AccessControlOut Service specific access controls for user. Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+// AccessControlOut Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
 type AccessControlOut struct {
 	DragonflyAclCategories []string `json:"dragonfly_acl_categories,omitempty"` // Command category rules
 	DragonflyAclCommands   []string `json:"dragonfly_acl_commands,omitempty"`   // Rules for individual commands
 	DragonflyAclKeys       []string `json:"dragonfly_acl_keys,omitempty"`       // Key access rules
-	M3Group                *string  `json:"m3_group,omitempty"`                 // M3 access group to associate users with
+	M3Group                *string  `json:"m3_group,omitempty"`                 // The M3 tag-value-limited access group to associate the user with. By default, if not set, user sees (and can publish) all metrics. If set non-empty, submitted metrics will include the group value in the avng tag, and the user will see only metrics matching the avng tag.
 	PgAllowReplication     *bool    `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
 	RedisAclCategories     []string `json:"redis_acl_categories,omitempty"`     // Command category rules
-	RedisAclChannels       []string `json:"redis_acl_channels,omitempty"`       // Permitted pub/sub channel patterns. Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
+	RedisAclChannels       []string `json:"redis_acl_channels,omitempty"`       // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
 	RedisAclCommands       []string `json:"redis_acl_commands,omitempty"`       // Rules for individual commands
 	RedisAclKeys           []string `json:"redis_acl_keys,omitempty"`           // Key access rules
 	ValkeyAclCategories    []string `json:"valkey_acl_categories,omitempty"`    // Command category rules
-	ValkeyAclChannels      []string `json:"valkey_acl_channels,omitempty"`      // Permitted pub/sub channel patterns. Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
+	ValkeyAclChannels      []string `json:"valkey_acl_channels,omitempty"`      // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
 	ValkeyAclCommands      []string `json:"valkey_acl_commands,omitempty"`      // Rules for individual commands
 	ValkeyAclKeys          []string `json:"valkey_acl_keys,omitempty"`          // Key access rules
 }
@@ -1630,10 +1630,10 @@ type PitrAdditionalRegionOut struct {
 	Region         string `json:"region"`           // Cloud storage region name
 }
 
-// PitrOut Backup PITR metadata. Point-in-time-recovery metadata for the service. If not set, service type does not support PITR.
+// PitrOut Point-in-time-recovery metadata for the service. If not set, service type does not support PITR.
 type PitrOut struct {
-	AdditionalRegions []PitrAdditionalRegionOut `json:"additional_regions"` // Backup PITR metadata for additional backup regions. Empty array if BTAR is not enabled or BTAR+PITR is not supported.
-	PrimaryRegion     PrimaryRegionOut          `json:"primary_region"`     // Backup PITR metadata primary. Point-in-time-recovery metadata related to the primary backup location of the service.
+	AdditionalRegions []PitrAdditionalRegionOut `json:"additional_regions"` // Empty array if BTAR is not enabled or BTAR+PITR is not supported.
+	PrimaryRegion     PrimaryRegionOut          `json:"primary_region"`     // Point-in-time-recovery metadata related to the primary backup location of the service.
 }
 type PoolModeType string
 
@@ -1647,7 +1647,7 @@ func PoolModeTypeChoices() []string {
 	return []string{"session", "transaction", "statement"}
 }
 
-// PrimaryRegionOut Backup PITR metadata primary. Point-in-time-recovery metadata related to the primary backup location of the service.
+// PrimaryRegionOut Point-in-time-recovery metadata related to the primary backup location of the service.
 type PrimaryRegionOut struct {
 	PitrRangeEnd   string `json:"pitr_range_end"`   // Latest timestamp usable for PITR (ISO 8601) (null means current time)
 	PitrRangeStart string `json:"pitr_range_start"` // Earliest timestamp usable for PITR (ISO 8601) (null means no available backup for PITR)
@@ -1819,7 +1819,7 @@ type ServiceBackupToAnotherRegionReportIn struct {
 // ServiceBackupsGetOut ServiceBackupsGetResponse
 type ServiceBackupsGetOut struct {
 	Backups []BackupOut `json:"backups"`        // List of backups for the service
-	Pitr    *PitrOut    `json:"pitr,omitempty"` // Backup PITR metadata. Point-in-time-recovery metadata for the service. If not set, service type does not support PITR.
+	Pitr    *PitrOut    `json:"pitr,omitempty"` // Point-in-time-recovery metadata for the service. If not set, service type does not support PITR.
 }
 
 // ServiceCancelQueryIn ServiceCancelQueryRequestBody
@@ -1947,11 +1947,11 @@ type ServiceGetOut struct {
 // ServiceIntegrationCreateIn ServiceIntegrationCreateRequestBody
 type ServiceIntegrationCreateIn struct {
 	DestEndpointId   *string         `json:"dest_endpoint_id,omitempty"`   // Integration destination endpoint ID
-	DestProject      *string         `json:"dest_project,omitempty"`       // Destination project name
+	DestProject      *string         `json:"dest_project,omitempty"`       // Defaults to project in the request path
 	DestService      *string         `json:"dest_service,omitempty"`       // Destination service name
 	IntegrationType  IntegrationType `json:"integration_type"`             // Service integration type
 	SourceEndpointId *string         `json:"source_endpoint_id,omitempty"` // Integration source endpoint ID
-	SourceProject    *string         `json:"source_project,omitempty"`     // Source project name
+	SourceProject    *string         `json:"source_project,omitempty"`     // Defaults to project in the request path
 	SourceService    *string         `json:"source_service,omitempty"`     // Source service name
 	UserConfig       *map[string]any `json:"user_config,omitempty"`        // Service type-specific settings
 }
@@ -2045,11 +2045,11 @@ type ServiceIntegrationGetOut struct {
 }
 type ServiceIntegrationIn struct {
 	DestEndpointId   *string         `json:"dest_endpoint_id,omitempty"`   // Integration destination endpoint ID
-	DestProject      *string         `json:"dest_project,omitempty"`       // Destination project name
+	DestProject      *string         `json:"dest_project,omitempty"`       // Defaults to project in the request path
 	DestService      *string         `json:"dest_service,omitempty"`       // Destination service name
 	IntegrationType  IntegrationType `json:"integration_type"`             // Service integration type
 	SourceEndpointId *string         `json:"source_endpoint_id,omitempty"` // Integration source endpoint ID
-	SourceProject    *string         `json:"source_project,omitempty"`     // Source project name
+	SourceProject    *string         `json:"source_project,omitempty"`     // Defaults to project in the request path
 	SourceService    *string         `json:"source_service,omitempty"`     // Source service name
 	UserConfig       *map[string]any `json:"user_config,omitempty"`        // Service type-specific settings
 }
@@ -2180,7 +2180,7 @@ type ServicePlanOut struct {
 type ServiceQueryActivityIn struct {
 	Limit   *int    `json:"limit,omitempty"`    // Limit for number of results
 	Offset  *int    `json:"offset,omitempty"`   // Offset for retrieved results based on sort order
-	OrderBy *string `json:"order_by,omitempty"` // Order in which to sort retrieved results
+	OrderBy *string `json:"order_by,omitempty"` // Sort order can be either asc or desc and multiple comma separated columns with their own order can be specified: :asc,:desc.
 }
 type ServiceStateType string
 
@@ -2284,8 +2284,8 @@ type ServiceUpdateOut struct {
 
 // ServiceUserCreateIn ServiceUserCreateRequestBody
 type ServiceUserCreateIn struct {
-	AccessControl  *AccessControlIn   `json:"access_control,omitempty"` // Service specific access controls for user. Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
-	Authentication AuthenticationType `json:"authentication,omitempty"` // Authentication details
+	AccessControl  *AccessControlIn   `json:"access_control,omitempty"` // Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	Authentication AuthenticationType `json:"authentication,omitempty"` // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
 	Username       string             `json:"username"`                 // Service username
 }
 
@@ -2293,10 +2293,10 @@ type ServiceUserCreateIn struct {
 type ServiceUserCreateOut struct {
 	AccessCert                    *string            `json:"access_cert,omitempty"`                        // Access certificate for TLS client authentication
 	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`   // Validity end time (ISO8601) for the current access certificate
-	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`                     // Service specific access controls for user. Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`                     // Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
 	AccessKey                     *string            `json:"access_key,omitempty"`                         // Access key for TLS client authentication
-	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Authentication details
-	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // Validity end time (ISO8601) for the expiring access certificate
+	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
+	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // When the existing certificate is nearing expiration and a new certificate has been generated, the validity end time (ISO8601) for the expiring certificate
 	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
 	Type                          string             `json:"type"`                                         // Account type
 	Username                      string             `json:"username"`                                     // Account username
@@ -2304,8 +2304,8 @@ type ServiceUserCreateOut struct {
 
 // ServiceUserCredentialsModifyIn ServiceUserCredentialsModifyRequestBody
 type ServiceUserCredentialsModifyIn struct {
-	AccessControl  *AccessControlIn                          `json:"access_control,omitempty"` // Service specific access controls for user. Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
-	Authentication AuthenticationType                        `json:"authentication,omitempty"` // Authentication details
+	AccessControl  *AccessControlIn                          `json:"access_control,omitempty"` // Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	Authentication AuthenticationType                        `json:"authentication,omitempty"` // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
 	NewPassword    *string                                   `json:"new_password,omitempty"`   // New password
 	Operation      ServiceUserCredentialsModifyOperationType `json:"operation"`                // Operation type
 }
@@ -2409,10 +2409,10 @@ type ServiceUserCredentialsResetOut struct {
 type ServiceUserGetOut struct {
 	AccessCert                    *string            `json:"access_cert,omitempty"`                        // Access certificate for TLS client authentication
 	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`   // Validity end time (ISO8601) for the current access certificate
-	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`                     // Service specific access controls for user. Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`                     // Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
 	AccessKey                     *string            `json:"access_key,omitempty"`                         // Access key for TLS client authentication
-	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Authentication details
-	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // Validity end time (ISO8601) for the expiring access certificate
+	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
+	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // When the existing certificate is nearing expiration and a new certificate has been generated, the validity end time (ISO8601) for the expiring certificate
 	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
 	Type                          string             `json:"type"`                                         // Account type
 	Username                      string             `json:"username"`                                     // Account username
@@ -2510,11 +2510,11 @@ type ThanosOut struct {
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
 type TopicOut struct {
-	CleanupPolicy     string         `json:"cleanup_policy"`      // cleanup.policy
-	MinInsyncReplicas int            `json:"min_insync_replicas"` // min.insync.replicas
+	CleanupPolicy     string         `json:"cleanup_policy"`      // The retention policy to use on old segments. Possible values include 'delete', 'compact', or a comma-separated list of them. The default policy ('delete') will discard old segments when their retention time or size limit has been reached. The 'compact' setting will enable log compaction on the topic.
+	MinInsyncReplicas int            `json:"min_insync_replicas"` // When a producer sets acks to 'all' (or '-1'), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend). When used together, min.insync.replicas and acks allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set min.insync.replicas to 2, and produce with acks of 'all'. This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
 	Partitions        int            `json:"partitions"`          // Number of partitions
 	Replication       int            `json:"replication"`         // Number of replicas
-	RetentionBytes    int            `json:"retention_bytes"`     // retention.bytes
+	RetentionBytes    int            `json:"retention_bytes"`     // This configuration controls the maximum size a partition (which consists of log segments) can grow to before we will discard old log segments to free up space if we are using the 'delete' retention policy. By default there is no size limit only a time limit. Since this limit is enforced at the partition level, multiply it by the number of partitions to compute the topic retention in bytes.
 	RetentionHours    int            `json:"retention_hours"`     // Retention period (hours)
 	State             TopicStateType `json:"state,omitempty"`     // Topic state
 	TopicName         string         `json:"topic_name"`          // Topic name
@@ -2568,10 +2568,10 @@ func UsageTypeChoices() []string {
 type UserOut struct {
 	AccessCert                    *string            `json:"access_cert,omitempty"`                        // Access certificate for TLS client authentication
 	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`   // Validity end time (ISO8601) for the current access certificate
-	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`                     // Service specific access controls for user. Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`                     // Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
 	AccessKey                     *string            `json:"access_key,omitempty"`                         // Access key for TLS client authentication
-	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Authentication details
-	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // Validity end time (ISO8601) for the expiring access certificate
+	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
+	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // When the existing certificate is nearing expiration and a new certificate has been generated, the validity end time (ISO8601) for the expiring certificate
 	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
 	Type                          string             `json:"type"`                                         // Account type
 	Username                      string             `json:"username"`                                     // Account username

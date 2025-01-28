@@ -111,23 +111,23 @@ func OffsetSyncsTopicLocationTypeChoices() []string {
 }
 
 type ReplicationFlowOut struct {
-	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // Topic configuration properties that should not be replicated
-	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Emit backward heartbeats enabled
-	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Emit heartbeats enabled
+	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // A comma separated list of topic configuration properties and/or regexes that should not be replicated. If omitted, MirrorMaker will use default list of exclusions. For stability reasons, we always include the unclean.leader.election.enable field in the excluded parameters. If you have specific requirements for this configuration, please reach out to our support team for assistance.
+	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Whether to emit heartbeats to the direction opposite to the flow, i.e. to the source cluster
+	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
-	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Enable exactly-once message delivery
-	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced
-	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // Offset syncs topic location
-	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor
-	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`            // Replication policy class
-	ReplicationProgress             *float64                     `json:"replication_progress,omitempty"`                // Replication progress
-	SourceCluster                   string                       `json:"source_cluster"`                                // Source cluster alias
-	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Sync consumer group offsets
-	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
-	TargetCluster                   string                       `json:"target_cluster"`                                // Target cluster alias
-	Topics                          []string                     `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
-	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // List of topics and/or regular expressions to not replicate. Deprecated property, use 'topics_exclude instead'. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
-	TopicsExclude                   []string                     `json:"topics_exclude,omitempty"`                      // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Whether to enable exactly-once message delivery. We recommend you set this to enabled for new replications.
+	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced (default: 100)
+	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // The location of the offset-syncs topic
+	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor used when creating the remote topics. If the replication factor surpasses the number of nodes in the target cluster, topic creation will fail.
+	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`            // Class which defines the remote topic naming convention
+	ReplicationProgress             *float64                     `json:"replication_progress,omitempty"`                // The overall progress of replication across topics
+	SourceCluster                   string                       `json:"source_cluster"`                                // The alias of the source cluster to use in this replication flow. Can contain the following symbols: ASCII alphanumerics, '.', '_', and '-'.
+	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Whether to periodically write the translated offsets of replicated consumer groups (in the source cluster) to __consumer_offsets topic in target cluster, as long as no active consumers in that group are connected to the target cluster
+	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency at which consumer group offsets are synced (default: 60, every minute)
+	TargetCluster                   string                       `json:"target_cluster"`                                // The alias of the target cluster to use in this replication flow. Can contain the following symbols: ASCII alphanumerics, '.', '_', and '-'.
+	Topics                          []string                     `json:"topics,omitempty"`                              // Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
+	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	TopicsExclude                   []string                     `json:"topics_exclude,omitempty"`                      // Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
 }
 type ReplicationPolicyClassType string
 
@@ -142,82 +142,82 @@ func ReplicationPolicyClassTypeChoices() []string {
 
 // ServiceKafkaMirrorMakerCreateReplicationFlowIn ServiceKafkaMirrorMakerCreateReplicationFlowRequestBody
 type ServiceKafkaMirrorMakerCreateReplicationFlowIn struct {
-	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // Topic configuration properties that should not be replicated
-	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Emit backward heartbeats enabled
-	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Emit heartbeats enabled
+	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // A comma separated list of topic configuration properties and/or regexes that should not be replicated. If omitted, MirrorMaker will use default list of exclusions. For stability reasons, we always include the unclean.leader.election.enable field in the excluded parameters. If you have specific requirements for this configuration, please reach out to our support team for assistance.
+	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Whether to emit heartbeats to the direction opposite to the flow, i.e. to the source cluster
+	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
-	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Enable exactly-once message delivery
-	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced
-	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // Offset syncs topic location
-	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor
-	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`            // Replication policy class
-	SourceCluster                   string                       `json:"source_cluster"`                                // Source cluster alias
-	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Sync consumer group offsets
-	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
-	TargetCluster                   string                       `json:"target_cluster"`                                // Target cluster alias
-	Topics                          *[]string                    `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
-	TopicsBlacklist                 *[]string                    `json:"topics.blacklist,omitempty"`                    // List of topics and/or regular expressions to not replicate. Deprecated property, use 'topics_exclude instead'. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
-	TopicsExclude                   *[]string                    `json:"topics_exclude,omitempty"`                      // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Whether to enable exactly-once message delivery. We recommend you set this to enabled for new replications.
+	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced (default: 100)
+	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // The location of the offset-syncs topic
+	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor used when creating the remote topics. If the replication factor surpasses the number of nodes in the target cluster, topic creation will fail.
+	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`            // Class which defines the remote topic naming convention
+	SourceCluster                   string                       `json:"source_cluster"`                                // The alias of the source cluster to use in this replication flow. Can contain the following symbols: ASCII alphanumerics, '.', '_', and '-'.
+	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Whether to periodically write the translated offsets of replicated consumer groups (in the source cluster) to __consumer_offsets topic in target cluster, as long as no active consumers in that group are connected to the target cluster
+	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency at which consumer group offsets are synced (default: 60, every minute)
+	TargetCluster                   string                       `json:"target_cluster"`                                // The alias of the target cluster to use in this replication flow. Can contain the following symbols: ASCII alphanumerics, '.', '_', and '-'.
+	Topics                          *[]string                    `json:"topics,omitempty"`                              // Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
+	TopicsBlacklist                 *[]string                    `json:"topics.blacklist,omitempty"`                    // Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	TopicsExclude                   *[]string                    `json:"topics_exclude,omitempty"`                      // Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
 }
 
 // ServiceKafkaMirrorMakerGetReplicationFlowOut Replication flow
 type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
-	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // Topic configuration properties that should not be replicated
-	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Emit backward heartbeats enabled
-	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Emit heartbeats enabled
+	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // A comma separated list of topic configuration properties and/or regexes that should not be replicated. If omitted, MirrorMaker will use default list of exclusions. For stability reasons, we always include the unclean.leader.election.enable field in the excluded parameters. If you have specific requirements for this configuration, please reach out to our support team for assistance.
+	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Whether to emit heartbeats to the direction opposite to the flow, i.e. to the source cluster
+	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
-	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Enable exactly-once message delivery
-	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced
-	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // Offset syncs topic location
-	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor
-	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`            // Replication policy class
-	ReplicationProgress             *float64                     `json:"replication_progress,omitempty"`                // Replication progress
-	SourceCluster                   string                       `json:"source_cluster"`                                // Source cluster alias
-	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Sync consumer group offsets
-	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
-	TargetCluster                   string                       `json:"target_cluster"`                                // Target cluster alias
-	Topics                          []string                     `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
-	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // List of topics and/or regular expressions to not replicate. Deprecated property, use 'topics_exclude instead'. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
-	TopicsExclude                   []string                     `json:"topics_exclude,omitempty"`                      // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Whether to enable exactly-once message delivery. We recommend you set this to enabled for new replications.
+	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced (default: 100)
+	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // The location of the offset-syncs topic
+	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor used when creating the remote topics. If the replication factor surpasses the number of nodes in the target cluster, topic creation will fail.
+	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`            // Class which defines the remote topic naming convention
+	ReplicationProgress             *float64                     `json:"replication_progress,omitempty"`                // The overall progress of replication across topics
+	SourceCluster                   string                       `json:"source_cluster"`                                // The alias of the source cluster to use in this replication flow. Can contain the following symbols: ASCII alphanumerics, '.', '_', and '-'.
+	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Whether to periodically write the translated offsets of replicated consumer groups (in the source cluster) to __consumer_offsets topic in target cluster, as long as no active consumers in that group are connected to the target cluster
+	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency at which consumer group offsets are synced (default: 60, every minute)
+	TargetCluster                   string                       `json:"target_cluster"`                                // The alias of the target cluster to use in this replication flow. Can contain the following symbols: ASCII alphanumerics, '.', '_', and '-'.
+	Topics                          []string                     `json:"topics,omitempty"`                              // Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
+	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	TopicsExclude                   []string                     `json:"topics_exclude,omitempty"`                      // Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
 }
 
 // ServiceKafkaMirrorMakerPatchReplicationFlowIn ServiceKafkaMirrorMakerPatchReplicationFlowRequestBody
 type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
-	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // Topic configuration properties that should not be replicated
-	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Emit backward heartbeats enabled
-	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Emit heartbeats enabled
+	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // A comma separated list of topic configuration properties and/or regexes that should not be replicated. If omitted, MirrorMaker will use default list of exclusions. For stability reasons, we always include the unclean.leader.election.enable field in the excluded parameters. If you have specific requirements for this configuration, please reach out to our support team for assistance.
+	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Whether to emit heartbeats to the direction opposite to the flow, i.e. to the source cluster
+	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         *bool                        `json:"enabled,omitempty"`                             // Is replication flow enabled
-	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Enable exactly-once message delivery
-	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced
-	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // Offset syncs topic location
-	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor
-	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`            // Replication policy class
-	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Sync consumer group offsets
-	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
-	Topics                          *[]string                    `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
-	TopicsBlacklist                 *[]string                    `json:"topics.blacklist,omitempty"`                    // List of topics and/or regular expressions to not replicate. Deprecated property, use 'topics_exclude instead'. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
-	TopicsExclude                   *[]string                    `json:"topics_exclude,omitempty"`                      // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Whether to enable exactly-once message delivery. We recommend you set this to enabled for new replications.
+	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced (default: 100)
+	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // The location of the offset-syncs topic
+	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor used when creating the remote topics. If the replication factor surpasses the number of nodes in the target cluster, topic creation will fail.
+	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`            // Class which defines the remote topic naming convention
+	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Whether to periodically write the translated offsets of replicated consumer groups (in the source cluster) to __consumer_offsets topic in target cluster, as long as no active consumers in that group are connected to the target cluster
+	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency at which consumer group offsets are synced (default: 60, every minute)
+	Topics                          *[]string                    `json:"topics,omitempty"`                              // Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
+	TopicsBlacklist                 *[]string                    `json:"topics.blacklist,omitempty"`                    // Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	TopicsExclude                   *[]string                    `json:"topics_exclude,omitempty"`                      // Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
 }
 
 // ServiceKafkaMirrorMakerPatchReplicationFlowOut Replication flow
 type ServiceKafkaMirrorMakerPatchReplicationFlowOut struct {
-	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // Topic configuration properties that should not be replicated
-	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Emit backward heartbeats enabled
-	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Emit heartbeats enabled
+	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // A comma separated list of topic configuration properties and/or regexes that should not be replicated. If omitted, MirrorMaker will use default list of exclusions. For stability reasons, we always include the unclean.leader.election.enable field in the excluded parameters. If you have specific requirements for this configuration, please reach out to our support team for assistance.
+	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Whether to emit heartbeats to the direction opposite to the flow, i.e. to the source cluster
+	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
-	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Enable exactly-once message delivery
-	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced
-	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // Offset syncs topic location
-	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor
-	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`            // Replication policy class
-	ReplicationProgress             *float64                     `json:"replication_progress,omitempty"`                // Replication progress
-	SourceCluster                   string                       `json:"source_cluster"`                                // Source cluster alias
-	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Sync consumer group offsets
-	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency of consumer group offset sync
-	TargetCluster                   string                       `json:"target_cluster"`                                // Target cluster alias
-	Topics                          []string                     `json:"topics,omitempty"`                              // List of topics and/or regular expressions to replicate. Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
-	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // List of topics and/or regular expressions to not replicate. Deprecated property, use 'topics_exclude instead'. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
-	TopicsExclude                   []string                     `json:"topics_exclude,omitempty"`                      // List of topics and/or regular expressions to not replicate. Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Whether to enable exactly-once message delivery. We recommend you set this to enabled for new replications.
+	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced (default: 100)
+	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // The location of the offset-syncs topic
+	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor used when creating the remote topics. If the replication factor surpasses the number of nodes in the target cluster, topic creation will fail.
+	ReplicationPolicyClass          ReplicationPolicyClassType   `json:"replication_policy_class,omitempty"`            // Class which defines the remote topic naming convention
+	ReplicationProgress             *float64                     `json:"replication_progress,omitempty"`                // The overall progress of replication across topics
+	SourceCluster                   string                       `json:"source_cluster"`                                // The alias of the source cluster to use in this replication flow. Can contain the following symbols: ASCII alphanumerics, '.', '_', and '-'.
+	SyncGroupOffsetsEnabled         *bool                        `json:"sync_group_offsets_enabled,omitempty"`          // Whether to periodically write the translated offsets of replicated consumer groups (in the source cluster) to __consumer_offsets topic in target cluster, as long as no active consumers in that group are connected to the target cluster
+	SyncGroupOffsetsIntervalSeconds *int                         `json:"sync_group_offsets_interval_seconds,omitempty"` // Frequency at which consumer group offsets are synced (default: 60, every minute)
+	TargetCluster                   string                       `json:"target_cluster"`                                // The alias of the target cluster to use in this replication flow. Can contain the following symbols: ASCII alphanumerics, '.', '_', and '-'.
+	Topics                          []string                     `json:"topics,omitempty"`                              // Topic names and regular expressions that match topic names that should be replicated. MirrorMaker will replicate these topics if they are not matched by "topics.exclude". Currently defaults to [".*"].
+	TopicsBlacklist                 []string                     `json:"topics.blacklist,omitempty"`                    // Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
+	TopicsExclude                   []string                     `json:"topics_exclude,omitempty"`                      // Topic names and regular expressions that match topic names that should not be replicated. MirrorMaker will not replicate these topics even if they are matched by "topics". If not set, MM2 uses the default exclusion.
 }
 
 // serviceKafkaMirrorMakerGetReplicationFlowOut ServiceKafkaMirrorMakerGetReplicationFlowResponse
@@ -227,7 +227,7 @@ type serviceKafkaMirrorMakerGetReplicationFlowOut struct {
 
 // serviceKafkaMirrorMakerGetReplicationFlowsOut ServiceKafkaMirrorMakerGetReplicationFlowsResponse
 type serviceKafkaMirrorMakerGetReplicationFlowsOut struct {
-	ReplicationFlows []ReplicationFlowOut `json:"replication_flows"` // Replication flows. Describes data replication flows between Kafka clusters
+	ReplicationFlows []ReplicationFlowOut `json:"replication_flows"` // Describes data replication flows between Kafka clusters
 }
 
 // serviceKafkaMirrorMakerPatchReplicationFlowOut ServiceKafkaMirrorMakerPatchReplicationFlowResponse

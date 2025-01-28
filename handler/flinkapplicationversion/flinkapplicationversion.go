@@ -119,39 +119,39 @@ type PositionOut struct {
 type ServiceFlinkCreateApplicationVersionIn struct {
 	Sinks     []SinkIn   `json:"sinks"`
 	Sources   []SourceIn `json:"sources"`
-	Statement string     `json:"statement"` // Job SQL statement
+	Statement string     `json:"statement"` // The INSERT INTO SQL statement that will be performed as a job
 }
 
 // ServiceFlinkCreateApplicationVersionOut ServiceFlinkCreateApplicationVersionResponse
 type ServiceFlinkCreateApplicationVersionOut struct {
-	CreatedAt time.Time   `json:"created_at"` // Created at
-	CreatedBy string      `json:"created_by"` // Created by
+	CreatedAt time.Time   `json:"created_at"` // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy string      `json:"created_by"` // The creator of this entity
 	Id        string      `json:"id"`         // ApplicationVersion ID
 	Sinks     []SinkOut   `json:"sinks"`
 	Sources   []SourceOut `json:"sources"`
-	Statement string      `json:"statement"` // Job SQL statement
+	Statement string      `json:"statement"` // The INSERT INTO SQL statement that will be performed as a job
 	Version   int         `json:"version"`   // Version number
 }
 
 // ServiceFlinkDeleteApplicationVersionOut ServiceFlinkDeleteApplicationVersionResponse
 type ServiceFlinkDeleteApplicationVersionOut struct {
-	CreatedAt time.Time   `json:"created_at"` // Created at
-	CreatedBy string      `json:"created_by"` // Created by
+	CreatedAt time.Time   `json:"created_at"` // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy string      `json:"created_by"` // The creator of this entity
 	Id        string      `json:"id"`         // ApplicationVersion ID
 	Sinks     []SinkOut   `json:"sinks"`
 	Sources   []SourceOut `json:"sources"`
-	Statement string      `json:"statement"` // Job SQL statement
+	Statement string      `json:"statement"` // The INSERT INTO SQL statement that will be performed as a job
 	Version   int         `json:"version"`   // Version number
 }
 
 // ServiceFlinkGetApplicationVersionOut ServiceFlinkGetApplicationVersionResponse
 type ServiceFlinkGetApplicationVersionOut struct {
-	CreatedAt time.Time   `json:"created_at"` // Created at
-	CreatedBy string      `json:"created_by"` // Created by
+	CreatedAt time.Time   `json:"created_at"` // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy string      `json:"created_by"` // The creator of this entity
 	Id        string      `json:"id"`         // ApplicationVersion ID
 	Sinks     []SinkOut   `json:"sinks"`
 	Sources   []SourceOut `json:"sources"`
-	Statement string      `json:"statement"` // Job SQL statement
+	Statement string      `json:"statement"` // The INSERT INTO SQL statement that will be performed as a job
 	Version   int         `json:"version"`   // Version number
 }
 
@@ -159,14 +159,14 @@ type ServiceFlinkGetApplicationVersionOut struct {
 type ServiceFlinkValidateApplicationVersionIn struct {
 	Sinks     []SinkIn   `json:"sinks"`
 	Sources   []SourceIn `json:"sources"`
-	Statement *string    `json:"statement,omitempty"` // Job SQL statement
+	Statement *string    `json:"statement,omitempty"` // The INSERT INTO SQL statement that will be performed as a job
 }
 
 // ServiceFlinkValidateApplicationVersionOut ServiceFlinkValidateApplicationVersionResponse
 type ServiceFlinkValidateApplicationVersionOut struct {
 	Sinks          []ServiceFlinkValidateApplicationVersionSinkOut   `json:"sinks"`                     // Sinks and sink validation errors
 	Sources        []ServiceFlinkValidateApplicationVersionSourceOut `json:"sources"`                   // Sources and source validation errors
-	Statement      *string                                           `json:"statement,omitempty"`       // Job SQL statement
+	Statement      *string                                           `json:"statement,omitempty"`       // The INSERT INTO SQL statement that will be performed as a job
 	StatementError *StatementErrorOut                                `json:"statement_error,omitempty"` // Job validation error
 }
 type ServiceFlinkValidateApplicationVersionSinkOut struct {

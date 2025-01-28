@@ -81,23 +81,23 @@ func (h *AlloyDBOmniHandler) AlloyDbOmniGoogleCloudPrivateKeySet(ctx context.Con
 
 // AlloyDbOmniGoogleCloudPrivateKeyIdentifyOut AlloyDbOmniGoogleCloudPrivateKeyIdentifyResponse
 type AlloyDbOmniGoogleCloudPrivateKeyIdentifyOut struct {
-	ClientEmail  string `json:"client_email"`   // Email address of Google service account key
-	PrivateKeyId string `json:"private_key_id"` // Google service account key ID
+	ClientEmail  string `json:"client_email"`   // Email address associated with a Google service account key registered for your Aiven for AlloyDB Omni service
+	PrivateKeyId string `json:"private_key_id"` // ID of a Google service account key registered for your Aiven for AlloyDB Omni service
 }
 
 // AlloyDbOmniGoogleCloudPrivateKeyRemoveOut AlloyDbOmniGoogleCloudPrivateKeyRemoveResponse
 type AlloyDbOmniGoogleCloudPrivateKeyRemoveOut struct {
-	ClientEmail  string `json:"client_email"`   // Email address of Google service account key
-	PrivateKeyId string `json:"private_key_id"` // Google service account key ID
+	ClientEmail  string `json:"client_email"`   // Email address associated with a Google service account key registered for your Aiven for AlloyDB Omni service
+	PrivateKeyId string `json:"private_key_id"` // ID of a Google service account key registered for your Aiven for AlloyDB Omni service
 }
 
 // AlloyDbOmniGoogleCloudPrivateKeySetIn AlloyDbOmniGoogleCloudPrivateKeySetRequestBody
 type AlloyDbOmniGoogleCloudPrivateKeySetIn struct {
-	PrivateKey string `json:"private_key"` // Google Service Account Credentials
+	PrivateKey string `json:"private_key"` // This is a JSON object with the fields documented in https://cloud.google.com/iam/docs/creating-managing-service-account-keys .
 }
 
 // AlloyDbOmniGoogleCloudPrivateKeySetOut AlloyDbOmniGoogleCloudPrivateKeySetResponse
 type AlloyDbOmniGoogleCloudPrivateKeySetOut struct {
-	ClientEmail  string `json:"client_email"`   // Email address of Google service account key
-	PrivateKeyId string `json:"private_key_id"` // Google service account key ID
+	ClientEmail  string `json:"client_email"`   // Email address associated with a Google service account key registered for your Aiven for AlloyDB Omni service
+	PrivateKeyId string `json:"private_key_id"` // ID of a Google service account key registered for your Aiven for AlloyDB Omni service
 }

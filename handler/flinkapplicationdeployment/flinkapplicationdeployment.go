@@ -135,13 +135,13 @@ func (h *FlinkApplicationDeploymentHandler) ServiceFlinkStopApplicationDeploymen
 }
 
 type DeploymentOut struct {
-	CreatedAt         time.Time            `json:"created_at"`                   // Created at
-	CreatedBy         string               `json:"created_by"`                   // Created by
-	ErrorMsg          *string              `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time            `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string               `json:"created_by"`                   // The creator of this entity
+	ErrorMsg          *string              `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string               `json:"id"`                           // Deployment ID
 	JobId             *string              `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string              `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                  `json:"parallelism"`                  // Flink Job parallelism
+	Parallelism       int                  `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
 	RestartEnabled    bool                 `json:"restart_enabled"`              // Specifies whether a Flink Job is restarted in case it fails
 	StartingSavepoint *string              `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            DeploymentStatusType `json:"status"`                       // Deployment status
@@ -201,13 +201,13 @@ func ServiceFlinkApplicationDeploymentStatusTypeChoices() []string {
 
 // ServiceFlinkCancelApplicationDeploymentOut ServiceFlinkCancelApplicationDeploymentResponse
 type ServiceFlinkCancelApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                   `json:"created_at"`                   // Created at
-	CreatedBy         string                                      `json:"created_by"`                   // Created by
-	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time                                   `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string                                      `json:"created_by"`                   // The creator of this entity
+	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string                                      `json:"id"`                           // Deployment ID
 	JobId             *string                                     `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                                         `json:"parallelism"`                  // Flink Job parallelism
+	Parallelism       int                                         `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
 	RestartEnabled    bool                                        `json:"restart_enabled"`              // Specifies whether a Flink Job is restarted in case it fails
 	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`                       // Deployment status
@@ -216,7 +216,7 @@ type ServiceFlinkCancelApplicationDeploymentOut struct {
 
 // ServiceFlinkCreateApplicationDeploymentIn ServiceFlinkCreateApplicationDeploymentRequestBody
 type ServiceFlinkCreateApplicationDeploymentIn struct {
-	Parallelism       *int    `json:"parallelism,omitempty"`        // Flink Job parallelism
+	Parallelism       *int    `json:"parallelism,omitempty"`        // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
 	RestartEnabled    *bool   `json:"restart_enabled,omitempty"`    // Specifies whether a Flink Job is restarted in case it fails
 	StartingSavepoint *string `json:"starting_savepoint,omitempty"` // Job savepoint
 	VersionId         string  `json:"version_id"`                   // ApplicationVersion ID
@@ -224,13 +224,13 @@ type ServiceFlinkCreateApplicationDeploymentIn struct {
 
 // ServiceFlinkCreateApplicationDeploymentOut ServiceFlinkCreateApplicationDeploymentResponse
 type ServiceFlinkCreateApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                   `json:"created_at"`                   // Created at
-	CreatedBy         string                                      `json:"created_by"`                   // Created by
-	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time                                   `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string                                      `json:"created_by"`                   // The creator of this entity
+	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string                                      `json:"id"`                           // Deployment ID
 	JobId             *string                                     `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                                         `json:"parallelism"`                  // Flink Job parallelism
+	Parallelism       int                                         `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
 	RestartEnabled    bool                                        `json:"restart_enabled"`              // Specifies whether a Flink Job is restarted in case it fails
 	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`                       // Deployment status
@@ -239,13 +239,13 @@ type ServiceFlinkCreateApplicationDeploymentOut struct {
 
 // ServiceFlinkDeleteApplicationDeploymentOut ServiceFlinkDeleteApplicationDeploymentResponse
 type ServiceFlinkDeleteApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                   `json:"created_at"`                   // Created at
-	CreatedBy         string                                      `json:"created_by"`                   // Created by
-	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time                                   `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string                                      `json:"created_by"`                   // The creator of this entity
+	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string                                      `json:"id"`                           // Deployment ID
 	JobId             *string                                     `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                                         `json:"parallelism"`                  // Flink Job parallelism
+	Parallelism       int                                         `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
 	RestartEnabled    bool                                        `json:"restart_enabled"`              // Specifies whether a Flink Job is restarted in case it fails
 	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`                       // Deployment status
@@ -254,13 +254,13 @@ type ServiceFlinkDeleteApplicationDeploymentOut struct {
 
 // ServiceFlinkGetApplicationDeploymentOut ServiceFlinkGetApplicationDeploymentResponse
 type ServiceFlinkGetApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                   `json:"created_at"`                   // Created at
-	CreatedBy         string                                      `json:"created_by"`                   // Created by
-	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time                                   `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string                                      `json:"created_by"`                   // The creator of this entity
+	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string                                      `json:"id"`                           // Deployment ID
 	JobId             *string                                     `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                                         `json:"parallelism"`                  // Flink Job parallelism
+	Parallelism       int                                         `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
 	RestartEnabled    bool                                        `json:"restart_enabled"`              // Specifies whether a Flink Job is restarted in case it fails
 	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`                       // Deployment status
@@ -269,13 +269,13 @@ type ServiceFlinkGetApplicationDeploymentOut struct {
 
 // ServiceFlinkStopApplicationDeploymentOut ServiceFlinkStopApplicationDeploymentResponse
 type ServiceFlinkStopApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                   `json:"created_at"`                   // Created at
-	CreatedBy         string                                      `json:"created_by"`                   // Created by
-	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time                                   `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string                                      `json:"created_by"`                   // The creator of this entity
+	ErrorMsg          *string                                     `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string                                      `json:"id"`                           // Deployment ID
 	JobId             *string                                     `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string                                     `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                                         `json:"parallelism"`                  // Flink Job parallelism
+	Parallelism       int                                         `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
 	RestartEnabled    bool                                        `json:"restart_enabled"`              // Specifies whether a Flink Job is restarted in case it fails
 	StartingSavepoint *string                                     `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            ServiceFlinkApplicationDeploymentStatusType `json:"status"`                       // Deployment status

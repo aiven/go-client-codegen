@@ -113,22 +113,22 @@ type AccountAuthenticationMethodCreateIn struct {
 	AuthTokenExtendWhenUsed          *bool                      `json:"auth_token_extend_when_used,omitempty"`          // Extend authentication token validity when used
 	AuthTokenMaxAgeSeconds           *int                       `json:"auth_token_max_age_seconds,omitempty"`           // Auth Token Max Age Seconds
 	AuthenticationMethodName         string                     `json:"authentication_method_name"`                     // Authentication Method Name
-	AuthenticationMethodType         AuthenticationMethodType   `json:"authentication_method_type"`                     // Authentication method type
+	AuthenticationMethodType         AuthenticationMethodType   `json:"authentication_method_type"`                     // An enumeration.
 	AutoJoinTeamId                   *string                    `json:"auto_join_team_id,omitempty"`                    // Automatically add users to a team, when user signs up using this authentication method
 	AutoJoinUserGroupId              *string                    `json:"auto_join_user_group_id,omitempty"`              // Automatically add users to a group, when user signs up using this authentication method
 	LinkedDomains                    *[]LinkedDomainIn          `json:"linked_domains,omitempty"`                       // Linked Domains
 	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
 	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`   // Set to 'true' to enable AuthnRequestsSigned
 	SamlCertificate                  *string                    `json:"saml_certificate,omitempty"`                     // Identity provider's certificate
-	SamlDigestAlgorithm              SamlDigestAlgorithmType    `json:"saml_digest_algorithm,omitempty"`                // Digest algorithm. This is an advanced option that typically does not need to be set.
+	SamlDigestAlgorithm              SamlDigestAlgorithmType    `json:"saml_digest_algorithm,omitempty"`                // An enumeration.
 	SamlEntityId                     *string                    `json:"saml_entity_id,omitempty"`                       // Saml Entity ID
 	SamlFieldMapping                 *SamlFieldMappingIn        `json:"saml_field_mapping,omitempty"`                   // SAMLFieldMapping
 	SamlIdpLoginAllowed              *bool                      `json:"saml_idp_login_allowed,omitempty"`               // Set to 'true' to enable IdP initiated login
 	SamlIdpUrl                       *string                    `json:"saml_idp_url,omitempty"`                         // Saml Idp Url
 	SamlJoinGroups                   *bool                      `json:"saml_join_groups,omitempty"`                     // SAML join groups enabled
 	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"` // Set to 'false' to disable RequestedAuthnContext
-	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`             // SAMLSignatureAlgorithm
-	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`                         // SAMLVariant
+	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`             // An enumeration.
+	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`                         // An enumeration.
 	ScimEnabled                      *bool                      `json:"scim_enabled,omitempty"`                         // SCIM enabled
 }
 
@@ -140,7 +140,7 @@ type AccountAuthenticationMethodCreateOut struct {
 	AuthenticationMethodEnabled      bool                          `json:"authentication_method_enabled"`                  // If true, authentication method can be used to access account/projects in account. If false, authentication method can still be used to sign in
 	AuthenticationMethodId           string                        `json:"authentication_method_id"`                       // Authentication Method ID
 	AuthenticationMethodName         *string                       `json:"authentication_method_name,omitempty"`           // Authentication Method Name
-	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`                     // Authentication method type
+	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`                     // An enumeration.
 	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`                              // Automatically add users to a team, when user signs up using this authentication method
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`                        // Automatically add users to a group, when user signs up using this authentication method
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
@@ -149,13 +149,13 @@ type AccountAuthenticationMethodCreateOut struct {
 	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`                         // Saml Acs Url
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
 	SamlAuthnRequestsSignedEnabled   *bool                         `json:"saml_authn_requests_signed_enabled,omitempty"`   // Set to 'true' to enable AuthnRequestsSigned
-	SamlCert                         SamlCertType                  `json:"saml_cert,omitempty"`                            // SAMLVariant
+	SamlCert                         SamlCertType                  `json:"saml_cert,omitempty"`                            // An enumeration.
 	SamlCertificate                  *string                       `json:"saml_certificate,omitempty"`                     // Identity provider's certificate
 	SamlCertificateIssuer            *string                       `json:"saml_certificate_issuer,omitempty"`              // Saml Certificate Issuer
 	SamlCertificateNotValidAfter     *string                       `json:"saml_certificate_not_valid_after,omitempty"`     // Saml Certificate Not Valid After
 	SamlCertificateNotValidBefore    *string                       `json:"saml_certificate_not_valid_before,omitempty"`    // Saml Certificate Not Valid Before
 	SamlCertificateSubject           *string                       `json:"saml_certificate_subject,omitempty"`             // Saml Certificate Subject
-	SamlDigestAlgorithm              SamlDigestAlgorithmType       `json:"saml_digest_algorithm,omitempty"`                // Digest algorithm. This is an advanced option that typically does not need to be set.
+	SamlDigestAlgorithm              SamlDigestAlgorithmType       `json:"saml_digest_algorithm,omitempty"`                // An enumeration.
 	SamlEntityId                     *string                       `json:"saml_entity_id,omitempty"`                       // Saml Entity ID
 	SamlFieldMapping                 *SamlFieldMappingOut          `json:"saml_field_mapping,omitempty"`                   // SAMLFieldMapping
 	SamlIdpLoginAllowed              *bool                         `json:"saml_idp_login_allowed,omitempty"`               // Set to 'true' to enable IdP initiated login
@@ -163,12 +163,12 @@ type AccountAuthenticationMethodCreateOut struct {
 	SamlJoinGroups                   *bool                         `json:"saml_join_groups,omitempty"`                     // SAML join groups enabled
 	SamlMetadataUrl                  *string                       `json:"saml_metadata_url,omitempty"`                    // Saml Metadata Url
 	SamlRequestedAuthnContextEnabled *bool                         `json:"saml_requested_authn_context_enabled,omitempty"` // Set to 'false' to disable RequestedAuthnContext
-	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`             // SAMLSignatureAlgorithm
+	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`             // An enumeration.
 	SamlSpCertificate                *string                       `json:"saml_sp_certificate,omitempty"`                  // Saml Sp Certificate
-	SamlVariant                      SamlVariantType               `json:"saml_variant,omitempty"`                         // SAMLVariant
+	SamlVariant                      SamlVariantType               `json:"saml_variant,omitempty"`                         // An enumeration.
 	ScimEnabled                      *bool                         `json:"scim_enabled,omitempty"`                         // SCIM API enabled
 	ScimUrl                          *string                       `json:"scim_url,omitempty"`                             // Scim Url
-	State                            AuthenticationMethodStateType `json:"state"`                                          // AuthenticationMethodState
+	State                            AuthenticationMethodStateType `json:"state"`                                          // An enumeration.
 	UpdateTime                       time.Time                     `json:"update_time"`                                    // Update Time
 }
 
@@ -180,7 +180,7 @@ type AccountAuthenticationMethodGetOut struct {
 	AuthenticationMethodEnabled      bool                          `json:"authentication_method_enabled"`                  // If true, authentication method can be used to access account/projects in account. If false, authentication method can still be used to sign in
 	AuthenticationMethodId           string                        `json:"authentication_method_id"`                       // Authentication Method ID
 	AuthenticationMethodName         *string                       `json:"authentication_method_name,omitempty"`           // Authentication Method Name
-	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`                     // Authentication method type
+	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`                     // An enumeration.
 	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`                              // Automatically add users to a team, when user signs up using this authentication method
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`                        // Automatically add users to a group, when user signs up using this authentication method
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
@@ -189,13 +189,13 @@ type AccountAuthenticationMethodGetOut struct {
 	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`                         // Saml Acs Url
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
 	SamlAuthnRequestsSignedEnabled   *bool                         `json:"saml_authn_requests_signed_enabled,omitempty"`   // Set to 'true' to enable AuthnRequestsSigned
-	SamlCert                         SamlCertType                  `json:"saml_cert,omitempty"`                            // SAMLVariant
+	SamlCert                         SamlCertType                  `json:"saml_cert,omitempty"`                            // An enumeration.
 	SamlCertificate                  *string                       `json:"saml_certificate,omitempty"`                     // Identity provider's certificate
 	SamlCertificateIssuer            *string                       `json:"saml_certificate_issuer,omitempty"`              // Saml Certificate Issuer
 	SamlCertificateNotValidAfter     *string                       `json:"saml_certificate_not_valid_after,omitempty"`     // Saml Certificate Not Valid After
 	SamlCertificateNotValidBefore    *string                       `json:"saml_certificate_not_valid_before,omitempty"`    // Saml Certificate Not Valid Before
 	SamlCertificateSubject           *string                       `json:"saml_certificate_subject,omitempty"`             // Saml Certificate Subject
-	SamlDigestAlgorithm              SamlDigestAlgorithmType       `json:"saml_digest_algorithm,omitempty"`                // Digest algorithm. This is an advanced option that typically does not need to be set.
+	SamlDigestAlgorithm              SamlDigestAlgorithmType       `json:"saml_digest_algorithm,omitempty"`                // An enumeration.
 	SamlEntityId                     *string                       `json:"saml_entity_id,omitempty"`                       // Saml Entity ID
 	SamlFieldMapping                 *SamlFieldMappingOut          `json:"saml_field_mapping,omitempty"`                   // SAMLFieldMapping
 	SamlIdpLoginAllowed              *bool                         `json:"saml_idp_login_allowed,omitempty"`               // Set to 'true' to enable IdP initiated login
@@ -203,12 +203,12 @@ type AccountAuthenticationMethodGetOut struct {
 	SamlJoinGroups                   *bool                         `json:"saml_join_groups,omitempty"`                     // SAML join groups enabled
 	SamlMetadataUrl                  *string                       `json:"saml_metadata_url,omitempty"`                    // Saml Metadata Url
 	SamlRequestedAuthnContextEnabled *bool                         `json:"saml_requested_authn_context_enabled,omitempty"` // Set to 'false' to disable RequestedAuthnContext
-	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`             // SAMLSignatureAlgorithm
+	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`             // An enumeration.
 	SamlSpCertificate                *string                       `json:"saml_sp_certificate,omitempty"`                  // Saml Sp Certificate
-	SamlVariant                      SamlVariantType               `json:"saml_variant,omitempty"`                         // SAMLVariant
+	SamlVariant                      SamlVariantType               `json:"saml_variant,omitempty"`                         // An enumeration.
 	ScimEnabled                      *bool                         `json:"scim_enabled,omitempty"`                         // SCIM API enabled
 	ScimUrl                          *string                       `json:"scim_url,omitempty"`                             // Scim Url
-	State                            AuthenticationMethodStateType `json:"state"`                                          // AuthenticationMethodState
+	State                            AuthenticationMethodStateType `json:"state"`                                          // An enumeration.
 	UpdateTime                       time.Time                     `json:"update_time"`                                    // Update Time
 }
 
@@ -223,15 +223,15 @@ type AccountAuthenticationMethodUpdateIn struct {
 	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
 	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`   // Set to 'true' to enable AuthnRequestsSigned
 	SamlCertificate                  *string                    `json:"saml_certificate,omitempty"`                     // Identity provider's certificate
-	SamlDigestAlgorithm              SamlDigestAlgorithmType    `json:"saml_digest_algorithm,omitempty"`                // Digest algorithm. This is an advanced option that typically does not need to be set.
+	SamlDigestAlgorithm              SamlDigestAlgorithmType    `json:"saml_digest_algorithm,omitempty"`                // An enumeration.
 	SamlEntityId                     *string                    `json:"saml_entity_id,omitempty"`                       // Saml Entity ID
 	SamlFieldMapping                 *SamlFieldMappingIn        `json:"saml_field_mapping,omitempty"`                   // SAMLFieldMapping
 	SamlIdpLoginAllowed              *bool                      `json:"saml_idp_login_allowed,omitempty"`               // Set to 'true' to enable IdP initiated login
 	SamlIdpUrl                       *string                    `json:"saml_idp_url,omitempty"`                         // Saml Idp Url
 	SamlJoinGroups                   *bool                      `json:"saml_join_groups,omitempty"`                     // SAML join groups enabled
 	SamlRequestedAuthnContextEnabled *bool                      `json:"saml_requested_authn_context_enabled,omitempty"` // Set to 'false' to disable RequestedAuthnContext
-	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`             // SAMLSignatureAlgorithm
-	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`                         // SAMLVariant
+	SamlSignatureAlgorithm           SamlSignatureAlgorithmType `json:"saml_signature_algorithm,omitempty"`             // An enumeration.
+	SamlVariant                      SamlVariantType            `json:"saml_variant,omitempty"`                         // An enumeration.
 	ScimEnabled                      *bool                      `json:"scim_enabled,omitempty"`                         // SCIM enabled
 }
 
@@ -243,7 +243,7 @@ type AccountAuthenticationMethodUpdateOut struct {
 	AuthenticationMethodEnabled      bool                          `json:"authentication_method_enabled"`                  // If true, authentication method can be used to access account/projects in account. If false, authentication method can still be used to sign in
 	AuthenticationMethodId           string                        `json:"authentication_method_id"`                       // Authentication Method ID
 	AuthenticationMethodName         *string                       `json:"authentication_method_name,omitempty"`           // Authentication Method Name
-	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`                     // Authentication method type
+	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`                     // An enumeration.
 	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`                              // Automatically add users to a team, when user signs up using this authentication method
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`                        // Automatically add users to a group, when user signs up using this authentication method
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
@@ -252,13 +252,13 @@ type AccountAuthenticationMethodUpdateOut struct {
 	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`                         // Saml Acs Url
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
 	SamlAuthnRequestsSignedEnabled   *bool                         `json:"saml_authn_requests_signed_enabled,omitempty"`   // Set to 'true' to enable AuthnRequestsSigned
-	SamlCert                         SamlCertType                  `json:"saml_cert,omitempty"`                            // SAMLVariant
+	SamlCert                         SamlCertType                  `json:"saml_cert,omitempty"`                            // An enumeration.
 	SamlCertificate                  *string                       `json:"saml_certificate,omitempty"`                     // Identity provider's certificate
 	SamlCertificateIssuer            *string                       `json:"saml_certificate_issuer,omitempty"`              // Saml Certificate Issuer
 	SamlCertificateNotValidAfter     *string                       `json:"saml_certificate_not_valid_after,omitempty"`     // Saml Certificate Not Valid After
 	SamlCertificateNotValidBefore    *string                       `json:"saml_certificate_not_valid_before,omitempty"`    // Saml Certificate Not Valid Before
 	SamlCertificateSubject           *string                       `json:"saml_certificate_subject,omitempty"`             // Saml Certificate Subject
-	SamlDigestAlgorithm              SamlDigestAlgorithmType       `json:"saml_digest_algorithm,omitempty"`                // Digest algorithm. This is an advanced option that typically does not need to be set.
+	SamlDigestAlgorithm              SamlDigestAlgorithmType       `json:"saml_digest_algorithm,omitempty"`                // An enumeration.
 	SamlEntityId                     *string                       `json:"saml_entity_id,omitempty"`                       // Saml Entity ID
 	SamlFieldMapping                 *SamlFieldMappingOut          `json:"saml_field_mapping,omitempty"`                   // SAMLFieldMapping
 	SamlIdpLoginAllowed              *bool                         `json:"saml_idp_login_allowed,omitempty"`               // Set to 'true' to enable IdP initiated login
@@ -266,12 +266,12 @@ type AccountAuthenticationMethodUpdateOut struct {
 	SamlJoinGroups                   *bool                         `json:"saml_join_groups,omitempty"`                     // SAML join groups enabled
 	SamlMetadataUrl                  *string                       `json:"saml_metadata_url,omitempty"`                    // Saml Metadata Url
 	SamlRequestedAuthnContextEnabled *bool                         `json:"saml_requested_authn_context_enabled,omitempty"` // Set to 'false' to disable RequestedAuthnContext
-	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`             // SAMLSignatureAlgorithm
+	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`             // An enumeration.
 	SamlSpCertificate                *string                       `json:"saml_sp_certificate,omitempty"`                  // Saml Sp Certificate
-	SamlVariant                      SamlVariantType               `json:"saml_variant,omitempty"`                         // SAMLVariant
+	SamlVariant                      SamlVariantType               `json:"saml_variant,omitempty"`                         // An enumeration.
 	ScimEnabled                      *bool                         `json:"scim_enabled,omitempty"`                         // SCIM API enabled
 	ScimUrl                          *string                       `json:"scim_url,omitempty"`                             // Scim Url
-	State                            AuthenticationMethodStateType `json:"state"`                                          // AuthenticationMethodState
+	State                            AuthenticationMethodStateType `json:"state"`                                          // An enumeration.
 	UpdateTime                       time.Time                     `json:"update_time"`                                    // Update Time
 }
 type AuthenticationMethodOut struct {
@@ -281,7 +281,7 @@ type AuthenticationMethodOut struct {
 	AuthenticationMethodEnabled      bool                          `json:"authentication_method_enabled"`                  // If true, authentication method can be used to access account/projects in account. If false, authentication method can still be used to sign in
 	AuthenticationMethodId           string                        `json:"authentication_method_id"`                       // Authentication Method ID
 	AuthenticationMethodName         *string                       `json:"authentication_method_name,omitempty"`           // Authentication Method Name
-	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`                     // Authentication method type
+	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`                     // An enumeration.
 	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`                              // Automatically add users to a team, when user signs up using this authentication method
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`                        // Automatically add users to a group, when user signs up using this authentication method
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
@@ -290,13 +290,13 @@ type AuthenticationMethodOut struct {
 	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`                         // Saml Acs Url
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
 	SamlAuthnRequestsSignedEnabled   *bool                         `json:"saml_authn_requests_signed_enabled,omitempty"`   // Set to 'true' to enable AuthnRequestsSigned
-	SamlCert                         SamlCertType                  `json:"saml_cert,omitempty"`                            // SAMLVariant
+	SamlCert                         SamlCertType                  `json:"saml_cert,omitempty"`                            // An enumeration.
 	SamlCertificate                  *string                       `json:"saml_certificate,omitempty"`                     // Identity provider's certificate
 	SamlCertificateIssuer            *string                       `json:"saml_certificate_issuer,omitempty"`              // Saml Certificate Issuer
 	SamlCertificateNotValidAfter     *string                       `json:"saml_certificate_not_valid_after,omitempty"`     // Saml Certificate Not Valid After
 	SamlCertificateNotValidBefore    *string                       `json:"saml_certificate_not_valid_before,omitempty"`    // Saml Certificate Not Valid Before
 	SamlCertificateSubject           *string                       `json:"saml_certificate_subject,omitempty"`             // Saml Certificate Subject
-	SamlDigestAlgorithm              SamlDigestAlgorithmType       `json:"saml_digest_algorithm,omitempty"`                // Digest algorithm. This is an advanced option that typically does not need to be set.
+	SamlDigestAlgorithm              SamlDigestAlgorithmType       `json:"saml_digest_algorithm,omitempty"`                // An enumeration.
 	SamlEntityId                     *string                       `json:"saml_entity_id,omitempty"`                       // Saml Entity ID
 	SamlFieldMapping                 *SamlFieldMappingOut          `json:"saml_field_mapping,omitempty"`                   // SAMLFieldMapping
 	SamlIdpLoginAllowed              *bool                         `json:"saml_idp_login_allowed,omitempty"`               // Set to 'true' to enable IdP initiated login
@@ -304,12 +304,12 @@ type AuthenticationMethodOut struct {
 	SamlJoinGroups                   *bool                         `json:"saml_join_groups,omitempty"`                     // SAML join groups enabled
 	SamlMetadataUrl                  *string                       `json:"saml_metadata_url,omitempty"`                    // Saml Metadata Url
 	SamlRequestedAuthnContextEnabled *bool                         `json:"saml_requested_authn_context_enabled,omitempty"` // Set to 'false' to disable RequestedAuthnContext
-	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`             // SAMLSignatureAlgorithm
+	SamlSignatureAlgorithm           SamlSignatureAlgorithmType    `json:"saml_signature_algorithm,omitempty"`             // An enumeration.
 	SamlSpCertificate                *string                       `json:"saml_sp_certificate,omitempty"`                  // Saml Sp Certificate
-	SamlVariant                      SamlVariantType               `json:"saml_variant,omitempty"`                         // SAMLVariant
+	SamlVariant                      SamlVariantType               `json:"saml_variant,omitempty"`                         // An enumeration.
 	ScimEnabled                      *bool                         `json:"scim_enabled,omitempty"`                         // SCIM API enabled
 	ScimUrl                          *string                       `json:"scim_url,omitempty"`                             // Scim Url
-	State                            AuthenticationMethodStateType `json:"state"`                                          // AuthenticationMethodState
+	State                            AuthenticationMethodStateType `json:"state"`                                          // An enumeration.
 	UpdateTime                       time.Time                     `json:"update_time"`                                    // Update Time
 }
 type AuthenticationMethodStateType string
