@@ -47,7 +47,7 @@ func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project 
 type MySqlserviceQueryStatisticsIn struct {
 	Limit   *int    `json:"limit,omitempty"`    // Limit for number of results
 	Offset  *int    `json:"offset,omitempty"`   // Offset for retrieved results based on sort order
-	OrderBy *string `json:"order_by,omitempty"` // Order in which to sort retrieved results
+	OrderBy *string `json:"order_by,omitempty"` // Sort order can be either asc or desc and multiple comma separated columns with their own order can be specified: :asc,:desc. Accepted sort columns are: avg_timer_wait, count_star, digest, digest_text, first_seen, last_seen, max_timer_wait, min_timer_wait, query_sample_seen, query_sample_text, query_sample_timer_wait, quantile_95, quantile_99, quantile_999, schema_name, sum_created_tmp_disk_tables, sum_created_tmp_tables, sum_errors, sum_lock_time, sum_no_good_index_used, sum_no_index_used, sum_rows_affected, sum_rows_examined, sum_rows_sent, sum_select_full_join, sum_select_full_range_join, sum_select_range, sum_select_range_check, sum_select_scan, sum_sort_merge_passes, sum_sort_range, sum_sort_rows, sum_sort_scan, sum_timer_wait, sum_warnings
 }
 type QueryOut struct {
 	AvgTimerWait            *float64 `json:"avg_timer_wait,omitempty"`              // Query statistic

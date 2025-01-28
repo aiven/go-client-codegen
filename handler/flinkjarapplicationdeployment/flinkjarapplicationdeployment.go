@@ -135,15 +135,15 @@ func (h *FlinkJarApplicationDeploymentHandler) ServiceFlinkStopJarApplicationDep
 }
 
 type DeploymentOut struct {
-	CreatedAt         time.Time            `json:"created_at"`                   // Created at
-	CreatedBy         string               `json:"created_by"`                   // Created by
-	EntryClass        *string              `json:"entry_class,omitempty"`        // Entry class
-	ErrorMsg          *string              `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time            `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string               `json:"created_by"`                   // The creator of this entity
+	EntryClass        *string              `json:"entry_class,omitempty"`        // The fully qualified name of the entry class to pass during Flink job submission through the entryClass parameter
+	ErrorMsg          *string              `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string               `json:"id"`                           // Deployment ID
 	JobId             *string              `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string              `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                  `json:"parallelism"`                  // Flink Job parallelism
-	ProgramArgs       []string             `json:"program_args,omitempty"`       // Program arguments. Arguments to pass during Flink job submission through the programArgsList parameter
+	Parallelism       int                  `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
+	ProgramArgs       []string             `json:"program_args,omitempty"`       // Arguments to pass during Flink job submission through the programArgsList parameter
 	StartingSavepoint *string              `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            DeploymentStatusType `json:"status"`                       // Deployment status
 	VersionId         string               `json:"version_id"`                   // ApplicationVersion ID
@@ -176,15 +176,15 @@ func DeploymentStatusTypeChoices() []string {
 
 // ServiceFlinkCancelJarApplicationDeploymentOut ServiceFlinkCancelJarApplicationDeploymentResponse
 type ServiceFlinkCancelJarApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                      `json:"created_at"`                   // Created at
-	CreatedBy         string                                         `json:"created_by"`                   // Created by
-	EntryClass        *string                                        `json:"entry_class,omitempty"`        // Entry class
-	ErrorMsg          *string                                        `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time                                      `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string                                         `json:"created_by"`                   // The creator of this entity
+	EntryClass        *string                                        `json:"entry_class,omitempty"`        // The fully qualified name of the entry class to pass during Flink job submission through the entryClass parameter
+	ErrorMsg          *string                                        `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string                                         `json:"id"`                           // Deployment ID
 	JobId             *string                                        `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string                                        `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                                            `json:"parallelism"`                  // Flink Job parallelism
-	ProgramArgs       []string                                       `json:"program_args,omitempty"`       // Program arguments. Arguments to pass during Flink job submission through the programArgsList parameter
+	Parallelism       int                                            `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
+	ProgramArgs       []string                                       `json:"program_args,omitempty"`       // Arguments to pass during Flink job submission through the programArgsList parameter
 	StartingSavepoint *string                                        `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            ServiceFlinkJarApplicationDeploymentStatusType `json:"status"`                       // Deployment status
 	VersionId         string                                         `json:"version_id"`                   // ApplicationVersion ID
@@ -192,9 +192,9 @@ type ServiceFlinkCancelJarApplicationDeploymentOut struct {
 
 // ServiceFlinkCreateJarApplicationDeploymentIn ServiceFlinkCreateJarApplicationDeploymentRequestBody
 type ServiceFlinkCreateJarApplicationDeploymentIn struct {
-	EntryClass        *string   `json:"entry_class,omitempty"`        // Entry class
-	Parallelism       *int      `json:"parallelism,omitempty"`        // Flink Job parallelism
-	ProgramArgs       *[]string `json:"program_args,omitempty"`       // Program arguments. Arguments to pass during Flink job submission through the programArgsList parameter
+	EntryClass        *string   `json:"entry_class,omitempty"`        // The fully qualified name of the entry class to pass during Flink job submission through the entryClass parameter
+	Parallelism       *int      `json:"parallelism,omitempty"`        // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
+	ProgramArgs       *[]string `json:"program_args,omitempty"`       // Arguments to pass during Flink job submission through the programArgsList parameter
 	RestartEnabled    *bool     `json:"restart_enabled,omitempty"`    // Specifies whether a Flink Job is restarted in case it fails
 	StartingSavepoint *string   `json:"starting_savepoint,omitempty"` // Job savepoint
 	VersionId         string    `json:"version_id"`                   // ApplicationVersion ID
@@ -202,15 +202,15 @@ type ServiceFlinkCreateJarApplicationDeploymentIn struct {
 
 // ServiceFlinkCreateJarApplicationDeploymentOut ServiceFlinkCreateJarApplicationDeploymentResponse
 type ServiceFlinkCreateJarApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                      `json:"created_at"`                   // Created at
-	CreatedBy         string                                         `json:"created_by"`                   // Created by
-	EntryClass        *string                                        `json:"entry_class,omitempty"`        // Entry class
-	ErrorMsg          *string                                        `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time                                      `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string                                         `json:"created_by"`                   // The creator of this entity
+	EntryClass        *string                                        `json:"entry_class,omitempty"`        // The fully qualified name of the entry class to pass during Flink job submission through the entryClass parameter
+	ErrorMsg          *string                                        `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string                                         `json:"id"`                           // Deployment ID
 	JobId             *string                                        `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string                                        `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                                            `json:"parallelism"`                  // Flink Job parallelism
-	ProgramArgs       []string                                       `json:"program_args,omitempty"`       // Program arguments. Arguments to pass during Flink job submission through the programArgsList parameter
+	Parallelism       int                                            `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
+	ProgramArgs       []string                                       `json:"program_args,omitempty"`       // Arguments to pass during Flink job submission through the programArgsList parameter
 	StartingSavepoint *string                                        `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            ServiceFlinkJarApplicationDeploymentStatusType `json:"status"`                       // Deployment status
 	VersionId         string                                         `json:"version_id"`                   // ApplicationVersion ID
@@ -218,15 +218,15 @@ type ServiceFlinkCreateJarApplicationDeploymentOut struct {
 
 // ServiceFlinkDeleteJarApplicationDeploymentOut ServiceFlinkDeleteJarApplicationDeploymentResponse
 type ServiceFlinkDeleteJarApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                      `json:"created_at"`                   // Created at
-	CreatedBy         string                                         `json:"created_by"`                   // Created by
-	EntryClass        *string                                        `json:"entry_class,omitempty"`        // Entry class
-	ErrorMsg          *string                                        `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time                                      `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string                                         `json:"created_by"`                   // The creator of this entity
+	EntryClass        *string                                        `json:"entry_class,omitempty"`        // The fully qualified name of the entry class to pass during Flink job submission through the entryClass parameter
+	ErrorMsg          *string                                        `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string                                         `json:"id"`                           // Deployment ID
 	JobId             *string                                        `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string                                        `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                                            `json:"parallelism"`                  // Flink Job parallelism
-	ProgramArgs       []string                                       `json:"program_args,omitempty"`       // Program arguments. Arguments to pass during Flink job submission through the programArgsList parameter
+	Parallelism       int                                            `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
+	ProgramArgs       []string                                       `json:"program_args,omitempty"`       // Arguments to pass during Flink job submission through the programArgsList parameter
 	StartingSavepoint *string                                        `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            ServiceFlinkJarApplicationDeploymentStatusType `json:"status"`                       // Deployment status
 	VersionId         string                                         `json:"version_id"`                   // ApplicationVersion ID
@@ -234,15 +234,15 @@ type ServiceFlinkDeleteJarApplicationDeploymentOut struct {
 
 // ServiceFlinkGetJarApplicationDeploymentOut ServiceFlinkGetJarApplicationDeploymentResponse
 type ServiceFlinkGetJarApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                      `json:"created_at"`                   // Created at
-	CreatedBy         string                                         `json:"created_by"`                   // Created by
-	EntryClass        *string                                        `json:"entry_class,omitempty"`        // Entry class
-	ErrorMsg          *string                                        `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time                                      `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string                                         `json:"created_by"`                   // The creator of this entity
+	EntryClass        *string                                        `json:"entry_class,omitempty"`        // The fully qualified name of the entry class to pass during Flink job submission through the entryClass parameter
+	ErrorMsg          *string                                        `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string                                         `json:"id"`                           // Deployment ID
 	JobId             *string                                        `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string                                        `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                                            `json:"parallelism"`                  // Flink Job parallelism
-	ProgramArgs       []string                                       `json:"program_args,omitempty"`       // Program arguments. Arguments to pass during Flink job submission through the programArgsList parameter
+	Parallelism       int                                            `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
+	ProgramArgs       []string                                       `json:"program_args,omitempty"`       // Arguments to pass during Flink job submission through the programArgsList parameter
 	StartingSavepoint *string                                        `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            ServiceFlinkJarApplicationDeploymentStatusType `json:"status"`                       // Deployment status
 	VersionId         string                                         `json:"version_id"`                   // ApplicationVersion ID
@@ -275,15 +275,15 @@ func ServiceFlinkJarApplicationDeploymentStatusTypeChoices() []string {
 
 // ServiceFlinkStopJarApplicationDeploymentOut ServiceFlinkStopJarApplicationDeploymentResponse
 type ServiceFlinkStopJarApplicationDeploymentOut struct {
-	CreatedAt         time.Time                                      `json:"created_at"`                   // Created at
-	CreatedBy         string                                         `json:"created_by"`                   // Created by
-	EntryClass        *string                                        `json:"entry_class,omitempty"`        // Entry class
-	ErrorMsg          *string                                        `json:"error_msg,omitempty"`          // Deployment error
+	CreatedAt         time.Time                                      `json:"created_at"`                   // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy         string                                         `json:"created_by"`                   // The creator of this entity
+	EntryClass        *string                                        `json:"entry_class,omitempty"`        // The fully qualified name of the entry class to pass during Flink job submission through the entryClass parameter
+	ErrorMsg          *string                                        `json:"error_msg,omitempty"`          // Error message describing what caused deployment to fail
 	Id                string                                         `json:"id"`                           // Deployment ID
 	JobId             *string                                        `json:"job_id,omitempty"`             // Job ID
 	LastSavepoint     *string                                        `json:"last_savepoint,omitempty"`     // Job savepoint
-	Parallelism       int                                            `json:"parallelism"`                  // Flink Job parallelism
-	ProgramArgs       []string                                       `json:"program_args,omitempty"`       // Program arguments. Arguments to pass during Flink job submission through the programArgsList parameter
+	Parallelism       int                                            `json:"parallelism"`                  // Reading of Flink parallel execution documentation is recommended before setting this value to other than 1. Please do not set this value higher than (total number of nodes x number_of_task_slots), or every new job created will fail.
+	ProgramArgs       []string                                       `json:"program_args,omitempty"`       // Arguments to pass during Flink job submission through the programArgsList parameter
 	StartingSavepoint *string                                        `json:"starting_savepoint,omitempty"` // Job savepoint
 	Status            ServiceFlinkJarApplicationDeploymentStatusType `json:"status"`                       // Deployment status
 	VersionId         string                                         `json:"version_id"`                   // ApplicationVersion ID

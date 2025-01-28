@@ -315,12 +315,12 @@ func PermissionTypeChoices() []string {
 }
 
 type ReferenceIn struct {
-	Name    string `json:"name"`
+	Name    string `json:"name"` // The name used to reference the provided subject and version
 	Subject string `json:"subject"`
 	Version int    `json:"version"`
 }
 type ReferenceOut struct {
-	Name    string `json:"name"`
+	Name    string `json:"name"` // The name used to reference the provided subject and version
 	Subject string `json:"subject"`
 	Version int    `json:"version"`
 }

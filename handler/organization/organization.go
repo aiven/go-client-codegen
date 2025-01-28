@@ -207,8 +207,8 @@ type DomainOut struct {
 	DomainName                    string           `json:"domain_name"`                      // Name of the domain
 	LinkedAuthenticationMethodIds []string         `json:"linked_authentication_method_ids"` // Linked Authentication Method Ids
 	OrganizationId                string           `json:"organization_id"`                  // ID of the organization owning this domain
-	State                         DomainStateType  `json:"state"`                            // State of the verification process
-	VerificationType              VerificationType `json:"verification_type"`                // Type of verification to be made
+	State                         DomainStateType  `json:"state"`                            // An enumeration.
+	VerificationType              VerificationType `json:"verification_type"`                // An enumeration.
 }
 type DomainStateType string
 
@@ -267,7 +267,7 @@ type OrganizationGetOut struct {
 	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"` // Default governance user group ID
 	OrganizationId               string    `json:"organization_id"`                            // Organization's ID
 	OrganizationName             string    `json:"organization_name"`                          // Organization's name
-	Tier                         TierType  `json:"tier"`                                       // Tier of the organization
+	Tier                         TierType  `json:"tier"`                                       // An enumeration.
 	UpdateTime                   time.Time `json:"update_time"`                                // Time of the organization's latest update
 }
 type OrganizationOut struct {
@@ -276,14 +276,14 @@ type OrganizationOut struct {
 	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"` // Default governance user group ID
 	OrganizationId               string    `json:"organization_id"`                            // Organization's ID
 	OrganizationName             string    `json:"organization_name"`                          // Organization's name
-	Tier                         TierType  `json:"tier"`                                       // Tier of the organization
+	Tier                         TierType  `json:"tier"`                                       // An enumeration.
 	UpdateTime                   time.Time `json:"update_time"`                                // Time of the organization's latest update
 }
 
 // OrganizationUpdateIn OrganizationUpdateRequestBody
 type OrganizationUpdateIn struct {
 	Name *string  `json:"name,omitempty"` // New name of the organization
-	Tier TierType `json:"tier,omitempty"` // New tier for the organization
+	Tier TierType `json:"tier,omitempty"` // An enumeration.
 }
 
 // OrganizationUpdateOut OrganizationUpdateResponse
@@ -293,19 +293,19 @@ type OrganizationUpdateOut struct {
 	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"` // Default governance user group ID
 	OrganizationId               string    `json:"organization_id"`                            // Organization's ID
 	OrganizationName             string    `json:"organization_name"`                          // Organization's name
-	Tier                         TierType  `json:"tier"`                                       // Tier of the organization
+	Tier                         TierType  `json:"tier"`                                       // An enumeration.
 	UpdateTime                   time.Time `json:"update_time"`                                // Time of the organization's latest update
 }
 type PermissionIn struct {
 	Permissions   []string      `json:"permissions"`    // List of roles
 	PrincipalId   string        `json:"principal_id"`   // ID of the principal
-	PrincipalType PrincipalType `json:"principal_type"` // Type of the principal
+	PrincipalType PrincipalType `json:"principal_type"` // An enumeration.
 }
 type PermissionOut struct {
 	CreateTime    time.Time     `json:"create_time"`    // Create Time
 	Permissions   []string      `json:"permissions"`    // List of roles
 	PrincipalId   string        `json:"principal_id"`   // ID of the principal
-	PrincipalType PrincipalType `json:"principal_type"` // Type of the principal
+	PrincipalType PrincipalType `json:"principal_type"` // An enumeration.
 	UpdateTime    time.Time     `json:"update_time"`    // Update Time
 }
 
@@ -351,7 +351,7 @@ func TierTypeChoices() []string {
 type UserOrganizationCreateIn struct {
 	OrganizationName      string   `json:"organization_name"`                  // Organization's name
 	PrimaryBillingGroupId *string  `json:"primary_billing_group_id,omitempty"` // Billing group ID
-	Tier                  TierType `json:"tier"`                               // Tier of the organization
+	Tier                  TierType `json:"tier"`                               // An enumeration.
 }
 
 // UserOrganizationCreateOut UserOrganizationCreateResponse
@@ -361,7 +361,7 @@ type UserOrganizationCreateOut struct {
 	DefaultGovernanceUserGroupId *string   `json:"default_governance_user_group_id,omitempty"` // Default governance user group ID
 	OrganizationId               string    `json:"organization_id"`                            // Organization's ID
 	OrganizationName             string    `json:"organization_name"`                          // Organization's name
-	Tier                         TierType  `json:"tier"`                                       // Tier of the organization
+	Tier                         TierType  `json:"tier"`                                       // An enumeration.
 	UpdateTime                   time.Time `json:"update_time"`                                // Time of the organization's latest update
 }
 type VerificationType string

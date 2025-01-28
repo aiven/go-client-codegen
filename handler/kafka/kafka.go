@@ -352,11 +352,11 @@ func PermissionTypeChoices() []string {
 }
 
 type QuotaOut struct {
-	ClientId          string  `json:"client-id"`          // client-id
-	ConsumerByteRate  float64 `json:"consumer_byte_rate"` // consumer network throttle
-	ProducerByteRate  float64 `json:"producer_byte_rate"` // producer network throttle
-	RequestPercentage float64 `json:"request_percentage"` // cpu percentage throttle
-	User              string  `json:"user"`               // user
+	ClientId          string  `json:"client-id"`          // Represents a logical group of clients, assigned a unique name by the client application. Quotas can be applied based on user, client-id, or both. The most relevant quota is chosen for each connection. All connections within a quota group share the same quota.
+	ConsumerByteRate  float64 `json:"consumer_byte_rate"` // Defines the bandwidth limit in bytes/sec for each group of clients sharing a quota. Every distinct client group is allocated a specific quota, as defined by the cluster, on a per-broker basis. Exceeding this limit results in client throttling.
+	ProducerByteRate  float64 `json:"producer_byte_rate"` // Defines the bandwidth limit in bytes/sec for each group of clients sharing a quota. Every distinct client group is allocated a specific quota, as defined by the cluster, on a per-broker basis. Exceeding this limit results in client throttling.
+	RequestPercentage float64 `json:"request_percentage"` // Sets the maximum percentage of CPU time that a client group can use on request handler I/O and network threads per broker within a quota window. Exceeding this limit triggers throttling. The quota, expressed as a percentage, also indicates the total allowable CPU usage for the client groups sharing the quota.
+	User              string  `json:"user"`               // Represents a logical group of clients, assigned a unique name by the client application. Quotas can be applied based on user, client-id, or both. The most relevant quota is chosen for each connection. All connections within a quota group share the same quota.
 }
 type ResourceType string
 
@@ -443,20 +443,20 @@ type ServiceKafkaNativeAclListOut struct {
 
 // ServiceKafkaQuotaCreateIn ServiceKafkaQuotaCreateRequestBody
 type ServiceKafkaQuotaCreateIn struct {
-	ClientId          *string  `json:"client-id,omitempty"`          // client-id
-	ConsumerByteRate  *float64 `json:"consumer_byte_rate,omitempty"` // consumer network throttle
-	ProducerByteRate  *float64 `json:"producer_byte_rate,omitempty"` // producer network throttle
-	RequestPercentage *float64 `json:"request_percentage,omitempty"` // cpu percentage throttle
-	User              *string  `json:"user,omitempty"`               // user
+	ClientId          *string  `json:"client-id,omitempty"`          // Represents a logical group of clients, assigned a unique name by the client application. Quotas can be applied based on user, client-id, or both. The most relevant quota is chosen for each connection. All connections within a quota group share the same quota.
+	ConsumerByteRate  *float64 `json:"consumer_byte_rate,omitempty"` // Defines the bandwidth limit in bytes/sec for each group of clients sharing a quota. Every distinct client group is allocated a specific quota, as defined by the cluster, on a per-broker basis. Exceeding this limit results in client throttling.
+	ProducerByteRate  *float64 `json:"producer_byte_rate,omitempty"` // Defines the bandwidth limit in bytes/sec for each group of clients sharing a quota. Every distinct client group is allocated a specific quota, as defined by the cluster, on a per-broker basis. Exceeding this limit results in client throttling.
+	RequestPercentage *float64 `json:"request_percentage,omitempty"` // Sets the maximum percentage of CPU time that a client group can use on request handler I/O and network threads per broker within a quota window. Exceeding this limit triggers throttling. The quota, expressed as a percentage, also indicates the total allowable CPU usage for the client groups sharing the quota.
+	User              *string  `json:"user,omitempty"`               // Represents a logical group of clients, assigned a unique name by the client application. Quotas can be applied based on user, client-id, or both. The most relevant quota is chosen for each connection. All connections within a quota group share the same quota.
 }
 
 // ServiceKafkaQuotaDescribeOut kafka quota
 type ServiceKafkaQuotaDescribeOut struct {
-	ClientId          *string  `json:"client-id,omitempty"`          // client-id
-	ConsumerByteRate  *float64 `json:"consumer_byte_rate,omitempty"` // consumer network throttle
-	ProducerByteRate  *float64 `json:"producer_byte_rate,omitempty"` // producer network throttle
-	RequestPercentage *float64 `json:"request_percentage,omitempty"` // cpu percentage throttle
-	User              *string  `json:"user,omitempty"`               // user
+	ClientId          *string  `json:"client-id,omitempty"`          // Represents a logical group of clients, assigned a unique name by the client application. Quotas can be applied based on user, client-id, or both. The most relevant quota is chosen for each connection. All connections within a quota group share the same quota.
+	ConsumerByteRate  *float64 `json:"consumer_byte_rate,omitempty"` // Defines the bandwidth limit in bytes/sec for each group of clients sharing a quota. Every distinct client group is allocated a specific quota, as defined by the cluster, on a per-broker basis. Exceeding this limit results in client throttling.
+	ProducerByteRate  *float64 `json:"producer_byte_rate,omitempty"` // Defines the bandwidth limit in bytes/sec for each group of clients sharing a quota. Every distinct client group is allocated a specific quota, as defined by the cluster, on a per-broker basis. Exceeding this limit results in client throttling.
+	RequestPercentage *float64 `json:"request_percentage,omitempty"` // Sets the maximum percentage of CPU time that a client group can use on request handler I/O and network threads per broker within a quota window. Exceeding this limit triggers throttling. The quota, expressed as a percentage, also indicates the total allowable CPU usage for the client groups sharing the quota.
+	User              *string  `json:"user,omitempty"`               // Represents a logical group of clients, assigned a unique name by the client application. Quotas can be applied based on user, client-id, or both. The most relevant quota is chosen for each connection. All connections within a quota group share the same quota.
 }
 
 // ServiceKafkaTieredStorageSummaryOut ServiceKafkaTieredStorageSummaryResponse

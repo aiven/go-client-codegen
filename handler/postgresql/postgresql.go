@@ -122,7 +122,7 @@ type PgOut struct {
 type PgserviceQueryStatisticsIn struct {
 	Limit   *int    `json:"limit,omitempty"`    // Limit for number of results
 	Offset  *int    `json:"offset,omitempty"`   // Offset for retrieved results based on sort order
-	OrderBy *string `json:"order_by,omitempty"` // Order in which to sort retrieved results
+	OrderBy *string `json:"order_by,omitempty"` // Sort order can be either asc or desc and multiple comma separated columns with their own order can be specified: :asc,:desc. Accepted sort columns are: blk_read_time, blk_write_time, calls, database_name, local_blks_dirtied, local_blks_hit, local_blks_read, local_blks_written, max_plan_time, max_time, mean_plan_time, mean_time, min_plan_time, min_time, query, queryid, rows, shared_blks_dirtied, shared_blks_hit, shared_blks_read, shared_blks_written, stddev_plan_time, stddev_time, temp_blks_read, temp_blks_written, total_plan_time, total_time, user_name, wal_bytes, wal_fpi, wal_records
 }
 type PoolModeType string
 

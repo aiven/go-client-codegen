@@ -84,10 +84,10 @@ func (h *FlinkJarApplicationVersionHandler) ServiceFlinkGetJarApplicationVersion
 type FileInfoOut struct {
 	FileSha256         *string             `json:"file_sha256,omitempty"`          // sha256 of the file if known
 	FileSize           *int                `json:"file_size,omitempty"`            // The size of the file in bytes
-	FileStatus         FileStatusType      `json:"file_status,omitempty"`          // File status
-	Url                *string             `json:"url,omitempty"`                  // AWS s3 pre-signed url
-	VerifyErrorCode    VerifyErrorCodeType `json:"verify_error_code,omitempty"`    // Verify error code
-	VerifyErrorMessage *string             `json:"verify_error_message,omitempty"` // Verify error message
+	FileStatus         FileStatusType      `json:"file_status,omitempty"`          // Indicates whether the uploaded .jar file has been verified by the system and deployment ready
+	Url                *string             `json:"url,omitempty"`                  // The pre-signed url of the bucket where the .jar file is uploaded. Becomes null when the JarApplicationVersion is ready or failed.
+	VerifyErrorCode    VerifyErrorCodeType `json:"verify_error_code,omitempty"`    // In the case file_status is FAILED, the error code of the failure.
+	VerifyErrorMessage *string             `json:"verify_error_message,omitempty"` // In the case file_status is FAILED, may contain details about the failure.
 }
 type FileStatusType string
 
@@ -103,8 +103,8 @@ func FileStatusTypeChoices() []string {
 
 // ServiceFlinkCreateJarApplicationVersionOut ServiceFlinkCreateJarApplicationVersionResponse
 type ServiceFlinkCreateJarApplicationVersionOut struct {
-	CreatedAt time.Time    `json:"created_at"`          // Created at
-	CreatedBy string       `json:"created_by"`          // Created by
+	CreatedAt time.Time    `json:"created_at"`          // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy string       `json:"created_by"`          // The creator of this entity
 	FileInfo  *FileInfoOut `json:"file_info,omitempty"` // Flink JarApplicationVersion FileInfo
 	Id        string       `json:"id"`                  // ApplicationVersion ID
 	Version   int          `json:"version"`             // Version number
@@ -112,8 +112,8 @@ type ServiceFlinkCreateJarApplicationVersionOut struct {
 
 // ServiceFlinkDeleteJarApplicationVersionOut ServiceFlinkDeleteJarApplicationVersionResponse
 type ServiceFlinkDeleteJarApplicationVersionOut struct {
-	CreatedAt time.Time    `json:"created_at"`          // Created at
-	CreatedBy string       `json:"created_by"`          // Created by
+	CreatedAt time.Time    `json:"created_at"`          // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy string       `json:"created_by"`          // The creator of this entity
 	FileInfo  *FileInfoOut `json:"file_info,omitempty"` // Flink JarApplicationVersion FileInfo
 	Id        string       `json:"id"`                  // ApplicationVersion ID
 	Version   int          `json:"version"`             // Version number
@@ -121,8 +121,8 @@ type ServiceFlinkDeleteJarApplicationVersionOut struct {
 
 // ServiceFlinkGetJarApplicationVersionOut ServiceFlinkGetJarApplicationVersionResponse
 type ServiceFlinkGetJarApplicationVersionOut struct {
-	CreatedAt time.Time    `json:"created_at"`          // Created at
-	CreatedBy string       `json:"created_by"`          // Created by
+	CreatedAt time.Time    `json:"created_at"`          // The creation timestamp of this entity in ISO 8601 format, always in UTC
+	CreatedBy string       `json:"created_by"`          // The creator of this entity
 	FileInfo  *FileInfoOut `json:"file_info,omitempty"` // Flink JarApplicationVersion FileInfo
 	Id        string       `json:"id"`                  // ApplicationVersion ID
 	Version   int          `json:"version"`             // Version number

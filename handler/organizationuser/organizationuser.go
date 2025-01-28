@@ -261,7 +261,7 @@ type OrganizationUserUpdateIn struct {
 	IsSuperAdmin *bool                     `json:"is_super_admin,omitempty"` // Alters super admin state of the organization user
 	JobTitle     *string                   `json:"job_title,omitempty"`      // Job Title
 	RealName     *string                   `json:"real_name,omitempty"`      // Real Name
-	State        OrganizationUserStateType `json:"state,omitempty"`          // State of the user in the organization
+	State        OrganizationUserStateType `json:"state,omitempty"`          // An enumeration.
 }
 
 // OrganizationUserUpdateOut OrganizationUserUpdateResponse
