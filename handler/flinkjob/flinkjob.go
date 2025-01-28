@@ -68,21 +68,21 @@ type JobOut struct {
 type JobStatusType string
 
 const (
-	JobStatusTypeInitializing JobStatusType = "INITIALIZING"
-	JobStatusTypeCreated      JobStatusType = "CREATED"
-	JobStatusTypeRunning      JobStatusType = "RUNNING"
-	JobStatusTypeFailing      JobStatusType = "FAILING"
-	JobStatusTypeFailed       JobStatusType = "FAILED"
-	JobStatusTypeCancelling   JobStatusType = "CANCELLING"
 	JobStatusTypeCanceled     JobStatusType = "CANCELED"
+	JobStatusTypeCancelling   JobStatusType = "CANCELLING"
+	JobStatusTypeCreated      JobStatusType = "CREATED"
+	JobStatusTypeFailed       JobStatusType = "FAILED"
+	JobStatusTypeFailing      JobStatusType = "FAILING"
 	JobStatusTypeFinished     JobStatusType = "FINISHED"
-	JobStatusTypeRestarting   JobStatusType = "RESTARTING"
-	JobStatusTypeSuspended    JobStatusType = "SUSPENDED"
+	JobStatusTypeInitializing JobStatusType = "INITIALIZING"
 	JobStatusTypeReconciling  JobStatusType = "RECONCILING"
+	JobStatusTypeRestarting   JobStatusType = "RESTARTING"
+	JobStatusTypeRunning      JobStatusType = "RUNNING"
+	JobStatusTypeSuspended    JobStatusType = "SUSPENDED"
 )
 
 func JobStatusTypeChoices() []string {
-	return []string{"INITIALIZING", "CREATED", "RUNNING", "FAILING", "FAILED", "CANCELLING", "CANCELED", "FINISHED", "RESTARTING", "SUSPENDED", "RECONCILING"}
+	return []string{"CANCELED", "CANCELLING", "CREATED", "FAILED", "FAILING", "FINISHED", "INITIALIZING", "RECONCILING", "RESTARTING", "RUNNING", "SUSPENDED"}
 }
 
 // ServiceFlinkJobDetailsOut ServiceFlinkJobDetailsResponse
@@ -104,21 +104,21 @@ type ServiceFlinkJobDetailsOut struct {
 type ServiceFlinkJobDetailsStateType string
 
 const (
-	ServiceFlinkJobDetailsStateTypeInitializing ServiceFlinkJobDetailsStateType = "INITIALIZING"
-	ServiceFlinkJobDetailsStateTypeCreated      ServiceFlinkJobDetailsStateType = "CREATED"
-	ServiceFlinkJobDetailsStateTypeRunning      ServiceFlinkJobDetailsStateType = "RUNNING"
-	ServiceFlinkJobDetailsStateTypeFailing      ServiceFlinkJobDetailsStateType = "FAILING"
-	ServiceFlinkJobDetailsStateTypeFailed       ServiceFlinkJobDetailsStateType = "FAILED"
-	ServiceFlinkJobDetailsStateTypeCancelling   ServiceFlinkJobDetailsStateType = "CANCELLING"
 	ServiceFlinkJobDetailsStateTypeCanceled     ServiceFlinkJobDetailsStateType = "CANCELED"
+	ServiceFlinkJobDetailsStateTypeCancelling   ServiceFlinkJobDetailsStateType = "CANCELLING"
+	ServiceFlinkJobDetailsStateTypeCreated      ServiceFlinkJobDetailsStateType = "CREATED"
+	ServiceFlinkJobDetailsStateTypeFailed       ServiceFlinkJobDetailsStateType = "FAILED"
+	ServiceFlinkJobDetailsStateTypeFailing      ServiceFlinkJobDetailsStateType = "FAILING"
 	ServiceFlinkJobDetailsStateTypeFinished     ServiceFlinkJobDetailsStateType = "FINISHED"
-	ServiceFlinkJobDetailsStateTypeRestarting   ServiceFlinkJobDetailsStateType = "RESTARTING"
-	ServiceFlinkJobDetailsStateTypeSuspended    ServiceFlinkJobDetailsStateType = "SUSPENDED"
+	ServiceFlinkJobDetailsStateTypeInitializing ServiceFlinkJobDetailsStateType = "INITIALIZING"
 	ServiceFlinkJobDetailsStateTypeReconciling  ServiceFlinkJobDetailsStateType = "RECONCILING"
+	ServiceFlinkJobDetailsStateTypeRestarting   ServiceFlinkJobDetailsStateType = "RESTARTING"
+	ServiceFlinkJobDetailsStateTypeRunning      ServiceFlinkJobDetailsStateType = "RUNNING"
+	ServiceFlinkJobDetailsStateTypeSuspended    ServiceFlinkJobDetailsStateType = "SUSPENDED"
 )
 
 func ServiceFlinkJobDetailsStateTypeChoices() []string {
-	return []string{"INITIALIZING", "CREATED", "RUNNING", "FAILING", "FAILED", "CANCELLING", "CANCELED", "FINISHED", "RESTARTING", "SUSPENDED", "RECONCILING"}
+	return []string{"CANCELED", "CANCELLING", "CREATED", "FAILED", "FAILING", "FINISHED", "INITIALIZING", "RECONCILING", "RESTARTING", "RUNNING", "SUSPENDED"}
 }
 
 // StatusCountsOut Status counts

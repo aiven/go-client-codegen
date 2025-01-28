@@ -92,13 +92,13 @@ type FileInfoOut struct {
 type FileStatusType string
 
 const (
+	FileStatusTypeFailed  FileStatusType = "FAILED"
 	FileStatusTypeInitial FileStatusType = "INITIAL"
 	FileStatusTypeReady   FileStatusType = "READY"
-	FileStatusTypeFailed  FileStatusType = "FAILED"
 )
 
 func FileStatusTypeChoices() []string {
-	return []string{"INITIAL", "READY", "FAILED"}
+	return []string{"FAILED", "INITIAL", "READY"}
 }
 
 // ServiceFlinkCreateJarApplicationVersionOut ServiceFlinkCreateJarApplicationVersionResponse

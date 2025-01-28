@@ -173,27 +173,27 @@ type AclOut struct {
 type ElasticsearchVersionType string
 
 const (
-	ElasticsearchVersionType7 ElasticsearchVersionType = "7"
 	ElasticsearchVersionType1 ElasticsearchVersionType = "1"
 	ElasticsearchVersionType2 ElasticsearchVersionType = "2"
+	ElasticsearchVersionType7 ElasticsearchVersionType = "7"
 )
 
 func ElasticsearchVersionTypeChoices() []string {
-	return []string{"7", "1", "2"}
+	return []string{"1", "2", "7"}
 }
 
 type HealthType string
 
 const (
 	HealthTypeGreen       HealthType = "green"
-	HealthTypeYellow      HealthType = "yellow"
 	HealthTypeRed         HealthType = "red"
 	HealthTypeRedAsterisk HealthType = "red*"
 	HealthTypeUnknown     HealthType = "unknown"
+	HealthTypeYellow      HealthType = "yellow"
 )
 
 func HealthTypeChoices() []string {
-	return []string{"green", "yellow", "red", "red*", "unknown"}
+	return []string{"green", "red", "red*", "unknown", "yellow"}
 }
 
 type IndexeOut struct {
@@ -211,14 +211,14 @@ type IndexeOut struct {
 type IndexeStatusType string
 
 const (
-	IndexeStatusTypeUnknown IndexeStatusType = "unknown"
-	IndexeStatusTypeOpen    IndexeStatusType = "open"
 	IndexeStatusTypeClose   IndexeStatusType = "close"
 	IndexeStatusTypeNone    IndexeStatusType = "none"
+	IndexeStatusTypeOpen    IndexeStatusType = "open"
+	IndexeStatusTypeUnknown IndexeStatusType = "unknown"
 )
 
 func IndexeStatusTypeChoices() []string {
-	return []string{"unknown", "open", "close", "none"}
+	return []string{"close", "none", "open", "unknown"}
 }
 
 // OpensearchAclConfigIn OpenSearch ACL configuration
@@ -235,15 +235,15 @@ type OpensearchAclConfigOut struct {
 type PermissionType string
 
 const (
-	PermissionTypeDeny      PermissionType = "deny"
 	PermissionTypeAdmin     PermissionType = "admin"
+	PermissionTypeDeny      PermissionType = "deny"
 	PermissionTypeRead      PermissionType = "read"
 	PermissionTypeReadwrite PermissionType = "readwrite"
 	PermissionTypeWrite     PermissionType = "write"
 )
 
 func PermissionTypeChoices() []string {
-	return []string{"deny", "admin", "read", "readwrite", "write"}
+	return []string{"admin", "deny", "read", "readwrite", "write"}
 }
 
 // ReplicationOut Index replication
