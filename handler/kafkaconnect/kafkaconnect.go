@@ -209,19 +209,19 @@ type ConfigurationSchemaOut struct {
 type ConfigurationSchemaType string
 
 const (
-	ConfigurationSchemaTypeString   ConfigurationSchemaType = "STRING"
-	ConfigurationSchemaTypeInt      ConfigurationSchemaType = "INT"
-	ConfigurationSchemaTypeShort    ConfigurationSchemaType = "SHORT"
-	ConfigurationSchemaTypeLong     ConfigurationSchemaType = "LONG"
-	ConfigurationSchemaTypeDouble   ConfigurationSchemaType = "DOUBLE"
 	ConfigurationSchemaTypeBoolean  ConfigurationSchemaType = "BOOLEAN"
-	ConfigurationSchemaTypeList     ConfigurationSchemaType = "LIST"
 	ConfigurationSchemaTypeClass    ConfigurationSchemaType = "CLASS"
+	ConfigurationSchemaTypeDouble   ConfigurationSchemaType = "DOUBLE"
+	ConfigurationSchemaTypeInt      ConfigurationSchemaType = "INT"
+	ConfigurationSchemaTypeList     ConfigurationSchemaType = "LIST"
+	ConfigurationSchemaTypeLong     ConfigurationSchemaType = "LONG"
 	ConfigurationSchemaTypePassword ConfigurationSchemaType = "PASSWORD"
+	ConfigurationSchemaTypeShort    ConfigurationSchemaType = "SHORT"
+	ConfigurationSchemaTypeString   ConfigurationSchemaType = "STRING"
 )
 
 func ConfigurationSchemaTypeChoices() []string {
-	return []string{"STRING", "INT", "SHORT", "LONG", "DOUBLE", "BOOLEAN", "LIST", "CLASS", "PASSWORD"}
+	return []string{"BOOLEAN", "CLASS", "DOUBLE", "INT", "LIST", "LONG", "PASSWORD", "SHORT", "STRING"}
 }
 
 type ConnectorOut struct {
@@ -233,13 +233,13 @@ type ConnectorOut struct {
 type ImportanceType string
 
 const (
+	ImportanceTypeHigh   ImportanceType = "HIGH"
 	ImportanceTypeLow    ImportanceType = "LOW"
 	ImportanceTypeMedium ImportanceType = "MEDIUM"
-	ImportanceTypeHigh   ImportanceType = "HIGH"
 )
 
 func ImportanceTypeChoices() []string {
-	return []string{"LOW", "MEDIUM", "HIGH"}
+	return []string{"HIGH", "LOW", "MEDIUM"}
 }
 
 // PluginOut Kafka Connector plugin information
@@ -350,14 +350,14 @@ func TaskStateTypeChoices() []string {
 type WidthType string
 
 const (
+	WidthTypeLong   WidthType = "LONG"
+	WidthTypeMedium WidthType = "MEDIUM"
 	WidthTypeNone   WidthType = "NONE"
 	WidthTypeShort  WidthType = "SHORT"
-	WidthTypeMedium WidthType = "MEDIUM"
-	WidthTypeLong   WidthType = "LONG"
 )
 
 func WidthTypeChoices() []string {
-	return []string{"NONE", "SHORT", "MEDIUM", "LONG"}
+	return []string{"LONG", "MEDIUM", "NONE", "SHORT"}
 }
 
 // serviceKafkaConnectCreateConnectorOut ServiceKafkaConnectCreateConnectorResponse

@@ -213,6 +213,11 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 		if !strings.Contains(s.CamelName, enumTypeSuffix) {
 			s.CamelName += enumTypeSuffix
 		}
+
+		// Sorts values for consistency
+		sort.Slice(s.Enum, func(i, j int) bool {
+			return fmt.Sprint(s.Enum[i]) < fmt.Sprint(s.Enum[j])
+		})
 	}
 
 	// Adds suffix to reduce name collision

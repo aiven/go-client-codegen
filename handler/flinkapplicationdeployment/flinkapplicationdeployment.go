@@ -150,53 +150,53 @@ type DeploymentOut struct {
 type DeploymentStatusType string
 
 const (
-	DeploymentStatusTypeInitializing           DeploymentStatusType = "INITIALIZING"
-	DeploymentStatusTypeCreated                DeploymentStatusType = "CREATED"
-	DeploymentStatusTypeRunning                DeploymentStatusType = "RUNNING"
-	DeploymentStatusTypeFailing                DeploymentStatusType = "FAILING"
-	DeploymentStatusTypeFailed                 DeploymentStatusType = "FAILED"
-	DeploymentStatusTypeSaving                 DeploymentStatusType = "SAVING"
-	DeploymentStatusTypeCancellingRequested    DeploymentStatusType = "CANCELLING_REQUESTED"
-	DeploymentStatusTypeCancelling             DeploymentStatusType = "CANCELLING"
 	DeploymentStatusTypeCanceled               DeploymentStatusType = "CANCELED"
-	DeploymentStatusTypeSavingAndStopRequested DeploymentStatusType = "SAVING_AND_STOP_REQUESTED"
-	DeploymentStatusTypeSavingAndStop          DeploymentStatusType = "SAVING_AND_STOP"
-	DeploymentStatusTypeFinished               DeploymentStatusType = "FINISHED"
-	DeploymentStatusTypeRestarting             DeploymentStatusType = "RESTARTING"
-	DeploymentStatusTypeSuspended              DeploymentStatusType = "SUSPENDED"
+	DeploymentStatusTypeCancelling             DeploymentStatusType = "CANCELLING"
+	DeploymentStatusTypeCancellingRequested    DeploymentStatusType = "CANCELLING_REQUESTED"
+	DeploymentStatusTypeCreated                DeploymentStatusType = "CREATED"
 	DeploymentStatusTypeDeleteRequested        DeploymentStatusType = "DELETE_REQUESTED"
 	DeploymentStatusTypeDeleting               DeploymentStatusType = "DELETING"
+	DeploymentStatusTypeFailed                 DeploymentStatusType = "FAILED"
+	DeploymentStatusTypeFailing                DeploymentStatusType = "FAILING"
+	DeploymentStatusTypeFinished               DeploymentStatusType = "FINISHED"
+	DeploymentStatusTypeInitializing           DeploymentStatusType = "INITIALIZING"
 	DeploymentStatusTypeReconciling            DeploymentStatusType = "RECONCILING"
+	DeploymentStatusTypeRestarting             DeploymentStatusType = "RESTARTING"
+	DeploymentStatusTypeRunning                DeploymentStatusType = "RUNNING"
+	DeploymentStatusTypeSaving                 DeploymentStatusType = "SAVING"
+	DeploymentStatusTypeSavingAndStop          DeploymentStatusType = "SAVING_AND_STOP"
+	DeploymentStatusTypeSavingAndStopRequested DeploymentStatusType = "SAVING_AND_STOP_REQUESTED"
+	DeploymentStatusTypeSuspended              DeploymentStatusType = "SUSPENDED"
 )
 
 func DeploymentStatusTypeChoices() []string {
-	return []string{"INITIALIZING", "CREATED", "RUNNING", "FAILING", "FAILED", "SAVING", "CANCELLING_REQUESTED", "CANCELLING", "CANCELED", "SAVING_AND_STOP_REQUESTED", "SAVING_AND_STOP", "FINISHED", "RESTARTING", "SUSPENDED", "DELETE_REQUESTED", "DELETING", "RECONCILING"}
+	return []string{"CANCELED", "CANCELLING", "CANCELLING_REQUESTED", "CREATED", "DELETE_REQUESTED", "DELETING", "FAILED", "FAILING", "FINISHED", "INITIALIZING", "RECONCILING", "RESTARTING", "RUNNING", "SAVING", "SAVING_AND_STOP", "SAVING_AND_STOP_REQUESTED", "SUSPENDED"}
 }
 
 type ServiceFlinkApplicationDeploymentStatusType string
 
 const (
-	ServiceFlinkApplicationDeploymentStatusTypeInitializing           ServiceFlinkApplicationDeploymentStatusType = "INITIALIZING"
-	ServiceFlinkApplicationDeploymentStatusTypeCreated                ServiceFlinkApplicationDeploymentStatusType = "CREATED"
-	ServiceFlinkApplicationDeploymentStatusTypeRunning                ServiceFlinkApplicationDeploymentStatusType = "RUNNING"
-	ServiceFlinkApplicationDeploymentStatusTypeFailing                ServiceFlinkApplicationDeploymentStatusType = "FAILING"
-	ServiceFlinkApplicationDeploymentStatusTypeFailed                 ServiceFlinkApplicationDeploymentStatusType = "FAILED"
-	ServiceFlinkApplicationDeploymentStatusTypeSaving                 ServiceFlinkApplicationDeploymentStatusType = "SAVING"
-	ServiceFlinkApplicationDeploymentStatusTypeCancellingRequested    ServiceFlinkApplicationDeploymentStatusType = "CANCELLING_REQUESTED"
-	ServiceFlinkApplicationDeploymentStatusTypeCancelling             ServiceFlinkApplicationDeploymentStatusType = "CANCELLING"
 	ServiceFlinkApplicationDeploymentStatusTypeCanceled               ServiceFlinkApplicationDeploymentStatusType = "CANCELED"
-	ServiceFlinkApplicationDeploymentStatusTypeSavingAndStopRequested ServiceFlinkApplicationDeploymentStatusType = "SAVING_AND_STOP_REQUESTED"
-	ServiceFlinkApplicationDeploymentStatusTypeSavingAndStop          ServiceFlinkApplicationDeploymentStatusType = "SAVING_AND_STOP"
-	ServiceFlinkApplicationDeploymentStatusTypeFinished               ServiceFlinkApplicationDeploymentStatusType = "FINISHED"
-	ServiceFlinkApplicationDeploymentStatusTypeRestarting             ServiceFlinkApplicationDeploymentStatusType = "RESTARTING"
-	ServiceFlinkApplicationDeploymentStatusTypeSuspended              ServiceFlinkApplicationDeploymentStatusType = "SUSPENDED"
+	ServiceFlinkApplicationDeploymentStatusTypeCancelling             ServiceFlinkApplicationDeploymentStatusType = "CANCELLING"
+	ServiceFlinkApplicationDeploymentStatusTypeCancellingRequested    ServiceFlinkApplicationDeploymentStatusType = "CANCELLING_REQUESTED"
+	ServiceFlinkApplicationDeploymentStatusTypeCreated                ServiceFlinkApplicationDeploymentStatusType = "CREATED"
 	ServiceFlinkApplicationDeploymentStatusTypeDeleteRequested        ServiceFlinkApplicationDeploymentStatusType = "DELETE_REQUESTED"
 	ServiceFlinkApplicationDeploymentStatusTypeDeleting               ServiceFlinkApplicationDeploymentStatusType = "DELETING"
+	ServiceFlinkApplicationDeploymentStatusTypeFailed                 ServiceFlinkApplicationDeploymentStatusType = "FAILED"
+	ServiceFlinkApplicationDeploymentStatusTypeFailing                ServiceFlinkApplicationDeploymentStatusType = "FAILING"
+	ServiceFlinkApplicationDeploymentStatusTypeFinished               ServiceFlinkApplicationDeploymentStatusType = "FINISHED"
+	ServiceFlinkApplicationDeploymentStatusTypeInitializing           ServiceFlinkApplicationDeploymentStatusType = "INITIALIZING"
 	ServiceFlinkApplicationDeploymentStatusTypeReconciling            ServiceFlinkApplicationDeploymentStatusType = "RECONCILING"
+	ServiceFlinkApplicationDeploymentStatusTypeRestarting             ServiceFlinkApplicationDeploymentStatusType = "RESTARTING"
+	ServiceFlinkApplicationDeploymentStatusTypeRunning                ServiceFlinkApplicationDeploymentStatusType = "RUNNING"
+	ServiceFlinkApplicationDeploymentStatusTypeSaving                 ServiceFlinkApplicationDeploymentStatusType = "SAVING"
+	ServiceFlinkApplicationDeploymentStatusTypeSavingAndStop          ServiceFlinkApplicationDeploymentStatusType = "SAVING_AND_STOP"
+	ServiceFlinkApplicationDeploymentStatusTypeSavingAndStopRequested ServiceFlinkApplicationDeploymentStatusType = "SAVING_AND_STOP_REQUESTED"
+	ServiceFlinkApplicationDeploymentStatusTypeSuspended              ServiceFlinkApplicationDeploymentStatusType = "SUSPENDED"
 )
 
 func ServiceFlinkApplicationDeploymentStatusTypeChoices() []string {
-	return []string{"INITIALIZING", "CREATED", "RUNNING", "FAILING", "FAILED", "SAVING", "CANCELLING_REQUESTED", "CANCELLING", "CANCELED", "SAVING_AND_STOP_REQUESTED", "SAVING_AND_STOP", "FINISHED", "RESTARTING", "SUSPENDED", "DELETE_REQUESTED", "DELETING", "RECONCILING"}
+	return []string{"CANCELED", "CANCELLING", "CANCELLING_REQUESTED", "CREATED", "DELETE_REQUESTED", "DELETING", "FAILED", "FAILING", "FINISHED", "INITIALIZING", "RECONCILING", "RESTARTING", "RUNNING", "SAVING", "SAVING_AND_STOP", "SAVING_AND_STOP_REQUESTED", "SUSPENDED"}
 }
 
 // ServiceFlinkCancelApplicationDeploymentOut ServiceFlinkCancelApplicationDeploymentResponse

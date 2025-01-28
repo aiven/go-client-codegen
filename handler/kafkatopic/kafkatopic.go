@@ -140,28 +140,28 @@ type CleanupPolicyOut struct {
 type CleanupPolicyType string
 
 const (
-	CleanupPolicyTypeDelete        CleanupPolicyType = "delete"
 	CleanupPolicyTypeCompact       CleanupPolicyType = "compact"
 	CleanupPolicyTypeCompactDelete CleanupPolicyType = "compact,delete"
+	CleanupPolicyTypeDelete        CleanupPolicyType = "delete"
 )
 
 func CleanupPolicyTypeChoices() []string {
-	return []string{"delete", "compact", "compact,delete"}
+	return []string{"compact", "compact,delete", "delete"}
 }
 
 type CompressionType string
 
 const (
-	CompressionTypeSnappy       CompressionType = "snappy"
 	CompressionTypeGzip         CompressionType = "gzip"
 	CompressionTypeLz4          CompressionType = "lz4"
 	CompressionTypeProducer     CompressionType = "producer"
+	CompressionTypeSnappy       CompressionType = "snappy"
 	CompressionTypeUncompressed CompressionType = "uncompressed"
 	CompressionTypeZstd         CompressionType = "zstd"
 )
 
 func CompressionTypeChoices() []string {
-	return []string{"snappy", "gzip", "lz4", "producer", "uncompressed", "zstd"}
+	return []string{"gzip", "lz4", "producer", "snappy", "uncompressed", "zstd"}
 }
 
 // CompressionTypeOut compression.type value, source and synonyms
@@ -177,16 +177,16 @@ type CompressionTypeOut struct {
 type CompressionTypeValue string
 
 const (
-	CompressionTypeValueSnappy       CompressionTypeValue = "snappy"
 	CompressionTypeValueGzip         CompressionTypeValue = "gzip"
 	CompressionTypeValueLz4          CompressionTypeValue = "lz4"
 	CompressionTypeValueProducer     CompressionTypeValue = "producer"
+	CompressionTypeValueSnappy       CompressionTypeValue = "snappy"
 	CompressionTypeValueUncompressed CompressionTypeValue = "uncompressed"
 	CompressionTypeValueZstd         CompressionTypeValue = "zstd"
 )
 
 func CompressionTypeValueChoices() []string {
-	return []string{"snappy", "gzip", "lz4", "producer", "uncompressed", "zstd"}
+	return []string{"gzip", "lz4", "producer", "snappy", "uncompressed", "zstd"}
 }
 
 // ConfigIn Kafka topic configuration
@@ -301,15 +301,15 @@ type FlushMsOut struct {
 type FormatType string
 
 const (
+	FormatTypeAvro       FormatType = "avro"
 	FormatTypeBinary     FormatType = "binary"
 	FormatTypeJson       FormatType = "json"
-	FormatTypeAvro       FormatType = "avro"
-	FormatTypeProtobuf   FormatType = "protobuf"
 	FormatTypeJsonschema FormatType = "jsonschema"
+	FormatTypeProtobuf   FormatType = "protobuf"
 )
 
 func FormatTypeChoices() []string {
-	return []string{"binary", "json", "avro", "protobuf", "jsonschema"}
+	return []string{"avro", "binary", "json", "jsonschema", "protobuf"}
 }
 
 // IndexIntervalBytesOut index.interval.bytes value, source and synonyms
@@ -391,10 +391,6 @@ type MessageFormatVersionOut struct {
 type MessageFormatVersionType string
 
 const (
-	MessageFormatVersionType080     MessageFormatVersionType = "0.8.0"
-	MessageFormatVersionType081     MessageFormatVersionType = "0.8.1"
-	MessageFormatVersionType082     MessageFormatVersionType = "0.8.2"
-	MessageFormatVersionType090     MessageFormatVersionType = "0.9.0"
 	MessageFormatVersionType0100    MessageFormatVersionType = "0.10.0"
 	MessageFormatVersionType0100Iv0 MessageFormatVersionType = "0.10.0-IV0"
 	MessageFormatVersionType0100Iv1 MessageFormatVersionType = "0.10.0-IV1"
@@ -408,6 +404,10 @@ const (
 	MessageFormatVersionType0110Iv0 MessageFormatVersionType = "0.11.0-IV0"
 	MessageFormatVersionType0110Iv1 MessageFormatVersionType = "0.11.0-IV1"
 	MessageFormatVersionType0110Iv2 MessageFormatVersionType = "0.11.0-IV2"
+	MessageFormatVersionType080     MessageFormatVersionType = "0.8.0"
+	MessageFormatVersionType081     MessageFormatVersionType = "0.8.1"
+	MessageFormatVersionType082     MessageFormatVersionType = "0.8.2"
+	MessageFormatVersionType090     MessageFormatVersionType = "0.9.0"
 	MessageFormatVersionType10      MessageFormatVersionType = "1.0"
 	MessageFormatVersionType10Iv0   MessageFormatVersionType = "1.0-IV0"
 	MessageFormatVersionType11      MessageFormatVersionType = "1.1"
@@ -475,7 +475,7 @@ const (
 )
 
 func MessageFormatVersionTypeChoices() []string {
-	return []string{"0.8.0", "0.8.1", "0.8.2", "0.9.0", "0.10.0", "0.10.0-IV0", "0.10.0-IV1", "0.10.1", "0.10.1-IV0", "0.10.1-IV1", "0.10.1-IV2", "0.10.2", "0.10.2-IV0", "0.11.0", "0.11.0-IV0", "0.11.0-IV1", "0.11.0-IV2", "1.0", "1.0-IV0", "1.1", "1.1-IV0", "2.0", "2.0-IV0", "2.0-IV1", "2.1", "2.1-IV0", "2.1-IV1", "2.1-IV2", "2.2", "2.2-IV0", "2.2-IV1", "2.3", "2.3-IV0", "2.3-IV1", "2.4", "2.4-IV0", "2.4-IV1", "2.5", "2.5-IV0", "2.6", "2.6-IV0", "2.7", "2.7-IV0", "2.7-IV1", "2.7-IV2", "2.8", "2.8-IV0", "2.8-IV1", "3.0", "3.0-IV0", "3.0-IV1", "3.1", "3.1-IV0", "3.2", "3.2-IV0", "3.3", "3.3-IV0", "3.3-IV1", "3.3-IV2", "3.3-IV3", "3.4", "3.4-IV0", "3.5", "3.5-IV0", "3.5-IV1", "3.5-IV2", "3.6", "3.6-IV0", "3.6-IV1", "3.6-IV2", "3.7", "3.7-IV0", "3.7-IV1", "3.7-IV2", "3.7-IV3", "3.7-IV4", "3.8", "3.8-IV0", "3.9", "3.9-IV0", "3.9-IV1"}
+	return []string{"0.10.0", "0.10.0-IV0", "0.10.0-IV1", "0.10.1", "0.10.1-IV0", "0.10.1-IV1", "0.10.1-IV2", "0.10.2", "0.10.2-IV0", "0.11.0", "0.11.0-IV0", "0.11.0-IV1", "0.11.0-IV2", "0.8.0", "0.8.1", "0.8.2", "0.9.0", "1.0", "1.0-IV0", "1.1", "1.1-IV0", "2.0", "2.0-IV0", "2.0-IV1", "2.1", "2.1-IV0", "2.1-IV1", "2.1-IV2", "2.2", "2.2-IV0", "2.2-IV1", "2.3", "2.3-IV0", "2.3-IV1", "2.4", "2.4-IV0", "2.4-IV1", "2.5", "2.5-IV0", "2.6", "2.6-IV0", "2.7", "2.7-IV0", "2.7-IV1", "2.7-IV2", "2.8", "2.8-IV0", "2.8-IV1", "3.0", "3.0-IV0", "3.0-IV1", "3.1", "3.1-IV0", "3.2", "3.2-IV0", "3.3", "3.3-IV0", "3.3-IV1", "3.3-IV2", "3.3-IV3", "3.4", "3.4-IV0", "3.5", "3.5-IV0", "3.5-IV1", "3.5-IV2", "3.6", "3.6-IV0", "3.6-IV1", "3.6-IV2", "3.7", "3.7-IV0", "3.7-IV1", "3.7-IV2", "3.7-IV3", "3.7-IV4", "3.8", "3.8-IV0", "3.9", "3.9-IV0", "3.9-IV1"}
 }
 
 type MessageOut struct {
@@ -740,17 +740,17 @@ type ServiceKafkaTopicUpdateIn struct {
 type SourceType string
 
 const (
-	SourceTypeUnknownConfig              SourceType = "unknown_config"
-	SourceTypeTopicConfig                SourceType = "topic_config"
+	SourceTypeDefaultConfig              SourceType = "default_config"
 	SourceTypeDynamicBrokerConfig        SourceType = "dynamic_broker_config"
+	SourceTypeDynamicBrokerLoggerConfig  SourceType = "dynamic_broker_logger_config"
 	SourceTypeDynamicDefaultBrokerConfig SourceType = "dynamic_default_broker_config"
 	SourceTypeStaticBrokerConfig         SourceType = "static_broker_config"
-	SourceTypeDefaultConfig              SourceType = "default_config"
-	SourceTypeDynamicBrokerLoggerConfig  SourceType = "dynamic_broker_logger_config"
+	SourceTypeTopicConfig                SourceType = "topic_config"
+	SourceTypeUnknownConfig              SourceType = "unknown_config"
 )
 
 func SourceTypeChoices() []string {
-	return []string{"unknown_config", "topic_config", "dynamic_broker_config", "dynamic_default_broker_config", "static_broker_config", "default_config", "dynamic_broker_logger_config"}
+	return []string{"default_config", "dynamic_broker_config", "dynamic_broker_logger_config", "dynamic_default_broker_config", "static_broker_config", "topic_config", "unknown_config"}
 }
 
 type TagIn struct {

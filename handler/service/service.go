@@ -884,13 +884,13 @@ type AlloydbomniOut struct {
 type AuthenticationType string
 
 const (
-	AuthenticationTypeNull                AuthenticationType = "null"
 	AuthenticationTypeCachingSha2Password AuthenticationType = "caching_sha2_password"
 	AuthenticationTypeMysqlNativePassword AuthenticationType = "mysql_native_password"
+	AuthenticationTypeNull                AuthenticationType = "null"
 )
 
 func AuthenticationTypeChoices() []string {
-	return []string{"null", "caching_sha2_password", "mysql_native_password"}
+	return []string{"caching_sha2_password", "mysql_native_password", "null"}
 }
 
 // BackupConfigOut Backup configuration for this service plan
@@ -1043,17 +1043,17 @@ type DbOut struct {
 type DowType string
 
 const (
-	DowTypeMonday    DowType = "monday"
-	DowTypeTuesday   DowType = "tuesday"
-	DowTypeWednesday DowType = "wednesday"
-	DowTypeThursday  DowType = "thursday"
 	DowTypeFriday    DowType = "friday"
+	DowTypeMonday    DowType = "monday"
 	DowTypeSaturday  DowType = "saturday"
 	DowTypeSunday    DowType = "sunday"
+	DowTypeThursday  DowType = "thursday"
+	DowTypeTuesday   DowType = "tuesday"
+	DowTypeWednesday DowType = "wednesday"
 )
 
 func DowTypeChoices() []string {
-	return []string{"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"}
+	return []string{"friday", "monday", "saturday", "sunday", "thursday", "tuesday", "wednesday"}
 }
 
 // DragonflyOut Service type information
@@ -1281,12 +1281,12 @@ type KafkaOut struct {
 type KafkaSslCaType string
 
 const (
-	KafkaSslCaTypeProjectCa   KafkaSslCaType = "project_ca"
 	KafkaSslCaTypeLetsencrypt KafkaSslCaType = "letsencrypt"
+	KafkaSslCaTypeProjectCa   KafkaSslCaType = "project_ca"
 )
 
 func KafkaSslCaTypeChoices() []string {
-	return []string{"project_ca", "letsencrypt"}
+	return []string{"letsencrypt", "project_ca"}
 }
 
 type LevelType string
@@ -1303,15 +1303,15 @@ func LevelTypeChoices() []string {
 type LikelyErrorCauseType string
 
 const (
-	LikelyErrorCauseTypeNull        LikelyErrorCauseType = "null"
 	LikelyErrorCauseTypeDestination LikelyErrorCauseType = "destination"
 	LikelyErrorCauseTypeIntegration LikelyErrorCauseType = "integration"
+	LikelyErrorCauseTypeNull        LikelyErrorCauseType = "null"
 	LikelyErrorCauseTypeSource      LikelyErrorCauseType = "source"
 	LikelyErrorCauseTypeUnknown     LikelyErrorCauseType = "unknown"
 )
 
 func LikelyErrorCauseTypeChoices() []string {
-	return []string{"null", "destination", "integration", "source", "unknown"}
+	return []string{"destination", "integration", "null", "source", "unknown"}
 }
 
 // ListProjectServiceTypesOut Service plans by service type
@@ -1367,18 +1367,18 @@ type LogOut struct {
 type MaintenanceDowType string
 
 const (
-	MaintenanceDowTypeMonday    MaintenanceDowType = "monday"
-	MaintenanceDowTypeTuesday   MaintenanceDowType = "tuesday"
-	MaintenanceDowTypeWednesday MaintenanceDowType = "wednesday"
-	MaintenanceDowTypeThursday  MaintenanceDowType = "thursday"
 	MaintenanceDowTypeFriday    MaintenanceDowType = "friday"
+	MaintenanceDowTypeMonday    MaintenanceDowType = "monday"
+	MaintenanceDowTypeNever     MaintenanceDowType = "never"
 	MaintenanceDowTypeSaturday  MaintenanceDowType = "saturday"
 	MaintenanceDowTypeSunday    MaintenanceDowType = "sunday"
-	MaintenanceDowTypeNever     MaintenanceDowType = "never"
+	MaintenanceDowTypeThursday  MaintenanceDowType = "thursday"
+	MaintenanceDowTypeTuesday   MaintenanceDowType = "tuesday"
+	MaintenanceDowTypeWednesday MaintenanceDowType = "wednesday"
 )
 
 func MaintenanceDowTypeChoices() []string {
-	return []string{"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "never"}
+	return []string{"friday", "monday", "never", "saturday", "sunday", "thursday", "tuesday", "wednesday"}
 }
 
 // MaintenanceIn Automatic maintenance settings
@@ -1396,12 +1396,12 @@ type MaintenanceOut struct {
 type MasterLinkStatusType string
 
 const (
-	MasterLinkStatusTypeUp   MasterLinkStatusType = "up"
 	MasterLinkStatusTypeDown MasterLinkStatusType = "down"
+	MasterLinkStatusTypeUp   MasterLinkStatusType = "up"
 )
 
 func MasterLinkStatusTypeChoices() []string {
-	return []string{"up", "down"}
+	return []string{"down", "up"}
 }
 
 // MetadataOut Notification metadata
@@ -1570,15 +1570,15 @@ func PatternTypeChoices() []string {
 type PeriodType string
 
 const (
-	PeriodTypeHour  PeriodType = "hour"
 	PeriodTypeDay   PeriodType = "day"
-	PeriodTypeWeek  PeriodType = "week"
+	PeriodTypeHour  PeriodType = "hour"
 	PeriodTypeMonth PeriodType = "month"
+	PeriodTypeWeek  PeriodType = "week"
 	PeriodTypeYear  PeriodType = "year"
 )
 
 func PeriodTypeChoices() []string {
-	return []string{"hour", "day", "week", "month", "year"}
+	return []string{"day", "hour", "month", "week", "year"}
 }
 
 type PermissionType string
@@ -1613,14 +1613,14 @@ type PgParamOut struct {
 type PhaseType string
 
 const (
-	PhaseTypePrepare    PhaseType = "prepare"
 	PhaseTypeBasebackup PhaseType = "basebackup"
-	PhaseTypeStream     PhaseType = "stream"
 	PhaseTypeFinalize   PhaseType = "finalize"
+	PhaseTypePrepare    PhaseType = "prepare"
+	PhaseTypeStream     PhaseType = "stream"
 )
 
 func PhaseTypeChoices() []string {
-	return []string{"prepare", "basebackup", "stream", "finalize"}
+	return []string{"basebackup", "finalize", "prepare", "stream"}
 }
 
 type PitrAdditionalRegionOut struct {
@@ -1639,12 +1639,12 @@ type PoolModeType string
 
 const (
 	PoolModeTypeSession     PoolModeType = "session"
-	PoolModeTypeTransaction PoolModeType = "transaction"
 	PoolModeTypeStatement   PoolModeType = "statement"
+	PoolModeTypeTransaction PoolModeType = "transaction"
 )
 
 func PoolModeTypeChoices() []string {
-	return []string{"session", "transaction", "statement"}
+	return []string{"session", "statement", "transaction"}
 }
 
 // PrimaryRegionOut Point-in-time-recovery metadata related to the primary backup location of the service.
@@ -1767,25 +1767,25 @@ type RoleType string
 
 const (
 	RoleTypeMaster      RoleType = "master"
-	RoleTypeStandby     RoleType = "standby"
 	RoleTypeReadReplica RoleType = "read-replica"
+	RoleTypeStandby     RoleType = "standby"
 )
 
 func RoleTypeChoices() []string {
-	return []string{"master", "standby", "read-replica"}
+	return []string{"master", "read-replica", "standby"}
 }
 
 type RouteType string
 
 const (
 	RouteTypeDynamic     RouteType = "dynamic"
-	RouteTypePublic      RouteType = "public"
 	RouteTypePrivate     RouteType = "private"
 	RouteTypePrivatelink RouteType = "privatelink"
+	RouteTypePublic      RouteType = "public"
 )
 
 func RouteTypeChoices() []string {
-	return []string{"dynamic", "public", "private", "privatelink"}
+	return []string{"dynamic", "private", "privatelink", "public"}
 }
 
 type SchemaRegistryAclOut struct {
@@ -2452,12 +2452,12 @@ type ShardOut struct {
 type SortOrderType string
 
 const (
-	SortOrderTypeDesc SortOrderType = "desc"
 	SortOrderTypeAsc  SortOrderType = "asc"
+	SortOrderTypeDesc SortOrderType = "desc"
 )
 
 func SortOrderTypeChoices() []string {
-	return []string{"desc", "asc"}
+	return []string{"asc", "desc"}
 }
 
 // StateOut Service integration state
@@ -2484,14 +2484,14 @@ func TargetVersionTypeChoices() []string {
 type TaskType string
 
 const (
-	TaskTypeUpgradeCheck     TaskType = "upgrade_check"
-	TaskTypeMigrationCheck   TaskType = "migration_check"
-	TaskTypeDatasetImport    TaskType = "dataset_import"
 	TaskTypeCreateUserBackup TaskType = "create_user_backup"
+	TaskTypeDatasetImport    TaskType = "dataset_import"
+	TaskTypeMigrationCheck   TaskType = "migration_check"
+	TaskTypeUpgradeCheck     TaskType = "upgrade_check"
 )
 
 func TaskTypeChoices() []string {
-	return []string{"upgrade_check", "migration_check", "dataset_import", "create_user_backup"}
+	return []string{"create_user_backup", "dataset_import", "migration_check", "upgrade_check"}
 }
 
 type TechEmailIn struct {

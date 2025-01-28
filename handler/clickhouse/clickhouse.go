@@ -182,12 +182,12 @@ type OrderByType string
 const (
 	OrderByTypeCallsAsc       OrderByType = "calls:asc"
 	OrderByTypeCallsDesc      OrderByType = "calls:desc"
-	OrderByTypeMinTimeAsc     OrderByType = "min_time:asc"
-	OrderByTypeMinTimeDesc    OrderByType = "min_time:desc"
 	OrderByTypeMaxTimeAsc     OrderByType = "max_time:asc"
 	OrderByTypeMaxTimeDesc    OrderByType = "max_time:desc"
 	OrderByTypeMeanTimeAsc    OrderByType = "mean_time:asc"
 	OrderByTypeMeanTimeDesc   OrderByType = "mean_time:desc"
+	OrderByTypeMinTimeAsc     OrderByType = "min_time:asc"
+	OrderByTypeMinTimeDesc    OrderByType = "min_time:desc"
 	OrderByTypeP95TimeAsc     OrderByType = "p95_time:asc"
 	OrderByTypeP95TimeDesc    OrderByType = "p95_time:desc"
 	OrderByTypeStddevTimeAsc  OrderByType = "stddev_time:asc"
@@ -197,7 +197,7 @@ const (
 )
 
 func OrderByTypeChoices() []string {
-	return []string{"calls:asc", "calls:desc", "min_time:asc", "min_time:desc", "max_time:asc", "max_time:desc", "mean_time:asc", "mean_time:desc", "p95_time:asc", "p95_time:desc", "stddev_time:asc", "stddev_time:desc", "total_time:asc", "total_time:desc"}
+	return []string{"calls:asc", "calls:desc", "max_time:asc", "max_time:desc", "mean_time:asc", "mean_time:desc", "min_time:asc", "min_time:desc", "p95_time:asc", "p95_time:desc", "stddev_time:asc", "stddev_time:desc", "total_time:asc", "total_time:desc"}
 }
 
 type QueryOut struct {

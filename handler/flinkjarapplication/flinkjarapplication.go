@@ -150,27 +150,27 @@ type CurrentDeploymentOut struct {
 type CurrentDeploymentStatusType string
 
 const (
-	CurrentDeploymentStatusTypeInitializing           CurrentDeploymentStatusType = "INITIALIZING"
-	CurrentDeploymentStatusTypeCreated                CurrentDeploymentStatusType = "CREATED"
-	CurrentDeploymentStatusTypeRunning                CurrentDeploymentStatusType = "RUNNING"
-	CurrentDeploymentStatusTypeFailing                CurrentDeploymentStatusType = "FAILING"
-	CurrentDeploymentStatusTypeFailed                 CurrentDeploymentStatusType = "FAILED"
-	CurrentDeploymentStatusTypeSaving                 CurrentDeploymentStatusType = "SAVING"
-	CurrentDeploymentStatusTypeCancellingRequested    CurrentDeploymentStatusType = "CANCELLING_REQUESTED"
-	CurrentDeploymentStatusTypeCancelling             CurrentDeploymentStatusType = "CANCELLING"
 	CurrentDeploymentStatusTypeCanceled               CurrentDeploymentStatusType = "CANCELED"
-	CurrentDeploymentStatusTypeSavingAndStopRequested CurrentDeploymentStatusType = "SAVING_AND_STOP_REQUESTED"
-	CurrentDeploymentStatusTypeSavingAndStop          CurrentDeploymentStatusType = "SAVING_AND_STOP"
-	CurrentDeploymentStatusTypeFinished               CurrentDeploymentStatusType = "FINISHED"
-	CurrentDeploymentStatusTypeRestarting             CurrentDeploymentStatusType = "RESTARTING"
-	CurrentDeploymentStatusTypeSuspended              CurrentDeploymentStatusType = "SUSPENDED"
+	CurrentDeploymentStatusTypeCancelling             CurrentDeploymentStatusType = "CANCELLING"
+	CurrentDeploymentStatusTypeCancellingRequested    CurrentDeploymentStatusType = "CANCELLING_REQUESTED"
+	CurrentDeploymentStatusTypeCreated                CurrentDeploymentStatusType = "CREATED"
 	CurrentDeploymentStatusTypeDeleteRequested        CurrentDeploymentStatusType = "DELETE_REQUESTED"
 	CurrentDeploymentStatusTypeDeleting               CurrentDeploymentStatusType = "DELETING"
+	CurrentDeploymentStatusTypeFailed                 CurrentDeploymentStatusType = "FAILED"
+	CurrentDeploymentStatusTypeFailing                CurrentDeploymentStatusType = "FAILING"
+	CurrentDeploymentStatusTypeFinished               CurrentDeploymentStatusType = "FINISHED"
+	CurrentDeploymentStatusTypeInitializing           CurrentDeploymentStatusType = "INITIALIZING"
 	CurrentDeploymentStatusTypeReconciling            CurrentDeploymentStatusType = "RECONCILING"
+	CurrentDeploymentStatusTypeRestarting             CurrentDeploymentStatusType = "RESTARTING"
+	CurrentDeploymentStatusTypeRunning                CurrentDeploymentStatusType = "RUNNING"
+	CurrentDeploymentStatusTypeSaving                 CurrentDeploymentStatusType = "SAVING"
+	CurrentDeploymentStatusTypeSavingAndStop          CurrentDeploymentStatusType = "SAVING_AND_STOP"
+	CurrentDeploymentStatusTypeSavingAndStopRequested CurrentDeploymentStatusType = "SAVING_AND_STOP_REQUESTED"
+	CurrentDeploymentStatusTypeSuspended              CurrentDeploymentStatusType = "SUSPENDED"
 )
 
 func CurrentDeploymentStatusTypeChoices() []string {
-	return []string{"INITIALIZING", "CREATED", "RUNNING", "FAILING", "FAILED", "SAVING", "CANCELLING_REQUESTED", "CANCELLING", "CANCELED", "SAVING_AND_STOP_REQUESTED", "SAVING_AND_STOP", "FINISHED", "RESTARTING", "SUSPENDED", "DELETE_REQUESTED", "DELETING", "RECONCILING"}
+	return []string{"CANCELED", "CANCELLING", "CANCELLING_REQUESTED", "CREATED", "DELETE_REQUESTED", "DELETING", "FAILED", "FAILING", "FINISHED", "INITIALIZING", "RECONCILING", "RESTARTING", "RUNNING", "SAVING", "SAVING_AND_STOP", "SAVING_AND_STOP_REQUESTED", "SUSPENDED"}
 }
 
 // FileInfoOut Flink JarApplicationVersion FileInfo
@@ -185,13 +185,13 @@ type FileInfoOut struct {
 type FileStatusType string
 
 const (
+	FileStatusTypeFailed  FileStatusType = "FAILED"
 	FileStatusTypeInitial FileStatusType = "INITIAL"
 	FileStatusTypeReady   FileStatusType = "READY"
-	FileStatusTypeFailed  FileStatusType = "FAILED"
 )
 
 func FileStatusTypeChoices() []string {
-	return []string{"INITIAL", "READY", "FAILED"}
+	return []string{"FAILED", "INITIAL", "READY"}
 }
 
 // ServiceFlinkCreateJarApplicationIn ServiceFlinkCreateJarApplicationRequestBody

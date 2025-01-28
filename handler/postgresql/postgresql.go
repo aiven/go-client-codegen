@@ -128,12 +128,12 @@ type PoolModeType string
 
 const (
 	PoolModeTypeSession     PoolModeType = "session"
-	PoolModeTypeTransaction PoolModeType = "transaction"
 	PoolModeTypeStatement   PoolModeType = "statement"
+	PoolModeTypeTransaction PoolModeType = "transaction"
 )
 
 func PoolModeTypeChoices() []string {
-	return []string{"session", "transaction", "statement"}
+	return []string{"session", "statement", "transaction"}
 }
 
 type QueryOut struct {

@@ -197,7 +197,9 @@ const (
 	InvoiceStateTypeAccrual                              InvoiceStateType = "accrual"
 	InvoiceStateTypeConsolidated                         InvoiceStateType = "consolidated"
 	InvoiceStateTypeDue                                  InvoiceStateType = "due"
+	InvoiceStateTypeDueOnlyProjectChargesCalculated      InvoiceStateType = "due_only_project_charges_calculated"
 	InvoiceStateTypeEstimate                             InvoiceStateType = "estimate"
+	InvoiceStateTypeEstimateOnlyProjectChargesCalculated InvoiceStateType = "estimate_only_project_charges_calculated"
 	InvoiceStateTypeFailedCreditCardCharge               InvoiceStateType = "failed_credit_card_charge"
 	InvoiceStateTypeFailedNoCreditCard                   InvoiceStateType = "failed_no_credit_card"
 	InvoiceStateTypeMailed                               InvoiceStateType = "mailed"
@@ -206,12 +208,10 @@ const (
 	InvoiceStateTypePartnerMetering                      InvoiceStateType = "partner_metering"
 	InvoiceStateTypeUncollectible                        InvoiceStateType = "uncollectible"
 	InvoiceStateTypeWaived                               InvoiceStateType = "waived"
-	InvoiceStateTypeDueOnlyProjectChargesCalculated      InvoiceStateType = "due_only_project_charges_calculated"
-	InvoiceStateTypeEstimateOnlyProjectChargesCalculated InvoiceStateType = "estimate_only_project_charges_calculated"
 )
 
 func InvoiceStateTypeChoices() []string {
-	return []string{"accrual", "consolidated", "due", "estimate", "failed_credit_card_charge", "failed_no_credit_card", "mailed", "no_payment_expected", "paid", "partner_metering", "uncollectible", "waived", "due_only_project_charges_calculated", "estimate_only_project_charges_calculated"}
+	return []string{"accrual", "consolidated", "due", "due_only_project_charges_calculated", "estimate", "estimate_only_project_charges_calculated", "failed_credit_card_charge", "failed_no_credit_card", "mailed", "no_payment_expected", "paid", "partner_metering", "uncollectible", "waived"}
 }
 
 // ProjectCreditsClaimIn ProjectCreditsClaimRequestBody

@@ -168,16 +168,16 @@ type ProjectStaticIpassociateOut struct {
 type ProjectStaticIpassociateStateType string
 
 const (
-	ProjectStaticIpassociateStateTypeCreating  ProjectStaticIpassociateStateType = "creating"
-	ProjectStaticIpassociateStateTypeCreated   ProjectStaticIpassociateStateType = "created"
-	ProjectStaticIpassociateStateTypeAvailable ProjectStaticIpassociateStateType = "available"
 	ProjectStaticIpassociateStateTypeAssigned  ProjectStaticIpassociateStateType = "assigned"
-	ProjectStaticIpassociateStateTypeDeleting  ProjectStaticIpassociateStateType = "deleting"
+	ProjectStaticIpassociateStateTypeAvailable ProjectStaticIpassociateStateType = "available"
+	ProjectStaticIpassociateStateTypeCreated   ProjectStaticIpassociateStateType = "created"
+	ProjectStaticIpassociateStateTypeCreating  ProjectStaticIpassociateStateType = "creating"
 	ProjectStaticIpassociateStateTypeDeleted   ProjectStaticIpassociateStateType = "deleted"
+	ProjectStaticIpassociateStateTypeDeleting  ProjectStaticIpassociateStateType = "deleting"
 )
 
 func ProjectStaticIpassociateStateTypeChoices() []string {
-	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
+	return []string{"assigned", "available", "created", "creating", "deleted", "deleting"}
 }
 
 // ProjectStaticIpdissociateOut ProjectStaticIPDissociateResponse
@@ -192,16 +192,16 @@ type ProjectStaticIpdissociateOut struct {
 type ProjectStaticIpdissociateStateType string
 
 const (
-	ProjectStaticIpdissociateStateTypeCreating  ProjectStaticIpdissociateStateType = "creating"
-	ProjectStaticIpdissociateStateTypeCreated   ProjectStaticIpdissociateStateType = "created"
-	ProjectStaticIpdissociateStateTypeAvailable ProjectStaticIpdissociateStateType = "available"
 	ProjectStaticIpdissociateStateTypeAssigned  ProjectStaticIpdissociateStateType = "assigned"
-	ProjectStaticIpdissociateStateTypeDeleting  ProjectStaticIpdissociateStateType = "deleting"
+	ProjectStaticIpdissociateStateTypeAvailable ProjectStaticIpdissociateStateType = "available"
+	ProjectStaticIpdissociateStateTypeCreated   ProjectStaticIpdissociateStateType = "created"
+	ProjectStaticIpdissociateStateTypeCreating  ProjectStaticIpdissociateStateType = "creating"
 	ProjectStaticIpdissociateStateTypeDeleted   ProjectStaticIpdissociateStateType = "deleted"
+	ProjectStaticIpdissociateStateTypeDeleting  ProjectStaticIpdissociateStateType = "deleting"
 )
 
 func ProjectStaticIpdissociateStateTypeChoices() []string {
-	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
+	return []string{"assigned", "available", "created", "creating", "deleted", "deleting"}
 }
 
 // ProjectStaticIppatchIn ProjectStaticIPPatchRequestBody
@@ -221,16 +221,16 @@ type ProjectStaticIppatchOut struct {
 type ProjectStaticIppatchStateType string
 
 const (
-	ProjectStaticIppatchStateTypeCreating  ProjectStaticIppatchStateType = "creating"
-	ProjectStaticIppatchStateTypeCreated   ProjectStaticIppatchStateType = "created"
-	ProjectStaticIppatchStateTypeAvailable ProjectStaticIppatchStateType = "available"
 	ProjectStaticIppatchStateTypeAssigned  ProjectStaticIppatchStateType = "assigned"
-	ProjectStaticIppatchStateTypeDeleting  ProjectStaticIppatchStateType = "deleting"
+	ProjectStaticIppatchStateTypeAvailable ProjectStaticIppatchStateType = "available"
+	ProjectStaticIppatchStateTypeCreated   ProjectStaticIppatchStateType = "created"
+	ProjectStaticIppatchStateTypeCreating  ProjectStaticIppatchStateType = "creating"
 	ProjectStaticIppatchStateTypeDeleted   ProjectStaticIppatchStateType = "deleted"
+	ProjectStaticIppatchStateTypeDeleting  ProjectStaticIppatchStateType = "deleting"
 )
 
 func ProjectStaticIppatchStateTypeChoices() []string {
-	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
+	return []string{"assigned", "available", "created", "creating", "deleted", "deleting"}
 }
 
 type StaticIpAddressAvailabilityOut struct {
@@ -248,16 +248,16 @@ type StaticIpOut struct {
 type StaticIpStateType string
 
 const (
-	StaticIpStateTypeCreating  StaticIpStateType = "creating"
-	StaticIpStateTypeCreated   StaticIpStateType = "created"
-	StaticIpStateTypeAvailable StaticIpStateType = "available"
 	StaticIpStateTypeAssigned  StaticIpStateType = "assigned"
-	StaticIpStateTypeDeleting  StaticIpStateType = "deleting"
+	StaticIpStateTypeAvailable StaticIpStateType = "available"
+	StaticIpStateTypeCreated   StaticIpStateType = "created"
+	StaticIpStateTypeCreating  StaticIpStateType = "creating"
 	StaticIpStateTypeDeleted   StaticIpStateType = "deleted"
+	StaticIpStateTypeDeleting  StaticIpStateType = "deleting"
 )
 
 func StaticIpStateTypeChoices() []string {
-	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
+	return []string{"assigned", "available", "created", "creating", "deleted", "deleting"}
 }
 
 // StaticIpcreateIn StaticIPCreateRequestBody
@@ -278,16 +278,16 @@ type StaticIpcreateOut struct {
 type StaticIpcreateStateType string
 
 const (
-	StaticIpcreateStateTypeCreating  StaticIpcreateStateType = "creating"
-	StaticIpcreateStateTypeCreated   StaticIpcreateStateType = "created"
-	StaticIpcreateStateTypeAvailable StaticIpcreateStateType = "available"
 	StaticIpcreateStateTypeAssigned  StaticIpcreateStateType = "assigned"
-	StaticIpcreateStateTypeDeleting  StaticIpcreateStateType = "deleting"
+	StaticIpcreateStateTypeAvailable StaticIpcreateStateType = "available"
+	StaticIpcreateStateTypeCreated   StaticIpcreateStateType = "created"
+	StaticIpcreateStateTypeCreating  StaticIpcreateStateType = "creating"
 	StaticIpcreateStateTypeDeleted   StaticIpcreateStateType = "deleted"
+	StaticIpcreateStateTypeDeleting  StaticIpcreateStateType = "deleting"
 )
 
 func StaticIpcreateStateTypeChoices() []string {
-	return []string{"creating", "created", "available", "assigned", "deleting", "deleted"}
+	return []string{"assigned", "available", "created", "creating", "deleted", "deleting"}
 }
 
 // projectStaticIpavailabilityListOut ProjectStaticIPAvailabilityListResponse

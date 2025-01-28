@@ -613,12 +613,12 @@ type InvitationOut struct {
 type MethodType string
 
 const (
-	MethodTypePost MethodType = "POST"
 	MethodTypeGet  MethodType = "GET"
+	MethodTypePost MethodType = "POST"
 )
 
 func MethodTypeChoices() []string {
-	return []string{"POST", "GET"}
+	return []string{"GET", "POST"}
 }
 
 // ProjectMembershipOut Project membership and type of membership

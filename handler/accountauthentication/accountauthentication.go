@@ -383,15 +383,15 @@ type SamlFieldMappingOut struct {
 type SamlSignatureAlgorithmType string
 
 const (
-	SamlSignatureAlgorithmTypeRsaSha1   SamlSignatureAlgorithmType = "rsa-sha1"
 	SamlSignatureAlgorithmTypeDsaSha1   SamlSignatureAlgorithmType = "dsa-sha1"
+	SamlSignatureAlgorithmTypeRsaSha1   SamlSignatureAlgorithmType = "rsa-sha1"
 	SamlSignatureAlgorithmTypeRsaSha256 SamlSignatureAlgorithmType = "rsa-sha256"
 	SamlSignatureAlgorithmTypeRsaSha384 SamlSignatureAlgorithmType = "rsa-sha384"
 	SamlSignatureAlgorithmTypeRsaSha512 SamlSignatureAlgorithmType = "rsa-sha512"
 )
 
 func SamlSignatureAlgorithmTypeChoices() []string {
-	return []string{"rsa-sha1", "dsa-sha1", "rsa-sha256", "rsa-sha384", "rsa-sha512"}
+	return []string{"dsa-sha1", "rsa-sha1", "rsa-sha256", "rsa-sha384", "rsa-sha512"}
 }
 
 type SamlVariantType string

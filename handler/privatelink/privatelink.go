@@ -268,14 +268,14 @@ type ConnectionOut struct {
 type ConnectionStateType string
 
 const (
+	ConnectionStateTypeActive              ConnectionStateType = "active"
+	ConnectionStateTypeConnected           ConnectionStateType = "connected"
 	ConnectionStateTypePendingUserApproval ConnectionStateType = "pending-user-approval"
 	ConnectionStateTypeUserApproved        ConnectionStateType = "user-approved"
-	ConnectionStateTypeConnected           ConnectionStateType = "connected"
-	ConnectionStateTypeActive              ConnectionStateType = "active"
 )
 
 func ConnectionStateTypeChoices() []string {
-	return []string{"pending-user-approval", "user-approved", "connected", "active"}
+	return []string{"active", "connected", "pending-user-approval", "user-approved"}
 }
 
 type PrivatelinkAvailabilityOut struct {
@@ -298,13 +298,13 @@ type ServicePrivatelinkAwscreateOut struct {
 type ServicePrivatelinkAwscreateStateType string
 
 const (
-	ServicePrivatelinkAwscreateStateTypeCreating ServicePrivatelinkAwscreateStateType = "creating"
 	ServicePrivatelinkAwscreateStateTypeActive   ServicePrivatelinkAwscreateStateType = "active"
+	ServicePrivatelinkAwscreateStateTypeCreating ServicePrivatelinkAwscreateStateType = "creating"
 	ServicePrivatelinkAwscreateStateTypeDeleting ServicePrivatelinkAwscreateStateType = "deleting"
 )
 
 func ServicePrivatelinkAwscreateStateTypeChoices() []string {
-	return []string{"creating", "active", "deleting"}
+	return []string{"active", "creating", "deleting"}
 }
 
 // ServicePrivatelinkAwsdeleteOut ServicePrivatelinkAWSDeleteResponse
@@ -317,13 +317,13 @@ type ServicePrivatelinkAwsdeleteOut struct {
 type ServicePrivatelinkAwsdeleteStateType string
 
 const (
-	ServicePrivatelinkAwsdeleteStateTypeCreating ServicePrivatelinkAwsdeleteStateType = "creating"
 	ServicePrivatelinkAwsdeleteStateTypeActive   ServicePrivatelinkAwsdeleteStateType = "active"
+	ServicePrivatelinkAwsdeleteStateTypeCreating ServicePrivatelinkAwsdeleteStateType = "creating"
 	ServicePrivatelinkAwsdeleteStateTypeDeleting ServicePrivatelinkAwsdeleteStateType = "deleting"
 )
 
 func ServicePrivatelinkAwsdeleteStateTypeChoices() []string {
-	return []string{"creating", "active", "deleting"}
+	return []string{"active", "creating", "deleting"}
 }
 
 // ServicePrivatelinkAwsgetOut ServicePrivatelinkAWSGetResponse
@@ -336,13 +336,13 @@ type ServicePrivatelinkAwsgetOut struct {
 type ServicePrivatelinkAwsgetStateType string
 
 const (
-	ServicePrivatelinkAwsgetStateTypeCreating ServicePrivatelinkAwsgetStateType = "creating"
 	ServicePrivatelinkAwsgetStateTypeActive   ServicePrivatelinkAwsgetStateType = "active"
+	ServicePrivatelinkAwsgetStateTypeCreating ServicePrivatelinkAwsgetStateType = "creating"
 	ServicePrivatelinkAwsgetStateTypeDeleting ServicePrivatelinkAwsgetStateType = "deleting"
 )
 
 func ServicePrivatelinkAwsgetStateTypeChoices() []string {
-	return []string{"creating", "active", "deleting"}
+	return []string{"active", "creating", "deleting"}
 }
 
 // ServicePrivatelinkAwsupdateIn ServicePrivatelinkAWSUpdateRequestBody
@@ -360,13 +360,13 @@ type ServicePrivatelinkAwsupdateOut struct {
 type ServicePrivatelinkAwsupdateStateType string
 
 const (
-	ServicePrivatelinkAwsupdateStateTypeCreating ServicePrivatelinkAwsupdateStateType = "creating"
 	ServicePrivatelinkAwsupdateStateTypeActive   ServicePrivatelinkAwsupdateStateType = "active"
+	ServicePrivatelinkAwsupdateStateTypeCreating ServicePrivatelinkAwsupdateStateType = "creating"
 	ServicePrivatelinkAwsupdateStateTypeDeleting ServicePrivatelinkAwsupdateStateType = "deleting"
 )
 
 func ServicePrivatelinkAwsupdateStateTypeChoices() []string {
-	return []string{"creating", "active", "deleting"}
+	return []string{"active", "creating", "deleting"}
 }
 
 // ServicePrivatelinkAzureConnectionApprovalOut ServicePrivatelinkAzureConnectionApprovalResponse
@@ -379,14 +379,14 @@ type ServicePrivatelinkAzureConnectionApprovalOut struct {
 type ServicePrivatelinkAzureConnectionApprovalStateType string
 
 const (
+	ServicePrivatelinkAzureConnectionApprovalStateTypeActive              ServicePrivatelinkAzureConnectionApprovalStateType = "active"
+	ServicePrivatelinkAzureConnectionApprovalStateTypeConnected           ServicePrivatelinkAzureConnectionApprovalStateType = "connected"
 	ServicePrivatelinkAzureConnectionApprovalStateTypePendingUserApproval ServicePrivatelinkAzureConnectionApprovalStateType = "pending-user-approval"
 	ServicePrivatelinkAzureConnectionApprovalStateTypeUserApproved        ServicePrivatelinkAzureConnectionApprovalStateType = "user-approved"
-	ServicePrivatelinkAzureConnectionApprovalStateTypeConnected           ServicePrivatelinkAzureConnectionApprovalStateType = "connected"
-	ServicePrivatelinkAzureConnectionApprovalStateTypeActive              ServicePrivatelinkAzureConnectionApprovalStateType = "active"
 )
 
 func ServicePrivatelinkAzureConnectionApprovalStateTypeChoices() []string {
-	return []string{"pending-user-approval", "user-approved", "connected", "active"}
+	return []string{"active", "connected", "pending-user-approval", "user-approved"}
 }
 
 type ServicePrivatelinkAzureConnectionListOut struct {
@@ -398,14 +398,14 @@ type ServicePrivatelinkAzureConnectionListOut struct {
 type ServicePrivatelinkAzureConnectionStateType string
 
 const (
+	ServicePrivatelinkAzureConnectionStateTypeActive              ServicePrivatelinkAzureConnectionStateType = "active"
+	ServicePrivatelinkAzureConnectionStateTypeConnected           ServicePrivatelinkAzureConnectionStateType = "connected"
 	ServicePrivatelinkAzureConnectionStateTypePendingUserApproval ServicePrivatelinkAzureConnectionStateType = "pending-user-approval"
 	ServicePrivatelinkAzureConnectionStateTypeUserApproved        ServicePrivatelinkAzureConnectionStateType = "user-approved"
-	ServicePrivatelinkAzureConnectionStateTypeConnected           ServicePrivatelinkAzureConnectionStateType = "connected"
-	ServicePrivatelinkAzureConnectionStateTypeActive              ServicePrivatelinkAzureConnectionStateType = "active"
 )
 
 func ServicePrivatelinkAzureConnectionStateTypeChoices() []string {
-	return []string{"pending-user-approval", "user-approved", "connected", "active"}
+	return []string{"active", "connected", "pending-user-approval", "user-approved"}
 }
 
 // ServicePrivatelinkAzureConnectionUpdateIn ServicePrivatelinkAzureConnectionUpdateRequestBody
@@ -452,13 +452,13 @@ type ServicePrivatelinkAzureGetOut struct {
 type ServicePrivatelinkAzureStateType string
 
 const (
-	ServicePrivatelinkAzureStateTypeCreating ServicePrivatelinkAzureStateType = "creating"
 	ServicePrivatelinkAzureStateTypeActive   ServicePrivatelinkAzureStateType = "active"
+	ServicePrivatelinkAzureStateTypeCreating ServicePrivatelinkAzureStateType = "creating"
 	ServicePrivatelinkAzureStateTypeDeleting ServicePrivatelinkAzureStateType = "deleting"
 )
 
 func ServicePrivatelinkAzureStateTypeChoices() []string {
-	return []string{"creating", "active", "deleting"}
+	return []string{"active", "creating", "deleting"}
 }
 
 // ServicePrivatelinkAzureUpdateIn ServicePrivatelinkAzureUpdateRequestBody
