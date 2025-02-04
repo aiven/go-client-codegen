@@ -96,6 +96,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Users/operation/UserCreate
 	UserCreate(ctx context.Context, in *UserCreateIn) (*UserCreateOut, error)
 
+	// Deprecated: UserCreditCardsList list user's credit cards
+	// GET /v1/card
+	// https://api.aiven.io/doc/#tag/Payment/operation/UserCreditCardsList
+	UserCreditCardsList(ctx context.Context) ([]CardOut, error)
+
 	// UserExpireTokens expire all authorization tokens
 	// POST /v1/me/expire_tokens
 	// https://api.aiven.io/doc/#tag/Users/operation/UserExpireTokens
@@ -357,6 +362,19 @@ func (h *UserHandler) UserCreate(ctx context.Context, in *UserCreateIn) (*UserCr
 	}
 	return out, nil
 }
+func (h *UserHandler) UserCreditCardsList(ctx context.Context) ([]CardOut, error) {
+	path := fmt.Sprintf("/v1/card")
+	b, err := h.doer.Do(ctx, "UserCreditCardsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(userCreditCardsListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Cards, nil
+}
 func (h *UserHandler) UserExpireTokens(ctx context.Context) error {
 	path := fmt.Sprintf("/v1/me/expire_tokens")
 	_, err := h.doer.Do(ctx, "UserExpireTokens", "POST", path, nil)
@@ -576,6 +594,19 @@ const (
 
 func AuthenticationMethodStateTypeChoices() []string {
 	return []string{"active", "deleted"}
+}
+
+type CardOut struct {
+	Brand          string   `json:"brand"`
+	CardId         string   `json:"card_id"` // Credit card ID
+	Country        string   `json:"country"`
+	CountryCode    string   `json:"country_code"`              // Two letter ISO country code
+	ExpMonth       int      `json:"exp_month"`                 // Expiration month
+	ExpYear        int      `json:"exp_year"`                  // Expiration year
+	Last4          string   `json:"last4"`                     // Credit card last four digits
+	Name           string   `json:"name"`                      // Name on the credit card
+	OrganizationId *string  `json:"organization_id,omitempty"` // Organization ID
+	Projects       []string `json:"projects"`                  // List of projects the card is assigned to
 }
 
 // CheckPasswordStrengthExistingUserIn CheckPasswordStrengthExistingUserRequestBody
@@ -867,6 +898,11 @@ type userAccountInvitesListOut struct {
 // userAuthenticationMethodsListOut UserAuthenticationMethodsListResponse
 type userAuthenticationMethodsListOut struct {
 	AuthenticationMethods []AuthenticationMethodOut `json:"authentication_methods"` // List of linked authentication methods
+}
+
+// userCreditCardsListOut UserCreditCardsListResponse
+type userCreditCardsListOut struct {
+	Cards []CardOut `json:"cards"` // List of user's credit cards
 }
 
 // userInfoOut UserInfoResponse

@@ -348,6 +348,7 @@ User:
   - UserAuthenticationMethodDelete
   - UserAuthenticationMethodsList
   - UserCreate
+  - UserCreditCardsList
   - UserExpireTokens
   - UserInfo
   - UserLogout
