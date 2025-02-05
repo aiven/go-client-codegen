@@ -205,6 +205,11 @@ Organization:
   - PermissionsUpdate
   - UserOrganizationCreate
   - UserOrganizationsList
+OrganizationProjects:
+  - OrganizationProjectsCreate
+  - OrganizationProjectsDelete
+  - OrganizationProjectsList
+  - OrganizationProjectsUpdate
 OrganizationUser:
   - OrganizationUserAuthenticationMethodsList
   - OrganizationUserDelete
