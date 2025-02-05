@@ -31,6 +31,7 @@ import (
 	mysql "github.com/aiven/go-client-codegen/handler/mysql"
 	opensearch "github.com/aiven/go-client-codegen/handler/opensearch"
 	organization "github.com/aiven/go-client-codegen/handler/organization"
+	organizationprojects "github.com/aiven/go-client-codegen/handler/organizationprojects"
 	organizationuser "github.com/aiven/go-client-codegen/handler/organizationuser"
 	postgresql "github.com/aiven/go-client-codegen/handler/postgresql"
 	privatelink "github.com/aiven/go-client-codegen/handler/privatelink"
@@ -77,6 +78,7 @@ func newClient(doer doer) Client {
 		MySQLHandler:                         mysql.NewHandler(doer),
 		OpenSearchHandler:                    opensearch.NewHandler(doer),
 		OrganizationHandler:                  organization.NewHandler(doer),
+		OrganizationProjectsHandler:          organizationprojects.NewHandler(doer),
 		OrganizationUserHandler:              organizationuser.NewHandler(doer),
 		PostgreSQLHandler:                    postgresql.NewHandler(doer),
 		PrivatelinkHandler:                   privatelink.NewHandler(doer),
@@ -118,6 +120,7 @@ type client struct {
 	mysql.MySQLHandler
 	opensearch.OpenSearchHandler
 	organization.OrganizationHandler
+	organizationprojects.OrganizationProjectsHandler
 	organizationuser.OrganizationUserHandler
 	postgresql.PostgreSQLHandler
 	privatelink.PrivatelinkHandler
@@ -157,6 +160,7 @@ type Client interface {
 	mysql.Handler
 	opensearch.Handler
 	organization.Handler
+	organizationprojects.Handler
 	organizationuser.Handler
 	postgresql.Handler
 	privatelink.Handler

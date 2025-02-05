@@ -444,43 +444,6 @@ type AlloydbomniOut struct {
 	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
 	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
-type AnyType string
-
-const (
-	AnyTypeAdmin                       AnyType = "admin"
-	AnyTypeDeveloper                   AnyType = "developer"
-	AnyTypeOperator                    AnyType = "operator"
-	AnyTypeOrganizationAppUsersWrite   AnyType = "organization:app_users:write"
-	AnyTypeOrganizationAuditLogsRead   AnyType = "organization:audit_logs:read"
-	AnyTypeOrganizationDomainsWrite    AnyType = "organization:domains:write"
-	AnyTypeOrganizationGroupsWrite     AnyType = "organization:groups:write"
-	AnyTypeOrganizationIdpsWrite       AnyType = "organization:idps:write"
-	AnyTypeOrganizationNetworkingRead  AnyType = "organization:networking:read"
-	AnyTypeOrganizationNetworkingWrite AnyType = "organization:networking:write"
-	AnyTypeOrganizationProjectsWrite   AnyType = "organization:projects:write"
-	AnyTypeOrganizationUsersWrite      AnyType = "organization:users:write"
-	AnyTypeProjectAuditLogsRead        AnyType = "project:audit_logs:read"
-	AnyTypeProjectIntegrationsRead     AnyType = "project:integrations:read"
-	AnyTypeProjectIntegrationsWrite    AnyType = "project:integrations:write"
-	AnyTypeProjectNetworkingRead       AnyType = "project:networking:read"
-	AnyTypeProjectNetworkingWrite      AnyType = "project:networking:write"
-	AnyTypeProjectPermissionsRead      AnyType = "project:permissions:read"
-	AnyTypeProjectServicesRead         AnyType = "project:services:read"
-	AnyTypeProjectServicesWrite        AnyType = "project:services:write"
-	AnyTypeReadOnly                    AnyType = "read_only"
-	AnyTypeRoleOrganizationAdmin       AnyType = "role:organization:admin"
-	AnyTypeRoleServicesMaintenance     AnyType = "role:services:maintenance"
-	AnyTypeRoleServicesRecover         AnyType = "role:services:recover"
-	AnyTypeServiceConfigurationWrite   AnyType = "service:configuration:write"
-	AnyTypeServiceDataWrite            AnyType = "service:data:write"
-	AnyTypeServiceLogsRead             AnyType = "service:logs:read"
-	AnyTypeServiceSecretsRead          AnyType = "service:secrets:read"
-	AnyTypeServiceUsersWrite           AnyType = "service:users:write"
-)
-
-func AnyTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
-}
 
 // BackupConfigOut Backup configuration for this service plan
 type BackupConfigOut struct {
@@ -817,20 +780,48 @@ type ProjectInviteIn struct {
 
 // ProjectListOut ProjectListResponse
 type ProjectListOut struct {
-	ProjectMembership  ProjectMembershipOut  `json:"project_membership"`  // Project membership and type of membership
-	ProjectMemberships ProjectMembershipsOut `json:"project_memberships"` // List of project membership and type of membership
-	Projects           []ProjectOut          `json:"projects"`            // List of projects
+	ProjectMembership  map[string]ProjectMembershipType `json:"project_membership"`  // Project membership and type of membership
+	ProjectMemberships map[string][]string              `json:"project_memberships"` // List of project membership and type of membership
+	Projects           []ProjectOut                     `json:"projects"`            // List of projects
+}
+type ProjectMembershipType string
+
+const (
+	ProjectMembershipTypeAdmin                       ProjectMembershipType = "admin"
+	ProjectMembershipTypeDeveloper                   ProjectMembershipType = "developer"
+	ProjectMembershipTypeOperator                    ProjectMembershipType = "operator"
+	ProjectMembershipTypeOrganizationAppUsersWrite   ProjectMembershipType = "organization:app_users:write"
+	ProjectMembershipTypeOrganizationAuditLogsRead   ProjectMembershipType = "organization:audit_logs:read"
+	ProjectMembershipTypeOrganizationDomainsWrite    ProjectMembershipType = "organization:domains:write"
+	ProjectMembershipTypeOrganizationGroupsWrite     ProjectMembershipType = "organization:groups:write"
+	ProjectMembershipTypeOrganizationIdpsWrite       ProjectMembershipType = "organization:idps:write"
+	ProjectMembershipTypeOrganizationNetworkingRead  ProjectMembershipType = "organization:networking:read"
+	ProjectMembershipTypeOrganizationNetworkingWrite ProjectMembershipType = "organization:networking:write"
+	ProjectMembershipTypeOrganizationProjectsWrite   ProjectMembershipType = "organization:projects:write"
+	ProjectMembershipTypeOrganizationUsersWrite      ProjectMembershipType = "organization:users:write"
+	ProjectMembershipTypeProjectAuditLogsRead        ProjectMembershipType = "project:audit_logs:read"
+	ProjectMembershipTypeProjectIntegrationsRead     ProjectMembershipType = "project:integrations:read"
+	ProjectMembershipTypeProjectIntegrationsWrite    ProjectMembershipType = "project:integrations:write"
+	ProjectMembershipTypeProjectNetworkingRead       ProjectMembershipType = "project:networking:read"
+	ProjectMembershipTypeProjectNetworkingWrite      ProjectMembershipType = "project:networking:write"
+	ProjectMembershipTypeProjectPermissionsRead      ProjectMembershipType = "project:permissions:read"
+	ProjectMembershipTypeProjectServicesRead         ProjectMembershipType = "project:services:read"
+	ProjectMembershipTypeProjectServicesWrite        ProjectMembershipType = "project:services:write"
+	ProjectMembershipTypeReadOnly                    ProjectMembershipType = "read_only"
+	ProjectMembershipTypeRoleOrganizationAdmin       ProjectMembershipType = "role:organization:admin"
+	ProjectMembershipTypeRoleServicesMaintenance     ProjectMembershipType = "role:services:maintenance"
+	ProjectMembershipTypeRoleServicesRecover         ProjectMembershipType = "role:services:recover"
+	ProjectMembershipTypeServiceConfigurationWrite   ProjectMembershipType = "service:configuration:write"
+	ProjectMembershipTypeServiceDataWrite            ProjectMembershipType = "service:data:write"
+	ProjectMembershipTypeServiceLogsRead             ProjectMembershipType = "service:logs:read"
+	ProjectMembershipTypeServiceSecretsRead          ProjectMembershipType = "service:secrets:read"
+	ProjectMembershipTypeServiceUsersWrite           ProjectMembershipType = "service:users:write"
+)
+
+func ProjectMembershipTypeChoices() []string {
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
 }
 
-// ProjectMembershipOut Project membership and type of membership
-type ProjectMembershipOut struct {
-	Any AnyType `json:"ANY,omitempty"` // Project member type
-}
-
-// ProjectMembershipsOut List of project membership and type of membership
-type ProjectMembershipsOut struct {
-	Any []string `json:"ANY,omitempty"` // List of project member type
-}
 type ProjectOut struct {
 	AccountId             string                 `json:"account_id"`                        // Account ID
 	AccountName           *string                `json:"account_name,omitempty"`            // Account name

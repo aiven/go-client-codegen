@@ -150,6 +150,18 @@ const (
 	SchemaTypeAny = "any"
 )
 
+// anyKey This is what "schemaless" map looks like in the Aiven API
+//
+//	{
+//	  "type": "object",
+//	  "properties": {
+//	    "ANY": {
+//	      "type": "string",
+//	    }
+//	  }
+//	}
+const anyKey = "ANY"
+
 // Schema represents a parsed OpenAPI schema.
 type Schema struct {
 	Type                 SchemaType         `json:"type"`
@@ -282,6 +294,18 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 		s.Items.init(doc, scope, toSingle(name))
 	}
 
+	// See anyKey const
+	if s.isTypedMap() {
+		s.AdditionalProperties = s.Properties[anyKey]
+		s.AdditionalProperties.init(doc, scope, toSingle(name))
+		s.Properties = nil
+	}
+
+	// Removes pointers from map values
+	if s.AdditionalProperties != nil {
+		s.AdditionalProperties.required = true
+	}
+
 	if s.isObject() {
 		s.propertyNames = sortedKeys(s.Properties)
 		for _, k := range s.propertyNames {
@@ -357,6 +381,11 @@ func (s *Schema) isArray() bool {
 // isMap schemaless map
 func (s *Schema) isMap() bool {
 	return s.Type == SchemaTypeObject && len(s.Properties) == 0
+}
+
+// isTypedMap it has only one field with "ANY" key
+func (s *Schema) isTypedMap() bool {
+	return s.Type == SchemaTypeObject && len(s.Properties) == 1 && s.Properties[anyKey] != nil
 }
 
 func (s *Schema) isEnum() bool {
@@ -451,10 +480,9 @@ func getType(s *Schema) *jen.Statement {
 		}
 
 		return withPointer(o, s.required)
-	case s.isMap():
+	case s.isMap(), s.isTypedMap():
 		a := withPointer(jen.Map(jen.String()), s.required || s.isOut())
 		if s.AdditionalProperties != nil {
-			s.AdditionalProperties.required = true
 			return a.Add(getType(s.AdditionalProperties))
 		} else if s.name == "tags" {
 			// tags are everywhere in the schema, better not to use the patch
