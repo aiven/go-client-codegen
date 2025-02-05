@@ -207,6 +207,9 @@ Organization:
   - UserOrganizationsList
 OrganizationProjects:
   - OrganizationProjectsCreate
+  - OrganizationProjectsDelete
+  - OrganizationProjectsList
+  - OrganizationProjectsUpdate
 OrganizationUser:
   - OrganizationUserAuthenticationMethodsList
   - OrganizationUserDelete
