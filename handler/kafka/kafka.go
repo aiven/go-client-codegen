@@ -68,7 +68,7 @@ type Handler interface {
 	// ServiceKafkaTieredStorageStorageUsageByTopic get the Kafka tiered storage object storage usage by topic
 	// GET /v1/project/{project}/service/{service_name}/kafka/tiered-storage/storage-usage/by-topic
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTieredStorageStorageUsageByTopic
-	ServiceKafkaTieredStorageStorageUsageByTopic(ctx context.Context, project string, serviceName string) (map[string]any, error)
+	ServiceKafkaTieredStorageStorageUsageByTopic(ctx context.Context, project string, serviceName string) (map[string]int, error)
 
 	// ServiceKafkaTieredStorageStorageUsageTotal get the Kafka tiered storage total object storage usage
 	// GET /v1/project/{project}/service/{service_name}/kafka/tiered-storage/storage-usage/total
@@ -233,7 +233,7 @@ func (h *KafkaHandler) ServiceKafkaQuotaList(ctx context.Context, project string
 	}
 	return out.Quotas, nil
 }
-func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageByTopic(ctx context.Context, project string, serviceName string) (map[string]any, error) {
+func (h *KafkaHandler) ServiceKafkaTieredStorageStorageUsageByTopic(ctx context.Context, project string, serviceName string) (map[string]int, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/tiered-storage/storage-usage/by-topic", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaTieredStorageStorageUsageByTopic", "GET", path, nil)
 	if err != nil {
@@ -510,7 +510,7 @@ type serviceKafkaQuotaListOut struct {
 
 // serviceKafkaTieredStorageUsageByTopicOut ServiceKafkaTieredStorageStorageUsageByTopicResponse
 type serviceKafkaTieredStorageUsageByTopicOut struct {
-	StorageUsage map[string]any `json:"storage_usage"` // Storage usage by tiered storage by topics
+	StorageUsage map[string]int `json:"storage_usage"` // Storage usage by tiered storage by topics
 }
 
 // serviceKafkaTieredStorageUsageTotalOut ServiceKafkaTieredStorageStorageUsageTotalResponse

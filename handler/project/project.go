@@ -720,7 +720,7 @@ type ProjectCreateOut struct {
 	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`   // End of life extension information
 	EstimatedBalance      string                 `json:"estimated_balance"`                 // Estimated balance, in USD
 	EstimatedBalanceLocal *string                `json:"estimated_balance_local,omitempty"` // Estimated balance, in billing currency
-	Features              map[string]any         `json:"features,omitempty"`                // Feature flags
+	Features              map[string]bool        `json:"features,omitempty"`                // Feature flags
 	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
 	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
 	ProjectName           string                 `json:"project_name"`                      // Project name
@@ -754,7 +754,7 @@ type ProjectGetOut struct {
 	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`   // End of life extension information
 	EstimatedBalance      string                 `json:"estimated_balance"`                 // Estimated balance, in USD
 	EstimatedBalanceLocal *string                `json:"estimated_balance_local,omitempty"` // Estimated balance, in billing currency
-	Features              map[string]any         `json:"features,omitempty"`                // Feature flags
+	Features              map[string]bool        `json:"features,omitempty"`                // Feature flags
 	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
 	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
 	ProjectName           string                 `json:"project_name"`                      // Project name
@@ -842,7 +842,7 @@ type ProjectOut struct {
 	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`   // End of life extension information
 	EstimatedBalance      string                 `json:"estimated_balance"`                 // Estimated balance, in USD
 	EstimatedBalanceLocal *string                `json:"estimated_balance_local,omitempty"` // Estimated balance, in billing currency
-	Features              map[string]any         `json:"features,omitempty"`                // Feature flags
+	Features              map[string]bool        `json:"features,omitempty"`                // Feature flags
 	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
 	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
 	ProjectName           string                 `json:"project_name"`                      // Project name
@@ -971,7 +971,7 @@ type ProjectUpdateOut struct {
 	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`   // End of life extension information
 	EstimatedBalance      string                 `json:"estimated_balance"`                 // Estimated balance, in USD
 	EstimatedBalanceLocal *string                `json:"estimated_balance_local,omitempty"` // Estimated balance, in billing currency
-	Features              map[string]any         `json:"features,omitempty"`                // Feature flags
+	Features              map[string]bool        `json:"features,omitempty"`                // Feature flags
 	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
 	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
 	ProjectName           string                 `json:"project_name"`                      // Project name
@@ -1013,14 +1013,26 @@ type RedisOut struct {
 	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
 	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
+
+// Region Plan details for the given service type in this particular cloud region
+type Region struct {
+	DiskSpaceCapMb          *int    `json:"disk_space_cap_mb,omitempty"`           // Maximum amount of disk space possible for the plan in the given region
+	DiskSpaceGbPriceUsd     *string `json:"disk_space_gb_price_usd,omitempty"`     // Hourly additional disk space price per GiB in this region
+	DiskSpaceMb             int     `json:"disk_space_mb"`                         // Combined amount of service disk space of all service nodes in megabytes
+	DiskSpaceStepMb         *int    `json:"disk_space_step_mb,omitempty"`          // Disk space change step size
+	NodeCpuCount            int     `json:"node_cpu_count"`                        // Number of CPU cores on each service node
+	NodeMemoryMb            int     `json:"node_memory_mb"`                        // Amount of memory on each service node in megabytes
+	ObjectStorageGbPriceUsd *string `json:"object_storage_gb_price_usd,omitempty"` // Hourly object storage price per GiB in this region
+	PriceUsd                string  `json:"price_usd"`                             // Hourly service price in this region
+}
 type ServicePlanOut struct {
-	BackupConfig     BackupConfigOut `json:"backup_config"`                // Backup configuration for this service plan
-	MaxMemoryPercent *int            `json:"max_memory_percent,omitempty"` // Maximum amount of system memory as a percentage (0-100) the service can actually use after taking into account management overhead. This is relevant for memory bound services for which some service management operations require allocating proportional amount of memory on top the basic load.
-	NodeCount        *int            `json:"node_count,omitempty"`         // Number of nodes in this service plan
-	Regions          map[string]any  `json:"regions,omitempty"`            // Service plan hourly price per cloud region
-	ServicePlan      string          `json:"service_plan"`                 // Subscription plan
-	ServiceType      string          `json:"service_type"`                 // Service type code
-	ShardCount       *int            `json:"shard_count,omitempty"`        // Number of shards in this service plan
+	BackupConfig     BackupConfigOut   `json:"backup_config"`                // Backup configuration for this service plan
+	MaxMemoryPercent *int              `json:"max_memory_percent,omitempty"` // Maximum amount of system memory as a percentage (0-100) the service can actually use after taking into account management overhead. This is relevant for memory bound services for which some service management operations require allocating proportional amount of memory on top the basic load.
+	NodeCount        *int              `json:"node_count,omitempty"`         // Number of nodes in this service plan
+	Regions          map[string]Region `json:"regions,omitempty"`            // Service plan hourly price per cloud region
+	ServicePlan      string            `json:"service_plan"`                 // Subscription plan
+	ServiceType      string            `json:"service_type"`                 // Service type code
+	ShardCount       *int              `json:"shard_count,omitempty"`        // Number of shards in this service plan
 }
 type TechEmailIn struct {
 	Email string `json:"email"` // User email address

@@ -767,7 +767,7 @@ type UserInfoOut struct {
 	Country                *string                          `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2
 	CreateTime             *time.Time                       `json:"create_time,omitempty"`              // User registration time
 	Department             *string                          `json:"department,omitempty"`               // Job department
-	Features               map[string]any                   `json:"features,omitempty"`                 // Feature flags
+	Features               map[string]bool                  `json:"features,omitempty"`                 // Feature flags
 	Invitations            []InvitationOut                  `json:"invitations"`                        // List of pending invitations
 	JobTitle               *string                          `json:"job_title,omitempty"`                // Job title
 	ManagedByScim          *bool                            `json:"managed_by_scim,omitempty"`          // User management status
@@ -789,7 +789,7 @@ type UserOut struct {
 	Country                *string                          `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2
 	CreateTime             *time.Time                       `json:"create_time,omitempty"`              // User registration time
 	Department             *string                          `json:"department,omitempty"`               // Job department
-	Features               map[string]any                   `json:"features,omitempty"`                 // Feature flags
+	Features               map[string]bool                  `json:"features,omitempty"`                 // Feature flags
 	Invitations            []InvitationOut                  `json:"invitations"`                        // List of pending invitations
 	JobTitle               *string                          `json:"job_title,omitempty"`                // Job title
 	ManagedByScim          *bool                            `json:"managed_by_scim,omitempty"`          // User management status
@@ -836,7 +836,7 @@ type UserUpdateOut struct {
 	Country                *string                          `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2
 	CreateTime             *time.Time                       `json:"create_time,omitempty"`              // User registration time
 	Department             *string                          `json:"department,omitempty"`               // Job department
-	Features               map[string]any                   `json:"features,omitempty"`                 // Feature flags
+	Features               map[string]bool                  `json:"features,omitempty"`                 // Feature flags
 	Invitations            []InvitationOut                  `json:"invitations"`                        // List of pending invitations
 	JobTitle               *string                          `json:"job_title,omitempty"`                // Job title
 	ManagedByScim          *bool                            `json:"managed_by_scim,omitempty"`          // User management status

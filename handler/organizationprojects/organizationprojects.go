@@ -100,7 +100,7 @@ type OrganizationProjectsCreateIn struct {
 	BillingGroupId string            `json:"billing_group_id"`    // Billing group ID to assign to the project.
 	ParentId       *string           `json:"parent_id,omitempty"` // Organization or unit ID to where to move the project
 	ProjectId      string            `json:"project_id"`          // Project ID
-	Tags           map[string]string `json:"tags"`                // Tags
+	Tags           map[string]string `json:"tags"`
 }
 
 // OrganizationProjectsCreateOut OrganizationProjectsCreateResponse
@@ -111,8 +111,8 @@ type OrganizationProjectsCreateOut struct {
 	Features           map[string]bool               `json:"features,omitempty"`         // Feature flags
 	ParentId           *string                       `json:"parent_id,omitempty"`        // Organization or unit ID to where the project belongs
 	ProjectId          string                        `json:"project_id"`                 // Project ID
-	Tags               map[string]string             `json:"tags"`                       // Tags
-	TechEmails         []TechEmailOut                `json:"tech_emails"`                // List of project technical email addresses
+	Tags               map[string]string             `json:"tags"`
+	TechEmails         []TechEmailOut                `json:"tech_emails"` // List of project technical email addresses
 }
 
 // OrganizationProjectsListOut OrganizationProjectsListResponse
@@ -126,8 +126,8 @@ type OrganizationProjectsUpdateIn struct {
 	BillingGroupId *string            `json:"billing_group_id,omitempty"` // Billing group ID to assign to the project. It's required when moving projects between organizations
 	ParentId       *string            `json:"parent_id,omitempty"`        // Organization or unit ID to where to move the project
 	ProjectId      *string            `json:"project_id,omitempty"`       // New Project ID
-	Tags           *map[string]string `json:"tags,omitempty"`             // Tags
-	TechEmails     *[]TechEmailIn     `json:"tech_emails,omitempty"`      // Technical contact emails
+	Tags           *map[string]string `json:"tags,omitempty"`
+	TechEmails     *[]TechEmailIn     `json:"tech_emails,omitempty"` // Technical contact emails
 }
 
 // OrganizationProjectsUpdateOut OrganizationProjectsUpdateResponse
@@ -138,8 +138,8 @@ type OrganizationProjectsUpdateOut struct {
 	Features           map[string]bool               `json:"features,omitempty"`         // Feature flags
 	ParentId           *string                       `json:"parent_id,omitempty"`        // Organization or unit ID to where the project belongs
 	ProjectId          string                        `json:"project_id"`                 // Project ID
-	Tags               map[string]string             `json:"tags"`                       // Tags
-	TechEmails         []TechEmailOut                `json:"tech_emails"`                // List of project technical email addresses
+	Tags               map[string]string             `json:"tags"`
+	TechEmails         []TechEmailOut                `json:"tech_emails"` // List of project technical email addresses
 }
 type ProjectOut struct {
 	AccountId          *string                       `json:"account_id,omitempty"`       // Account ID to where the project belongs
@@ -147,8 +147,8 @@ type ProjectOut struct {
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
 	ParentId           *string                       `json:"parent_id,omitempty"`        // Organization or unit ID to where the project belongs
 	ProjectId          string                        `json:"project_id"`                 // Project ID
-	Tags               map[string]string             `json:"tags"`                       // Tags
-	TechEmails         []TechEmailOut                `json:"tech_emails"`                // List of project technical email addresses
+	Tags               map[string]string             `json:"tags"`
+	TechEmails         []TechEmailOut                `json:"tech_emails"` // List of project technical email addresses
 }
 type TechEmailIn struct {
 	Email string `json:"email"` // Technical contact email

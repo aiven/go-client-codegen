@@ -64,11 +64,10 @@ func main() {
 }
 
 const (
-	doerName             = "doer"
-	handlerTypeName      = "Handler"
-	queryParamName       = "query"
-	queryParamTypeSuffix = "Query"
-	queryParamArraySize  = 2
+	doerName            = "doer"
+	handlerTypeName     = "Handler"
+	queryParamName      = "query"
+	queryParamArraySize = 2
 )
 
 //nolint:funlen,gocognit,gocyclo // It's a generator, it's supposed to be long, and we won't expand it.
@@ -513,8 +512,8 @@ func writeStruct(f *jen.File, s *Schema) error {
 		return nil
 	}
 
-	if s.Description != "" {
-		f.Comment(fmt.Sprintf("%s %s", s.CamelName, fmtComment(s.Description)))
+	if c := fmtComment(s.Description); c != "" && c != s.CamelName {
+		f.Comment(fmt.Sprintf("%s %s", s.CamelName, c))
 	}
 
 	f.Type().Id(s.CamelName).Add(fmtStruct(s))
