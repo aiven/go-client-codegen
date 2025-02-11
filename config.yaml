@@ -223,6 +223,13 @@ OrganizationUser:
   - OrganizationUserRevokeToken
   - OrganizationUserTokensList
   - OrganizationUserUpdate
+OrganizationVpc:
+  - OrganizationVpcCreate
+  - OrganizationVpcDelete
+  - OrganizationVpcGet
+  - OrganizationVpcList
+  - OrganizationVpcPeeringConnectionCreate
+  - OrganizationVpcPeeringConnectionDeleteById
 PostgreSQL:
   - PGServiceAvailableExtensions
   - PGServiceQueryStatistics

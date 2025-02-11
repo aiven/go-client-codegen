@@ -33,6 +33,7 @@ import (
 	organization "github.com/aiven/go-client-codegen/handler/organization"
 	organizationprojects "github.com/aiven/go-client-codegen/handler/organizationprojects"
 	organizationuser "github.com/aiven/go-client-codegen/handler/organizationuser"
+	organizationvpc "github.com/aiven/go-client-codegen/handler/organizationvpc"
 	postgresql "github.com/aiven/go-client-codegen/handler/postgresql"
 	privatelink "github.com/aiven/go-client-codegen/handler/privatelink"
 	project "github.com/aiven/go-client-codegen/handler/project"
@@ -80,6 +81,7 @@ func newClient(doer doer) Client {
 		OrganizationHandler:                  organization.NewHandler(doer),
 		OrganizationProjectsHandler:          organizationprojects.NewHandler(doer),
 		OrganizationUserHandler:              organizationuser.NewHandler(doer),
+		OrganizationVpcHandler:               organizationvpc.NewHandler(doer),
 		PostgreSQLHandler:                    postgresql.NewHandler(doer),
 		PrivatelinkHandler:                   privatelink.NewHandler(doer),
 		ProjectBillingHandler:                projectbilling.NewHandler(doer),
@@ -122,6 +124,7 @@ type client struct {
 	organization.OrganizationHandler
 	organizationprojects.OrganizationProjectsHandler
 	organizationuser.OrganizationUserHandler
+	organizationvpc.OrganizationVpcHandler
 	postgresql.PostgreSQLHandler
 	privatelink.PrivatelinkHandler
 	project.ProjectHandler
@@ -162,6 +165,7 @@ type Client interface {
 	organization.Handler
 	organizationprojects.Handler
 	organizationuser.Handler
+	organizationvpc.Handler
 	postgresql.Handler
 	privatelink.Handler
 	project.Handler
