@@ -322,7 +322,9 @@ type PeeringConnectionOut struct {
 // PeeringConnectionStateInfoOut State-specific help or error information
 type PeeringConnectionStateInfoOut struct {
 	AwsVpcPeeringConnectionId *string      `json:"aws_vpc_peering_connection_id,omitempty"`
-	Message                   string       `json:"message"`            // Human-readable information message
+	Message                   string       `json:"message"` // Human-readable information message
+	ToProjectId               *string      `json:"to_project_id,omitempty"`
+	ToVpcNetwork              *string      `json:"to_vpc_network,omitempty"`
 	Type                      string       `json:"type"`               // Type of state information
 	Warnings                  []WarningOut `json:"warnings,omitempty"` // List of warnings if any
 }

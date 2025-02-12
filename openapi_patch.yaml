@@ -24,6 +24,10 @@ components:
                 properties:
                   aws_vpc_peering_connection_id:
                     type: string
+                  to_project_id:
+                    type: string
+                  to_vpc_network:
+                    type: string
     ServiceKafkaQuotaDescribeResponse:
       properties:
         quota:
