@@ -194,6 +194,11 @@ OpenSearch:
   - ServiceOpenSearchSecurityReset
   - ServiceOpenSearchSecuritySet
 Organization:
+  - OrganizationAddressCreate
+  - OrganizationAddressDelete
+  - OrganizationAddressGet
+  - OrganizationAddressList
+  - OrganizationAddressUpdate
   - OrganizationAuthDomainLink
   - OrganizationAuthDomainList
   - OrganizationAuthDomainUnlink
