@@ -371,7 +371,7 @@ type AccountCreateOut struct {
 	AccountName           string           `json:"account_name"`                // Account name
 	AccountOwnerTeamId    string           `json:"account_owner_team_id"`       // Team ID
 	CreateTime            time.Time        `json:"create_time"`                 // Timestamp in ISO 8601 format, always in UTC
-	Features              map[string]any   `json:"features,omitempty"`          // Feature flags
+	Features              map[string]bool  `json:"features,omitempty"`          // Feature flags
 	IsAccountMember       *bool            `json:"is_account_member,omitempty"` // If true, user is part of a team of this or a parent account
 	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
 	OrganizationId        string           `json:"organization_id"`             // Organization ID
@@ -389,7 +389,7 @@ type AccountGetOut struct {
 	AccountName           string           `json:"account_name"`                // Account name
 	AccountOwnerTeamId    string           `json:"account_owner_team_id"`       // Team ID
 	CreateTime            time.Time        `json:"create_time"`                 // Timestamp in ISO 8601 format, always in UTC
-	Features              map[string]any   `json:"features,omitempty"`          // Feature flags
+	Features              map[string]bool  `json:"features,omitempty"`          // Feature flags
 	IsAccountMember       *bool            `json:"is_account_member,omitempty"` // If true, user is part of a team of this or a parent account
 	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
 	OrganizationId        string           `json:"organization_id"`             // Organization ID
@@ -412,7 +412,7 @@ type AccountMoveOut struct {
 	AccountName           string           `json:"account_name"`                // Account name
 	AccountOwnerTeamId    string           `json:"account_owner_team_id"`       // Team ID
 	CreateTime            time.Time        `json:"create_time"`                 // Timestamp in ISO 8601 format, always in UTC
-	Features              map[string]any   `json:"features,omitempty"`          // Feature flags
+	Features              map[string]bool  `json:"features,omitempty"`          // Feature flags
 	IsAccountMember       *bool            `json:"is_account_member,omitempty"` // If true, user is part of a team of this or a parent account
 	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
 	OrganizationId        string           `json:"organization_id"`             // Organization ID
@@ -428,7 +428,7 @@ type AccountOut struct {
 	AccountName           string           `json:"account_name"`                // Account name
 	AccountOwnerTeamId    string           `json:"account_owner_team_id"`       // Team ID
 	CreateTime            time.Time        `json:"create_time"`                 // Timestamp in ISO 8601 format, always in UTC
-	Features              map[string]any   `json:"features,omitempty"`          // Feature flags
+	Features              map[string]bool  `json:"features,omitempty"`          // Feature flags
 	IsAccountMember       *bool            `json:"is_account_member,omitempty"` // If true, user is part of a team of this or a parent account
 	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
 	OrganizationId        string           `json:"organization_id"`             // Organization ID
@@ -458,7 +458,7 @@ type AccountUpdateOut struct {
 	AccountName           string           `json:"account_name"`                // Account name
 	AccountOwnerTeamId    string           `json:"account_owner_team_id"`       // Team ID
 	CreateTime            time.Time        `json:"create_time"`                 // Timestamp in ISO 8601 format, always in UTC
-	Features              map[string]any   `json:"features,omitempty"`          // Feature flags
+	Features              map[string]bool  `json:"features,omitempty"`          // Feature flags
 	IsAccountMember       *bool            `json:"is_account_member,omitempty"` // If true, user is part of a team of this or a parent account
 	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
 	OrganizationId        string           `json:"organization_id"`             // Organization ID
@@ -640,7 +640,7 @@ type ProjectOut struct {
 	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`   // End of life extension information
 	EstimatedBalance      string                 `json:"estimated_balance"`                 // Estimated balance, in USD
 	EstimatedBalanceLocal *string                `json:"estimated_balance_local,omitempty"` // Estimated balance, in billing currency
-	Features              map[string]any         `json:"features,omitempty"`                // Feature flags
+	Features              map[string]bool        `json:"features,omitempty"`                // Feature flags
 	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
 	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
 	ProjectName           string                 `json:"project_name"`                      // Project name

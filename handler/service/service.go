@@ -54,7 +54,7 @@ type Handler interface {
 	// ServiceBackupToAnotherRegionReport get service's backup to another region information
 	// POST /v1/project/{project}/service/{service_name}/backup_to_another_region/report
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceBackupToAnotherRegionReport
-	ServiceBackupToAnotherRegionReport(ctx context.Context, project string, serviceName string, in *ServiceBackupToAnotherRegionReportIn) (map[string]any, error)
+	ServiceBackupToAnotherRegionReport(ctx context.Context, project string, serviceName string, in *ServiceBackupToAnotherRegionReportIn) (map[string]Metric, error)
 
 	// ServiceBackupsGet get service backup information
 	// GET /v1/project/{project}/service/{service_name}/backups
@@ -194,7 +194,7 @@ type Handler interface {
 	// ServiceMetricsFetch fetch service metrics
 	// POST /v1/project/{project}/service/{service_name}/metrics
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceMetricsFetch
-	ServiceMetricsFetch(ctx context.Context, project string, serviceName string, in *ServiceMetricsFetchIn) (map[string]any, error)
+	ServiceMetricsFetch(ctx context.Context, project string, serviceName string, in *ServiceMetricsFetchIn) (map[string]Metric, error)
 
 	// ServiceQueryActivity fetch current queries for the service
 	// POST /v1/project/{project}/service/{service_name}/query/activity
@@ -204,7 +204,7 @@ type Handler interface {
 	// ServiceQueryStatisticsReset reset service's query statistics
 	// PUT /v1/project/{project}/service/{service_name}/query/stats/reset
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceQueryStatisticsReset
-	ServiceQueryStatisticsReset(ctx context.Context, project string, serviceName string) ([]map[string]any, error)
+	ServiceQueryStatisticsReset(ctx context.Context, project string, serviceName string) ([]map[string]string, error)
 
 	// ServiceTaskCreate create a new task for service
 	// POST /v1/project/{project}/service/{service_name}/task
@@ -348,7 +348,7 @@ func (h *ServiceHandler) ServiceAlertsList(ctx context.Context, project string, 
 	}
 	return out.Alerts, nil
 }
-func (h *ServiceHandler) ServiceBackupToAnotherRegionReport(ctx context.Context, project string, serviceName string, in *ServiceBackupToAnotherRegionReportIn) (map[string]any, error) {
+func (h *ServiceHandler) ServiceBackupToAnotherRegionReport(ctx context.Context, project string, serviceName string, in *ServiceBackupToAnotherRegionReportIn) (map[string]Metric, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/backup_to_another_region/report", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceBackupToAnotherRegionReport", "POST", path, in)
 	if err != nil {
@@ -674,7 +674,7 @@ func (h *ServiceHandler) ServiceMaintenanceStart(ctx context.Context, project st
 	_, err := h.doer.Do(ctx, "ServiceMaintenanceStart", "PUT", path, nil)
 	return err
 }
-func (h *ServiceHandler) ServiceMetricsFetch(ctx context.Context, project string, serviceName string, in *ServiceMetricsFetchIn) (map[string]any, error) {
+func (h *ServiceHandler) ServiceMetricsFetch(ctx context.Context, project string, serviceName string, in *ServiceMetricsFetchIn) (map[string]Metric, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/metrics", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceMetricsFetch", "POST", path, in)
 	if err != nil {
@@ -700,7 +700,7 @@ func (h *ServiceHandler) ServiceQueryActivity(ctx context.Context, project strin
 	}
 	return out.Queries, nil
 }
-func (h *ServiceHandler) ServiceQueryStatisticsReset(ctx context.Context, project string, serviceName string) ([]map[string]any, error) {
+func (h *ServiceHandler) ServiceQueryStatisticsReset(ctx context.Context, project string, serviceName string) ([]map[string]string, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/query/stats/reset", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceQueryStatisticsReset", "PUT", path, nil)
 	if err != nil {
@@ -934,6 +934,10 @@ type ClickhouseOut struct {
 	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
+type Col struct {
+	Label string `json:"label"` // Column label
+	Type  string `json:"type"`  // Column type
+}
 type ComponentOut struct {
 	Component                 string                        `json:"component"`                             // Service component name
 	Host                      string                        `json:"host"`                                  // DNS name for connecting to the service component
@@ -1011,6 +1015,9 @@ type ConnectionPoolOut struct {
 // CreateUserBackupIn Payload to be used with create_user_backup
 type CreateUserBackupIn struct {
 	BackupName string `json:"backup_name"` // The output file name.
+}
+type Data struct {
+	Cols []Col `json:"cols"` // Columns
 }
 type DatabaseOut struct {
 	DatabaseName string  `json:"database_name"` // Database name or ID
@@ -1126,6 +1133,9 @@ type GrafanaOut struct {
 	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
 	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+type Hints struct {
+	Title string `json:"title"`
 }
 
 // InfluxdbOut Service type information
@@ -1426,6 +1436,12 @@ func MethodTypeChoices() []string {
 	return []string{"dump", "mysqldump", "pg_dump", "replication", "scan"}
 }
 
+// Metric Service metrics in Google chart compatible format
+type Metric struct {
+	Data  Data  `json:"data"`
+	Hints Hints `json:"hints"`
+}
+
 // MigrationCheckIn Payload to be used with migration_check
 type MigrationCheckIn struct {
 	IgnoreDbs         *string                  `json:"ignore_dbs,omitempty"`          // Comma-separated list of databases, which should be ignored during migration (supported by MySQL and PostgreSQL only at the moment)
@@ -1504,6 +1520,13 @@ type MysqlParamOut struct {
 	SslMode  string `json:"ssl-mode"`
 	User     string `json:"user"`
 }
+
+// Node Integration state for node
+type Node struct {
+	Errors           []string             `json:"errors"`
+	LikelyErrorCause LikelyErrorCauseType `json:"likely_error_cause,omitempty"` // Most likely cause of the errors
+	Status           NodeStatusType       `json:"status"`                       // Integration status for node
+}
 type NodeStateOut struct {
 	Name            string              `json:"name"`                       // Name of the service node
 	ProgressUpdates []ProgressUpdateOut `json:"progress_updates,omitempty"` // Extra information regarding the progress for current state
@@ -1524,6 +1547,20 @@ const (
 
 func NodeStateTypeChoices() []string {
 	return []string{"leaving", "running", "setting_up_vm", "syncing_data", "timing_out", "unknown"}
+}
+
+type NodeStatusType string
+
+const (
+	NodeStatusTypeFailed   NodeStatusType = "failed"
+	NodeStatusTypeInactive NodeStatusType = "inactive"
+	NodeStatusTypeRunning  NodeStatusType = "running"
+	NodeStatusTypeStarting NodeStatusType = "starting"
+	NodeStatusTypeUnknown  NodeStatusType = "unknown"
+)
+
+func NodeStatusTypeChoices() []string {
+	return []string{"failed", "inactive", "running", "starting", "unknown"}
 }
 
 // OpensearchOut Service type information
@@ -1744,6 +1781,18 @@ type RedisOut struct {
 	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
+
+// Region Plan details for the given service type in this particular cloud region
+type Region struct {
+	DiskSpaceCapMb          *int    `json:"disk_space_cap_mb,omitempty"`           // Maximum amount of disk space possible for the plan in the given region
+	DiskSpaceGbPriceUsd     *string `json:"disk_space_gb_price_usd,omitempty"`     // Hourly additional disk space price per GiB in this region
+	DiskSpaceMb             int     `json:"disk_space_mb"`                         // Combined amount of service disk space of all service nodes in megabytes
+	DiskSpaceStepMb         *int    `json:"disk_space_step_mb,omitempty"`          // Disk space change step size
+	NodeCpuCount            int     `json:"node_cpu_count"`                        // Number of CPU cores on each service node
+	NodeMemoryMb            int     `json:"node_memory_mb"`                        // Amount of memory on each service node in megabytes
+	ObjectStorageGbPriceUsd *string `json:"object_storage_gb_price_usd,omitempty"` // Hourly object storage price per GiB in this region
+	PriceUsd                string  `json:"price_usd"`                             // Hourly service price in this region
+}
 type ResourceType string
 
 const (
@@ -1859,7 +1908,7 @@ type ServiceCreateOut struct {
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
-	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	Features               map[string]bool          `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
@@ -1914,7 +1963,7 @@ type ServiceGetOut struct {
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
-	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	Features               map[string]bool          `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
@@ -2137,7 +2186,7 @@ type ServiceOut struct {
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
-	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	Features               map[string]bool          `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
@@ -2167,13 +2216,13 @@ type ServiceOut struct {
 	Users                  []UserOut                `json:"users,omitempty"`                    // List of service users
 }
 type ServicePlanOut struct {
-	BackupConfig     BackupConfigOut `json:"backup_config"`                // Backup configuration for this service plan
-	MaxMemoryPercent *int            `json:"max_memory_percent,omitempty"` // Maximum amount of system memory as a percentage (0-100) the service can actually use after taking into account management overhead. This is relevant for memory bound services for which some service management operations require allocating proportional amount of memory on top the basic load.
-	NodeCount        *int            `json:"node_count,omitempty"`         // Number of nodes in this service plan
-	Regions          map[string]any  `json:"regions,omitempty"`            // Service plan hourly price per cloud region
-	ServicePlan      string          `json:"service_plan"`                 // Subscription plan
-	ServiceType      string          `json:"service_type"`                 // Service type code
-	ShardCount       *int            `json:"shard_count,omitempty"`        // Number of shards in this service plan
+	BackupConfig     BackupConfigOut   `json:"backup_config"`                // Backup configuration for this service plan
+	MaxMemoryPercent *int              `json:"max_memory_percent,omitempty"` // Maximum amount of system memory as a percentage (0-100) the service can actually use after taking into account management overhead. This is relevant for memory bound services for which some service management operations require allocating proportional amount of memory on top the basic load.
+	NodeCount        *int              `json:"node_count,omitempty"`         // Number of nodes in this service plan
+	Regions          map[string]Region `json:"regions,omitempty"`            // Service plan hourly price per cloud region
+	ServicePlan      string            `json:"service_plan"`                 // Subscription plan
+	ServiceType      string            `json:"service_type"`                 // Service type code
+	ShardCount       *int              `json:"shard_count,omitempty"`        // Number of shards in this service plan
 }
 
 // ServiceQueryActivityIn ServiceQueryActivityRequestBody
@@ -2252,7 +2301,7 @@ type ServiceUpdateOut struct {
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
-	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	Features               map[string]bool          `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
@@ -2333,7 +2382,7 @@ type ServiceUserCredentialsModifyOut struct {
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
-	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	Features               map[string]bool          `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
@@ -2375,7 +2424,7 @@ type ServiceUserCredentialsResetOut struct {
 	CreateTime             time.Time                `json:"create_time"`                        // Service creation timestamp (ISO 8601)
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
-	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	Features               map[string]bool          `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
@@ -2464,7 +2513,7 @@ func SortOrderTypeChoices() []string {
 type StateOut struct {
 	Errors           []string              `json:"errors"`
 	LikelyErrorCause LikelyErrorCauseType  `json:"likely_error_cause,omitempty"` // Most likely cause of the errors
-	Nodes            map[string]any        `json:"nodes"`
+	Nodes            map[string]Node       `json:"nodes"`
 	Status           IntegrationStatusType `json:"status"` // Service integration status
 }
 type TargetVersionType string
@@ -2613,7 +2662,7 @@ type serviceAlertsListOut struct {
 
 // serviceBackupToAnotherRegionReportOut ServiceBackupToAnotherRegionReportResponse
 type serviceBackupToAnotherRegionReportOut struct {
-	Metrics map[string]any `json:"metrics"` // Service metrics in Google chart compatible format
+	Metrics map[string]Metric `json:"metrics"` // Service metrics in Google chart compatible format
 }
 
 // serviceCancelQueryOut ServiceCancelQueryResponse
@@ -2708,7 +2757,7 @@ type serviceListOut struct {
 
 // serviceMetricsFetchOut ServiceMetricsFetchResponse
 type serviceMetricsFetchOut struct {
-	Metrics map[string]any `json:"metrics"` // Service metrics in Google chart compatible format
+	Metrics map[string]Metric `json:"metrics"` // Service metrics in Google chart compatible format
 }
 
 // serviceQueryActivityOut ServiceQueryActivityResponse
@@ -2718,7 +2767,7 @@ type serviceQueryActivityOut struct {
 
 // serviceQueryStatisticsResetOut ServiceQueryStatisticsResetResponse
 type serviceQueryStatisticsResetOut struct {
-	Queries []map[string]any `json:"queries"` // List of query statistics
+	Queries []map[string]string `json:"queries"` // List of query statistics
 }
 
 // serviceTaskCreateOut ServiceTaskCreateResponse

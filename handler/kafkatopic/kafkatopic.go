@@ -566,6 +566,11 @@ type OffsetOut struct {
 	Offset    *int    `json:"offset,omitempty"`     // Offset of the message, or null if publishing the message failed
 	Partition *int    `json:"partition,omitempty"`  // Partition the message was published to, or null if publishing the message failed
 }
+
+// Partition Partition / offset mapping
+type Partition struct {
+	Offset int `json:"offset"` // The beginning offset for the fetched messages
+}
 type PartitionOut struct {
 	ConsumerGroups []ConsumerGroupOut `json:"consumer_groups"`       // List of Kafka consumer groups
 	EarliestOffset int                `json:"earliest_offset"`       // Earliest partition message offset
@@ -702,10 +707,10 @@ type ServiceKafkaTopicGetOut struct {
 
 // ServiceKafkaTopicMessageListIn ServiceKafkaTopicMessageListRequestBody
 type ServiceKafkaTopicMessageListIn struct {
-	Format     FormatType     `json:"format,omitempty"`    // The format of consumed messages, which is used to convert messages into a JSON-compatible form. If unspecified, defaults to binary
-	MaxBytes   *int           `json:"max_bytes,omitempty"` // The maximum number of bytes of unencoded keys and values that should be included in the response. This provides approximate control over the size of responses and the amount of memory required to store the decoded response. The actual limit will be the minimum of this setting and the server-side configuration consumer.request.max.bytes. Default is unlimited
-	Partitions map[string]any `json:"partitions"`          // Object of desired partition / offset mappings
-	Timeout    *int           `json:"timeout,omitempty"`   // The maximum total time to wait for messages for a request if the maximum request size has not yet been reached
+	Format     FormatType           `json:"format,omitempty"`    // The format of consumed messages, which is used to convert messages into a JSON-compatible form. If unspecified, defaults to binary
+	MaxBytes   *int                 `json:"max_bytes,omitempty"` // The maximum number of bytes of unencoded keys and values that should be included in the response. This provides approximate control over the size of responses and the amount of memory required to store the decoded response. The actual limit will be the minimum of this setting and the server-side configuration consumer.request.max.bytes. Default is unlimited
+	Partitions map[string]Partition `json:"partitions"`          // Object of desired partition / offset mappings
+	Timeout    *int                 `json:"timeout,omitempty"`   // The maximum total time to wait for messages for a request if the maximum request size has not yet been reached
 }
 
 // ServiceKafkaTopicMessageProduceIn ServiceKafkaTopicMessageProduceRequestBody
