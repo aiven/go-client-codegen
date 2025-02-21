@@ -11,6 +11,31 @@ import (
 )
 
 type Handler interface {
+	// OrganizationAddressCreate [EXPERIMENTAL] Create new address for an organization
+	// POST /v1/organizations/{organization_id}/addresses
+	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressCreate
+	OrganizationAddressCreate(ctx context.Context, organizationId string, in *OrganizationAddressCreateIn) (*OrganizationAddressCreateOut, error)
+
+	// OrganizationAddressDelete [EXPERIMENTAL] Delete an address of an organization
+	// DELETE /v1/organizations/{organization_id}/addresses/{address_id}
+	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressDelete
+	OrganizationAddressDelete(ctx context.Context, organizationId string, addressId string) error
+
+	// OrganizationAddressGet [EXPERIMENTAL] Get organization address info
+	// GET /v1/organizations/{organization_id}/addresses/{address_id}
+	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressGet
+	OrganizationAddressGet(ctx context.Context, organizationId string, addressId string) (*OrganizationAddressGetOut, error)
+
+	// OrganizationAddressList [EXPERIMENTAL] List addresses of an organization
+	// GET /v1/organizations/{organization_id}/addresses
+	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressList
+	OrganizationAddressList(ctx context.Context, organizationId string) ([]AddresseOut, error)
+
+	// OrganizationAddressUpdate [EXPERIMENTAL] Update an address of an organization
+	// PATCH /v1/organizations/{organization_id}/addresses/{address_id}
+	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressUpdate
+	OrganizationAddressUpdate(ctx context.Context, organizationId string, addressId string, in *OrganizationAddressUpdateIn) (*OrganizationAddressUpdateOut, error)
+
 	// OrganizationAuthDomainLink link a domain to an organization's identity provider
 	// PUT /v1/organization/{organization_id}/authentication-methods/{authentication_method_id}/domains
 	// https://api.aiven.io/doc/#tag/Authentication_Methods/operation/OrganizationAuthDomainLink
@@ -80,6 +105,63 @@ type OrganizationHandler struct {
 	doer doer
 }
 
+func (h *OrganizationHandler) OrganizationAddressCreate(ctx context.Context, organizationId string, in *OrganizationAddressCreateIn) (*OrganizationAddressCreateOut, error) {
+	path := fmt.Sprintf("/v1/organizations/%s/addresses", url.PathEscape(organizationId))
+	b, err := h.doer.Do(ctx, "OrganizationAddressCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
+	out := new(OrganizationAddressCreateOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *OrganizationHandler) OrganizationAddressDelete(ctx context.Context, organizationId string, addressId string) error {
+	path := fmt.Sprintf("/v1/organizations/%s/addresses/%s", url.PathEscape(organizationId), url.PathEscape(addressId))
+	_, err := h.doer.Do(ctx, "OrganizationAddressDelete", "DELETE", path, nil)
+	return err
+}
+func (h *OrganizationHandler) OrganizationAddressGet(ctx context.Context, organizationId string, addressId string) (*OrganizationAddressGetOut, error) {
+	path := fmt.Sprintf("/v1/organizations/%s/addresses/%s", url.PathEscape(organizationId), url.PathEscape(addressId))
+	b, err := h.doer.Do(ctx, "OrganizationAddressGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(OrganizationAddressGetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *OrganizationHandler) OrganizationAddressList(ctx context.Context, organizationId string) ([]AddresseOut, error) {
+	path := fmt.Sprintf("/v1/organizations/%s/addresses", url.PathEscape(organizationId))
+	b, err := h.doer.Do(ctx, "OrganizationAddressList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(organizationAddressListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Addresses, nil
+}
+func (h *OrganizationHandler) OrganizationAddressUpdate(ctx context.Context, organizationId string, addressId string, in *OrganizationAddressUpdateIn) (*OrganizationAddressUpdateOut, error) {
+	path := fmt.Sprintf("/v1/organizations/%s/addresses/%s", url.PathEscape(organizationId), url.PathEscape(addressId))
+	b, err := h.doer.Do(ctx, "OrganizationAddressUpdate", "PATCH", path, in)
+	if err != nil {
+		return nil, err
+	}
+	out := new(OrganizationAddressUpdateOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
 func (h *OrganizationHandler) OrganizationAuthDomainLink(ctx context.Context, organizationId string, authenticationMethodId string, in *OrganizationAuthDomainLinkIn) error {
 	path := fmt.Sprintf("/v1/organization/%s/authentication-methods/%s/domains", url.PathEscape(organizationId), url.PathEscape(authenticationMethodId))
 	_, err := h.doer.Do(ctx, "OrganizationAuthDomainLink", "PUT", path, in)
@@ -200,6 +282,18 @@ func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]Orga
 	return out.Organizations, nil
 }
 
+type AddresseOut struct {
+	AddressId      string    `json:"address_id"`              // Address ID
+	AddressLines   []string  `json:"address_lines,omitempty"` // Address Lines
+	City           *string   `json:"city,omitempty"`
+	CompanyName    string    `json:"company_name"`              // Name of a company
+	CountryCode    string    `json:"country_code"`              // Country Code
+	CreateTime     time.Time `json:"create_time"`               // Create Time
+	OrganizationId *string   `json:"organization_id,omitempty"` // Organization ID
+	State          *string   `json:"state,omitempty"`
+	UpdateTime     time.Time `json:"update_time"`        // Update Time
+	ZipCode        *string   `json:"zip_code,omitempty"` // Zip Code
+}
 type DomainOut struct {
 	ChallengeToken                string           `json:"challenge_token"`                  // Random string to be used for validation
 	CreateTime                    time.Time        `json:"create_time"`                      // Time of creating the domain
@@ -220,6 +314,68 @@ const (
 
 func DomainStateTypeChoices() []string {
 	return []string{"deleted", "unverified", "verified"}
+}
+
+// OrganizationAddressCreateIn OrganizationAddressCreateRequestBody
+type OrganizationAddressCreateIn struct {
+	AddressLines []string `json:"address_lines"` // Address lines
+	City         string   `json:"city"`
+	CompanyName  *string  `json:"company_name,omitempty"` // Name of a company
+	CountryCode  string   `json:"country_code"`           // Country Code
+	State        *string  `json:"state,omitempty"`
+	ZipCode      *string  `json:"zip_code,omitempty"` // Zip Code
+}
+
+// OrganizationAddressCreateOut OrganizationAddressCreateResponse
+type OrganizationAddressCreateOut struct {
+	AddressId      string    `json:"address_id"`              // Address ID
+	AddressLines   []string  `json:"address_lines,omitempty"` // Address Lines
+	City           *string   `json:"city,omitempty"`
+	CompanyName    string    `json:"company_name"`              // Name of a company
+	CountryCode    string    `json:"country_code"`              // Country Code
+	CreateTime     time.Time `json:"create_time"`               // Create Time
+	OrganizationId *string   `json:"organization_id,omitempty"` // Organization ID
+	State          *string   `json:"state,omitempty"`
+	UpdateTime     time.Time `json:"update_time"`        // Update Time
+	ZipCode        *string   `json:"zip_code,omitempty"` // Zip Code
+}
+
+// OrganizationAddressGetOut OrganizationAddressGetResponse
+type OrganizationAddressGetOut struct {
+	AddressId      string    `json:"address_id"`              // Address ID
+	AddressLines   []string  `json:"address_lines,omitempty"` // Address Lines
+	City           *string   `json:"city,omitempty"`
+	CompanyName    string    `json:"company_name"`              // Name of a company
+	CountryCode    string    `json:"country_code"`              // Country Code
+	CreateTime     time.Time `json:"create_time"`               // Create Time
+	OrganizationId *string   `json:"organization_id,omitempty"` // Organization ID
+	State          *string   `json:"state,omitempty"`
+	UpdateTime     time.Time `json:"update_time"`        // Update Time
+	ZipCode        *string   `json:"zip_code,omitempty"` // Zip Code
+}
+
+// OrganizationAddressUpdateIn OrganizationAddressUpdateRequestBody
+type OrganizationAddressUpdateIn struct {
+	AddressLines *[]string `json:"address_lines,omitempty"` // Address Lines
+	City         *string   `json:"city,omitempty"`
+	CompanyName  *string   `json:"company_name,omitempty"` // Name of a company
+	CountryCode  *string   `json:"country_code,omitempty"` // Country Code
+	State        *string   `json:"state,omitempty"`
+	ZipCode      *string   `json:"zip_code,omitempty"` // Zip Code
+}
+
+// OrganizationAddressUpdateOut OrganizationAddressUpdateResponse
+type OrganizationAddressUpdateOut struct {
+	AddressId      string    `json:"address_id"`              // Address ID
+	AddressLines   []string  `json:"address_lines,omitempty"` // Address Lines
+	City           *string   `json:"city,omitempty"`
+	CompanyName    string    `json:"company_name"`              // Name of a company
+	CountryCode    string    `json:"country_code"`              // Country Code
+	CreateTime     time.Time `json:"create_time"`               // Create Time
+	OrganizationId *string   `json:"organization_id,omitempty"` // Organization ID
+	State          *string   `json:"state,omitempty"`
+	UpdateTime     time.Time `json:"update_time"`        // Update Time
+	ZipCode        *string   `json:"zip_code,omitempty"` // Zip Code
 }
 
 // OrganizationAuthDomainLinkIn OrganizationAuthDomainLinkRequestBody
@@ -373,6 +529,11 @@ const (
 
 func VerificationTypeChoices() []string {
 	return []string{"dns", "http"}
+}
+
+// organizationAddressListOut OrganizationAddressListResponse
+type organizationAddressListOut struct {
+	Addresses []AddresseOut `json:"addresses"` // Addresses
 }
 
 // organizationAuthDomainListOut OrganizationAuthDomainListResponse
