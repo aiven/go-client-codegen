@@ -97,10 +97,11 @@ type EndOfLifeExtension struct {
 
 // OrganizationProjectsCreateIn OrganizationProjectsCreateRequestBody
 type OrganizationProjectsCreateIn struct {
-	BillingGroupId string            `json:"billing_group_id"`    // Billing group ID to assign to the project.
-	ParentId       *string           `json:"parent_id,omitempty"` // Organization or unit ID to where to move the project
-	ProjectId      string            `json:"project_id"`          // Project ID
-	Tags           map[string]string `json:"tags"`                // Tags
+	BillingGroupId string            `json:"billing_group_id"`      // Billing group ID to assign to the project.
+	ParentId       *string           `json:"parent_id,omitempty"`   // Organization or unit ID to where to move the project
+	ProjectId      string            `json:"project_id"`            // Project ID
+	Tags           map[string]string `json:"tags"`                  // Tags
+	TechEmails     *[]TechEmailIn    `json:"tech_emails,omitempty"` // Technical contact emails
 }
 
 // OrganizationProjectsCreateOut OrganizationProjectsCreateResponse
