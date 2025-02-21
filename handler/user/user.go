@@ -622,6 +622,8 @@ const (
 	ProjectMembershipTypeOperator                    ProjectMembershipType = "operator"
 	ProjectMembershipTypeOrganizationAppUsersWrite   ProjectMembershipType = "organization:app_users:write"
 	ProjectMembershipTypeOrganizationAuditLogsRead   ProjectMembershipType = "organization:audit_logs:read"
+	ProjectMembershipTypeOrganizationBillingRead     ProjectMembershipType = "organization:billing:read"
+	ProjectMembershipTypeOrganizationBillingWrite    ProjectMembershipType = "organization:billing:write"
 	ProjectMembershipTypeOrganizationDomainsWrite    ProjectMembershipType = "organization:domains:write"
 	ProjectMembershipTypeOrganizationGroupsWrite     ProjectMembershipType = "organization:groups:write"
 	ProjectMembershipTypeOrganizationIdpsWrite       ProjectMembershipType = "organization:idps:write"
@@ -649,7 +651,7 @@ const (
 )
 
 func ProjectMembershipTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:idps:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
 }
 
 type TokenOut struct {
