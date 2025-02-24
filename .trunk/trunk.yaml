@@ -19,7 +19,7 @@ runtimes:
 lint:
   enabled:
     - actionlint@1.7.7
-    - checkov@3.2.370
+    - checkov@3.2.372
     - git-diff-check
     - gofmt@1.20.4
     - golangci-lint@1.64.5
@@ -27,7 +27,7 @@ lint:
     - osv-scanner@1.9.2
     - prettier@3.5.1
     - trivy@0.59.1
-    - trufflehog@3.88.8
+    - trufflehog@3.88.12
     - yamllint@1.35.1
 actions:
   enabled:
