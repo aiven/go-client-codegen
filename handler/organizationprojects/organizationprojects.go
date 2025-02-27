@@ -110,6 +110,7 @@ type OrganizationProjectsCreateOut struct {
 	BillingGroupId     *string                       `json:"billing_group_id,omitempty"` // Billing group ID
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
 	Features           map[string]bool               `json:"features,omitempty"`         // Feature flags
+	OrganizationId     string                        `json:"organization_id"`            // Organization ID
 	ParentId           *string                       `json:"parent_id,omitempty"`        // Organization or unit ID to where the project belongs
 	ProjectId          string                        `json:"project_id"`                 // Project ID
 	Tags               map[string]string             `json:"tags"`                       // Tags
@@ -137,6 +138,7 @@ type OrganizationProjectsUpdateOut struct {
 	BillingGroupId     *string                       `json:"billing_group_id,omitempty"` // Billing group ID
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
 	Features           map[string]bool               `json:"features,omitempty"`         // Feature flags
+	OrganizationId     string                        `json:"organization_id"`            // Organization ID
 	ParentId           *string                       `json:"parent_id,omitempty"`        // Organization or unit ID to where the project belongs
 	ProjectId          string                        `json:"project_id"`                 // Project ID
 	Tags               map[string]string             `json:"tags"`                       // Tags
