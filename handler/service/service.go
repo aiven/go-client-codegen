@@ -1505,11 +1505,12 @@ type MysqlParamOut struct {
 	User     string `json:"user"`
 }
 type NodeStateOut struct {
-	Name            string              `json:"name"`                       // Name of the service node
-	ProgressUpdates []ProgressUpdateOut `json:"progress_updates,omitempty"` // Extra information regarding the progress for current state
-	Role            RoleType            `json:"role,omitempty"`             // Role of this node. Only returned for a subset of service types
-	Shard           *ShardOut           `json:"shard,omitempty"`            // Shard of this node. Only returned for a subset of service types
-	State           NodeStateType       `json:"state"`                      // Current state of the service node
+	AvailabilityZone string              `json:"availability_zone"`          // The availability zone in which the node is place. If there is no availability zone available this field will be missing.
+	Name             string              `json:"name"`                       // Name of the service node
+	ProgressUpdates  []ProgressUpdateOut `json:"progress_updates,omitempty"` // Extra information regarding the progress for current state
+	Role             RoleType            `json:"role,omitempty"`             // Role of this node. Only returned for a subset of service types
+	Shard            *ShardOut           `json:"shard,omitempty"`            // Shard of this node. Only returned for a subset of service types
+	State            NodeStateType       `json:"state"`                      // Current state of the service node
 }
 type NodeStateType string
 
