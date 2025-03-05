@@ -124,6 +124,12 @@ FlinkJarApplicationVersion:
 FlinkJob:
   - ServiceFlinkJobDetails
   - ServiceFlinkJobsList
+Governance:
+  - OrganizationGovernanceAccessCreate
+  - OrganizationGovernanceAccessCredentialsGet
+  - OrganizationGovernanceAccessDelete
+  - OrganizationGovernanceAccessGet
+  - OrganizationGovernanceAccessList
 Kafka:
   - ServiceKafkaAclAdd
   - ServiceKafkaAclDelete
