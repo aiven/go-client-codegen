@@ -207,6 +207,7 @@ Organization:
   - OrganizationGet
   - OrganizationUpdate
   - PermissionsGet
+  - PermissionsSet
   - PermissionsUpdate
   - UserOrganizationCreate
   - UserOrganizationsList
