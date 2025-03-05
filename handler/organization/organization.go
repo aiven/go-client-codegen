@@ -76,6 +76,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsGet
 	PermissionsGet(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string) ([]PermissionOut, error)
 
+	// PermissionsSet [EXPERIMENTAL] Set permissions
+	// PUT /v1/organization/{organization_id}/permissions/{resource_type}/{resource_id}
+	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsSet
+	PermissionsSet(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string, in *PermissionsSetIn) error
+
 	// PermissionsUpdate [EXPERIMENTAL] Update permissions
 	// PATCH /v1/organization/{organization_id}/permissions/{resource_type}/{resource_id}
 	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsUpdate
@@ -249,6 +254,11 @@ func (h *OrganizationHandler) PermissionsGet(ctx context.Context, organizationId
 		return nil, err
 	}
 	return out.Permissions, nil
+}
+func (h *OrganizationHandler) PermissionsSet(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string, in *PermissionsSetIn) error {
+	path := fmt.Sprintf("/v1/organization/%s/permissions/%s/%s", url.PathEscape(organizationId), url.PathEscape(string(resourceType)), url.PathEscape(resourceId))
+	_, err := h.doer.Do(ctx, "PermissionsSet", "PUT", path, in)
+	return err
 }
 func (h *OrganizationHandler) PermissionsUpdate(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string, in *PermissionsUpdateIn) error {
 	path := fmt.Sprintf("/v1/organization/%s/permissions/%s/%s", url.PathEscape(organizationId), url.PathEscape(string(resourceType)), url.PathEscape(resourceId))
@@ -463,6 +473,11 @@ type PermissionOut struct {
 	PrincipalId   string        `json:"principal_id"`   // ID of the principal
 	PrincipalType PrincipalType `json:"principal_type"` // An enumeration.
 	UpdateTime    time.Time     `json:"update_time"`    // Update Time
+}
+
+// PermissionsSetIn PermissionsSetRequestBody
+type PermissionsSetIn struct {
+	Permissions []PermissionIn `json:"permissions"` // List of roles to set
 }
 
 // PermissionsUpdateIn PermissionsUpdateRequestBody
