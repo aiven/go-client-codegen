@@ -326,6 +326,18 @@ func DomainStateTypeChoices() []string {
 	return []string{"deleted", "unverified", "verified"}
 }
 
+type OperationType string
+
+const (
+	OperationTypeGrant  OperationType = "grant"
+	OperationTypeRevoke OperationType = "revoke"
+	OperationTypeSet    OperationType = "set"
+)
+
+func OperationTypeChoices() []string {
+	return []string{"grant", "revoke", "set"}
+}
+
 // OrganizationAddressCreateIn OrganizationAddressCreateRequestBody
 type OrganizationAddressCreateIn struct {
 	AddressLines []string `json:"address_lines"` // Address lines
@@ -482,7 +494,8 @@ type PermissionsSetIn struct {
 
 // PermissionsUpdateIn PermissionsUpdateRequestBody
 type PermissionsUpdateIn struct {
-	Permissions []PermissionIn `json:"permissions"` // List of roles to set
+	Operation   OperationType  `json:"operation,omitempty"` // An enumeration.
+	Permissions []PermissionIn `json:"permissions"`         // List of roles to adjust
 }
 type PrincipalType string
 
