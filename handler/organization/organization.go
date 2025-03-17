@@ -71,17 +71,17 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUpdate
 	OrganizationUpdate(ctx context.Context, organizationId string, in *OrganizationUpdateIn) (*OrganizationUpdateOut, error)
 
-	// PermissionsGet [EXPERIMENTAL] List of permissions
+	// PermissionsGet list of permissions
 	// GET /v1/organization/{organization_id}/permissions/{resource_type}/{resource_id}
 	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsGet
 	PermissionsGet(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string) ([]PermissionOut, error)
 
-	// PermissionsSet [EXPERIMENTAL] Set permissions
+	// PermissionsSet set permissions
 	// PUT /v1/organization/{organization_id}/permissions/{resource_type}/{resource_id}
 	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsSet
 	PermissionsSet(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string, in *PermissionsSetIn) error
 
-	// PermissionsUpdate [EXPERIMENTAL] Update permissions
+	// PermissionsUpdate update permissions
 	// PATCH /v1/organization/{organization_id}/permissions/{resource_type}/{resource_id}
 	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsUpdate
 	PermissionsUpdate(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string, in *PermissionsUpdateIn) error
