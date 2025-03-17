@@ -211,6 +211,12 @@ Organization:
   - PermissionsUpdate
   - UserOrganizationCreate
   - UserOrganizationsList
+OrganizationBilling:
+  - OrganizationBillingGroupCreate
+  - OrganizationBillingGroupDelete
+  - OrganizationBillingGroupGet
+  - OrganizationBillingGroupList
+  - OrganizationBillingGroupUpdate
 OrganizationGovernance:
   - OrganizationGovernanceAccessCreate
   - OrganizationGovernanceAccessDelete
