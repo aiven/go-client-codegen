@@ -31,6 +31,7 @@ import (
 	mysql "github.com/aiven/go-client-codegen/handler/mysql"
 	opensearch "github.com/aiven/go-client-codegen/handler/opensearch"
 	organization "github.com/aiven/go-client-codegen/handler/organization"
+	organizationgovernance "github.com/aiven/go-client-codegen/handler/organizationgovernance"
 	organizationprojects "github.com/aiven/go-client-codegen/handler/organizationprojects"
 	organizationuser "github.com/aiven/go-client-codegen/handler/organizationuser"
 	organizationvpc "github.com/aiven/go-client-codegen/handler/organizationvpc"
@@ -78,6 +79,7 @@ func newClient(doer doer) Client {
 		KafkaTopicHandler:                    kafkatopic.NewHandler(doer),
 		MySQLHandler:                         mysql.NewHandler(doer),
 		OpenSearchHandler:                    opensearch.NewHandler(doer),
+		OrganizationGovernanceHandler:        organizationgovernance.NewHandler(doer),
 		OrganizationHandler:                  organization.NewHandler(doer),
 		OrganizationProjectsHandler:          organizationprojects.NewHandler(doer),
 		OrganizationUserHandler:              organizationuser.NewHandler(doer),
@@ -122,6 +124,7 @@ type client struct {
 	mysql.MySQLHandler
 	opensearch.OpenSearchHandler
 	organization.OrganizationHandler
+	organizationgovernance.OrganizationGovernanceHandler
 	organizationprojects.OrganizationProjectsHandler
 	organizationuser.OrganizationUserHandler
 	organizationvpc.OrganizationVpcHandler
@@ -163,6 +166,7 @@ type Client interface {
 	mysql.Handler
 	opensearch.Handler
 	organization.Handler
+	organizationgovernance.Handler
 	organizationprojects.Handler
 	organizationuser.Handler
 	organizationvpc.Handler
