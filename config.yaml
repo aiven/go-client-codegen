@@ -211,6 +211,10 @@ Organization:
   - PermissionsUpdate
   - UserOrganizationCreate
   - UserOrganizationsList
+OrganizationGovernance:
+  - OrganizationGovernanceAccessCreate
+  - OrganizationGovernanceAccessDelete
+  - OrganizationGovernanceAccessGet
 OrganizationProjects:
   - OrganizationProjectsCreate
   - OrganizationProjectsDelete
