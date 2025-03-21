@@ -143,24 +143,28 @@ type OrganizationGovernanceAccessCreateIn struct {
 
 // OrganizationGovernanceAccessCreateOut OrganizationGovernanceAccess
 type OrganizationGovernanceAccessCreateOut struct {
-	AccessData       AccessDataOut `json:"access_data"`                   // access type specific data
-	AccessId         string        `json:"access_id"`                     // The ID of the access
-	AccessName       string        `json:"access_name"`                   // Label to describe the access
-	AccessType       AccessType    `json:"access_type"`                   // An enumeration.
-	CreateTime       time.Time     `json:"create_time"`                   // Timestamp of when access was created
-	CreatedBy        string        `json:"created_by"`                    // The user that created the access
-	OwnerUserGroupId *string       `json:"owner_user_group_id,omitempty"` // The ID of the group that will own the access
+	AccessData          AccessDataOut `json:"access_data"`                   // access type specific data
+	AccessId            string        `json:"access_id"`                     // The ID of the access
+	AccessName          string        `json:"access_name"`                   // Label to describe the access
+	AccessType          AccessType    `json:"access_type"`                   // An enumeration.
+	CreateTime          time.Time     `json:"create_time"`                   // Timestamp of when access was created
+	CreatedBy           string        `json:"created_by"`                    // The user that created the access
+	CredentialsConsumed bool          `json:"credentials_consumed"`          // Wether the credentials have been reviewed
+	CredentialsUserId   string        `json:"credentials_user_id"`           // The user that created is assigned to review the credentials
+	OwnerUserGroupId    *string       `json:"owner_user_group_id,omitempty"` // The ID of the group that will own the access
 }
 
 // OrganizationGovernanceAccessGetOut OrganizationGovernanceAccess
 type OrganizationGovernanceAccessGetOut struct {
-	AccessData       AccessDataOut `json:"access_data"`                   // access type specific data
-	AccessId         string        `json:"access_id"`                     // The ID of the access
-	AccessName       string        `json:"access_name"`                   // Label to describe the access
-	AccessType       AccessType    `json:"access_type"`                   // An enumeration.
-	CreateTime       time.Time     `json:"create_time"`                   // Timestamp of when access was created
-	CreatedBy        string        `json:"created_by"`                    // The user that created the access
-	OwnerUserGroupId *string       `json:"owner_user_group_id,omitempty"` // The ID of the group that will own the access
+	AccessData          AccessDataOut `json:"access_data"`                   // access type specific data
+	AccessId            string        `json:"access_id"`                     // The ID of the access
+	AccessName          string        `json:"access_name"`                   // Label to describe the access
+	AccessType          AccessType    `json:"access_type"`                   // An enumeration.
+	CreateTime          time.Time     `json:"create_time"`                   // Timestamp of when access was created
+	CreatedBy           string        `json:"created_by"`                    // The user that created the access
+	CredentialsConsumed bool          `json:"credentials_consumed"`          // Wether the credentials have been reviewed
+	CredentialsUserId   string        `json:"credentials_user_id"`           // The user that created is assigned to review the credentials
+	OwnerUserGroupId    *string       `json:"owner_user_group_id,omitempty"` // The ID of the group that will own the access
 }
 type PatternType string
 
