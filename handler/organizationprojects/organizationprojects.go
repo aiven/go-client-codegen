@@ -97,6 +97,7 @@ type EndOfLifeExtension struct {
 
 // OrganizationProjectsCreateIn OrganizationProjectsCreateRequestBody
 type OrganizationProjectsCreateIn struct {
+	BasePort       *int              `json:"base_port,omitempty"`   // Valid port number (1-65535)
 	BillingGroupId string            `json:"billing_group_id"`      // Billing group ID to assign to the project.
 	ParentId       *string           `json:"parent_id,omitempty"`   // Organization or unit ID to where to move the project
 	ProjectId      string            `json:"project_id"`            // Project ID
@@ -107,6 +108,7 @@ type OrganizationProjectsCreateIn struct {
 // OrganizationProjectsCreateOut OrganizationProjectsCreateResponse
 type OrganizationProjectsCreateOut struct {
 	AccountId          *string                       `json:"account_id,omitempty"`       // Account ID to where the project belongs
+	BasePort           *int                          `json:"base_port,omitempty"`        // Valid port number (1-65535)
 	BillingGroupId     *string                       `json:"billing_group_id,omitempty"` // Billing group ID
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
 	Features           map[string]bool               `json:"features,omitempty"`         // Feature flags
@@ -125,6 +127,7 @@ type OrganizationProjectsListOut struct {
 
 // OrganizationProjectsUpdateIn OrganizationProjectsUpdateRequestBody
 type OrganizationProjectsUpdateIn struct {
+	BasePort       *int               `json:"base_port,omitempty"`        // Valid port number (1-65535)
 	BillingGroupId *string            `json:"billing_group_id,omitempty"` // Billing group ID to assign to the project. It's required when moving projects between organizations
 	OrganizationId *string            `json:"organization_id,omitempty"`  // Organization ID
 	ParentId       *string            `json:"parent_id,omitempty"`        // Organization or unit ID to where to move the project
@@ -136,6 +139,7 @@ type OrganizationProjectsUpdateIn struct {
 // OrganizationProjectsUpdateOut OrganizationProjectsUpdateResponse
 type OrganizationProjectsUpdateOut struct {
 	AccountId          *string                       `json:"account_id,omitempty"`       // Account ID to where the project belongs
+	BasePort           *int                          `json:"base_port,omitempty"`        // Valid port number (1-65535)
 	BillingGroupId     *string                       `json:"billing_group_id,omitempty"` // Billing group ID
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
 	Features           map[string]bool               `json:"features,omitempty"`         // Feature flags
@@ -147,6 +151,7 @@ type OrganizationProjectsUpdateOut struct {
 }
 type ProjectOut struct {
 	AccountId          *string                       `json:"account_id,omitempty"`       // Account ID to where the project belongs
+	BasePort           *int                          `json:"base_port,omitempty"`        // Valid port number (1-65535)
 	BillingGroupId     *string                       `json:"billing_group_id,omitempty"` // Billing group ID
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
 	ParentId           *string                       `json:"parent_id,omitempty"`        // Organization or unit ID to where the project belongs

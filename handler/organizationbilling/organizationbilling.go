@@ -162,7 +162,7 @@ type OrganizationBillingGroupCreateIn struct {
 	BillingEmails        []BillingEmailIn        `json:"billing_emails"`                // List of billing contact emails
 	BillingGroupName     string                  `json:"billing_group_name"`            // Billing Group Name
 	CustomInvoiceText    *string                 `json:"custom_invoice_text,omitempty"` // Extra billing text
-	PaymentMethodId      *string                 `json:"payment_method_id,omitempty"`   // Payment method ID
+	PaymentMethodId      string                  `json:"payment_method_id"`             // Payment method ID
 	ShippingAddressId    string                  `json:"shipping_address_id"`           // Shipping address ID
 	VatId                *string                 `json:"vat_id,omitempty"`              // VAT ID
 }

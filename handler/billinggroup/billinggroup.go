@@ -537,6 +537,7 @@ type InvoiceOut struct {
 	DueDate           *string               `json:"due_date,omitempty"`     // The time when the invoice is due
 	GeneratedAt       *time.Time            `json:"generated_at,omitempty"` // The time when the invoice was generated
 	InvoiceNumber     string                `json:"invoice_number"`         // Unique invoice reference code
+	IssueDate         *string               `json:"issue_date,omitempty"`   // The time when the invoice was issued
 	PeriodBegin       string                `json:"period_begin"`           // Period begin
 	PeriodEnd         string                `json:"period_end"`             // Period end
 	State             InvoiceStateType      `json:"state"`                  // State of this invoice
