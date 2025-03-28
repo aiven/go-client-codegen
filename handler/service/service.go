@@ -2299,6 +2299,7 @@ type ServiceUserCreateOut struct {
 	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
 	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // When the existing certificate is nearing expiration and a new certificate has been generated, the validity end time (ISO8601) for the expiring certificate
 	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
+	PasswordUpdatedTime           *time.Time         `json:"password_updated_time,omitempty"`              // Timestamp (ISO8601) of the last time this password was set. A null value indicates a password was never set.
 	Type                          string             `json:"type"`                                         // Account type
 	Username                      string             `json:"username"`                                     // Account username
 }
@@ -2415,6 +2416,7 @@ type ServiceUserGetOut struct {
 	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
 	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // When the existing certificate is nearing expiration and a new certificate has been generated, the validity end time (ISO8601) for the expiring certificate
 	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
+	PasswordUpdatedTime           *time.Time         `json:"password_updated_time,omitempty"`              // Timestamp (ISO8601) of the last time this password was set. A null value indicates a password was never set.
 	Type                          string             `json:"type"`                                         // Account type
 	Username                      string             `json:"username"`                                     // Account username
 }
@@ -2574,6 +2576,7 @@ type UserOut struct {
 	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
 	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // When the existing certificate is nearing expiration and a new certificate has been generated, the validity end time (ISO8601) for the expiring certificate
 	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
+	PasswordUpdatedTime           *time.Time         `json:"password_updated_time,omitempty"`              // Timestamp (ISO8601) of the last time this password was set. A null value indicates a password was never set.
 	Type                          string             `json:"type"`                                         // Account type
 	Username                      string             `json:"username"`                                     // Account username
 }
