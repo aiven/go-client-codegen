@@ -131,7 +131,6 @@ type OrganizationProjectsUpdateIn struct {
 	BillingGroupId *string            `json:"billing_group_id,omitempty"` // Billing group ID to assign to the project. It's required when moving projects between organizations
 	OrganizationId *string            `json:"organization_id,omitempty"`  // Organization ID
 	ParentId       *string            `json:"parent_id,omitempty"`        // Organization or unit ID to where to move the project
-	ProjectId      *string            `json:"project_id,omitempty"`       // New Project ID
 	Tags           *map[string]string `json:"tags,omitempty"`             // Tags
 	TechEmails     *[]TechEmailIn     `json:"tech_emails,omitempty"`      // Technical contact emails
 }
