@@ -110,8 +110,9 @@ func (h *PostgreSQLHandler) ServicePGBouncerUpdate(ctx context.Context, project 
 }
 
 type ExtensionOut struct {
-	Name     string   `json:"name"`               // Extension name
-	Versions []string `json:"versions,omitempty"` // Extension versions available
+	DefaultVersion *string  `json:"default_version,omitempty"` // Default version
+	Name           string   `json:"name"`                      // Extension name
+	Versions       []string `json:"versions,omitempty"`        // Extension versions available
 }
 type PgOut struct {
 	Extensions []ExtensionOut `json:"extensions"` // Extensions available for loading with CREATE EXTENSION in this service
