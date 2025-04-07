@@ -380,7 +380,7 @@ type OrganizationAddressGetOut struct {
 type OrganizationAddressUpdateIn struct {
 	AddressLines *[]string `json:"address_lines,omitempty"` // Address Lines
 	City         *string   `json:"city,omitempty"`
-	CompanyName  *string   `json:"company_name,omitempty"` // Name of a company
+	CompanyName  *string   `json:"company_name"`           // Name of a company
 	CountryCode  *string   `json:"country_code,omitempty"` // Country Code
 	State        *string   `json:"state,omitempty"`
 	ZipCode      *string   `json:"zip_code,omitempty"` // Zip Code

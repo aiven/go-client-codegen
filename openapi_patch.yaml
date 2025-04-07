@@ -15,6 +15,10 @@ paths:
 
 components:
   schemas:
+    OrganizationAddressUpdateRequestBody:
+      properties:
+        company_name:
+          nullable: true
     OrganizationVpcGetResponse:
       properties:
         peering_connections:
