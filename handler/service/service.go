@@ -1008,6 +1008,11 @@ type ConnectionPoolOut struct {
 	Username      *string      `json:"username,omitempty"` // Pool username
 }
 
+// CreateSearchableSnapshotIn Move indices to a searchable snaphshot
+type CreateSearchableSnapshotIn struct {
+	Indices string `json:"indices"` // The indices to move to a searchable snapshot. Use , to create a list of indexes, * to specify an index pattern, and - to exclude certain indexes.
+}
+
 // CreateUserBackupIn Payload to be used with create_user_backup
 type CreateUserBackupIn struct {
 	BackupName string `json:"backup_name"` // The output file name.
@@ -2198,11 +2203,12 @@ func ServiceStateTypeChoices() []string {
 
 // ServiceTaskCreateIn ServiceTaskCreateRequestBody
 type ServiceTaskCreateIn struct {
-	CreateUserBackup *CreateUserBackupIn `json:"create_user_backup,omitempty"` // Payload to be used with create_user_backup
-	DatasetImport    *DatasetImportIn    `json:"dataset_import,omitempty"`     // Payload to be used with dataset_import
-	MigrationCheck   *MigrationCheckIn   `json:"migration_check,omitempty"`    // Payload to be used with migration_check
-	TargetVersion    TargetVersionType   `json:"target_version,omitempty"`     // Target version used with upgrade_check
-	TaskType         TaskType            `json:"task_type"`                    // Service task type
+	CreateSearchableSnapshot *CreateSearchableSnapshotIn `json:"create_searchable_snapshot,omitempty"` // Move indices to a searchable snaphshot
+	CreateUserBackup         *CreateUserBackupIn         `json:"create_user_backup,omitempty"`         // Payload to be used with create_user_backup
+	DatasetImport            *DatasetImportIn            `json:"dataset_import,omitempty"`             // Payload to be used with dataset_import
+	MigrationCheck           *MigrationCheckIn           `json:"migration_check,omitempty"`            // Payload to be used with migration_check
+	TargetVersion            TargetVersionType           `json:"target_version,omitempty"`             // Target version used with upgrade_check
+	TaskType                 TaskType                    `json:"task_type"`                            // Service task type
 }
 
 // ServiceTaskCreateOut Task info
@@ -2487,14 +2493,15 @@ func TargetVersionTypeChoices() []string {
 type TaskType string
 
 const (
-	TaskTypeCreateUserBackup TaskType = "create_user_backup"
-	TaskTypeDatasetImport    TaskType = "dataset_import"
-	TaskTypeMigrationCheck   TaskType = "migration_check"
-	TaskTypeUpgradeCheck     TaskType = "upgrade_check"
+	TaskTypeCreateSearchableSnapshot TaskType = "create_searchable_snapshot"
+	TaskTypeCreateUserBackup         TaskType = "create_user_backup"
+	TaskTypeDatasetImport            TaskType = "dataset_import"
+	TaskTypeMigrationCheck           TaskType = "migration_check"
+	TaskTypeUpgradeCheck             TaskType = "upgrade_check"
 )
 
 func TaskTypeChoices() []string {
-	return []string{"create_user_backup", "dataset_import", "migration_check", "upgrade_check"}
+	return []string{"create_searchable_snapshot", "create_user_backup", "dataset_import", "migration_check", "upgrade_check"}
 }
 
 type TechEmailIn struct {
