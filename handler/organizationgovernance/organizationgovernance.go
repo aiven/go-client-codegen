@@ -25,6 +25,11 @@ type Handler interface {
 	// GET /v1/organization/{organization_id}/governance/access/{access_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationGovernanceAccessGet
 	OrganizationGovernanceAccessGet(ctx context.Context, organizationId string, accessId string) (*OrganizationGovernanceAccessGetOut, error)
+
+	// OrganizationGovernanceAccessList [EXPERIMENTAL] List access for organization
+	// GET /v1/organization/{organization_id}/governance/access
+	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationGovernanceAccessList
+	OrganizationGovernanceAccessList(ctx context.Context, organizationId string, query ...[2]string) (*OrganizationGovernanceAccessListOut, error)
 }
 
 // doer http client
@@ -78,6 +83,51 @@ func (h *OrganizationGovernanceHandler) OrganizationGovernanceAccessGet(ctx cont
 		return nil, err
 	}
 	return &out.Access, nil
+}
+
+// OrganizationGovernanceAccessListCursor Pagination cursor
+func OrganizationGovernanceAccessListCursor(cursor string) [2]string {
+	return [2]string{"cursor", cursor}
+}
+
+// OrganizationGovernanceAccessListLimit Limit results to this number
+func OrganizationGovernanceAccessListLimit(limit int) [2]string {
+	return [2]string{"limit", fmt.Sprintf("%d", limit)}
+}
+
+// OrganizationGovernanceAccessListResourceName Filter by resource name
+func OrganizationGovernanceAccessListResourceName(resourceName string) [2]string {
+	return [2]string{"resource_name", resourceName}
+}
+
+// OrganizationGovernanceAccessListOwnerUserGroupId Filter by owner user group ID
+func OrganizationGovernanceAccessListOwnerUserGroupId(ownerUserGroupId string) [2]string {
+	return [2]string{"owner_user_group_id", ownerUserGroupId}
+}
+func (h *OrganizationGovernanceHandler) OrganizationGovernanceAccessList(ctx context.Context, organizationId string, query ...[2]string) (*OrganizationGovernanceAccessListOut, error) {
+	path := fmt.Sprintf("/v1/organization/%s/governance/access", url.PathEscape(organizationId))
+	b, err := h.doer.Do(ctx, "OrganizationGovernanceAccessList", "GET", path, nil, query...)
+	if err != nil {
+		return nil, err
+	}
+	out := new(OrganizationGovernanceAccessListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+type AccesOut struct {
+	AccessData          AccessDataOut `json:"access_data"`                   // access type specific data
+	AccessId            string        `json:"access_id"`                     // The ID of the access
+	AccessName          string        `json:"access_name"`                   // Label to describe the access
+	AccessType          AccessType    `json:"access_type"`                   // An enumeration.
+	CreateTime          time.Time     `json:"create_time"`                   // Timestamp of when access was created
+	CreatedBy           string        `json:"created_by"`                    // The user that created the access
+	CredentialsConsumed bool          `json:"credentials_consumed"`          // Wether the credentials have been reviewed
+	CredentialsUserId   string        `json:"credentials_user_id"`           // The user that created is assigned to review the credentials
+	OwnerUserGroupId    *string       `json:"owner_user_group_id,omitempty"` // The ID of the group that will own the access
 }
 
 // AccessDataIn access type specific data
@@ -165,6 +215,16 @@ type OrganizationGovernanceAccessGetOut struct {
 	CredentialsConsumed bool          `json:"credentials_consumed"`          // Wether the credentials have been reviewed
 	CredentialsUserId   string        `json:"credentials_user_id"`           // The user that created is assigned to review the credentials
 	OwnerUserGroupId    *string       `json:"owner_user_group_id,omitempty"` // The ID of the group that will own the access
+}
+
+// OrganizationGovernanceAccessListOut OrganizationGovernanceAccessListResponse
+type OrganizationGovernanceAccessListOut struct {
+	Access     []AccesOut `json:"access"`
+	First      *string    `json:"first,omitempty"`       // First page
+	Last       *string    `json:"last,omitempty"`        // Last page
+	Next       *string    `json:"next,omitempty"`        // Next page
+	Prev       *string    `json:"prev,omitempty"`        // Previous page
+	TotalCount *int       `json:"total_count,omitempty"` // Total number of results
 }
 type PatternType string
 

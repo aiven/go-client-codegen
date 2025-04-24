@@ -221,6 +221,7 @@ OrganizationGovernance:
   - OrganizationGovernanceAccessCreate
   - OrganizationGovernanceAccessDelete
   - OrganizationGovernanceAccessGet
+  - OrganizationGovernanceAccessList
 OrganizationProjects:
   - OrganizationProjectsCreate
   - OrganizationProjectsDelete
