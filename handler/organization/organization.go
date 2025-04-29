@@ -296,10 +296,10 @@ type AddresseOut struct {
 	AddressId      string    `json:"address_id"`              // Address ID
 	AddressLines   []string  `json:"address_lines,omitempty"` // Address Lines
 	City           *string   `json:"city,omitempty"`
-	CompanyName    *string   `json:"company_name,omitempty"` // Name of a company
-	CountryCode    string    `json:"country_code"`           // Country Code
-	CreateTime     time.Time `json:"create_time"`            // Create Time
-	OrganizationId string    `json:"organization_id"`        // Organization ID
+	CountryCode    string    `json:"country_code"`    // Country Code
+	CreateTime     time.Time `json:"create_time"`     // Create Time
+	Name           string    `json:"name"`            // Name of a company
+	OrganizationId string    `json:"organization_id"` // Organization ID
 	State          *string   `json:"state,omitempty"`
 	UpdateTime     time.Time `json:"update_time"`        // Update Time
 	ZipCode        *string   `json:"zip_code,omitempty"` // Zip Code
@@ -342,8 +342,8 @@ func OperationTypeChoices() []string {
 type OrganizationAddressCreateIn struct {
 	AddressLines []string `json:"address_lines"` // Address lines
 	City         string   `json:"city"`
-	CompanyName  *string  `json:"company_name,omitempty"` // Name of a company
-	CountryCode  string   `json:"country_code"`           // Country Code
+	CountryCode  string   `json:"country_code"` // Country Code
+	Name         string   `json:"name"`         // Name of a company
 	State        *string  `json:"state,omitempty"`
 	ZipCode      *string  `json:"zip_code,omitempty"` // Zip Code
 }
@@ -353,10 +353,10 @@ type OrganizationAddressCreateOut struct {
 	AddressId      string    `json:"address_id"`              // Address ID
 	AddressLines   []string  `json:"address_lines,omitempty"` // Address Lines
 	City           *string   `json:"city,omitempty"`
-	CompanyName    *string   `json:"company_name,omitempty"` // Name of a company
-	CountryCode    string    `json:"country_code"`           // Country Code
-	CreateTime     time.Time `json:"create_time"`            // Create Time
-	OrganizationId string    `json:"organization_id"`        // Organization ID
+	CountryCode    string    `json:"country_code"`    // Country Code
+	CreateTime     time.Time `json:"create_time"`     // Create Time
+	Name           string    `json:"name"`            // Name of a company
+	OrganizationId string    `json:"organization_id"` // Organization ID
 	State          *string   `json:"state,omitempty"`
 	UpdateTime     time.Time `json:"update_time"`        // Update Time
 	ZipCode        *string   `json:"zip_code,omitempty"` // Zip Code
@@ -367,10 +367,10 @@ type OrganizationAddressGetOut struct {
 	AddressId      string    `json:"address_id"`              // Address ID
 	AddressLines   []string  `json:"address_lines,omitempty"` // Address Lines
 	City           *string   `json:"city,omitempty"`
-	CompanyName    *string   `json:"company_name,omitempty"` // Name of a company
-	CountryCode    string    `json:"country_code"`           // Country Code
-	CreateTime     time.Time `json:"create_time"`            // Create Time
-	OrganizationId string    `json:"organization_id"`        // Organization ID
+	CountryCode    string    `json:"country_code"`    // Country Code
+	CreateTime     time.Time `json:"create_time"`     // Create Time
+	Name           string    `json:"name"`            // Name of a company
+	OrganizationId string    `json:"organization_id"` // Organization ID
 	State          *string   `json:"state,omitempty"`
 	UpdateTime     time.Time `json:"update_time"`        // Update Time
 	ZipCode        *string   `json:"zip_code,omitempty"` // Zip Code
@@ -380,8 +380,8 @@ type OrganizationAddressGetOut struct {
 type OrganizationAddressUpdateIn struct {
 	AddressLines *[]string `json:"address_lines,omitempty"` // Address Lines
 	City         *string   `json:"city,omitempty"`
-	CompanyName  *string   `json:"company_name,omitempty"` // Name of a company
 	CountryCode  *string   `json:"country_code,omitempty"` // Country Code
+	Name         *string   `json:"name,omitempty"`         // Name of a company
 	State        *string   `json:"state,omitempty"`
 	ZipCode      *string   `json:"zip_code,omitempty"` // Zip Code
 }
@@ -391,10 +391,10 @@ type OrganizationAddressUpdateOut struct {
 	AddressId      string    `json:"address_id"`              // Address ID
 	AddressLines   []string  `json:"address_lines,omitempty"` // Address Lines
 	City           *string   `json:"city,omitempty"`
-	CompanyName    *string   `json:"company_name,omitempty"` // Name of a company
-	CountryCode    string    `json:"country_code"`           // Country Code
-	CreateTime     time.Time `json:"create_time"`            // Create Time
-	OrganizationId string    `json:"organization_id"`        // Organization ID
+	CountryCode    string    `json:"country_code"`    // Country Code
+	CreateTime     time.Time `json:"create_time"`     // Create Time
+	Name           string    `json:"name"`            // Name of a company
+	OrganizationId string    `json:"organization_id"` // Organization ID
 	State          *string   `json:"state,omitempty"`
 	UpdateTime     time.Time `json:"update_time"`        // Update Time
 	ZipCode        *string   `json:"zip_code,omitempty"` // Zip Code
