@@ -20,6 +20,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsDelete
 	OrganizationProjectsDelete(ctx context.Context, organizationId string, projectId string) error
 
+	// OrganizationProjectsGet [EXPERIMENTAL] Retrieve project under the organization
+	// GET /v1/organization/{organization_id}/projects/{project_id}
+	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsGet
+	OrganizationProjectsGet(ctx context.Context, organizationId string, projectId string) (*OrganizationProjectsGetOut, error)
+
 	// OrganizationProjectsList [EXPERIMENTAL] List projects under the organization
 	// GET /v1/organization/{organization_id}/projects
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsList
@@ -61,6 +66,19 @@ func (h *OrganizationProjectsHandler) OrganizationProjectsDelete(ctx context.Con
 	path := fmt.Sprintf("/v1/organization/%s/projects/%s", url.PathEscape(organizationId), url.PathEscape(projectId))
 	_, err := h.doer.Do(ctx, "OrganizationProjectsDelete", "DELETE", path, nil)
 	return err
+}
+func (h *OrganizationProjectsHandler) OrganizationProjectsGet(ctx context.Context, organizationId string, projectId string) (*OrganizationProjectsGetOut, error) {
+	path := fmt.Sprintf("/v1/organization/%s/projects/%s", url.PathEscape(organizationId), url.PathEscape(projectId))
+	b, err := h.doer.Do(ctx, "OrganizationProjectsGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(OrganizationProjectsGetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 func (h *OrganizationProjectsHandler) OrganizationProjectsList(ctx context.Context, organizationId string) (*OrganizationProjectsListOut, error) {
 	path := fmt.Sprintf("/v1/organization/%s/projects", url.PathEscape(organizationId))
@@ -107,6 +125,20 @@ type OrganizationProjectsCreateIn struct {
 
 // OrganizationProjectsCreateOut OrganizationProjectsCreateResponse
 type OrganizationProjectsCreateOut struct {
+	AccountId          *string                       `json:"account_id,omitempty"`       // [DEPRECATED] Account ID to where the project belongs
+	BasePort           *int                          `json:"base_port,omitempty"`        // Valid port number (1-65535)
+	BillingGroupId     *string                       `json:"billing_group_id,omitempty"` // Billing group ID
+	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
+	Features           map[string]bool               `json:"features,omitempty"`         // Feature flags
+	OrganizationId     string                        `json:"organization_id"`            // Organization ID
+	ParentId           *string                       `json:"parent_id,omitempty"`        // Organization or unit ID to where the project belongs
+	ProjectId          string                        `json:"project_id"`                 // Project ID
+	Tags               map[string]string             `json:"tags"`                       // Tags
+	TechEmails         []TechEmailOut                `json:"tech_emails"`                // List of project technical email addresses
+}
+
+// OrganizationProjectsGetOut OrganizationProjectsGetResponse
+type OrganizationProjectsGetOut struct {
 	AccountId          *string                       `json:"account_id,omitempty"`       // [DEPRECATED] Account ID to where the project belongs
 	BasePort           *int                          `json:"base_port,omitempty"`        // Valid port number (1-65535)
 	BillingGroupId     *string                       `json:"billing_group_id,omitempty"` // Billing group ID
