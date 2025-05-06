@@ -225,6 +225,7 @@ OrganizationGovernance:
 OrganizationProjects:
   - OrganizationProjectsCreate
   - OrganizationProjectsDelete
+  - OrganizationProjectsGet
   - OrganizationProjectsList
   - OrganizationProjectsUpdate
 OrganizationUser:
