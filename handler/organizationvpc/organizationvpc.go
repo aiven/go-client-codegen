@@ -145,14 +145,16 @@ type CloudOut struct {
 
 // OrganizationVpcCreateIn OrganizationVpcCreateRequestBody
 type OrganizationVpcCreateIn struct {
-	Clouds             []CloudIn             `json:"clouds"`              // Clouds to create this VPC in
-	PeeringConnections []PeeringConnectionIn `json:"peering_connections"` // List of peering connection requests for the VPC
+	Clouds             []CloudIn             `json:"clouds"`                 // Clouds to create this VPC in
+	DisplayName        *string               `json:"display_name,omitempty"` // User defined display name for this VPC
+	PeeringConnections []PeeringConnectionIn `json:"peering_connections"`    // List of peering connection requests for the VPC
 }
 
 // OrganizationVpcCreateOut OrganizationVpcCreateResponse
 type OrganizationVpcCreateOut struct {
 	Clouds                             []CloudOut               `json:"clouds"`                                           // Clouds or clouds to create this VPC in
 	CreateTime                         time.Time                `json:"create_time"`                                      // VPC creation timestamp
+	DisplayName                        string                   `json:"display_name"`                                     // User defined display name for this VPC
 	OrganizationId                     string                   `json:"organization_id"`                                  // Organization ID
 	OrganizationVpcId                  string                   `json:"organization_vpc_id"`                              // Project VPC ID
 	PeeringConnections                 []PeeringConnectionOut   `json:"peering_connections"`                              // List of peering connections
@@ -165,6 +167,7 @@ type OrganizationVpcCreateOut struct {
 type OrganizationVpcDeleteOut struct {
 	Clouds                             []CloudOut               `json:"clouds"`                                           // Clouds or clouds to create this VPC in
 	CreateTime                         time.Time                `json:"create_time"`                                      // VPC creation timestamp
+	DisplayName                        string                   `json:"display_name"`                                     // User defined display name for this VPC
 	OrganizationId                     string                   `json:"organization_id"`                                  // Organization ID
 	OrganizationVpcId                  string                   `json:"organization_vpc_id"`                              // Project VPC ID
 	PeeringConnections                 []PeeringConnectionOut   `json:"peering_connections"`                              // List of peering connections
@@ -177,6 +180,7 @@ type OrganizationVpcDeleteOut struct {
 type OrganizationVpcGetOut struct {
 	Clouds                             []CloudOut                               `json:"clouds"`                                           // Clouds or clouds to create this VPC in
 	CreateTime                         time.Time                                `json:"create_time"`                                      // VPC creation timestamp
+	DisplayName                        string                                   `json:"display_name"`                                     // User defined display name for this VPC
 	OrganizationId                     string                                   `json:"organization_id"`                                  // Organization ID
 	OrganizationVpcId                  string                                   `json:"organization_vpc_id"`                              // Project VPC ID
 	PeeringConnections                 []OrganizationVpcGetPeeringConnectionOut `json:"peering_connections"`                              // List of peering connections
@@ -338,6 +342,7 @@ type StateInfoOut struct {
 type VpcOut struct {
 	Clouds            []CloudOut   `json:"clouds"`              // Clouds or clouds to create this VPC in
 	CreateTime        time.Time    `json:"create_time"`         // VPC creation timestamp
+	DisplayName       string       `json:"display_name"`        // User defined display name for this VPC
 	OrganizationId    string       `json:"organization_id"`     // Organization ID
 	OrganizationVpcId string       `json:"organization_vpc_id"` // Project VPC ID
 	State             VpcStateType `json:"state"`               // Project VPC state
