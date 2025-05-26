@@ -138,27 +138,15 @@ type OrganizationDomainAddIn struct {
 
 // OrganizationDomainAddOut OrganizationDomainAddResponse
 type OrganizationDomainAddOut struct {
-	ChallengeToken                string                         `json:"challenge_token"`                  // Random string to be used for validation
-	CreateTime                    time.Time                      `json:"create_time"`                      // Time of creating the domain
-	DomainId                      string                         `json:"domain_id"`                        // ID of the domain
-	DomainName                    string                         `json:"domain_name"`                      // Name of the domain
-	LinkedAuthenticationMethodIds []string                       `json:"linked_authentication_method_ids"` // Linked Authentication Method Ids
-	OrganizationId                string                         `json:"organization_id"`                  // ID of the organization owning this domain
-	State                         OrganizationDomainAddStateType `json:"state"`                            // An enumeration.
-	VerificationType              VerificationType               `json:"verification_type"`                // An enumeration.
+	ChallengeToken                string                      `json:"challenge_token"`                  // Random string to be used for validation
+	CreateTime                    time.Time                   `json:"create_time"`                      // Time of creating the domain
+	DomainId                      string                      `json:"domain_id"`                        // ID of the domain
+	DomainName                    string                      `json:"domain_name"`                      // Name of the domain
+	LinkedAuthenticationMethodIds []string                    `json:"linked_authentication_method_ids"` // Linked Authentication Method Ids
+	OrganizationId                string                      `json:"organization_id"`                  // ID of the organization owning this domain
+	State                         OrganizationDomainStateType `json:"state"`                            // An enumeration.
+	VerificationType              VerificationType            `json:"verification_type"`                // An enumeration.
 }
-type OrganizationDomainAddStateType string
-
-const (
-	OrganizationDomainAddStateTypeDeleted    OrganizationDomainAddStateType = "deleted"
-	OrganizationDomainAddStateTypeUnverified OrganizationDomainAddStateType = "unverified"
-	OrganizationDomainAddStateTypeVerified   OrganizationDomainAddStateType = "verified"
-)
-
-func OrganizationDomainAddStateTypeChoices() []string {
-	return []string{"deleted", "unverified", "verified"}
-}
-
 type OrganizationDomainStateType string
 
 const (

@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -22,7 +23,6 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"golang.org/x/exp/maps"
-	"golang.org/x/exp/slices"
 	"gopkg.in/yaml.v3"
 )
 
@@ -422,7 +422,6 @@ func exec() error {
 		}
 
 		dirPath := filepath.Join(cfg.HandlerDir, fileName)
-
 		err = os.MkdirAll(dirPath, dirMode)
 		if err != nil {
 			return err

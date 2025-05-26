@@ -324,20 +324,14 @@ type VpcPeeringConnectionDeleteOut struct {
 type VpcPeeringConnectionStateType string
 
 const (
-	VpcPeeringConnectionStateTypeActive                VpcPeeringConnectionStateType = "ACTIVE"
-	VpcPeeringConnectionStateTypeApproved              VpcPeeringConnectionStateType = "APPROVED"
-	VpcPeeringConnectionStateTypeApprovedPeerRequested VpcPeeringConnectionStateType = "APPROVED_PEER_REQUESTED"
-	VpcPeeringConnectionStateTypeDeleted               VpcPeeringConnectionStateType = "DELETED"
-	VpcPeeringConnectionStateTypeDeletedByPeer         VpcPeeringConnectionStateType = "DELETED_BY_PEER"
-	VpcPeeringConnectionStateTypeDeleting              VpcPeeringConnectionStateType = "DELETING"
-	VpcPeeringConnectionStateTypeError                 VpcPeeringConnectionStateType = "ERROR"
-	VpcPeeringConnectionStateTypeInvalidSpecification  VpcPeeringConnectionStateType = "INVALID_SPECIFICATION"
-	VpcPeeringConnectionStateTypePendingPeer           VpcPeeringConnectionStateType = "PENDING_PEER"
-	VpcPeeringConnectionStateTypeRejectedByPeer        VpcPeeringConnectionStateType = "REJECTED_BY_PEER"
+	VpcPeeringConnectionStateTypeActive   VpcPeeringConnectionStateType = "ACTIVE"
+	VpcPeeringConnectionStateTypeApproved VpcPeeringConnectionStateType = "APPROVED"
+	VpcPeeringConnectionStateTypeDeleted  VpcPeeringConnectionStateType = "DELETED"
+	VpcPeeringConnectionStateTypeDeleting VpcPeeringConnectionStateType = "DELETING"
 )
 
 func VpcPeeringConnectionStateTypeChoices() []string {
-	return []string{"ACTIVE", "APPROVED", "APPROVED_PEER_REQUESTED", "DELETED", "DELETED_BY_PEER", "DELETING", "ERROR", "INVALID_SPECIFICATION", "PENDING_PEER", "REJECTED_BY_PEER"}
+	return []string{"ACTIVE", "APPROVED", "DELETED", "DELETING"}
 }
 
 type VpcPeeringConnectionType string
@@ -362,61 +356,86 @@ type VpcPeeringConnectionUpdateIn struct {
 
 // VpcPeeringConnectionUpdateOut VpcPeeringConnectionUpdateResponse
 type VpcPeeringConnectionUpdateOut struct {
-	CloudName                          string                                                  `json:"cloud_name"`                                       // Target cloud
-	CreateTime                         time.Time                                               `json:"create_time"`                                      // VPC creation timestamp
-	NetworkCidr                        string                                                  `json:"network_cidr"`                                     // IPv4 network range CIDR
-	PeeringConnections                 []PeeringConnectionOut                                  `json:"peering_connections"`                              // List of peering connections
-	PendingBuildOnlyPeeringConnections *string                                                 `json:"pending_build_only_peering_connections,omitempty"` // VPC rebuild is scheduled
-	ProjectVpcId                       string                                                  `json:"project_vpc_id"`                                   // Project VPC ID
-	State                              VpcPeeringConnectionUpdateVpcPeeringConnectionStateType `json:"state"`                                            // Project VPC state
-	UpdateTime                         time.Time                                               `json:"update_time"`                                      // Timestamp of last change to VPC
-}
-type VpcPeeringConnectionUpdateVpcPeeringConnectionStateType string
-
-const (
-	VpcPeeringConnectionUpdateVpcPeeringConnectionStateTypeActive   VpcPeeringConnectionUpdateVpcPeeringConnectionStateType = "ACTIVE"
-	VpcPeeringConnectionUpdateVpcPeeringConnectionStateTypeApproved VpcPeeringConnectionUpdateVpcPeeringConnectionStateType = "APPROVED"
-	VpcPeeringConnectionUpdateVpcPeeringConnectionStateTypeDeleted  VpcPeeringConnectionUpdateVpcPeeringConnectionStateType = "DELETED"
-	VpcPeeringConnectionUpdateVpcPeeringConnectionStateTypeDeleting VpcPeeringConnectionUpdateVpcPeeringConnectionStateType = "DELETING"
-)
-
-func VpcPeeringConnectionUpdateVpcPeeringConnectionStateTypeChoices() []string {
-	return []string{"ACTIVE", "APPROVED", "DELETED", "DELETING"}
+	CloudName                          string                        `json:"cloud_name"`                                       // Target cloud
+	CreateTime                         time.Time                     `json:"create_time"`                                      // VPC creation timestamp
+	NetworkCidr                        string                        `json:"network_cidr"`                                     // IPv4 network range CIDR
+	PeeringConnections                 []PeeringConnectionOut        `json:"peering_connections"`                              // List of peering connections
+	PendingBuildOnlyPeeringConnections *string                       `json:"pending_build_only_peering_connections,omitempty"` // VPC rebuild is scheduled
+	ProjectVpcId                       string                        `json:"project_vpc_id"`                                   // Project VPC ID
+	State                              VpcPeeringConnectionStateType `json:"state"`                                            // Project VPC state
+	UpdateTime                         time.Time                     `json:"update_time"`                                      // Timestamp of last change to VPC
 }
 
 // VpcPeeringConnectionWithRegionDeleteOut VpcPeeringConnectionWithRegionDeleteResponse
 type VpcPeeringConnectionWithRegionDeleteOut struct {
-	CreateTime               time.Time                     `json:"create_time"`                     // VPC peering connection creation timestamp
-	PeerAzureAppId           string                        `json:"peer_azure_app_id"`               // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
-	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`            // Azure tenant id in UUID4 form
-	PeerCloudAccount         string                        `json:"peer_cloud_account"`              // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
-	PeerRegion               *string                       `json:"peer_region,omitempty"`           // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
-	PeerResourceGroup        string                        `json:"peer_resource_group"`             // Azure resource group name of the peered VPC
-	PeerVpc                  string                        `json:"peer_vpc"`                        // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
-	PeeringConnectionId      *string                       `json:"peering_connection_id,omitempty"` // VPC peering connection ID
-	State                    VpcPeeringConnectionStateType `json:"state"`                           // Project VPC peering connection state
-	StateInfo                StateInfoOut                  `json:"state_info"`                      // State-specific help or error information
-	UpdateTime               time.Time                     `json:"update_time"`                     // Timestamp of last change to the VPC peering connection
-	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`         // List of private IPv4 ranges to route through the peering connection
-	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"`     // Type of network connection from the VPC
+	CreateTime               time.Time                               `json:"create_time"`                     // VPC peering connection creation timestamp
+	PeerAzureAppId           string                                  `json:"peer_azure_app_id"`               // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
+	PeerAzureTenantId        string                                  `json:"peer_azure_tenant_id"`            // Azure tenant id in UUID4 form
+	PeerCloudAccount         string                                  `json:"peer_cloud_account"`              // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
+	PeerRegion               *string                                 `json:"peer_region,omitempty"`           // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
+	PeerResourceGroup        string                                  `json:"peer_resource_group"`             // Azure resource group name of the peered VPC
+	PeerVpc                  string                                  `json:"peer_vpc"`                        // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
+	PeeringConnectionId      *string                                 `json:"peering_connection_id,omitempty"` // VPC peering connection ID
+	State                    VpcPeeringConnectionWithRegionStateType `json:"state"`                           // Project VPC peering connection state
+	StateInfo                StateInfoOut                            `json:"state_info"`                      // State-specific help or error information
+	UpdateTime               time.Time                               `json:"update_time"`                     // Timestamp of last change to the VPC peering connection
+	UserPeerNetworkCidrs     []string                                `json:"user_peer_network_cidrs"`         // List of private IPv4 ranges to route through the peering connection
+	VpcPeeringConnectionType VpcPeeringConnectionType                `json:"vpc_peering_connection_type"`     // Type of network connection from the VPC
+}
+type VpcPeeringConnectionWithRegionStateType string
+
+const (
+	VpcPeeringConnectionWithRegionStateTypeActive                VpcPeeringConnectionWithRegionStateType = "ACTIVE"
+	VpcPeeringConnectionWithRegionStateTypeApproved              VpcPeeringConnectionWithRegionStateType = "APPROVED"
+	VpcPeeringConnectionWithRegionStateTypeApprovedPeerRequested VpcPeeringConnectionWithRegionStateType = "APPROVED_PEER_REQUESTED"
+	VpcPeeringConnectionWithRegionStateTypeDeleted               VpcPeeringConnectionWithRegionStateType = "DELETED"
+	VpcPeeringConnectionWithRegionStateTypeDeletedByPeer         VpcPeeringConnectionWithRegionStateType = "DELETED_BY_PEER"
+	VpcPeeringConnectionWithRegionStateTypeDeleting              VpcPeeringConnectionWithRegionStateType = "DELETING"
+	VpcPeeringConnectionWithRegionStateTypeError                 VpcPeeringConnectionWithRegionStateType = "ERROR"
+	VpcPeeringConnectionWithRegionStateTypeInvalidSpecification  VpcPeeringConnectionWithRegionStateType = "INVALID_SPECIFICATION"
+	VpcPeeringConnectionWithRegionStateTypePendingPeer           VpcPeeringConnectionWithRegionStateType = "PENDING_PEER"
+	VpcPeeringConnectionWithRegionStateTypeRejectedByPeer        VpcPeeringConnectionWithRegionStateType = "REJECTED_BY_PEER"
+)
+
+func VpcPeeringConnectionWithRegionStateTypeChoices() []string {
+	return []string{"ACTIVE", "APPROVED", "APPROVED_PEER_REQUESTED", "DELETED", "DELETED_BY_PEER", "DELETING", "ERROR", "INVALID_SPECIFICATION", "PENDING_PEER", "REJECTED_BY_PEER"}
 }
 
 // VpcPeeringConnectionWithResourceGroupDeleteOut VpcPeeringConnectionWithResourceGroupDeleteResponse
 type VpcPeeringConnectionWithResourceGroupDeleteOut struct {
-	CreateTime               time.Time                     `json:"create_time"`                     // VPC peering connection creation timestamp
-	PeerAzureAppId           string                        `json:"peer_azure_app_id"`               // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
-	PeerAzureTenantId        string                        `json:"peer_azure_tenant_id"`            // Azure tenant id in UUID4 form
-	PeerCloudAccount         string                        `json:"peer_cloud_account"`              // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
-	PeerRegion               *string                       `json:"peer_region,omitempty"`           // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
-	PeerResourceGroup        string                        `json:"peer_resource_group"`             // Azure resource group name of the peered VPC
-	PeerVpc                  string                        `json:"peer_vpc"`                        // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
-	PeeringConnectionId      *string                       `json:"peering_connection_id,omitempty"` // VPC peering connection ID
-	State                    VpcPeeringConnectionStateType `json:"state"`                           // Project VPC peering connection state
-	StateInfo                StateInfoOut                  `json:"state_info"`                      // State-specific help or error information
-	UpdateTime               time.Time                     `json:"update_time"`                     // Timestamp of last change to the VPC peering connection
-	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`         // List of private IPv4 ranges to route through the peering connection
-	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"`     // Type of network connection from the VPC
+	CreateTime               time.Time                                      `json:"create_time"`                     // VPC peering connection creation timestamp
+	PeerAzureAppId           string                                         `json:"peer_azure_app_id"`               // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
+	PeerAzureTenantId        string                                         `json:"peer_azure_tenant_id"`            // Azure tenant id in UUID4 form
+	PeerCloudAccount         string                                         `json:"peer_cloud_account"`              // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
+	PeerRegion               *string                                        `json:"peer_region,omitempty"`           // The peer VPC's region in AWS clouds. Always null in GCP, Azure, or UpCloud clouds
+	PeerResourceGroup        string                                         `json:"peer_resource_group"`             // Azure resource group name of the peered VPC
+	PeerVpc                  string                                         `json:"peer_vpc"`                        // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
+	PeeringConnectionId      *string                                        `json:"peering_connection_id,omitempty"` // VPC peering connection ID
+	State                    VpcPeeringConnectionWithResourceGroupStateType `json:"state"`                           // Project VPC peering connection state
+	StateInfo                StateInfoOut                                   `json:"state_info"`                      // State-specific help or error information
+	UpdateTime               time.Time                                      `json:"update_time"`                     // Timestamp of last change to the VPC peering connection
+	UserPeerNetworkCidrs     []string                                       `json:"user_peer_network_cidrs"`         // List of private IPv4 ranges to route through the peering connection
+	VpcPeeringConnectionType VpcPeeringConnectionType                       `json:"vpc_peering_connection_type"`     // Type of network connection from the VPC
 }
+type VpcPeeringConnectionWithResourceGroupStateType string
+
+const (
+	VpcPeeringConnectionWithResourceGroupStateTypeActive                VpcPeeringConnectionWithResourceGroupStateType = "ACTIVE"
+	VpcPeeringConnectionWithResourceGroupStateTypeApproved              VpcPeeringConnectionWithResourceGroupStateType = "APPROVED"
+	VpcPeeringConnectionWithResourceGroupStateTypeApprovedPeerRequested VpcPeeringConnectionWithResourceGroupStateType = "APPROVED_PEER_REQUESTED"
+	VpcPeeringConnectionWithResourceGroupStateTypeDeleted               VpcPeeringConnectionWithResourceGroupStateType = "DELETED"
+	VpcPeeringConnectionWithResourceGroupStateTypeDeletedByPeer         VpcPeeringConnectionWithResourceGroupStateType = "DELETED_BY_PEER"
+	VpcPeeringConnectionWithResourceGroupStateTypeDeleting              VpcPeeringConnectionWithResourceGroupStateType = "DELETING"
+	VpcPeeringConnectionWithResourceGroupStateTypeError                 VpcPeeringConnectionWithResourceGroupStateType = "ERROR"
+	VpcPeeringConnectionWithResourceGroupStateTypeInvalidSpecification  VpcPeeringConnectionWithResourceGroupStateType = "INVALID_SPECIFICATION"
+	VpcPeeringConnectionWithResourceGroupStateTypePendingPeer           VpcPeeringConnectionWithResourceGroupStateType = "PENDING_PEER"
+	VpcPeeringConnectionWithResourceGroupStateTypeRejectedByPeer        VpcPeeringConnectionWithResourceGroupStateType = "REJECTED_BY_PEER"
+)
+
+func VpcPeeringConnectionWithResourceGroupStateTypeChoices() []string {
+	return []string{"ACTIVE", "APPROVED", "APPROVED_PEER_REQUESTED", "DELETED", "DELETED_BY_PEER", "DELETING", "ERROR", "INVALID_SPECIFICATION", "PENDING_PEER", "REJECTED_BY_PEER"}
+}
+
 type VpcStateType string
 
 const (
