@@ -382,63 +382,53 @@ type ServiceKafkaAclAddIn struct {
 
 // ServiceKafkaNativeAclAddIn ServiceKafkaNativeAclAddRequestBody
 type ServiceKafkaNativeAclAddIn struct {
-	Host           *string                                `json:"host,omitempty"`  // the host or * for all hosts
-	Operation      OperationType                          `json:"operation"`       // Kafka ACL operation represents an operation which an ACL grants or denies permission to perform
-	PatternType    PatternType                            `json:"pattern_type"`    // Kafka ACL pattern type of resource name
-	PermissionType ServiceKafkaNativeAclAddPermissionType `json:"permission_type"` // Kafka ACL permission type
-	Principal      string                                 `json:"principal"`       // principal is in 'PrincipalType:name' format
-	ResourceName   string                                 `json:"resource_name"`   // Resource pattern used to match specified resources
-	ResourceType   ResourceType                           `json:"resource_type"`   // Kafka ACL resource type represents a type of resource which an ACL can be applied to
+	Host           *string                             `json:"host,omitempty"`  // the host or * for all hosts
+	Operation      OperationType                       `json:"operation"`       // Kafka ACL operation represents an operation which an ACL grants or denies permission to perform
+	PatternType    PatternType                         `json:"pattern_type"`    // Kafka ACL pattern type of resource name
+	PermissionType ServiceKafkaNativeAclPermissionType `json:"permission_type"` // Kafka ACL permission type
+	Principal      string                              `json:"principal"`       // principal is in 'PrincipalType:name' format
+	ResourceName   string                              `json:"resource_name"`   // Resource pattern used to match specified resources
+	ResourceType   ResourceType                        `json:"resource_type"`   // Kafka ACL resource type represents a type of resource which an ACL can be applied to
 }
 
 // ServiceKafkaNativeAclAddOut Kafka-native ACL entry for Kafka service
 type ServiceKafkaNativeAclAddOut struct {
-	Host           string                                 `json:"host"`            // the host or * for all hosts
-	Id             string                                 `json:"id"`              // ID
-	Operation      OperationType                          `json:"operation"`       // Kafka ACL operation represents an operation which an ACL grants or denies permission to perform
-	PatternType    PatternType                            `json:"pattern_type"`    // Kafka ACL pattern type of resource name
-	PermissionType ServiceKafkaNativeAclAddPermissionType `json:"permission_type"` // Kafka ACL permission type
-	Principal      string                                 `json:"principal"`       // principal is in 'principalType:name' format
-	ResourceName   string                                 `json:"resource_name"`   // Resource pattern used to match specified resources
-	ResourceType   ResourceType                           `json:"resource_type"`   // Kafka ACL resource type represents a type of resource which an ACL can be applied to
-}
-type ServiceKafkaNativeAclAddPermissionType string
-
-const (
-	ServiceKafkaNativeAclAddPermissionTypeAllow ServiceKafkaNativeAclAddPermissionType = "ALLOW"
-	ServiceKafkaNativeAclAddPermissionTypeDeny  ServiceKafkaNativeAclAddPermissionType = "DENY"
-)
-
-func ServiceKafkaNativeAclAddPermissionTypeChoices() []string {
-	return []string{"ALLOW", "DENY"}
+	Host           string                              `json:"host"`            // the host or * for all hosts
+	Id             string                              `json:"id"`              // ID
+	Operation      OperationType                       `json:"operation"`       // Kafka ACL operation represents an operation which an ACL grants or denies permission to perform
+	PatternType    PatternType                         `json:"pattern_type"`    // Kafka ACL pattern type of resource name
+	PermissionType ServiceKafkaNativeAclPermissionType `json:"permission_type"` // Kafka ACL permission type
+	Principal      string                              `json:"principal"`       // principal is in 'principalType:name' format
+	ResourceName   string                              `json:"resource_name"`   // Resource pattern used to match specified resources
+	ResourceType   ResourceType                        `json:"resource_type"`   // Kafka ACL resource type represents a type of resource which an ACL can be applied to
 }
 
 // ServiceKafkaNativeAclGetOut Kafka-native ACL entry for Kafka service
 type ServiceKafkaNativeAclGetOut struct {
-	Host           string                                 `json:"host"`            // the host or * for all hosts
-	Id             string                                 `json:"id"`              // ID
-	Operation      OperationType                          `json:"operation"`       // Kafka ACL operation represents an operation which an ACL grants or denies permission to perform
-	PatternType    PatternType                            `json:"pattern_type"`    // Kafka ACL pattern type of resource name
-	PermissionType ServiceKafkaNativeAclGetPermissionType `json:"permission_type"` // Kafka ACL permission type
-	Principal      string                                 `json:"principal"`       // principal is in 'principalType:name' format
-	ResourceName   string                                 `json:"resource_name"`   // Resource pattern used to match specified resources
-	ResourceType   ResourceType                           `json:"resource_type"`   // Kafka ACL resource type represents a type of resource which an ACL can be applied to
-}
-type ServiceKafkaNativeAclGetPermissionType string
-
-const (
-	ServiceKafkaNativeAclGetPermissionTypeAllow ServiceKafkaNativeAclGetPermissionType = "ALLOW"
-	ServiceKafkaNativeAclGetPermissionTypeDeny  ServiceKafkaNativeAclGetPermissionType = "DENY"
-)
-
-func ServiceKafkaNativeAclGetPermissionTypeChoices() []string {
-	return []string{"ALLOW", "DENY"}
+	Host           string                              `json:"host"`            // the host or * for all hosts
+	Id             string                              `json:"id"`              // ID
+	Operation      OperationType                       `json:"operation"`       // Kafka ACL operation represents an operation which an ACL grants or denies permission to perform
+	PatternType    PatternType                         `json:"pattern_type"`    // Kafka ACL pattern type of resource name
+	PermissionType ServiceKafkaNativeAclPermissionType `json:"permission_type"` // Kafka ACL permission type
+	Principal      string                              `json:"principal"`       // principal is in 'principalType:name' format
+	ResourceName   string                              `json:"resource_name"`   // Resource pattern used to match specified resources
+	ResourceType   ResourceType                        `json:"resource_type"`   // Kafka ACL resource type represents a type of resource which an ACL can be applied to
 }
 
 // ServiceKafkaNativeAclListOut ServiceKafkaNativeAclListResponse
 type ServiceKafkaNativeAclListOut struct {
 	Acl      []AclOut      `json:"acl"`       // List of Aiven ACL entries for Kafka service
 	KafkaAcl []KafkaAclOut `json:"kafka_acl"` // List of Kafka-native ACL entries
+}
+type ServiceKafkaNativeAclPermissionType string
+
+const (
+	ServiceKafkaNativeAclPermissionTypeAllow ServiceKafkaNativeAclPermissionType = "ALLOW"
+	ServiceKafkaNativeAclPermissionTypeDeny  ServiceKafkaNativeAclPermissionType = "DENY"
+)
+
+func ServiceKafkaNativeAclPermissionTypeChoices() []string {
+	return []string{"ALLOW", "DENY"}
 }
 
 // ServiceKafkaQuotaCreateIn ServiceKafkaQuotaCreateRequestBody

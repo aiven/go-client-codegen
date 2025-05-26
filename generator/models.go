@@ -316,12 +316,9 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 	}
 
 	if s.isObject() || s.isEnum() { //nolint:nestif
-		for s.parent != nil {
-			v, ok := scope[s.CamelName]
-			if !ok {
-				break
-			}
-
+		v, ok := scope[s.CamelName]
+		// Takes parent's name to resolve name collision
+		if ok {
 			if v.hash() == s.hash() {
 				v.duplicates = append(v.duplicates, s)
 				return
@@ -337,7 +334,11 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 			if parent.isPrivate() {
 				s.CamelName = customCamelCase(parent.CamelName)
 			} else {
-				s.CamelName = strings.TrimSuffix(customCamelCase(parent.CamelName), suffix) + s.CamelName
+				// Adds parent's name
+				s.CamelName = strings.TrimSuffix(parent.CamelName, suffix) + s.CamelName
+				if s.isEnum() {
+					s.CamelName = dedupCamelName(cleanEnumName.ReplaceAllString(s.CamelName, ""))
+				}
 			}
 
 			// Marks all have collision
@@ -487,9 +488,8 @@ func getType(s *Schema) *jen.Statement {
 		} else if s.name == "tags" {
 			// tags are everywhere in the schema, better not to use the patch
 			return a.String()
-		} else {
-			return a.Any()
 		}
+		return a.Any()
 	default:
 		panic(fmt.Errorf("unknown type %q for %q and parent %q", s.Type, s.name, s.parent.name))
 	}
@@ -522,7 +522,7 @@ func sortedKeys[T any](m map[string]T) []string {
 	return keys
 }
 
-var cleanEnumName = regexp.MustCompile("(Create|Get|Update|Delete|Stop|Cancel|Verify|Put)")
+var cleanEnumName = regexp.MustCompile("(Create|Get|Update|Delete|Stop|Cancel|Verify|Put|Add)")
 
 // getEnumName enum can't have just "state" name, drills to the root until finds something
 func getEnumName(s *Schema) string {
@@ -538,6 +538,7 @@ func getEnumName(s *Schema) string {
 
 var camelFinder = regexp.MustCompile("[A-Z]+[a-z]+")
 
+// dedupCamelName removes duplicates: KafkaAclKafkaAcl -> KafkaAcl
 func dedupCamelName(src string) string {
 	result := make([]string, 0)
 	for _, s := range camelFinder.FindAllString(src, -1) {
