@@ -1819,7 +1819,8 @@ type ServerGroupOut struct {
 
 // ServiceBackupToAnotherRegionReportIn ServiceBackupToAnotherRegionReportRequestBody
 type ServiceBackupToAnotherRegionReportIn struct {
-	Period PeriodType `json:"period,omitempty"` // Metrics time period
+	KafkaTopicName *string    `json:"kafka_topic_name,omitempty"` // Metrics at Kafka service topic level
+	Period         PeriodType `json:"period,omitempty"`           // Metrics time period
 }
 
 // ServiceBackupsGetOut ServiceBackupsGetResponse
@@ -2113,7 +2114,8 @@ type ServiceKmsGetKeypairOut struct {
 
 // ServiceMetricsFetchIn ServiceMetricsFetchRequestBody
 type ServiceMetricsFetchIn struct {
-	Period PeriodType `json:"period,omitempty"` // Metrics time period
+	KafkaTopicName *string    `json:"kafka_topic_name,omitempty"` // Metrics at Kafka service topic level
+	Period         PeriodType `json:"period,omitempty"`           // Metrics time period
 }
 type ServiceNotificationOut struct {
 	Level    LevelType               `json:"level"`    // Notification level

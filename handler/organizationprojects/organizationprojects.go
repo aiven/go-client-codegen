@@ -125,7 +125,7 @@ type OrganizationProjectsCreateIn struct {
 
 // OrganizationProjectsCreateOut OrganizationProjectsCreateResponse
 type OrganizationProjectsCreateOut struct {
-	AccountId          *string                       `json:"account_id,omitempty"`       // [DEPRECATED] Account ID to where the project belongs
+	AccountId          *string                       `json:"account_id,omitempty"`       // Deprecated: Account ID to where the project belongs
 	BasePort           *int                          `json:"base_port,omitempty"`        // Valid port number (1-65535)
 	BillingGroupId     *string                       `json:"billing_group_id,omitempty"` // Billing group ID
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
@@ -139,7 +139,7 @@ type OrganizationProjectsCreateOut struct {
 
 // OrganizationProjectsGetOut OrganizationProjectsGetResponse
 type OrganizationProjectsGetOut struct {
-	AccountId          *string                       `json:"account_id,omitempty"`       // [DEPRECATED] Account ID to where the project belongs
+	AccountId          *string                       `json:"account_id,omitempty"`       // Deprecated: Account ID to where the project belongs
 	BasePort           *int                          `json:"base_port,omitempty"`        // Valid port number (1-65535)
 	BillingGroupId     *string                       `json:"billing_group_id,omitempty"` // Billing group ID
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
@@ -169,7 +169,7 @@ type OrganizationProjectsUpdateIn struct {
 
 // OrganizationProjectsUpdateOut OrganizationProjectsUpdateResponse
 type OrganizationProjectsUpdateOut struct {
-	AccountId          *string                       `json:"account_id,omitempty"`       // [DEPRECATED] Account ID to where the project belongs
+	AccountId          *string                       `json:"account_id,omitempty"`       // Deprecated: Account ID to where the project belongs
 	BasePort           *int                          `json:"base_port,omitempty"`        // Valid port number (1-65535)
 	BillingGroupId     *string                       `json:"billing_group_id,omitempty"` // Billing group ID
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
@@ -181,7 +181,7 @@ type OrganizationProjectsUpdateOut struct {
 	TechEmails         []TechEmailOut                `json:"tech_emails"`                // List of project technical email addresses
 }
 type ProjectOut struct {
-	AccountId          *string                       `json:"account_id,omitempty"`       // [DEPRECATED] Account ID to where the project belongs
+	AccountId          *string                       `json:"account_id,omitempty"`       // Deprecated: Account ID to where the project belongs
 	BasePort           *int                          `json:"base_port,omitempty"`        // Valid port number (1-65535)
 	BillingGroupId     *string                       `json:"billing_group_id,omitempty"` // Billing group ID
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
