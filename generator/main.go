@@ -645,7 +645,10 @@ func readConfig(path string) (map[string][]string, error) {
 var reComment = regexp.MustCompile(`\.?[\r\n]+\s*?`)
 
 func fmtComment(c string) string {
-	return html.UnescapeString(reComment.ReplaceAllString(c, ". "))
+	d := html.UnescapeString(reComment.ReplaceAllString(c, ". "))
+	// "[DEPRECATED]" is not recognized by IDE.
+	// Uses conventional identifier instead https://go.dev/wiki/Deprecated.
+	return strings.ReplaceAll(d, "[DEPRECATED]", "Deprecated:")
 }
 
 // fmtQueryParam returns a query param

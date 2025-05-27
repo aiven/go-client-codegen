@@ -677,28 +677,28 @@ type PrivatelinkAvailabilityOut struct {
 // ProjectCreateIn ProjectCreateRequestBody
 type ProjectCreateIn struct {
 	AccountId                    *string             `json:"account_id,omitempty"`                       // Account ID
-	AddAccountOwnersAdminAccess  *bool               `json:"add_account_owners_admin_access,omitempty"`  // [DEPRECATED] If account_id is set, grant account owner team admin access to the new project. This flag is ignored, and assumed true.
-	AddressLines                 *[]string           `json:"address_lines,omitempty"`                    // [DEPRECATED] Address lines
+	AddAccountOwnersAdminAccess  *bool               `json:"add_account_owners_admin_access,omitempty"`  // Deprecated: If account_id is set, grant account owner team admin access to the new project. This flag is ignored, and assumed true.
+	AddressLines                 *[]string           `json:"address_lines,omitempty"`                    // Deprecated: Address lines
 	BasePort                     *int                `json:"base_port,omitempty"`                        // New services in this project will use this value as a base when deriving their service port numbers. This allows new services to allocate predictable and specific service ports. If not provided during project creation a random base port is used.
 	BillingAddress               *string             `json:"billing_address,omitempty"`                  // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
-	BillingCurrency              BillingCurrencyType `json:"billing_currency,omitempty"`                 // [DEPRECATED] Billing currency
-	BillingEmails                *[]BillingEmailIn   `json:"billing_emails,omitempty"`                   // [DEPRECATED] Billing emails
-	BillingExtraText             *string             `json:"billing_extra_text,omitempty"`               // [DEPRECATED] Extra text to be included in all project invoices
+	BillingCurrency              BillingCurrencyType `json:"billing_currency,omitempty"`                 // Deprecated: Billing currency
+	BillingEmails                *[]BillingEmailIn   `json:"billing_emails,omitempty"`                   // Deprecated: Billing emails
+	BillingExtraText             *string             `json:"billing_extra_text,omitempty"`               // Deprecated: Extra text to be included in all project invoices
 	BillingGroupId               *string             `json:"billing_group_id,omitempty"`                 // Billing group ID
-	CardId                       *string             `json:"card_id,omitempty"`                          // [DEPRECATED] Credit card ID
-	City                         *string             `json:"city,omitempty"`                             // [DEPRECATED] Address city
+	CardId                       *string             `json:"card_id,omitempty"`                          // Deprecated: Credit card ID
+	City                         *string             `json:"city,omitempty"`                             // Deprecated: Address city
 	Cloud                        *string             `json:"cloud,omitempty"`                            // Target cloud
 	Company                      *string             `json:"company,omitempty"`                          // Name of a company
 	CopyFromProject              *string             `json:"copy_from_project,omitempty"`                // Project name from which to copy settings to the new project
 	CopyTags                     *bool               `json:"copy_tags,omitempty"`                        // Copy tags from the source project. If request contains additional tags, the tags copied from source are updated with them.
-	CountryCode                  *string             `json:"country_code,omitempty"`                     // [DEPRECATED] Two letter country code for billing country
+	CountryCode                  *string             `json:"country_code,omitempty"`                     // Deprecated: Two letter country code for billing country
 	Project                      string              `json:"project"`                                    // Project name
-	State                        *string             `json:"state,omitempty"`                            // [DEPRECATED] Address state
+	State                        *string             `json:"state,omitempty"`                            // Deprecated: Address state
 	Tags                         *map[string]string  `json:"tags,omitempty"`                             // Set of resource tags
 	TechEmails                   *[]TechEmailIn      `json:"tech_emails,omitempty"`                      // List of project tech email addresses
 	UseSourceProjectBillingGroup *bool               `json:"use_source_project_billing_group,omitempty"` // If set to true, use the same billing group that is used in source project. If set to false, create a copy of the billing group used in the source project with the same information. If new project is not being copied from existing one this option has no effect
-	VatId                        *string             `json:"vat_id,omitempty"`                           // [DEPRECATED] EU VAT identification
-	ZipCode                      *string             `json:"zip_code,omitempty"`                         // [DEPRECATED] Address zip code
+	VatId                        *string             `json:"vat_id,omitempty"`                           // Deprecated: EU VAT identification
+	ZipCode                      *string             `json:"zip_code,omitempty"`                         // Deprecated: Address zip code
 }
 
 // ProjectCreateOut Project information
@@ -934,24 +934,24 @@ type ProjectTagsUpdateIn struct {
 // ProjectUpdateIn ProjectUpdateRequestBody
 type ProjectUpdateIn struct {
 	AccountId                   *string             `json:"account_id,omitempty"`                      // Account ID
-	AddAccountOwnersAdminAccess *bool               `json:"add_account_owners_admin_access,omitempty"` // [DEPRECATED] If account_id is set, grant account owner team admin access to this project. This flag is ignored and assumed true.
-	AddressLines                *[]string           `json:"address_lines,omitempty"`                   // [DEPRECATED] Address lines
+	AddAccountOwnersAdminAccess *bool               `json:"add_account_owners_admin_access,omitempty"` // Deprecated: If account_id is set, grant account owner team admin access to this project. This flag is ignored and assumed true.
+	AddressLines                *[]string           `json:"address_lines,omitempty"`                   // Deprecated: Address lines
 	BillingAddress              *string             `json:"billing_address,omitempty"`                 // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
-	BillingCurrency             BillingCurrencyType `json:"billing_currency,omitempty"`                // [DEPRECATED] Billing currency
-	BillingEmails               *[]BillingEmailIn   `json:"billing_emails,omitempty"`                  // [DEPRECATED] List of project billing email addresses
-	BillingExtraText            *string             `json:"billing_extra_text,omitempty"`              // [DEPRECATED] Extra text to be included in all project invoices, e.g. purchase order or cost center number
+	BillingCurrency             BillingCurrencyType `json:"billing_currency,omitempty"`                // Deprecated: Billing currency
+	BillingEmails               *[]BillingEmailIn   `json:"billing_emails,omitempty"`                  // Deprecated: List of project billing email addresses
+	BillingExtraText            *string             `json:"billing_extra_text,omitempty"`              // Deprecated: Extra text to be included in all project invoices, e.g. purchase order or cost center number
 	BillingGroupId              *string             `json:"billing_group_id,omitempty"`                // Billing group ID
-	CardId                      *string             `json:"card_id,omitempty"`                         // [DEPRECATED] Credit card ID
-	City                        *string             `json:"city,omitempty"`                            // [DEPRECATED] Address city
+	CardId                      *string             `json:"card_id,omitempty"`                         // Deprecated: Credit card ID
+	City                        *string             `json:"city,omitempty"`                            // Deprecated: Address city
 	Cloud                       *string             `json:"cloud,omitempty"`                           // Target cloud
 	Company                     *string             `json:"company,omitempty"`                         // Name of a company
-	CountryCode                 *string             `json:"country_code,omitempty"`                    // [DEPRECATED] Two letter country code for billing country
+	CountryCode                 *string             `json:"country_code,omitempty"`                    // Deprecated: Two letter country code for billing country
 	ProjectName                 *string             `json:"project_name,omitempty"`                    // Project name
-	State                       *string             `json:"state,omitempty"`                           // [DEPRECATED] Address state
+	State                       *string             `json:"state,omitempty"`                           // Deprecated: Address state
 	Tags                        *map[string]string  `json:"tags,omitempty"`                            // Set of resource tags
 	TechEmails                  *[]TechEmailIn      `json:"tech_emails,omitempty"`                     // List of project tech email addresses
-	VatId                       *string             `json:"vat_id,omitempty"`                          // [DEPRECATED] EU VAT Identification Number
-	ZipCode                     *string             `json:"zip_code,omitempty"`                        // [DEPRECATED] Address zip code
+	VatId                       *string             `json:"vat_id,omitempty"`                          // Deprecated: EU VAT Identification Number
+	ZipCode                     *string             `json:"zip_code,omitempty"`                        // Deprecated: Address zip code
 }
 
 // ProjectUpdateOut Project information
