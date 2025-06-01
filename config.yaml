@@ -72,9 +72,13 @@ ClickHouse:
   - ServiceClickHouseDatabaseCreate
   - ServiceClickHouseDatabaseDelete
   - ServiceClickHouseDatabaseList
+  - ServiceClickHousePasswordReset
   - ServiceClickHouseQuery
   - ServiceClickHouseQueryStats
   - ServiceClickHouseTieredStorageSummary
+  - ServiceClickHouseUserCreate
+  - ServiceClickHouseUserDelete
+  - ServiceClickHouseUserList
 Cloud:
   - ListClouds
   - ListProjectClouds
