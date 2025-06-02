@@ -113,27 +113,6 @@ type BillingContactEmailIn struct {
 type BillingContactEmailOut struct {
 	Email string `json:"email"`
 }
-type BillingCurrencyType string
-
-const (
-	BillingCurrencyTypeAud BillingCurrencyType = "AUD"
-	BillingCurrencyTypeCad BillingCurrencyType = "CAD"
-	BillingCurrencyTypeChf BillingCurrencyType = "CHF"
-	BillingCurrencyTypeDkk BillingCurrencyType = "DKK"
-	BillingCurrencyTypeEur BillingCurrencyType = "EUR"
-	BillingCurrencyTypeGbp BillingCurrencyType = "GBP"
-	BillingCurrencyTypeJpy BillingCurrencyType = "JPY"
-	BillingCurrencyTypeNok BillingCurrencyType = "NOK"
-	BillingCurrencyTypeNzd BillingCurrencyType = "NZD"
-	BillingCurrencyTypeSek BillingCurrencyType = "SEK"
-	BillingCurrencyTypeSgd BillingCurrencyType = "SGD"
-	BillingCurrencyTypeUsd BillingCurrencyType = "USD"
-)
-
-func BillingCurrencyTypeChoices() []string {
-	return []string{"AUD", "CAD", "CHF", "DKK", "EUR", "GBP", "JPY", "NOK", "NZD", "SEK", "SGD", "USD"}
-}
-
 type BillingEmailIn struct {
 	Email string `json:"email"`
 }
@@ -143,24 +122,44 @@ type BillingEmailOut struct {
 type BillingGroupOut struct {
 	BillingAddressId     string                   `json:"billing_address_id"`            // Billing address ID
 	BillingContactEmails []BillingContactEmailOut `json:"billing_contact_emails"`        // List of billing contact emails
-	BillingCurrency      BillingCurrencyType      `json:"billing_currency,omitempty"`    // Acceptable currencies for a billing group.
 	BillingEmails        []BillingEmailOut        `json:"billing_emails"`                // List of billing contact emails
 	BillingGroupId       string                   `json:"billing_group_id"`              // Billing group ID
 	BillingGroupName     string                   `json:"billing_group_name"`            // Billing Group Name
+	Currency             CurrencyType             `json:"currency,omitempty"`            // Acceptable currencies for a billing group.
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"` // Extra billing text
 	OrganizationId       string                   `json:"organization_id"`               // Organization ID
 	PaymentMethodId      *string                  `json:"payment_method_id,omitempty"`   // Payment method ID
 	ShippingAddressId    string                   `json:"shipping_address_id"`           // Shipping address ID
 	VatId                *string                  `json:"vat_id,omitempty"`              // VAT ID
 }
+type CurrencyType string
+
+const (
+	CurrencyTypeAud CurrencyType = "AUD"
+	CurrencyTypeCad CurrencyType = "CAD"
+	CurrencyTypeChf CurrencyType = "CHF"
+	CurrencyTypeDkk CurrencyType = "DKK"
+	CurrencyTypeEur CurrencyType = "EUR"
+	CurrencyTypeGbp CurrencyType = "GBP"
+	CurrencyTypeJpy CurrencyType = "JPY"
+	CurrencyTypeNok CurrencyType = "NOK"
+	CurrencyTypeNzd CurrencyType = "NZD"
+	CurrencyTypeSek CurrencyType = "SEK"
+	CurrencyTypeSgd CurrencyType = "SGD"
+	CurrencyTypeUsd CurrencyType = "USD"
+)
+
+func CurrencyTypeChoices() []string {
+	return []string{"AUD", "CAD", "CHF", "DKK", "EUR", "GBP", "JPY", "NOK", "NZD", "SEK", "SGD", "USD"}
+}
 
 // OrganizationBillingGroupCreateIn OrganizationBillingGroupCreateRequestBody
 type OrganizationBillingGroupCreateIn struct {
 	BillingAddressId     string                  `json:"billing_address_id"`            // Billing address ID
 	BillingContactEmails []BillingContactEmailIn `json:"billing_contact_emails"`        // List of billing contact emails
-	BillingCurrency      BillingCurrencyType     `json:"billing_currency,omitempty"`    // Acceptable currencies for a billing group.
 	BillingEmails        []BillingEmailIn        `json:"billing_emails"`                // List of billing contact emails
 	BillingGroupName     string                  `json:"billing_group_name"`            // Billing Group Name
+	Currency             CurrencyType            `json:"currency,omitempty"`            // Acceptable currencies for a billing group.
 	CustomInvoiceText    *string                 `json:"custom_invoice_text,omitempty"` // Extra billing text
 	PaymentMethodId      string                  `json:"payment_method_id"`             // Payment method ID
 	ShippingAddressId    string                  `json:"shipping_address_id"`           // Shipping address ID
@@ -171,10 +170,10 @@ type OrganizationBillingGroupCreateIn struct {
 type OrganizationBillingGroupCreateOut struct {
 	BillingAddressId     string                   `json:"billing_address_id"`            // Billing address ID
 	BillingContactEmails []BillingContactEmailOut `json:"billing_contact_emails"`        // List of billing contact emails
-	BillingCurrency      BillingCurrencyType      `json:"billing_currency,omitempty"`    // Acceptable currencies for a billing group.
 	BillingEmails        []BillingEmailOut        `json:"billing_emails"`                // List of billing contact emails
 	BillingGroupId       string                   `json:"billing_group_id"`              // Billing group ID
 	BillingGroupName     string                   `json:"billing_group_name"`            // Billing Group Name
+	Currency             CurrencyType             `json:"currency,omitempty"`            // Acceptable currencies for a billing group.
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"` // Extra billing text
 	OrganizationId       string                   `json:"organization_id"`               // Organization ID
 	PaymentMethodId      *string                  `json:"payment_method_id,omitempty"`   // Payment method ID
@@ -186,10 +185,10 @@ type OrganizationBillingGroupCreateOut struct {
 type OrganizationBillingGroupGetOut struct {
 	BillingAddressId     string                   `json:"billing_address_id"`            // Billing address ID
 	BillingContactEmails []BillingContactEmailOut `json:"billing_contact_emails"`        // List of billing contact emails
-	BillingCurrency      BillingCurrencyType      `json:"billing_currency,omitempty"`    // Acceptable currencies for a billing group.
 	BillingEmails        []BillingEmailOut        `json:"billing_emails"`                // List of billing contact emails
 	BillingGroupId       string                   `json:"billing_group_id"`              // Billing group ID
 	BillingGroupName     string                   `json:"billing_group_name"`            // Billing Group Name
+	Currency             CurrencyType             `json:"currency,omitempty"`            // Acceptable currencies for a billing group.
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"` // Extra billing text
 	OrganizationId       string                   `json:"organization_id"`               // Organization ID
 	PaymentMethodId      *string                  `json:"payment_method_id,omitempty"`   // Payment method ID
@@ -201,9 +200,9 @@ type OrganizationBillingGroupGetOut struct {
 type OrganizationBillingGroupUpdateIn struct {
 	BillingAddressId     *string                 `json:"billing_address_id,omitempty"`  // Billing address ID
 	BillingContactEmails []BillingContactEmailIn `json:"billing_contact_emails"`        // List of billing contact emails
-	BillingCurrency      BillingCurrencyType     `json:"billing_currency"`              // Acceptable currencies for a billing group.
 	BillingEmails        []BillingEmailIn        `json:"billing_emails"`                // List of billing contact emails
 	BillingGroupName     string                  `json:"billing_group_name"`            // Billing Group Name
+	Currency             CurrencyType            `json:"currency"`                      // Acceptable currencies for a billing group.
 	CustomInvoiceText    *string                 `json:"custom_invoice_text,omitempty"` // Extra billing text
 	PaymentMethodId      *string                 `json:"payment_method_id,omitempty"`   // Payment method ID
 	ShippingAddressId    *string                 `json:"shipping_address_id,omitempty"` // Shipping address ID
@@ -214,10 +213,10 @@ type OrganizationBillingGroupUpdateIn struct {
 type OrganizationBillingGroupUpdateOut struct {
 	BillingAddressId     string                   `json:"billing_address_id"`            // Billing address ID
 	BillingContactEmails []BillingContactEmailOut `json:"billing_contact_emails"`        // List of billing contact emails
-	BillingCurrency      BillingCurrencyType      `json:"billing_currency,omitempty"`    // Acceptable currencies for a billing group.
 	BillingEmails        []BillingEmailOut        `json:"billing_emails"`                // List of billing contact emails
 	BillingGroupId       string                   `json:"billing_group_id"`              // Billing group ID
 	BillingGroupName     string                   `json:"billing_group_name"`            // Billing Group Name
+	Currency             CurrencyType             `json:"currency,omitempty"`            // Acceptable currencies for a billing group.
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"` // Extra billing text
 	OrganizationId       string                   `json:"organization_id"`               // Organization ID
 	PaymentMethodId      *string                  `json:"payment_method_id,omitempty"`   // Payment method ID
