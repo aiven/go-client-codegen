@@ -34,11 +34,22 @@ jobs:
           // Version returns aiven-go-client version string
           func Version() string { return "${{ steps.version.outputs.new_tag }}" }
           END
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "chore(version.go): update go-client-codegen version"
-          git push
+
+          git add version.go
+
+          # Only commit and push if version.go actually changed
+          if ! git diff --staged --quiet; then # Check only staged changes
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git commit -m "chore(version.go): update go-client-codegen version"
+
+            git pull --rebase origin main 
+            git push
+          else
+            echo "No changes to version.go to commit."
+            # Even if no changes, ensure the branch is synced before tagging
+            git pull --rebase origin main
+          fi
       - id: sha
         run: |
           GIT_SHA=$(git rev-parse HEAD)
