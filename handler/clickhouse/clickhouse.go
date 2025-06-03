@@ -30,6 +30,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseDatabaseList
 	ServiceClickHouseDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error)
 
+	// ServiceClickHousePasswordReset reset a user's password
+	// PUT /v1/project/{project}/service/{service_name}/clickhouse/user/{user_uuid}/password
+	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHousePasswordReset
+	ServiceClickHousePasswordReset(ctx context.Context, project string, serviceName string, userUuid string, in *ServiceClickHousePasswordResetIn) (string, error)
+
 	// ServiceClickHouseQuery execute an SQL query
 	// POST /v1/project/{project}/service/{service_name}/clickhouse/query
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQuery
@@ -44,6 +49,21 @@ type Handler interface {
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/tiered-storage/summary
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseTieredStorageSummary
 	ServiceClickHouseTieredStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceClickHouseTieredStorageSummaryOut, error)
+
+	// ServiceClickHouseUserCreate create a ClickHouse user
+	// POST /v1/project/{project}/service/{service_name}/clickhouse/user
+	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseUserCreate
+	ServiceClickHouseUserCreate(ctx context.Context, project string, serviceName string, in *ServiceClickHouseUserCreateIn) (*ServiceClickHouseUserCreateOut, error)
+
+	// ServiceClickHouseUserDelete delete a user
+	// DELETE /v1/project/{project}/service/{service_name}/clickhouse/user/{user_uuid}
+	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseUserDelete
+	ServiceClickHouseUserDelete(ctx context.Context, project string, serviceName string, userUuid string) error
+
+	// ServiceClickHouseUserList list all users
+	// GET /v1/project/{project}/service/{service_name}/clickhouse/user
+	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseUserList
+	ServiceClickHouseUserList(ctx context.Context, project string, serviceName string) ([]UserOut, error)
 }
 
 // doer http client
@@ -94,6 +114,19 @@ func (h *ClickHouseHandler) ServiceClickHouseDatabaseList(ctx context.Context, p
 		return nil, err
 	}
 	return out.Databases, nil
+}
+func (h *ClickHouseHandler) ServiceClickHousePasswordReset(ctx context.Context, project string, serviceName string, userUuid string, in *ServiceClickHousePasswordResetIn) (string, error) {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/user/%s/password", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(userUuid))
+	b, err := h.doer.Do(ctx, "ServiceClickHousePasswordReset", "PUT", path, in)
+	if err != nil {
+		return "", err
+	}
+	out := new(serviceClickHousePasswordResetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return "", err
+	}
+	return out.Password, nil
 }
 func (h *ClickHouseHandler) ServiceClickHouseQuery(ctx context.Context, project string, serviceName string, in *ServiceClickHouseQueryIn) (*ServiceClickHouseQueryOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/query", url.PathEscape(project), url.PathEscape(serviceName))
@@ -149,6 +182,37 @@ func (h *ClickHouseHandler) ServiceClickHouseTieredStorageSummary(ctx context.Co
 	}
 	return out, nil
 }
+func (h *ClickHouseHandler) ServiceClickHouseUserCreate(ctx context.Context, project string, serviceName string, in *ServiceClickHouseUserCreateIn) (*ServiceClickHouseUserCreateOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/user", url.PathEscape(project), url.PathEscape(serviceName))
+	b, err := h.doer.Do(ctx, "ServiceClickHouseUserCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
+	out := new(serviceClickHouseUserCreateOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return &out.User, nil
+}
+func (h *ClickHouseHandler) ServiceClickHouseUserDelete(ctx context.Context, project string, serviceName string, userUuid string) error {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/user/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(userUuid))
+	_, err := h.doer.Do(ctx, "ServiceClickHouseUserDelete", "DELETE", path, nil)
+	return err
+}
+func (h *ClickHouseHandler) ServiceClickHouseUserList(ctx context.Context, project string, serviceName string) ([]UserOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/clickhouse/user", url.PathEscape(project), url.PathEscape(serviceName))
+	b, err := h.doer.Do(ctx, "ServiceClickHouseUserList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(serviceClickHouseUserListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Users, nil
+}
 
 type DatabaseOut struct {
 	Engine   string            `json:"engine"`          // Database engine
@@ -200,6 +264,14 @@ func OrderByTypeChoices() []string {
 	return []string{"calls:asc", "calls:desc", "max_time:asc", "max_time:desc", "mean_time:asc", "mean_time:desc", "min_time:asc", "min_time:desc", "p95_time:asc", "p95_time:desc", "stddev_time:asc", "stddev_time:desc", "total_time:asc", "total_time:desc"}
 }
 
+type PrivilegeOut struct {
+	AccessType      string `json:"access_type"`       // Access type
+	Column          string `json:"column"`            // Column name
+	Database        string `json:"database"`          // Database name
+	GrantOption     bool   `json:"grant_option"`      // With grant option
+	IsPartialRevoke bool   `json:"is_partial_revoke"` // Is partial revoke
+	Table           string `json:"table"`             // Table name
+}
 type QueryOut struct {
 	ClientName *string  `json:"client_name,omitempty"` // Client name, if set
 	Database   *string  `json:"database,omitempty"`
@@ -207,10 +279,24 @@ type QueryOut struct {
 	Query      *string  `json:"query,omitempty"`   // The query text
 	User       *string  `json:"user,omitempty"`    // The user who made the query
 }
+type RoleIn struct {
+	Uuid string `json:"uuid"` // Role uuid
+}
+type RoleOut struct {
+	IsDefault       bool   `json:"is_default"`        // Is default
+	Name            string `json:"name"`              // Role name
+	Uuid            string `json:"uuid"`              // Role uuid
+	WithAdminOption bool   `json:"with_admin_option"` // With admin option
+}
 
 // ServiceClickHouseDatabaseCreateIn ServiceClickHouseDatabaseCreateRequestBody
 type ServiceClickHouseDatabaseCreateIn struct {
 	Database string `json:"database"` // Service database name
+}
+
+// ServiceClickHousePasswordResetIn ServiceClickHousePasswordResetRequestBody
+type ServiceClickHousePasswordResetIn struct {
+	Password string `json:"password"` // User password
 }
 
 // ServiceClickHouseQueryIn ServiceClickHouseQueryRequestBody
@@ -247,6 +333,23 @@ type ServiceClickHouseTieredStorageSummaryOut struct {
 	TotalStorageUsage   int                    `json:"total_storage_usage"`       // Total storage usage by tiered storage, in bytes
 }
 
+// ServiceClickHouseUserCreateIn ServiceClickHouseUserCreateRequestBody
+type ServiceClickHouseUserCreateIn struct {
+	Name     string    `json:"name"`               // User name
+	Password *string   `json:"password,omitempty"` // User password
+	Roles    *[]RoleIn `json:"roles,omitempty"`    // User roles
+}
+
+// ServiceClickHouseUserCreateOut User details
+type ServiceClickHouseUserCreateOut struct {
+	Name       string         `json:"name"`               // User name
+	Password   *string        `json:"password,omitempty"` // User password
+	Privileges []PrivilegeOut `json:"privileges"`         // User privileges
+	Required   bool           `json:"required"`           // Required user
+	Roles      []RoleOut      `json:"roles"`              // User roles
+	Uuid       string         `json:"uuid"`               // User uuid
+}
+
 // StorageUsageHistoryOut History of usage and cumulative costs in the billing period
 type StorageUsageHistoryOut struct {
 	Hourly []HourlyOut `json:"hourly"` // History by hour
@@ -262,6 +365,14 @@ type SummaryOut struct {
 	WrittenBytes *int `json:"written_bytes,omitempty"` // Number of bytes written
 	WrittenRows  *int `json:"written_rows,omitempty"`  // Number of rows written
 }
+type UserOut struct {
+	Name       string         `json:"name"`               // User name
+	Password   *string        `json:"password,omitempty"` // User password
+	Privileges []PrivilegeOut `json:"privileges"`         // User privileges
+	Required   bool           `json:"required"`           // Required user
+	Roles      []RoleOut      `json:"roles"`              // User roles
+	Uuid       string         `json:"uuid"`               // User uuid
+}
 
 // serviceClickHouseCurrentQueriesOut ServiceClickHouseCurrentQueriesResponse
 type serviceClickHouseCurrentQueriesOut struct {
@@ -273,7 +384,22 @@ type serviceClickHouseDatabaseListOut struct {
 	Databases []DatabaseOut `json:"databases"` // List of databases
 }
 
+// serviceClickHousePasswordResetOut ServiceClickHousePasswordResetResponse
+type serviceClickHousePasswordResetOut struct {
+	Password string `json:"password"` // User password
+}
+
 // serviceClickHouseQueryStatsOut ServiceClickHouseQueryStatsResponse
 type serviceClickHouseQueryStatsOut struct {
 	Queries []ServiceClickHouseQueryStatsOut `json:"queries"` // List of query statistics
+}
+
+// serviceClickHouseUserCreateOut ServiceClickHouseUserCreateResponse
+type serviceClickHouseUserCreateOut struct {
+	User ServiceClickHouseUserCreateOut `json:"user"` // User details
+}
+
+// serviceClickHouseUserListOut ServiceClickHouseUserListResponse
+type serviceClickHouseUserListOut struct {
+	Users []UserOut `json:"users"` // List of users
 }
