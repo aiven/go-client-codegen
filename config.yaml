@@ -204,6 +204,7 @@ Organization:
   - OrganizationAuthDomainUnlink
   - OrganizationAuthenticationConfigGet
   - OrganizationAuthenticationConfigUpdate
+  - OrganizationDelete
   - OrganizationGet
   - OrganizationUpdate
   - PermissionsGet

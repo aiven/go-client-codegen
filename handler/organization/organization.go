@@ -61,6 +61,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationAuthenticationConfigUpdate
 	OrganizationAuthenticationConfigUpdate(ctx context.Context, organizationId string, in *OrganizationAuthenticationConfigUpdateIn) (*OrganizationAuthenticationConfigUpdateOut, error)
 
+	// OrganizationDelete [EXPERIMENTAL] Delete an organization
+	// DELETE /v1/organization/{organization_id}
+	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationDelete
+	OrganizationDelete(ctx context.Context, organizationId string, query ...[2]string) error
+
 	// OrganizationGet get information about an organization
 	// GET /v1/organization/{organization_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationGet
@@ -215,6 +220,16 @@ func (h *OrganizationHandler) OrganizationAuthenticationConfigUpdate(ctx context
 		return nil, err
 	}
 	return out, nil
+}
+
+// OrganizationDeleteRecursive Delete all resources in the organization
+func OrganizationDeleteRecursive(recursive bool) [2]string {
+	return [2]string{"recursive", fmt.Sprintf("%t", recursive)}
+}
+func (h *OrganizationHandler) OrganizationDelete(ctx context.Context, organizationId string, query ...[2]string) error {
+	path := fmt.Sprintf("/v1/organization/%s", url.PathEscape(organizationId))
+	_, err := h.doer.Do(ctx, "OrganizationDelete", "DELETE", path, nil, query...)
+	return err
 }
 func (h *OrganizationHandler) OrganizationGet(ctx context.Context, organizationId string) (*OrganizationGetOut, error) {
 	path := fmt.Sprintf("/v1/organization/%s", url.PathEscape(organizationId))
