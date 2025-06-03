@@ -15,6 +15,11 @@ paths:
 
 components:
   schemas:
+    ServiceClickHousePasswordResetRequestBody:
+      properties:
+        password:
+          # When sent as null, the password is generated on the server side.
+          nullable: true
     OrganizationVpcGetResponse:
       properties:
         peering_connections:

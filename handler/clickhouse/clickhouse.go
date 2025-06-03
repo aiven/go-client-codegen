@@ -296,7 +296,7 @@ type ServiceClickHouseDatabaseCreateIn struct {
 
 // ServiceClickHousePasswordResetIn ServiceClickHousePasswordResetRequestBody
 type ServiceClickHousePasswordResetIn struct {
-	Password string `json:"password"` // User password
+	Password *string `json:"password"` // User password
 }
 
 // ServiceClickHouseQueryIn ServiceClickHouseQueryRequestBody
