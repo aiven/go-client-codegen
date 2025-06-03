@@ -468,7 +468,13 @@ func getType(s *Schema) *jen.Statement {
 	case SchemaTypeAny:
 		return jen.Any()
 	case SchemaTypeString, SchemaTypeInteger, SchemaTypeNumber, SchemaTypeBoolean, SchemaTypeTime:
-		return withPointer(getScalarType(s), s.required)
+		addAsterisk := s.required
+		if s.required && s.Nullable {
+			// Nullable and required means that it can be nil, but not empty
+			// So we need a pointer
+			addAsterisk = false
+		}
+		return withPointer(getScalarType(s), addAsterisk)
 	}
 
 	switch {
@@ -495,8 +501,8 @@ func getType(s *Schema) *jen.Statement {
 	}
 }
 
-func withPointer(j *jen.Statement, required bool) *jen.Statement {
-	if required {
+func withPointer(j *jen.Statement, addAsterisk bool) *jen.Statement {
+	if addAsterisk {
 		return j
 	}
 	return jen.Op("*").Add(j)
