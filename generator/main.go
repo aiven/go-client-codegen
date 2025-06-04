@@ -60,6 +60,7 @@ func main() {
 	err := exec()
 	if err != nil {
 		log.Err(err).Send()
+		os.Exit(1)
 	}
 }
 
