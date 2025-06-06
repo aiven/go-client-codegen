@@ -1,66 +1,126 @@
 name: Release
 
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
       - main
     paths:
       - "**.go"
       - "**/go.mod"
       - "**/go.sum"
+      - "!version.go" # exclude version.go to prevent recursive triggers
   workflow_dispatch: {}
 
 permissions: read-all
 
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
   releaser:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
-      - id: version
+
+      - name: Check PR labels
+        id: check_labels
+        run: |
+          # Check if the PR had a 'skip-release' label
+          if ${{ contains(join(github.event.pull_request.labels.*.name, ','), 'skip-release') }}; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Determine New Version (Dry Run)
+        id: version_dry_run
         uses: anothrNick/github-tag-action@1.73.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
           WITH_V: true
           DRY_RUN: true
-      - run: |
-          tee version.go << END
+          DEFAULT_BUMP: patch
+
+      - name: Evaluate if Release Should Proceed
+        id: release_gate
+        run: |
+          PROCEED="false"
+          echo "Dry run new tag: ${{ steps.version_dry_run.outputs.new_tag }}"
+          echo "Dry run previous tag: ${{ steps.version_dry_run.outputs.tag }}"
+
+          if [[ "${{ steps.check_labels.outputs.skip }}" == "true" ]]; then
+            echo "Skip release (due to 'skip-release' label)."
+          elif [[ "${{ steps.version_dry_run.outputs.bump }}" == "false" ]]; then
+            echo "Skip release (no semantic version bump indicated by commits since tag ${{ steps.version_dry_run.outputs.tag }})."
+          elif [[ -z "${{ steps.version_dry_run.outputs.new_tag }}" ]]; then
+            # Defensive check: if new_tag is somehow empty after dry run (should not happen with DEFAULT_BUMP if no tags exist)
+            echo "Skip release (new_tag determined by dry run is empty)."
+          else
+            echo "Proceed with release (version bump: ${{ steps.version_dry_run.outputs.bump }}, new tag: ${{ steps.version_dry_run.outputs.new_tag }})."
+            PROCEED="true"
+          fi
+          echo "proceed=$PROCEED" >> $GITHUB_OUTPUT
+
+      - name: Update version.go and Push
+        if: steps.release_gate.outputs.proceed == 'true'
+        run: |
+          TARGET_VERSION="${{ steps.version_dry_run.outputs.new_tag }}"
+
+          cat > version.go << EOF
           package aiven
 
           // Version returns aiven-go-client version string
-          func Version() string { return "${{ steps.version.outputs.new_tag }}" }
-          END
+          func Version() string { return "$TARGET_VERSION" }
+          EOF
 
-          git add version.go
-
-          # Only commit and push if version.go actually changed
-          if ! git diff --staged --quiet; then # Check only staged changes
-            git config user.name github-actions
-            git config user.email github-actions@github.com
+          if [[ -n "$(git status --porcelain version.go)" ]]; then
+            echo "version.go requires update."
+            git add version.go
             git commit -m "chore(version.go): update go-client-codegen version"
 
-            git pull --rebase origin main 
-            git push
+            git pull --rebase origin main
+            git push origin HEAD:main
           else
-            echo "No changes to version.go to commit."
-            # Even if no changes, ensure the branch is synced before tagging
+            echo "version.go is already up to date with version $TARGET_VERSION."
             git pull --rebase origin main
           fi
-      - id: sha
-        run: |
-          GIT_SHA=$(git rev-parse HEAD)
-          echo "sha=${GIT_SHA::7}" >> $GITHUB_OUTPUT
-      - id: tag
+
+      - name: Create Git Tag
+        id: tag_version
+        if: steps.release_gate.outputs.proceed == 'true'
         uses: anothrNick/github-tag-action@1.73.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
           WITH_V: true
-      - uses: softprops/action-gh-release@v2
+          CUSTOM_TAG: ${{ steps.version_dry_run.outputs.new_tag }}
+
+      - name: Get Tagged Commit SHA for Release Body
+        id: sha
+        # Run if release proceeded and tag was successfully created (tag_version.outputs.new_tag will have value)
+        if: steps.release_gate.outputs.proceed == 'true' && steps.tag_version.outputs.new_tag
+        run: |
+          GIT_SHA=$(git rev-parse HEAD)
+          echo "sha=${GIT_SHA::7}" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        # Ensure release is not skipped and tag was created
+        if: steps.check_labels.outputs.skip != 'true' && steps.tag_version.outputs.new_tag
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.version.outputs.new_tag }}
-          name: ${{ steps.version.outputs.new_tag }}
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          name: ${{ steps.tag_version.outputs.new_tag }}
           body: auto-generated release for commit ${{ steps.sha.outputs.sha }}
