@@ -164,25 +164,27 @@ const anyKey = "ANY"
 
 // Schema represents a parsed OpenAPI schema.
 type Schema struct {
-	Type                 SchemaType         `json:"type"`
-	Properties           map[string]*Schema `json:"properties"`
-	AdditionalProperties *Schema            `json:"additionalProperties"`
-	Items                *Schema            `json:"items"`
-	RequiredProps        []string           `json:"required"`
-	Enum                 []any              `json:"enum"`
-	Default              any                `json:"default"`
-	MinItems             int                `json:"minItems"`
-	Ref                  string             `json:"$ref"`
-	Description          string             `json:"description"`
-	CamelName            string             `json:"for-hash-only!"`
-	Nullable             bool               `json:"nullable"`
-	required             bool
-	name                 string
-	propertyNames        []string
-	parent               *Schema
-	in, out              bool      // Request or Response DTO
-	hasCollision         bool      // Means this struct has a collision with another one with different type of fields
-	duplicates           []*Schema // Refs to structs with exactly the same fields
+	Type                        SchemaType         `json:"type"`
+	Properties                  map[string]*Schema `json:"properties"`
+	AdditionalPropertiesUntyped any                `json:"additionalProperties"`
+	AdditionalProperties        *Schema
+	Items                       *Schema  `json:"items"`
+	RequiredProps               []string `json:"required"`
+	Enum                        []any    `json:"enum"`
+	Default                     any      `json:"default"`
+	MinItems                    int      `json:"minItems"`
+	Ref                         string   `json:"$ref"`
+	Description                 string   `json:"description"`
+	CamelName                   string   `json:"for-hash-only!"`
+	Nullable                    bool     `json:"nullable"`
+	required                    bool
+	name                        string
+	propertyNames               []string
+	inPath                      bool
+	parent                      *Schema
+	in, out                     bool      // Request or Response DTO
+	hasCollision                bool      // Means this struct has a collision with another one with different type of fields
+	duplicates                  []*Schema // Refs to structs with exactly the same fields
 }
 
 //nolint:funlen,gocognit,gocyclo // It is easy to maintain and read, we don't need to split it
@@ -294,16 +296,35 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 		s.Items.init(doc, scope, toSingle(name))
 	}
 
-	// See anyKey const
-	if s.isTypedMap() {
-		s.AdditionalProperties = s.Properties[anyKey]
-		s.AdditionalProperties.init(doc, scope, toSingle(name))
-		s.Properties = nil
+	switch s.AdditionalPropertiesUntyped.(type) {
+	case bool:
+		s.AdditionalProperties = &Schema{Type: SchemaTypeAny}
+
+		// There are required keys in Properties.
+		// So the whole map is required.
+		s.required = len(s.RequiredProps) > 0
+	case map[string]any:
+		v, err := remarshal[Schema](s.AdditionalPropertiesUntyped)
+		if err != nil {
+			panic(fmt.Errorf("unable to remarshal additionalProperties for %q: %w", s.name, err))
+		}
+		s.AdditionalProperties = v
+	case nil:
+		// A spacial case for schemaless maps
+		// See anyKey const
+		if s.isTypedMap() {
+			s.AdditionalProperties = s.Properties[anyKey]
+			s.AdditionalProperties.init(doc, scope, toSingle(name))
+		}
 	}
 
-	// Removes pointers from map values
 	if s.AdditionalProperties != nil {
+		// Removes pointers from map values
 		s.AdditionalProperties.required = true
+
+		// AdditionalProperties can't be mixed up with Properties.
+		// The generator can't tell the difference between object and map that has properties.
+		s.Properties = nil
 	}
 
 	if s.isObject() {
@@ -496,13 +517,12 @@ func getType(s *Schema) *jen.Statement {
 			return a.String()
 		}
 		return a.Any()
-	default:
-		panic(fmt.Errorf("unknown type %q for %q and parent %q", s.Type, s.name, s.parent.name))
 	}
+	panic(fmt.Errorf("unknown type %q for %q and parent %q", s.Type, s.name, s.parent.name))
 }
 
-func withPointer(j *jen.Statement, addAsterisk bool) *jen.Statement {
-	if addAsterisk {
+func withPointer(j *jen.Statement, required bool) *jen.Statement {
+	if required {
 		return j
 	}
 	return jen.Op("*").Add(j)
@@ -554,4 +574,19 @@ func dedupCamelName(src string) string {
 	}
 
 	return strings.Join(result, "")
+}
+
+func remarshal[T any](v any) (*T, error) {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+
+	var target T
+	err = json.Unmarshal(b, &target)
+	if err != nil {
+		return nil, err
+	}
+
+	return &target, nil
 }

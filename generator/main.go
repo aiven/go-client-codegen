@@ -232,6 +232,7 @@ func exec() error {
 				p.Schema.init(doc, scope, p.Name)
 
 				if p.In == ParameterInPath {
+					p.Schema.inPath = true
 					schemas = append(schemas, p.Schema)
 					param := jen.Id(p.Schema.lowerCamel()).Add(getType(p.Schema))
 					funcArgs = append(funcArgs, param)
@@ -261,7 +262,7 @@ func exec() error {
 				schemaIn.in = true
 				schemaIn.init(doc, scope, path.FuncName)
 				schemas = append(schemas, schemaIn)
-				funcArgs = append(funcArgs, jen.Id("in").Id("*"+schemaIn.CamelName))
+				funcArgs = append(funcArgs, jen.Id("in").Add(getType(schemaIn)))
 			}
 
 			// Adds queryParams options
@@ -319,7 +320,7 @@ func exec() error {
 			urlParams = append(urlParams, jen.Lit(url))
 			inObj := jen.Nil()
 			for _, s := range schemas {
-				if s.isObject() {
+				if !s.inPath {
 					inObj = jen.Id("in")
 					continue
 				}
