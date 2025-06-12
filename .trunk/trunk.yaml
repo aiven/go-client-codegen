@@ -19,7 +19,7 @@ runtimes:
 lint:
   enabled:
     - actionlint@1.7.7
-    - checkov@3.2.435
+    - checkov@3.2.437
     - git-diff-check
     - gofmt@1.20.4
     - golangci-lint@1.64.8
