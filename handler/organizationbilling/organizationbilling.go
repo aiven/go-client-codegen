@@ -10,27 +10,27 @@ import (
 )
 
 type Handler interface {
-	// OrganizationBillingGroupCreate [EXPERIMENTAL] Create an organization billing group
+	// OrganizationBillingGroupCreate create an organization billing group
 	// POST /v1/organization/{organization_id}/billing-groups
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupCreate
 	OrganizationBillingGroupCreate(ctx context.Context, organizationId string, in *OrganizationBillingGroupCreateIn) (*OrganizationBillingGroupCreateOut, error)
 
-	// OrganizationBillingGroupDelete [EXPERIMENTAL] Delete an organization billing group
+	// OrganizationBillingGroupDelete delete an organization billing group
 	// DELETE /v1/organization/{organization_id}/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupDelete
 	OrganizationBillingGroupDelete(ctx context.Context, organizationId string, billingGroupId string) error
 
-	// OrganizationBillingGroupGet [EXPERIMENTAL] Get organization billing group details
+	// OrganizationBillingGroupGet get organization billing group details
 	// GET /v1/organization/{organization_id}/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupGet
 	OrganizationBillingGroupGet(ctx context.Context, organizationId string, billingGroupId string) (*OrganizationBillingGroupGetOut, error)
 
-	// OrganizationBillingGroupList [EXPERIMENTAL] List billing groups in an organization
+	// OrganizationBillingGroupList list billing groups in an organization
 	// GET /v1/organization/{organization_id}/billing-group
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupList
 	OrganizationBillingGroupList(ctx context.Context, organizationId string) ([]BillingGroupOut, error)
 
-	// OrganizationBillingGroupUpdate [EXPERIMENTAL] Update organization billing group details
+	// OrganizationBillingGroupUpdate update organization billing group details
 	// PUT /v1/organization/{organization_id}/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupUpdate
 	OrganizationBillingGroupUpdate(ctx context.Context, organizationId string, billingGroupId string, in *OrganizationBillingGroupUpdateIn) (*OrganizationBillingGroupUpdateOut, error)

@@ -11,32 +11,32 @@ import (
 )
 
 type Handler interface {
-	// OrganizationVpcCreate [EXPERIMENTAL] Create organization VPC
+	// OrganizationVpcCreate create organization VPC
 	// POST /v1/organization/{organization_id}/vpcs
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcCreate
 	OrganizationVpcCreate(ctx context.Context, organizationId string, in *OrganizationVpcCreateIn) (*OrganizationVpcCreateOut, error)
 
-	// OrganizationVpcDelete [EXPERIMENTAL] Delete organization VPC
+	// OrganizationVpcDelete delete organization VPC
 	// DELETE /v1/organization/{organization_id}/vpcs/{organization_vpc_id}
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcDelete
 	OrganizationVpcDelete(ctx context.Context, organizationId string, organizationVpcId string) (*OrganizationVpcDeleteOut, error)
 
-	// OrganizationVpcGet [EXPERIMENTAL] Get organization VPC
+	// OrganizationVpcGet get organization VPC
 	// GET /v1/organization/{organization_id}/vpcs/{organization_vpc_id}
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcGet
 	OrganizationVpcGet(ctx context.Context, organizationId string, organizationVpcId string) (*OrganizationVpcGetOut, error)
 
-	// OrganizationVpcList [EXPERIMENTAL] List organization VPCs
+	// OrganizationVpcList list organization VPCs
 	// GET /v1/organization/{organization_id}/vpcs
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcList
 	OrganizationVpcList(ctx context.Context, organizationId string) ([]VpcOut, error)
 
-	// OrganizationVpcPeeringConnectionCreate [EXPERIMENTAL] Create organization VPC peering
+	// OrganizationVpcPeeringConnectionCreate create organization VPC peering
 	// POST /v1/organization/{organization_id}/vpcs/{organization_vpc_id}/peering-connections
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcPeeringConnectionCreate
 	OrganizationVpcPeeringConnectionCreate(ctx context.Context, organizationId string, organizationVpcId string, in *OrganizationVpcPeeringConnectionCreateIn) (*OrganizationVpcPeeringConnectionCreateOut, error)
 
-	// OrganizationVpcPeeringConnectionDeleteById [EXPERIMENTAL] Delete organization VPC peering
+	// OrganizationVpcPeeringConnectionDeleteById delete organization VPC peering
 	// DELETE /v1/organization/{organization_id}/vpcs/{organization_vpc_id}/peering-connections/{peering_connection_id}
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcPeeringConnectionDeleteById
 	OrganizationVpcPeeringConnectionDeleteById(ctx context.Context, organizationId string, organizationVpcId string, peeringConnectionId string) (*OrganizationVpcPeeringConnectionDeleteByIdOut, error)
