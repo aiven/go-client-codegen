@@ -11,27 +11,27 @@ import (
 )
 
 type Handler interface {
-	// OrganizationAddressCreate [EXPERIMENTAL] Create new address for an organization
+	// OrganizationAddressCreate create new address for an organization
 	// POST /v1/organizations/{organization_id}/addresses
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressCreate
 	OrganizationAddressCreate(ctx context.Context, organizationId string, in *OrganizationAddressCreateIn) (*OrganizationAddressCreateOut, error)
 
-	// OrganizationAddressDelete [EXPERIMENTAL] Delete an address of an organization
+	// OrganizationAddressDelete delete an address of an organization
 	// DELETE /v1/organizations/{organization_id}/addresses/{address_id}
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressDelete
 	OrganizationAddressDelete(ctx context.Context, organizationId string, addressId string) error
 
-	// OrganizationAddressGet [EXPERIMENTAL] Get organization address info
+	// OrganizationAddressGet get organization address info
 	// GET /v1/organizations/{organization_id}/addresses/{address_id}
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressGet
 	OrganizationAddressGet(ctx context.Context, organizationId string, addressId string) (*OrganizationAddressGetOut, error)
 
-	// OrganizationAddressList [EXPERIMENTAL] List addresses of an organization
+	// OrganizationAddressList list addresses of an organization
 	// GET /v1/organizations/{organization_id}/addresses
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressList
 	OrganizationAddressList(ctx context.Context, organizationId string) ([]AddresseOut, error)
 
-	// OrganizationAddressUpdate [EXPERIMENTAL] Update an address of an organization
+	// OrganizationAddressUpdate update an address of an organization
 	// PATCH /v1/organizations/{organization_id}/addresses/{address_id}
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressUpdate
 	OrganizationAddressUpdate(ctx context.Context, organizationId string, addressId string, in *OrganizationAddressUpdateIn) (*OrganizationAddressUpdateOut, error)
@@ -61,7 +61,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationAuthenticationConfigUpdate
 	OrganizationAuthenticationConfigUpdate(ctx context.Context, organizationId string, in *OrganizationAuthenticationConfigUpdateIn) (*OrganizationAuthenticationConfigUpdateOut, error)
 
-	// OrganizationDelete [EXPERIMENTAL] Delete an organization
+	// OrganizationDelete delete an organization
 	// DELETE /v1/organization/{organization_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationDelete
 	OrganizationDelete(ctx context.Context, organizationId string, query ...[2]string) error

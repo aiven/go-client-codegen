@@ -11,22 +11,22 @@ import (
 )
 
 type Handler interface {
-	// OrganizationGovernanceAccessCreate [EXPERIMENTAL] Create organization access
+	// OrganizationGovernanceAccessCreate create organization access
 	// POST /v1/organization/{organization_id}/governance/access
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationGovernanceAccessCreate
 	OrganizationGovernanceAccessCreate(ctx context.Context, organizationId string, in *OrganizationGovernanceAccessCreateIn) (*OrganizationGovernanceAccessCreateOut, error)
 
-	// OrganizationGovernanceAccessDelete [EXPERIMENTAL] Delete organization access
+	// OrganizationGovernanceAccessDelete delete organization access
 	// DELETE /v1/organization/{organization_id}/governance/access/{access_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationGovernanceAccessDelete
 	OrganizationGovernanceAccessDelete(ctx context.Context, organizationId string, accessId string) (string, error)
 
-	// OrganizationGovernanceAccessGet [EXPERIMENTAL] Get organization access details
+	// OrganizationGovernanceAccessGet get organization access details
 	// GET /v1/organization/{organization_id}/governance/access/{access_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationGovernanceAccessGet
 	OrganizationGovernanceAccessGet(ctx context.Context, organizationId string, accessId string) (*OrganizationGovernanceAccessGetOut, error)
 
-	// OrganizationGovernanceAccessList [EXPERIMENTAL] List access for organization
+	// OrganizationGovernanceAccessList list access for organization
 	// GET /v1/organization/{organization_id}/governance/access
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationGovernanceAccessList
 	OrganizationGovernanceAccessList(ctx context.Context, organizationId string, query ...[2]string) (*OrganizationGovernanceAccessListOut, error)
