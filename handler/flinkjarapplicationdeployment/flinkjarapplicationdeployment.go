@@ -11,32 +11,32 @@ import (
 )
 
 type Handler interface {
-	// ServiceFlinkCancelJarApplicationDeployment [EXPERIMENTAL] Cancel a JarApplicationDeployment
+	// ServiceFlinkCancelJarApplicationDeployment cancel a JarApplicationDeployment
 	// POST /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/deployment/{deployment_id}/cancel
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCancelJarApplicationDeployment
 	ServiceFlinkCancelJarApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkCancelJarApplicationDeploymentOut, error)
 
-	// ServiceFlinkCreateJarApplicationDeployment [EXPERIMENTAL] Create an JarApplicationDeployment
+	// ServiceFlinkCreateJarApplicationDeployment create an JarApplicationDeployment
 	// POST /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/deployment
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCreateJarApplicationDeployment
 	ServiceFlinkCreateJarApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateJarApplicationDeploymentIn) (*ServiceFlinkCreateJarApplicationDeploymentOut, error)
 
-	// ServiceFlinkDeleteJarApplicationDeployment [EXPERIMENTAL] Delete a JarApplicationDeployment
+	// ServiceFlinkDeleteJarApplicationDeployment delete a JarApplicationDeployment
 	// DELETE /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/deployment/{deployment_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkDeleteJarApplicationDeployment
 	ServiceFlinkDeleteJarApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkDeleteJarApplicationDeploymentOut, error)
 
-	// ServiceFlinkGetJarApplicationDeployment [EXPERIMENTAL] Get a JarApplicationDeployment
+	// ServiceFlinkGetJarApplicationDeployment get a JarApplicationDeployment
 	// GET /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/deployment/{deployment_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkGetJarApplicationDeployment
 	ServiceFlinkGetJarApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkGetJarApplicationDeploymentOut, error)
 
-	// ServiceFlinkListJarApplicationDeployments [EXPERIMENTAL] Get all JarApplicationDeployments
+	// ServiceFlinkListJarApplicationDeployments get all JarApplicationDeployments
 	// GET /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/deployment
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkListJarApplicationDeployments
 	ServiceFlinkListJarApplicationDeployments(ctx context.Context, project string, serviceName string, applicationId string) ([]DeploymentOut, error)
 
-	// ServiceFlinkStopJarApplicationDeployment [EXPERIMENTAL] Stop an JarApplicationDeployment
+	// ServiceFlinkStopJarApplicationDeployment stop an JarApplicationDeployment
 	// POST /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/deployment/{deployment_id}/stop
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkStopJarApplicationDeployment
 	ServiceFlinkStopJarApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkStopJarApplicationDeploymentOut, error)
