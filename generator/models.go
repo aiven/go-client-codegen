@@ -66,16 +66,17 @@ type Content map[string]*struct {
 
 // Path represents a parsed OpenAPI path.
 type Path struct {
-	ID          string
-	Path        string
-	Method      string
-	FuncName    string
-	Tags        []string     `json:"tags"`
-	OperationID string       `json:"operationId"`
-	Parameters  []*Parameter `json:"parameters"`
-	Summary     string       `json:"summary"`
-	Deprecated  bool         `json:"deprecated"`
-	In          struct {
+	ID           string
+	Path         string
+	Method       string
+	FuncName     string
+	Tags         []string     `json:"tags"`
+	OperationID  string       `json:"operationId"`
+	Parameters   []*Parameter `json:"parameters"`
+	Summary      string       `json:"summary"`
+	Deprecated   bool         `json:"deprecated"`
+	Experimental bool         `json:"x-experimental"`
+	In           struct {
 		Content Content `json:"content"`
 	} `json:"requestBody"`
 	Out struct {
@@ -90,11 +91,16 @@ type Path struct {
 
 // Comment returns a comment for the path.
 func (p *Path) Comment() *jen.Statement {
+	summary := p.Summary
+	if p.Experimental {
+		summary = "[EXPERIMENTAL] " + summary
+	}
+
 	// IDE highlights any coincidence method names
 	// For instance, there is always "List" method and that's a common verb
 	// But IDE will highlight it as a reference
 	// Lowers first letter
-	s := fmt.Sprintf("%s %s", p.FuncName, lowerFirst(p.Summary))
+	s := fmt.Sprintf("%s %s", p.FuncName, lowerFirst(summary))
 	if p.Deprecated {
 		s = "Deprecated: " + s
 	}
