@@ -1794,6 +1794,12 @@ func RouteTypeChoices() []string {
 	return []string{"dynamic", "private", "privatelink", "public"}
 }
 
+// ScheduledBackupTimeOut Scheduled time and frequency of service backups
+type ScheduledBackupTimeOut struct {
+	BackupHour          *int `json:"backup_hour,omitempty"`           // The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.
+	BackupIntervalHours *int `json:"backup_interval_hours,omitempty"` // Service backup interval in hours
+	BackupMinute        *int `json:"backup_minute,omitempty"`         // The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.
+}
 type SchemaRegistryAclOut struct {
 	Id         *string                         `json:"id,omitempty"` // ID
 	Permission SchemaRegistryAclPermissionType `json:"permission"`   // ACL entry for Schema Registry
@@ -1825,8 +1831,10 @@ type ServiceBackupToAnotherRegionReportIn struct {
 
 // ServiceBackupsGetOut ServiceBackupsGetResponse
 type ServiceBackupsGetOut struct {
-	Backups []BackupOut `json:"backups"`        // List of backups for the service
-	Pitr    *PitrOut    `json:"pitr,omitempty"` // Point-in-time-recovery metadata for the service. If not set, service type does not support PITR.
+	BackupProgress      *string                 `json:"backup_progress,omitempty"`       // Scheduled time for the next backup
+	Backups             []BackupOut             `json:"backups"`                         // List of backups for the service
+	Pitr                *PitrOut                `json:"pitr,omitempty"`                  // Point-in-time-recovery metadata for the service. If not set, service type does not support PITR.
+	ScheduledBackupTime *ScheduledBackupTimeOut `json:"scheduled_backup_time,omitempty"` // Scheduled time and frequency of service backups
 }
 
 // ServiceCancelQueryIn ServiceCancelQueryRequestBody

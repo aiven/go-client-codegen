@@ -1063,12 +1063,13 @@ const (
 	VpcPeeringConnectionTypeAwsTgwVpcAttachment     VpcPeeringConnectionType = "aws-tgw-vpc-attachment"
 	VpcPeeringConnectionTypeAwsVpcPeeringConnection VpcPeeringConnectionType = "aws-vpc-peering-connection"
 	VpcPeeringConnectionTypeAzureVnetPeering        VpcPeeringConnectionType = "azure-vnet-peering"
+	VpcPeeringConnectionTypeDoVpcPeering            VpcPeeringConnectionType = "do-vpc-peering"
 	VpcPeeringConnectionTypeGoogleVpcPeering        VpcPeeringConnectionType = "google-vpc-peering"
 	VpcPeeringConnectionTypeUpcloudVpcPeering       VpcPeeringConnectionType = "upcloud-vpc-peering"
 )
 
 func VpcPeeringConnectionTypeChoices() []string {
-	return []string{"aws-tgw-vpc-attachment", "aws-vpc-peering-connection", "azure-vnet-peering", "google-vpc-peering", "upcloud-vpc-peering"}
+	return []string{"aws-tgw-vpc-attachment", "aws-vpc-peering-connection", "azure-vnet-peering", "do-vpc-peering", "google-vpc-peering", "upcloud-vpc-peering"}
 }
 
 type VpcPeeringConnectionTypeOut struct {
