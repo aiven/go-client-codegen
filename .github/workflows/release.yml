@@ -53,7 +53,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           WITH_V: true
           DRY_RUN: true
-          DEFAULT_BUMP: patch
 
       - name: Evaluate if Release Should Proceed
         id: release_gate
@@ -67,7 +66,7 @@ jobs:
           elif [[ "${{ steps.version_dry_run.outputs.bump }}" == "false" ]]; then
             echo "Skip release (no semantic version bump indicated by commits since tag ${{ steps.version_dry_run.outputs.tag }})."
           elif [[ -z "${{ steps.version_dry_run.outputs.new_tag }}" ]]; then
-            # Defensive check: if new_tag is somehow empty after dry run (should not happen with DEFAULT_BUMP if no tags exist)
+            # Skip if new_tag is empty (no semantic version bump found)
             echo "Skip release (new_tag determined by dry run is empty)."
           else
             echo "Proceed with release (version bump: ${{ steps.version_dry_run.outputs.bump }}, new tag: ${{ steps.version_dry_run.outputs.new_tag }})."
