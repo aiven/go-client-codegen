@@ -12,6 +12,7 @@ import (
 	alloydbomni "github.com/aiven/go-client-codegen/handler/alloydbomni"
 	applicationuser "github.com/aiven/go-client-codegen/handler/applicationuser"
 	billinggroup "github.com/aiven/go-client-codegen/handler/billinggroup"
+	byoc "github.com/aiven/go-client-codegen/handler/byoc"
 	clickhouse "github.com/aiven/go-client-codegen/handler/clickhouse"
 	cloud "github.com/aiven/go-client-codegen/handler/cloud"
 	domain "github.com/aiven/go-client-codegen/handler/domain"
@@ -62,6 +63,7 @@ func newClient(doer doer) Client {
 		AlloyDBOmniHandler:                   alloydbomni.NewHandler(doer),
 		ApplicationUserHandler:               applicationuser.NewHandler(doer),
 		BillingGroupHandler:                  billinggroup.NewHandler(doer),
+		ByocHandler:                          byoc.NewHandler(doer),
 		ClickHouseHandler:                    clickhouse.NewHandler(doer),
 		CloudHandler:                         cloud.NewHandler(doer),
 		DomainHandler:                        domain.NewHandler(doer),
@@ -107,6 +109,7 @@ type client struct {
 	alloydbomni.AlloyDBOmniHandler
 	applicationuser.ApplicationUserHandler
 	billinggroup.BillingGroupHandler
+	byoc.ByocHandler
 	clickhouse.ClickHouseHandler
 	cloud.CloudHandler
 	domain.DomainHandler
@@ -150,6 +153,7 @@ type Client interface {
 	alloydbomni.Handler
 	applicationuser.Handler
 	billinggroup.Handler
+	byoc.Handler
 	clickhouse.Handler
 	cloud.Handler
 	domain.Handler

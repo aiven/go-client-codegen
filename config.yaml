@@ -67,6 +67,14 @@ BillingGroup:
   - BillingGroupProjectList
   - BillingGroupProjectsAssign
   - BillingGroupUpdate
+Byoc:
+  - CustomCloudEnvironmentCreate
+  - CustomCloudEnvironmentDelete
+  - CustomCloudEnvironmentGet
+  - CustomCloudEnvironmentPermissionsGet
+  - CustomCloudEnvironmentPermissionsSet
+  - CustomCloudEnvironmentProvision
+  - CustomCloudEnvironmentUpdate
 ClickHouse:
   - ServiceClickHouseCurrentQueries
   - ServiceClickHouseDatabaseCreate
