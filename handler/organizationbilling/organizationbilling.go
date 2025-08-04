@@ -198,15 +198,15 @@ type OrganizationBillingGroupGetOut struct {
 
 // OrganizationBillingGroupUpdateIn OrganizationBillingGroupUpdateRequestBody
 type OrganizationBillingGroupUpdateIn struct {
-	BillingAddressId     *string                 `json:"billing_address_id,omitempty"`  // Billing address ID
-	BillingContactEmails []BillingContactEmailIn `json:"billing_contact_emails"`        // List of billing contact emails
-	BillingEmails        []BillingEmailIn        `json:"billing_emails"`                // List of billing contact emails
-	BillingGroupName     string                  `json:"billing_group_name"`            // Billing Group Name
-	Currency             CurrencyType            `json:"currency"`                      // Acceptable currencies for a billing group.
-	CustomInvoiceText    *string                 `json:"custom_invoice_text,omitempty"` // Extra billing text
-	PaymentMethodId      *string                 `json:"payment_method_id,omitempty"`   // Payment method ID
-	ShippingAddressId    *string                 `json:"shipping_address_id,omitempty"` // Shipping address ID
-	VatId                *string                 `json:"vat_id,omitempty"`              // VAT ID
+	BillingAddressId     *string                  `json:"billing_address_id,omitempty"`     // Billing address ID
+	BillingContactEmails *[]BillingContactEmailIn `json:"billing_contact_emails,omitempty"` // List of billing contact emails
+	BillingEmails        *[]BillingEmailIn        `json:"billing_emails,omitempty"`         // List of billing contact emails
+	BillingGroupName     *string                  `json:"billing_group_name,omitempty"`     // Billing group name
+	Currency             CurrencyType             `json:"currency,omitempty"`               // Acceptable currencies for a billing group.
+	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"`    // Extra billing text
+	PaymentMethodId      *string                  `json:"payment_method_id,omitempty"`      // Payment method ID
+	ShippingAddressId    *string                  `json:"shipping_address_id,omitempty"`    // Shipping address ID
+	VatId                *string                  `json:"vat_id,omitempty"`                 // VAT ID
 }
 
 // OrganizationBillingGroupUpdateOut OrganizationBillingGroupUpdateResponse
