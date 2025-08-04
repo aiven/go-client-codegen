@@ -2494,10 +2494,11 @@ const (
 	TargetVersionType15 TargetVersionType = "15"
 	TargetVersionType16 TargetVersionType = "16"
 	TargetVersionType17 TargetVersionType = "17"
+	TargetVersionType18 TargetVersionType = "18"
 )
 
 func TargetVersionTypeChoices() []string {
-	return []string{"13", "14", "15", "16", "17"}
+	return []string{"13", "14", "15", "16", "17", "18"}
 }
 
 type TaskType string
