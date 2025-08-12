@@ -21,7 +21,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsClaim
 	ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*ProjectCreditsClaimOut, error)
 
-	// ProjectCreditsList list project credits
+	// Deprecated: ProjectCreditsList list credits available to the project
 	// GET /v1/project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsList
 	ProjectCreditsList(ctx context.Context, project string) ([]CreditOut, error)
