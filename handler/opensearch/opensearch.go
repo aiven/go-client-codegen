@@ -27,14 +27,14 @@ type Handler interface {
 	ServiceOpenSearchAclUpdate(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclUpdateIn) (*ServiceOpenSearchAclUpdateOut, error)
 
 	// ServiceOpenSearchIndexDelete delete an OpenSearch index
-	// DELETE /v1/project/{project}/service/{service_name}/index/{index_name}
+	// DELETE /v1/project/{project}/service/{service_name}/index/{index_pattern}
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchIndexDelete
-	ServiceOpenSearchIndexDelete(ctx context.Context, project string, serviceName string, indexName string) error
+	ServiceOpenSearchIndexDelete(ctx context.Context, project string, serviceName string, indexPattern string) error
 
 	// ServiceOpenSearchIndexList list OpenSearch indexes
 	// GET /v1/project/{project}/service/{service_name}/index
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchIndexList
-	ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchIndexListOut, error)
+	ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]IndexeOut, error)
 
 	// ServiceOpenSearchSecurityGet show OpenSearch security configuration status
 	// GET /v1/project/{project}/service/{service_name}/opensearch/security
@@ -104,23 +104,23 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclUpdate(ctx context.Context, proj
 	}
 	return out, nil
 }
-func (h *OpenSearchHandler) ServiceOpenSearchIndexDelete(ctx context.Context, project string, serviceName string, indexName string) error {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/index/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(indexName))
+func (h *OpenSearchHandler) ServiceOpenSearchIndexDelete(ctx context.Context, project string, serviceName string, indexPattern string) error {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/index/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(indexPattern))
 	_, err := h.doer.Do(ctx, "ServiceOpenSearchIndexDelete", "DELETE", path, nil)
 	return err
 }
-func (h *OpenSearchHandler) ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchIndexListOut, error) {
+func (h *OpenSearchHandler) ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]IndexeOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/index", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceOpenSearchIndexList", "GET", path, nil)
 	if err != nil {
 		return nil, err
 	}
-	out := new(ServiceOpenSearchIndexListOut)
+	out := new(serviceOpenSearchIndexListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	return out.Indexes, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchSecurityGet(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchSecurityGetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/security", url.PathEscape(project), url.PathEscape(serviceName))
@@ -297,12 +297,6 @@ type ServiceOpenSearchAclUpdateOut struct {
 	OpensearchAclConfig  OpensearchAclConfigOut   `json:"opensearch_acl_config"`           // OpenSearch ACL configuration
 }
 
-// ServiceOpenSearchIndexListOut ServiceOpenSearchIndexListResponse
-type ServiceOpenSearchIndexListOut struct {
-	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch major version
-	Indexes              []IndexeOut              `json:"indexes"`                         // List of OpenSearch indexes
-}
-
 // ServiceOpenSearchSecurityGetOut ServiceOpenSearchSecurityGetResponse
 type ServiceOpenSearchSecurityGetOut struct {
 	SecurityPluginAdminEnabled bool  `json:"security_plugin_admin_enabled"`     // security plugin admin defined
@@ -333,4 +327,9 @@ type ServiceOpenSearchSecuritySetOut struct {
 	SecurityPluginAdminEnabled bool  `json:"security_plugin_admin_enabled"`     // security plugin admin defined
 	SecurityPluginAvailable    bool  `json:"security_plugin_available"`         // Opensearch security available for the service
 	SecurityPluginEnabled      *bool `json:"security_plugin_enabled,omitempty"` // Opensearch security enabled for the service
+}
+
+// serviceOpenSearchIndexListOut ServiceOpenSearchIndexListResponse
+type serviceOpenSearchIndexListOut struct {
+	Indexes []IndexeOut `json:"indexes"` // List of OpenSearch indexes
 }
