@@ -26,7 +26,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: main
           fetch-depth: 0
@@ -48,7 +48,7 @@ jobs:
 
       - name: Determine New Version (Dry Run)
         id: version_dry_run
-        uses: anothrNick/github-tag-action@1.73.0
+        uses: anothrNick/github-tag-action@1.75.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
           WITH_V: true
@@ -101,7 +101,7 @@ jobs:
       - name: Create Git Tag
         id: tag_version
         if: steps.release_gate.outputs.proceed == 'true'
-        uses: anothrNick/github-tag-action@1.73.0
+        uses: anothrNick/github-tag-action@1.75.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
           WITH_V: true
