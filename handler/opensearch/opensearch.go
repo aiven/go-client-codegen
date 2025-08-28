@@ -173,13 +173,14 @@ type AclOut struct {
 type ElasticsearchVersionType string
 
 const (
-	ElasticsearchVersionType1 ElasticsearchVersionType = "1"
-	ElasticsearchVersionType2 ElasticsearchVersionType = "2"
-	ElasticsearchVersionType7 ElasticsearchVersionType = "7"
+	ElasticsearchVersionType1   ElasticsearchVersionType = "1"
+	ElasticsearchVersionType2   ElasticsearchVersionType = "2"
+	ElasticsearchVersionType219 ElasticsearchVersionType = "2.19"
+	ElasticsearchVersionType7   ElasticsearchVersionType = "7"
 )
 
 func ElasticsearchVersionTypeChoices() []string {
-	return []string{"1", "2", "7"}
+	return []string{"1", "2", "2.19", "7"}
 }
 
 type HealthType string
@@ -263,25 +264,25 @@ type RuleOut struct {
 
 // ServiceOpenSearchAclGetOut ServiceOpenSearchAclGetResponse
 type ServiceOpenSearchAclGetOut struct {
-	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch major version
+	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch version
 	OpensearchAclConfig  OpensearchAclConfigOut   `json:"opensearch_acl_config"`           // OpenSearch ACL configuration
 }
 
 // ServiceOpenSearchAclSetIn ServiceOpenSearchAclSetRequestBody
 type ServiceOpenSearchAclSetIn struct {
-	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch major version
+	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch version
 	OpensearchAclConfig  OpensearchAclConfigIn    `json:"opensearch_acl_config"`           // OpenSearch ACL configuration
 }
 
 // ServiceOpenSearchAclSetOut ServiceOpenSearchAclSetResponse
 type ServiceOpenSearchAclSetOut struct {
-	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch major version
+	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch version
 	OpensearchAclConfig  OpensearchAclConfigOut   `json:"opensearch_acl_config"`           // OpenSearch ACL configuration
 }
 
 // ServiceOpenSearchAclUpdateIn ServiceOpenSearchAclUpdateRequestBody
 type ServiceOpenSearchAclUpdateIn struct {
-	ElasticsearchVersion ElasticsearchVersionType                        `json:"elasticsearch_version,omitempty"` // Elasticsearch major version
+	ElasticsearchVersion ElasticsearchVersionType                        `json:"elasticsearch_version,omitempty"` // Elasticsearch version
 	OpensearchAclConfig  ServiceOpenSearchAclUpdateOpensearchAclConfigIn `json:"opensearch_acl_config"`           // OpenSearch ACL configuration
 }
 
@@ -293,7 +294,7 @@ type ServiceOpenSearchAclUpdateOpensearchAclConfigIn struct {
 
 // ServiceOpenSearchAclUpdateOut ServiceOpenSearchAclUpdateResponse
 type ServiceOpenSearchAclUpdateOut struct {
-	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch major version
+	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch version
 	OpensearchAclConfig  OpensearchAclConfigOut   `json:"opensearch_acl_config"`           // OpenSearch ACL configuration
 }
 
