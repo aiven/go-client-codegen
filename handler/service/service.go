@@ -1191,6 +1191,7 @@ const (
 	IntegrationTypeJolokia                           IntegrationType = "jolokia"
 	IntegrationTypeKafkaConnect                      IntegrationType = "kafka_connect"
 	IntegrationTypeKafkaConnectPostgresql            IntegrationType = "kafka_connect_postgresql"
+	IntegrationTypeKafkaInklessPostgresql            IntegrationType = "kafka_inkless_postgresql"
 	IntegrationTypeKafkaLogs                         IntegrationType = "kafka_logs"
 	IntegrationTypeKafkaMirrormaker                  IntegrationType = "kafka_mirrormaker"
 	IntegrationTypeLogs                              IntegrationType = "logs"
@@ -1215,7 +1216,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
+	return []string{"alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
 }
 
 type IntegrationTypeOut struct {
