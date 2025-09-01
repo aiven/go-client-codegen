@@ -534,13 +534,15 @@ func fmtStruct(s *Schema) *jen.Statement {
 		return reInvertSnakeCase.ReplaceAllString(jsonNames[i], "") > reInvertSnakeCase.ReplaceAllString(jsonNames[j], "")
 	})
 
-	// Resolves collisions
+	// Overrides collisions when API adds a new field that meant to replace an existing one:
+	// For instance, `topics_exclude` replaces `topics.exclude`
+	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerCreateReplicationFlow
 	uniqueNames := make(map[string]string, len(jsonNames))
 	for _, jsonName := range jsonNames {
 		p := s.Properties[jsonName]
 		goName := customCamelCase(jsonName)
 		if exist, ok := uniqueNames[goName]; ok {
-			log.Warn().Msgf("Field collision: %q overrides %q", p.path(), exist)
+			log.Warn().Msgf("Found field collision: %q overrides %q -> %q", p.path(), exist, jsonName)
 		}
 		// WARNING: This is a hack to avoid name collisions in Go fields
 		// overrides duplicate fields

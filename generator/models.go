@@ -11,6 +11,7 @@ import (
 
 	"github.com/dave/jennifer/jen"
 	"github.com/iancoleman/strcase"
+	"github.com/rs/zerolog/log"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 )
@@ -343,29 +344,39 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 	}
 
 	if s.isObject() || s.isEnum() { //nolint:nestif
-		v, ok := scope[s.CamelName]
-		// Takes parent's name to resolve name collision
-		if ok {
+		parent := s.parent
+		for {
+			v, ok := scope[s.CamelName]
+			if !ok {
+				break
+			}
+
 			if v.hash() == s.hash() {
 				v.duplicates = append(v.duplicates, s)
 				return
 			}
 
-			// Resolves name collision
-			// Takes parent's name as prefix or uses parent's name
-			parent := s.parent
-			if s.parent.isArray() {
-				parent = parent.parent
-			}
-
-			if parent.isPrivate() {
-				s.CamelName = customCamelCase(parent.CamelName)
+			if parent == nil {
+				oldName := s.CamelName
+				s.CamelName += "Alt"
+				log.Warn().Msgf("%q can't solve collision, adding suffix, new name %q", oldName, s.CamelName)
 			} else {
-				// Adds parent's name
-				s.CamelName = strings.TrimSuffix(parent.CamelName, suffix) + s.CamelName
-				if s.isEnum() {
-					s.CamelName = dedupCamelName(cleanEnumName.ReplaceAllString(s.CamelName, ""))
+				// Resolves name collision
+				// Takes parent's name as prefix or uses parent's name
+				if parent.isArray() {
+					parent = parent.parent
 				}
+
+				if parent.isPrivate() {
+					s.CamelName = customCamelCase(parent.CamelName)
+				} else {
+					// Adds parent's name
+					s.CamelName = strings.TrimSuffix(parent.CamelName, suffix) + s.CamelName
+					if s.isEnum() {
+						s.CamelName = dedupCamelName(cleanEnumName.ReplaceAllString(s.CamelName, ""))
+					}
+				}
+				parent = parent.parent
 			}
 
 			// Marks all have collision
