@@ -420,13 +420,6 @@ func (h *ProjectHandler) ProjectUserUpdate(ctx context.Context, project string, 
 	return err
 }
 
-// AggregatorOut Service type information
-type AggregatorOut struct {
-	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string         `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
-	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
 type AlertOut struct {
 	CreateTime  time.Time `json:"create_time"`            // Event creation timestamp (ISO 8601)
 	Event       string    `json:"event"`                  // Name of the alerting event
@@ -506,14 +499,6 @@ type CassandraOut struct {
 
 // ClickhouseOut Service type information
 type ClickhouseOut struct {
-	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string         `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
-	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
-
-// DbOut Service type information
-type DbOut struct {
 	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
 	Description            string         `json:"description"`                        // Single line description of the service
 	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
@@ -601,6 +586,22 @@ type KafkaMirrormakerOut struct {
 
 // KafkaOut Service type information
 type KafkaOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
+// M3AggregatorOut Service type information
+type M3AggregatorOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
+// M3DbOut Service type information
+type M3DbOut struct {
 	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
 	Description            string         `json:"description"`                        // Single line description of the service
 	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
@@ -909,8 +910,8 @@ type ProjectServiceTypesListOut struct {
 	Kafka            *KafkaOut                                `json:"kafka,omitempty"`             // Service type information
 	KafkaConnect     *KafkaConnectOut                         `json:"kafka_connect,omitempty"`     // Service type information
 	KafkaMirrormaker *KafkaMirrormakerOut                     `json:"kafka_mirrormaker,omitempty"` // Service type information
-	M3Aggregator     *AggregatorOut                           `json:"m3aggregator,omitempty"`      // Service type information
-	M3Db             *DbOut                                   `json:"m3db,omitempty"`              // Service type information
+	M3Aggregator     *M3AggregatorOut                         `json:"m3aggregator,omitempty"`      // Service type information
+	M3Db             *M3DbOut                                 `json:"m3db,omitempty"`              // Service type information
 	Mysql            *MysqlOut                                `json:"mysql,omitempty"`             // Service type information
 	Opensearch       *OpensearchOut                           `json:"opensearch,omitempty"`        // Service type information
 	Pg               *PgOut                                   `json:"pg,omitempty"`                // Service type information

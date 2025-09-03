@@ -854,15 +854,6 @@ type AclOut struct {
 	Topic      string         `json:"topic"`        // Topic name pattern
 	Username   string         `json:"username"`
 }
-
-// AggregatorOut Service type information
-type AggregatorOut struct {
-	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string           `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
-	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
-	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
 type AlertOut struct {
 	CreateTime  time.Time `json:"create_time"`            // Event creation timestamp (ISO 8601)
 	Event       string    `json:"event"`                  // Name of the alerting event
@@ -1037,14 +1028,6 @@ func DatasetNameTypeChoices() []string {
 	return []string{"pagila"}
 }
 
-// DbOut Service type information
-type DbOut struct {
-	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string           `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
-	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
-	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
 type DowType string
 
 const (
@@ -1335,8 +1318,8 @@ type ListProjectServiceTypesOut struct {
 	Kafka            *KafkaOut            `json:"kafka,omitempty"`             // Service type information
 	KafkaConnect     *KafkaConnectOut     `json:"kafka_connect,omitempty"`     // Service type information
 	KafkaMirrormaker *KafkaMirrormakerOut `json:"kafka_mirrormaker,omitempty"` // Service type information
-	M3Aggregator     *AggregatorOut       `json:"m3aggregator,omitempty"`      // Service type information
-	M3Db             *DbOut               `json:"m3db,omitempty"`              // Service type information
+	M3Aggregator     *M3AggregatorOut     `json:"m3aggregator,omitempty"`      // Service type information
+	M3Db             *M3DbOut             `json:"m3db,omitempty"`              // Service type information
 	Mysql            *MysqlOut            `json:"mysql,omitempty"`             // Service type information
 	Opensearch       *OpensearchOut       `json:"opensearch,omitempty"`        // Service type information
 	Pg               *PgOut               `json:"pg,omitempty"`                // Service type information
@@ -1358,8 +1341,8 @@ type ListPublicServiceTypesOut struct {
 	Kafka            *KafkaOut            `json:"kafka,omitempty"`             // Service type information
 	KafkaConnect     *KafkaConnectOut     `json:"kafka_connect,omitempty"`     // Service type information
 	KafkaMirrormaker *KafkaMirrormakerOut `json:"kafka_mirrormaker,omitempty"` // Service type information
-	M3Aggregator     *AggregatorOut       `json:"m3aggregator,omitempty"`      // Service type information
-	M3Db             *DbOut               `json:"m3db,omitempty"`              // Service type information
+	M3Aggregator     *M3AggregatorOut     `json:"m3aggregator,omitempty"`      // Service type information
+	M3Db             *M3DbOut             `json:"m3db,omitempty"`              // Service type information
 	Mysql            *MysqlOut            `json:"mysql,omitempty"`             // Service type information
 	Opensearch       *OpensearchOut       `json:"opensearch,omitempty"`        // Service type information
 	Pg               *PgOut               `json:"pg,omitempty"`                // Service type information
@@ -1371,6 +1354,24 @@ type LogOut struct {
 	Msg  string  `json:"msg"`            // Log message
 	Time *string `json:"time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
 	Unit *string `json:"unit,omitempty"` // SystemD unit name
+}
+
+// M3AggregatorOut Service type information
+type M3AggregatorOut struct {
+	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string           `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
+	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
+	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
+// M3DbOut Service type information
+type M3DbOut struct {
+	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string           `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
+	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
+	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
 type MaintenanceDowType string
 
