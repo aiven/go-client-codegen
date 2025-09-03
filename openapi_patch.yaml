@@ -12,7 +12,27 @@ paths:
         - $ref: "#/components/parameters/service_name"
         - $ref: "#/components/parameters/service_kafka_quota_user"
         - $ref: "#/components/parameters/service_kafka_quota_client_id"
-
+  /v2/project/{project}/service/{service_name}/topic:
+    post:
+      summary: List Kafka topics V2
+      description: Retrieves a list of Kafka topics for a specific service. Experimental endpoint.
+      operationId: ServiceKafkaTopicListV2
+      parameters:
+        - $ref: "#/components/parameters/project"
+        - $ref: "#/components/parameters/service_name"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceKafkaTopicListV2Request"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceKafkaTopicListV2Response"
 components:
   schemas:
     ServiceKafkaConnectCreateConnectorRequestBody:
@@ -339,6 +359,22 @@ components:
       properties:
         project_vpc_id:
           nullable: true
+    ServiceKafkaTopicListV2Request:
+      type: object
+      required:
+        - topic_names
+      properties:
+        topic_names:
+          type: array
+          items:
+            type: string
+    ServiceKafkaTopicListV2Response:
+      type: object
+      properties:
+        topics:
+          type: array
+          items:
+            $ref: "#/components/schemas/ServiceKafkaTopicGetResponse/properties/topic"
   parameters:
     service_kafka_quota_user:
       in: query
