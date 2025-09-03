@@ -191,6 +191,7 @@ KafkaTopic:
   - ServiceKafkaTopicDelete
   - ServiceKafkaTopicGet
   - ServiceKafkaTopicList
+  - ServiceKafkaTopicListV2
   - ServiceKafkaTopicMessageList
   - ServiceKafkaTopicMessageProduce
   - ServiceKafkaTopicUpdate
