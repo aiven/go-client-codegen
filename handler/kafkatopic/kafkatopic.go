@@ -30,6 +30,10 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicList
 	ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicOut, error)
 
+	// ServiceKafkaTopicListV2 list Kafka topics V2
+	// POST /v2/project/{project}/service/{service_name}/topic
+	ServiceKafkaTopicListV2(ctx context.Context, project string, serviceName string, in *ServiceKafkaTopicListV2In) ([]ServiceKafkaTopicGetOut, error)
+
 	// ServiceKafkaTopicMessageList list kafka topic messages
 	// POST /v1/project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/messages
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicMessageList
@@ -89,6 +93,19 @@ func (h *KafkaTopicHandler) ServiceKafkaTopicList(ctx context.Context, project s
 		return nil, err
 	}
 	out := new(serviceKafkaTopicListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Topics, nil
+}
+func (h *KafkaTopicHandler) ServiceKafkaTopicListV2(ctx context.Context, project string, serviceName string, in *ServiceKafkaTopicListV2In) ([]ServiceKafkaTopicGetOut, error) {
+	path := fmt.Sprintf("/v2/project/%s/service/%s/topic", url.PathEscape(project), url.PathEscape(serviceName))
+	b, err := h.doer.Do(ctx, "ServiceKafkaTopicListV2", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
+	out := new(serviceKafkaTopicListV2Out)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -810,6 +827,9 @@ type ServiceKafkaTopicGetOut struct {
 	TopicDescription  string         `json:"topic_description"`   // Topic description
 	TopicName         string         `json:"topic_name"`          // Topic name
 }
+type ServiceKafkaTopicListV2In struct {
+	TopicNames []string `json:"topic_names"`
+}
 
 // ServiceKafkaTopicMessageListIn ServiceKafkaTopicMessageListRequestBody
 type ServiceKafkaTopicMessageListIn struct {
@@ -917,6 +937,9 @@ type serviceKafkaTopicGetOut struct {
 // serviceKafkaTopicListOut ServiceKafkaTopicListResponse
 type serviceKafkaTopicListOut struct {
 	Topics []TopicOut `json:"topics"` // List of Kafka topics
+}
+type serviceKafkaTopicListV2Out struct {
+	Topics []ServiceKafkaTopicGetOut `json:"topics,omitempty"`
 }
 
 // serviceKafkaTopicMessageListOut ServiceKafkaTopicMessageListResponse

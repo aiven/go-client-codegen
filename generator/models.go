@@ -109,9 +109,11 @@ func (p *Path) Comment() *jen.Statement {
 	c := jen.Comment(s)
 	c.Line().Comment(fmt.Sprintf("%s %s", p.Method, p.Path))
 
-	if p.Tags[0] == "" {
+	switch {
+	case p.Tags == nil:
+	case p.Tags[0] == "":
 		c.Line().Comment(fmt.Sprintf("%s/#operation/%s", docSite, p.OperationID))
-	} else {
+	default:
 		c.Line().Comment(fmt.Sprintf("%s/#tag/%s/operation/%s", docSite, p.Tags[0], p.OperationID))
 	}
 
@@ -579,7 +581,7 @@ func getEnumName(s *Schema) string {
 	return s.name
 }
 
-var camelFinder = regexp.MustCompile("[A-Z]+[a-z]+")
+var camelFinder = regexp.MustCompile("[A-Z]+[0-9a-z]+")
 
 // dedupCamelName removes duplicates: KafkaAclKafkaAcl -> KafkaAcl
 func dedupCamelName(src string) string {
