@@ -205,6 +205,8 @@ type ConfigIn struct {
 	MaxMessageBytes                 *int                     `json:"max_message_bytes,omitempty"`                   // The largest record batch size allowed by Kafka (after compression if compression is enabled). If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that the they can fetch record batches this large. In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.
 	MessageDownconversionEnable     *bool                    `json:"message_downconversion_enable,omitempty"`       // This configuration controls whether down-conversion of message formats is enabled to satisfy consume requests. When set to false, broker will not perform down-conversion for consumers expecting an older message format. The broker responds with UNSUPPORTED_VERSION error for consume requests from such older clients. This configuration does not apply to any message format conversion that might be required for replication to followers.
 	MessageFormatVersion            MessageFormatVersionType `json:"message_format_version,omitempty"`              // Specify the message format version the broker will use to append messages to the logs. The value should be a valid ApiVersion. Some examples are: 0.8.2, 0.9.0.0, 0.10.0, check ApiVersion for more details. By setting a particular message format version, the user is certifying that all the existing messages on disk are smaller or equal than the specified version. Setting this value incorrectly will cause consumers with older versions to break as they will receive messages with a format that they don't understand. Deprecated in Kafka 4.0+: this configuration is removed and any supplied value will be ignored; for services upgraded to 4.0+, the returned value may be 'None'.
+	MessageTimestampAfterMaxMs      *int                     `json:"message_timestamp_after_max_ms,omitempty"`      // The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message. If message.timestamp.type=CreateTime, a message will be rejected if the difference in timestamp exceeds this threshold. Applies only for messages with timestamps later than the broker's timestamp.
+	MessageTimestampBeforeMaxMs     *int                     `json:"message_timestamp_before_max_ms,omitempty"`     // The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message. If message.timestamp.type=CreateTime, a message will be rejected if the difference in timestamp exceeds this threshold. Applies only for messages with timestamps earlier than the broker's timestamp.
 	MessageTimestampDifferenceMaxMs *int                     `json:"message_timestamp_difference_max_ms,omitempty"` // The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message. If message.timestamp.type=CreateTime, a message will be rejected if the difference in timestamp exceeds this threshold. This configuration is ignored if message.timestamp.type=LogAppendTime.
 	MessageTimestampType            MessageTimestampType     `json:"message_timestamp_type,omitempty"`              // Define whether the timestamp in the message is message create time or log append time.
 	MinCleanableDirtyRatio          *float64                 `json:"min_cleanable_dirty_ratio,omitempty"`           // This configuration controls how frequently the log compactor will attempt to clean the log (assuming log compaction is enabled). By default we will avoid cleaning a log where more than 50% of the log has been compacted. This ratio bounds the maximum space wasted in the log by duplicates (at 50% at most 50% of the log could be duplicates). A higher ratio will mean fewer, more efficient cleanings but will mean more wasted space in the log. If the max.compaction.lag.ms or the min.compaction.lag.ms configurations are also specified, then the log compactor considers the log to be eligible for compaction as soon as either: (i) the dirty ratio threshold has been met and the log has had dirty (uncompacted) records for at least the min.compaction.lag.ms duration, or (ii) if the log has had dirty (uncompacted) records for at most the max.compaction.lag.ms period.
@@ -331,6 +333,8 @@ type ConfigOut struct {
 	MaxMessageBytes                 *MaxMessageBytesOut                 `json:"max_message_bytes,omitempty"`                   // max.message.bytes value, source and synonyms
 	MessageDownconversionEnable     *MessageDownconversionEnableOut     `json:"message_downconversion_enable,omitempty"`       // message.downconversion.enable value, source and synonyms
 	MessageFormatVersion            *MessageFormatVersionOut            `json:"message_format_version,omitempty"`              // message.format.version value, source and synonyms
+	MessageTimestampAfterMaxMs      *MessageTimestampAfterMaxMsOut      `json:"message_timestamp_after_max_ms,omitempty"`      // message.timestamp.after.max.ms value, source and synonyms
+	MessageTimestampBeforeMaxMs     *MessageTimestampBeforeMaxMsOut     `json:"message_timestamp_before_max_ms,omitempty"`     // message.timestamp.before.max.ms value, source and synonyms
 	MessageTimestampDifferenceMaxMs *MessageTimestampDifferenceMaxMsOut `json:"message_timestamp_difference_max_ms,omitempty"` // message.timestamp.difference.max.ms value, source and synonyms
 	MessageTimestampType            *MessageTimestampTypeOut            `json:"message_timestamp_type,omitempty"`              // message.timestamp.type value, source and synonyms
 	MinCleanableDirtyRatio          *MinCleanableDirtyRatioOut          `json:"min_cleanable_dirty_ratio,omitempty"`           // min.cleanable.dirty.ratio value, source and synonyms
@@ -595,6 +599,28 @@ type MessageOut struct {
 	Partition *int           `json:"partition,omitempty"` // Partition of the message
 	Topic     *string        `json:"topic,omitempty"`     // The name of the topic
 	Value     map[string]any `json:"value,omitempty"`     // The message value, formatted according to the embedded format
+}
+
+// MessageTimestampAfterMaxMsOut message.timestamp.after.max.ms value, source and synonyms
+type MessageTimestampAfterMaxMsOut struct {
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message. If message.timestamp.type=CreateTime, a message will be rejected if the difference in timestamp exceeds this threshold. Applies only for messages with timestamps later than the broker's timestamp.
+}
+
+// MessageTimestampBeforeMaxMsOut message.timestamp.before.max.ms value, source and synonyms
+type MessageTimestampBeforeMaxMsOut struct {
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  int        `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value int `json:"value"` // The maximum difference allowed between the timestamp when a broker receives a message and the timestamp specified in the message. If message.timestamp.type=CreateTime, a message will be rejected if the difference in timestamp exceeds this threshold. Applies only for messages with timestamps earlier than the broker's timestamp.
 }
 
 // MessageTimestampDifferenceMaxMsOut message.timestamp.difference.max.ms value, source and synonyms
