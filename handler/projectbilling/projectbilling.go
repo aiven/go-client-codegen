@@ -16,7 +16,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Billing/operation/InvoiceGet
 	InvoiceGet(ctx context.Context, invoiceNumber string) (*InvoiceGetOut, error)
 
-	// ProjectCreditsClaim claim a credit code
+	// Deprecated: ProjectCreditsClaim claim a credit code
 	// POST /v1/project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsClaim
 	ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*ProjectCreditsClaimOut, error)

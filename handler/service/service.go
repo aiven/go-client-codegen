@@ -106,11 +106,6 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceGetMigrationStatus
 	ServiceGetMigrationStatus(ctx context.Context, project string, serviceName string) (*ServiceGetMigrationStatusOut, error)
 
-	// ServiceInfluxDBStats list stats for influxdb
-	// GET /v1/project/{project}/service/{service_name}/influxdb/stats
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceInfluxDBStats
-	ServiceInfluxDBStats(ctx context.Context, project string, serviceName string) (map[string]any, error)
-
 	// ServiceIntegrationCreate create a new service integration
 	// POST /v1/project/{project}/integration
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationCreate
@@ -184,7 +179,7 @@ type Handler interface {
 	// ServiceList list services
 	// GET /v1/project/{project}/service
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceList
-	ServiceList(ctx context.Context, project string) ([]ServiceOut, error)
+	ServiceList(ctx context.Context, project string, query ...[2]string) ([]ServiceOut, error)
 
 	// ServiceMaintenanceStart start maintenance updates
 	// PUT /v1/project/{project}/service/{service_name}/maintenance/start
@@ -244,7 +239,7 @@ type Handler interface {
 	// ServiceUserGet get details for a single user
 	// GET /v1/project/{project}/service/{service_name}/user/{service_username}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserGet
-	ServiceUserGet(ctx context.Context, project string, serviceName string, serviceUsername string) (*ServiceUserGetOut, error)
+	ServiceUserGet(ctx context.Context, project string, serviceName string, serviceUsername string, query ...[2]string) (*ServiceUserGetOut, error)
 }
 
 // doer http client
@@ -472,19 +467,6 @@ func (h *ServiceHandler) ServiceGetMigrationStatus(ctx context.Context, project 
 	}
 	return out, nil
 }
-func (h *ServiceHandler) ServiceInfluxDBStats(ctx context.Context, project string, serviceName string) (map[string]any, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/influxdb/stats", url.PathEscape(project), url.PathEscape(serviceName))
-	b, err := h.doer.Do(ctx, "ServiceInfluxDBStats", "GET", path, nil)
-	if err != nil {
-		return nil, err
-	}
-	out := new(serviceInfluxDbstatsOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.DbStats, nil
-}
 func (h *ServiceHandler) ServiceIntegrationCreate(ctx context.Context, project string, in *ServiceIntegrationCreateIn) (*ServiceIntegrationCreateOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/integration", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ServiceIntegrationCreate", "POST", path, in)
@@ -656,9 +638,14 @@ func (h *ServiceHandler) ServiceKmsGetKeypair(ctx context.Context, project strin
 	}
 	return out, nil
 }
-func (h *ServiceHandler) ServiceList(ctx context.Context, project string) ([]ServiceOut, error) {
+
+// ServiceListIncludeSecrets Explicitly indicates that the client wants to read secrets that might be returned by this endpoint.
+func ServiceListIncludeSecrets(includeSecrets bool) [2]string {
+	return [2]string{"include_secrets", fmt.Sprintf("%t", includeSecrets)}
+}
+func (h *ServiceHandler) ServiceList(ctx context.Context, project string, query ...[2]string) ([]ServiceOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service", url.PathEscape(project))
-	b, err := h.doer.Do(ctx, "ServiceList", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "ServiceList", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}
@@ -801,9 +788,14 @@ func (h *ServiceHandler) ServiceUserDelete(ctx context.Context, project string, 
 	_, err := h.doer.Do(ctx, "ServiceUserDelete", "DELETE", path, nil)
 	return err
 }
-func (h *ServiceHandler) ServiceUserGet(ctx context.Context, project string, serviceName string, serviceUsername string) (*ServiceUserGetOut, error) {
+
+// ServiceUserGetIncludeSecrets Explicitly indicates that the client wants to read secrets that might be returned by this endpoint.
+func ServiceUserGetIncludeSecrets(includeSecrets bool) [2]string {
+	return [2]string{"include_secrets", fmt.Sprintf("%t", includeSecrets)}
+}
+func (h *ServiceHandler) ServiceUserGet(ctx context.Context, project string, serviceName string, serviceUsername string, query ...[2]string) (*ServiceUserGetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/user/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(serviceUsername))
-	b, err := h.doer.Do(ctx, "ServiceUserGet", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "ServiceUserGet", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}
@@ -904,6 +896,7 @@ type BackupOut struct {
 	BackupName            string    `json:"backup_name"`                        // Internal name of this backup
 	BackupTime            time.Time `json:"backup_time"`                        // Backup timestamp (ISO 8601)
 	DataSize              int       `json:"data_size"`                          // Backup's original size before compression
+	Incremental           *bool     `json:"incremental,omitempty"`              // Indicates if this backup is a full or an incremental one (available only for MySQL)
 	StorageLocation       *string   `json:"storage_location,omitempty"`         // Location where this backup is stored
 	TieredStorageDataSize *int      `json:"tiered_storage_data_size,omitempty"` // The amount of tiered storage data in bytes referenced by this backup.
 }
@@ -1399,6 +1392,7 @@ type MaintenanceIn struct {
 // MaintenanceOut Automatic maintenance settings
 type MaintenanceOut struct {
 	Dow     MaintenanceDowType `json:"dow"`     // Day of week for installing updates
+	Enabled bool               `json:"enabled"` // Service maintenance enabled
 	Time    string             `json:"time"`    // Time for installing updates, UTC
 	Updates []UpdateOut        `json:"updates"` // List of updates waiting to be installed
 }
@@ -2665,11 +2659,6 @@ type serviceEnableWritesOut struct {
 // serviceGetOut ServiceGetResponse
 type serviceGetOut struct {
 	Service ServiceGetOut `json:"service"` // Service information
-}
-
-// serviceInfluxDbstatsOut ServiceInfluxDBStatsResponse
-type serviceInfluxDbstatsOut struct {
-	DbStats map[string]any `json:"db_stats"` // result
 }
 
 // serviceIntegrationCreateOut ServiceIntegrationCreateResponse
