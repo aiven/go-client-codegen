@@ -336,7 +336,6 @@ Service:
   - ServiceEnableWrites
   - ServiceGet
   - ServiceGetMigrationStatus
-  - ServiceInfluxDBStats
   - ServiceIntegrationCreate
   - ServiceIntegrationDelete
   - ServiceIntegrationEndpointCreate
