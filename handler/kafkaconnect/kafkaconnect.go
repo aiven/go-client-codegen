@@ -273,11 +273,12 @@ const (
 	ServiceKafkaConnectConnectorStateTypeFailed     ServiceKafkaConnectConnectorStateType = "FAILED"
 	ServiceKafkaConnectConnectorStateTypePaused     ServiceKafkaConnectConnectorStateType = "PAUSED"
 	ServiceKafkaConnectConnectorStateTypeRunning    ServiceKafkaConnectConnectorStateType = "RUNNING"
+	ServiceKafkaConnectConnectorStateTypeStopped    ServiceKafkaConnectConnectorStateType = "STOPPED"
 	ServiceKafkaConnectConnectorStateTypeUnassigned ServiceKafkaConnectConnectorStateType = "UNASSIGNED"
 )
 
 func ServiceKafkaConnectConnectorStateTypeChoices() []string {
-	return []string{"FAILED", "PAUSED", "RUNNING", "UNASSIGNED"}
+	return []string{"FAILED", "PAUSED", "RUNNING", "STOPPED", "UNASSIGNED"}
 }
 
 // ServiceKafkaConnectCreateConnectorOut Kafka connector information
@@ -328,11 +329,12 @@ const (
 	TaskStateTypeFailed     TaskStateType = "FAILED"
 	TaskStateTypePaused     TaskStateType = "PAUSED"
 	TaskStateTypeRunning    TaskStateType = "RUNNING"
+	TaskStateTypeStopped    TaskStateType = "STOPPED"
 	TaskStateTypeUnassigned TaskStateType = "UNASSIGNED"
 )
 
 func TaskStateTypeChoices() []string {
-	return []string{"FAILED", "PAUSED", "RUNNING", "UNASSIGNED"}
+	return []string{"FAILED", "PAUSED", "RUNNING", "STOPPED", "UNASSIGNED"}
 }
 
 type WidthType string
