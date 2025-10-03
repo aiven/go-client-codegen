@@ -183,70 +183,72 @@ type CustomCloudEnvironmentCreateIn struct {
 
 // CustomCloudEnvironmentCreateOut Custom cloud environment
 type CustomCloudEnvironmentCreateOut struct {
-	AivenAwsAccountPrincipal               *string                         `json:"aiven_aws_account_principal,omitempty"`                 // Entity that assumes the IAM role for controlling the BYOC account
-	AivenAwsAssumeRoleExternalId           *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`           // External ID for assuming the IAM role for controlling the BYOC account
-	AivenAwsObjectStorageUserArn           *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`           // Amazon Resource Name
-	AivenGoogleAccountPrincipal            *string                         `json:"aiven_google_account_principal,omitempty"`              // Google account identifier
-	AivenManagementCidrBlocks              []string                        `json:"aiven_management_cidr_blocks,omitempty"`                // IP address ranges for incoming connections to the bastion host from the Aiven management plane
-	AwsIamRoleArn                          *string                         `json:"aws_iam_role_arn,omitempty"`                            // Amazon Resource Name
-	AwsSubnetsBastion                      map[string]any                  `json:"aws_subnets_bastion,omitempty"`                         // Subnets to build in the bastion VPC
-	AwsSubnetsWorkload                     map[string]any                  `json:"aws_subnets_workload,omitempty"`                        // Subnets to build in the workload VPC
-	BucketNames                            map[string]any                  `json:"bucket_names,omitempty"`                                // Names and usages of buckets required for workloads
-	ByocResourceTags                       map[string]any                  `json:"byoc_resource_tags,omitempty"`                          // Set of tags for the resources provisioned on the BYOC account
-	ByocUniqueName                         *string                         `json:"byoc_unique_name,omitempty"`                            // Name for all the resources created for the custom cloud environment
-	CloudProvider                          CloudProviderType               `json:"cloud_provider,omitempty"`                              // Cloud provider for the BYOC cloud
-	CloudRegion                            *string                         `json:"cloud_region,omitempty"`                                // Cloud region for the BYOC cloud
-	ContactEmails                          []ContactEmailOut               `json:"contact_emails"`                                        // Email addresses for notifications and alerts for this BYOC cloud
-	CustomCloudEnvironmentId               string                          `json:"custom_cloud_environment_id"`                           // Custom cloud environment ID
-	CustomCloudNames                       []string                        `json:"custom_cloud_names,omitempty"`                          // Cloud names that can be used to provision a service on this BYOC
-	DeploymentModel                        DeploymentModelType             `json:"deployment_model,omitempty"`                            // Deployment model for the BYOC cloud
-	DisplayName                            string                          `json:"display_name"`                                          // Short name for this BYOC cloud
-	Errors                                 []ErrorOut                      `json:"errors,omitempty"`                                      // List of errors for this custom cloud environment
-	GoogleBastionCidr                      *string                         `json:"google_bastion_cidr,omitempty"`                         // Private IP address block for the workload VPC containing the bastion subnet
-	GooglePrivilegeBearingServiceAccountId *string                         `json:"google_privilege_bearing_service_account_id,omitempty"` // Google account identifier
-	GoogleWorkloadCidr                     *string                         `json:"google_workload_cidr,omitempty"`                        // Private IP address block for the workload VPC containing the workload subnet
-	OracleCompartmentId                    *string                         `json:"oracle_compartment_id,omitempty"`                       // Used to uniquely identify an asset in Oracle's cloud. May refer to a range of object types including instance, tenancy, subnet and more.
-	OracleSubnetBastion                    *string                         `json:"oracle_subnet_bastion,omitempty"`                       // CIDR for the bastion subnet
-	OracleSubnetWorkload                   *string                         `json:"oracle_subnet_workload,omitempty"`                      // CIDR for the private workload subnet
-	ReservedCidr                           *string                         `json:"reserved_cidr,omitempty"`                               // CIDR range reserved for Aiven provisioned networks in the BYOC cloud
-	State                                  CustomCloudEnvironmentStateType `json:"state"`                                                 // State of this BYOC cloud
-	Tags                                   map[string]string               `json:"tags,omitempty"`                                        // Set of resource tags
-	UpdateTime                             time.Time                       `json:"update_time"`                                           // Custom cloud environment last update timestamp (ISO 8601)
-	UseCustomerOwnedStorage                *bool                           `json:"use_customer_owned_storage,omitempty"`                  // True if this BYOC cloud is using customer owned storage
+	AivenAwsAccountPrincipal                   *string                         `json:"aiven_aws_account_principal,omitempty"`                      // Entity that assumes the IAM role for controlling the BYOC account
+	AivenAwsAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
+	AivenAwsObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
+	AivenAwsObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
+	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
+	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
+	AwsIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
+	AwsSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
+	AwsSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
+	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
+	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
+	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
+	CloudProvider                              CloudProviderType               `json:"cloud_provider,omitempty"`                                   // Cloud provider for the BYOC cloud
+	CloudRegion                                *string                         `json:"cloud_region,omitempty"`                                     // Cloud region for the BYOC cloud
+	ContactEmails                              []ContactEmailOut               `json:"contact_emails"`                                             // Email addresses for notifications and alerts for this BYOC cloud
+	CustomCloudEnvironmentId                   string                          `json:"custom_cloud_environment_id"`                                // Custom cloud environment ID
+	CustomCloudNames                           []string                        `json:"custom_cloud_names,omitempty"`                               // Cloud names that can be used to provision a service on this BYOC
+	DeploymentModel                            DeploymentModelType             `json:"deployment_model,omitempty"`                                 // Deployment model for the BYOC cloud
+	DisplayName                                string                          `json:"display_name"`                                               // Short name for this BYOC cloud
+	Errors                                     []ErrorOut                      `json:"errors,omitempty"`                                           // List of errors for this custom cloud environment
+	GoogleBastionCidr                          *string                         `json:"google_bastion_cidr,omitempty"`                              // Private IP address block for the workload VPC containing the bastion subnet
+	GooglePrivilegeBearingServiceAccountId     *string                         `json:"google_privilege_bearing_service_account_id,omitempty"`      // Google account identifier
+	GoogleWorkloadCidr                         *string                         `json:"google_workload_cidr,omitempty"`                             // Private IP address block for the workload VPC containing the workload subnet
+	OracleCompartmentId                        *string                         `json:"oracle_compartment_id,omitempty"`                            // Used to uniquely identify an asset in Oracle's cloud. May refer to a range of object types including instance, tenancy, subnet and more.
+	OracleSubnetBastion                        *string                         `json:"oracle_subnet_bastion,omitempty"`                            // CIDR for the bastion subnet
+	OracleSubnetWorkload                       *string                         `json:"oracle_subnet_workload,omitempty"`                           // CIDR for the private workload subnet
+	ReservedCidr                               *string                         `json:"reserved_cidr,omitempty"`                                    // CIDR range reserved for Aiven provisioned networks in the BYOC cloud
+	State                                      CustomCloudEnvironmentStateType `json:"state"`                                                      // State of this BYOC cloud
+	Tags                                       map[string]string               `json:"tags,omitempty"`                                             // Set of resource tags
+	UpdateTime                                 time.Time                       `json:"update_time"`                                                // Custom cloud environment last update timestamp (ISO 8601)
+	UseCustomerOwnedStorage                    *bool                           `json:"use_customer_owned_storage,omitempty"`                       // True if this BYOC cloud is using customer owned storage
 }
 
 // CustomCloudEnvironmentGetOut Custom cloud environment
 type CustomCloudEnvironmentGetOut struct {
-	AivenAwsAccountPrincipal               *string                         `json:"aiven_aws_account_principal,omitempty"`                 // Entity that assumes the IAM role for controlling the BYOC account
-	AivenAwsAssumeRoleExternalId           *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`           // External ID for assuming the IAM role for controlling the BYOC account
-	AivenAwsObjectStorageUserArn           *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`           // Amazon Resource Name
-	AivenGoogleAccountPrincipal            *string                         `json:"aiven_google_account_principal,omitempty"`              // Google account identifier
-	AivenManagementCidrBlocks              []string                        `json:"aiven_management_cidr_blocks,omitempty"`                // IP address ranges for incoming connections to the bastion host from the Aiven management plane
-	AwsIamRoleArn                          *string                         `json:"aws_iam_role_arn,omitempty"`                            // Amazon Resource Name
-	AwsSubnetsBastion                      map[string]any                  `json:"aws_subnets_bastion,omitempty"`                         // Subnets to build in the bastion VPC
-	AwsSubnetsWorkload                     map[string]any                  `json:"aws_subnets_workload,omitempty"`                        // Subnets to build in the workload VPC
-	BucketNames                            map[string]any                  `json:"bucket_names,omitempty"`                                // Names and usages of buckets required for workloads
-	ByocResourceTags                       map[string]any                  `json:"byoc_resource_tags,omitempty"`                          // Set of tags for the resources provisioned on the BYOC account
-	ByocUniqueName                         *string                         `json:"byoc_unique_name,omitempty"`                            // Name for all the resources created for the custom cloud environment
-	CloudProvider                          CloudProviderType               `json:"cloud_provider,omitempty"`                              // Cloud provider for the BYOC cloud
-	CloudRegion                            *string                         `json:"cloud_region,omitempty"`                                // Cloud region for the BYOC cloud
-	ContactEmails                          []ContactEmailOut               `json:"contact_emails"`                                        // Email addresses for notifications and alerts for this BYOC cloud
-	CustomCloudEnvironmentId               string                          `json:"custom_cloud_environment_id"`                           // Custom cloud environment ID
-	CustomCloudNames                       []string                        `json:"custom_cloud_names,omitempty"`                          // Cloud names that can be used to provision a service on this BYOC
-	DeploymentModel                        DeploymentModelType             `json:"deployment_model,omitempty"`                            // Deployment model for the BYOC cloud
-	DisplayName                            string                          `json:"display_name"`                                          // Short name for this BYOC cloud
-	Errors                                 []ErrorOut                      `json:"errors,omitempty"`                                      // List of errors for this custom cloud environment
-	GoogleBastionCidr                      *string                         `json:"google_bastion_cidr,omitempty"`                         // Private IP address block for the workload VPC containing the bastion subnet
-	GooglePrivilegeBearingServiceAccountId *string                         `json:"google_privilege_bearing_service_account_id,omitempty"` // Google account identifier
-	GoogleWorkloadCidr                     *string                         `json:"google_workload_cidr,omitempty"`                        // Private IP address block for the workload VPC containing the workload subnet
-	OracleCompartmentId                    *string                         `json:"oracle_compartment_id,omitempty"`                       // Used to uniquely identify an asset in Oracle's cloud. May refer to a range of object types including instance, tenancy, subnet and more.
-	OracleSubnetBastion                    *string                         `json:"oracle_subnet_bastion,omitempty"`                       // CIDR for the bastion subnet
-	OracleSubnetWorkload                   *string                         `json:"oracle_subnet_workload,omitempty"`                      // CIDR for the private workload subnet
-	ReservedCidr                           *string                         `json:"reserved_cidr,omitempty"`                               // CIDR range reserved for Aiven provisioned networks in the BYOC cloud
-	State                                  CustomCloudEnvironmentStateType `json:"state"`                                                 // State of this BYOC cloud
-	Tags                                   map[string]string               `json:"tags,omitempty"`                                        // Set of resource tags
-	UpdateTime                             time.Time                       `json:"update_time"`                                           // Custom cloud environment last update timestamp (ISO 8601)
-	UseCustomerOwnedStorage                *bool                           `json:"use_customer_owned_storage,omitempty"`                  // True if this BYOC cloud is using customer owned storage
+	AivenAwsAccountPrincipal                   *string                         `json:"aiven_aws_account_principal,omitempty"`                      // Entity that assumes the IAM role for controlling the BYOC account
+	AivenAwsAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
+	AivenAwsObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
+	AivenAwsObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
+	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
+	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
+	AwsIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
+	AwsSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
+	AwsSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
+	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
+	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
+	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
+	CloudProvider                              CloudProviderType               `json:"cloud_provider,omitempty"`                                   // Cloud provider for the BYOC cloud
+	CloudRegion                                *string                         `json:"cloud_region,omitempty"`                                     // Cloud region for the BYOC cloud
+	ContactEmails                              []ContactEmailOut               `json:"contact_emails"`                                             // Email addresses for notifications and alerts for this BYOC cloud
+	CustomCloudEnvironmentId                   string                          `json:"custom_cloud_environment_id"`                                // Custom cloud environment ID
+	CustomCloudNames                           []string                        `json:"custom_cloud_names,omitempty"`                               // Cloud names that can be used to provision a service on this BYOC
+	DeploymentModel                            DeploymentModelType             `json:"deployment_model,omitempty"`                                 // Deployment model for the BYOC cloud
+	DisplayName                                string                          `json:"display_name"`                                               // Short name for this BYOC cloud
+	Errors                                     []ErrorOut                      `json:"errors,omitempty"`                                           // List of errors for this custom cloud environment
+	GoogleBastionCidr                          *string                         `json:"google_bastion_cidr,omitempty"`                              // Private IP address block for the workload VPC containing the bastion subnet
+	GooglePrivilegeBearingServiceAccountId     *string                         `json:"google_privilege_bearing_service_account_id,omitempty"`      // Google account identifier
+	GoogleWorkloadCidr                         *string                         `json:"google_workload_cidr,omitempty"`                             // Private IP address block for the workload VPC containing the workload subnet
+	OracleCompartmentId                        *string                         `json:"oracle_compartment_id,omitempty"`                            // Used to uniquely identify an asset in Oracle's cloud. May refer to a range of object types including instance, tenancy, subnet and more.
+	OracleSubnetBastion                        *string                         `json:"oracle_subnet_bastion,omitempty"`                            // CIDR for the bastion subnet
+	OracleSubnetWorkload                       *string                         `json:"oracle_subnet_workload,omitempty"`                           // CIDR for the private workload subnet
+	ReservedCidr                               *string                         `json:"reserved_cidr,omitempty"`                                    // CIDR range reserved for Aiven provisioned networks in the BYOC cloud
+	State                                      CustomCloudEnvironmentStateType `json:"state"`                                                      // State of this BYOC cloud
+	Tags                                       map[string]string               `json:"tags,omitempty"`                                             // Set of resource tags
+	UpdateTime                                 time.Time                       `json:"update_time"`                                                // Custom cloud environment last update timestamp (ISO 8601)
+	UseCustomerOwnedStorage                    *bool                           `json:"use_customer_owned_storage,omitempty"`                       // True if this BYOC cloud is using customer owned storage
 }
 
 // CustomCloudEnvironmentPermissionsGetOut CustomCloudEnvironmentPermissionsGetResponse
@@ -270,36 +272,37 @@ type CustomCloudEnvironmentProvisionIn struct {
 
 // CustomCloudEnvironmentProvisionOut Custom cloud environment
 type CustomCloudEnvironmentProvisionOut struct {
-	AivenAwsAccountPrincipal               *string                         `json:"aiven_aws_account_principal,omitempty"`                 // Entity that assumes the IAM role for controlling the BYOC account
-	AivenAwsAssumeRoleExternalId           *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`           // External ID for assuming the IAM role for controlling the BYOC account
-	AivenAwsObjectStorageUserArn           *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`           // Amazon Resource Name
-	AivenGoogleAccountPrincipal            *string                         `json:"aiven_google_account_principal,omitempty"`              // Google account identifier
-	AivenManagementCidrBlocks              []string                        `json:"aiven_management_cidr_blocks,omitempty"`                // IP address ranges for incoming connections to the bastion host from the Aiven management plane
-	AwsIamRoleArn                          *string                         `json:"aws_iam_role_arn,omitempty"`                            // Amazon Resource Name
-	AwsSubnetsBastion                      map[string]any                  `json:"aws_subnets_bastion,omitempty"`                         // Subnets to build in the bastion VPC
-	AwsSubnetsWorkload                     map[string]any                  `json:"aws_subnets_workload,omitempty"`                        // Subnets to build in the workload VPC
-	BucketNames                            map[string]any                  `json:"bucket_names,omitempty"`                                // Names and usages of buckets required for workloads
-	ByocResourceTags                       map[string]any                  `json:"byoc_resource_tags,omitempty"`                          // Set of tags for the resources provisioned on the BYOC account
-	ByocUniqueName                         *string                         `json:"byoc_unique_name,omitempty"`                            // Name for all the resources created for the custom cloud environment
-	CloudProvider                          CloudProviderType               `json:"cloud_provider,omitempty"`                              // Cloud provider for the BYOC cloud
-	CloudRegion                            *string                         `json:"cloud_region,omitempty"`                                // Cloud region for the BYOC cloud
-	ContactEmails                          []ContactEmailOut               `json:"contact_emails"`                                        // Email addresses for notifications and alerts for this BYOC cloud
-	CustomCloudEnvironmentId               string                          `json:"custom_cloud_environment_id"`                           // Custom cloud environment ID
-	CustomCloudNames                       []string                        `json:"custom_cloud_names,omitempty"`                          // Cloud names that can be used to provision a service on this BYOC
-	DeploymentModel                        DeploymentModelType             `json:"deployment_model,omitempty"`                            // Deployment model for the BYOC cloud
-	DisplayName                            string                          `json:"display_name"`                                          // Short name for this BYOC cloud
-	Errors                                 []ErrorOut                      `json:"errors,omitempty"`                                      // List of errors for this custom cloud environment
-	GoogleBastionCidr                      *string                         `json:"google_bastion_cidr,omitempty"`                         // Private IP address block for the workload VPC containing the bastion subnet
-	GooglePrivilegeBearingServiceAccountId *string                         `json:"google_privilege_bearing_service_account_id,omitempty"` // Google account identifier
-	GoogleWorkloadCidr                     *string                         `json:"google_workload_cidr,omitempty"`                        // Private IP address block for the workload VPC containing the workload subnet
-	OracleCompartmentId                    *string                         `json:"oracle_compartment_id,omitempty"`                       // Used to uniquely identify an asset in Oracle's cloud. May refer to a range of object types including instance, tenancy, subnet and more.
-	OracleSubnetBastion                    *string                         `json:"oracle_subnet_bastion,omitempty"`                       // CIDR for the bastion subnet
-	OracleSubnetWorkload                   *string                         `json:"oracle_subnet_workload,omitempty"`                      // CIDR for the private workload subnet
-	ReservedCidr                           *string                         `json:"reserved_cidr,omitempty"`                               // CIDR range reserved for Aiven provisioned networks in the BYOC cloud
-	State                                  CustomCloudEnvironmentStateType `json:"state"`                                                 // State of this BYOC cloud
-	Tags                                   map[string]string               `json:"tags,omitempty"`                                        // Set of resource tags
-	UpdateTime                             time.Time                       `json:"update_time"`                                           // Custom cloud environment last update timestamp (ISO 8601)
-	UseCustomerOwnedStorage                *bool                           `json:"use_customer_owned_storage,omitempty"`                  // True if this BYOC cloud is using customer owned storage
+	AivenAwsAccountPrincipal                   *string                         `json:"aiven_aws_account_principal,omitempty"`                      // Entity that assumes the IAM role for controlling the BYOC account
+	AivenAwsAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
+	AivenAwsObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
+	AivenAwsObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
+	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
+	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
+	AwsIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
+	AwsSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
+	AwsSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
+	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
+	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
+	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
+	CloudProvider                              CloudProviderType               `json:"cloud_provider,omitempty"`                                   // Cloud provider for the BYOC cloud
+	CloudRegion                                *string                         `json:"cloud_region,omitempty"`                                     // Cloud region for the BYOC cloud
+	ContactEmails                              []ContactEmailOut               `json:"contact_emails"`                                             // Email addresses for notifications and alerts for this BYOC cloud
+	CustomCloudEnvironmentId                   string                          `json:"custom_cloud_environment_id"`                                // Custom cloud environment ID
+	CustomCloudNames                           []string                        `json:"custom_cloud_names,omitempty"`                               // Cloud names that can be used to provision a service on this BYOC
+	DeploymentModel                            DeploymentModelType             `json:"deployment_model,omitempty"`                                 // Deployment model for the BYOC cloud
+	DisplayName                                string                          `json:"display_name"`                                               // Short name for this BYOC cloud
+	Errors                                     []ErrorOut                      `json:"errors,omitempty"`                                           // List of errors for this custom cloud environment
+	GoogleBastionCidr                          *string                         `json:"google_bastion_cidr,omitempty"`                              // Private IP address block for the workload VPC containing the bastion subnet
+	GooglePrivilegeBearingServiceAccountId     *string                         `json:"google_privilege_bearing_service_account_id,omitempty"`      // Google account identifier
+	GoogleWorkloadCidr                         *string                         `json:"google_workload_cidr,omitempty"`                             // Private IP address block for the workload VPC containing the workload subnet
+	OracleCompartmentId                        *string                         `json:"oracle_compartment_id,omitempty"`                            // Used to uniquely identify an asset in Oracle's cloud. May refer to a range of object types including instance, tenancy, subnet and more.
+	OracleSubnetBastion                        *string                         `json:"oracle_subnet_bastion,omitempty"`                            // CIDR for the bastion subnet
+	OracleSubnetWorkload                       *string                         `json:"oracle_subnet_workload,omitempty"`                           // CIDR for the private workload subnet
+	ReservedCidr                               *string                         `json:"reserved_cidr,omitempty"`                                    // CIDR range reserved for Aiven provisioned networks in the BYOC cloud
+	State                                      CustomCloudEnvironmentStateType `json:"state"`                                                      // State of this BYOC cloud
+	Tags                                       map[string]string               `json:"tags,omitempty"`                                             // Set of resource tags
+	UpdateTime                                 time.Time                       `json:"update_time"`                                                // Custom cloud environment last update timestamp (ISO 8601)
+	UseCustomerOwnedStorage                    *bool                           `json:"use_customer_owned_storage,omitempty"`                       // True if this BYOC cloud is using customer owned storage
 }
 type CustomCloudEnvironmentStateType string
 
@@ -336,36 +339,37 @@ type CustomCloudEnvironmentUpdateIn struct {
 
 // CustomCloudEnvironmentUpdateOut Custom cloud environment
 type CustomCloudEnvironmentUpdateOut struct {
-	AivenAwsAccountPrincipal               *string                         `json:"aiven_aws_account_principal,omitempty"`                 // Entity that assumes the IAM role for controlling the BYOC account
-	AivenAwsAssumeRoleExternalId           *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`           // External ID for assuming the IAM role for controlling the BYOC account
-	AivenAwsObjectStorageUserArn           *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`           // Amazon Resource Name
-	AivenGoogleAccountPrincipal            *string                         `json:"aiven_google_account_principal,omitempty"`              // Google account identifier
-	AivenManagementCidrBlocks              []string                        `json:"aiven_management_cidr_blocks,omitempty"`                // IP address ranges for incoming connections to the bastion host from the Aiven management plane
-	AwsIamRoleArn                          *string                         `json:"aws_iam_role_arn,omitempty"`                            // Amazon Resource Name
-	AwsSubnetsBastion                      map[string]any                  `json:"aws_subnets_bastion,omitempty"`                         // Subnets to build in the bastion VPC
-	AwsSubnetsWorkload                     map[string]any                  `json:"aws_subnets_workload,omitempty"`                        // Subnets to build in the workload VPC
-	BucketNames                            map[string]any                  `json:"bucket_names,omitempty"`                                // Names and usages of buckets required for workloads
-	ByocResourceTags                       map[string]any                  `json:"byoc_resource_tags,omitempty"`                          // Set of tags for the resources provisioned on the BYOC account
-	ByocUniqueName                         *string                         `json:"byoc_unique_name,omitempty"`                            // Name for all the resources created for the custom cloud environment
-	CloudProvider                          CloudProviderType               `json:"cloud_provider,omitempty"`                              // Cloud provider for the BYOC cloud
-	CloudRegion                            *string                         `json:"cloud_region,omitempty"`                                // Cloud region for the BYOC cloud
-	ContactEmails                          []ContactEmailOut               `json:"contact_emails"`                                        // Email addresses for notifications and alerts for this BYOC cloud
-	CustomCloudEnvironmentId               string                          `json:"custom_cloud_environment_id"`                           // Custom cloud environment ID
-	CustomCloudNames                       []string                        `json:"custom_cloud_names,omitempty"`                          // Cloud names that can be used to provision a service on this BYOC
-	DeploymentModel                        DeploymentModelType             `json:"deployment_model,omitempty"`                            // Deployment model for the BYOC cloud
-	DisplayName                            string                          `json:"display_name"`                                          // Short name for this BYOC cloud
-	Errors                                 []ErrorOut                      `json:"errors,omitempty"`                                      // List of errors for this custom cloud environment
-	GoogleBastionCidr                      *string                         `json:"google_bastion_cidr,omitempty"`                         // Private IP address block for the workload VPC containing the bastion subnet
-	GooglePrivilegeBearingServiceAccountId *string                         `json:"google_privilege_bearing_service_account_id,omitempty"` // Google account identifier
-	GoogleWorkloadCidr                     *string                         `json:"google_workload_cidr,omitempty"`                        // Private IP address block for the workload VPC containing the workload subnet
-	OracleCompartmentId                    *string                         `json:"oracle_compartment_id,omitempty"`                       // Used to uniquely identify an asset in Oracle's cloud. May refer to a range of object types including instance, tenancy, subnet and more.
-	OracleSubnetBastion                    *string                         `json:"oracle_subnet_bastion,omitempty"`                       // CIDR for the bastion subnet
-	OracleSubnetWorkload                   *string                         `json:"oracle_subnet_workload,omitempty"`                      // CIDR for the private workload subnet
-	ReservedCidr                           *string                         `json:"reserved_cidr,omitempty"`                               // CIDR range reserved for Aiven provisioned networks in the BYOC cloud
-	State                                  CustomCloudEnvironmentStateType `json:"state"`                                                 // State of this BYOC cloud
-	Tags                                   map[string]string               `json:"tags,omitempty"`                                        // Set of resource tags
-	UpdateTime                             time.Time                       `json:"update_time"`                                           // Custom cloud environment last update timestamp (ISO 8601)
-	UseCustomerOwnedStorage                *bool                           `json:"use_customer_owned_storage,omitempty"`                  // True if this BYOC cloud is using customer owned storage
+	AivenAwsAccountPrincipal                   *string                         `json:"aiven_aws_account_principal,omitempty"`                      // Entity that assumes the IAM role for controlling the BYOC account
+	AivenAwsAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
+	AivenAwsObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
+	AivenAwsObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
+	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
+	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
+	AwsIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
+	AwsSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
+	AwsSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
+	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
+	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
+	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
+	CloudProvider                              CloudProviderType               `json:"cloud_provider,omitempty"`                                   // Cloud provider for the BYOC cloud
+	CloudRegion                                *string                         `json:"cloud_region,omitempty"`                                     // Cloud region for the BYOC cloud
+	ContactEmails                              []ContactEmailOut               `json:"contact_emails"`                                             // Email addresses for notifications and alerts for this BYOC cloud
+	CustomCloudEnvironmentId                   string                          `json:"custom_cloud_environment_id"`                                // Custom cloud environment ID
+	CustomCloudNames                           []string                        `json:"custom_cloud_names,omitempty"`                               // Cloud names that can be used to provision a service on this BYOC
+	DeploymentModel                            DeploymentModelType             `json:"deployment_model,omitempty"`                                 // Deployment model for the BYOC cloud
+	DisplayName                                string                          `json:"display_name"`                                               // Short name for this BYOC cloud
+	Errors                                     []ErrorOut                      `json:"errors,omitempty"`                                           // List of errors for this custom cloud environment
+	GoogleBastionCidr                          *string                         `json:"google_bastion_cidr,omitempty"`                              // Private IP address block for the workload VPC containing the bastion subnet
+	GooglePrivilegeBearingServiceAccountId     *string                         `json:"google_privilege_bearing_service_account_id,omitempty"`      // Google account identifier
+	GoogleWorkloadCidr                         *string                         `json:"google_workload_cidr,omitempty"`                             // Private IP address block for the workload VPC containing the workload subnet
+	OracleCompartmentId                        *string                         `json:"oracle_compartment_id,omitempty"`                            // Used to uniquely identify an asset in Oracle's cloud. May refer to a range of object types including instance, tenancy, subnet and more.
+	OracleSubnetBastion                        *string                         `json:"oracle_subnet_bastion,omitempty"`                            // CIDR for the bastion subnet
+	OracleSubnetWorkload                       *string                         `json:"oracle_subnet_workload,omitempty"`                           // CIDR for the private workload subnet
+	ReservedCidr                               *string                         `json:"reserved_cidr,omitempty"`                                    // CIDR range reserved for Aiven provisioned networks in the BYOC cloud
+	State                                      CustomCloudEnvironmentStateType `json:"state"`                                                      // State of this BYOC cloud
+	Tags                                       map[string]string               `json:"tags,omitempty"`                                             // Set of resource tags
+	UpdateTime                                 time.Time                       `json:"update_time"`                                                // Custom cloud environment last update timestamp (ISO 8601)
+	UseCustomerOwnedStorage                    *bool                           `json:"use_customer_owned_storage,omitempty"`                       // True if this BYOC cloud is using customer owned storage
 }
 type DeploymentModelType string
 
