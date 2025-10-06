@@ -216,7 +216,6 @@ type ConfigIn struct {
 	FlushMessages                   *int                     `json:"flush_messages,omitempty"`                      // This setting allows specifying an interval at which we will force an fsync of data written to the log. For example if this was set to 1 we would fsync after every message; if it were 5 we would fsync after every five messages. In general we recommend you not set this and use replication for durability and allow the operating system's background flush capabilities as it is more efficient.
 	FlushMs                         *int                     `json:"flush_ms,omitempty"`                            // This setting allows specifying a time interval at which we will force an fsync of data written to the log. For example if this was set to 1000 we would fsync after 1000 ms had passed. In general we recommend you not set this and use replication for durability and allow the operating system's background flush capabilities as it is more efficient.
 	IndexIntervalBytes              *int                     `json:"index_interval_bytes,omitempty"`                // This setting controls how frequently Kafka adds an index entry to its offset index. The default setting ensures that we index a message roughly every 4096 bytes. More indexing allows reads to jump closer to the exact position in the log but makes the index larger. You probably don't need to change this.
-	InklessEnable                   *bool                    `json:"inkless_enable,omitempty"`                      // (DEPRECATED) Use diskless.enable instead. Indicates whether diskless should be enabled. This is only available for BYOC services with Diskless feature enabled. This configuration will be removed in future versions.
 	LocalRetentionBytes             *int                     `json:"local_retention_bytes,omitempty"`               // This configuration controls the maximum bytes tiered storage will retain segment files locally before it will discard old log segments to free up space. If set to -2, the limit is equal to overall retention time. If set to -1, no limit is applied but it's possible only if overall retention is also -1.
 	LocalRetentionMs                *int                     `json:"local_retention_ms,omitempty"`                  // This configuration controls the maximum time tiered storage will retain segment files locally before it will discard old log segments to free up space. If set to -2, the time limit is equal to overall retention time. If set to -1, no time limit is applied but it's possible only if overall retention is also -1.
 	MaxCompactionLagMs              *int                     `json:"max_compaction_lag_ms,omitempty"`               // The maximum time a message will remain ineligible for compaction in the log. Only applicable for logs that are being compacted.
@@ -340,11 +339,11 @@ type ConfigOut struct {
 	CleanupPolicy                   *CleanupPolicyOut                   `json:"cleanup_policy,omitempty"`                      // cleanup.policy value, source and synonyms
 	CompressionType                 *CompressionTypeOut                 `json:"compression_type,omitempty"`                    // compression.type value, source and synonyms
 	DeleteRetentionMs               *DeleteRetentionMsOut               `json:"delete_retention_ms,omitempty"`                 // delete.retention.ms value, source and synonyms
+	DisklessEnable                  *DisklessEnableOut                  `json:"diskless_enable,omitempty"`                     // diskless.enable value, source and synonyms
 	FileDeleteDelayMs               *FileDeleteDelayMsOut               `json:"file_delete_delay_ms,omitempty"`                // file.delete.delay.ms value, source and synonyms
 	FlushMessages                   *FlushMessagesOut                   `json:"flush_messages,omitempty"`                      // flush.messages value, source and synonyms
 	FlushMs                         *FlushMsOut                         `json:"flush_ms,omitempty"`                            // flush.ms value, source and synonyms
 	IndexIntervalBytes              *IndexIntervalBytesOut              `json:"index_interval_bytes,omitempty"`                // index.interval.bytes value, source and synonyms
-	InklessEnable                   *InklessEnableOut                   `json:"inkless_enable,omitempty"`                      // inkless.enable value, source and synonyms
 	LocalRetentionBytes             *LocalRetentionBytesOut             `json:"local_retention_bytes,omitempty"`               // local.retention.bytes value, source and synonyms
 	LocalRetentionMs                *LocalRetentionMsOut                `json:"local_retention_ms,omitempty"`                  // local.retention.ms value, source and synonyms
 	MaxCompactionLagMs              *MaxCompactionLagMsOut              `json:"max_compaction_lag_ms,omitempty"`               // max.compaction.lag.ms value, source and synonyms
@@ -382,6 +381,17 @@ type DeleteRetentionMsOut struct {
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
 	Value int `json:"value"` // The amount of time to retain delete tombstone markers for log compacted topics. This setting also gives a bound on the time in which a consumer must complete a read if they begin from offset 0 to ensure that they get a valid snapshot of the final stage (otherwise delete tombstones may be collected before they complete their scan).
+}
+
+// DisklessEnableOut diskless.enable value, source and synonyms
+type DisklessEnableOut struct {
+	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
+	Synonyms []struct {
+		Name   string     `json:"name"`   // Synonym name
+		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
+		Value  bool       `json:"value"`  // Synonym value
+	} `json:"synonyms,omitempty"` // Configuration synonyms
+	Value bool `json:"value"` // Indicates whether diskless should be enabled. This is only available for BYOC services with Diskless feature enabled.
 }
 
 // FileDeleteDelayMsOut file.delete.delay.ms value, source and synonyms
@@ -439,17 +449,6 @@ type IndexIntervalBytesOut struct {
 		Value  int        `json:"value"`  // Synonym value
 	} `json:"synonyms,omitempty"` // Configuration synonyms
 	Value int `json:"value"` // This setting controls how frequently Kafka adds an index entry to its offset index. The default setting ensures that we index a message roughly every 4096 bytes. More indexing allows reads to jump closer to the exact position in the log but makes the index larger. You probably don't need to change this.
-}
-
-// InklessEnableOut inkless.enable value, source and synonyms
-type InklessEnableOut struct {
-	Source   SourceType `json:"source"` // Source of the Kafka topic configuration entry
-	Synonyms []struct {
-		Name   string     `json:"name"`   // Synonym name
-		Source SourceType `json:"source"` // Source of the Kafka topic configuration entry
-		Value  bool       `json:"value"`  // Synonym value
-	} `json:"synonyms,omitempty"` // Configuration synonyms
-	Value bool `json:"value"` // (DEPRECATED) Use diskless.enable instead. Indicates whether diskless should be enabled. This is only available for BYOC services with Diskless feature enabled. This configuration will be removed in future versions.
 }
 
 // LocalRetentionBytesOut local.retention.bytes value, source and synonyms
@@ -921,6 +920,7 @@ type TagOut struct {
 }
 type TopicOut struct {
 	CleanupPolicy       string         `json:"cleanup_policy"`                  // The retention policy to use on old segments. Possible values include 'delete', 'compact', or a comma-separated list of them. The default policy ('delete') will discard old segments when their retention time or size limit has been reached. The 'compact' setting will enable log compaction on the topic.
+	DisklessEnable      *bool          `json:"diskless_enable,omitempty"`       // Indicates whether diskless should be enabled. This is only available for BYOC services with Diskless feature enabled.
 	MinInsyncReplicas   int            `json:"min_insync_replicas"`             // When a producer sets acks to 'all' (or '-1'), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend). When used together, min.insync.replicas and acks allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set min.insync.replicas to 2, and produce with acks of 'all'. This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
 	OwnerUserGroupId    string         `json:"owner_user_group_id"`             // The user group that owns this topic
 	Partitions          int            `json:"partitions"`                      // Number of partitions
