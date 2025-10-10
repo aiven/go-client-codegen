@@ -1020,7 +1020,6 @@ type ServicePlanOut struct {
 	BackupConfig     BackupConfigOut `json:"backup_config"`                // Backup configuration for this service plan
 	MaxMemoryPercent *int            `json:"max_memory_percent,omitempty"` // Maximum amount of system memory as a percentage (0-100) the service can actually use after taking into account management overhead. This is relevant for memory bound services for which some service management operations require allocating proportional amount of memory on top the basic load.
 	NodeCount        *int            `json:"node_count,omitempty"`         // Number of nodes in this service plan
-	NodeCountStep    *int            `json:"node_count_step,omitempty"`    // Node count change step size. Zero if node count is fixed.
 	Regions          map[string]any  `json:"regions,omitempty"`            // Service plan hourly price per cloud region
 	ServicePlan      string          `json:"service_plan"`                 // Subscription plan
 	ServiceType      string          `json:"service_type"`                 // Service type code
