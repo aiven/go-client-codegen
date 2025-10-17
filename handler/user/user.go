@@ -727,6 +727,7 @@ type UserAuthLoginOptionsOut struct {
 type UserAuthOut struct {
 	ReturnUrl *string `json:"return_url,omitempty"` // Return URL
 	State     string  `json:"state"`                // User account state
+	Tenant    *string `json:"tenant,omitempty"`     // Tenant identifier
 	Token     string  `json:"token"`                // API session authentication token
 	UserEmail string  `json:"user_email"`           // User email address
 }
