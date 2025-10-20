@@ -2,6 +2,7 @@ version: 3
 
 vars:
   GEN_OUT_DIR: handler
+  MOCKERY_VERSION: v3.5.5
 
 tasks:
   fmt-imports:
@@ -25,10 +26,17 @@ tasks:
     requires:
       vars:
         - GEN_OUT_DIR
+  generate-mocks:
+    preconditions:
+      - sh: command -v mockery
+        msg: "mockery is not installed. Install it with: go install github.com/vektra/mockery/v3@{{.MOCKERY_VERSION}}"
+    cmds:
+      - mockery
   generate:
     cmds:
       - task: get-openapi-spec
       - task: go-generate
+      - task: generate-mocks
   test:
     cmds:
       - go test -v
