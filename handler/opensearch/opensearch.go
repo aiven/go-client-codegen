@@ -176,12 +176,12 @@ const (
 	ElasticsearchVersionType1   ElasticsearchVersionType = "1"
 	ElasticsearchVersionType2   ElasticsearchVersionType = "2"
 	ElasticsearchVersionType219 ElasticsearchVersionType = "2.19"
-	ElasticsearchVersionType32  ElasticsearchVersionType = "3.2"
+	ElasticsearchVersionType33  ElasticsearchVersionType = "3.3"
 	ElasticsearchVersionType7   ElasticsearchVersionType = "7"
 )
 
 func ElasticsearchVersionTypeChoices() []string {
-	return []string{"1", "2", "2.19", "3.2", "7"}
+	return []string{"1", "2", "2.19", "3.3", "7"}
 }
 
 type HealthType string
