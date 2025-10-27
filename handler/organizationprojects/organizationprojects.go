@@ -115,7 +115,7 @@ type EndOfLifeExtension struct {
 
 // OrganizationProjectsCreateIn OrganizationProjectsCreateRequestBody
 type OrganizationProjectsCreateIn struct {
-	BasePort       *int              `json:"base_port,omitempty"`   // Valid port number (1-65535)
+	BasePort       *int              `json:"base_port,omitempty"`   // Valid port number (10000-30000)
 	BillingGroupId string            `json:"billing_group_id"`      // Billing group ID to assign to the project.
 	ParentId       *string           `json:"parent_id,omitempty"`   // Organization or unit ID to where to move the project
 	ProjectId      string            `json:"project_id"`            // Project ID
@@ -159,7 +159,7 @@ type OrganizationProjectsListOut struct {
 
 // OrganizationProjectsUpdateIn OrganizationProjectsUpdateRequestBody
 type OrganizationProjectsUpdateIn struct {
-	BasePort       *int               `json:"base_port,omitempty"`        // Valid port number (1-65535)
+	BasePort       *int               `json:"base_port,omitempty"`        // Valid port number (10000-30000)
 	BillingGroupId *string            `json:"billing_group_id,omitempty"` // Billing group ID to assign to the project. It's required when moving projects between organizations
 	OrganizationId *string            `json:"organization_id,omitempty"`  // Organization ID
 	ParentId       *string            `json:"parent_id,omitempty"`        // Organization or unit ID to where to move the project
