@@ -2576,12 +2576,13 @@ type UsageType string
 
 const (
 	UsageTypeDisasterRecovery UsageType = "disaster_recovery"
+	UsageTypeHaReplica        UsageType = "ha_replica"
 	UsageTypePrimary          UsageType = "primary"
 	UsageTypeReplica          UsageType = "replica"
 )
 
 func UsageTypeChoices() []string {
-	return []string{"disaster_recovery", "primary", "replica"}
+	return []string{"disaster_recovery", "ha_replica", "primary", "replica"}
 }
 
 type UserOut struct {
