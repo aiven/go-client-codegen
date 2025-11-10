@@ -189,6 +189,7 @@ type CustomCloudEnvironmentCreateOut struct {
 	AivenAwsObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
+	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
 	AwsIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
 	AwsSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
 	AwsSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
@@ -224,6 +225,7 @@ type CustomCloudEnvironmentGetOut struct {
 	AivenAwsObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
+	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
 	AwsIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
 	AwsSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
 	AwsSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
@@ -278,6 +280,7 @@ type CustomCloudEnvironmentProvisionOut struct {
 	AivenAwsObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
+	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
 	AwsIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
 	AwsSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
 	AwsSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
@@ -345,6 +348,7 @@ type CustomCloudEnvironmentUpdateOut struct {
 	AivenAwsObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
+	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
 	AwsIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
 	AwsSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
 	AwsSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
