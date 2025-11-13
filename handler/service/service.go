@@ -2487,7 +2487,6 @@ type StateOut struct {
 type TargetVersionType string
 
 const (
-	TargetVersionType13 TargetVersionType = "13"
 	TargetVersionType14 TargetVersionType = "14"
 	TargetVersionType15 TargetVersionType = "15"
 	TargetVersionType16 TargetVersionType = "16"
@@ -2496,7 +2495,7 @@ const (
 )
 
 func TargetVersionTypeChoices() []string {
-	return []string{"13", "14", "15", "16", "17", "18"}
+	return []string{"14", "15", "16", "17", "18"}
 }
 
 type TaskType string
