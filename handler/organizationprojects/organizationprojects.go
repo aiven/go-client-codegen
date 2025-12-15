@@ -10,27 +10,27 @@ import (
 )
 
 type Handler interface {
-	// OrganizationProjectsCreate [EXPERIMENTAL] Create project under the organization
+	// OrganizationProjectsCreate create project under the organization
 	// POST /v1/organization/{organization_id}/projects
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsCreate
 	OrganizationProjectsCreate(ctx context.Context, organizationId string, in *OrganizationProjectsCreateIn) (*OrganizationProjectsCreateOut, error)
 
-	// OrganizationProjectsDelete [EXPERIMENTAL] Delete project under the organization
+	// OrganizationProjectsDelete delete project under the organization
 	// DELETE /v1/organization/{organization_id}/projects/{project_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsDelete
 	OrganizationProjectsDelete(ctx context.Context, organizationId string, projectId string) error
 
-	// OrganizationProjectsGet [EXPERIMENTAL] Retrieve project under the organization
+	// OrganizationProjectsGet retrieve project under the organization
 	// GET /v1/organization/{organization_id}/projects/{project_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsGet
 	OrganizationProjectsGet(ctx context.Context, organizationId string, projectId string) (*OrganizationProjectsGetOut, error)
 
-	// OrganizationProjectsList [EXPERIMENTAL] List projects under the organization
+	// OrganizationProjectsList list projects under the organization
 	// GET /v1/organization/{organization_id}/projects
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsList
 	OrganizationProjectsList(ctx context.Context, organizationId string) (*OrganizationProjectsListOut, error)
 
-	// OrganizationProjectsUpdate [EXPERIMENTAL] Update project under the organization
+	// OrganizationProjectsUpdate update project under the organization
 	// PATCH /v1/organization/{organization_id}/projects/{project_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsUpdate
 	OrganizationProjectsUpdate(ctx context.Context, organizationId string, projectId string, in *OrganizationProjectsUpdateIn) (*OrganizationProjectsUpdateOut, error)
