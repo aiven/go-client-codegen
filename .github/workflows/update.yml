@@ -30,7 +30,7 @@ jobs:
       - id: date
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
       - id: create_pr
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           author: GitHub <noreply@github.com>
           body: >
