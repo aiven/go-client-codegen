@@ -1,54 +1,52 @@
-run:
-  build-tags:
-    - generator
-
+version: "2"
 linters:
-  disable-all: true
+  default: none
   enable:
-    - durationcheck
+    - copyloopvar
     - errcheck
-    - errname
     - errorlint
-    - forbidigo
-    - forcetypeassert
-    - gocognit
-    - goconst
-    - gocyclo
-    - gofmt
-    - goimports
-    - mnd
-    - gosec
-    - gosimple
+    - gocritic
     - govet
-    - importas
     - ineffassign
     - makezero
     - misspell
+    - mnd
     - nakedret
-    - nestif
     - nilerr
-    - nolintlint
     - prealloc
     - revive
     - staticcheck
-    - typecheck
     - unconvert
     - unused
-    - whitespace
-
-linters-settings:
-  gocognit:
-    min-complexity: 25
-  goconst:
-    min-len: 2
-    min-occurrences: 2
-  govet:
-    enable-all: true
-    disable:
-      - fieldalignment
-  lll:
-    line-length: 120
-    tab-width: 4
-
-issues:
-  exclude-use-default: false
+    - testifylint
+  settings:
+    govet:
+      disable:
+        - fieldalignment
+        - shadow
+      enable-all: true
+    staticcheck:
+      checks: ["all", "-QF1008"]
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - dupl
+          - goconst
+          - golint
+          - gosec
+        path: _test\.go
+        text: underscore
+      - linters:
+          - staticcheck
+        text: "QF1001: (.*)"
+formatters:
+  enable:
+    - gofmt
+    - gofumpt
+    - goimports

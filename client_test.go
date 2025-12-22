@@ -63,20 +63,20 @@ func TestServiceCreate(t *testing.T) {
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusOK)
 			_, err = w.Write([]byte(`{"service": {"plan": "wow", "state": "RUNNING"}}`))
-			require.NoError(t, err)
+			assert.NoError(t, err)
 			atomic.AddInt64(&callCount, 1)
 		},
 	)
 	mux.HandleFunc(
 		"/v1/project/aiven-project/service/my-clickhouse/clickhouse/query/stats",
 		func(w http.ResponseWriter, r *http.Request) {
-			assert.Equal(t, r.URL.RawQuery, "limit=1&order_by=max_time%3Aasc")
+			assert.Equal(t, "limit=1&order_by=max_time%3Aasc", r.URL.RawQuery)
 
 			// Creates response
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusOK)
 			_, err := w.Write([]byte(`{"queries": [{"calls": 1}]}`))
-			require.NoError(t, err)
+			assert.NoError(t, err)
 			atomic.AddInt64(&callCount, 1)
 		},
 	)
@@ -160,7 +160,7 @@ func TestServiceCreateErrorsRetries(t *testing.T) {
 					w.Header().Set("Content-Type", "application/json")
 					w.WriteHeader(http.StatusInternalServerError)
 					_, err := w.Write([]byte(tt.ResponseBody))
-					require.NoError(t, err)
+					assert.NoError(t, err)
 					atomic.AddInt64(&callsActual, 1)
 				},
 			)
@@ -270,13 +270,13 @@ func TestServiceIntegrationEndpointGet(t *testing.T) {
 		"/v1/project/{project}/integration_endpoint/{integration_endpoint_id}",
 		func(w http.ResponseWriter, r *http.Request) {
 			assert.Regexp(t, `go-client-codegen/[0-9\.]+ unit-test`, r.Header["User-Agent"])
-			assert.Equal(t, r.RequestURI, "/v1/project/aiven-endpoint-project/integration_endpoint/foo?include_secrets=true&limit=999")
+			assert.Equal(t, "/v1/project/aiven-endpoint-project/integration_endpoint/foo?include_secrets=true&limit=999", r.RequestURI)
 
 			// Creates response
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusOK)
 			_, err := w.Write([]byte(`{"service_integration_endpoint": {"endpoint_name": "wow"}}`))
-			require.NoError(t, err)
+			assert.NoError(t, err)
 			atomic.AddInt64(&callCount, 1)
 		},
 	)

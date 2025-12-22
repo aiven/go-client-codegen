@@ -7,6 +7,8 @@ package aiven
 import (
 	"context"
 
+	mock "github.com/stretchr/testify/mock"
+
 	"github.com/aiven/go-client-codegen/handler/account"
 	"github.com/aiven/go-client-codegen/handler/accountauthentication"
 	"github.com/aiven/go-client-codegen/handler/accountteam"
@@ -49,7 +51,6 @@ import (
 	"github.com/aiven/go-client-codegen/handler/user"
 	"github.com/aiven/go-client-codegen/handler/usergroup"
 	"github.com/aiven/go-client-codegen/handler/vpc"
-	mock "github.com/stretchr/testify/mock"
 )
 
 // NewMockClient creates a new instance of MockClient. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.

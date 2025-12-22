@@ -210,7 +210,7 @@ func fmtQuery(operationID string, query ...[2]string) string {
 
 // shouldAddDefaultLimit determines if default limit should be added
 func shouldAddDefaultLimit(operationID string, q url.Values) bool {
-	var operationsWithoutLimit = []string{
+	operationsWithoutLimit := []string{
 		"ServiceKafkaQuotaDescribe",
 		"ServiceKafkaQuotaDelete",
 	}
