@@ -1,6 +1,7 @@
 template: testify
 filename: "{{ .InterfaceName | lower }}_mock.go"
 formatter: goimports
+include-auto-generated: true
 packages:
   github.com/aiven/go-client-codegen:
     interfaces:

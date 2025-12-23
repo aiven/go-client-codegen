@@ -61,7 +61,7 @@ func TestIsNotFoundIntegration(t *testing.T) {
 	ctx := context.Background()
 	out, err := c.AccountGet(ctx, "does_not_exist")
 	assert.Nil(t, out)
-	assert.NotNil(t, err)
+	require.Error(t, err)
 	assert.True(t, IsNotFound(err))
 }
 

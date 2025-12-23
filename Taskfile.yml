@@ -37,6 +37,7 @@ tasks:
       - task: get-openapi-spec
       - task: go-generate
       - task: generate-mocks
+      - task: fmt-imports
   test:
     cmds:
       - go test -v

@@ -39,6 +39,29 @@ components:
       additionalProperties: true
     ServiceKafkaConnectEditConnectorRequestBody:
       additionalProperties: true
+    ServiceKafkaConnectListResponse:
+      properties:
+        connectors:
+          items:
+            properties:
+              # config has dynamic keys, with more fields than documented in a spec
+              config:
+                additionalProperties:
+                  type: string
+    ServiceKafkaConnectCreateConnectorResponse:
+      properties:
+        connector:
+          properties:
+            config:
+              additionalProperties:
+                type: string
+    ServiceKafkaConnectEditConnectorResponse:
+      properties:
+        connector:
+          properties:
+            config:
+              additionalProperties:
+                type: string
     ServiceClickHousePasswordResetRequestBody:
       properties:
         password:
