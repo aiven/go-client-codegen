@@ -35,16 +35,20 @@ paths:
                 $ref: "#/components/schemas/ServiceKafkaTopicListV2Response"
 components:
   schemas:
+    # Kafka Connect REST API expects all config values as strings, even for numeric/boolean values.
+    # The request body contains connector configuration with dynamic keys (connector-type specific).
+    # Only 2 fields are documented in OpenAPI spec (connector.class, name) but many more exist.
     ServiceKafkaConnectCreateConnectorRequestBody:
-      additionalProperties: true
+      additionalProperties:
+        type: string
     ServiceKafkaConnectEditConnectorRequestBody:
-      additionalProperties: true
+      additionalProperties:
+        type: string
     ServiceKafkaConnectListResponse:
       properties:
         connectors:
           items:
             properties:
-              # config has dynamic keys, with more fields than documented in a spec
               config:
                 additionalProperties:
                   type: string

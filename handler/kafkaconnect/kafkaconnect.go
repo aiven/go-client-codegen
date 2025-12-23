@@ -13,7 +13,7 @@ type Handler interface {
 	// ServiceKafkaConnectCreateConnector create a Kafka Connect connector
 	// POST /v1/project/{project}/service/{service_name}/connectors
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectCreateConnector
-	ServiceKafkaConnectCreateConnector(ctx context.Context, project string, serviceName string, in map[string]any) (*ServiceKafkaConnectCreateConnectorOut, error)
+	ServiceKafkaConnectCreateConnector(ctx context.Context, project string, serviceName string, in *map[string]string) (*ServiceKafkaConnectCreateConnectorOut, error)
 
 	// ServiceKafkaConnectDeleteConnector delete Kafka Connect connector
 	// DELETE /v1/project/{project}/service/{service_name}/connectors/{connector_name}
@@ -23,7 +23,7 @@ type Handler interface {
 	// ServiceKafkaConnectEditConnector edit Kafka Connect connector
 	// PUT /v1/project/{project}/service/{service_name}/connectors/{connector_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectEditConnector
-	ServiceKafkaConnectEditConnector(ctx context.Context, project string, serviceName string, connectorName string, in map[string]any) (*ServiceKafkaConnectEditConnectorOut, error)
+	ServiceKafkaConnectEditConnector(ctx context.Context, project string, serviceName string, connectorName string, in *map[string]string) (*ServiceKafkaConnectEditConnectorOut, error)
 
 	// ServiceKafkaConnectGetAvailableConnectors get available Kafka Connect connectors
 	// GET /v1/project/{project}/service/{service_name}/available-connectors
@@ -79,7 +79,7 @@ type KafkaConnectHandler struct {
 	doer doer
 }
 
-func (h *KafkaConnectHandler) ServiceKafkaConnectCreateConnector(ctx context.Context, project string, serviceName string, in map[string]any) (*ServiceKafkaConnectCreateConnectorOut, error) {
+func (h *KafkaConnectHandler) ServiceKafkaConnectCreateConnector(ctx context.Context, project string, serviceName string, in *map[string]string) (*ServiceKafkaConnectCreateConnectorOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectCreateConnector", "POST", path, in)
 	if err != nil {
@@ -97,7 +97,7 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectDeleteConnector(ctx context.Con
 	_, err := h.doer.Do(ctx, "ServiceKafkaConnectDeleteConnector", "DELETE", path, nil)
 	return err
 }
-func (h *KafkaConnectHandler) ServiceKafkaConnectEditConnector(ctx context.Context, project string, serviceName string, connectorName string, in map[string]any) (*ServiceKafkaConnectEditConnectorOut, error) {
+func (h *KafkaConnectHandler) ServiceKafkaConnectEditConnector(ctx context.Context, project string, serviceName string, connectorName string, in *map[string]string) (*ServiceKafkaConnectEditConnectorOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(connectorName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectEditConnector", "PUT", path, in)
 	if err != nil {
