@@ -812,7 +812,6 @@ type AccessControlIn struct {
 	DragonflyAclCategories *[]string `json:"dragonfly_acl_categories,omitempty"` // Command category rules
 	DragonflyAclCommands   *[]string `json:"dragonfly_acl_commands,omitempty"`   // Rules for individual commands
 	DragonflyAclKeys       *[]string `json:"dragonfly_acl_keys,omitempty"`       // Key access rules
-	M3Group                *string   `json:"m3_group,omitempty"`                 // The M3 tag-value-limited access group to associate the user with. By default, if not set, user sees (and can publish) all metrics. If set non-empty, submitted metrics will include the group value in the avng tag, and the user will see only metrics matching the avng tag.
 	PgAllowReplication     *bool     `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
 	RedisAclCategories     *[]string `json:"redis_acl_categories,omitempty"`     // Command category rules
 	RedisAclChannels       *[]string `json:"redis_acl_channels,omitempty"`       // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
@@ -829,7 +828,6 @@ type AccessControlOut struct {
 	DragonflyAclCategories []string `json:"dragonfly_acl_categories,omitempty"` // Command category rules
 	DragonflyAclCommands   []string `json:"dragonfly_acl_commands,omitempty"`   // Rules for individual commands
 	DragonflyAclKeys       []string `json:"dragonfly_acl_keys,omitempty"`       // Key access rules
-	M3Group                *string  `json:"m3_group,omitempty"`                 // The M3 tag-value-limited access group to associate the user with. By default, if not set, user sees (and can publish) all metrics. If set non-empty, submitted metrics will include the group value in the avng tag, and the user will see only metrics matching the avng tag.
 	PgAllowReplication     *bool    `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
 	RedisAclCategories     []string `json:"redis_acl_categories,omitempty"`     // Command category rules
 	RedisAclChannels       []string `json:"redis_acl_channels,omitempty"`       // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
