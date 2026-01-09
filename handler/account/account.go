@@ -625,7 +625,7 @@ type ProjectOut struct {
 	AccountId             string                 `json:"account_id"`                        // Account ID
 	AccountName           *string                `json:"account_name,omitempty"`            // Account name
 	AddressLines          []string               `json:"address_lines,omitempty"`           // Address lines
-	AvailableCredits      *string                `json:"available_credits,omitempty"`       // Available credits, in USD
+	AvailableCredits      *string                `json:"available_credits,omitempty"`       // DEPRECATED: Available credits, in USD. Always 0.00, use billing group credits instead
 	BillingAddress        string                 `json:"billing_address"`                   // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
 	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`        // Billing currency
 	BillingEmails         []BillingEmailOut      `json:"billing_emails"`                    // List of project billing email addresses
