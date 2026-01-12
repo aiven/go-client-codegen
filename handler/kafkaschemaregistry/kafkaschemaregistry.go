@@ -48,7 +48,7 @@ type Handler interface {
 	// ServiceSchemaRegistrySubjectConfigGet get configuration for Schema Registry subject
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/config/{subject_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectConfigGet
-	ServiceSchemaRegistrySubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string) (CompatibilityType, error)
+	ServiceSchemaRegistrySubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string, query ...[2]string) (CompatibilityType, error)
 
 	// ServiceSchemaRegistrySubjectConfigPut edit configuration for Schema Registry subject
 	// PUT /v1/project/{project}/service/{service_name}/kafka/schema/config/{subject_name}
@@ -187,9 +187,14 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySchemaGet(ctx context.
 	_, err := h.doer.Do(ctx, "ServiceSchemaRegistrySchemaGet", "GET", path, nil)
 	return err
 }
-func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string) (CompatibilityType, error) {
+
+// ServiceSchemaRegistrySubjectConfigGetGlobalDefaultFallback This parameter is not documented in the API but we need it to support the backward compatibility with old API client
+func ServiceSchemaRegistrySubjectConfigGetGlobalDefaultFallback(globalDefaultFallback bool) [2]string {
+	return [2]string{"global_default_fallback", fmt.Sprintf("%t", globalDefaultFallback)}
+}
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string, query ...[2]string) (CompatibilityType, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/schema/config/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(subjectName))
-	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectConfigGet", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectConfigGet", "GET", path, nil, query...)
 	if err != nil {
 		return "", err
 	}
