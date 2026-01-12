@@ -23452,8 +23452,14 @@ func (_c *MockClient_ServiceSchemaRegistrySchemaGet_Call) RunAndReturn(run func(
 }
 
 // ServiceSchemaRegistrySubjectConfigGet provides a mock function for the type MockClient
-func (_mock *MockClient) ServiceSchemaRegistrySubjectConfigGet(ctx context.Context, project1 string, serviceName string, subjectName string) (kafkaschemaregistry.CompatibilityType, error) {
-	ret := _mock.Called(ctx, project1, serviceName, subjectName)
+func (_mock *MockClient) ServiceSchemaRegistrySubjectConfigGet(ctx context.Context, project1 string, serviceName string, subjectName string, query ...[2]string) (kafkaschemaregistry.CompatibilityType, error) {
+	var tmpRet mock.Arguments
+	if len(query) > 0 {
+		tmpRet = _mock.Called(ctx, project1, serviceName, subjectName, query)
+	} else {
+		tmpRet = _mock.Called(ctx, project1, serviceName, subjectName)
+	}
+	ret := tmpRet
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServiceSchemaRegistrySubjectConfigGet")
@@ -23461,16 +23467,16 @@ func (_mock *MockClient) ServiceSchemaRegistrySubjectConfigGet(ctx context.Conte
 
 	var r0 kafkaschemaregistry.CompatibilityType
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string) (kafkaschemaregistry.CompatibilityType, error)); ok {
-		return returnFunc(ctx, project1, serviceName, subjectName)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string, ...[2]string) (kafkaschemaregistry.CompatibilityType, error)); ok {
+		return returnFunc(ctx, project1, serviceName, subjectName, query...)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string) kafkaschemaregistry.CompatibilityType); ok {
-		r0 = returnFunc(ctx, project1, serviceName, subjectName)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string, ...[2]string) kafkaschemaregistry.CompatibilityType); ok {
+		r0 = returnFunc(ctx, project1, serviceName, subjectName, query...)
 	} else {
 		r0 = ret.Get(0).(kafkaschemaregistry.CompatibilityType)
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, string) error); ok {
-		r1 = returnFunc(ctx, project1, serviceName, subjectName)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, string, ...[2]string) error); ok {
+		r1 = returnFunc(ctx, project1, serviceName, subjectName, query...)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -23487,11 +23493,13 @@ type MockClient_ServiceSchemaRegistrySubjectConfigGet_Call struct {
 //   - project1 string
 //   - serviceName string
 //   - subjectName string
-func (_e *MockClient_Expecter) ServiceSchemaRegistrySubjectConfigGet(ctx interface{}, project1 interface{}, serviceName interface{}, subjectName interface{}) *MockClient_ServiceSchemaRegistrySubjectConfigGet_Call {
-	return &MockClient_ServiceSchemaRegistrySubjectConfigGet_Call{Call: _e.mock.On("ServiceSchemaRegistrySubjectConfigGet", ctx, project1, serviceName, subjectName)}
+//   - query ...[2]string
+func (_e *MockClient_Expecter) ServiceSchemaRegistrySubjectConfigGet(ctx interface{}, project1 interface{}, serviceName interface{}, subjectName interface{}, query ...interface{}) *MockClient_ServiceSchemaRegistrySubjectConfigGet_Call {
+	return &MockClient_ServiceSchemaRegistrySubjectConfigGet_Call{Call: _e.mock.On("ServiceSchemaRegistrySubjectConfigGet",
+		append([]interface{}{ctx, project1, serviceName, subjectName}, query...)...)}
 }
 
-func (_c *MockClient_ServiceSchemaRegistrySubjectConfigGet_Call) Run(run func(ctx context.Context, project1 string, serviceName string, subjectName string)) *MockClient_ServiceSchemaRegistrySubjectConfigGet_Call {
+func (_c *MockClient_ServiceSchemaRegistrySubjectConfigGet_Call) Run(run func(ctx context.Context, project1 string, serviceName string, subjectName string, query ...[2]string)) *MockClient_ServiceSchemaRegistrySubjectConfigGet_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -23509,11 +23517,18 @@ func (_c *MockClient_ServiceSchemaRegistrySubjectConfigGet_Call) Run(run func(ct
 		if args[3] != nil {
 			arg3 = args[3].(string)
 		}
+		var arg4 [][2]string
+		var variadicArgs [][2]string
+		if len(args) > 4 {
+			variadicArgs = args[4].([][2]string)
+		}
+		arg4 = variadicArgs
 		run(
 			arg0,
 			arg1,
 			arg2,
 			arg3,
+			arg4...,
 		)
 	})
 	return _c
@@ -23524,7 +23539,7 @@ func (_c *MockClient_ServiceSchemaRegistrySubjectConfigGet_Call) Return(compatib
 	return _c
 }
 
-func (_c *MockClient_ServiceSchemaRegistrySubjectConfigGet_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, subjectName string) (kafkaschemaregistry.CompatibilityType, error)) *MockClient_ServiceSchemaRegistrySubjectConfigGet_Call {
+func (_c *MockClient_ServiceSchemaRegistrySubjectConfigGet_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, subjectName string, query ...[2]string) (kafkaschemaregistry.CompatibilityType, error)) *MockClient_ServiceSchemaRegistrySubjectConfigGet_Call {
 	_c.Call.Return(run)
 	return _c
 }

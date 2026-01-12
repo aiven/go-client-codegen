@@ -12,6 +12,13 @@ paths:
         - $ref: "#/components/parameters/service_name"
         - $ref: "#/components/parameters/service_kafka_quota_user"
         - $ref: "#/components/parameters/service_kafka_quota_client_id"
+  /project/{project}/service/{service_name}/kafka/schema/config/{subject_name}:
+    get:
+      parameters:
+        - $ref: "#/components/parameters/project"
+        - $ref: "#/components/parameters/service_name"
+        - $ref: "#/components/parameters/subject_name"
+        - $ref: "#/components/parameters/global_default_fallback"
   /v2/project/{project}/service/{service_name}/topic:
     post:
       summary: List Kafka topics V2
@@ -414,4 +421,11 @@ components:
       name: client-id
       schema:
         type: string
+      required: false
+    global_default_fallback:
+      in: query
+      name: global_default_fallback
+      description: This parameter is not documented in the API but we need it to support the backward compatibility with old API client
+      schema:
+        type: boolean
       required: false
