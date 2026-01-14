@@ -14,48 +14,49 @@ type Handler interface {
 	// ServiceOpenSearchAclGet show OpenSearch ACL configuration
 	// GET /v1/project/{project}/service/{service_name}/opensearch/acl
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchAclGet
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceOpenSearchAclGet(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchAclGetOut, error)
 
 	// ServiceOpenSearchAclSet set OpenSearch ACL configuration
 	// POST /v1/project/{project}/service/{service_name}/opensearch/acl
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchAclSet
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceOpenSearchAclSet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclSetIn) (*ServiceOpenSearchAclSetOut, error)
 
 	// ServiceOpenSearchAclUpdate update OpenSearch ACL configuration
 	// PUT /v1/project/{project}/service/{service_name}/opensearch/acl
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchAclUpdate
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceOpenSearchAclUpdate(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclUpdateIn) (*ServiceOpenSearchAclUpdateOut, error)
 
 	// ServiceOpenSearchIndexDelete delete an OpenSearch index
 	// DELETE /v1/project/{project}/service/{service_name}/index/{index_pattern}
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchIndexDelete
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceOpenSearchIndexDelete(ctx context.Context, project string, serviceName string, indexPattern string) error
 
 	// ServiceOpenSearchIndexList list OpenSearch indexes
 	// GET /v1/project/{project}/service/{service_name}/index
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchIndexList
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceOpenSearchIndexList(ctx context.Context, project string, serviceName string) ([]IndexeOut, error)
 
 	// ServiceOpenSearchSecurityGet show OpenSearch security configuration status
 	// GET /v1/project/{project}/service/{service_name}/opensearch/security
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchSecurityGet
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceOpenSearchSecurityGet(ctx context.Context, project string, serviceName string) (*ServiceOpenSearchSecurityGetOut, error)
 
 	// ServiceOpenSearchSecurityReset change Opensearch Security Admin password
 	// PUT /v1/project/{project}/service/{service_name}/opensearch/security/admin
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchSecurityReset
+	// Required roles or permissions: service:data:write
 	ServiceOpenSearchSecurityReset(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchSecurityResetIn) (*ServiceOpenSearchSecurityResetOut, error)
 
 	// ServiceOpenSearchSecuritySet enable Opensearch Security Admin by setting the password
 	// POST /v1/project/{project}/service/{service_name}/opensearch/security/admin
 	// https://api.aiven.io/doc/#tag/Service:_OpenSearch/operation/ServiceOpenSearchSecuritySet
-	// Required roles or permissions: admin, read_only, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceOpenSearchSecuritySet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchSecuritySetIn) (*ServiceOpenSearchSecuritySetOut, error)
 }
 

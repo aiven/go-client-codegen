@@ -13,11 +13,13 @@ type Handler interface {
 	// PGServiceAvailableExtensions list PostgreSQL extensions that can be loaded with CREATE EXTENSION in this service
 	// GET /v1/project/{project}/service/{service_name}/pg/available-extensions
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/PGServiceAvailableExtensions
+	// Required roles or permissions: service:data:write
 	PGServiceAvailableExtensions(ctx context.Context, project string, serviceName string) ([]ExtensionOut, error)
 
 	// PGServiceQueryStatistics fetch PostgreSQL service query statistics
 	// POST /v1/project/{project}/service/{service_name}/pg/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/PGServiceQueryStatistics
+	// Required roles or permissions: service:data:write
 	PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]QueryOut, error)
 
 	// PgAvailableExtensions list PostgreSQL extensions available for this tenant grouped by PG version
@@ -28,19 +30,19 @@ type Handler interface {
 	// ServicePGBouncerCreate create a new connection pool for service
 	// POST /v1/project/{project}/service/{service_name}/connection_pool
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/ServicePGBouncerCreate
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServicePGBouncerCreate(ctx context.Context, project string, serviceName string, in *ServicePgbouncerCreateIn) error
 
 	// ServicePGBouncerDelete delete a connection pool
 	// DELETE /v1/project/{project}/service/{service_name}/connection_pool/{pool_name}
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/ServicePGBouncerDelete
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServicePGBouncerDelete(ctx context.Context, project string, serviceName string, poolName string) error
 
 	// ServicePGBouncerUpdate update a connection pool
 	// PUT /v1/project/{project}/service/{service_name}/connection_pool/{pool_name}
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/ServicePGBouncerUpdate
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServicePGBouncerUpdate(ctx context.Context, project string, serviceName string, poolName string, in *ServicePgbouncerUpdateIn) error
 }
 

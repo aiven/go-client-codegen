@@ -14,21 +14,25 @@ type Handler interface {
 	// ServiceFlinkCreateApplicationVersion create a Flink ApplicationVersion
 	// POST /v1/project/{project}/service/{service_name}/flink/application/{application_id}/version
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCreateApplicationVersion
+	// Required roles or permissions: service:data:write
 	ServiceFlinkCreateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateApplicationVersionIn) (*ServiceFlinkCreateApplicationVersionOut, error)
 
 	// ServiceFlinkDeleteApplicationVersion delete a Flink ApplicationVersion
 	// DELETE /v1/project/{project}/service/{service_name}/flink/application/{application_id}/version/{application_version_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkDeleteApplicationVersion
+	// Required roles or permissions: service:data:write
 	ServiceFlinkDeleteApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkDeleteApplicationVersionOut, error)
 
 	// ServiceFlinkGetApplicationVersion get a Flink ApplicationVersion
 	// GET /v1/project/{project}/service/{service_name}/flink/application/{application_id}/version/{application_version_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkGetApplicationVersion
+	// Required roles or permissions: service:data:write
 	ServiceFlinkGetApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkGetApplicationVersionOut, error)
 
 	// ServiceFlinkValidateApplicationVersion validate a Flink ApplicationVersion
 	// POST /v1/project/{project}/service/{service_name}/flink/application/{application_id}/version/validate
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkValidateApplicationVersion
+	// Required roles or permissions: service:data:write
 	ServiceFlinkValidateApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkValidateApplicationVersionIn) (*ServiceFlinkValidateApplicationVersionOut, error)
 }
 

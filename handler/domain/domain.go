@@ -14,31 +14,31 @@ type Handler interface {
 	// OrganizationDomainAdd create a domain
 	// POST /v1/organization/{organization_id}/domains
 	// https://api.aiven.io/doc/#tag/Domains/operation/OrganizationDomainAdd
-	// Required roles or permissions: organization:domains:write, role:organization:admin
+	// Required roles or permissions: organization:domains:write
 	OrganizationDomainAdd(ctx context.Context, organizationId string, in *OrganizationDomainAddIn) (*OrganizationDomainAddOut, error)
 
 	// OrganizationDomainUpdate update a domain
 	// PATCH /v1/organization/{organization_id}/domains/{domain_id}
 	// https://api.aiven.io/doc/#tag/Domains/operation/OrganizationDomainUpdate
-	// Required roles or permissions: organization:domains:write, role:organization:admin
+	// Required roles or permissions: organization:domains:write
 	OrganizationDomainUpdate(ctx context.Context, organizationId string, domainId string, in *OrganizationDomainUpdateIn) (*OrganizationDomainUpdateOut, error)
 
 	// OrganizationDomainVerify verify a domain
 	// POST /v1/organization/{organization_id}/domains/{domain_id}/verify
 	// https://api.aiven.io/doc/#tag/Domains/operation/OrganizationDomainVerify
-	// Required roles or permissions: organization:domains:write, role:organization:admin
+	// Required roles or permissions: organization:domains:write
 	OrganizationDomainVerify(ctx context.Context, organizationId string, domainId string) (*OrganizationDomainVerifyOut, error)
 
 	// OrganizationDomainsList list domains
 	// GET /v1/organization/{organization_id}/domains
 	// https://api.aiven.io/doc/#tag/Domains/operation/OrganizationDomainsList
-	// Required roles or permissions: role:organization:admin
+	// Required roles or permissions: organization:domains:write
 	OrganizationDomainsList(ctx context.Context, organizationId string) ([]DomainOut, error)
 
 	// OrganizationDomainsRemove delete a domain
 	// DELETE /v1/organization/{organization_id}/domains/{domain_id}
 	// https://api.aiven.io/doc/#tag/Domains/operation/OrganizationDomainsRemove
-	// Required roles or permissions: organization:domains:write, role:organization:admin
+	// Required roles or permissions: organization:domains:write
 	OrganizationDomainsRemove(ctx context.Context, organizationId string, domainId string) error
 }
 

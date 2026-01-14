@@ -14,16 +14,19 @@ type Handler interface {
 	// ServiceFlinkCreateJarApplicationVersion [EXPERIMENTAL] Create a Flink JarApplicationVersion
 	// POST /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/version
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCreateJarApplicationVersion
+	// Required roles or permissions: service:data:write
 	ServiceFlinkCreateJarApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkCreateJarApplicationVersionOut, error)
 
 	// ServiceFlinkDeleteJarApplicationVersion [EXPERIMENTAL] Delete a Flink JarApplicationVersion
 	// DELETE /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/version/{application_version_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkDeleteJarApplicationVersion
+	// Required roles or permissions: service:data:write
 	ServiceFlinkDeleteJarApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkDeleteJarApplicationVersionOut, error)
 
 	// ServiceFlinkGetJarApplicationVersion [EXPERIMENTAL] Get a Flink JarApplicationVersion
 	// GET /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/version/{application_version_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkGetJarApplicationVersion
+	// Required roles or permissions: service:data:write
 	ServiceFlinkGetJarApplicationVersion(ctx context.Context, project string, serviceName string, applicationId string, applicationVersionId string) (*ServiceFlinkGetJarApplicationVersionOut, error)
 }
 

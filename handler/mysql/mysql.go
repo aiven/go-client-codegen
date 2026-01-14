@@ -13,6 +13,7 @@ type Handler interface {
 	// MySQLServiceQueryStatistics fetch MySQL service query statistics
 	// POST /v1/project/{project}/service/{service_name}/mysql/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_MySQL/operation/MySQLServiceQueryStatistics
+	// Required roles or permissions: service:data:write
 	MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]QueryOut, error)
 }
 

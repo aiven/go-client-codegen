@@ -18,6 +18,7 @@ type Handler interface {
 	// ListProjectClouds list cloud platforms for a project
 	// GET /v1/project/{project}/clouds
 	// https://api.aiven.io/doc/#tag/Cloud_platforms/operation/ListProjectClouds
+	// Required roles or permissions: project:services:write
 	ListProjectClouds(ctx context.Context, project string) ([]CloudOut, error)
 }
 

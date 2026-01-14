@@ -13,67 +13,67 @@ type Handler interface {
 	// ServiceClickHouseCurrentQueries list active queries
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/query
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseCurrentQueries
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceClickHouseCurrentQueries(ctx context.Context, project string, serviceName string) ([]QueryOut, error)
 
 	// ServiceClickHouseDatabaseCreate create a database
 	// POST /v1/project/{project}/service/{service_name}/clickhouse/db
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseDatabaseCreate
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceClickHouseDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceClickHouseDatabaseCreateIn) error
 
 	// ServiceClickHouseDatabaseDelete delete a database
 	// DELETE /v1/project/{project}/service/{service_name}/clickhouse/db/{database}
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseDatabaseDelete
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceClickHouseDatabaseDelete(ctx context.Context, project string, serviceName string, database string) error
 
 	// ServiceClickHouseDatabaseList list all databases
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/db
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseDatabaseList
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceClickHouseDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error)
 
 	// ServiceClickHousePasswordReset reset a user's password
 	// PUT /v1/project/{project}/service/{service_name}/clickhouse/user/{user_uuid}/password
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHousePasswordReset
-	// Required roles or permissions: admin, role:organization:admin, service:data:write, service:users:write
+	// Required roles or permissions: service:data:write, service:users:write
 	ServiceClickHousePasswordReset(ctx context.Context, project string, serviceName string, userUuid string, in *ServiceClickHousePasswordResetIn) (string, error)
 
 	// ServiceClickHouseQuery execute an SQL query
 	// POST /v1/project/{project}/service/{service_name}/clickhouse/query
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQuery
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceClickHouseQuery(ctx context.Context, project string, serviceName string, in *ServiceClickHouseQueryIn) (*ServiceClickHouseQueryOut, error)
 
 	// ServiceClickHouseQueryStats return statistics on recent queries
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseQueryStats
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceClickHouseQueryStats(ctx context.Context, project string, serviceName string, query ...[2]string) ([]ServiceClickHouseQueryStatsOut, error)
 
 	// ServiceClickHouseTieredStorageSummary get the ClickHouse tiered storage summary
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/tiered-storage/summary
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseTieredStorageSummary
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceClickHouseTieredStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceClickHouseTieredStorageSummaryOut, error)
 
 	// ServiceClickHouseUserCreate create a ClickHouse user
 	// POST /v1/project/{project}/service/{service_name}/clickhouse/user
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseUserCreate
-	// Required roles or permissions: admin, role:organization:admin, service:data:write, service:users:write
+	// Required roles or permissions: service:data:write, service:users:write
 	ServiceClickHouseUserCreate(ctx context.Context, project string, serviceName string, in *ServiceClickHouseUserCreateIn) (*ServiceClickHouseUserCreateOut, error)
 
 	// ServiceClickHouseUserDelete delete a user
 	// DELETE /v1/project/{project}/service/{service_name}/clickhouse/user/{user_uuid}
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseUserDelete
-	// Required roles or permissions: admin, role:organization:admin, service:data:write, service:users:write
+	// Required roles or permissions: service:data:write, service:users:write
 	ServiceClickHouseUserDelete(ctx context.Context, project string, serviceName string, userUuid string) error
 
 	// ServiceClickHouseUserList list all users
 	// GET /v1/project/{project}/service/{service_name}/clickhouse/user
 	// https://api.aiven.io/doc/#tag/Service:_ClickHouse/operation/ServiceClickHouseUserList
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write, service:users:write
 	ServiceClickHouseUserList(ctx context.Context, project string, serviceName string) ([]UserOut, error)
 }
 

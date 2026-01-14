@@ -14,31 +14,37 @@ type Handler interface {
 	// ServiceFlinkCancelApplicationDeployment cancel an ApplicationDeployment
 	// POST /v1/project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}/cancel
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCancelApplicationDeployment
+	// Required roles or permissions: service:data:write
 	ServiceFlinkCancelApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkCancelApplicationDeploymentOut, error)
 
 	// ServiceFlinkCreateApplicationDeployment create an ApplicationDeployment
 	// POST /v1/project/{project}/service/{service_name}/flink/application/{application_id}/deployment
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCreateApplicationDeployment
+	// Required roles or permissions: service:data:write
 	ServiceFlinkCreateApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateApplicationDeploymentIn) (*ServiceFlinkCreateApplicationDeploymentOut, error)
 
 	// ServiceFlinkDeleteApplicationDeployment delete an ApplicationDeployment
 	// DELETE /v1/project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkDeleteApplicationDeployment
+	// Required roles or permissions: service:data:write
 	ServiceFlinkDeleteApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkDeleteApplicationDeploymentOut, error)
 
 	// ServiceFlinkGetApplicationDeployment get an ApplicationDeployment
 	// GET /v1/project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkGetApplicationDeployment
+	// Required roles or permissions: service:data:write
 	ServiceFlinkGetApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkGetApplicationDeploymentOut, error)
 
 	// ServiceFlinkListApplicationDeployments get all ApplicationDeployments
 	// GET /v1/project/{project}/service/{service_name}/flink/application/{application_id}/deployment
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkListApplicationDeployments
+	// Required roles or permissions: service:data:write
 	ServiceFlinkListApplicationDeployments(ctx context.Context, project string, serviceName string, applicationId string) ([]DeploymentOut, error)
 
 	// ServiceFlinkStopApplicationDeployment stop an ApplicationDeployment
 	// POST /v1/project/{project}/service/{service_name}/flink/application/{application_id}/deployment/{deployment_id}/stop
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkStopApplicationDeployment
+	// Required roles or permissions: service:data:write
 	ServiceFlinkStopApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkStopApplicationDeploymentOut, error)
 }
 

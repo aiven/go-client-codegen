@@ -13,28 +13,29 @@ type Handler interface {
 	// OrganizationProjectsCreate create project under the organization
 	// POST /v1/organization/{organization_id}/projects
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsCreate
-	// Required roles or permissions: organization:projects:write, role:organization:admin
 	OrganizationProjectsCreate(ctx context.Context, organizationId string, in *OrganizationProjectsCreateIn) (*OrganizationProjectsCreateOut, error)
 
 	// OrganizationProjectsDelete delete project under the organization
 	// DELETE /v1/organization/{organization_id}/projects/{project_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsDelete
+	// Required roles or permissions: organization:projects:write
 	OrganizationProjectsDelete(ctx context.Context, organizationId string, projectId string) error
 
 	// OrganizationProjectsGet retrieve project under the organization
 	// GET /v1/organization/{organization_id}/projects/{project_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsGet
+	// Required roles or permissions: project:services:read
 	OrganizationProjectsGet(ctx context.Context, organizationId string, projectId string) (*OrganizationProjectsGetOut, error)
 
 	// OrganizationProjectsList list projects under the organization
 	// GET /v1/organization/{organization_id}/projects
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsList
-	// Required roles or permissions: role:organization:admin
 	OrganizationProjectsList(ctx context.Context, organizationId string) (*OrganizationProjectsListOut, error)
 
 	// OrganizationProjectsUpdate update project under the organization
 	// PATCH /v1/organization/{organization_id}/projects/{project_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsUpdate
+	// Required roles or permissions: organization:projects:write
 	OrganizationProjectsUpdate(ctx context.Context, organizationId string, projectId string, in *OrganizationProjectsUpdateIn) (*OrganizationProjectsUpdateOut, error)
 }
 

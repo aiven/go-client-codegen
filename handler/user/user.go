@@ -44,7 +44,6 @@ type Handler interface {
 	// OrganizationMemberGroupsList list user groups of the organization's member
 	// GET /v1/organization/{organization_id}/user/{member_user_id}/user-groups
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationMemberGroupsList
-	// Required roles or permissions: role:organization:admin
 	OrganizationMemberGroupsList(ctx context.Context, organizationId string, memberUserId string) ([]UserGroupOut, error)
 
 	// TwoFactorAuthConfigure configure two-factor authentication
@@ -90,7 +89,6 @@ type Handler interface {
 	// UserAuthenticationMethodsList list linked authentication methods
 	// GET /v1/me/authentication_methods
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAuthenticationMethodsList
-	// Required roles or permissions: role:organization:admin
 	UserAuthenticationMethodsList(ctx context.Context) ([]AuthenticationMethodOut, error)
 
 	// Deprecated: UserCreate create a user
@@ -136,7 +134,6 @@ type Handler interface {
 	// UserUpdate edit profile
 	// PATCH /v1/me
 	// https://api.aiven.io/doc/#tag/Users/operation/UserUpdate
-	// Required roles or permissions: admin, role:organization:admin
 	UserUpdate(ctx context.Context, in *UserUpdateIn) (*UserUpdateOut, error)
 
 	// UserVerifyEmail confirm user email address

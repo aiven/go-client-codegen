@@ -14,31 +14,37 @@ type Handler interface {
 	// ServiceFlinkCancelJarApplicationDeployment [EXPERIMENTAL] Cancel a JarApplicationDeployment
 	// POST /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/deployment/{deployment_id}/cancel
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCancelJarApplicationDeployment
+	// Required roles or permissions: service:data:write
 	ServiceFlinkCancelJarApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkCancelJarApplicationDeploymentOut, error)
 
 	// ServiceFlinkCreateJarApplicationDeployment [EXPERIMENTAL] Create an JarApplicationDeployment
 	// POST /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/deployment
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCreateJarApplicationDeployment
+	// Required roles or permissions: service:data:write
 	ServiceFlinkCreateJarApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkCreateJarApplicationDeploymentIn) (*ServiceFlinkCreateJarApplicationDeploymentOut, error)
 
 	// ServiceFlinkDeleteJarApplicationDeployment [EXPERIMENTAL] Delete a JarApplicationDeployment
 	// DELETE /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/deployment/{deployment_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkDeleteJarApplicationDeployment
+	// Required roles or permissions: service:data:write
 	ServiceFlinkDeleteJarApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkDeleteJarApplicationDeploymentOut, error)
 
 	// ServiceFlinkGetJarApplicationDeployment [EXPERIMENTAL] Get a JarApplicationDeployment
 	// GET /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/deployment/{deployment_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkGetJarApplicationDeployment
+	// Required roles or permissions: service:data:write
 	ServiceFlinkGetJarApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkGetJarApplicationDeploymentOut, error)
 
 	// ServiceFlinkListJarApplicationDeployments [EXPERIMENTAL] Get all JarApplicationDeployments
 	// GET /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/deployment
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkListJarApplicationDeployments
+	// Required roles or permissions: service:data:write
 	ServiceFlinkListJarApplicationDeployments(ctx context.Context, project string, serviceName string, applicationId string) ([]DeploymentOut, error)
 
 	// ServiceFlinkStopJarApplicationDeployment [EXPERIMENTAL] Stop an JarApplicationDeployment
 	// POST /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}/deployment/{deployment_id}/stop
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkStopJarApplicationDeployment
+	// Required roles or permissions: service:data:write
 	ServiceFlinkStopJarApplicationDeployment(ctx context.Context, project string, serviceName string, applicationId string, deploymentId string) (*ServiceFlinkStopJarApplicationDeploymentOut, error)
 }
 
