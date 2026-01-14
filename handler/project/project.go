@@ -19,36 +19,43 @@ type Handler interface {
 	// ProjectAlertsList list active alerts for a project
 	// GET /v1/project/{project}/alerts
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectAlertsList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ProjectAlertsList(ctx context.Context, project string) ([]AlertOut, error)
 
 	// ProjectCreate create a project
 	// POST /v1/project
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectCreate
+	// Required roles or permissions: organization:projects:write, role:organization:admin
 	ProjectCreate(ctx context.Context, in *ProjectCreateIn) (*ProjectCreateOut, error)
 
 	// ProjectDelete delete project
 	// DELETE /v1/project/{project}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectDelete
+	// Required roles or permissions: admin, organization:projects:write, role:organization:admin
 	ProjectDelete(ctx context.Context, project string) error
 
 	// ProjectGenerateSbomDownloadUrl generate SBOM for project
 	// GET /v1/project/{project}/generate-sbom-download-url/{file_format}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectGenerateSbomDownloadUrl
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ProjectGenerateSbomDownloadUrl(ctx context.Context, project string, fileFormat string) (string, error)
 
 	// ProjectGet get project details
 	// GET /v1/project/{project}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectGet
+	// Required roles or permissions: admin, project:services:read, read_only, role:organization:admin, role:services:maintenance, role:services:recover, service:secrets:read
 	ProjectGet(ctx context.Context, project string) (*ProjectGetOut, error)
 
 	// ProjectGetEventLogs get project event log entries
 	// GET /v1/project/{project}/events
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectGetEventLogs
+	// Required roles or permissions: admin, project:audit_logs:read, read_only, role:organization:admin
 	ProjectGetEventLogs(ctx context.Context, project string) ([]EventOut, error)
 
 	// ProjectInvite send project membership invitation
 	// POST /v1/project/{project}/invite
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInvite
+	// Required roles or permissions: admin, role:organization:admin
 	ProjectInvite(ctx context.Context, project string, in *ProjectInviteIn) error
 
 	// ProjectInviteAccept confirm project invite
@@ -59,16 +66,19 @@ type Handler interface {
 	// ProjectInviteDelete delete an invitation to a project
 	// DELETE /v1/project/{project}/invite/{invited_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInviteDelete
+	// Required roles or permissions: admin, role:organization:admin
 	ProjectInviteDelete(ctx context.Context, project string, invitedEmail string) error
 
 	// ProjectKmsGetCA retrieve project CA certificate
 	// GET /v1/project/{project}/kms/ca
 	// https://api.aiven.io/doc/#tag/Project_Key_Management/operation/ProjectKmsGetCA
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ProjectKmsGetCA(ctx context.Context, project string) (string, error)
 
 	// ProjectList list projects
 	// GET /v1/project
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectList
+	// Required roles or permissions: role:organization:admin
 	ProjectList(ctx context.Context) (*ProjectListOut, error)
 
 	// ProjectPrivatelinkAvailabilityList list Privatelink cloud availability and prices for a project
@@ -79,11 +89,13 @@ type Handler interface {
 	// ProjectServicePlanList list service plans
 	// GET /v1/project/{project}/service-types/{service_type}/plans
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectServicePlanList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ProjectServicePlanList(ctx context.Context, project string, serviceType string) ([]ServicePlanOut, error)
 
 	// ProjectServicePlanPriceGet get plan pricing
 	// GET /v1/project/{project}/pricing/service-types/{service_type}/plans/{service_plan}/clouds/{cloud}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectServicePlanPriceGet
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ProjectServicePlanPriceGet(ctx context.Context, project string, serviceType string, servicePlan string, cloud string) (*ProjectServicePlanPriceGetOut, error)
 
 	// ProjectServicePlanSpecsGet get service plan details
@@ -99,41 +111,49 @@ type Handler interface {
 	// ProjectServiceTypesList list service types
 	// GET /v1/project/{project}/service-types
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectServiceTypesList
+	// Required roles or permissions: admin, project:services:read, read_only, role:organization:admin, role:services:maintenance, role:services:recover, service:secrets:read
 	ProjectServiceTypesList(ctx context.Context, project string) (*ProjectServiceTypesListOut, error)
 
 	// ProjectTagsList list all tags attached to this project
 	// GET /v1/project/{project}/tags
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectTagsList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ProjectTagsList(ctx context.Context, project string) (map[string]string, error)
 
 	// ProjectTagsReplace replace all project tags with a new set of tags, deleting old ones
 	// PUT /v1/project/{project}/tags
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectTagsReplace
+	// Required roles or permissions: admin, role:organization:admin
 	ProjectTagsReplace(ctx context.Context, project string, in *ProjectTagsReplaceIn) error
 
 	// ProjectTagsUpdate update one or more tags, creating ones that don't exist, and deleting ones given NULL value
 	// PATCH /v1/project/{project}/tags
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectTagsUpdate
+	// Required roles or permissions: admin, role:organization:admin
 	ProjectTagsUpdate(ctx context.Context, project string, in *ProjectTagsUpdateIn) error
 
 	// ProjectUpdate update project
 	// PUT /v1/project/{project}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUpdate
+	// Required roles or permissions: admin, organization:projects:write, role:organization:admin
 	ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*ProjectUpdateOut, error)
 
 	// ProjectUserList list users with access to the project. May contain same user multiple times if they belong to multiple teams associated to the project
 	// GET /v1/project/{project}/users
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ProjectUserList(ctx context.Context, project string) (*ProjectUserListOut, error)
 
 	// ProjectUserRemove remove user from the project
 	// DELETE /v1/project/{project}/user/{user_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserRemove
+	// Required roles or permissions: admin, role:organization:admin
 	ProjectUserRemove(ctx context.Context, project string, userEmail string) error
 
 	// ProjectUserUpdate update a project user
 	// PUT /v1/project/{project}/user/{user_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserUpdate
+	// Required roles or permissions: admin, role:organization:admin
 	ProjectUserUpdate(ctx context.Context, project string, userEmail string, in *ProjectUserUpdateIn) error
 }
 

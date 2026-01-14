@@ -91,7 +91,7 @@ type Path struct {
 }
 
 // Comment returns a comment for the path.
-func (p *Path) Comment() *jen.Statement {
+func (p *Path) Comment(permissions []string) *jen.Statement {
 	summary := p.Summary
 	if p.Experimental {
 		summary = "[EXPERIMENTAL] " + summary
@@ -117,6 +117,9 @@ func (p *Path) Comment() *jen.Statement {
 		c.Line().Comment(fmt.Sprintf("%s/#tag/%s/operation/%s", docSite, p.Tags[0], p.OperationID))
 	}
 
+	if len(permissions) > 0 {
+		c.Line().Comment("Required roles or permissions: " + strings.Join(permissions, ", "))
+	}
 	return c
 }
 

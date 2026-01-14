@@ -38,11 +38,13 @@ type Handler interface {
 	// StaticIPCreate create static IP address
 	// POST /v1/project/{project}/static-ips
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPCreate
+	// Required roles or permissions: admin, role:organization:admin
 	StaticIPCreate(ctx context.Context, project string, in *StaticIpcreateIn) (*StaticIpcreateOut, error)
 
 	// StaticIPList list static IP addresses
 	// GET /v1/project/{project}/static-ips
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	StaticIPList(ctx context.Context, project string) ([]StaticIpOut, error)
 }
 

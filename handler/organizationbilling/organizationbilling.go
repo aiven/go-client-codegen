@@ -13,26 +13,31 @@ type Handler interface {
 	// OrganizationBillingGroupCreate [EXPERIMENTAL] Create an organization billing group
 	// POST /v1/organization/{organization_id}/billing-groups
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupCreate
+	// Required roles or permissions: organization:billing:write, role:organization:admin
 	OrganizationBillingGroupCreate(ctx context.Context, organizationId string, in *OrganizationBillingGroupCreateIn) (*OrganizationBillingGroupCreateOut, error)
 
 	// OrganizationBillingGroupDelete [EXPERIMENTAL] Delete an organization billing group
 	// DELETE /v1/organization/{organization_id}/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupDelete
+	// Required roles or permissions: organization:billing:write, role:organization:admin
 	OrganizationBillingGroupDelete(ctx context.Context, organizationId string, billingGroupId string) error
 
 	// OrganizationBillingGroupGet [EXPERIMENTAL] Get organization billing group details
 	// GET /v1/organization/{organization_id}/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupGet
+	// Required roles or permissions: organization:billing:read, role:organization:admin
 	OrganizationBillingGroupGet(ctx context.Context, organizationId string, billingGroupId string) (*OrganizationBillingGroupGetOut, error)
 
 	// OrganizationBillingGroupList [EXPERIMENTAL] List billing groups in an organization
 	// GET /v1/organization/{organization_id}/billing-group
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupList
+	// Required roles or permissions: organization:billing:read, role:organization:admin
 	OrganizationBillingGroupList(ctx context.Context, organizationId string) ([]BillingGroupOut, error)
 
 	// OrganizationBillingGroupUpdate [EXPERIMENTAL] Update organization billing group details
 	// PUT /v1/organization/{organization_id}/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupUpdate
+	// Required roles or permissions: organization:billing:write, role:organization:admin
 	OrganizationBillingGroupUpdate(ctx context.Context, organizationId string, billingGroupId string, in *OrganizationBillingGroupUpdateIn) (*OrganizationBillingGroupUpdateOut, error)
 }
 

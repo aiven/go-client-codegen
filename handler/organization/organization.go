@@ -14,11 +14,13 @@ type Handler interface {
 	// OrganizationAddressCreate [EXPERIMENTAL] Create new address for an organization
 	// POST /v1/organizations/{organization_id}/addresses
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressCreate
+	// Required roles or permissions: organization:billing:write, role:organization:admin
 	OrganizationAddressCreate(ctx context.Context, organizationId string, in *OrganizationAddressCreateIn) (*OrganizationAddressCreateOut, error)
 
 	// OrganizationAddressDelete [EXPERIMENTAL] Delete an address of an organization
 	// DELETE /v1/organizations/{organization_id}/addresses/{address_id}
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressDelete
+	// Required roles or permissions: organization:billing:write, role:organization:admin
 	OrganizationAddressDelete(ctx context.Context, organizationId string, addressId string) error
 
 	// OrganizationAddressGet [EXPERIMENTAL] Get organization address info
@@ -29,11 +31,13 @@ type Handler interface {
 	// OrganizationAddressList [EXPERIMENTAL] List addresses of an organization
 	// GET /v1/organizations/{organization_id}/addresses
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressList
+	// Required roles or permissions: organization:billing:read, role:organization:admin
 	OrganizationAddressList(ctx context.Context, organizationId string) ([]AddresseOut, error)
 
 	// OrganizationAddressUpdate [EXPERIMENTAL] Update an address of an organization
 	// PATCH /v1/organizations/{organization_id}/addresses/{address_id}
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressUpdate
+	// Required roles or permissions: organization:billing:write, role:organization:admin
 	OrganizationAddressUpdate(ctx context.Context, organizationId string, addressId string, in *OrganizationAddressUpdateIn) (*OrganizationAddressUpdateOut, error)
 
 	// OrganizationAuthDomainLink link a domain to an organization's identity provider
@@ -79,16 +83,19 @@ type Handler interface {
 	// PermissionsGet list of permissions
 	// GET /v1/organization/{organization_id}/permissions/{resource_type}/{resource_id}
 	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsGet
+	// Required roles or permissions: role:organization:admin
 	PermissionsGet(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string) ([]PermissionOut, error)
 
 	// PermissionsSet set permissions
 	// PUT /v1/organization/{organization_id}/permissions/{resource_type}/{resource_id}
 	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsSet
+	// Required roles or permissions: role:organization:admin
 	PermissionsSet(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string, in *PermissionsSetIn) error
 
 	// PermissionsUpdate update permissions
 	// PATCH /v1/organization/{organization_id}/permissions/{resource_type}/{resource_id}
 	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsUpdate
+	// Required roles or permissions: role:organization:admin
 	PermissionsUpdate(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string, in *PermissionsUpdateIn) error
 
 	// UserOrganizationCreate create an organization

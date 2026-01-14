@@ -19,6 +19,7 @@ type Handler interface {
 	// AccountBillingGroupList list account billing groups
 	// GET /v1/account/{account_id}/billing-group
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountBillingGroupList
+	// Required roles or permissions: role:organization:admin
 	AccountBillingGroupList(ctx context.Context, accountId string) ([]AccountBillingGroupOut, error)
 
 	// AccountCreate create a new account

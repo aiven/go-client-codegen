@@ -43,16 +43,19 @@ type Handler interface {
 	// ServiceSchemaRegistrySchemaGet get schema in Schema Registry
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/schemas/ids/{schema_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySchemaGet
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ServiceSchemaRegistrySchemaGet(ctx context.Context, project string, serviceName string, schemaId string) error
 
 	// ServiceSchemaRegistrySubjectConfigGet get configuration for Schema Registry subject
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/config/{subject_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectConfigGet
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ServiceSchemaRegistrySubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string, query ...[2]string) (CompatibilityType, error)
 
 	// ServiceSchemaRegistrySubjectConfigPut edit configuration for Schema Registry subject
 	// PUT /v1/project/{project}/service/{service_name}/kafka/schema/config/{subject_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectConfigPut
+	// Required roles or permissions: admin, role:organization:admin, service:data:write
 	ServiceSchemaRegistrySubjectConfigPut(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectConfigPutIn) (CompatibilityType, error)
 
 	// ServiceSchemaRegistrySubjectDelete delete Schema Registry subject

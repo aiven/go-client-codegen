@@ -14,26 +14,31 @@ type Handler interface {
 	// OrganizationVpcCreate [EXPERIMENTAL] Create organization VPC
 	// POST /v1/organization/{organization_id}/vpcs
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcCreate
+	// Required roles or permissions: organization:networking:write, role:organization:admin
 	OrganizationVpcCreate(ctx context.Context, organizationId string, in *OrganizationVpcCreateIn) (*OrganizationVpcCreateOut, error)
 
 	// OrganizationVpcDelete [EXPERIMENTAL] Delete organization VPC
 	// DELETE /v1/organization/{organization_id}/vpcs/{organization_vpc_id}
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcDelete
+	// Required roles or permissions: organization:networking:write, role:organization:admin
 	OrganizationVpcDelete(ctx context.Context, organizationId string, organizationVpcId string) (*OrganizationVpcDeleteOut, error)
 
 	// OrganizationVpcGet [EXPERIMENTAL] Get organization VPC
 	// GET /v1/organization/{organization_id}/vpcs/{organization_vpc_id}
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcGet
+	// Required roles or permissions: organization:networking:read, role:organization:admin
 	OrganizationVpcGet(ctx context.Context, organizationId string, organizationVpcId string) (*OrganizationVpcGetOut, error)
 
 	// OrganizationVpcList [EXPERIMENTAL] List organization VPCs
 	// GET /v1/organization/{organization_id}/vpcs
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcList
+	// Required roles or permissions: organization:networking:read, role:organization:admin
 	OrganizationVpcList(ctx context.Context, organizationId string) ([]VpcOut, error)
 
 	// OrganizationVpcPeeringConnectionCreate [EXPERIMENTAL] Create organization VPC peering
 	// POST /v1/organization/{organization_id}/vpcs/{organization_vpc_id}/peering-connections
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcPeeringConnectionCreate
+	// Required roles or permissions: organization:networking:write, role:organization:admin
 	OrganizationVpcPeeringConnectionCreate(ctx context.Context, organizationId string, organizationVpcId string, in *OrganizationVpcPeeringConnectionCreateIn) (*OrganizationVpcPeeringConnectionCreateOut, error)
 
 	// OrganizationVpcPeeringConnectionDeleteById [EXPERIMENTAL] Delete organization VPC peering

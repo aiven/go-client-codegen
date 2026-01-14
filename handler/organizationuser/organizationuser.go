@@ -14,6 +14,7 @@ type Handler interface {
 	// OrganizationUserAuthenticationMethodsList list authentication methods for a user in the organization
 	// GET /v1/organization/{organization_id}/user/{member_user_id}/authentication_methods
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserAuthenticationMethodsList
+	// Required roles or permissions: role:organization:admin
 	OrganizationUserAuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethodOut, error)
 
 	// OrganizationUserDelete remove a user from the organization
@@ -39,6 +40,7 @@ type Handler interface {
 	// OrganizationUserInvitationsList list user invitations to the organization
 	// GET /v1/organization/{organization_id}/invitation
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationsList
+	// Required roles or permissions: role:organization:admin
 	OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]InvitationOut, error)
 
 	// OrganizationUserInvite invite a user to the organization
@@ -59,16 +61,19 @@ type Handler interface {
 	// OrganizationUserRevokeToken revoke the token of a managed user in the organization
 	// DELETE /v1/organization/{organization_id}/user/{member_user_id}/access-token/{token_prefix}
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserRevokeToken
+	// Required roles or permissions: organization:users:write, role:organization:admin
 	OrganizationUserRevokeToken(ctx context.Context, organizationId string, memberUserId string, tokenPrefix string) error
 
 	// OrganizationUserTokensList list tokens from an organization's member
 	// GET /v1/organization/{organization_id}/user/{member_user_id}/access-tokens
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserTokensList
+	// Required roles or permissions: role:organization:admin
 	OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]TokenOut, error)
 
 	// OrganizationUserUpdate update details on a user of the organization
 	// PATCH /v1/organization/{organization_id}/user/{member_user_id}
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserUpdate
+	// Required roles or permissions: role:organization:admin
 	OrganizationUserUpdate(ctx context.Context, organizationId string, memberUserId string, in *OrganizationUserUpdateIn) (*OrganizationUserUpdateOut, error)
 }
 

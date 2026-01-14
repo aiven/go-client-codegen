@@ -13,6 +13,7 @@ type Handler interface {
 	// OrganizationProjectsCreate create project under the organization
 	// POST /v1/organization/{organization_id}/projects
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsCreate
+	// Required roles or permissions: organization:projects:write, role:organization:admin
 	OrganizationProjectsCreate(ctx context.Context, organizationId string, in *OrganizationProjectsCreateIn) (*OrganizationProjectsCreateOut, error)
 
 	// OrganizationProjectsDelete delete project under the organization
@@ -28,6 +29,7 @@ type Handler interface {
 	// OrganizationProjectsList list projects under the organization
 	// GET /v1/organization/{organization_id}/projects
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsList
+	// Required roles or permissions: role:organization:admin
 	OrganizationProjectsList(ctx context.Context, organizationId string) (*OrganizationProjectsListOut, error)
 
 	// OrganizationProjectsUpdate update project under the organization

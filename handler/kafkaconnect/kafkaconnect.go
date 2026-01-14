@@ -28,6 +28,7 @@ type Handler interface {
 	// ServiceKafkaConnectGetAvailableConnectors get available Kafka Connect connectors
 	// GET /v1/project/{project}/service/{service_name}/available-connectors
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectGetAvailableConnectors
+	// Required roles or permissions: admin, role:organization:admin
 	ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]ServiceKafkaConnectGetAvailableConnectorsOut, error)
 
 	// ServiceKafkaConnectGetConnectorConfiguration get Kafka Connect connector configuration schema
@@ -38,21 +39,25 @@ type Handler interface {
 	// ServiceKafkaConnectGetConnectorStatus get a Kafka Connect Connector status
 	// GET /v1/project/{project}/service/{service_name}/connectors/{connector_name}/status
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectGetConnectorStatus
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ServiceKafkaConnectGetConnectorStatus(ctx context.Context, project string, serviceName string, connectorName string) (*ServiceKafkaConnectGetConnectorStatusOut, error)
 
 	// ServiceKafkaConnectList lists Kafka connectors
 	// GET /v1/project/{project}/service/{service_name}/connectors
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ServiceKafkaConnectList(ctx context.Context, project string, serviceName string) ([]ConnectorOut, error)
 
 	// ServiceKafkaConnectPauseConnector pause a Kafka Connect Connector
 	// POST /v1/project/{project}/service/{service_name}/connectors/{connector_name}/pause
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectPauseConnector
+	// Required roles or permissions: admin, role:organization:admin, service:data:write
 	ServiceKafkaConnectPauseConnector(ctx context.Context, project string, serviceName string, connectorName string) error
 
 	// ServiceKafkaConnectRestartConnector restart a Kafka Connect Connector
 	// POST /v1/project/{project}/service/{service_name}/connectors/{connector_name}/restart
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectRestartConnector
+	// Required roles or permissions: admin, role:organization:admin, service:data:write
 	ServiceKafkaConnectRestartConnector(ctx context.Context, project string, serviceName string, connectorName string) error
 
 	// ServiceKafkaConnectRestartConnectorTask restart a Kafka Connect Connector task
@@ -63,6 +68,7 @@ type Handler interface {
 	// ServiceKafkaConnectResumeConnector resume a Kafka Connect Connector
 	// POST /v1/project/{project}/service/{service_name}/connectors/{connector_name}/resume
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectResumeConnector
+	// Required roles or permissions: admin, role:organization:admin, service:data:write
 	ServiceKafkaConnectResumeConnector(ctx context.Context, project string, serviceName string, connectorName string) error
 }
 
