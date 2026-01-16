@@ -14,66 +14,79 @@ type Handler interface {
 	// BillingGroupCreate create a billing group
 	// POST /v1/billing-group
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupCreate
+	// Required roles or permissions: organization:billing:write, role:organization:admin
 	BillingGroupCreate(ctx context.Context, in *BillingGroupCreateIn) (*BillingGroupCreateOut, error)
 
 	// BillingGroupCreditsClaim claim a credit code
 	// POST /v1/billing-group/{billing_group_id}/credits
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupCreditsClaim
+	// Required roles or permissions: admin, role:organization:admin
 	BillingGroupCreditsClaim(ctx context.Context, billingGroupId string, in *BillingGroupCreditsClaimIn) (*BillingGroupCreditsClaimOut, error)
 
 	// BillingGroupCreditsList list billing group credits
 	// GET /v1/billing-group/{billing_group_id}/credits
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupCreditsList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	BillingGroupCreditsList(ctx context.Context, billingGroupId string) ([]CreditOut, error)
 
 	// BillingGroupDelete delete billing group
 	// DELETE /v1/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupDelete
+	// Required roles or permissions: admin, role:organization:admin
 	BillingGroupDelete(ctx context.Context, billingGroupId string) error
 
 	// BillingGroupEventList list billing group events
 	// GET /v1/billing-group/{billing_group_id}/events
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupEventList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	BillingGroupEventList(ctx context.Context, billingGroupId string) ([]EventOut, error)
 
 	// BillingGroupGet get billing group details
 	// GET /v1/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupGet
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	BillingGroupGet(ctx context.Context, billingGroupId string) (*BillingGroupGetOut, error)
 
 	// BillingGroupInvoiceLinesList get invoice lines for a single invoice
 	// GET /v1/billing-group/{billing_group_id}/invoice/{invoice_number}/lines
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupInvoiceLinesList
+	// Required roles or permissions: admin, role:organization:admin
 	BillingGroupInvoiceLinesList(ctx context.Context, billingGroupId string, invoiceNumber string) ([]LineOut, error)
 
 	// BillingGroupInvoiceList get invoices generated for billing group
 	// GET /v1/billing-group/{billing_group_id}/invoice
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupInvoiceList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	BillingGroupInvoiceList(ctx context.Context, billingGroupId string) ([]InvoiceOut, error)
 
 	// BillingGroupList list billing groups
 	// GET /v1/billing-group
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupList
+	// Required roles or permissions: organization:billing:read, role:organization:admin
 	BillingGroupList(ctx context.Context) ([]BillingGroupOut, error)
 
 	// BillingGroupProjectAssign assign project to billing group
 	// POST /v1/billing-group/{billing_group_id}/project-assign/{project}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectAssign
+	// Required roles or permissions: admin, role:organization:admin
 	BillingGroupProjectAssign(ctx context.Context, billingGroupId string, project string) error
 
 	// BillingGroupProjectList get projects assigned to billing group
 	// GET /v1/billing-group/{billing_group_id}/projects
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	BillingGroupProjectList(ctx context.Context, billingGroupId string) ([]ProjectOut, error)
 
 	// BillingGroupProjectsAssign assign projects to billing group
 	// POST /v1/billing-group/{billing_group_id}/projects-assign
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectsAssign
+	// Required roles or permissions: admin, role:organization:admin
 	BillingGroupProjectsAssign(ctx context.Context, billingGroupId string, in *BillingGroupProjectsAssignIn) error
 
 	// BillingGroupUpdate update billing group
 	// PUT /v1/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupUpdate
+	// Required roles or permissions: admin, role:organization:admin
 	BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroupUpdateOut, error)
 }
 

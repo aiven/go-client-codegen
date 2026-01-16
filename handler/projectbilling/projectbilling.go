@@ -19,16 +19,19 @@ type Handler interface {
 	// Deprecated: ProjectCreditsClaim claim a credit code
 	// POST /v1/project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsClaim
+	// Required roles or permissions: admin, role:organization:admin
 	ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*ProjectCreditsClaimOut, error)
 
 	// Deprecated: ProjectCreditsList list credits available to the project
 	// GET /v1/project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ProjectCreditsList(ctx context.Context, project string) ([]CreditOut, error)
 
 	// ProjectInvoiceList list project invoices
 	// GET /v1/project/{project}/invoice
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectInvoiceList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ProjectInvoiceList(ctx context.Context, project string) ([]InvoiceOut, error)
 }
 

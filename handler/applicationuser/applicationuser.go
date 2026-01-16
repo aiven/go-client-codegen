@@ -14,36 +14,43 @@ type Handler interface {
 	// ApplicationUserAccessTokenCreate create an application token
 	// POST /v1/organization/{organization_id}/application-users/{user_id}/access-tokens
 	// https://api.aiven.io/doc/#tag/Application_Users/operation/ApplicationUserAccessTokenCreate
+	// Required roles or permissions: organization:app_users:write, role:organization:admin
 	ApplicationUserAccessTokenCreate(ctx context.Context, organizationId string, userId string, in *ApplicationUserAccessTokenCreateIn) (*ApplicationUserAccessTokenCreateOut, error)
 
 	// ApplicationUserAccessTokenDelete delete an application token
 	// DELETE /v1/organization/{organization_id}/application-users/{user_id}/access-tokens/{token_prefix}
 	// https://api.aiven.io/doc/#tag/Application_Users/operation/ApplicationUserAccessTokenDelete
+	// Required roles or permissions: organization:app_users:write, role:organization:admin
 	ApplicationUserAccessTokenDelete(ctx context.Context, organizationId string, userId string, tokenPrefix string) error
 
 	// ApplicationUserAccessTokensList list application tokens
 	// GET /v1/organization/{organization_id}/application-users/{user_id}/access-tokens
 	// https://api.aiven.io/doc/#tag/Application_Users/operation/ApplicationUserAccessTokensList
+	// Required roles or permissions: role:organization:admin
 	ApplicationUserAccessTokensList(ctx context.Context, organizationId string, userId string) ([]TokenOut, error)
 
 	// ApplicationUserCreate create an application user
 	// POST /v1/organization/{organization_id}/application-users
 	// https://api.aiven.io/doc/#tag/Application_Users/operation/ApplicationUserCreate
+	// Required roles or permissions: organization:app_users:write, role:organization:admin
 	ApplicationUserCreate(ctx context.Context, organizationId string, in *ApplicationUserCreateIn) (*ApplicationUserCreateOut, error)
 
 	// ApplicationUserDelete delete an application user
 	// DELETE /v1/organization/{organization_id}/application-users/{user_id}
 	// https://api.aiven.io/doc/#tag/Application_Users/operation/ApplicationUserDelete
+	// Required roles or permissions: organization:app_users:write, role:organization:admin
 	ApplicationUserDelete(ctx context.Context, organizationId string, userId string) error
 
 	// ApplicationUserGet get an application user
 	// GET /v1/organization/{organization_id}/application-users/{user_id}
 	// https://api.aiven.io/doc/#tag/Application_Users/operation/ApplicationUserGet
+	// Required roles or permissions: role:organization:admin
 	ApplicationUserGet(ctx context.Context, organizationId string, userId string) (*ApplicationUserGetOut, error)
 
 	// ApplicationUserUpdate update details on an application user of the organization
 	// PATCH /v1/organization/{organization_id}/application-users/{user_id}
 	// https://api.aiven.io/doc/#tag/Application_Users/operation/ApplicationUserUpdate
+	// Required roles or permissions: organization:app_users:write, role:organization:admin
 	ApplicationUserUpdate(ctx context.Context, organizationId string, userId string, in *ApplicationUserUpdateIn) (*ApplicationUserUpdateOut, error)
 
 	// ApplicationUsersList list application users

@@ -13,6 +13,7 @@ type Handler interface {
 	// ServiceThanosStorageSummary get Thanos object storage summary
 	// GET /v1/project/{project}/service/{service_name}/thanos/storage/summary
 	// https://api.aiven.io/doc/#tag/Service:_Thanos/operation/ServiceThanosStorageSummary
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ServiceThanosStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceThanosStorageSummaryOut, error)
 }
 

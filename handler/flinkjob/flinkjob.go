@@ -13,6 +13,7 @@ type Handler interface {
 	// ServiceFlinkJobDetails get a Flink job info
 	// GET /v1/project/{project}/service/{service_name}/flink/job/{job_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkJobDetails
+	// Required roles or permissions: admin, role:organization:admin
 	ServiceFlinkJobDetails(ctx context.Context, project string, serviceName string, jobId string) (*ServiceFlinkJobDetailsOut, error)
 
 	// ServiceFlinkJobsList get all Flink jobs

@@ -14,11 +14,13 @@ type Handler interface {
 	// UserGroupCreate create a group
 	// POST /v1/organization/{organization_id}/user-groups
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupCreate
+	// Required roles or permissions: organization:groups:write, role:organization:admin
 	UserGroupCreate(ctx context.Context, organizationId string, in *UserGroupCreateIn) (*UserGroupCreateOut, error)
 
 	// UserGroupDelete delete a group
 	// DELETE /v1/organization/{organization_id}/user-groups/{user_group_id}
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupDelete
+	// Required roles or permissions: organization:groups:write, role:organization:admin
 	UserGroupDelete(ctx context.Context, organizationId string, userGroupId string) error
 
 	// UserGroupGet retrieve a group
@@ -34,11 +36,13 @@ type Handler interface {
 	// UserGroupMembersUpdate add or remove group members
 	// PATCH /v1/organization/{organization_id}/user-groups/{user_group_id}/members
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupMembersUpdate
+	// Required roles or permissions: organization:groups:write, role:organization:admin
 	UserGroupMembersUpdate(ctx context.Context, organizationId string, userGroupId string, in *UserGroupMembersUpdateIn) error
 
 	// UserGroupUpdate update a group
 	// PATCH /v1/organization/{organization_id}/user-groups/{user_group_id}
 	// https://api.aiven.io/doc/#tag/Groups/operation/UserGroupUpdate
+	// Required roles or permissions: organization:groups:write, role:organization:admin
 	UserGroupUpdate(ctx context.Context, organizationId string, userGroupId string, in *UserGroupUpdateIn) (*UserGroupUpdateOut, error)
 
 	// UserGroupsList list groups

@@ -18,61 +18,73 @@ type Handler interface {
 	// ServicePrivatelinkAWSConnectionList list VPC Endpoint connections for an AWS Privatelink Endpoint Service
 	// GET /v1/project/{project}/service/{service_name}/privatelink/aws/connections
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSConnectionList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ServicePrivatelinkAWSConnectionList(ctx context.Context, project string, serviceName string) ([]ConnectionOut, error)
 
 	// ServicePrivatelinkAWSCreate create an AWS Privatelink Endpoint Service
 	// POST /v1/project/{project}/service/{service_name}/privatelink/aws
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSCreate
+	// Required roles or permissions: admin, project:services:write, role:organization:admin, service:configuration:write
 	ServicePrivatelinkAWSCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwscreateIn) (*ServicePrivatelinkAwscreateOut, error)
 
 	// ServicePrivatelinkAWSDelete delete an AWS Privatelink Endpoint Service
 	// DELETE /v1/project/{project}/service/{service_name}/privatelink/aws
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSDelete
+	// Required roles or permissions: admin, project:services:write, role:organization:admin, service:configuration:write
 	ServicePrivatelinkAWSDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsdeleteOut, error)
 
 	// ServicePrivatelinkAWSGet get AWS Privatelink Endpoint Service information
 	// GET /v1/project/{project}/service/{service_name}/privatelink/aws
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSGet
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ServicePrivatelinkAWSGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsgetOut, error)
 
 	// ServicePrivatelinkAWSUpdate update an AWS Privatelink Endpoint Service
 	// PUT /v1/project/{project}/service/{service_name}/privatelink/aws
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSUpdate
+	// Required roles or permissions: admin, project:services:write, role:organization:admin, service:configuration:write
 	ServicePrivatelinkAWSUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwsupdateIn) (*ServicePrivatelinkAwsupdateOut, error)
 
 	// ServicePrivatelinkAzureConnectionApproval approve an Azure private endpoint connection pending user approval
 	// POST /v1/project/{project}/service/{service_name}/privatelink/azure/connections/{privatelink_connection_id}/approve
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureConnectionApproval
+	// Required roles or permissions: admin, project:services:write, role:organization:admin, service:configuration:write
 	ServicePrivatelinkAzureConnectionApproval(ctx context.Context, project string, serviceName string, privatelinkConnectionId string) (*ServicePrivatelinkAzureConnectionApprovalOut, error)
 
 	// ServicePrivatelinkAzureConnectionList list private endpoint connections for an Azure Privatelink Service
 	// GET /v1/project/{project}/service/{service_name}/privatelink/azure/connections
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureConnectionList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ServicePrivatelinkAzureConnectionList(ctx context.Context, project string, serviceName string) ([]ServicePrivatelinkAzureConnectionListOut, error)
 
 	// ServicePrivatelinkAzureConnectionUpdate update a private endpoint connection for an Azure Privatelink Service
 	// PUT /v1/project/{project}/service/{service_name}/privatelink/azure/connections/{privatelink_connection_id}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureConnectionUpdate
+	// Required roles or permissions: admin, project:services:write, role:organization:admin, service:configuration:write
 	ServicePrivatelinkAzureConnectionUpdate(ctx context.Context, project string, serviceName string, privatelinkConnectionId string, in *ServicePrivatelinkAzureConnectionUpdateIn) (*ServicePrivatelinkAzureConnectionUpdateOut, error)
 
 	// ServicePrivatelinkAzureCreate create an Azure Privatelink Service
 	// POST /v1/project/{project}/service/{service_name}/privatelink/azure
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureCreate
+	// Required roles or permissions: admin, project:services:write, role:organization:admin, service:configuration:write
 	ServicePrivatelinkAzureCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureCreateIn) (*ServicePrivatelinkAzureCreateOut, error)
 
 	// ServicePrivatelinkAzureDelete delete an Azure Privatelink Service
 	// DELETE /v1/project/{project}/service/{service_name}/privatelink/azure
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureDelete
+	// Required roles or permissions: admin, project:services:write, role:organization:admin, service:configuration:write
 	ServicePrivatelinkAzureDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAzureDeleteOut, error)
 
 	// ServicePrivatelinkAzureGet get Azure Privatelink Service information
 	// GET /v1/project/{project}/service/{service_name}/privatelink/azure
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureGet
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ServicePrivatelinkAzureGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAzureGetOut, error)
 
 	// ServicePrivatelinkAzureUpdate update an Azure Privatelink Service
 	// PUT /v1/project/{project}/service/{service_name}/privatelink/azure
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureUpdate
+	// Required roles or permissions: admin, project:services:write, role:organization:admin, service:configuration:write
 	ServicePrivatelinkAzureUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureUpdateIn) (*ServicePrivatelinkAzureUpdateOut, error)
 }
 

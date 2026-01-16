@@ -40,6 +40,7 @@ type envConfig struct {
 	ClientFile       string `envconfig:"CLIENT_FILE" default:"client_generated.go"`
 	OpenAPIFile      string `envconfig:"OPENAPI_FILE" default:"openapi.json"`
 	OpenAPIPatchFile string `envconfig:"OPENAPI_PATCH_FILE" default:"openapi_patch.yaml"`
+	PermissionsFile  string `envconfig:"PERMISSIONS_FILE" default:"permissions.yaml"`
 }
 
 var (
@@ -88,6 +89,11 @@ func exec() error {
 
 	// Check for duplicate endpoints
 	err = checkDuplicateEndpoints(config)
+	if err != nil {
+		return err
+	}
+
+	permissions, err := readPermissions(cfg)
 	if err != nil {
 		return err
 	}
@@ -302,7 +308,7 @@ func exec() error {
 				structMeth.Error()
 			}
 
-			typeMethods = append(typeMethods, path.Comment(), typeMeth.Line())
+			typeMethods = append(typeMethods, path.Comment(permissions[path.OperationID]), typeMeth.Line())
 
 			// Crates a go formattable path, i.e.:
 			// /foo/{foo}/ => /foo/%s/

@@ -13,40 +13,48 @@ type Handler interface {
 	// ServiceKafkaTopicCreate create a Kafka topic
 	// POST /v1/project/{project}/service/{service_name}/topic
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicCreate
+	// Required roles or permissions: admin, role:organization:admin
 	ServiceKafkaTopicCreate(ctx context.Context, project string, serviceName string, in *ServiceKafkaTopicCreateIn) error
 
 	// ServiceKafkaTopicDelete delete a Kafka topic
 	// DELETE /v1/project/{project}/service/{service_name}/topic/{topic_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicDelete
+	// Required roles or permissions: admin, role:organization:admin, service:data:write
 	ServiceKafkaTopicDelete(ctx context.Context, project string, serviceName string, topicName string) error
 
 	// ServiceKafkaTopicGet get Kafka topic info
 	// GET /v1/project/{project}/service/{service_name}/topic/{topic_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicGet
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ServiceKafkaTopicGet(ctx context.Context, project string, serviceName string, topicName string) (*ServiceKafkaTopicGetOut, error)
 
 	// ServiceKafkaTopicList get Kafka topic list
 	// GET /v1/project/{project}/service/{service_name}/topic
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicList
+	// Required roles or permissions: admin, read_only, role:organization:admin
 	ServiceKafkaTopicList(ctx context.Context, project string, serviceName string) ([]TopicOut, error)
 
 	// ServiceKafkaTopicListV2 list Kafka topics V2
 	// POST /v2/project/{project}/service/{service_name}/topic
+	// Required roles or permissions: admin, read_only, role:organization:admin, service:data:write
 	ServiceKafkaTopicListV2(ctx context.Context, project string, serviceName string, in *ServiceKafkaTopicListV2In) ([]ServiceKafkaTopicGetOut, error)
 
 	// ServiceKafkaTopicMessageList list kafka topic messages
 	// POST /v1/project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/messages
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicMessageList
+	// Required roles or permissions: admin, read_only, role:organization:admin, service:data:write
 	ServiceKafkaTopicMessageList(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageListIn) ([]MessageOut, error)
 
 	// ServiceKafkaTopicMessageProduce produce message into a kafka topic
 	// POST /v1/project/{project}/service/{service_name}/kafka/rest/topics/{topic_name}/produce
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicMessageProduce
+	// Required roles or permissions: admin, role:organization:admin, service:data:write
 	ServiceKafkaTopicMessageProduce(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicMessageProduceIn) (*ServiceKafkaTopicMessageProduceOut, error)
 
 	// ServiceKafkaTopicUpdate update a Kafka topic
 	// PUT /v1/project/{project}/service/{service_name}/topic/{topic_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTopicUpdate
+	// Required roles or permissions: admin, role:organization:admin, service:data:write
 	ServiceKafkaTopicUpdate(ctx context.Context, project string, serviceName string, topicName string, in *ServiceKafkaTopicUpdateIn) error
 }
 
