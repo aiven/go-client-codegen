@@ -1080,6 +1080,16 @@ type DragonflyOut struct {
 	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
+type DumpToolType string
+
+const (
+	DumpToolTypeMydumper  DumpToolType = "mydumper"
+	DumpToolTypeMysqldump DumpToolType = "mysqldump"
+)
+
+func DumpToolTypeChoices() []string {
+	return []string{"mydumper", "mysqldump"}
+}
 
 // ElasticsearchOut Service type information
 type ElasticsearchOut struct {
@@ -1485,10 +1495,11 @@ func MigrationCheckMethodTypeChoices() []string {
 }
 
 type MigrationDetailOut struct {
-	Dbname string                    `json:"dbname"`          // Migrated db name (PG, MySQL) or number (Redis, Dragonfly)
-	Error  *string                   `json:"error,omitempty"` // Error message in case that migration has failed
-	Method MethodType                `json:"method"`          // The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
-	Status MigrationDetailStatusType `json:"status"`          // Migration status
+	Dbname   string                    `json:"dbname"`              // Migrated db name (PG, MySQL) or number (Redis, Dragonfly)
+	DumpTool DumpToolType              `json:"dump_tool,omitempty"` // Tool used to perform the initial dump of a database to migrate (when method is replication), or just the dump-reload of the database (when method is dump).
+	Error    *string                   `json:"error,omitempty"`     // Error message in case that migration has failed
+	Method   MethodType                `json:"method"`              // The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
+	Status   MigrationDetailStatusType `json:"status"`              // Migration status
 }
 type MigrationDetailStatusType string
 
