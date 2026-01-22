@@ -116,6 +116,7 @@ type ReplicationFlowOut struct {
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
 	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Whether to enable exactly-once message delivery. We recommend you set this to enabled for new replications.
+	FollowerFetchingEnabled         *bool                        `json:"follower_fetching_enabled,omitempty"`           // Assigns a Rack ID based on the availability-zone to enable follower fetching and rack awareness per replication flow.
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced (default: 100)
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // The location of the offset-syncs topic
 	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor used when creating the remote topics. If the replication factor surpasses the number of nodes in the target cluster, topic creation will fail.
@@ -147,6 +148,7 @@ type ServiceKafkaMirrorMakerCreateReplicationFlowIn struct {
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
 	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Whether to enable exactly-once message delivery. We recommend you set this to enabled for new replications.
+	FollowerFetchingEnabled         *bool                        `json:"follower_fetching_enabled,omitempty"`           // Assigns a Rack ID based on the availability-zone to enable follower fetching and rack awareness per replication flow.
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced (default: 100)
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // The location of the offset-syncs topic
 	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor used when creating the remote topics. If the replication factor surpasses the number of nodes in the target cluster, topic creation will fail.
@@ -167,6 +169,7 @@ type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
 	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Whether to enable exactly-once message delivery. We recommend you set this to enabled for new replications.
+	FollowerFetchingEnabled         *bool                        `json:"follower_fetching_enabled,omitempty"`           // Assigns a Rack ID based on the availability-zone to enable follower fetching and rack awareness per replication flow.
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced (default: 100)
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // The location of the offset-syncs topic
 	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor used when creating the remote topics. If the replication factor surpasses the number of nodes in the target cluster, topic creation will fail.
@@ -188,6 +191,7 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         *bool                        `json:"enabled,omitempty"`                             // Is replication flow enabled
 	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Whether to enable exactly-once message delivery. We recommend you set this to enabled for new replications.
+	FollowerFetchingEnabled         *bool                        `json:"follower_fetching_enabled,omitempty"`           // Assigns a Rack ID based on the availability-zone to enable follower fetching and rack awareness per replication flow.
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced (default: 100)
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // The location of the offset-syncs topic
 	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor used when creating the remote topics. If the replication factor surpasses the number of nodes in the target cluster, topic creation will fail.
@@ -206,6 +210,7 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowOut struct {
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
 	ExactlyOnceDeliveryEnabled      *bool                        `json:"exactly_once_delivery_enabled,omitempty"`       // Whether to enable exactly-once message delivery. We recommend you set this to enabled for new replications.
+	FollowerFetchingEnabled         *bool                        `json:"follower_fetching_enabled,omitempty"`           // Assigns a Rack ID based on the availability-zone to enable follower fetching and rack awareness per replication flow.
 	OffsetLagMax                    *int                         `json:"offset_lag_max,omitempty"`                      // How out-of-sync a remote partition can be before it is resynced (default: 100)
 	OffsetSyncsTopicLocation        OffsetSyncsTopicLocationType `json:"offset_syncs_topic_location,omitempty"`         // The location of the offset-syncs topic
 	ReplicationFactor               *int                         `json:"replication_factor,omitempty"`                  // Replication factor used when creating the remote topics. If the replication factor surpasses the number of nodes in the target cluster, topic creation will fail.
