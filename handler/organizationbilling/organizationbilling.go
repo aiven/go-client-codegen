@@ -17,25 +17,25 @@ type Handler interface {
 	OrganizationBillingGroupCreate(ctx context.Context, organizationId string, in *OrganizationBillingGroupCreateIn) (*OrganizationBillingGroupCreateOut, error)
 
 	// OrganizationBillingGroupDelete [EXPERIMENTAL] Delete an organization billing group
-	// DELETE /v1/organization/{organization_id}/billing-group/{billing_group_id}
+	// DELETE /v1/organization/{organization_id}/billing-groups/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupDelete
 	// Required roles or permissions: organization:billing:write, role:organization:admin
 	OrganizationBillingGroupDelete(ctx context.Context, organizationId string, billingGroupId string) error
 
 	// OrganizationBillingGroupGet [EXPERIMENTAL] Get organization billing group details
-	// GET /v1/organization/{organization_id}/billing-group/{billing_group_id}
+	// GET /v1/organization/{organization_id}/billing-groups/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupGet
 	// Required roles or permissions: organization:billing:read, role:organization:admin
 	OrganizationBillingGroupGet(ctx context.Context, organizationId string, billingGroupId string) (*OrganizationBillingGroupGetOut, error)
 
 	// OrganizationBillingGroupList [EXPERIMENTAL] List billing groups in an organization
-	// GET /v1/organization/{organization_id}/billing-group
+	// GET /v1/organization/{organization_id}/billing-groups
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupList
 	// Required roles or permissions: organization:billing:read, role:organization:admin
 	OrganizationBillingGroupList(ctx context.Context, organizationId string) ([]BillingGroupOut, error)
 
 	// OrganizationBillingGroupUpdate [EXPERIMENTAL] Update organization billing group details
-	// PUT /v1/organization/{organization_id}/billing-group/{billing_group_id}
+	// PUT /v1/organization/{organization_id}/billing-groups/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupUpdate
 	// Required roles or permissions: organization:billing:write, role:organization:admin
 	OrganizationBillingGroupUpdate(ctx context.Context, organizationId string, billingGroupId string, in *OrganizationBillingGroupUpdateIn) (*OrganizationBillingGroupUpdateOut, error)
@@ -68,12 +68,12 @@ func (h *OrganizationBillingHandler) OrganizationBillingGroupCreate(ctx context.
 	return out, nil
 }
 func (h *OrganizationBillingHandler) OrganizationBillingGroupDelete(ctx context.Context, organizationId string, billingGroupId string) error {
-	path := fmt.Sprintf("/v1/organization/%s/billing-group/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
+	path := fmt.Sprintf("/v1/organization/%s/billing-groups/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
 	_, err := h.doer.Do(ctx, "OrganizationBillingGroupDelete", "DELETE", path, nil)
 	return err
 }
 func (h *OrganizationBillingHandler) OrganizationBillingGroupGet(ctx context.Context, organizationId string, billingGroupId string) (*OrganizationBillingGroupGetOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/billing-group/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
+	path := fmt.Sprintf("/v1/organization/%s/billing-groups/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
 	b, err := h.doer.Do(ctx, "OrganizationBillingGroupGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (h *OrganizationBillingHandler) OrganizationBillingGroupGet(ctx context.Con
 	return out, nil
 }
 func (h *OrganizationBillingHandler) OrganizationBillingGroupList(ctx context.Context, organizationId string) ([]BillingGroupOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/billing-group", url.PathEscape(organizationId))
+	path := fmt.Sprintf("/v1/organization/%s/billing-groups", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "OrganizationBillingGroupList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -99,7 +99,7 @@ func (h *OrganizationBillingHandler) OrganizationBillingGroupList(ctx context.Co
 	return out.BillingGroups, nil
 }
 func (h *OrganizationBillingHandler) OrganizationBillingGroupUpdate(ctx context.Context, organizationId string, billingGroupId string, in *OrganizationBillingGroupUpdateIn) (*OrganizationBillingGroupUpdateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/billing-group/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
+	path := fmt.Sprintf("/v1/organization/%s/billing-groups/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
 	b, err := h.doer.Do(ctx, "OrganizationBillingGroupUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
@@ -133,6 +133,7 @@ type BillingGroupOut struct {
 	Currency             CurrencyType             `json:"currency,omitempty"`            // Acceptable currencies for a billing group.
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"` // Extra billing text
 	OrganizationId       string                   `json:"organization_id"`               // Organization ID
+	PaymentMethod        *PaymentMethodOut        `json:"payment_method,omitempty"`      // Payment method
 	PaymentMethodId      *string                  `json:"payment_method_id,omitempty"`   // Payment method ID
 	ShippingAddressId    string                   `json:"shipping_address_id"`           // Shipping address ID
 	VatId                *string                  `json:"vat_id,omitempty"`              // VAT ID
@@ -164,8 +165,8 @@ type OrganizationBillingGroupCreateIn struct {
 	BillingContactEmails []BillingContactEmailIn `json:"billing_contact_emails"`        // List of billing contact emails
 	BillingEmails        []BillingEmailIn        `json:"billing_emails"`                // List of billing contact emails
 	BillingGroupName     string                  `json:"billing_group_name"`            // Billing Group Name
-	Currency             CurrencyType            `json:"currency,omitempty"`            // Acceptable currencies for a billing group.
 	CustomInvoiceText    *string                 `json:"custom_invoice_text,omitempty"` // Extra billing text
+	PaymentMethod        *PaymentMethodIn        `json:"payment_method,omitempty"`      // Payment method
 	PaymentMethodId      string                  `json:"payment_method_id"`             // Payment method ID
 	ShippingAddressId    string                  `json:"shipping_address_id"`           // Shipping address ID
 	VatId                *string                 `json:"vat_id,omitempty"`              // VAT ID
@@ -181,6 +182,7 @@ type OrganizationBillingGroupCreateOut struct {
 	Currency             CurrencyType             `json:"currency,omitempty"`            // Acceptable currencies for a billing group.
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"` // Extra billing text
 	OrganizationId       string                   `json:"organization_id"`               // Organization ID
+	PaymentMethod        *PaymentMethodOut        `json:"payment_method,omitempty"`      // Payment method
 	PaymentMethodId      *string                  `json:"payment_method_id,omitempty"`   // Payment method ID
 	ShippingAddressId    string                   `json:"shipping_address_id"`           // Shipping address ID
 	VatId                *string                  `json:"vat_id,omitempty"`              // VAT ID
@@ -196,6 +198,7 @@ type OrganizationBillingGroupGetOut struct {
 	Currency             CurrencyType             `json:"currency,omitempty"`            // Acceptable currencies for a billing group.
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"` // Extra billing text
 	OrganizationId       string                   `json:"organization_id"`               // Organization ID
+	PaymentMethod        *PaymentMethodOut        `json:"payment_method,omitempty"`      // Payment method
 	PaymentMethodId      *string                  `json:"payment_method_id,omitempty"`   // Payment method ID
 	ShippingAddressId    string                   `json:"shipping_address_id"`           // Shipping address ID
 	VatId                *string                  `json:"vat_id,omitempty"`              // VAT ID
@@ -207,7 +210,6 @@ type OrganizationBillingGroupUpdateIn struct {
 	BillingContactEmails *[]BillingContactEmailIn `json:"billing_contact_emails,omitempty"` // List of billing contact emails
 	BillingEmails        *[]BillingEmailIn        `json:"billing_emails,omitempty"`         // List of billing contact emails
 	BillingGroupName     *string                  `json:"billing_group_name,omitempty"`     // Billing group name
-	Currency             CurrencyType             `json:"currency,omitempty"`               // Acceptable currencies for a billing group.
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"`    // Extra billing text
 	PaymentMethodId      *string                  `json:"payment_method_id,omitempty"`      // Payment method ID
 	ShippingAddressId    *string                  `json:"shipping_address_id,omitempty"`    // Shipping address ID
@@ -224,9 +226,39 @@ type OrganizationBillingGroupUpdateOut struct {
 	Currency             CurrencyType             `json:"currency,omitempty"`            // Acceptable currencies for a billing group.
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"` // Extra billing text
 	OrganizationId       string                   `json:"organization_id"`               // Organization ID
+	PaymentMethod        *PaymentMethodOut        `json:"payment_method,omitempty"`      // Payment method
 	PaymentMethodId      *string                  `json:"payment_method_id,omitempty"`   // Payment method ID
 	ShippingAddressId    string                   `json:"shipping_address_id"`           // Shipping address ID
 	VatId                *string                  `json:"vat_id,omitempty"`              // VAT ID
+}
+
+// PaymentMethodIn Payment method
+type PaymentMethodIn struct {
+	PaymentMethodId   string            `json:"payment_method_id"`   // Payment method ID
+	PaymentMethodType PaymentMethodType `json:"payment_method_type"` // An enumeration.
+}
+
+// PaymentMethodOut Payment method
+type PaymentMethodOut struct {
+	PaymentMethodId   string            `json:"payment_method_id"`   // Payment method ID
+	PaymentMethodType PaymentMethodType `json:"payment_method_type"` // An enumeration.
+}
+type PaymentMethodType string
+
+const (
+	PaymentMethodTypeAwsSubscription         PaymentMethodType = "aws_subscription"
+	PaymentMethodTypeAzureSubscription       PaymentMethodType = "azure_subscription"
+	PaymentMethodTypeBankTransfer            PaymentMethodType = "bank_transfer"
+	PaymentMethodTypeCreditCard              PaymentMethodType = "credit_card"
+	PaymentMethodTypeDisabled                PaymentMethodType = "disabled"
+	PaymentMethodTypeGcpSubscription         PaymentMethodType = "gcp_subscription"
+	PaymentMethodTypeMarketplaceSubscription PaymentMethodType = "marketplace_subscription"
+	PaymentMethodTypeNoPaymentExpected       PaymentMethodType = "no_payment_expected"
+	PaymentMethodTypePartner                 PaymentMethodType = "partner"
+)
+
+func PaymentMethodTypeChoices() []string {
+	return []string{"aws_subscription", "azure_subscription", "bank_transfer", "credit_card", "disabled", "gcp_subscription", "marketplace_subscription", "no_payment_expected", "partner"}
 }
 
 // organizationBillingGroupListOut OrganizationBillingGroupListResponse
