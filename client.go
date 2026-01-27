@@ -16,6 +16,7 @@ import (
 	"time"
 
 	"golang.org/x/exp/slices"
+	"golang.org/x/sync/singleflight"
 
 	"github.com/hashicorp/go-multierror"
 	"github.com/hashicorp/go-retryablehttp"
@@ -105,15 +106,17 @@ func NewClient(opts ...Option) (Client, error) {
 // Default values: 26 seconds
 // Changed values: 67 seconds
 type aivenClient struct {
-	Host         string        `envconfig:"AIVEN_WEB_URL" default:"https://api.aiven.io"`
-	UserAgent    string        `envconfig:"AIVEN_USER_AGENT" default:"aiven-go-client/v3"`
-	Token        string        `envconfig:"AIVEN_TOKEN"`
-	Debug        bool          `envconfig:"AIVEN_DEBUG"`
-	RetryMax     int           `envconfig:"AIVEN_CLIENT_RETRY_MAX" default:"6"`
-	RetryWaitMin time.Duration `envconfig:"AIVEN_CLIENT_RETRY_WAIT_MIN" default:"2s"`
-	RetryWaitMax time.Duration `envconfig:"AIVEN_CLIENT_RETRY_WAIT_MAX" default:"15s"`
-	logger       zerolog.Logger
-	doer         Doer
+	Host               string        `envconfig:"AIVEN_WEB_URL" default:"https://api.aiven.io"`
+	UserAgent          string        `envconfig:"AIVEN_USER_AGENT" default:"aiven-go-client/v3"`
+	Token              string        `envconfig:"AIVEN_TOKEN"`
+	Debug              bool          `envconfig:"AIVEN_DEBUG"`
+	RetryMax           int           `envconfig:"AIVEN_CLIENT_RETRY_MAX" default:"6"`
+	RetryWaitMin       time.Duration `envconfig:"AIVEN_CLIENT_RETRY_WAIT_MIN" default:"2s"`
+	RetryWaitMax       time.Duration `envconfig:"AIVEN_CLIENT_RETRY_WAIT_MAX" default:"15s"`
+	EnableSingleFlight bool          `envconfig:"AIVEN_CLIENT_ENABLE_SINGLE_FLIGHT" default:"true"`
+	logger             zerolog.Logger
+	doer               Doer
+	singleflight       singleflight.Group
 }
 
 // OperationIDKey is the key used to store the operation ID in the context.
@@ -179,6 +182,26 @@ func (d *aivenClient) do(ctx context.Context, operationID, method, path string, 
 	req.Header.Set("User-Agent", d.UserAgent)
 	req.Header.Set("Authorization", "aivenv1 "+d.Token)
 	req.URL.RawQuery = fmtQuery(operationID, query...)
+
+	// Deduplicate concurrent requests to shared list endpoints using singleflight.
+	// Many resources, such as databases,
+	// do not have individual endpoints and instead share a single "list" endpoint (e.g., ServiceDatabaseList).
+	// This often results in multiple simultaneous requests for the same data,
+	// which can cause redundant API calls and unnecessary load.
+	// Currently, the client uses only GET for reading,
+	// but additional methods may be supported in the future.
+	if d.EnableSingleFlight {
+		switch method {
+		case http.MethodGet, http.MethodHead, http.MethodOptions, http.MethodTrace:
+			v, err, _ := d.singleflight.Do(req.URL.String(), func() (any, error) {
+				return d.doer.Do(req)
+			})
+			if err != nil {
+				return nil, err
+			}
+			return v.(*http.Response), err
+		}
+	}
 
 	return d.doer.Do(req)
 }
