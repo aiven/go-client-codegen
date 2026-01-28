@@ -13,21 +13,25 @@ type Handler interface {
 	// ProjectStaticIPAssociate associate a static IP address with a service
 	// POST /v1/project/{project}/static-ips/{static_ip_address_id}/association
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPAssociate
+	// Required roles or permissions: service:configuration:write
 	ProjectStaticIPAssociate(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIpassociateIn) (*ProjectStaticIpassociateOut, error)
 
 	// ProjectStaticIPAvailabilityList list static IP address cloud availability and prices for a project
 	// GET /v1/project/{project}/static-ip-availability
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPAvailabilityList
+	// Required roles or permissions: developer, operator, read_only
 	ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailabilityOut, error)
 
 	// ProjectStaticIPDissociate dissociate a static IP address from a service
 	// DELETE /v1/project/{project}/static-ips/{static_ip_address_id}/association
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPDissociate
+	// Required roles or permissions: service:configuration:write
 	ProjectStaticIPDissociate(ctx context.Context, project string, staticIpAddressId string) (*ProjectStaticIpdissociateOut, error)
 
 	// ProjectStaticIPPatch update a static IP address configuration
 	// PATCH /v1/project/{project}/static-ips/{static_ip_address_id}
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPPatch
+	// Required roles or permissions: operator
 	ProjectStaticIPPatch(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIppatchIn) (*ProjectStaticIppatchOut, error)
 
 	// PublicStaticIPAvailabilityList list static IP clouds and prices
@@ -38,13 +42,13 @@ type Handler interface {
 	// StaticIPCreate create static IP address
 	// POST /v1/project/{project}/static-ips
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPCreate
-	// Required roles or permissions: admin, role:organization:admin
+	// Required roles or permissions: operator
 	StaticIPCreate(ctx context.Context, project string, in *StaticIpcreateIn) (*StaticIpcreateOut, error)
 
 	// StaticIPList list static IP addresses
 	// GET /v1/project/{project}/static-ips
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPList
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: developer, operator, read_only
 	StaticIPList(ctx context.Context, project string) ([]StaticIpOut, error)
 }
 

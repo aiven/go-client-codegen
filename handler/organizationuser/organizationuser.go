@@ -14,12 +14,13 @@ type Handler interface {
 	// OrganizationUserAuthenticationMethodsList list authentication methods for a user in the organization
 	// GET /v1/organization/{organization_id}/user/{member_user_id}/authentication_methods
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserAuthenticationMethodsList
-	// Required roles or permissions: role:organization:admin
+	// Required roles or permissions: organization:users:write
 	OrganizationUserAuthenticationMethodsList(ctx context.Context, organizationId string, memberUserId string) ([]AuthenticationMethodOut, error)
 
 	// OrganizationUserDelete remove a user from the organization
 	// DELETE /v1/organization/{organization_id}/user/{member_user_id}
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserDelete
+	// Required roles or permissions: organization:users:write
 	OrganizationUserDelete(ctx context.Context, organizationId string, memberUserId string) error
 
 	// OrganizationUserGet get details on a user of the organization
@@ -35,17 +36,19 @@ type Handler interface {
 	// OrganizationUserInvitationDelete remove an invitation to the organization
 	// DELETE /v1/organization/{organization_id}/invitation/{user_email}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationDelete
+	// Required roles or permissions: organization:users:write
 	OrganizationUserInvitationDelete(ctx context.Context, organizationId string, userEmail string) error
 
 	// OrganizationUserInvitationsList list user invitations to the organization
 	// GET /v1/organization/{organization_id}/invitation
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvitationsList
-	// Required roles or permissions: role:organization:admin
+	// Required roles or permissions: organization:users:write
 	OrganizationUserInvitationsList(ctx context.Context, organizationId string) ([]InvitationOut, error)
 
 	// OrganizationUserInvite invite a user to the organization
 	// POST /v1/organization/{organization_id}/invitation
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUserInvite
+	// Required roles or permissions: organization:users:write
 	OrganizationUserInvite(ctx context.Context, organizationId string, in *OrganizationUserInviteIn) error
 
 	// OrganizationUserList list users of the organization
@@ -56,24 +59,25 @@ type Handler interface {
 	// OrganizationUserPasswordReset reset the password of a managed user in the organization
 	// POST /v1/organization/{organization_id}/user/{member_user_id}/reset_password
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserPasswordReset
+	// Required roles or permissions: organization:users:write
 	OrganizationUserPasswordReset(ctx context.Context, organizationId string, memberUserId string) error
 
 	// OrganizationUserRevokeToken revoke the token of a managed user in the organization
 	// DELETE /v1/organization/{organization_id}/user/{member_user_id}/access-token/{token_prefix}
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserRevokeToken
-	// Required roles or permissions: organization:users:write, role:organization:admin
+	// Required roles or permissions: organization:users:write
 	OrganizationUserRevokeToken(ctx context.Context, organizationId string, memberUserId string, tokenPrefix string) error
 
 	// OrganizationUserTokensList list tokens from an organization's member
 	// GET /v1/organization/{organization_id}/user/{member_user_id}/access-tokens
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserTokensList
-	// Required roles or permissions: role:organization:admin
+	// Required roles or permissions: organization:users:write
 	OrganizationUserTokensList(ctx context.Context, organizationId string, memberUserId string) ([]TokenOut, error)
 
 	// OrganizationUserUpdate update details on a user of the organization
 	// PATCH /v1/organization/{organization_id}/user/{member_user_id}
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserUpdate
-	// Required roles or permissions: role:organization:admin
+	// Required roles or permissions: organization:users:write
 	OrganizationUserUpdate(ctx context.Context, organizationId string, memberUserId string, in *OrganizationUserUpdateIn) (*OrganizationUserUpdateOut, error)
 }
 

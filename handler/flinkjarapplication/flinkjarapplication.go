@@ -14,26 +14,31 @@ type Handler interface {
 	// ServiceFlinkCreateJarApplication [EXPERIMENTAL] Create a Flink JarApplication
 	// POST /v1/project/{project}/service/{service_name}/flink/jar_application
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCreateJarApplication
+	// Required roles or permissions: service:data:write
 	ServiceFlinkCreateJarApplication(ctx context.Context, project string, serviceName string, in *ServiceFlinkCreateJarApplicationIn) (*ServiceFlinkCreateJarApplicationOut, error)
 
 	// ServiceFlinkDeleteJarApplication [EXPERIMENTAL] Delete a Flink JarApplication
 	// DELETE /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkDeleteJarApplication
+	// Required roles or permissions: service:data:write
 	ServiceFlinkDeleteJarApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkDeleteJarApplicationOut, error)
 
 	// ServiceFlinkGetJarApplication [EXPERIMENTAL] Get a Flink JarApplication
 	// GET /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkGetJarApplication
+	// Required roles or permissions: service:data:write
 	ServiceFlinkGetJarApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkGetJarApplicationOut, error)
 
 	// ServiceFlinkListJarApplications [EXPERIMENTAL] Get all Flink JarApplications
 	// GET /v1/project/{project}/service/{service_name}/flink/jar_application
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkListJarApplications
+	// Required roles or permissions: service:data:write
 	ServiceFlinkListJarApplications(ctx context.Context, project string, serviceName string) ([]ApplicationOut, error)
 
 	// ServiceFlinkUpdateJarApplication [EXPERIMENTAL] Update a Flink JarApplication
 	// PUT /v1/project/{project}/service/{service_name}/flink/jar_application/{application_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkUpdateJarApplication
+	// Required roles or permissions: service:data:write
 	ServiceFlinkUpdateJarApplication(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkUpdateJarApplicationIn) (*ServiceFlinkUpdateJarApplicationOut, error)
 }
 

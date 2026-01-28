@@ -14,6 +14,7 @@ type Handler interface {
 	// ListProjectServiceTypes list service types for a project
 	// GET /v1/project/{project}/service_types
 	// https://api.aiven.io/doc/#tag/Service/operation/ListProjectServiceTypes
+	// Required roles or permissions: project:services:read
 	ListProjectServiceTypes(ctx context.Context, project string) (*ListProjectServiceTypesOut, error)
 
 	// ListPublicServiceTypes list publicly available service types
@@ -29,253 +30,259 @@ type Handler interface {
 	// ProjectGetServiceLogs get service log entries
 	// POST /v1/project/{project}/service/{service_name}/logs
 	// https://api.aiven.io/doc/#tag/Service/operation/ProjectGetServiceLogs
-	// Required roles or permissions: admin, read_only, role:organization:admin, service:logs:read
+	// Required roles or permissions: service:logs:read
 	ProjectGetServiceLogs(ctx context.Context, project string, serviceName string, in *ProjectGetServiceLogsIn) (*ProjectGetServiceLogsOut, error)
 
 	// ProjectServiceTagsList list all tags attached to the service
 	// GET /v1/project/{project}/service/{service_name}/tags
 	// https://api.aiven.io/doc/#tag/Service/operation/ProjectServiceTagsList
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:configuration:write
 	ProjectServiceTagsList(ctx context.Context, project string, serviceName string) (map[string]string, error)
 
 	// ProjectServiceTagsReplace replace all project tags with a new set of tags, deleting old ones
 	// PUT /v1/project/{project}/service/{service_name}/tags
 	// https://api.aiven.io/doc/#tag/Service/operation/ProjectServiceTagsReplace
-	// Required roles or permissions: admin, project:services:write, role:organization:admin, service:configuration:write
+	// Required roles or permissions: service:configuration:write
 	ProjectServiceTagsReplace(ctx context.Context, project string, serviceName string, in *ProjectServiceTagsReplaceIn) error
 
 	// ProjectServiceTagsUpdate update one or more tags, creating ones that don't exist, and deleting ones given NULL value
 	// PATCH /v1/project/{project}/service/{service_name}/tags
 	// https://api.aiven.io/doc/#tag/Service/operation/ProjectServiceTagsUpdate
-	// Required roles or permissions: admin, project:services:write, role:organization:admin, service:configuration:write
+	// Required roles or permissions: service:configuration:write
 	ProjectServiceTagsUpdate(ctx context.Context, project string, serviceName string, in *ProjectServiceTagsUpdateIn) error
 
 	// ServiceAlertsList list active alerts for service
 	// GET /v1/project/{project}/service/{service_name}/alerts
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceAlertsList
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: developer, operator, read_only
 	ServiceAlertsList(ctx context.Context, project string, serviceName string) ([]AlertOut, error)
 
 	// ServiceBackupToAnotherRegionReport get service's backup to another region information
 	// POST /v1/project/{project}/service/{service_name}/backup_to_another_region/report
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceBackupToAnotherRegionReport
-	// Required roles or permissions: admin, project:services:write, read_only, role:organization:admin, service:configuration:write
+	// Required roles or permissions: service:configuration:write
 	ServiceBackupToAnotherRegionReport(ctx context.Context, project string, serviceName string, in *ServiceBackupToAnotherRegionReportIn) (map[string]any, error)
 
 	// ServiceBackupsGet get service backup information
 	// GET /v1/project/{project}/service/{service_name}/backups
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceBackupsGet
+	// Required roles or permissions: service:configuration:write
 	ServiceBackupsGet(ctx context.Context, project string, serviceName string) (*ServiceBackupsGetOut, error)
 
 	// ServiceCancelQuery cancel specified query from service
 	// POST /v1/project/{project}/service/{service_name}/query/cancel
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceCancelQuery
-	// Required roles or permissions: admin, role:organization:admin
+	// Required roles or permissions: developer, operator
 	ServiceCancelQuery(ctx context.Context, project string, serviceName string, in *ServiceCancelQueryIn) (bool, error)
 
 	// ServiceCreate create a service
 	// POST /v1/project/{project}/service
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceCreate
-	// Required roles or permissions: admin, project:services:write, role:organization:admin, role:services:recover
+	// Required roles or permissions: project:services:write, role:services:recover
 	ServiceCreate(ctx context.Context, project string, in *ServiceCreateIn) (*ServiceCreateOut, error)
 
 	// ServiceDatabaseCreate create a new logical database for service
 	// POST /v1/project/{project}/service/{service_name}/db
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseCreate
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: developer, operator
 	ServiceDatabaseCreate(ctx context.Context, project string, serviceName string, in *ServiceDatabaseCreateIn) error
 
 	// ServiceDatabaseDelete delete a logical database
 	// DELETE /v1/project/{project}/service/{service_name}/db/{dbname}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseDelete
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: developer, operator
 	ServiceDatabaseDelete(ctx context.Context, project string, serviceName string, dbname string) error
 
 	// ServiceDatabaseList list service databases
 	// GET /v1/project/{project}/service/{service_name}/db
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseList
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: developer, operator, read_only
 	ServiceDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error)
 
 	// ServiceDelete terminate a service
 	// DELETE /v1/project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDelete
-	// Required roles or permissions: admin, project:services:write, role:organization:admin
+	// Required roles or permissions: project:services:write
 	ServiceDelete(ctx context.Context, project string, serviceName string) error
 
 	// ServiceEnableWrites temporarily enable writes for a service in read-only mode. Will only work if disk usage is lower than 99.0%
 	// POST /v1/project/{project}/service/{service_name}/enable-writes
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceEnableWrites
-	// Required roles or permissions: admin, role:organization:admin
+	// Required roles or permissions: operator
 	ServiceEnableWrites(ctx context.Context, project string, serviceName string) (*string, error)
 
 	// ServiceGet get service information
 	// GET /v1/project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceGet
-	// Required roles or permissions: admin, project:services:read, read_only, role:organization:admin, role:services:maintenance, role:services:recover, service:secrets:read
+	// Required roles or permissions: project:services:read
 	ServiceGet(ctx context.Context, project string, serviceName string, query ...[2]string) (*ServiceGetOut, error)
 
 	// ServiceGetMigrationStatus get migration status
 	// GET /v1/project/{project}/service/{service_name}/migration
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceGetMigrationStatus
+	// Required roles or permissions: developer, operator, read_only
 	ServiceGetMigrationStatus(ctx context.Context, project string, serviceName string) (*ServiceGetMigrationStatusOut, error)
 
 	// ServiceIntegrationCreate create a new service integration
 	// POST /v1/project/{project}/integration
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationCreate
-	// Required roles or permissions: admin, project:integrations:write, role:organization:admin
+	// Required roles or permissions: project:integrations:write
 	ServiceIntegrationCreate(ctx context.Context, project string, in *ServiceIntegrationCreateIn) (*ServiceIntegrationCreateOut, error)
 
 	// ServiceIntegrationDelete delete a service integration
 	// DELETE /v1/project/{project}/integration/{integration_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationDelete
-	// Required roles or permissions: admin, project:integrations:write, role:organization:admin, role:services:recover
+	// Required roles or permissions: project:integrations:write, role:services:recover
 	ServiceIntegrationDelete(ctx context.Context, project string, integrationId string) error
 
 	// ServiceIntegrationEndpointCreate create a new service integration endpoint
 	// POST /v1/project/{project}/integration_endpoint
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointCreate
-	// Required roles or permissions: admin, project:integrations:write, role:organization:admin
+	// Required roles or permissions: project:integrations:write
 	ServiceIntegrationEndpointCreate(ctx context.Context, project string, in *ServiceIntegrationEndpointCreateIn) (*ServiceIntegrationEndpointCreateOut, error)
 
 	// ServiceIntegrationEndpointDelete delete a service integration endpoint
 	// DELETE /v1/project/{project}/integration_endpoint/{integration_endpoint_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointDelete
-	// Required roles or permissions: admin, project:integrations:write, role:organization:admin
+	// Required roles or permissions: project:integrations:write
 	ServiceIntegrationEndpointDelete(ctx context.Context, project string, integrationEndpointId string) error
 
 	// ServiceIntegrationEndpointGet get service integration endpoint
 	// GET /v1/project/{project}/integration_endpoint/{integration_endpoint_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointGet
-	// Required roles or permissions: admin, project:integrations:read, read_only, role:organization:admin
+	// Required roles or permissions: project:integrations:read
 	ServiceIntegrationEndpointGet(ctx context.Context, project string, integrationEndpointId string, query ...[2]string) (*ServiceIntegrationEndpointGetOut, error)
 
 	// ServiceIntegrationEndpointList list available integration endpoints for project
 	// GET /v1/project/{project}/integration_endpoint
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointList
-	// Required roles or permissions: admin, project:integrations:read, read_only, role:organization:admin
+	// Required roles or permissions: project:integrations:read
 	ServiceIntegrationEndpointList(ctx context.Context, project string) ([]ServiceIntegrationEndpointOut, error)
 
 	// ServiceIntegrationEndpointTypes list available service integration endpoint types
 	// GET /v1/project/{project}/integration_endpoint_types
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointTypes
-	// Required roles or permissions: admin, project:integrations:read, read_only, role:organization:admin
+	// Required roles or permissions: project:integrations:read
 	ServiceIntegrationEndpointTypes(ctx context.Context, project string) ([]EndpointTypeOut, error)
 
 	// ServiceIntegrationEndpointUpdate update service integration endpoint
 	// PUT /v1/project/{project}/integration_endpoint/{integration_endpoint_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationEndpointUpdate
-	// Required roles or permissions: admin, project:integrations:write, role:organization:admin
+	// Required roles or permissions: project:integrations:write
 	ServiceIntegrationEndpointUpdate(ctx context.Context, project string, integrationEndpointId string, in *ServiceIntegrationEndpointUpdateIn) (*ServiceIntegrationEndpointUpdateOut, error)
 
 	// ServiceIntegrationGet get service integration
 	// GET /v1/project/{project}/integration/{integration_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationGet
-	// Required roles or permissions: admin, project:integrations:read, read_only, role:organization:admin
+	// Required roles or permissions: project:integrations:read
 	ServiceIntegrationGet(ctx context.Context, project string, integrationId string) (*ServiceIntegrationGetOut, error)
 
 	// ServiceIntegrationList list available integrations for a service
 	// GET /v1/project/{project}/service/{service_name}/integration
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationList
-	// Required roles or permissions: admin, project:integrations:read, read_only, role:organization:admin, role:services:recover
+	// Required roles or permissions: project:integrations:read, role:services:recover
 	ServiceIntegrationList(ctx context.Context, project string, serviceName string) ([]ServiceIntegrationOut, error)
 
 	// ServiceIntegrationTypes list available service integration types
 	// GET /v1/project/{project}/integration_types
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationTypes
-	// Required roles or permissions: admin, project:integrations:read, read_only, role:organization:admin
+	// Required roles or permissions: project:integrations:read
 	ServiceIntegrationTypes(ctx context.Context, project string) ([]IntegrationTypeOut, error)
 
 	// ServiceIntegrationUpdate update a service integration
 	// PUT /v1/project/{project}/integration/{integration_id}
 	// https://api.aiven.io/doc/#tag/Service_Integrations/operation/ServiceIntegrationUpdate
-	// Required roles or permissions: admin, project:integrations:write, role:organization:admin
+	// Required roles or permissions: project:integrations:write
 	ServiceIntegrationUpdate(ctx context.Context, project string, integrationId string, in *ServiceIntegrationUpdateIn) (*ServiceIntegrationUpdateOut, error)
 
 	// ServiceKmsGetCA retrieve a service CA
 	// GET /v1/project/{project}/service/{service_name}/kms/ca/{ca_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceKmsGetCA
+	// Required roles or permissions: developer, operator, read_only
 	ServiceKmsGetCA(ctx context.Context, project string, serviceName string, caName string) (string, error)
 
 	// ServiceKmsGetKeypair retrieve service keypair
 	// GET /v1/project/{project}/service/{service_name}/kms/keypairs/{keypair_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceKmsGetKeypair
+	// Required roles or permissions: operator
 	ServiceKmsGetKeypair(ctx context.Context, project string, serviceName string, keypairName string) (*ServiceKmsGetKeypairOut, error)
 
 	// ServiceList list services
 	// GET /v1/project/{project}/service
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceList
-	// Required roles or permissions: admin, project:services:read, read_only, role:organization:admin, role:services:maintenance, role:services:recover, service:secrets:read
+	// Required roles or permissions: project:services:read
 	ServiceList(ctx context.Context, project string, query ...[2]string) ([]ServiceOut, error)
 
 	// ServiceMaintenanceStart start maintenance updates
 	// PUT /v1/project/{project}/service/{service_name}/maintenance/start
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceMaintenanceStart
-	// Required roles or permissions: admin, role:organization:admin, role:services:maintenance
+	// Required roles or permissions: role:services:maintenance
 	ServiceMaintenanceStart(ctx context.Context, project string, serviceName string) error
 
 	// ServiceMetricsFetch fetch service metrics
 	// POST /v1/project/{project}/service/{service_name}/metrics
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceMetricsFetch
+	// Required roles or permissions: developer, operator, read_only
 	ServiceMetricsFetch(ctx context.Context, project string, serviceName string, in *ServiceMetricsFetchIn) (map[string]any, error)
 
 	// ServiceQueryActivity fetch current queries for the service
 	// POST /v1/project/{project}/service/{service_name}/query/activity
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceQueryActivity
+	// Required roles or permissions: developer, operator, read_only
 	ServiceQueryActivity(ctx context.Context, project string, serviceName string, in *ServiceQueryActivityIn) ([]QueryOut, error)
 
 	// ServiceQueryStatisticsReset reset service's query statistics
 	// PUT /v1/project/{project}/service/{service_name}/query/stats/reset
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceQueryStatisticsReset
-	// Required roles or permissions: admin, role:organization:admin
+	// Required roles or permissions: developer, operator
 	ServiceQueryStatisticsReset(ctx context.Context, project string, serviceName string) ([]map[string]any, error)
 
 	// ServiceTaskCreate create a new task for service
 	// POST /v1/project/{project}/service/{service_name}/task
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceTaskCreate
-	// Required roles or permissions: admin, role:organization:admin
+	// Required roles or permissions: operator
 	ServiceTaskCreate(ctx context.Context, project string, serviceName string, in *ServiceTaskCreateIn) (*ServiceTaskCreateOut, error)
 
 	// ServiceTaskGet get task result
 	// GET /v1/project/{project}/service/{service_name}/task/{task_id}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceTaskGet
-	// Required roles or permissions: admin, role:organization:admin
+	// Required roles or permissions: operator
 	ServiceTaskGet(ctx context.Context, project string, serviceName string, taskId string) (*ServiceTaskGetOut, error)
 
 	// ServiceUpdate update service configuration
 	// PUT /v1/project/{project}/service/{service_name}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUpdate
-	// Required roles or permissions: admin, project:services:write, role:organization:admin, service:configuration:write
+	// Required roles or permissions: project:services:write, role:services:maintenance, role:services:recover, service:configuration:write
 	ServiceUpdate(ctx context.Context, project string, serviceName string, in *ServiceUpdateIn, query ...[2]string) (*ServiceUpdateOut, error)
 
 	// ServiceUserCreate create a new (sub) user for service
 	// POST /v1/project/{project}/service/{service_name}/user
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserCreate
-	// Required roles or permissions: admin, role:organization:admin, service:users:write
+	// Required roles or permissions: service:users:write
 	ServiceUserCreate(ctx context.Context, project string, serviceName string, in *ServiceUserCreateIn) (*ServiceUserCreateOut, error)
 
 	// ServiceUserCredentialsModify modify service user credentials
 	// PUT /v1/project/{project}/service/{service_name}/user/{service_username}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserCredentialsModify
-	// Required roles or permissions: admin, role:organization:admin, service:users:write
+	// Required roles or permissions: service:users:write
 	ServiceUserCredentialsModify(ctx context.Context, project string, serviceName string, serviceUsername string, in *ServiceUserCredentialsModifyIn) (*ServiceUserCredentialsModifyOut, error)
 
 	// ServiceUserCredentialsReset reset service user credentials
 	// PUT /v1/project/{project}/service/{service_name}/user/{service_username}/credentials/reset
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserCredentialsReset
-	// Required roles or permissions: admin, role:organization:admin, service:users:write
+	// Required roles or permissions: service:users:write
 	ServiceUserCredentialsReset(ctx context.Context, project string, serviceName string, serviceUsername string) (*ServiceUserCredentialsResetOut, error)
 
 	// ServiceUserDelete delete a service user
 	// DELETE /v1/project/{project}/service/{service_name}/user/{service_username}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserDelete
-	// Required roles or permissions: admin, role:organization:admin, service:users:write
+	// Required roles or permissions: service:users:write
 	ServiceUserDelete(ctx context.Context, project string, serviceName string, serviceUsername string) error
 
 	// ServiceUserGet get details for a single user
 	// GET /v1/project/{project}/service/{service_name}/user/{service_username}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceUserGet
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:configuration:write, service:users:write
 	ServiceUserGet(ctx context.Context, project string, serviceName string, serviceUsername string, query ...[2]string) (*ServiceUserGetOut, error)
 }
 

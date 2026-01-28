@@ -13,7 +13,7 @@ type Handler interface {
 	// ServiceFlinkOverview get a cluster overview
 	// GET /v1/project/{project}/service/{service_name}/flink/overview
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkOverview
-	// Required roles or permissions: admin, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceFlinkOverview(ctx context.Context, project string, serviceName string) (*ServiceFlinkOverviewOut, error)
 }
 

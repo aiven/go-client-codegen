@@ -1,739 +1,599 @@
-AccountBillingGroupList:
+AccountAuthenticationMethodCreate:
   - role:organization:admin
+AccountAuthenticationMethodDelete:
+  - role:organization:admin
+AccountAuthenticationMethodGet:
+  - role:organization:admin
+AccountAuthenticationMethodUpdate:
+  - role:organization:admin
+AccountAuthenticationMethodsList:
+  - role:organization:admin
+AlloyDbOmniGoogleCloudPrivateKeyIdentify:
+  - service:data:write
+AlloyDbOmniGoogleCloudPrivateKeyRemove:
+  - service:data:write
+AlloyDbOmniGoogleCloudPrivateKeySet:
+  - service:data:write
 ApplicationUserAccessTokenCreate:
   - organization:app_users:write
-  - role:organization:admin
 ApplicationUserAccessTokenDelete:
   - organization:app_users:write
-  - role:organization:admin
 ApplicationUserAccessTokensList:
-  - role:organization:admin
+  - organization:app_users:write
 ApplicationUserCreate:
   - organization:app_users:write
-  - role:organization:admin
 ApplicationUserDelete:
   - organization:app_users:write
-  - role:organization:admin
 ApplicationUserGet:
-  - role:organization:admin
+  - organization:app_users:write
 ApplicationUserUpdate:
   - organization:app_users:write
-  - role:organization:admin
-BillingGroupCreate:
-  - organization:billing:write
-  - role:organization:admin
+ApplicationUsersList:
+  - organization:app_users:write
 BillingGroupCreditsClaim:
-  - admin
-  - role:organization:admin
+  - developer
+  - operator
 BillingGroupCreditsList:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
-BillingGroupDelete:
-  - admin
-  - role:organization:admin
 BillingGroupEventList:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
 BillingGroupGet:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
 BillingGroupInvoiceCsvGet:
-  - admin
-  - role:organization:admin
+  - operator
 BillingGroupInvoiceLinesList:
-  - admin
-  - role:organization:admin
+  - operator
 BillingGroupInvoiceList:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
-BillingGroupList:
-  - organization:billing:read
-  - role:organization:admin
-BillingGroupProjectAssign:
-  - admin
-  - role:organization:admin
 BillingGroupProjectList:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
-BillingGroupProjectsAssign:
-  - admin
-  - role:organization:admin
-BillingGroupUpdate:
-  - admin
-  - role:organization:admin
+ListProjectClouds:
+  - project:services:write
+ListProjectServiceTypes:
+  - project:services:read
+ListProjectVpcPeeringConnectionTypes:
+  - project:networking:read
+MySQLServiceQueryStatistics:
+  - service:data:write
 OrganizationAddressCreate:
   - organization:billing:write
-  - role:organization:admin
 OrganizationAddressDelete:
   - organization:billing:write
-  - role:organization:admin
+OrganizationAddressGet:
+  - organization:billing:read
+  - organization:billing:write
 OrganizationAddressList:
   - organization:billing:read
-  - role:organization:admin
+  - organization:billing:write
 OrganizationAddressUpdate:
   - organization:billing:write
-  - role:organization:admin
 OrganizationBillingGroupCreate:
   - organization:billing:write
-  - role:organization:admin
 OrganizationBillingGroupDelete:
   - organization:billing:write
-  - role:organization:admin
 OrganizationBillingGroupGet:
   - organization:billing:read
-  - role:organization:admin
+  - organization:billing:write
 OrganizationBillingGroupList:
   - organization:billing:read
-  - role:organization:admin
+  - organization:billing:write
+  - organization:projects:write
 OrganizationBillingGroupUpdate:
   - organization:billing:write
-  - role:organization:admin
 OrganizationDomainAdd:
   - organization:domains:write
-  - role:organization:admin
 OrganizationDomainUpdate:
   - organization:domains:write
-  - role:organization:admin
 OrganizationDomainVerify:
   - organization:domains:write
-  - role:organization:admin
 OrganizationDomainsList:
-  - role:organization:admin
+  - organization:domains:write
 OrganizationDomainsRemove:
   - organization:domains:write
-  - role:organization:admin
-OrganizationMemberGroupsList:
-  - role:organization:admin
-OrganizationProjectsCreate:
+OrganizationProjectsDelete:
   - organization:projects:write
-  - role:organization:admin
-OrganizationProjectsList:
-  - role:organization:admin
+OrganizationProjectsGet:
+  - project:services:read
+OrganizationProjectsUpdate:
+  - organization:projects:write
 OrganizationUserAuthenticationMethodsList:
-  - role:organization:admin
+  - organization:users:write
+OrganizationUserDelete:
+  - organization:users:write
+OrganizationUserInvitationDelete:
+  - organization:users:write
 OrganizationUserInvitationsList:
-  - role:organization:admin
+  - organization:users:write
+OrganizationUserInvite:
+  - organization:users:write
+OrganizationUserPasswordReset:
+  - organization:users:write
 OrganizationUserRevokeToken:
   - organization:users:write
-  - role:organization:admin
 OrganizationUserTokensList:
-  - role:organization:admin
+  - organization:users:write
 OrganizationUserUpdate:
-  - role:organization:admin
+  - organization:users:write
 OrganizationVpcCreate:
   - organization:networking:write
-  - role:organization:admin
 OrganizationVpcDelete:
   - organization:networking:write
-  - role:organization:admin
 OrganizationVpcGet:
   - organization:networking:read
-  - role:organization:admin
 OrganizationVpcList:
   - organization:networking:read
-  - role:organization:admin
 OrganizationVpcPeeringConnectionCreate:
   - organization:networking:write
-  - role:organization:admin
-PermissionsGet:
-  - role:organization:admin
-PermissionsSet:
-  - role:organization:admin
-PermissionsUpdate:
-  - role:organization:admin
+OrganizationVpcPeeringConnectionDeleteById:
+  - organization:networking:write
+PGServiceAvailableExtensions:
+  - service:data:write
+PGServiceQueryStatistics:
+  - service:data:write
 ProjectAlertsList:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
-ProjectCreate:
-  - organization:projects:write
-  - role:organization:admin
 ProjectCreditsClaim:
-  - admin
-  - role:organization:admin
+  - developer
+  - operator
 ProjectCreditsList:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
 ProjectDelete:
-  - admin
   - organization:projects:write
-  - role:organization:admin
+ProjectDownloadSBOMReport:
+  - developer
+  - operator
+  - read_only
 ProjectGenerateSbomDownloadUrl:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
 ProjectGet:
-  - admin
   - project:services:read
-  - read_only
-  - role:organization:admin
-  - role:services:maintenance
-  - role:services:recover
-  - service:secrets:read
 ProjectGetEventLogs:
-  - admin
   - project:audit_logs:read
-  - read_only
-  - role:organization:admin
-ProjectInvite:
-  - admin
-  - role:organization:admin
-ProjectInviteDelete:
-  - admin
-  - role:organization:admin
+ProjectGetServiceLogs:
+  - service:logs:read
 ProjectInvoiceList:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
 ProjectKmsGetCA:
-  - admin
-  - read_only
-  - role:organization:admin
-ProjectList:
-  - role:organization:admin
-ProjectServicePlanList:
-  - admin
-  - read_only
-  - role:organization:admin
-ProjectServicePlanPriceGet:
-  - admin
-  - read_only
-  - role:organization:admin
-ProjectServiceTagsList:
-  - admin
-  - read_only
-  - role:organization:admin
-ProjectServiceTagsReplace:
-  - admin
+  - organization:projects:write
+ProjectPrivatelinkAvailabilityList:
   - project:services:write
-  - role:organization:admin
+ProjectServicePlanList:
+  - developer
+  - operator
+  - read_only
+ProjectServicePlanPriceGet:
+  - developer
+  - operator
+  - read_only
+ProjectServicePlanSpecsGet:
+  - developer
+  - operator
+  - read_only
+ProjectServiceTagsList:
+  - service:configuration:write
+ProjectServiceTagsReplace:
   - service:configuration:write
 ProjectServiceTagsUpdate:
-  - admin
-  - project:services:write
-  - role:organization:admin
   - service:configuration:write
+ProjectServiceTypesGet:
+  - developer
+  - operator
+  - read_only
 ProjectServiceTypesList:
-  - admin
   - project:services:read
+ProjectStaticIPAssociate:
+  - service:configuration:write
+ProjectStaticIPAvailabilityList:
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
-  - role:services:maintenance
-  - role:services:recover
-  - service:secrets:read
+ProjectStaticIPDissociate:
+  - service:configuration:write
+ProjectStaticIPPatch:
+  - operator
 ProjectTagsList:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
-ProjectTagsReplace:
-  - admin
-  - role:organization:admin
-ProjectTagsUpdate:
-  - admin
-  - role:organization:admin
 ProjectUpdate:
-  - admin
   - organization:projects:write
-  - role:organization:admin
 ProjectUserList:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
-ProjectUserRemove:
-  - admin
-  - role:organization:admin
-ProjectUserUpdate:
-  - admin
-  - role:organization:admin
-ProjectGetServiceLogs:
-  - admin
-  - read_only
-  - role:organization:admin
-  - service:logs:read
 ServiceAlertsList:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
 ServiceBackupToAnotherRegionReport:
-  - admin
-  - project:services:write
-  - read_only
-  - role:organization:admin
+  - service:configuration:write
+ServiceBackupsGet:
   - service:configuration:write
 ServiceCancelQuery:
-  - admin
-  - role:organization:admin
+  - developer
+  - operator
 ServiceClickHouseCurrentQueries:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceClickHouseDatabaseCreate:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceClickHouseDatabaseDelete:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceClickHouseDatabaseList:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceClickHousePasswordReset:
-  - admin
-  - role:organization:admin
   - service:data:write
   - service:users:write
 ServiceClickHouseQuery:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceClickHouseQueryStats:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceClickHouseTieredStorageSummary:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceClickHouseUserCreate:
-  - admin
-  - role:organization:admin
   - service:data:write
   - service:users:write
 ServiceClickHouseUserDelete:
-  - admin
-  - role:organization:admin
   - service:data:write
   - service:users:write
 ServiceClickHouseUserList:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
+  - service:users:write
 ServiceCreate:
-  - admin
   - project:services:write
-  - role:organization:admin
   - role:services:recover
 ServiceDatabaseCreate:
-  - admin
-  - role:organization:admin
-  - service:data:write
+  - developer
+  - operator
 ServiceDatabaseDelete:
-  - admin
-  - role:organization:admin
-  - service:data:write
+  - developer
+  - operator
 ServiceDatabaseList:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
 ServiceDelete:
-  - admin
   - project:services:write
-  - role:organization:admin
 ServiceEnableWrites:
-  - admin
-  - role:organization:admin
+  - operator
+ServiceFlinkCancelApplicationDeployment:
+  - service:data:write
+ServiceFlinkCancelJarApplicationDeployment:
+  - service:data:write
+ServiceFlinkCreateApplication:
+  - service:data:write
+ServiceFlinkCreateApplicationDeployment:
+  - service:data:write
+ServiceFlinkCreateApplicationVersion:
+  - service:data:write
+ServiceFlinkCreateJarApplication:
+  - service:data:write
+ServiceFlinkCreateJarApplicationDeployment:
+  - service:data:write
+ServiceFlinkCreateJarApplicationVersion:
+  - service:data:write
+ServiceFlinkDeleteApplication:
+  - service:data:write
+ServiceFlinkDeleteApplicationDeployment:
+  - service:data:write
+ServiceFlinkDeleteApplicationVersion:
+  - service:data:write
+ServiceFlinkDeleteJarApplication:
+  - service:data:write
+ServiceFlinkDeleteJarApplicationDeployment:
+  - service:data:write
+ServiceFlinkDeleteJarApplicationVersion:
+  - service:data:write
+ServiceFlinkGetApplication:
+  - service:data:write
+ServiceFlinkGetApplicationDeployment:
+  - service:data:write
+ServiceFlinkGetApplicationVersion:
+  - service:data:write
+ServiceFlinkGetJarApplication:
+  - service:data:write
+ServiceFlinkGetJarApplicationDeployment:
+  - service:data:write
+ServiceFlinkGetJarApplicationVersion:
+  - service:data:write
 ServiceFlinkJobDetails:
-  - admin
-  - role:organization:admin
+  - service:data:write
+ServiceFlinkJobsList:
+  - service:data:write
+ServiceFlinkListApplicationDeployments:
+  - service:data:write
+ServiceFlinkListApplications:
+  - service:data:write
+ServiceFlinkListJarApplicationDeployments:
+  - service:data:write
+ServiceFlinkListJarApplications:
+  - service:data:write
 ServiceFlinkOverview:
-  - admin
-  - role:organization:admin
+  - service:data:write
+ServiceFlinkStopApplicationDeployment:
+  - service:data:write
+ServiceFlinkStopJarApplicationDeployment:
+  - service:data:write
+ServiceFlinkUpdateApplication:
+  - service:data:write
+ServiceFlinkUpdateJarApplication:
+  - service:data:write
+ServiceFlinkValidateApplicationVersion:
+  - service:data:write
 ServiceGet:
-  - admin
   - project:services:read
+ServiceGetMigrationStatus:
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
-  - role:services:maintenance
-  - role:services:recover
-  - service:secrets:read
 ServiceIntegrationCreate:
-  - admin
   - project:integrations:write
-  - role:organization:admin
 ServiceIntegrationDelete:
-  - admin
   - project:integrations:write
-  - role:organization:admin
   - role:services:recover
 ServiceIntegrationEndpointCreate:
-  - admin
   - project:integrations:write
-  - role:organization:admin
 ServiceIntegrationEndpointDelete:
-  - admin
   - project:integrations:write
-  - role:organization:admin
 ServiceIntegrationEndpointGet:
-  - admin
   - project:integrations:read
-  - read_only
-  - role:organization:admin
 ServiceIntegrationEndpointList:
-  - admin
   - project:integrations:read
-  - read_only
-  - role:organization:admin
 ServiceIntegrationEndpointTypes:
-  - admin
   - project:integrations:read
-  - read_only
-  - role:organization:admin
 ServiceIntegrationEndpointUpdate:
-  - admin
   - project:integrations:write
-  - role:organization:admin
 ServiceIntegrationGet:
-  - admin
   - project:integrations:read
-  - read_only
-  - role:organization:admin
 ServiceIntegrationList:
-  - admin
   - project:integrations:read
-  - read_only
-  - role:organization:admin
   - role:services:recover
 ServiceIntegrationTypes:
-  - admin
   - project:integrations:read
-  - read_only
-  - role:organization:admin
 ServiceIntegrationUpdate:
-  - admin
   - project:integrations:write
-  - role:organization:admin
 ServiceKafkaAclAdd:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceKafkaAclDelete:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceKafkaAclList:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
+ServiceKafkaConnectCreateConnector:
+  - service:data:write
+ServiceKafkaConnectDeleteConnector:
+  - service:data:write
+ServiceKafkaConnectEditConnector:
+  - service:data:write
 ServiceKafkaConnectGetAvailableConnectors:
-  - admin
-  - role:organization:admin
+  - service:data:write
+ServiceKafkaConnectGetConnectorConfiguration:
+  - service:data:write
 ServiceKafkaConnectGetConnectorStatus:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceKafkaConnectList:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceKafkaConnectPauseConnector:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceKafkaConnectRestartConnector:
-  - admin
-  - role:organization:admin
+  - service:data:write
+ServiceKafkaConnectRestartConnectorTask:
   - service:data:write
 ServiceKafkaConnectResumeConnector:
-  - admin
-  - role:organization:admin
+  - service:data:write
+ServiceKafkaMirrorMakerCreateReplicationFlow:
+  - service:data:write
+ServiceKafkaMirrorMakerDeleteReplicationFlow:
+  - service:data:write
+ServiceKafkaMirrorMakerGetReplicationFlow:
+  - service:data:write
+ServiceKafkaMirrorMakerGetReplicationFlows:
+  - service:data:write
+ServiceKafkaMirrorMakerPatchReplicationFlow:
   - service:data:write
 ServiceKafkaNativeAclAdd:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceKafkaNativeAclDelete:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceKafkaNativeAclGet:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceKafkaNativeAclList:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceKafkaQuotaCreate:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceKafkaQuotaDelete:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceKafkaQuotaDescribe:
-  - admin
-  - role:organization:admin
+  - service:data:write
 ServiceKafkaQuotaList:
-  - admin
-  - role:organization:admin
+  - service:data:write
 ServiceKafkaTieredStorageStorageUsageByTopic:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceKafkaTieredStorageStorageUsageTotal:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceKafkaTieredStorageSummary:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceKafkaTopicCreate:
-  - admin
-  - role:organization:admin
+  - developer
+  - operator
 ServiceKafkaTopicDelete:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceKafkaTopicGet:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceKafkaTopicList:
-  - admin
-  - read_only
-  - role:organization:admin
-ServiceKafkaTopicListV2:
-  - admin
-  - read_only
-  - role:organization:admin
   - service:data:write
 ServiceKafkaTopicMessageList:
-  - admin
-  - read_only
-  - role:organization:admin
   - service:data:write
 ServiceKafkaTopicMessageProduce:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceKafkaTopicUpdate:
-  - admin
-  - role:organization:admin
   - service:data:write
+ServiceKmsGetCA:
+  - developer
+  - operator
+  - read_only
+ServiceKmsGetKeypair:
+  - operator
 ServiceList:
-  - admin
   - project:services:read
-  - read_only
-  - role:organization:admin
-  - role:services:maintenance
-  - role:services:recover
-  - service:secrets:read
 ServiceMaintenanceStart:
-  - admin
-  - role:organization:admin
   - role:services:maintenance
-ServiceOpenSearchAclGet:
-  - admin
+ServiceMetricsFetch:
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
+ServiceOpenSearchAclGet:
+  - service:data:write
 ServiceOpenSearchAclSet:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceOpenSearchAclUpdate:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceOpenSearchIndexDelete:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServiceOpenSearchIndexList:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceOpenSearchSecurityGet:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
+ServiceOpenSearchSecurityReset:
+  - service:data:write
 ServiceOpenSearchSecuritySet:
-  - admin
-  - read_only
-  - role:organization:admin
   - service:data:write
 ServicePGBouncerCreate:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServicePGBouncerDelete:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServicePGBouncerUpdate:
-  - admin
-  - role:organization:admin
   - service:data:write
 ServicePrivatelinkAWSConnectionList:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:configuration:write
 ServicePrivatelinkAWSCreate:
-  - admin
-  - project:services:write
-  - role:organization:admin
   - service:configuration:write
 ServicePrivatelinkAWSDelete:
-  - admin
-  - project:services:write
-  - role:organization:admin
   - service:configuration:write
 ServicePrivatelinkAWSGet:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:configuration:write
 ServicePrivatelinkAWSUpdate:
-  - admin
-  - project:services:write
-  - role:organization:admin
   - service:configuration:write
 ServicePrivatelinkAzureConnectionApproval:
-  - admin
-  - project:services:write
-  - role:organization:admin
   - service:configuration:write
 ServicePrivatelinkAzureConnectionList:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:configuration:write
 ServicePrivatelinkAzureConnectionUpdate:
-  - admin
-  - project:services:write
-  - role:organization:admin
   - service:configuration:write
 ServicePrivatelinkAzureCreate:
-  - admin
-  - project:services:write
-  - role:organization:admin
   - service:configuration:write
 ServicePrivatelinkAzureDelete:
-  - admin
-  - project:services:write
-  - role:organization:admin
   - service:configuration:write
 ServicePrivatelinkAzureGet:
-  - admin
-  - read_only
-  - role:organization:admin
-ServicePrivatelinkAzureUpdate:
-  - admin
-  - project:services:write
-  - role:organization:admin
   - service:configuration:write
+ServicePrivatelinkAzureUpdate:
+  - service:configuration:write
+ServiceQueryActivity:
+  - developer
+  - operator
+  - read_only
 ServiceQueryStatisticsReset:
-  - admin
-  - role:organization:admin
+  - developer
+  - operator
+ServiceSchemaRegistryAclAdd:
+  - service:data:write
+ServiceSchemaRegistryAclDelete:
+  - service:data:write
+ServiceSchemaRegistryAclList:
+  - service:data:write
+ServiceSchemaRegistryCompatibility:
+  - service:data:write
+ServiceSchemaRegistryGlobalConfigGet:
+  - service:data:write
+ServiceSchemaRegistryGlobalConfigPut:
+  - service:data:write
 ServiceSchemaRegistrySchemaGet:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceSchemaRegistrySubjectConfigGet:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceSchemaRegistrySubjectConfigPut:
-  - admin
-  - role:organization:admin
+  - service:data:write
+ServiceSchemaRegistrySubjectDelete:
+  - service:data:write
+ServiceSchemaRegistrySubjectVersionDelete:
+  - service:data:write
+ServiceSchemaRegistrySubjectVersionGet:
+  - service:data:write
+ServiceSchemaRegistrySubjectVersionPost:
+  - service:data:write
+ServiceSchemaRegistrySubjectVersionSchemaGet:
+  - service:data:write
+ServiceSchemaRegistrySubjectVersionsGet:
+  - service:data:write
+ServiceSchemaRegistrySubjects:
   - service:data:write
 ServiceTaskCreate:
-  - admin
-  - role:organization:admin
+  - operator
 ServiceTaskGet:
-  - admin
-  - role:organization:admin
+  - operator
 ServiceThanosStorageSummary:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:data:write
 ServiceUpdate:
-  - admin
   - project:services:write
-  - role:organization:admin
+  - role:services:maintenance
+  - role:services:recover
   - service:configuration:write
 ServiceUserCreate:
-  - admin
-  - role:organization:admin
   - service:users:write
 ServiceUserCredentialsModify:
-  - admin
-  - role:organization:admin
   - service:users:write
 ServiceUserCredentialsReset:
-  - admin
-  - role:organization:admin
   - service:users:write
 ServiceUserDelete:
-  - admin
-  - role:organization:admin
   - service:users:write
 ServiceUserGet:
-  - admin
-  - read_only
-  - role:organization:admin
+  - service:configuration:write
+  - service:users:write
 StaticIPCreate:
-  - admin
-  - role:organization:admin
+  - operator
 StaticIPList:
-  - admin
+  - developer
+  - operator
   - read_only
-  - role:organization:admin
-UserAuthenticationMethodsList:
-  - role:organization:admin
 UserGroupCreate:
   - organization:groups:write
-  - role:organization:admin
 UserGroupDelete:
   - organization:groups:write
-  - role:organization:admin
 UserGroupMembersUpdate:
   - organization:groups:write
-  - role:organization:admin
 UserGroupUpdate:
   - organization:groups:write
-  - role:organization:admin
-UserUpdate:
-  - admin
-  - role:organization:admin
 VpcCreate:
-  - admin
   - project:networking:write
-  - role:organization:admin
 VpcDelete:
-  - admin
   - project:networking:write
-  - role:organization:admin
 VpcGet:
-  - admin
   - project:networking:read
-  - read_only
-  - role:organization:admin
 VpcList:
-  - admin
   - project:networking:read
-  - read_only
-  - role:organization:admin
 VpcPeeringConnectionCreate:
-  - admin
   - project:networking:write
-  - role:organization:admin
 VpcPeeringConnectionDelete:
-  - admin
   - project:networking:write
-  - role:organization:admin
+VpcPeeringConnectionUpdate:
+  - project:networking:write
 VpcPeeringConnectionWithRegionDelete:
-  - admin
   - project:networking:write
-  - role:organization:admin
 VpcPeeringConnectionWithResourceGroupDelete:
-  - admin
   - project:networking:write
-  - role:organization:admin

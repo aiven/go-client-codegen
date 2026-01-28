@@ -13,16 +13,19 @@ type Handler interface {
 	// AlloyDbOmniGoogleCloudPrivateKeyIdentify get Google service account key
 	// GET /v1/project/{project}/service/{service_name}/alloydbomni/google_cloud_private_key
 	// https://api.aiven.io/doc/#tag/Service:_AlloyDB_Omni/operation/AlloyDbOmniGoogleCloudPrivateKeyIdentify
+	// Required roles or permissions: service:data:write
 	AlloyDbOmniGoogleCloudPrivateKeyIdentify(ctx context.Context, project string, serviceName string) (*AlloyDbOmniGoogleCloudPrivateKeyIdentifyOut, error)
 
 	// AlloyDbOmniGoogleCloudPrivateKeyRemove delete Google service account key
 	// DELETE /v1/project/{project}/service/{service_name}/alloydbomni/google_cloud_private_key
 	// https://api.aiven.io/doc/#tag/Service:_AlloyDB_Omni/operation/AlloyDbOmniGoogleCloudPrivateKeyRemove
+	// Required roles or permissions: service:data:write
 	AlloyDbOmniGoogleCloudPrivateKeyRemove(ctx context.Context, project string, serviceName string) (*AlloyDbOmniGoogleCloudPrivateKeyRemoveOut, error)
 
 	// AlloyDbOmniGoogleCloudPrivateKeySet add Google service account key
 	// POST /v1/project/{project}/service/{service_name}/alloydbomni/google_cloud_private_key
 	// https://api.aiven.io/doc/#tag/Service:_AlloyDB_Omni/operation/AlloyDbOmniGoogleCloudPrivateKeySet
+	// Required roles or permissions: service:data:write
 	AlloyDbOmniGoogleCloudPrivateKeySet(ctx context.Context, project string, serviceName string, in *AlloyDbOmniGoogleCloudPrivateKeySetIn) (*AlloyDbOmniGoogleCloudPrivateKeySetOut, error)
 }
 

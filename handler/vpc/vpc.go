@@ -14,54 +14,55 @@ type Handler interface {
 	// VpcCreate create a VPC in a cloud for the project
 	// POST /v1/project/{project}/vpcs
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcCreate
-	// Required roles or permissions: admin, project:networking:write, role:organization:admin
+	// Required roles or permissions: project:networking:write
 	VpcCreate(ctx context.Context, project string, in *VpcCreateIn) (*VpcCreateOut, error)
 
 	// VpcDelete delete a project VPC
 	// DELETE /v1/project/{project}/vpcs/{project_vpc_id}
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcDelete
-	// Required roles or permissions: admin, project:networking:write, role:organization:admin
+	// Required roles or permissions: project:networking:write
 	VpcDelete(ctx context.Context, project string, projectVpcId string) (*VpcDeleteOut, error)
 
 	// VpcGet get VPC information
 	// GET /v1/project/{project}/vpcs/{project_vpc_id}
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcGet
-	// Required roles or permissions: admin, project:networking:read, read_only, role:organization:admin
+	// Required roles or permissions: project:networking:read
 	VpcGet(ctx context.Context, project string, projectVpcId string) (*VpcGetOut, error)
 
 	// VpcList list VPCs for a project
 	// GET /v1/project/{project}/vpcs
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcList
-	// Required roles or permissions: admin, project:networking:read, read_only, role:organization:admin
+	// Required roles or permissions: project:networking:read
 	VpcList(ctx context.Context, project string) ([]VpcOut, error)
 
 	// VpcPeeringConnectionCreate create a peering connection for a project VPC
 	// POST /v1/project/{project}/vpcs/{project_vpc_id}/peering-connections
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcPeeringConnectionCreate
-	// Required roles or permissions: admin, project:networking:write, role:organization:admin
+	// Required roles or permissions: project:networking:write
 	VpcPeeringConnectionCreate(ctx context.Context, project string, projectVpcId string, in *VpcPeeringConnectionCreateIn) (*VpcPeeringConnectionCreateOut, error)
 
 	// VpcPeeringConnectionDelete delete a peering connection for a project VPC
 	// DELETE /v1/project/{project}/vpcs/{project_vpc_id}/peering-connections/peer-accounts/{peer_cloud_account}/peer-vpcs/{peer_vpc}
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcPeeringConnectionDelete
-	// Required roles or permissions: admin, project:networking:write, role:organization:admin
+	// Required roles or permissions: project:networking:write
 	VpcPeeringConnectionDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerVpc string) (*VpcPeeringConnectionDeleteOut, error)
 
 	// VpcPeeringConnectionUpdate update user-defined peer network CIDRs for a project VPC
 	// PUT /v1/project/{project}/vpcs/{project_vpc_id}/user-peer-network-cidrs
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcPeeringConnectionUpdate
+	// Required roles or permissions: project:networking:write
 	VpcPeeringConnectionUpdate(ctx context.Context, project string, projectVpcId string, in *VpcPeeringConnectionUpdateIn) (*VpcPeeringConnectionUpdateOut, error)
 
 	// VpcPeeringConnectionWithRegionDelete delete a peering connection for a project VPC
 	// DELETE /v1/project/{project}/vpcs/{project_vpc_id}/peering-connections/peer-accounts/{peer_cloud_account}/peer-vpcs/{peer_vpc}/peer-regions/{peer_region}
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcPeeringConnectionWithRegionDelete
-	// Required roles or permissions: admin, project:networking:write, role:organization:admin
+	// Required roles or permissions: project:networking:write
 	VpcPeeringConnectionWithRegionDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerVpc string, peerRegion string) (*VpcPeeringConnectionWithRegionDeleteOut, error)
 
 	// VpcPeeringConnectionWithResourceGroupDelete delete a peering connection for a project VPC
 	// DELETE /v1/project/{project}/vpcs/{project_vpc_id}/peering-connections/peer-accounts/{peer_cloud_account}/peer-resource-groups/{peer_resource_group}/peer-vpcs/{peer_vpc}
 	// https://api.aiven.io/doc/#tag/Project/operation/VpcPeeringConnectionWithResourceGroupDelete
-	// Required roles or permissions: admin, project:networking:write, role:organization:admin
+	// Required roles or permissions: project:networking:write
 	VpcPeeringConnectionWithResourceGroupDelete(ctx context.Context, project string, projectVpcId string, peerCloudAccount string, peerResourceGroup string, peerVpc string) (*VpcPeeringConnectionWithResourceGroupDeleteOut, error)
 }
 

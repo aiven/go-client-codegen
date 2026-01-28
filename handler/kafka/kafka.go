@@ -13,85 +13,85 @@ type Handler interface {
 	// ServiceKafkaAclAdd add Aiven Kafka ACL entry
 	// POST /v1/project/{project}/service/{service_name}/acl
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaAclAdd
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceKafkaAclAdd(ctx context.Context, project string, serviceName string, in *ServiceKafkaAclAddIn) ([]AclOut, error)
 
 	// ServiceKafkaAclDelete delete a Kafka ACL entry
 	// DELETE /v1/project/{project}/service/{service_name}/acl/{kafka_acl_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaAclDelete
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceKafkaAclDelete(ctx context.Context, project string, serviceName string, kafkaAclId string) ([]AclOut, error)
 
 	// ServiceKafkaAclList list Aiven ACL entries for Kafka service
 	// GET /v1/project/{project}/service/{service_name}/acl
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaAclList
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceKafkaAclList(ctx context.Context, project string, serviceName string) ([]AclOut, error)
 
 	// ServiceKafkaNativeAclAdd add a Kafka-native ACL entry
 	// POST /v1/project/{project}/service/{service_name}/kafka/acl
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaNativeAclAdd
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceKafkaNativeAclAdd(ctx context.Context, project string, serviceName string, in *ServiceKafkaNativeAclAddIn) (*ServiceKafkaNativeAclAddOut, error)
 
 	// ServiceKafkaNativeAclDelete delete a Kafka-native ACL entry
 	// DELETE /v1/project/{project}/service/{service_name}/kafka/acl/{kafka_acl_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaNativeAclDelete
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceKafkaNativeAclDelete(ctx context.Context, project string, serviceName string, kafkaAclId string) error
 
 	// ServiceKafkaNativeAclGet get single Kafka-native ACL entry
 	// GET /v1/project/{project}/service/{service_name}/kafka/acl/{kafka_acl_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaNativeAclGet
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceKafkaNativeAclGet(ctx context.Context, project string, serviceName string, kafkaAclId string) (*ServiceKafkaNativeAclGetOut, error)
 
 	// ServiceKafkaNativeAclList list Kafka-native ACL entries
 	// GET /v1/project/{project}/service/{service_name}/kafka/acl
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaNativeAclList
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceKafkaNativeAclList(ctx context.Context, project string, serviceName string) (*ServiceKafkaNativeAclListOut, error)
 
 	// ServiceKafkaQuotaCreate create Kafka quota
 	// POST /v1/project/{project}/service/{service_name}/quota
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaQuotaCreate
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceKafkaQuotaCreate(ctx context.Context, project string, serviceName string, in *ServiceKafkaQuotaCreateIn) error
 
 	// ServiceKafkaQuotaDelete delete Kafka quota
 	// DELETE /v1/project/{project}/service/{service_name}/quota
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaQuotaDelete
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceKafkaQuotaDelete(ctx context.Context, project string, serviceName string, query ...[2]string) error
 
 	// ServiceKafkaQuotaDescribe get service quota configuration
 	// GET /v1/project/{project}/service/{service_name}/quota/describe
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaQuotaDescribe
-	// Required roles or permissions: admin, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceKafkaQuotaDescribe(ctx context.Context, project string, serviceName string, query ...[2]string) (*ServiceKafkaQuotaDescribeOut, error)
 
 	// ServiceKafkaQuotaList list Kafka quotas
 	// GET /v1/project/{project}/service/{service_name}/quota
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaQuotaList
-	// Required roles or permissions: admin, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceKafkaQuotaList(ctx context.Context, project string, serviceName string) ([]QuotaOut, error)
 
 	// ServiceKafkaTieredStorageStorageUsageByTopic get the Kafka tiered storage object storage usage by topic
 	// GET /v1/project/{project}/service/{service_name}/kafka/tiered-storage/storage-usage/by-topic
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTieredStorageStorageUsageByTopic
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceKafkaTieredStorageStorageUsageByTopic(ctx context.Context, project string, serviceName string) (map[string]any, error)
 
 	// ServiceKafkaTieredStorageStorageUsageTotal get the Kafka tiered storage total object storage usage
 	// GET /v1/project/{project}/service/{service_name}/kafka/tiered-storage/storage-usage/total
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTieredStorageStorageUsageTotal
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceKafkaTieredStorageStorageUsageTotal(ctx context.Context, project string, serviceName string) (int, error)
 
 	// ServiceKafkaTieredStorageSummary get the Kafka tiered storage summary
 	// GET /v1/project/{project}/service/{service_name}/kafka/tiered-storage/summary
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaTieredStorageSummary
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceKafkaTieredStorageSummary(ctx context.Context, project string, serviceName string) (*ServiceKafkaTieredStorageSummaryOut, error)
 }
 

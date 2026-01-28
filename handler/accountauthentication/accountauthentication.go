@@ -14,26 +14,31 @@ type Handler interface {
 	// AccountAuthenticationMethodCreate create a new authentication method
 	// POST /v1/account/{account_id}/authentication
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodCreate
+	// Required roles or permissions: role:organization:admin
 	AccountAuthenticationMethodCreate(ctx context.Context, accountId string, in *AccountAuthenticationMethodCreateIn) (*AccountAuthenticationMethodCreateOut, error)
 
 	// AccountAuthenticationMethodDelete delete authentication method
 	// DELETE /v1/account/{account_id}/authentication/{account_authentication_method_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodDelete
+	// Required roles or permissions: role:organization:admin
 	AccountAuthenticationMethodDelete(ctx context.Context, accountId string, accountAuthenticationMethodId string) error
 
 	// AccountAuthenticationMethodGet get details of a single authentication method
 	// GET /v1/account/{account_id}/authentication/{account_authentication_method_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodGet
+	// Required roles or permissions: role:organization:admin
 	AccountAuthenticationMethodGet(ctx context.Context, accountId string, accountAuthenticationMethodId string) (*AccountAuthenticationMethodGetOut, error)
 
 	// AccountAuthenticationMethodUpdate update authentication method
 	// PUT /v1/account/{account_id}/authentication/{account_authentication_method_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodUpdate
+	// Required roles or permissions: role:organization:admin
 	AccountAuthenticationMethodUpdate(ctx context.Context, accountId string, accountAuthenticationMethodId string, in *AccountAuthenticationMethodUpdateIn) (*AccountAuthenticationMethodUpdateOut, error)
 
 	// AccountAuthenticationMethodsList list authentication methods
 	// GET /v1/account/{account_id}/authentication
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAuthenticationMethodsList
+	// Required roles or permissions: role:organization:admin
 	AccountAuthenticationMethodsList(ctx context.Context, accountId string) ([]AuthenticationMethodOut, error)
 }
 

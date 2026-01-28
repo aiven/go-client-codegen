@@ -13,62 +13,67 @@ type Handler interface {
 	// ServiceKafkaConnectCreateConnector create a Kafka Connect connector
 	// POST /v1/project/{project}/service/{service_name}/connectors
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectCreateConnector
+	// Required roles or permissions: service:data:write
 	ServiceKafkaConnectCreateConnector(ctx context.Context, project string, serviceName string, in *map[string]string) (*ServiceKafkaConnectCreateConnectorOut, error)
 
 	// ServiceKafkaConnectDeleteConnector delete Kafka Connect connector
 	// DELETE /v1/project/{project}/service/{service_name}/connectors/{connector_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectDeleteConnector
+	// Required roles or permissions: service:data:write
 	ServiceKafkaConnectDeleteConnector(ctx context.Context, project string, serviceName string, connectorName string) error
 
 	// ServiceKafkaConnectEditConnector edit Kafka Connect connector
 	// PUT /v1/project/{project}/service/{service_name}/connectors/{connector_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectEditConnector
+	// Required roles or permissions: service:data:write
 	ServiceKafkaConnectEditConnector(ctx context.Context, project string, serviceName string, connectorName string, in *map[string]string) (*ServiceKafkaConnectEditConnectorOut, error)
 
 	// ServiceKafkaConnectGetAvailableConnectors get available Kafka Connect connectors
 	// GET /v1/project/{project}/service/{service_name}/available-connectors
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectGetAvailableConnectors
-	// Required roles or permissions: admin, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceKafkaConnectGetAvailableConnectors(ctx context.Context, project string, serviceName string) ([]ServiceKafkaConnectGetAvailableConnectorsOut, error)
 
 	// ServiceKafkaConnectGetConnectorConfiguration get Kafka Connect connector configuration schema
 	// GET /v1/project/{project}/service/{service_name}/connector-plugins/{connector_name}/configuration
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectGetConnectorConfiguration
+	// Required roles or permissions: service:data:write
 	ServiceKafkaConnectGetConnectorConfiguration(ctx context.Context, project string, serviceName string, connectorName string) ([]ConfigurationSchemaOut, error)
 
 	// ServiceKafkaConnectGetConnectorStatus get a Kafka Connect Connector status
 	// GET /v1/project/{project}/service/{service_name}/connectors/{connector_name}/status
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectGetConnectorStatus
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceKafkaConnectGetConnectorStatus(ctx context.Context, project string, serviceName string, connectorName string) (*ServiceKafkaConnectGetConnectorStatusOut, error)
 
 	// ServiceKafkaConnectList lists Kafka connectors
 	// GET /v1/project/{project}/service/{service_name}/connectors
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectList
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceKafkaConnectList(ctx context.Context, project string, serviceName string) ([]ConnectorOut, error)
 
 	// ServiceKafkaConnectPauseConnector pause a Kafka Connect Connector
 	// POST /v1/project/{project}/service/{service_name}/connectors/{connector_name}/pause
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectPauseConnector
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceKafkaConnectPauseConnector(ctx context.Context, project string, serviceName string, connectorName string) error
 
 	// ServiceKafkaConnectRestartConnector restart a Kafka Connect Connector
 	// POST /v1/project/{project}/service/{service_name}/connectors/{connector_name}/restart
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectRestartConnector
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceKafkaConnectRestartConnector(ctx context.Context, project string, serviceName string, connectorName string) error
 
 	// ServiceKafkaConnectRestartConnectorTask restart a Kafka Connect Connector task
 	// POST /v1/project/{project}/service/{service_name}/connectors/{connector_name}/tasks/{task_id}/restart
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectRestartConnectorTask
+	// Required roles or permissions: service:data:write
 	ServiceKafkaConnectRestartConnectorTask(ctx context.Context, project string, serviceName string, connectorName string, taskId string) error
 
 	// ServiceKafkaConnectResumeConnector resume a Kafka Connect Connector
 	// POST /v1/project/{project}/service/{service_name}/connectors/{connector_name}/resume
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectResumeConnector
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceKafkaConnectResumeConnector(ctx context.Context, project string, serviceName string, connectorName string) error
 }
 

@@ -14,26 +14,31 @@ type Handler interface {
 	// ServiceFlinkCreateApplication create a Flink Application
 	// POST /v1/project/{project}/service/{service_name}/flink/application
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkCreateApplication
+	// Required roles or permissions: service:data:write
 	ServiceFlinkCreateApplication(ctx context.Context, project string, serviceName string, in *ServiceFlinkCreateApplicationIn) (*ServiceFlinkCreateApplicationOut, error)
 
 	// ServiceFlinkDeleteApplication delete a Flink Application
 	// DELETE /v1/project/{project}/service/{service_name}/flink/application/{application_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkDeleteApplication
+	// Required roles or permissions: service:data:write
 	ServiceFlinkDeleteApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkDeleteApplicationOut, error)
 
 	// ServiceFlinkGetApplication get a Flink Application
 	// GET /v1/project/{project}/service/{service_name}/flink/application/{application_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkGetApplication
+	// Required roles or permissions: service:data:write
 	ServiceFlinkGetApplication(ctx context.Context, project string, serviceName string, applicationId string) (*ServiceFlinkGetApplicationOut, error)
 
 	// ServiceFlinkListApplications get all Flink Applications
 	// GET /v1/project/{project}/service/{service_name}/flink/application
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkListApplications
+	// Required roles or permissions: service:data:write
 	ServiceFlinkListApplications(ctx context.Context, project string, serviceName string) ([]ApplicationOut, error)
 
 	// ServiceFlinkUpdateApplication update a Flink Application
 	// PUT /v1/project/{project}/service/{service_name}/flink/application/{application_id}
 	// https://api.aiven.io/doc/#tag/Service:_Flink/operation/ServiceFlinkUpdateApplication
+	// Required roles or permissions: service:data:write
 	ServiceFlinkUpdateApplication(ctx context.Context, project string, serviceName string, applicationId string, in *ServiceFlinkUpdateApplicationIn) (*ServiceFlinkUpdateApplicationOut, error)
 }
 

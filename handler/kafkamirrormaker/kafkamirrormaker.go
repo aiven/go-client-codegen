@@ -13,26 +13,31 @@ type Handler interface {
 	// ServiceKafkaMirrorMakerCreateReplicationFlow create a replication flow
 	// POST /v1/project/{project}/service/{service_name}/mirrormaker/replication-flows
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerCreateReplicationFlow
+	// Required roles or permissions: service:data:write
 	ServiceKafkaMirrorMakerCreateReplicationFlow(ctx context.Context, project string, serviceName string, in *ServiceKafkaMirrorMakerCreateReplicationFlowIn) error
 
 	// ServiceKafkaMirrorMakerDeleteReplicationFlow delete a replication flow
 	// DELETE /v1/project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerDeleteReplicationFlow
+	// Required roles or permissions: service:data:write
 	ServiceKafkaMirrorMakerDeleteReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) error
 
 	// ServiceKafkaMirrorMakerGetReplicationFlow get a replication flow
 	// GET /v1/project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerGetReplicationFlow
+	// Required roles or permissions: service:data:write
 	ServiceKafkaMirrorMakerGetReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string) (*ServiceKafkaMirrorMakerGetReplicationFlowOut, error)
 
 	// ServiceKafkaMirrorMakerGetReplicationFlows get replication flows
 	// GET /v1/project/{project}/service/{service_name}/mirrormaker/replication-flows
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerGetReplicationFlows
+	// Required roles or permissions: service:data:write
 	ServiceKafkaMirrorMakerGetReplicationFlows(ctx context.Context, project string, serviceName string) ([]ReplicationFlowOut, error)
 
 	// ServiceKafkaMirrorMakerPatchReplicationFlow update a replication flow
 	// PUT /v1/project/{project}/service/{service_name}/mirrormaker/replication-flows/{source_cluster}/{target_cluster}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka_MirrorMaker/operation/ServiceKafkaMirrorMakerPatchReplicationFlow
+	// Required roles or permissions: service:data:write
 	ServiceKafkaMirrorMakerPatchReplicationFlow(ctx context.Context, project string, serviceName string, sourceCluster string, targetCluster string, in *ServiceKafkaMirrorMakerPatchReplicationFlowIn) (*ServiceKafkaMirrorMakerPatchReplicationFlowOut, error)
 }
 

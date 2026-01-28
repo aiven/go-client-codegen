@@ -13,84 +13,97 @@ type Handler interface {
 	// ServiceSchemaRegistryAclAdd add a Schema Registry ACL entry
 	// POST /v1/project/{project}/service/{service_name}/kafka/schema-registry/acl
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryAclAdd
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistryAclAdd(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryAclAddIn) ([]AclOut, error)
 
 	// ServiceSchemaRegistryAclDelete delete a Schema Registry ACL entry
 	// DELETE /v1/project/{project}/service/{service_name}/kafka/schema-registry/acl/{schema_registry_acl_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryAclDelete
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistryAclDelete(ctx context.Context, project string, serviceName string, schemaRegistryAclId string) ([]AclOut, error)
 
 	// ServiceSchemaRegistryAclList list Schema Registry ACL entries
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema-registry/acl
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryAclList
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistryAclList(ctx context.Context, project string, serviceName string) ([]AclOut, error)
 
 	// ServiceSchemaRegistryCompatibility check compatibility of schema in Schema Registry
 	// POST /v1/project/{project}/service/{service_name}/kafka/schema/compatibility/subjects/{subject_name}/versions/{version_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryCompatibility
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistryCompatibility(ctx context.Context, project string, serviceName string, subjectName string, versionId int, in *ServiceSchemaRegistryCompatibilityIn) (*ServiceSchemaRegistryCompatibilityOut, error)
 
 	// ServiceSchemaRegistryGlobalConfigGet get global configuration for Schema Registry
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/config
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryGlobalConfigGet
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistryGlobalConfigGet(ctx context.Context, project string, serviceName string) (CompatibilityType, error)
 
 	// ServiceSchemaRegistryGlobalConfigPut edit global configuration for Schema Registry
 	// PUT /v1/project/{project}/service/{service_name}/kafka/schema/config
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistryGlobalConfigPut
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistryGlobalConfigPut(ctx context.Context, project string, serviceName string, in *ServiceSchemaRegistryGlobalConfigPutIn) (CompatibilityType, error)
 
 	// ServiceSchemaRegistrySchemaGet get schema in Schema Registry
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/schemas/ids/{schema_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySchemaGet
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistrySchemaGet(ctx context.Context, project string, serviceName string, schemaId string) error
 
 	// ServiceSchemaRegistrySubjectConfigGet get configuration for Schema Registry subject
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/config/{subject_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectConfigGet
-	// Required roles or permissions: admin, read_only, role:organization:admin
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistrySubjectConfigGet(ctx context.Context, project string, serviceName string, subjectName string, query ...[2]string) (CompatibilityType, error)
 
 	// ServiceSchemaRegistrySubjectConfigPut edit configuration for Schema Registry subject
 	// PUT /v1/project/{project}/service/{service_name}/kafka/schema/config/{subject_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectConfigPut
-	// Required roles or permissions: admin, role:organization:admin, service:data:write
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistrySubjectConfigPut(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectConfigPutIn) (CompatibilityType, error)
 
 	// ServiceSchemaRegistrySubjectDelete delete Schema Registry subject
 	// DELETE /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectDelete
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistrySubjectDelete(ctx context.Context, project string, serviceName string, subjectName string) error
 
 	// ServiceSchemaRegistrySubjectVersionDelete delete Schema Registry subject version
 	// DELETE /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionDelete
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistrySubjectVersionDelete(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error
 
 	// ServiceSchemaRegistrySubjectVersionGet get Schema Registry Subject version
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionGet
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistrySubjectVersionGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) (*ServiceSchemaRegistrySubjectVersionGetOut, error)
 
 	// ServiceSchemaRegistrySubjectVersionPost register a new Schema in Schema Registry
 	// POST /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionPost
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistrySubjectVersionPost(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectVersionPostIn) (int, error)
 
 	// Deprecated: ServiceSchemaRegistrySubjectVersionSchemaGet dEPRECATED: Get raw schema of a specific version in Schema Registry
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id}/schema
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionSchemaGet
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistrySubjectVersionSchemaGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error
 
 	// ServiceSchemaRegistrySubjectVersionsGet get Schema Registry subject versions
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionsGet
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistrySubjectVersionsGet(ctx context.Context, project string, serviceName string, subjectName string) ([]int, error)
 
 	// ServiceSchemaRegistrySubjects lists Schema Registry subjects
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/subjects
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjects
+	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistrySubjects(ctx context.Context, project string, serviceName string) ([]string, error)
 }
 
