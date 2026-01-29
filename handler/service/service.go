@@ -1565,6 +1565,7 @@ type NodeStateOut struct {
 	Name             string              `json:"name"`                       // Name of the service node
 	ProgressUpdates  []ProgressUpdateOut `json:"progress_updates,omitempty"` // Extra information regarding the progress for current state
 	Role             RoleType            `json:"role,omitempty"`             // Role of this node. Only returned for a subset of service types
+	Roles            *string             `json:"roles,omitempty"`            // A role string indicating the node's roles in the OpenSearch cluster. Only populated for OpenSearch services using cluster plans. Format: first character is '*' (elected cluster manager) or '-' (not elected), followed by role letters: 'd' (data), 'i' (ingest), 'm' (cluster_manager eligible), 'c' (coordinating), 'L' (ML), 'D' (Dashboards). Example: '*mc' means elected cluster manager with cluster_manager and coordinating roles.
 	Shard            *ShardOut           `json:"shard,omitempty"`            // Shard of this node. Only returned for a subset of service types
 	State            NodeStateType       `json:"state"`                      // Current state of the service node
 }
@@ -2268,8 +2269,9 @@ type ServiceTaskCreateIn struct {
 	CreateUserBackup         *CreateUserBackupIn         `json:"create_user_backup,omitempty"`         // Payload to be used with create_user_backup
 	DatasetImport            *DatasetImportIn            `json:"dataset_import,omitempty"`             // Payload to be used with dataset_import
 	MigrationCheck           *MigrationCheckIn           `json:"migration_check,omitempty"`            // Payload to be used with migration_check
-	TargetVersion            TargetVersionType           `json:"target_version,omitempty"`             // Target version used with upgrade_check
+	TargetVersion            TargetVersionType           `json:"target_version,omitempty"`             // Deprecated! Use 'upgrade_check' field
 	TaskType                 TaskType                    `json:"task_type"`                            // Service task type
+	UpgradeCheck             *UpgradeCheckIn             `json:"upgrade_check,omitempty"`              // Payload to be used with upgrade_check
 }
 
 // ServiceTaskCreateOut Task info
@@ -2623,6 +2625,12 @@ type UpdateOut struct {
 	ImpactPortableText *string    `json:"impact_portable_text,omitempty"` // Impact statement in portable text format
 	StartAfter         *string    `json:"start_after,omitempty"`          // The earliest time the update will be automatically applied
 	StartAt            *time.Time `json:"start_at,omitempty"`             // The time when the update will be automatically applied
+}
+
+// UpgradeCheckIn Payload to be used with upgrade_check
+type UpgradeCheckIn struct {
+	Async         *bool             `json:"async,omitempty"` // Run task asynchronously and return immediately
+	TargetVersion TargetVersionType `json:"target_version"`  // Target version used with upgrade_check
 }
 type UsageType string
 
