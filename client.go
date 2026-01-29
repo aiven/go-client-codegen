@@ -16,6 +16,7 @@ import (
 	"time"
 
 	"golang.org/x/exp/slices"
+	"golang.org/x/sync/singleflight"
 
 	"github.com/hashicorp/go-multierror"
 	"github.com/hashicorp/go-retryablehttp"
@@ -105,24 +106,28 @@ func NewClient(opts ...Option) (Client, error) {
 // Default values: 26 seconds
 // Changed values: 67 seconds
 type aivenClient struct {
-	Host         string        `envconfig:"AIVEN_WEB_URL" default:"https://api.aiven.io"`
-	UserAgent    string        `envconfig:"AIVEN_USER_AGENT" default:"aiven-go-client/v3"`
-	Token        string        `envconfig:"AIVEN_TOKEN"`
-	Debug        bool          `envconfig:"AIVEN_DEBUG"`
-	RetryMax     int           `envconfig:"AIVEN_CLIENT_RETRY_MAX" default:"6"`
-	RetryWaitMin time.Duration `envconfig:"AIVEN_CLIENT_RETRY_WAIT_MIN" default:"2s"`
-	RetryWaitMax time.Duration `envconfig:"AIVEN_CLIENT_RETRY_WAIT_MAX" default:"15s"`
-	logger       zerolog.Logger
-	doer         Doer
+	Host               string        `envconfig:"AIVEN_WEB_URL" default:"https://api.aiven.io"`
+	UserAgent          string        `envconfig:"AIVEN_USER_AGENT" default:"aiven-go-client/v3"`
+	Token              string        `envconfig:"AIVEN_TOKEN"`
+	Debug              bool          `envconfig:"AIVEN_DEBUG"`
+	RetryMax           int           `envconfig:"AIVEN_CLIENT_RETRY_MAX" default:"6"`
+	RetryWaitMin       time.Duration `envconfig:"AIVEN_CLIENT_RETRY_WAIT_MIN" default:"2s"`
+	RetryWaitMax       time.Duration `envconfig:"AIVEN_CLIENT_RETRY_WAIT_MAX" default:"15s"`
+	EnableSingleFlight bool          `envconfig:"AIVEN_CLIENT_ENABLE_SINGLE_FLIGHT" default:"true"`
+	logger             zerolog.Logger
+	doer               Doer
+	singleflight       singleflight.Group
 }
 
 // OperationIDKey is the key used to store the operation ID in the context.
 type OperationIDKey struct{}
 
-func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error) {
+func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) (_ []byte, err error) {
 	ctx = context.WithValue(ctx, OperationIDKey{}, operationID)
-	var rsp *http.Response
-	var err error
+	queryString := fmtQuery(operationID, query...)
+
+	var statusCode int
+	var shared bool
 
 	if d.Debug {
 		start := time.Now()
@@ -133,7 +138,7 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 			if err != nil {
 				event = d.logger.Error().Err(err)
 			} else {
-				event = d.logger.Info().Str("status", rsp.Status)
+				event = d.logger.Info()
 			}
 
 			event.Ctx(ctx).
@@ -141,30 +146,43 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 				Str("operationID", operationID).
 				Str("method", method).
 				Str("path", path).
-				Str("query", fmtQuery(operationID, query...)).
+				Str("query", queryString).
+				Int("status_code", statusCode).
+				Bool("shared", shared).
 				Send()
 		}()
 	}
 
-	rsp, err = d.do(ctx, operationID, method, path, in, query...)
+	var body []byte
+	if d.EnableSingleFlight && (method == http.MethodGet || method == http.MethodHead || method == http.MethodOptions || method == http.MethodTrace) {
+		type result struct {
+			statusCode int
+			body       []byte
+		}
+		key := strings.Join([]string{method, d.Host, path, queryString}, "|")
+		v, serr, sh := d.singleflight.Do(key, func() (any, error) {
+			statusCode, body, err := d.do(ctx, method, path, in, queryString)
+			return result{statusCode: statusCode, body: body}, err
+		})
+		res := v.(result)
+		statusCode, body, err, shared = res.statusCode, res.body, serr, sh
+	} else {
+		statusCode, body, err = d.do(ctx, method, path, in, queryString)
+	}
 	if err != nil {
 		return nil, err
 	}
 
-	defer func() {
-		err = multierror.Append(rsp.Body.Close()).ErrorOrNil()
-	}()
-
-	return fromResponse(operationID, rsp)
+	return fromBytes(operationID, statusCode, body)
 }
 
-func (d *aivenClient) do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) (*http.Response, error) {
+func (d *aivenClient) do(ctx context.Context, method, path string, in any, queryString string) (int, []byte, error) {
 	var body io.Reader
 
 	if !(in == nil || isEmpty(in)) {
 		b, err := json.Marshal(in)
 		if err != nil {
-			return nil, err
+			return 0, nil, err
 		}
 
 		body = bytes.NewBuffer(b)
@@ -172,15 +190,23 @@ func (d *aivenClient) do(ctx context.Context, operationID, method, path string, 
 
 	req, err := http.NewRequestWithContext(ctx, method, d.Host+path, body)
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
 
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("User-Agent", d.UserAgent)
 	req.Header.Set("Authorization", "aivenv1 "+d.Token)
-	req.URL.RawQuery = fmtQuery(operationID, query...)
+	req.URL.RawQuery = queryString
 
-	return d.doer.Do(req)
+	rsp, err := d.doer.Do(req)
+	if err != nil {
+		return 0, nil, err
+	}
+	defer func() {
+		err = multierror.Append(rsp.Body.Close()).ErrorOrNil()
+	}()
+	respBody, err := io.ReadAll(rsp.Body)
+	return rsp.StatusCode, respBody, err
 }
 
 func isEmpty(a any) bool {
