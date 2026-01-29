@@ -62,3 +62,10 @@ func RetryWaitMaxOpt(retryWaitMax time.Duration) Option {
 		d.RetryWaitMax = retryWaitMax
 	}
 }
+
+// EnableSingleFlightOpt enables singleflight for deduplicating concurrent identical requests
+func EnableSingleFlightOpt(enableSingleFlight bool) Option {
+	return func(d *aivenClient) {
+		d.EnableSingleFlight = enableSingleFlight
+	}
+}

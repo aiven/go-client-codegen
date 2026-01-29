@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -298,4 +299,152 @@ func TestServiceIntegrationEndpointGet(t *testing.T) {
 
 	// All calls are received
 	assert.EqualValues(t, 1, callCount)
+}
+
+func TestSingleFlightDeduplication(t *testing.T) {
+	var callCount int64
+
+	mux := http.NewServeMux()
+	mux.HandleFunc(
+		"/v1/project/test-project/service",
+		func(w http.ResponseWriter, _ *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, err := w.Write([]byte(`{"services": []}`))
+			assert.NoError(t, err)
+			atomic.AddInt64(&callCount, 1)
+		},
+	)
+
+	server := httptest.NewServer(mux)
+	defer server.Close()
+
+	c, err := NewClient(TokenOpt("token"), HostOpt(server.URL), UserAgentOpt("unit-test"))
+	require.NotNil(t, c)
+	require.NoError(t, err)
+
+	ctx := t.Context()
+
+	var wg sync.WaitGroup
+	errs := make(chan error, 100)
+	for range 100 {
+		wg.Go(func() {
+			_, err := c.ServiceList(ctx, "test-project")
+			errs <- err
+		})
+	}
+	wg.Wait()
+	close(errs)
+
+	for err := range errs {
+		require.NoError(t, err)
+	}
+
+	// We expect less than 10 calls to the API because of the single flight deduplication.
+	assert.Less(t, callCount, int64(10))
+}
+
+// TestSingleFlightDifferentProjects tests that singleflight doesn't merge different paths.
+func TestSingleFlightDifferentProjects(t *testing.T) {
+	var callCount int64
+
+	mux := http.NewServeMux()
+	mux.HandleFunc(
+		"/v1/project/project-a/service",
+		func(w http.ResponseWriter, _ *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, err := w.Write([]byte(`{"services": []}`))
+			assert.NoError(t, err)
+			atomic.AddInt64(&callCount, 1)
+		},
+	)
+	mux.HandleFunc(
+		"/v1/project/project-b/service",
+		func(w http.ResponseWriter, _ *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, err := w.Write([]byte(`{"services": []}`))
+			assert.NoError(t, err)
+			atomic.AddInt64(&callCount, 1)
+		},
+	)
+
+	server := httptest.NewServer(mux)
+	defer server.Close()
+
+	c, err := NewClient(TokenOpt("token"), HostOpt(server.URL), UserAgentOpt("unit-test"))
+	require.NotNil(t, c)
+	require.NoError(t, err)
+
+	ctx := t.Context()
+
+	var wg sync.WaitGroup
+	errs := make(chan error, 2)
+	wg.Go(func() {
+		_, err := c.ServiceList(ctx, "project-a")
+		errs <- err
+	})
+	wg.Go(func() {
+		_, err := c.ServiceList(ctx, "project-b")
+		errs <- err
+	})
+	wg.Wait()
+	close(errs)
+
+	for err := range errs {
+		require.NoError(t, err)
+	}
+
+	// We expect exactly 2 calls to the API because different project names should not be deduplicated.
+	assert.Equal(t, int64(2), callCount)
+}
+
+func TestSingleFlightMethodIsolation(t *testing.T) {
+	var callCount int64
+
+	mux := http.NewServeMux()
+	mux.HandleFunc(
+		"/v1/test",
+		func(w http.ResponseWriter, _ *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, err := w.Write([]byte(`{}`))
+			assert.NoError(t, err)
+			atomic.AddInt64(&callCount, 1)
+		},
+	)
+
+	server := httptest.NewServer(mux)
+	defer server.Close()
+
+	d := &aivenClient{
+		Host:               server.URL,
+		UserAgent:          "unit-test",
+		Token:              "token",
+		EnableSingleFlight: true,
+		doer:               server.Client(),
+	}
+
+	ctx := t.Context()
+
+	var wg sync.WaitGroup
+	errs := make(chan error, 2)
+	wg.Go(func() {
+		_, err := d.Do(ctx, "op-get", http.MethodGet, "/v1/test", nil)
+		errs <- err
+	})
+	wg.Go(func() {
+		_, err := d.Do(ctx, "op-head", http.MethodHead, "/v1/test", nil)
+		errs <- err
+	})
+	wg.Wait()
+	close(errs)
+
+	for err := range errs {
+		require.NoError(t, err)
+	}
+
+	// We expect exactly 2 calls to the API because different methods should not be deduplicated.
+	assert.Equal(t, int64(2), callCount)
 }

@@ -55,19 +55,14 @@ func IsAlreadyExists(err error) bool {
 	return errors.As(err, &e) && strings.Contains(e.Message, "already exists") && e.Status == http.StatusConflict
 }
 
-func fromResponse(operationID string, rsp *http.Response) ([]byte, error) {
-	e := Error{OperationID: operationID, Status: rsp.StatusCode}
-	b, err := io.ReadAll(rsp.Body)
-	if err != nil {
-		e.Message = fmt.Sprintf("body read error: %s", err)
-		return nil, e
-	}
+func fromBytes(operationID string, statusCode int, b []byte) ([]byte, error) {
+	e := Error{OperationID: operationID, Status: statusCode}
 
-	if rsp.StatusCode < 200 || rsp.StatusCode >= 300 {
+	if statusCode < 200 || statusCode >= 300 {
 		// According to the documentation,
 		// failed responses must have "errors" and "message" fields
 		// https://api.aiven.io/doc/#section/Responses/Failed-responses
-		err = json.Unmarshal(b, &e)
+		err := json.Unmarshal(b, &e)
 		if err != nil {
 			// 1. The body might contain sensitive data
 			// 2. It might fail the unmarshalling into Error and still be a valid json
@@ -83,4 +78,15 @@ func fromResponse(operationID string, rsp *http.Response) ([]byte, error) {
 	}
 
 	return b, nil
+}
+
+func fromResponse(operationID string, rsp *http.Response) ([]byte, error) {
+	b, err := io.ReadAll(rsp.Body)
+	if err != nil {
+		e := Error{OperationID: operationID, Status: rsp.StatusCode}
+		e.Message = fmt.Sprintf("body read error: %s", err)
+		return nil, e
+	}
+
+	return fromBytes(operationID, rsp.StatusCode, b)
 }

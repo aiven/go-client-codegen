@@ -21,6 +21,8 @@ go get github.com/aiven/go-client-codegen
 | `AIVEN_USER_AGENT` | `string` | User Agent                     |
 | `AIVEN_DEBUG`      | `bool`   | Debug Output Flag (stderr)     |
 
+See all configuration options in [`client.go`](client.go).
+
 #### Via Constructor Options
 
 ```go
