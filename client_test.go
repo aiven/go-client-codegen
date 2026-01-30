@@ -4,6 +4,8 @@ package aiven
 import (
 	"context"
 	"encoding/json"
+	"errors"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -11,6 +13,7 @@ import (
 	"sync"
 	"sync/atomic"
 	"testing"
+	"testing/synctest"
 	"time"
 
 	"github.com/stretchr/testify/assert"
@@ -301,150 +304,291 @@ func TestServiceIntegrationEndpointGet(t *testing.T) {
 	assert.EqualValues(t, 1, callCount)
 }
 
+type doerFunc func(*http.Request) (*http.Response, error)
+
+func (f doerFunc) Do(req *http.Request) (*http.Response, error) {
+	return f(req)
+}
+
 func TestSingleFlightDeduplication(t *testing.T) {
-	var callCount int64
+	// This test checks that EnableSingleFlight deduplicates concurrent identical requests:
+	// the first call reaches the HTTP Doer and blocks, and all other concurrent calls reuse
+	// the same in-flight result without reaching the Doer themselves.
+	//
+	// We use a blocking Doer and testing/synctest to make the execution deterministic:
+	// synctest.Wait() pauses the test until all goroutines in the bubble are durably blocked.
+	synctest.Test(t, func(t *testing.T) {
+		const concurrency = 20
 
-	mux := http.NewServeMux()
-	mux.HandleFunc(
-		"/v1/project/test-project/service",
-		func(w http.ResponseWriter, _ *http.Request) {
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, err := w.Write([]byte(`{"services": []}`))
-			assert.NoError(t, err)
-			atomic.AddInt64(&callCount, 1)
-		},
-	)
+		// 1) Create a client with a Doer that blocks until we release it.
+		// releaseNow is called explicitly and also deferred to avoid leaving goroutines stuck if the test fails early.
+		var releaseOnce sync.Once
+		release := make(chan struct{})
+		releaseNow := func() { releaseOnce.Do(func() { close(release) }) }
+		defer releaseNow()
 
-	server := httptest.NewServer(mux)
-	defer server.Close()
+		const body = `{"services":[{"service_name":"svc"}]}`
 
-	c, err := NewClient(TokenOpt("token"), HostOpt(server.URL), UserAgentOpt("unit-test"))
-	require.NotNil(t, c)
-	require.NoError(t, err)
-
-	ctx := t.Context()
-
-	var wg sync.WaitGroup
-	errs := make(chan error, 100)
-	for range 100 {
-		wg.Go(func() {
-			_, err := c.ServiceList(ctx, "test-project")
-			errs <- err
-		})
-	}
-	wg.Wait()
-	close(errs)
-
-	for err := range errs {
+		entered := make(chan struct{})
+		c, err := NewClient(
+			TokenOpt("token"),
+			HostOpt("http://example.com"),
+			UserAgentOpt("unit-test"),
+			DoerOpt(doerFunc(func(req *http.Request) (*http.Response, error) {
+				// 2) Signal that the first request reached the Doer.
+				// If a second request reaches the Doer, this will panic (close of closed channel).
+				close(entered)
+				// 3) Block the first request so the rest of the goroutines can race into singleflight.
+				<-release
+				return &http.Response{
+					StatusCode:    http.StatusOK,
+					Header:        http.Header{},
+					Body:          io.NopCloser(strings.NewReader(body)),
+					ContentLength: int64(len(body)),
+					Request:       req,
+				}, nil
+			})),
+			EnableSingleFlightOpt(true),
+		)
 		require.NoError(t, err)
-	}
 
-	// We expect less than 10 calls to the API because of the single flight deduplication.
-	assert.Less(t, callCount, int64(10))
+		ctx := t.Context()
+
+		// 4) Start the first request and wait until it reaches the Doer (and blocks).
+		var firstErr error
+		var firstRes []service.ServiceOut
+		firstDone := make(chan struct{})
+		go func() {
+			defer close(firstDone)
+			firstRes, firstErr = c.ServiceList(ctx, "test-project")
+		}()
+
+		<-entered
+		synctest.Wait()
+
+		// 5) Start concurrent requests. They mustn't reach the Doer while the first is in-flight.
+		res := make([][]service.ServiceOut, concurrency)
+		errs := make([]error, concurrency)
+		var wg sync.WaitGroup
+		for i := range concurrency {
+			wg.Go(func() {
+				res[i], errs[i] = c.ServiceList(ctx, "test-project")
+			})
+		}
+		synctest.Wait()
+
+		// 6) Release the first request and wait for every goroutine to finish.
+		releaseNow()
+
+		<-firstDone
+		require.NoError(t, firstErr)
+		wg.Wait()
+
+		// 7) All callers should see the same result.
+		for _, err := range errs {
+			require.NoError(t, err)
+		}
+		for _, r := range res {
+			require.Equal(t, firstRes, r)
+		}
+	})
 }
 
 // TestSingleFlightDifferentProjects tests that singleflight doesn't merge different paths.
 func TestSingleFlightDifferentProjects(t *testing.T) {
-	var callCount int64
+	// This test checks that EnableSingleFlight does not merge requests with different paths.
+	// Here we use two different project names, so the generated URL path differs.
+	synctest.Test(t, func(t *testing.T) {
+		// 1) Arrange: a Doer that blocks so requests overlap in time.
+		var releaseOnce sync.Once
+		release := make(chan struct{})
+		releaseNow := func() { releaseOnce.Do(func() { close(release) }) }
+		defer releaseNow()
 
-	mux := http.NewServeMux()
-	mux.HandleFunc(
-		"/v1/project/project-a/service",
-		func(w http.ResponseWriter, _ *http.Request) {
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, err := w.Write([]byte(`{"services": []}`))
-			assert.NoError(t, err)
-			atomic.AddInt64(&callCount, 1)
-		},
-	)
-	mux.HandleFunc(
-		"/v1/project/project-b/service",
-		func(w http.ResponseWriter, _ *http.Request) {
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, err := w.Write([]byte(`{"services": []}`))
-			assert.NoError(t, err)
-			atomic.AddInt64(&callCount, 1)
-		},
-	)
+		const (
+			bodyA = `{"services":[{"service_name":"svc-a"}]}`
+			bodyB = `{"services":[{"service_name":"svc-b"}]}`
+		)
 
-	server := httptest.NewServer(mux)
-	defer server.Close()
+		enteredA := make(chan struct{})
+		enteredB := make(chan struct{})
 
-	c, err := NewClient(TokenOpt("token"), HostOpt(server.URL), UserAgentOpt("unit-test"))
-	require.NotNil(t, c)
-	require.NoError(t, err)
+		c, err := NewClient(
+			TokenOpt("token"),
+			HostOpt("http://example.com"),
+			UserAgentOpt("unit-test"),
+			DoerOpt(doerFunc(func(req *http.Request) (*http.Response, error) {
+				var body string
+				switch req.URL.Path {
+				case "/v1/project/project-a/service":
+					// If the same project request reaches the Doer twice, panic (close of closed channel).
+					close(enteredA)
+					body = bodyA
+				case "/v1/project/project-b/service":
+					close(enteredB)
+					body = bodyB
+				default:
+					return nil, errors.New("unexpected request path: " + req.URL.Path)
+				}
 
-	ctx := t.Context()
-
-	var wg sync.WaitGroup
-	errs := make(chan error, 2)
-	wg.Go(func() {
-		_, err := c.ServiceList(ctx, "project-a")
-		errs <- err
-	})
-	wg.Go(func() {
-		_, err := c.ServiceList(ctx, "project-b")
-		errs <- err
-	})
-	wg.Wait()
-	close(errs)
-
-	for err := range errs {
+				<-release
+				return &http.Response{
+					StatusCode:    http.StatusOK,
+					Header:        http.Header{},
+					Body:          io.NopCloser(strings.NewReader(body)),
+					ContentLength: int64(len(body)),
+					Request:       req,
+				}, nil
+			})),
+			EnableSingleFlightOpt(true),
+		)
 		require.NoError(t, err)
-	}
 
-	// We expect exactly 2 calls to the API because different project names should not be deduplicated.
-	assert.Equal(t, int64(2), callCount)
+		ctx := t.Context()
+
+		type listResult struct {
+			res []service.ServiceOut
+			err error
+		}
+
+		// 2) Start the first request and wait until it reaches the Doer (and blocks).
+		projectACh := make(chan listResult, 1)
+		go func() {
+			res, err := c.ServiceList(ctx, "project-a")
+			projectACh <- listResult{res: res, err: err}
+		}()
+
+		<-enteredA
+		synctest.Wait()
+
+		// 3) Start the second request while the first is still in-flight. It must reach the Doer too.
+		projectBCh := make(chan listResult, 1)
+		go func() {
+			res, err := c.ServiceList(ctx, "project-b")
+			projectBCh <- listResult{res: res, err: err}
+		}()
+
+		synctest.Wait()
+		select {
+		case <-enteredB:
+		default:
+			t.Fatal("project-b request did not reach the Doer; likely deduplicated with project-a")
+		}
+
+		// 4) Release both requests and verify results.
+		releaseNow()
+
+		projectARes := <-projectACh
+		projectBRes := <-projectBCh
+		require.NoError(t, projectARes.err)
+		require.NoError(t, projectBRes.err)
+		require.Len(t, projectARes.res, 1)
+		require.Len(t, projectBRes.res, 1)
+		require.NotEqual(t, projectARes.res, projectBRes.res)
+		require.Equal(t, "svc-a", projectARes.res[0].ServiceName)
+		require.Equal(t, "svc-b", projectBRes.res[0].ServiceName)
+	})
 }
 
 func TestSingleFlightMethodIsolation(t *testing.T) {
-	var callCount int64
+	// This test checks that singleflight never merges requests with different HTTP methods.
+	// We run several concurrent requests for the same path+query, but with different methods.
+	// Each method should start its own in-flight request (and deduplicate only within itself).
+	synctest.Test(t, func(t *testing.T) {
+		const copies = 5
 
-	mux := http.NewServeMux()
-	mux.HandleFunc(
-		"/v1/test",
-		func(w http.ResponseWriter, _ *http.Request) {
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, err := w.Write([]byte(`{}`))
-			assert.NoError(t, err)
-			atomic.AddInt64(&callCount, 1)
-		},
-	)
+		// A blocking Doer makes all requests overlap in time.
+		var releaseOnce sync.Once
+		release := make(chan struct{})
+		releaseNow := func() { releaseOnce.Do(func() { close(release) }) }
+		defer releaseNow()
 
-	server := httptest.NewServer(mux)
-	defer server.Close()
+		methods := []string{
+			http.MethodGet,
+			http.MethodHead,
+			http.MethodOptions,
+			http.MethodTrace,
+		}
 
-	d := &aivenClient{
-		Host:               server.URL,
-		UserAgent:          "unit-test",
-		Token:              "token",
-		EnableSingleFlight: true,
-		doer:               server.Client(),
-	}
+		entered := make(map[string]chan struct{}, len(methods))
+		for _, method := range methods {
+			entered[method] = make(chan struct{})
+		}
 
-	ctx := t.Context()
+		queryLimit := [2]string{"limit", "1"}
 
-	var wg sync.WaitGroup
-	errs := make(chan error, 2)
-	wg.Go(func() {
-		_, err := d.Do(ctx, "op-get", http.MethodGet, "/v1/test", nil)
-		errs <- err
+		d := &aivenClient{
+			Host:               "http://example.com",
+			UserAgent:          "unit-test",
+			Token:              "token",
+			EnableSingleFlight: true,
+			doer: doerFunc(func(req *http.Request) (*http.Response, error) {
+				if req.URL.Path != "/v1/test" {
+					return nil, errors.New("unexpected request path: " + req.URL.Path)
+				}
+				if req.URL.RawQuery != "limit=1" {
+					return nil, errors.New("unexpected request query: " + req.URL.RawQuery)
+				}
+
+				ch, ok := entered[req.Method]
+				if !ok {
+					return nil, errors.New("unexpected request method: " + req.Method)
+				}
+
+				// If the same method reaches the Doer twice, panic (close of closed channel).
+				close(ch)
+
+				<-release
+				body := req.Method
+				return &http.Response{
+					StatusCode:    http.StatusOK,
+					Header:        http.Header{},
+					Body:          io.NopCloser(strings.NewReader(body)),
+					ContentLength: int64(len(body)),
+					Request:       req,
+				}, nil
+			}),
+		}
+
+		ctx := t.Context()
+
+		type callResult struct {
+			method string
+			body   []byte
+			err    error
+		}
+
+		results := make(chan callResult, copies*len(methods))
+		var wg sync.WaitGroup
+
+		for _, method := range methods {
+			for range copies {
+				wg.Go(func() {
+					b, err := d.Do(ctx, "op", method, "/v1/test", nil, queryLimit)
+					results <- callResult{method: method, body: b, err: err}
+				})
+			}
+		}
+
+		synctest.Wait()
+
+		// Ensure every method reached the Doer (i.e., didn't merge into another one).
+		for _, method := range methods {
+			select {
+			case <-entered[method]:
+			default:
+				t.Errorf("%s request did not reach the Doer; likely merged into another method", method)
+			}
+		}
+
+		releaseNow()
+
+		wg.Wait()
+		close(results)
+
+		for r := range results {
+			require.NoError(t, r.err)
+			require.Equal(t, r.method, string(r.body))
+		}
 	})
-	wg.Go(func() {
-		_, err := d.Do(ctx, "op-head", http.MethodHead, "/v1/test", nil)
-		errs <- err
-	})
-	wg.Wait()
-	close(errs)
-
-	for err := range errs {
-		require.NoError(t, err)
-	}
-
-	// We expect exactly 2 calls to the API because different methods should not be deduplicated.
-	assert.Equal(t, int64(2), callCount)
 }
