@@ -394,6 +394,99 @@ func TestSingleFlightDeduplication(t *testing.T) {
 	})
 }
 
+func TestSingleFlightDeduplicationHTTPServer(t *testing.T) {
+	const concurrency = 20
+
+	var callCount int64
+
+	var releaseOnce sync.Once
+	release := make(chan struct{})
+	releaseNow := func() { releaseOnce.Do(func() { close(release) }) }
+	defer releaseNow()
+
+	entered := make(chan struct{})
+
+	mux := http.NewServeMux()
+	mux.HandleFunc(
+		"/v1/project/test-project/service",
+		func(w http.ResponseWriter, _ *http.Request) {
+			if atomic.AddInt64(&callCount, 1) == 1 {
+				close(entered)
+			}
+
+			<-release
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(`{"services":[{"service_name":"svc"}]}`))
+		},
+	)
+
+	server := httptest.NewServer(mux)
+	defer server.Close()
+
+	c, err := NewClient(
+		TokenOpt("token"),
+		HostOpt(server.URL),
+		UserAgentOpt("unit-test"),
+		DoerOpt(server.Client()),
+		EnableSingleFlightOpt(true),
+	)
+	require.NoError(t, err)
+
+	ctx, cancel := context.WithTimeout(t.Context(), 5*time.Second)
+	defer cancel()
+
+	start := make(chan struct{})
+	var ready sync.WaitGroup
+	ready.Add(concurrency)
+
+	type callResult struct {
+		res []service.ServiceOut
+		err error
+	}
+
+	results := make(chan callResult, concurrency)
+	var wg sync.WaitGroup
+	for range concurrency {
+		wg.Go(func() {
+			ready.Done()
+			<-start
+			res, err := c.ServiceList(ctx, "test-project")
+			results <- callResult{res: res, err: err}
+		})
+	}
+
+	ready.Wait()
+	close(start)
+
+	select {
+	case <-entered:
+	case <-time.After(5 * time.Second):
+		t.Fatal("server wasn't called")
+	}
+
+	// Give other goroutines a chance to enter the client call while the server is still blocked.
+	time.Sleep(50 * time.Millisecond)
+
+	releaseNow()
+
+	wg.Wait()
+	close(results)
+
+	var first []service.ServiceOut
+	for r := range results {
+		require.NoError(t, r.err)
+		if first == nil {
+			first = r.res
+			continue
+		}
+		require.Equal(t, first, r.res)
+	}
+
+	require.Less(t, atomic.LoadInt64(&callCount), int64(concurrency))
+}
+
 // TestSingleFlightDifferentProjects tests that singleflight doesn't merge different paths.
 func TestSingleFlightDifferentProjects(t *testing.T) {
 	// This test checks that EnableSingleFlight does not merge requests with different paths.
