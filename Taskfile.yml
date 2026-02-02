@@ -40,4 +40,4 @@ tasks:
       - task: fmt-imports
   test:
     cmds:
-      - go test -v
+      - go test -race -count=1 -v ./...
