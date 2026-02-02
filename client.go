@@ -18,7 +18,6 @@ import (
 	"golang.org/x/exp/slices"
 	"golang.org/x/sync/singleflight"
 
-	"github.com/hashicorp/go-multierror"
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/rs/zerolog"
@@ -122,12 +121,13 @@ type aivenClient struct {
 // OperationIDKey is the key used to store the operation ID in the context.
 type OperationIDKey struct{}
 
-func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) (_ []byte, err error) {
+func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, in any, query ...[2]string) ([]byte, error) {
 	ctx = context.WithValue(ctx, OperationIDKey{}, operationID)
 	queryString := fmtQuery(operationID, query...)
 
 	var statusCode int
 	var shared bool
+	var err error
 
 	if d.Debug {
 		start := time.Now()
@@ -202,11 +202,8 @@ func (d *aivenClient) do(ctx context.Context, method, path string, in any, query
 	if err != nil {
 		return 0, nil, err
 	}
-	defer func() {
-		err = multierror.Append(rsp.Body.Close()).ErrorOrNil()
-	}()
 	respBody, err := io.ReadAll(rsp.Body)
-	return rsp.StatusCode, respBody, err
+	return rsp.StatusCode, respBody, errors.Join(err, rsp.Body.Close())
 }
 
 func isEmpty(a any) bool {
