@@ -647,7 +647,6 @@ const (
 	ServiceTypeKafkaMirrormaker ServiceType = "kafka_mirrormaker"
 	ServiceTypeMysql            ServiceType = "mysql"
 	ServiceTypeOpensearch       ServiceType = "opensearch"
-	ServiceTypeParca            ServiceType = "parca"
 	ServiceTypePg               ServiceType = "pg"
 	ServiceTypeSparkpool        ServiceType = "sparkpool"
 	ServiceTypeStresstester     ServiceType = "stresstester"
@@ -665,7 +664,7 @@ const (
 )
 
 func ServiceTypeChoices() []string {
-	return []string{"alertmanager", "alloydbomni", "application", "cassandra", "clickhouse", "datahub", "dragonfly", "elasticsearch", "flink", "grafana", "kafka", "kafka_connect", "kafka_mirrormaker", "mysql", "opensearch", "parca", "pg", "sparkpool", "stresstester", "sw", "thanos", "thanoscompactor", "thanosparquet", "thanosquery", "thanosreceiver", "thanosruler", "thanosstore", "valkey", "vector", "vmalert"}
+	return []string{"alertmanager", "alloydbomni", "application", "cassandra", "clickhouse", "datahub", "dragonfly", "elasticsearch", "flink", "grafana", "kafka", "kafka_connect", "kafka_mirrormaker", "mysql", "opensearch", "pg", "sparkpool", "stresstester", "sw", "thanos", "thanoscompactor", "thanosparquet", "thanosquery", "thanosreceiver", "thanosruler", "thanosstore", "valkey", "vector", "vmalert"}
 }
 
 // billingGroupCreateOut BillingGroupCreateResponse
