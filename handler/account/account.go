@@ -46,7 +46,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountList
 	AccountList(ctx context.Context) ([]AccountOut, error)
 
-	// AccountMove move an existing organization unitself
+	// AccountMove move an existing organization unit
 	// PUT /v1/account/{account_id}/parent_account
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountMove
 	AccountMove(ctx context.Context, accountId string, in *AccountMoveIn) (*AccountMoveOut, error)

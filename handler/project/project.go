@@ -52,17 +52,17 @@ type Handler interface {
 	// Required roles or permissions: project:audit_logs:read
 	ProjectGetEventLogs(ctx context.Context, project string) ([]EventOut, error)
 
-	// ProjectInvite send project membership invitation
+	// Deprecated: ProjectInvite send project membership invitation
 	// POST /v1/project/{project}/invite
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInvite
 	ProjectInvite(ctx context.Context, project string, in *ProjectInviteIn) error
 
-	// ProjectInviteAccept confirm project invite
+	// Deprecated: ProjectInviteAccept confirm project invite
 	// POST /v1/project/{project}/invite/{invite_verification_code}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInviteAccept
 	ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*ProjectInviteAcceptOut, error)
 
-	// ProjectInviteDelete delete an invitation to a project
+	// Deprecated: ProjectInviteDelete delete an invitation to a project
 	// DELETE /v1/project/{project}/invite/{invited_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInviteDelete
 	ProjectInviteDelete(ctx context.Context, project string, invitedEmail string) error
