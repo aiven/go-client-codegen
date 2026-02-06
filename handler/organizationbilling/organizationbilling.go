@@ -167,7 +167,7 @@ type OrganizationBillingGroupCreateIn struct {
 	BillingGroupName     string                  `json:"billing_group_name"`            // Billing Group Name
 	CustomInvoiceText    *string                 `json:"custom_invoice_text,omitempty"` // Extra billing text
 	PaymentMethod        *PaymentMethodIn        `json:"payment_method,omitempty"`      // Payment method
-	PaymentMethodId      string                  `json:"payment_method_id"`             // Payment method ID
+	PaymentMethodId      *string                 `json:"payment_method_id,omitempty"`   // Payment method ID
 	ShippingAddressId    string                  `json:"shipping_address_id"`           // Shipping address ID
 	VatId                *string                 `json:"vat_id,omitempty"`              // VAT ID
 }
@@ -211,6 +211,7 @@ type OrganizationBillingGroupUpdateIn struct {
 	BillingEmails        *[]BillingEmailIn        `json:"billing_emails,omitempty"`         // List of billing contact emails
 	BillingGroupName     *string                  `json:"billing_group_name,omitempty"`     // Billing group name
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"`    // Extra billing text
+	PaymentMethod        *PaymentMethodIn         `json:"payment_method,omitempty"`         // Payment method
 	PaymentMethodId      *string                  `json:"payment_method_id,omitempty"`      // Payment method ID
 	ShippingAddressId    *string                  `json:"shipping_address_id,omitempty"`    // Shipping address ID
 	VatId                *string                  `json:"vat_id,omitempty"`                 // VAT ID
@@ -246,19 +247,19 @@ type PaymentMethodOut struct {
 type PaymentMethodType string
 
 const (
-	PaymentMethodTypeAwsSubscription         PaymentMethodType = "aws_subscription"
-	PaymentMethodTypeAzureSubscription       PaymentMethodType = "azure_subscription"
-	PaymentMethodTypeBankTransfer            PaymentMethodType = "bank_transfer"
-	PaymentMethodTypeCreditCard              PaymentMethodType = "credit_card"
-	PaymentMethodTypeDisabled                PaymentMethodType = "disabled"
-	PaymentMethodTypeGcpSubscription         PaymentMethodType = "gcp_subscription"
-	PaymentMethodTypeMarketplaceSubscription PaymentMethodType = "marketplace_subscription"
-	PaymentMethodTypeNoPaymentExpected       PaymentMethodType = "no_payment_expected"
-	PaymentMethodTypePartner                 PaymentMethodType = "partner"
+	PaymentMethodTypeAwsSubscription   PaymentMethodType = "aws_subscription"
+	PaymentMethodTypeAzureSubscription PaymentMethodType = "azure_subscription"
+	PaymentMethodTypeBankTransfer      PaymentMethodType = "bank_transfer"
+	PaymentMethodTypeCreditCard        PaymentMethodType = "credit_card"
+	PaymentMethodTypeDisabled          PaymentMethodType = "disabled"
+	PaymentMethodTypeGcpSubscription   PaymentMethodType = "gcp_subscription"
+	PaymentMethodTypeNoPaymentExpected PaymentMethodType = "no_payment_expected"
+	PaymentMethodTypeNone              PaymentMethodType = "none"
+	PaymentMethodTypePartner           PaymentMethodType = "partner"
 )
 
 func PaymentMethodTypeChoices() []string {
-	return []string{"aws_subscription", "azure_subscription", "bank_transfer", "credit_card", "disabled", "gcp_subscription", "marketplace_subscription", "no_payment_expected", "partner"}
+	return []string{"aws_subscription", "azure_subscription", "bank_transfer", "credit_card", "disabled", "gcp_subscription", "no_payment_expected", "none", "partner"}
 }
 
 // organizationBillingGroupListOut OrganizationBillingGroupListResponse
