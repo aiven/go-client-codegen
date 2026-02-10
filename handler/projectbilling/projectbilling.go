@@ -28,7 +28,7 @@ type Handler interface {
 	// Required roles or permissions: developer, operator, read_only
 	ProjectCreditsList(ctx context.Context, project string) ([]CreditOut, error)
 
-	// ProjectInvoiceList list project invoices
+	// Deprecated: ProjectInvoiceList list project invoices
 	// GET /v1/project/{project}/invoice
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectInvoiceList
 	// Required roles or permissions: developer, operator, read_only
