@@ -226,14 +226,14 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 	}
 
 	s.name = name
-	s.CamelName = customCamelCase(s.name)
+	s.CamelName = customCamelCase(s.name, false)
 
 	if s.isEnum() {
 		const enumTypeSuffix = "Type"
 
 		betterName := getEnumName(s)
 		if betterName != s.name {
-			s.CamelName = cleanEnumName.ReplaceAllString(customCamelCase(betterName), "") + s.CamelName
+			s.CamelName = cleanEnumName.ReplaceAllString(customCamelCase(betterName, false), "") + s.CamelName
 		}
 
 		if !strings.Contains(s.CamelName, enumTypeSuffix) {
@@ -264,11 +264,11 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 
 	// Makes structure private
 	if s.isPrivate() {
-		s.CamelName = lowerFirst(s.CamelName)
+		s.CamelName = customCamelCase(s.CamelName, true)
 	}
 
 	if s.parent != nil && s.parent.isPrivate() {
-		s.CamelName = customCamelCase(s.parent.CamelName)
+		s.CamelName = customCamelCase(s.parent.CamelName, false)
 	}
 
 	// Some cases just impossible to cover
@@ -373,7 +373,7 @@ func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
 				}
 
 				if parent.isPrivate() {
-					s.CamelName = customCamelCase(parent.CamelName)
+					s.CamelName = customCamelCase(parent.CamelName, false)
 				} else {
 					// Adds parent's name
 					s.CamelName = strings.TrimSuffix(parent.CamelName, suffix) + s.CamelName
