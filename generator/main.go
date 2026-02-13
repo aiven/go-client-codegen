@@ -18,7 +18,7 @@ import (
 	"time"
 
 	"github.com/dave/jennifer/jen"
-	"github.com/iancoleman/strcase"
+	"github.com/ettle/strcase"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -60,17 +60,16 @@ func main() {
 
 	err := exec()
 	if err != nil {
-		log.Err(err).Send()
+		fmt.Println(err)
 		os.Exit(1)
 	}
 }
 
 const (
-	doerName             = "doer"
-	handlerTypeName      = "Handler"
-	queryParamName       = "query"
-	queryParamTypeSuffix = "Query"
-	queryParamArraySize  = 2
+	doerName            = "doer"
+	handlerTypeName     = "Handler"
+	queryParamName      = "query"
+	queryParamArraySize = 2
 )
 
 //nolint:funlen,gocognit,gocyclo // It's a generator, it's supposed to be long, and we won't expand it.
@@ -401,7 +400,7 @@ func exec() error {
 				if rsp.CamelName != schemaOut.CamelName {
 					// Takes original name and turns to camel.
 					// "CamelName" field might have been modified because of name collisions
-					outReturn.Dot(customCamelCase(rsp.name))
+					outReturn.Dot(customCamelCase(rsp.name, false))
 
 					if forcePointer {
 						// return &out.Foo
@@ -482,7 +481,7 @@ func writeStruct(f *jen.File, s *Schema) error {
 				continue
 			}
 
-			constant := s.CamelName + customCamelCase(literal)
+			constant := s.CamelName + customCamelCase(literal, false)
 
 			// KafkaMirror ReplicationPolicyClassType makes bad generated name
 			if strings.HasPrefix(literal, "org.apache.kafka.connect.mirror.") {
@@ -546,7 +545,7 @@ func fmtStruct(s *Schema) *jen.Statement {
 	uniqueNames := make(map[string]string, len(jsonNames))
 	for _, jsonName := range jsonNames {
 		p := s.Properties[jsonName]
-		goName := customCamelCase(jsonName)
+		goName := customCamelCase(jsonName, false)
 		if exist, ok := uniqueNames[goName]; ok {
 			log.Warn().Msgf("Found field collision: %q overrides %q -> %q", p.path(), exist, jsonName)
 		}
@@ -694,6 +693,24 @@ func fmtQueryParamType() *jen.Statement {
 
 var reNonWord = regexp.MustCompile(`\W+`)
 
-func customCamelCase(s string) string {
-	return strcase.ToCamel(reNonWord.ReplaceAllString(s, "_"))
+func customCamelCase(s string, private bool) string {
+	c := strcase.NewCaser(
+		false,
+		map[string]bool{
+			"CMK": true,
+		},
+		strcase.NewSplitFn(
+			[]rune{'_'},
+			strcase.SplitCase,
+			strcase.SplitAcronym,
+			strcase.PreserveNumberFormatting,
+			strcase.SplitAfterNumber,
+		),
+	)
+
+	clean := reNonWord.ReplaceAllString(s, "_")
+	if private {
+		return c.ToCamel(clean)
+	}
+	return c.ToCase(clean, strcase.TitleCase, 0)
 }

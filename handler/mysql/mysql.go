@@ -14,7 +14,7 @@ type Handler interface {
 	// POST /v1/project/{project}/service/{service_name}/mysql/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_MySQL/operation/MySQLServiceQueryStatistics
 	// Required roles or permissions: service:data:write
-	MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]QueryOut, error)
+	MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlServiceQueryStatisticsIn) ([]QueryOut, error)
 }
 
 // doer http client
@@ -30,13 +30,13 @@ type MySQLHandler struct {
 	doer doer
 }
 
-func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlserviceQueryStatisticsIn) ([]QueryOut, error) {
+func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *MySqlServiceQueryStatisticsIn) ([]QueryOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/mysql/query/stats", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "MySQLServiceQueryStatistics", "POST", path, in)
 	if err != nil {
 		return nil, err
 	}
-	out := new(mySqlserviceQueryStatisticsOut)
+	out := new(mySqlServiceQueryStatisticsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -44,8 +44,8 @@ func (h *MySQLHandler) MySQLServiceQueryStatistics(ctx context.Context, project 
 	return out.Queries, nil
 }
 
-// MySqlserviceQueryStatisticsIn MySQLServiceQueryStatisticsRequestBody
-type MySqlserviceQueryStatisticsIn struct {
+// MySqlServiceQueryStatisticsIn MySQLServiceQueryStatisticsRequestBody
+type MySqlServiceQueryStatisticsIn struct {
 	Limit   *int    `json:"limit,omitempty"`    // Limit for number of results
 	Offset  *int    `json:"offset,omitempty"`   // Offset for retrieved results based on sort order
 	OrderBy *string `json:"order_by,omitempty"` // Sort order can be either asc or desc and multiple comma separated columns with their own order can be specified: :asc,:desc. Accepted sort columns are: avg_timer_wait, count_star, digest, digest_text, first_seen, last_seen, max_timer_wait, min_timer_wait, query_sample_seen, query_sample_text, query_sample_timer_wait, quantile_95, quantile_99, quantile_999, schema_name, sum_created_tmp_disk_tables, sum_created_tmp_tables, sum_errors, sum_lock_time, sum_no_good_index_used, sum_no_index_used, sum_rows_affected, sum_rows_examined, sum_rows_sent, sum_select_full_join, sum_select_full_range_join, sum_select_range, sum_select_range_check, sum_select_scan, sum_sort_merge_passes, sum_sort_range, sum_sort_rows, sum_sort_scan, sum_timer_wait, sum_warnings
@@ -88,7 +88,7 @@ type QueryOut struct {
 	SumWarnings             *float64 `json:"sum_warnings,omitempty"`                // Query statistic
 }
 
-// mySqlserviceQueryStatisticsOut MySQLServiceQueryStatisticsResponse
-type mySqlserviceQueryStatisticsOut struct {
+// mySqlServiceQueryStatisticsOut MySQLServiceQueryStatisticsResponse
+type mySqlServiceQueryStatisticsOut struct {
 	Queries []QueryOut `json:"queries"` // List of query statistics
 }

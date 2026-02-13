@@ -20,7 +20,7 @@ type Handler interface {
 	// POST /v1/project/{project}/service/{service_name}/pg/query/stats
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/PGServiceQueryStatistics
 	// Required roles or permissions: service:data:write
-	PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]QueryOut, error)
+	PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgServiceQueryStatisticsIn) ([]QueryOut, error)
 
 	// PgAvailableExtensions list PostgreSQL extensions available for this tenant grouped by PG version
 	// GET /v1/tenants/{tenant}/pg-available-extensions
@@ -31,7 +31,7 @@ type Handler interface {
 	// POST /v1/project/{project}/service/{service_name}/connection_pool
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/ServicePGBouncerCreate
 	// Required roles or permissions: service:data:write
-	ServicePGBouncerCreate(ctx context.Context, project string, serviceName string, in *ServicePgbouncerCreateIn) error
+	ServicePGBouncerCreate(ctx context.Context, project string, serviceName string, in *ServicePgBouncerCreateIn) error
 
 	// ServicePGBouncerDelete delete a connection pool
 	// DELETE /v1/project/{project}/service/{service_name}/connection_pool/{pool_name}
@@ -43,7 +43,7 @@ type Handler interface {
 	// PUT /v1/project/{project}/service/{service_name}/connection_pool/{pool_name}
 	// https://api.aiven.io/doc/#tag/Service:_PostgreSQL/operation/ServicePGBouncerUpdate
 	// Required roles or permissions: service:data:write
-	ServicePGBouncerUpdate(ctx context.Context, project string, serviceName string, poolName string, in *ServicePgbouncerUpdateIn) error
+	ServicePGBouncerUpdate(ctx context.Context, project string, serviceName string, poolName string, in *ServicePgBouncerUpdateIn) error
 }
 
 // doer http client
@@ -65,20 +65,20 @@ func (h *PostgreSQLHandler) PGServiceAvailableExtensions(ctx context.Context, pr
 	if err != nil {
 		return nil, err
 	}
-	out := new(pgserviceAvailableExtensionsOut)
+	out := new(pgServiceAvailableExtensionsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Extensions, nil
 }
-func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgserviceQueryStatisticsIn) ([]QueryOut, error) {
+func (h *PostgreSQLHandler) PGServiceQueryStatistics(ctx context.Context, project string, serviceName string, in *PgServiceQueryStatisticsIn) ([]QueryOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/pg/query/stats", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "PGServiceQueryStatistics", "POST", path, in)
 	if err != nil {
 		return nil, err
 	}
-	out := new(pgserviceQueryStatisticsOut)
+	out := new(pgServiceQueryStatisticsOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -98,7 +98,7 @@ func (h *PostgreSQLHandler) PgAvailableExtensions(ctx context.Context, tenant st
 	}
 	return out.Pg, nil
 }
-func (h *PostgreSQLHandler) ServicePGBouncerCreate(ctx context.Context, project string, serviceName string, in *ServicePgbouncerCreateIn) error {
+func (h *PostgreSQLHandler) ServicePGBouncerCreate(ctx context.Context, project string, serviceName string, in *ServicePgBouncerCreateIn) error {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/connection_pool", url.PathEscape(project), url.PathEscape(serviceName))
 	_, err := h.doer.Do(ctx, "ServicePGBouncerCreate", "POST", path, in)
 	return err
@@ -108,7 +108,7 @@ func (h *PostgreSQLHandler) ServicePGBouncerDelete(ctx context.Context, project 
 	_, err := h.doer.Do(ctx, "ServicePGBouncerDelete", "DELETE", path, nil)
 	return err
 }
-func (h *PostgreSQLHandler) ServicePGBouncerUpdate(ctx context.Context, project string, serviceName string, poolName string, in *ServicePgbouncerUpdateIn) error {
+func (h *PostgreSQLHandler) ServicePGBouncerUpdate(ctx context.Context, project string, serviceName string, poolName string, in *ServicePgBouncerUpdateIn) error {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/connection_pool/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(poolName))
 	_, err := h.doer.Do(ctx, "ServicePGBouncerUpdate", "PUT", path, in)
 	return err
@@ -124,8 +124,8 @@ type PgOut struct {
 	Version    string         `json:"version"`    // PostgreSQL version
 }
 
-// PgserviceQueryStatisticsIn PGServiceQueryStatisticsRequestBody
-type PgserviceQueryStatisticsIn struct {
+// PgServiceQueryStatisticsIn PGServiceQueryStatisticsRequestBody
+type PgServiceQueryStatisticsIn struct {
 	Limit   *int    `json:"limit,omitempty"`    // Limit for number of results
 	Offset  *int    `json:"offset,omitempty"`   // Offset for retrieved results based on sort order
 	OrderBy *string `json:"order_by,omitempty"` // Sort order can be either asc or desc and multiple comma separated columns with their own order can be specified: :asc,:desc. Accepted sort columns are: blk_read_time, blk_write_time, calls, database_name, local_blks_dirtied, local_blks_hit, local_blks_read, local_blks_written, max_plan_time, max_time, mean_plan_time, mean_time, min_plan_time, min_time, query, queryid, rows, shared_blks_dirtied, shared_blks_hit, shared_blks_read, shared_blks_written, stddev_plan_time, stddev_time, temp_blks_read, temp_blks_written, total_plan_time, total_time, user_name, wal_bytes, wal_fpi, wal_records
@@ -176,8 +176,8 @@ type QueryOut struct {
 	WalRecords        *float64 `json:"wal_records,omitempty"`         // Query statistic
 }
 
-// ServicePgbouncerCreateIn ServicePGBouncerCreateRequestBody
-type ServicePgbouncerCreateIn struct {
+// ServicePgBouncerCreateIn ServicePGBouncerCreateRequestBody
+type ServicePgBouncerCreateIn struct {
 	Database string       `json:"database"`            // Service database name
 	PoolMode PoolModeType `json:"pool_mode,omitempty"` // PGBouncer pool mode
 	PoolName string       `json:"pool_name"`           // Connection pool name
@@ -185,8 +185,8 @@ type ServicePgbouncerCreateIn struct {
 	Username *string      `json:"username,omitempty"`  // Service username
 }
 
-// ServicePgbouncerUpdateIn ServicePGBouncerUpdateRequestBody
-type ServicePgbouncerUpdateIn struct {
+// ServicePgBouncerUpdateIn ServicePGBouncerUpdateRequestBody
+type ServicePgBouncerUpdateIn struct {
 	Database *string      `json:"database,omitempty"`  // Service database name
 	PoolMode PoolModeType `json:"pool_mode,omitempty"` // PGBouncer pool mode
 	PoolSize *int         `json:"pool_size,omitempty"` // Size of PGBouncer's PostgreSQL side connection pool
@@ -198,12 +198,12 @@ type pgAvailableExtensionsOut struct {
 	Pg []PgOut `json:"pg,omitempty"` // Supported PostgreSQL versions
 }
 
-// pgserviceAvailableExtensionsOut PGServiceAvailableExtensionsResponse
-type pgserviceAvailableExtensionsOut struct {
+// pgServiceAvailableExtensionsOut PGServiceAvailableExtensionsResponse
+type pgServiceAvailableExtensionsOut struct {
 	Extensions []ExtensionOut `json:"extensions"` // Extensions available for loading with CREATE EXTENSION in this service
 }
 
-// pgserviceQueryStatisticsOut PGServiceQueryStatisticsResponse
-type pgserviceQueryStatisticsOut struct {
+// pgServiceQueryStatisticsOut PGServiceQueryStatisticsResponse
+type pgServiceQueryStatisticsOut struct {
 	Queries []QueryOut `json:"queries"` // List of query statistics
 }

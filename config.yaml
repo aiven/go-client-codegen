@@ -75,6 +75,13 @@ Byoc:
   - CustomCloudEnvironmentPermissionsSet
   - CustomCloudEnvironmentProvision
   - CustomCloudEnvironmentUpdate
+CMK:
+  - CMKAccessCheckTrigger
+  - CMKAccessorsList
+  - CMKCreate
+  - CMKDelete
+  - CMKGet
+  - CMKUpdate
 ClickHouse:
   - ServiceClickHouseCurrentQueries
   - ServiceClickHouseDatabaseCreate

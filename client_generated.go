@@ -15,6 +15,7 @@ import (
 	byoc "github.com/aiven/go-client-codegen/handler/byoc"
 	clickhouse "github.com/aiven/go-client-codegen/handler/clickhouse"
 	cloud "github.com/aiven/go-client-codegen/handler/cloud"
+	cmk "github.com/aiven/go-client-codegen/handler/cmk"
 	domain "github.com/aiven/go-client-codegen/handler/domain"
 	flink "github.com/aiven/go-client-codegen/handler/flink"
 	flinkapplication "github.com/aiven/go-client-codegen/handler/flinkapplication"
@@ -64,6 +65,7 @@ func newClient(doer doer) Client {
 		ApplicationUserHandler:               applicationuser.NewHandler(doer),
 		BillingGroupHandler:                  billinggroup.NewHandler(doer),
 		ByocHandler:                          byoc.NewHandler(doer),
+		CMKHandler:                           cmk.NewHandler(doer),
 		ClickHouseHandler:                    clickhouse.NewHandler(doer),
 		CloudHandler:                         cloud.NewHandler(doer),
 		DomainHandler:                        domain.NewHandler(doer),
@@ -110,6 +112,7 @@ type client struct {
 	applicationuser.ApplicationUserHandler
 	billinggroup.BillingGroupHandler
 	byoc.ByocHandler
+	cmk.CMKHandler
 	clickhouse.ClickHouseHandler
 	cloud.CloudHandler
 	domain.DomainHandler
@@ -154,6 +157,7 @@ type Client interface {
 	applicationuser.Handler
 	billinggroup.Handler
 	byoc.Handler
+	cmk.Handler
 	clickhouse.Handler
 	cloud.Handler
 	domain.Handler

@@ -20,7 +20,7 @@ tasks:
       - curl -s -o openapi.json https://api.aiven.io/doc/openapi.json
   go-generate:
     cmds:
-      - rm -rf {{.GEN_OUT_DIR}}
+      - rm -rf {{.GEN_OUT_DIR}} client_mock.go
       - GEN_OUT_DIR={{.GEN_OUT_DIR}} go run -tags=generator ./generator/...
       - task: fmt-imports
     requires:

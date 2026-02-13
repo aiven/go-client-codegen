@@ -19,6 +19,7 @@ import (
 	"github.com/aiven/go-client-codegen/handler/byoc"
 	"github.com/aiven/go-client-codegen/handler/clickhouse"
 	"github.com/aiven/go-client-codegen/handler/cloud"
+	"github.com/aiven/go-client-codegen/handler/cmk"
 	"github.com/aiven/go-client-codegen/handler/domain"
 	"github.com/aiven/go-client-codegen/handler/flink"
 	"github.com/aiven/go-client-codegen/handler/flinkapplication"
@@ -4574,6 +4575,450 @@ func (_c *MockClient_BillingGroupUpdate_Call) RunAndReturn(run func(ctx context.
 	return _c
 }
 
+// CMKAccessCheckTrigger provides a mock function for the type MockClient
+func (_mock *MockClient) CMKAccessCheckTrigger(ctx context.Context, project string, cmkid string) (*cmk.CMKAccessCheckTriggerOut, error) {
+	ret := _mock.Called(ctx, project, cmkid)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CMKAccessCheckTrigger")
+	}
+
+	var r0 *cmk.CMKAccessCheckTriggerOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*cmk.CMKAccessCheckTriggerOut, error)); ok {
+		return returnFunc(ctx, project, cmkid)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *cmk.CMKAccessCheckTriggerOut); ok {
+		r0 = returnFunc(ctx, project, cmkid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*cmk.CMKAccessCheckTriggerOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, project, cmkid)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_CMKAccessCheckTrigger_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CMKAccessCheckTrigger'
+type MockClient_CMKAccessCheckTrigger_Call struct {
+	*mock.Call
+}
+
+// CMKAccessCheckTrigger is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project string
+//   - cmkid string
+func (_e *MockClient_Expecter) CMKAccessCheckTrigger(ctx interface{}, project interface{}, cmkid interface{}) *MockClient_CMKAccessCheckTrigger_Call {
+	return &MockClient_CMKAccessCheckTrigger_Call{Call: _e.mock.On("CMKAccessCheckTrigger", ctx, project, cmkid)}
+}
+
+func (_c *MockClient_CMKAccessCheckTrigger_Call) Run(run func(ctx context.Context, project string, cmkid string)) *MockClient_CMKAccessCheckTrigger_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_CMKAccessCheckTrigger_Call) Return(cMKAccessCheckTriggerOut *cmk.CMKAccessCheckTriggerOut, err error) *MockClient_CMKAccessCheckTrigger_Call {
+	_c.Call.Return(cMKAccessCheckTriggerOut, err)
+	return _c
+}
+
+func (_c *MockClient_CMKAccessCheckTrigger_Call) RunAndReturn(run func(ctx context.Context, project string, cmkid string) (*cmk.CMKAccessCheckTriggerOut, error)) *MockClient_CMKAccessCheckTrigger_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CMKAccessorsList provides a mock function for the type MockClient
+func (_mock *MockClient) CMKAccessorsList(ctx context.Context, project string) (*cmk.CMKAccessorsListOut, error) {
+	ret := _mock.Called(ctx, project)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CMKAccessorsList")
+	}
+
+	var r0 *cmk.CMKAccessorsListOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*cmk.CMKAccessorsListOut, error)); ok {
+		return returnFunc(ctx, project)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *cmk.CMKAccessorsListOut); ok {
+		r0 = returnFunc(ctx, project)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*cmk.CMKAccessorsListOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = returnFunc(ctx, project)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_CMKAccessorsList_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CMKAccessorsList'
+type MockClient_CMKAccessorsList_Call struct {
+	*mock.Call
+}
+
+// CMKAccessorsList is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project string
+func (_e *MockClient_Expecter) CMKAccessorsList(ctx interface{}, project interface{}) *MockClient_CMKAccessorsList_Call {
+	return &MockClient_CMKAccessorsList_Call{Call: _e.mock.On("CMKAccessorsList", ctx, project)}
+}
+
+func (_c *MockClient_CMKAccessorsList_Call) Run(run func(ctx context.Context, project string)) *MockClient_CMKAccessorsList_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_CMKAccessorsList_Call) Return(cMKAccessorsListOut *cmk.CMKAccessorsListOut, err error) *MockClient_CMKAccessorsList_Call {
+	_c.Call.Return(cMKAccessorsListOut, err)
+	return _c
+}
+
+func (_c *MockClient_CMKAccessorsList_Call) RunAndReturn(run func(ctx context.Context, project string) (*cmk.CMKAccessorsListOut, error)) *MockClient_CMKAccessorsList_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CMKCreate provides a mock function for the type MockClient
+func (_mock *MockClient) CMKCreate(ctx context.Context, project string, in *cmk.CMKCreateIn) (*cmk.CMKCreateOut, error) {
+	ret := _mock.Called(ctx, project, in)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CMKCreate")
+	}
+
+	var r0 *cmk.CMKCreateOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *cmk.CMKCreateIn) (*cmk.CMKCreateOut, error)); ok {
+		return returnFunc(ctx, project, in)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *cmk.CMKCreateIn) *cmk.CMKCreateOut); ok {
+		r0 = returnFunc(ctx, project, in)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*cmk.CMKCreateOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, *cmk.CMKCreateIn) error); ok {
+		r1 = returnFunc(ctx, project, in)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_CMKCreate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CMKCreate'
+type MockClient_CMKCreate_Call struct {
+	*mock.Call
+}
+
+// CMKCreate is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project string
+//   - in *cmk.CMKCreateIn
+func (_e *MockClient_Expecter) CMKCreate(ctx interface{}, project interface{}, in interface{}) *MockClient_CMKCreate_Call {
+	return &MockClient_CMKCreate_Call{Call: _e.mock.On("CMKCreate", ctx, project, in)}
+}
+
+func (_c *MockClient_CMKCreate_Call) Run(run func(ctx context.Context, project string, in *cmk.CMKCreateIn)) *MockClient_CMKCreate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 *cmk.CMKCreateIn
+		if args[2] != nil {
+			arg2 = args[2].(*cmk.CMKCreateIn)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_CMKCreate_Call) Return(cMKCreateOut *cmk.CMKCreateOut, err error) *MockClient_CMKCreate_Call {
+	_c.Call.Return(cMKCreateOut, err)
+	return _c
+}
+
+func (_c *MockClient_CMKCreate_Call) RunAndReturn(run func(ctx context.Context, project string, in *cmk.CMKCreateIn) (*cmk.CMKCreateOut, error)) *MockClient_CMKCreate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CMKDelete provides a mock function for the type MockClient
+func (_mock *MockClient) CMKDelete(ctx context.Context, project string, cmkid string) (*cmk.CMKDeleteOut, error) {
+	ret := _mock.Called(ctx, project, cmkid)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CMKDelete")
+	}
+
+	var r0 *cmk.CMKDeleteOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*cmk.CMKDeleteOut, error)); ok {
+		return returnFunc(ctx, project, cmkid)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *cmk.CMKDeleteOut); ok {
+		r0 = returnFunc(ctx, project, cmkid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*cmk.CMKDeleteOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, project, cmkid)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_CMKDelete_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CMKDelete'
+type MockClient_CMKDelete_Call struct {
+	*mock.Call
+}
+
+// CMKDelete is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project string
+//   - cmkid string
+func (_e *MockClient_Expecter) CMKDelete(ctx interface{}, project interface{}, cmkid interface{}) *MockClient_CMKDelete_Call {
+	return &MockClient_CMKDelete_Call{Call: _e.mock.On("CMKDelete", ctx, project, cmkid)}
+}
+
+func (_c *MockClient_CMKDelete_Call) Run(run func(ctx context.Context, project string, cmkid string)) *MockClient_CMKDelete_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_CMKDelete_Call) Return(cMKDeleteOut *cmk.CMKDeleteOut, err error) *MockClient_CMKDelete_Call {
+	_c.Call.Return(cMKDeleteOut, err)
+	return _c
+}
+
+func (_c *MockClient_CMKDelete_Call) RunAndReturn(run func(ctx context.Context, project string, cmkid string) (*cmk.CMKDeleteOut, error)) *MockClient_CMKDelete_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CMKGet provides a mock function for the type MockClient
+func (_mock *MockClient) CMKGet(ctx context.Context, project string, cmkid string) (*cmk.CMKGetOut, error) {
+	ret := _mock.Called(ctx, project, cmkid)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CMKGet")
+	}
+
+	var r0 *cmk.CMKGetOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*cmk.CMKGetOut, error)); ok {
+		return returnFunc(ctx, project, cmkid)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *cmk.CMKGetOut); ok {
+		r0 = returnFunc(ctx, project, cmkid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*cmk.CMKGetOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, project, cmkid)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_CMKGet_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CMKGet'
+type MockClient_CMKGet_Call struct {
+	*mock.Call
+}
+
+// CMKGet is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project string
+//   - cmkid string
+func (_e *MockClient_Expecter) CMKGet(ctx interface{}, project interface{}, cmkid interface{}) *MockClient_CMKGet_Call {
+	return &MockClient_CMKGet_Call{Call: _e.mock.On("CMKGet", ctx, project, cmkid)}
+}
+
+func (_c *MockClient_CMKGet_Call) Run(run func(ctx context.Context, project string, cmkid string)) *MockClient_CMKGet_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_CMKGet_Call) Return(cMKGetOut *cmk.CMKGetOut, err error) *MockClient_CMKGet_Call {
+	_c.Call.Return(cMKGetOut, err)
+	return _c
+}
+
+func (_c *MockClient_CMKGet_Call) RunAndReturn(run func(ctx context.Context, project string, cmkid string) (*cmk.CMKGetOut, error)) *MockClient_CMKGet_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CMKUpdate provides a mock function for the type MockClient
+func (_mock *MockClient) CMKUpdate(ctx context.Context, project string, cmkid string, in *cmk.CMKUpdateIn) (*cmk.CMKUpdateOut, error) {
+	ret := _mock.Called(ctx, project, cmkid, in)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CMKUpdate")
+	}
+
+	var r0 *cmk.CMKUpdateOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *cmk.CMKUpdateIn) (*cmk.CMKUpdateOut, error)); ok {
+		return returnFunc(ctx, project, cmkid, in)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *cmk.CMKUpdateIn) *cmk.CMKUpdateOut); ok {
+		r0 = returnFunc(ctx, project, cmkid, in)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*cmk.CMKUpdateOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *cmk.CMKUpdateIn) error); ok {
+		r1 = returnFunc(ctx, project, cmkid, in)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_CMKUpdate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CMKUpdate'
+type MockClient_CMKUpdate_Call struct {
+	*mock.Call
+}
+
+// CMKUpdate is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project string
+//   - cmkid string
+//   - in *cmk.CMKUpdateIn
+func (_e *MockClient_Expecter) CMKUpdate(ctx interface{}, project interface{}, cmkid interface{}, in interface{}) *MockClient_CMKUpdate_Call {
+	return &MockClient_CMKUpdate_Call{Call: _e.mock.On("CMKUpdate", ctx, project, cmkid, in)}
+}
+
+func (_c *MockClient_CMKUpdate_Call) Run(run func(ctx context.Context, project string, cmkid string, in *cmk.CMKUpdateIn)) *MockClient_CMKUpdate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		var arg3 *cmk.CMKUpdateIn
+		if args[3] != nil {
+			arg3 = args[3].(*cmk.CMKUpdateIn)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+			arg3,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_CMKUpdate_Call) Return(cMKUpdateOut *cmk.CMKUpdateOut, err error) *MockClient_CMKUpdate_Call {
+	_c.Call.Return(cMKUpdateOut, err)
+	return _c
+}
+
+func (_c *MockClient_CMKUpdate_Call) RunAndReturn(run func(ctx context.Context, project string, cmkid string, in *cmk.CMKUpdateIn) (*cmk.CMKUpdateOut, error)) *MockClient_CMKUpdate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CheckPasswordStrengthExistingUser provides a mock function for the type MockClient
 func (_mock *MockClient) CheckPasswordStrengthExistingUser(ctx context.Context, in *user.CheckPasswordStrengthExistingUserIn) (*user.CheckPasswordStrengthExistingUserOut, error) {
 	ret := _mock.Called(ctx, in)
@@ -5683,7 +6128,7 @@ func (_c *MockClient_ListServiceVersions_Call) RunAndReturn(run func(ctx context
 }
 
 // MySQLServiceQueryStatistics provides a mock function for the type MockClient
-func (_mock *MockClient) MySQLServiceQueryStatistics(ctx context.Context, project1 string, serviceName string, in *mysql.MySqlserviceQueryStatisticsIn) ([]mysql.QueryOut, error) {
+func (_mock *MockClient) MySQLServiceQueryStatistics(ctx context.Context, project1 string, serviceName string, in *mysql.MySqlServiceQueryStatisticsIn) ([]mysql.QueryOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName, in)
 
 	if len(ret) == 0 {
@@ -5692,17 +6137,17 @@ func (_mock *MockClient) MySQLServiceQueryStatistics(ctx context.Context, projec
 
 	var r0 []mysql.QueryOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *mysql.MySqlserviceQueryStatisticsIn) ([]mysql.QueryOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *mysql.MySqlServiceQueryStatisticsIn) ([]mysql.QueryOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *mysql.MySqlserviceQueryStatisticsIn) []mysql.QueryOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *mysql.MySqlServiceQueryStatisticsIn) []mysql.QueryOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]mysql.QueryOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *mysql.MySqlserviceQueryStatisticsIn) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *mysql.MySqlServiceQueryStatisticsIn) error); ok {
 		r1 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		r1 = ret.Error(1)
@@ -5719,12 +6164,12 @@ type MockClient_MySQLServiceQueryStatistics_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - serviceName string
-//   - in *mysql.MySqlserviceQueryStatisticsIn
+//   - in *mysql.MySqlServiceQueryStatisticsIn
 func (_e *MockClient_Expecter) MySQLServiceQueryStatistics(ctx interface{}, project1 interface{}, serviceName interface{}, in interface{}) *MockClient_MySQLServiceQueryStatistics_Call {
 	return &MockClient_MySQLServiceQueryStatistics_Call{Call: _e.mock.On("MySQLServiceQueryStatistics", ctx, project1, serviceName, in)}
 }
 
-func (_c *MockClient_MySQLServiceQueryStatistics_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *mysql.MySqlserviceQueryStatisticsIn)) *MockClient_MySQLServiceQueryStatistics_Call {
+func (_c *MockClient_MySQLServiceQueryStatistics_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *mysql.MySqlServiceQueryStatisticsIn)) *MockClient_MySQLServiceQueryStatistics_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -5738,9 +6183,9 @@ func (_c *MockClient_MySQLServiceQueryStatistics_Call) Run(run func(ctx context.
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *mysql.MySqlserviceQueryStatisticsIn
+		var arg3 *mysql.MySqlServiceQueryStatisticsIn
 		if args[3] != nil {
-			arg3 = args[3].(*mysql.MySqlserviceQueryStatisticsIn)
+			arg3 = args[3].(*mysql.MySqlServiceQueryStatisticsIn)
 		}
 		run(
 			arg0,
@@ -5757,7 +6202,7 @@ func (_c *MockClient_MySQLServiceQueryStatistics_Call) Return(queryOuts []mysql.
 	return _c
 }
 
-func (_c *MockClient_MySQLServiceQueryStatistics_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *mysql.MySqlserviceQueryStatisticsIn) ([]mysql.QueryOut, error)) *MockClient_MySQLServiceQueryStatistics_Call {
+func (_c *MockClient_MySQLServiceQueryStatistics_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *mysql.MySqlServiceQueryStatisticsIn) ([]mysql.QueryOut, error)) *MockClient_MySQLServiceQueryStatistics_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -9496,7 +9941,7 @@ func (_c *MockClient_PGServiceAvailableExtensions_Call) RunAndReturn(run func(ct
 }
 
 // PGServiceQueryStatistics provides a mock function for the type MockClient
-func (_mock *MockClient) PGServiceQueryStatistics(ctx context.Context, project1 string, serviceName string, in *postgresql.PgserviceQueryStatisticsIn) ([]postgresql.QueryOut, error) {
+func (_mock *MockClient) PGServiceQueryStatistics(ctx context.Context, project1 string, serviceName string, in *postgresql.PgServiceQueryStatisticsIn) ([]postgresql.QueryOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName, in)
 
 	if len(ret) == 0 {
@@ -9505,17 +9950,17 @@ func (_mock *MockClient) PGServiceQueryStatistics(ctx context.Context, project1 
 
 	var r0 []postgresql.QueryOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *postgresql.PgserviceQueryStatisticsIn) ([]postgresql.QueryOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *postgresql.PgServiceQueryStatisticsIn) ([]postgresql.QueryOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *postgresql.PgserviceQueryStatisticsIn) []postgresql.QueryOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *postgresql.PgServiceQueryStatisticsIn) []postgresql.QueryOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]postgresql.QueryOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *postgresql.PgserviceQueryStatisticsIn) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *postgresql.PgServiceQueryStatisticsIn) error); ok {
 		r1 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		r1 = ret.Error(1)
@@ -9532,12 +9977,12 @@ type MockClient_PGServiceQueryStatistics_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - serviceName string
-//   - in *postgresql.PgserviceQueryStatisticsIn
+//   - in *postgresql.PgServiceQueryStatisticsIn
 func (_e *MockClient_Expecter) PGServiceQueryStatistics(ctx interface{}, project1 interface{}, serviceName interface{}, in interface{}) *MockClient_PGServiceQueryStatistics_Call {
 	return &MockClient_PGServiceQueryStatistics_Call{Call: _e.mock.On("PGServiceQueryStatistics", ctx, project1, serviceName, in)}
 }
 
-func (_c *MockClient_PGServiceQueryStatistics_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.PgserviceQueryStatisticsIn)) *MockClient_PGServiceQueryStatistics_Call {
+func (_c *MockClient_PGServiceQueryStatistics_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.PgServiceQueryStatisticsIn)) *MockClient_PGServiceQueryStatistics_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -9551,9 +9996,9 @@ func (_c *MockClient_PGServiceQueryStatistics_Call) Run(run func(ctx context.Con
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *postgresql.PgserviceQueryStatisticsIn
+		var arg3 *postgresql.PgServiceQueryStatisticsIn
 		if args[3] != nil {
-			arg3 = args[3].(*postgresql.PgserviceQueryStatisticsIn)
+			arg3 = args[3].(*postgresql.PgServiceQueryStatisticsIn)
 		}
 		run(
 			arg0,
@@ -9570,7 +10015,7 @@ func (_c *MockClient_PGServiceQueryStatistics_Call) Return(queryOuts []postgresq
 	return _c
 }
 
-func (_c *MockClient_PGServiceQueryStatistics_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.PgserviceQueryStatisticsIn) ([]postgresql.QueryOut, error)) *MockClient_PGServiceQueryStatistics_Call {
+func (_c *MockClient_PGServiceQueryStatistics_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.PgServiceQueryStatisticsIn) ([]postgresql.QueryOut, error)) *MockClient_PGServiceQueryStatistics_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -11555,26 +12000,26 @@ func (_c *MockClient_ProjectServiceTypesList_Call) RunAndReturn(run func(ctx con
 }
 
 // ProjectStaticIPAssociate provides a mock function for the type MockClient
-func (_mock *MockClient) ProjectStaticIPAssociate(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpassociateIn) (*staticip.ProjectStaticIpassociateOut, error) {
+func (_mock *MockClient) ProjectStaticIPAssociate(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpAssociateIn) (*staticip.ProjectStaticIpAssociateOut, error) {
 	ret := _mock.Called(ctx, project1, staticIpAddressId, in)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ProjectStaticIPAssociate")
 	}
 
-	var r0 *staticip.ProjectStaticIpassociateOut
+	var r0 *staticip.ProjectStaticIpAssociateOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIpassociateIn) (*staticip.ProjectStaticIpassociateOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIpAssociateIn) (*staticip.ProjectStaticIpAssociateOut, error)); ok {
 		return returnFunc(ctx, project1, staticIpAddressId, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIpassociateIn) *staticip.ProjectStaticIpassociateOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIpAssociateIn) *staticip.ProjectStaticIpAssociateOut); ok {
 		r0 = returnFunc(ctx, project1, staticIpAddressId, in)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*staticip.ProjectStaticIpassociateOut)
+			r0 = ret.Get(0).(*staticip.ProjectStaticIpAssociateOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *staticip.ProjectStaticIpassociateIn) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *staticip.ProjectStaticIpAssociateIn) error); ok {
 		r1 = returnFunc(ctx, project1, staticIpAddressId, in)
 	} else {
 		r1 = ret.Error(1)
@@ -11591,12 +12036,12 @@ type MockClient_ProjectStaticIPAssociate_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - staticIpAddressId string
-//   - in *staticip.ProjectStaticIpassociateIn
+//   - in *staticip.ProjectStaticIpAssociateIn
 func (_e *MockClient_Expecter) ProjectStaticIPAssociate(ctx interface{}, project1 interface{}, staticIpAddressId interface{}, in interface{}) *MockClient_ProjectStaticIPAssociate_Call {
 	return &MockClient_ProjectStaticIPAssociate_Call{Call: _e.mock.On("ProjectStaticIPAssociate", ctx, project1, staticIpAddressId, in)}
 }
 
-func (_c *MockClient_ProjectStaticIPAssociate_Call) Run(run func(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpassociateIn)) *MockClient_ProjectStaticIPAssociate_Call {
+func (_c *MockClient_ProjectStaticIPAssociate_Call) Run(run func(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpAssociateIn)) *MockClient_ProjectStaticIPAssociate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -11610,9 +12055,9 @@ func (_c *MockClient_ProjectStaticIPAssociate_Call) Run(run func(ctx context.Con
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *staticip.ProjectStaticIpassociateIn
+		var arg3 *staticip.ProjectStaticIpAssociateIn
 		if args[3] != nil {
-			arg3 = args[3].(*staticip.ProjectStaticIpassociateIn)
+			arg3 = args[3].(*staticip.ProjectStaticIpAssociateIn)
 		}
 		run(
 			arg0,
@@ -11624,12 +12069,12 @@ func (_c *MockClient_ProjectStaticIPAssociate_Call) Run(run func(ctx context.Con
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPAssociate_Call) Return(projectStaticIpassociateOut *staticip.ProjectStaticIpassociateOut, err error) *MockClient_ProjectStaticIPAssociate_Call {
-	_c.Call.Return(projectStaticIpassociateOut, err)
+func (_c *MockClient_ProjectStaticIPAssociate_Call) Return(projectStaticIpAssociateOut *staticip.ProjectStaticIpAssociateOut, err error) *MockClient_ProjectStaticIPAssociate_Call {
+	_c.Call.Return(projectStaticIpAssociateOut, err)
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPAssociate_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpassociateIn) (*staticip.ProjectStaticIpassociateOut, error)) *MockClient_ProjectStaticIPAssociate_Call {
+func (_c *MockClient_ProjectStaticIPAssociate_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpAssociateIn) (*staticip.ProjectStaticIpAssociateOut, error)) *MockClient_ProjectStaticIPAssociate_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -11703,23 +12148,23 @@ func (_c *MockClient_ProjectStaticIPAvailabilityList_Call) RunAndReturn(run func
 }
 
 // ProjectStaticIPDissociate provides a mock function for the type MockClient
-func (_mock *MockClient) ProjectStaticIPDissociate(ctx context.Context, project1 string, staticIpAddressId string) (*staticip.ProjectStaticIpdissociateOut, error) {
+func (_mock *MockClient) ProjectStaticIPDissociate(ctx context.Context, project1 string, staticIpAddressId string) (*staticip.ProjectStaticIpDissociateOut, error) {
 	ret := _mock.Called(ctx, project1, staticIpAddressId)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ProjectStaticIPDissociate")
 	}
 
-	var r0 *staticip.ProjectStaticIpdissociateOut
+	var r0 *staticip.ProjectStaticIpDissociateOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*staticip.ProjectStaticIpdissociateOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*staticip.ProjectStaticIpDissociateOut, error)); ok {
 		return returnFunc(ctx, project1, staticIpAddressId)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *staticip.ProjectStaticIpdissociateOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *staticip.ProjectStaticIpDissociateOut); ok {
 		r0 = returnFunc(ctx, project1, staticIpAddressId)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*staticip.ProjectStaticIpdissociateOut)
+			r0 = ret.Get(0).(*staticip.ProjectStaticIpDissociateOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
@@ -11766,37 +12211,37 @@ func (_c *MockClient_ProjectStaticIPDissociate_Call) Run(run func(ctx context.Co
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPDissociate_Call) Return(projectStaticIpdissociateOut *staticip.ProjectStaticIpdissociateOut, err error) *MockClient_ProjectStaticIPDissociate_Call {
-	_c.Call.Return(projectStaticIpdissociateOut, err)
+func (_c *MockClient_ProjectStaticIPDissociate_Call) Return(projectStaticIpDissociateOut *staticip.ProjectStaticIpDissociateOut, err error) *MockClient_ProjectStaticIPDissociate_Call {
+	_c.Call.Return(projectStaticIpDissociateOut, err)
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPDissociate_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpAddressId string) (*staticip.ProjectStaticIpdissociateOut, error)) *MockClient_ProjectStaticIPDissociate_Call {
+func (_c *MockClient_ProjectStaticIPDissociate_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpAddressId string) (*staticip.ProjectStaticIpDissociateOut, error)) *MockClient_ProjectStaticIPDissociate_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ProjectStaticIPPatch provides a mock function for the type MockClient
-func (_mock *MockClient) ProjectStaticIPPatch(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIppatchIn) (*staticip.ProjectStaticIppatchOut, error) {
+func (_mock *MockClient) ProjectStaticIPPatch(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpPatchIn) (*staticip.ProjectStaticIpPatchOut, error) {
 	ret := _mock.Called(ctx, project1, staticIpAddressId, in)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ProjectStaticIPPatch")
 	}
 
-	var r0 *staticip.ProjectStaticIppatchOut
+	var r0 *staticip.ProjectStaticIpPatchOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIppatchIn) (*staticip.ProjectStaticIppatchOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIpPatchIn) (*staticip.ProjectStaticIpPatchOut, error)); ok {
 		return returnFunc(ctx, project1, staticIpAddressId, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIppatchIn) *staticip.ProjectStaticIppatchOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIpPatchIn) *staticip.ProjectStaticIpPatchOut); ok {
 		r0 = returnFunc(ctx, project1, staticIpAddressId, in)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*staticip.ProjectStaticIppatchOut)
+			r0 = ret.Get(0).(*staticip.ProjectStaticIpPatchOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *staticip.ProjectStaticIppatchIn) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *staticip.ProjectStaticIpPatchIn) error); ok {
 		r1 = returnFunc(ctx, project1, staticIpAddressId, in)
 	} else {
 		r1 = ret.Error(1)
@@ -11813,12 +12258,12 @@ type MockClient_ProjectStaticIPPatch_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - staticIpAddressId string
-//   - in *staticip.ProjectStaticIppatchIn
+//   - in *staticip.ProjectStaticIpPatchIn
 func (_e *MockClient_Expecter) ProjectStaticIPPatch(ctx interface{}, project1 interface{}, staticIpAddressId interface{}, in interface{}) *MockClient_ProjectStaticIPPatch_Call {
 	return &MockClient_ProjectStaticIPPatch_Call{Call: _e.mock.On("ProjectStaticIPPatch", ctx, project1, staticIpAddressId, in)}
 }
 
-func (_c *MockClient_ProjectStaticIPPatch_Call) Run(run func(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIppatchIn)) *MockClient_ProjectStaticIPPatch_Call {
+func (_c *MockClient_ProjectStaticIPPatch_Call) Run(run func(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpPatchIn)) *MockClient_ProjectStaticIPPatch_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -11832,9 +12277,9 @@ func (_c *MockClient_ProjectStaticIPPatch_Call) Run(run func(ctx context.Context
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *staticip.ProjectStaticIppatchIn
+		var arg3 *staticip.ProjectStaticIpPatchIn
 		if args[3] != nil {
-			arg3 = args[3].(*staticip.ProjectStaticIppatchIn)
+			arg3 = args[3].(*staticip.ProjectStaticIpPatchIn)
 		}
 		run(
 			arg0,
@@ -11846,12 +12291,12 @@ func (_c *MockClient_ProjectStaticIPPatch_Call) Run(run func(ctx context.Context
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPPatch_Call) Return(projectStaticIppatchOut *staticip.ProjectStaticIppatchOut, err error) *MockClient_ProjectStaticIPPatch_Call {
-	_c.Call.Return(projectStaticIppatchOut, err)
+func (_c *MockClient_ProjectStaticIPPatch_Call) Return(projectStaticIpPatchOut *staticip.ProjectStaticIpPatchOut, err error) *MockClient_ProjectStaticIPPatch_Call {
+	_c.Call.Return(projectStaticIpPatchOut, err)
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPPatch_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIppatchIn) (*staticip.ProjectStaticIppatchOut, error)) *MockClient_ProjectStaticIPPatch_Call {
+func (_c *MockClient_ProjectStaticIPPatch_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpPatchIn) (*staticip.ProjectStaticIpPatchOut, error)) *MockClient_ProjectStaticIPPatch_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -21610,7 +22055,7 @@ func (_c *MockClient_ServiceOpenSearchSecuritySet_Call) RunAndReturn(run func(ct
 }
 
 // ServicePGBouncerCreate provides a mock function for the type MockClient
-func (_mock *MockClient) ServicePGBouncerCreate(ctx context.Context, project1 string, serviceName string, in *postgresql.ServicePgbouncerCreateIn) error {
+func (_mock *MockClient) ServicePGBouncerCreate(ctx context.Context, project1 string, serviceName string, in *postgresql.ServicePgBouncerCreateIn) error {
 	ret := _mock.Called(ctx, project1, serviceName, in)
 
 	if len(ret) == 0 {
@@ -21618,7 +22063,7 @@ func (_mock *MockClient) ServicePGBouncerCreate(ctx context.Context, project1 st
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *postgresql.ServicePgbouncerCreateIn) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *postgresql.ServicePgBouncerCreateIn) error); ok {
 		r0 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		r0 = ret.Error(0)
@@ -21635,12 +22080,12 @@ type MockClient_ServicePGBouncerCreate_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - serviceName string
-//   - in *postgresql.ServicePgbouncerCreateIn
+//   - in *postgresql.ServicePgBouncerCreateIn
 func (_e *MockClient_Expecter) ServicePGBouncerCreate(ctx interface{}, project1 interface{}, serviceName interface{}, in interface{}) *MockClient_ServicePGBouncerCreate_Call {
 	return &MockClient_ServicePGBouncerCreate_Call{Call: _e.mock.On("ServicePGBouncerCreate", ctx, project1, serviceName, in)}
 }
 
-func (_c *MockClient_ServicePGBouncerCreate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.ServicePgbouncerCreateIn)) *MockClient_ServicePGBouncerCreate_Call {
+func (_c *MockClient_ServicePGBouncerCreate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.ServicePgBouncerCreateIn)) *MockClient_ServicePGBouncerCreate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -21654,9 +22099,9 @@ func (_c *MockClient_ServicePGBouncerCreate_Call) Run(run func(ctx context.Conte
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *postgresql.ServicePgbouncerCreateIn
+		var arg3 *postgresql.ServicePgBouncerCreateIn
 		if args[3] != nil {
-			arg3 = args[3].(*postgresql.ServicePgbouncerCreateIn)
+			arg3 = args[3].(*postgresql.ServicePgBouncerCreateIn)
 		}
 		run(
 			arg0,
@@ -21673,7 +22118,7 @@ func (_c *MockClient_ServicePGBouncerCreate_Call) Return(err error) *MockClient_
 	return _c
 }
 
-func (_c *MockClient_ServicePGBouncerCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.ServicePgbouncerCreateIn) error) *MockClient_ServicePGBouncerCreate_Call {
+func (_c *MockClient_ServicePGBouncerCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.ServicePgBouncerCreateIn) error) *MockClient_ServicePGBouncerCreate_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -21748,7 +22193,7 @@ func (_c *MockClient_ServicePGBouncerDelete_Call) RunAndReturn(run func(ctx cont
 }
 
 // ServicePGBouncerUpdate provides a mock function for the type MockClient
-func (_mock *MockClient) ServicePGBouncerUpdate(ctx context.Context, project1 string, serviceName string, poolName string, in *postgresql.ServicePgbouncerUpdateIn) error {
+func (_mock *MockClient) ServicePGBouncerUpdate(ctx context.Context, project1 string, serviceName string, poolName string, in *postgresql.ServicePgBouncerUpdateIn) error {
 	ret := _mock.Called(ctx, project1, serviceName, poolName, in)
 
 	if len(ret) == 0 {
@@ -21756,7 +22201,7 @@ func (_mock *MockClient) ServicePGBouncerUpdate(ctx context.Context, project1 st
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string, *postgresql.ServicePgbouncerUpdateIn) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string, *postgresql.ServicePgBouncerUpdateIn) error); ok {
 		r0 = returnFunc(ctx, project1, serviceName, poolName, in)
 	} else {
 		r0 = ret.Error(0)
@@ -21774,12 +22219,12 @@ type MockClient_ServicePGBouncerUpdate_Call struct {
 //   - project1 string
 //   - serviceName string
 //   - poolName string
-//   - in *postgresql.ServicePgbouncerUpdateIn
+//   - in *postgresql.ServicePgBouncerUpdateIn
 func (_e *MockClient_Expecter) ServicePGBouncerUpdate(ctx interface{}, project1 interface{}, serviceName interface{}, poolName interface{}, in interface{}) *MockClient_ServicePGBouncerUpdate_Call {
 	return &MockClient_ServicePGBouncerUpdate_Call{Call: _e.mock.On("ServicePGBouncerUpdate", ctx, project1, serviceName, poolName, in)}
 }
 
-func (_c *MockClient_ServicePGBouncerUpdate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, poolName string, in *postgresql.ServicePgbouncerUpdateIn)) *MockClient_ServicePGBouncerUpdate_Call {
+func (_c *MockClient_ServicePGBouncerUpdate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, poolName string, in *postgresql.ServicePgBouncerUpdateIn)) *MockClient_ServicePGBouncerUpdate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -21797,9 +22242,9 @@ func (_c *MockClient_ServicePGBouncerUpdate_Call) Run(run func(ctx context.Conte
 		if args[3] != nil {
 			arg3 = args[3].(string)
 		}
-		var arg4 *postgresql.ServicePgbouncerUpdateIn
+		var arg4 *postgresql.ServicePgBouncerUpdateIn
 		if args[4] != nil {
-			arg4 = args[4].(*postgresql.ServicePgbouncerUpdateIn)
+			arg4 = args[4].(*postgresql.ServicePgBouncerUpdateIn)
 		}
 		run(
 			arg0,
@@ -21817,7 +22262,7 @@ func (_c *MockClient_ServicePGBouncerUpdate_Call) Return(err error) *MockClient_
 	return _c
 }
 
-func (_c *MockClient_ServicePGBouncerUpdate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, poolName string, in *postgresql.ServicePgbouncerUpdateIn) error) *MockClient_ServicePGBouncerUpdate_Call {
+func (_c *MockClient_ServicePGBouncerUpdate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, poolName string, in *postgresql.ServicePgBouncerUpdateIn) error) *MockClient_ServicePGBouncerUpdate_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -21897,26 +22342,26 @@ func (_c *MockClient_ServicePrivatelinkAWSConnectionList_Call) RunAndReturn(run 
 }
 
 // ServicePrivatelinkAWSCreate provides a mock function for the type MockClient
-func (_mock *MockClient) ServicePrivatelinkAWSCreate(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwscreateIn) (*privatelink.ServicePrivatelinkAwscreateOut, error) {
+func (_mock *MockClient) ServicePrivatelinkAWSCreate(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsCreateIn) (*privatelink.ServicePrivatelinkAwsCreateOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName, in)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServicePrivatelinkAWSCreate")
 	}
 
-	var r0 *privatelink.ServicePrivatelinkAwscreateOut
+	var r0 *privatelink.ServicePrivatelinkAwsCreateOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwscreateIn) (*privatelink.ServicePrivatelinkAwscreateOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsCreateIn) (*privatelink.ServicePrivatelinkAwsCreateOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwscreateIn) *privatelink.ServicePrivatelinkAwscreateOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsCreateIn) *privatelink.ServicePrivatelinkAwsCreateOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAwscreateOut)
+			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAwsCreateOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwscreateIn) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsCreateIn) error); ok {
 		r1 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		r1 = ret.Error(1)
@@ -21933,12 +22378,12 @@ type MockClient_ServicePrivatelinkAWSCreate_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - serviceName string
-//   - in *privatelink.ServicePrivatelinkAwscreateIn
+//   - in *privatelink.ServicePrivatelinkAwsCreateIn
 func (_e *MockClient_Expecter) ServicePrivatelinkAWSCreate(ctx interface{}, project1 interface{}, serviceName interface{}, in interface{}) *MockClient_ServicePrivatelinkAWSCreate_Call {
 	return &MockClient_ServicePrivatelinkAWSCreate_Call{Call: _e.mock.On("ServicePrivatelinkAWSCreate", ctx, project1, serviceName, in)}
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwscreateIn)) *MockClient_ServicePrivatelinkAWSCreate_Call {
+func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsCreateIn)) *MockClient_ServicePrivatelinkAWSCreate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -21952,9 +22397,9 @@ func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) Run(run func(ctx context.
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *privatelink.ServicePrivatelinkAwscreateIn
+		var arg3 *privatelink.ServicePrivatelinkAwsCreateIn
 		if args[3] != nil {
-			arg3 = args[3].(*privatelink.ServicePrivatelinkAwscreateIn)
+			arg3 = args[3].(*privatelink.ServicePrivatelinkAwsCreateIn)
 		}
 		run(
 			arg0,
@@ -21966,34 +22411,34 @@ func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) Run(run func(ctx context.
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) Return(servicePrivatelinkAwscreateOut *privatelink.ServicePrivatelinkAwscreateOut, err error) *MockClient_ServicePrivatelinkAWSCreate_Call {
-	_c.Call.Return(servicePrivatelinkAwscreateOut, err)
+func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) Return(servicePrivatelinkAwsCreateOut *privatelink.ServicePrivatelinkAwsCreateOut, err error) *MockClient_ServicePrivatelinkAWSCreate_Call {
+	_c.Call.Return(servicePrivatelinkAwsCreateOut, err)
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwscreateIn) (*privatelink.ServicePrivatelinkAwscreateOut, error)) *MockClient_ServicePrivatelinkAWSCreate_Call {
+func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsCreateIn) (*privatelink.ServicePrivatelinkAwsCreateOut, error)) *MockClient_ServicePrivatelinkAWSCreate_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ServicePrivatelinkAWSDelete provides a mock function for the type MockClient
-func (_mock *MockClient) ServicePrivatelinkAWSDelete(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAwsdeleteOut, error) {
+func (_mock *MockClient) ServicePrivatelinkAWSDelete(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAwsDeleteOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServicePrivatelinkAWSDelete")
 	}
 
-	var r0 *privatelink.ServicePrivatelinkAwsdeleteOut
+	var r0 *privatelink.ServicePrivatelinkAwsDeleteOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*privatelink.ServicePrivatelinkAwsdeleteOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*privatelink.ServicePrivatelinkAwsDeleteOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *privatelink.ServicePrivatelinkAwsdeleteOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *privatelink.ServicePrivatelinkAwsDeleteOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAwsdeleteOut)
+			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAwsDeleteOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
@@ -22040,34 +22485,34 @@ func (_c *MockClient_ServicePrivatelinkAWSDelete_Call) Run(run func(ctx context.
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSDelete_Call) Return(servicePrivatelinkAwsdeleteOut *privatelink.ServicePrivatelinkAwsdeleteOut, err error) *MockClient_ServicePrivatelinkAWSDelete_Call {
-	_c.Call.Return(servicePrivatelinkAwsdeleteOut, err)
+func (_c *MockClient_ServicePrivatelinkAWSDelete_Call) Return(servicePrivatelinkAwsDeleteOut *privatelink.ServicePrivatelinkAwsDeleteOut, err error) *MockClient_ServicePrivatelinkAWSDelete_Call {
+	_c.Call.Return(servicePrivatelinkAwsDeleteOut, err)
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAwsdeleteOut, error)) *MockClient_ServicePrivatelinkAWSDelete_Call {
+func (_c *MockClient_ServicePrivatelinkAWSDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAwsDeleteOut, error)) *MockClient_ServicePrivatelinkAWSDelete_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ServicePrivatelinkAWSGet provides a mock function for the type MockClient
-func (_mock *MockClient) ServicePrivatelinkAWSGet(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAwsgetOut, error) {
+func (_mock *MockClient) ServicePrivatelinkAWSGet(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAwsGetOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServicePrivatelinkAWSGet")
 	}
 
-	var r0 *privatelink.ServicePrivatelinkAwsgetOut
+	var r0 *privatelink.ServicePrivatelinkAwsGetOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*privatelink.ServicePrivatelinkAwsgetOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*privatelink.ServicePrivatelinkAwsGetOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *privatelink.ServicePrivatelinkAwsgetOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *privatelink.ServicePrivatelinkAwsGetOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAwsgetOut)
+			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAwsGetOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
@@ -22114,37 +22559,37 @@ func (_c *MockClient_ServicePrivatelinkAWSGet_Call) Run(run func(ctx context.Con
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSGet_Call) Return(servicePrivatelinkAwsgetOut *privatelink.ServicePrivatelinkAwsgetOut, err error) *MockClient_ServicePrivatelinkAWSGet_Call {
-	_c.Call.Return(servicePrivatelinkAwsgetOut, err)
+func (_c *MockClient_ServicePrivatelinkAWSGet_Call) Return(servicePrivatelinkAwsGetOut *privatelink.ServicePrivatelinkAwsGetOut, err error) *MockClient_ServicePrivatelinkAWSGet_Call {
+	_c.Call.Return(servicePrivatelinkAwsGetOut, err)
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSGet_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAwsgetOut, error)) *MockClient_ServicePrivatelinkAWSGet_Call {
+func (_c *MockClient_ServicePrivatelinkAWSGet_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAwsGetOut, error)) *MockClient_ServicePrivatelinkAWSGet_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ServicePrivatelinkAWSUpdate provides a mock function for the type MockClient
-func (_mock *MockClient) ServicePrivatelinkAWSUpdate(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsupdateIn) (*privatelink.ServicePrivatelinkAwsupdateOut, error) {
+func (_mock *MockClient) ServicePrivatelinkAWSUpdate(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsUpdateIn) (*privatelink.ServicePrivatelinkAwsUpdateOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName, in)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServicePrivatelinkAWSUpdate")
 	}
 
-	var r0 *privatelink.ServicePrivatelinkAwsupdateOut
+	var r0 *privatelink.ServicePrivatelinkAwsUpdateOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsupdateIn) (*privatelink.ServicePrivatelinkAwsupdateOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsUpdateIn) (*privatelink.ServicePrivatelinkAwsUpdateOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsupdateIn) *privatelink.ServicePrivatelinkAwsupdateOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsUpdateIn) *privatelink.ServicePrivatelinkAwsUpdateOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAwsupdateOut)
+			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAwsUpdateOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsupdateIn) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsUpdateIn) error); ok {
 		r1 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		r1 = ret.Error(1)
@@ -22161,12 +22606,12 @@ type MockClient_ServicePrivatelinkAWSUpdate_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - serviceName string
-//   - in *privatelink.ServicePrivatelinkAwsupdateIn
+//   - in *privatelink.ServicePrivatelinkAwsUpdateIn
 func (_e *MockClient_Expecter) ServicePrivatelinkAWSUpdate(ctx interface{}, project1 interface{}, serviceName interface{}, in interface{}) *MockClient_ServicePrivatelinkAWSUpdate_Call {
 	return &MockClient_ServicePrivatelinkAWSUpdate_Call{Call: _e.mock.On("ServicePrivatelinkAWSUpdate", ctx, project1, serviceName, in)}
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsupdateIn)) *MockClient_ServicePrivatelinkAWSUpdate_Call {
+func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsUpdateIn)) *MockClient_ServicePrivatelinkAWSUpdate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -22180,9 +22625,9 @@ func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) Run(run func(ctx context.
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *privatelink.ServicePrivatelinkAwsupdateIn
+		var arg3 *privatelink.ServicePrivatelinkAwsUpdateIn
 		if args[3] != nil {
-			arg3 = args[3].(*privatelink.ServicePrivatelinkAwsupdateIn)
+			arg3 = args[3].(*privatelink.ServicePrivatelinkAwsUpdateIn)
 		}
 		run(
 			arg0,
@@ -22194,12 +22639,12 @@ func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) Run(run func(ctx context.
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) Return(servicePrivatelinkAwsupdateOut *privatelink.ServicePrivatelinkAwsupdateOut, err error) *MockClient_ServicePrivatelinkAWSUpdate_Call {
-	_c.Call.Return(servicePrivatelinkAwsupdateOut, err)
+func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) Return(servicePrivatelinkAwsUpdateOut *privatelink.ServicePrivatelinkAwsUpdateOut, err error) *MockClient_ServicePrivatelinkAWSUpdate_Call {
+	_c.Call.Return(servicePrivatelinkAwsUpdateOut, err)
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsupdateIn) (*privatelink.ServicePrivatelinkAwsupdateOut, error)) *MockClient_ServicePrivatelinkAWSUpdate_Call {
+func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsUpdateIn) (*privatelink.ServicePrivatelinkAwsUpdateOut, error)) *MockClient_ServicePrivatelinkAWSUpdate_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -24911,26 +25356,26 @@ func (_c *MockClient_ServiceUserGet_Call) RunAndReturn(run func(ctx context.Cont
 }
 
 // StaticIPCreate provides a mock function for the type MockClient
-func (_mock *MockClient) StaticIPCreate(ctx context.Context, project1 string, in *staticip.StaticIpcreateIn) (*staticip.StaticIpcreateOut, error) {
+func (_mock *MockClient) StaticIPCreate(ctx context.Context, project1 string, in *staticip.StaticIpCreateIn) (*staticip.StaticIpCreateOut, error) {
 	ret := _mock.Called(ctx, project1, in)
 
 	if len(ret) == 0 {
 		panic("no return value specified for StaticIPCreate")
 	}
 
-	var r0 *staticip.StaticIpcreateOut
+	var r0 *staticip.StaticIpCreateOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *staticip.StaticIpcreateIn) (*staticip.StaticIpcreateOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *staticip.StaticIpCreateIn) (*staticip.StaticIpCreateOut, error)); ok {
 		return returnFunc(ctx, project1, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *staticip.StaticIpcreateIn) *staticip.StaticIpcreateOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *staticip.StaticIpCreateIn) *staticip.StaticIpCreateOut); ok {
 		r0 = returnFunc(ctx, project1, in)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*staticip.StaticIpcreateOut)
+			r0 = ret.Get(0).(*staticip.StaticIpCreateOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, *staticip.StaticIpcreateIn) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, *staticip.StaticIpCreateIn) error); ok {
 		r1 = returnFunc(ctx, project1, in)
 	} else {
 		r1 = ret.Error(1)
@@ -24946,12 +25391,12 @@ type MockClient_StaticIPCreate_Call struct {
 // StaticIPCreate is a helper method to define mock.On call
 //   - ctx context.Context
 //   - project1 string
-//   - in *staticip.StaticIpcreateIn
+//   - in *staticip.StaticIpCreateIn
 func (_e *MockClient_Expecter) StaticIPCreate(ctx interface{}, project1 interface{}, in interface{}) *MockClient_StaticIPCreate_Call {
 	return &MockClient_StaticIPCreate_Call{Call: _e.mock.On("StaticIPCreate", ctx, project1, in)}
 }
 
-func (_c *MockClient_StaticIPCreate_Call) Run(run func(ctx context.Context, project1 string, in *staticip.StaticIpcreateIn)) *MockClient_StaticIPCreate_Call {
+func (_c *MockClient_StaticIPCreate_Call) Run(run func(ctx context.Context, project1 string, in *staticip.StaticIpCreateIn)) *MockClient_StaticIPCreate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -24961,9 +25406,9 @@ func (_c *MockClient_StaticIPCreate_Call) Run(run func(ctx context.Context, proj
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
-		var arg2 *staticip.StaticIpcreateIn
+		var arg2 *staticip.StaticIpCreateIn
 		if args[2] != nil {
-			arg2 = args[2].(*staticip.StaticIpcreateIn)
+			arg2 = args[2].(*staticip.StaticIpCreateIn)
 		}
 		run(
 			arg0,
@@ -24974,12 +25419,12 @@ func (_c *MockClient_StaticIPCreate_Call) Run(run func(ctx context.Context, proj
 	return _c
 }
 
-func (_c *MockClient_StaticIPCreate_Call) Return(staticIpcreateOut *staticip.StaticIpcreateOut, err error) *MockClient_StaticIPCreate_Call {
-	_c.Call.Return(staticIpcreateOut, err)
+func (_c *MockClient_StaticIPCreate_Call) Return(staticIpCreateOut *staticip.StaticIpCreateOut, err error) *MockClient_StaticIPCreate_Call {
+	_c.Call.Return(staticIpCreateOut, err)
 	return _c
 }
 
-func (_c *MockClient_StaticIPCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, in *staticip.StaticIpcreateIn) (*staticip.StaticIpcreateOut, error)) *MockClient_StaticIPCreate_Call {
+func (_c *MockClient_StaticIPCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, in *staticip.StaticIpCreateIn) (*staticip.StaticIpCreateOut, error)) *MockClient_StaticIPCreate_Call {
 	_c.Call.Return(run)
 	return _c
 }
