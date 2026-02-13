@@ -227,6 +227,7 @@ Organization:
   - OrganizationDelete
   - OrganizationGet
   - OrganizationUpdate
+  - PaymentMethodsList
   - PermissionsGet
   - PermissionsSet
   - PermissionsUpdate

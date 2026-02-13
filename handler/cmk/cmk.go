@@ -23,7 +23,7 @@ type Handler interface {
 
 	// CMKCreate create new CMK
 	// POST /v1/project/{project}/secrets/cmks
-	// https://api.aiven.io/doc/#tag/Project/operation/CMKCreate
+	// https://api.aiven.io/doc/#tag/Secrets/operation/CMKCreate
 	CMKCreate(ctx context.Context, project string, in *CMKCreateIn) (*CMKCreateOut, error)
 
 	// CMKDelete delete CMK
