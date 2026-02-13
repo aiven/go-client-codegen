@@ -10020,6 +10020,74 @@ func (_c *MockClient_PGServiceQueryStatistics_Call) RunAndReturn(run func(ctx co
 	return _c
 }
 
+// PaymentMethodsList provides a mock function for the type MockClient
+func (_mock *MockClient) PaymentMethodsList(ctx context.Context, organizationId string) ([]organization.PaymentMethodOut, error) {
+	ret := _mock.Called(ctx, organizationId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for PaymentMethodsList")
+	}
+
+	var r0 []organization.PaymentMethodOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]organization.PaymentMethodOut, error)); ok {
+		return returnFunc(ctx, organizationId)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []organization.PaymentMethodOut); ok {
+		r0 = returnFunc(ctx, organizationId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]organization.PaymentMethodOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = returnFunc(ctx, organizationId)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_PaymentMethodsList_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'PaymentMethodsList'
+type MockClient_PaymentMethodsList_Call struct {
+	*mock.Call
+}
+
+// PaymentMethodsList is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+func (_e *MockClient_Expecter) PaymentMethodsList(ctx interface{}, organizationId interface{}) *MockClient_PaymentMethodsList_Call {
+	return &MockClient_PaymentMethodsList_Call{Call: _e.mock.On("PaymentMethodsList", ctx, organizationId)}
+}
+
+func (_c *MockClient_PaymentMethodsList_Call) Run(run func(ctx context.Context, organizationId string)) *MockClient_PaymentMethodsList_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_PaymentMethodsList_Call) Return(paymentMethodOuts []organization.PaymentMethodOut, err error) *MockClient_PaymentMethodsList_Call {
+	_c.Call.Return(paymentMethodOuts, err)
+	return _c
+}
+
+func (_c *MockClient_PaymentMethodsList_Call) RunAndReturn(run func(ctx context.Context, organizationId string) ([]organization.PaymentMethodOut, error)) *MockClient_PaymentMethodsList_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // PermissionsGet provides a mock function for the type MockClient
 func (_mock *MockClient) PermissionsGet(ctx context.Context, organizationId string, resourceType organization.ResourceType, resourceId string) ([]organization.PermissionOut, error) {
 	ret := _mock.Called(ctx, organizationId, resourceType, resourceId)
