@@ -227,7 +227,6 @@ Organization:
   - OrganizationDelete
   - OrganizationGet
   - OrganizationUpdate
-  - PaymentMethodsList
   - PermissionsGet
   - PermissionsSet
   - PermissionsUpdate
@@ -239,6 +238,7 @@ OrganizationBilling:
   - OrganizationBillingGroupGet
   - OrganizationBillingGroupList
   - OrganizationBillingGroupUpdate
+  - PaymentMethodsList
 OrganizationGovernance:
   - OrganizationGovernanceAccessCreate
   - OrganizationGovernanceAccessDelete

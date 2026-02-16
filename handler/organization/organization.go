@@ -81,11 +81,6 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationUpdate
 	OrganizationUpdate(ctx context.Context, organizationId string, in *OrganizationUpdateIn) (*OrganizationUpdateOut, error)
 
-	// PaymentMethodsList [EXPERIMENTAL] List payment methods for an organization
-	// GET /v1/organization/{organization_id}/payment-methods
-	// https://api.aiven.io/doc/#tag/OrganizationPaymentMethod/operation/PaymentMethodsList
-	PaymentMethodsList(ctx context.Context, organizationId string) ([]PaymentMethodOut, error)
-
 	// PermissionsGet list of permissions
 	// GET /v1/organization/{organization_id}/permissions/{resource_type}/{resource_id}
 	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsGet
@@ -266,19 +261,6 @@ func (h *OrganizationHandler) OrganizationUpdate(ctx context.Context, organizati
 		return nil, err
 	}
 	return out, nil
-}
-func (h *OrganizationHandler) PaymentMethodsList(ctx context.Context, organizationId string) ([]PaymentMethodOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/payment-methods", url.PathEscape(organizationId))
-	b, err := h.doer.Do(ctx, "PaymentMethodsList", "GET", path, nil)
-	if err != nil {
-		return nil, err
-	}
-	out := new(paymentMethodsListOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out.PaymentMethods, nil
 }
 func (h *OrganizationHandler) PermissionsGet(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string) ([]PermissionOut, error) {
 	path := fmt.Sprintf("/v1/organization/%s/permissions/%s/%s", url.PathEscape(organizationId), url.PathEscape(string(resourceType)), url.PathEscape(resourceId))
@@ -512,28 +494,6 @@ type OrganizationUpdateOut struct {
 	Tier                         TierType  `json:"tier"`                                       // An enumeration.
 	UpdateTime                   time.Time `json:"update_time"`                                // Time of the organization's latest update
 }
-type PaymentMethodOut struct {
-	PaymentMethodId   string            `json:"payment_method_id"`   // Payment method ID
-	PaymentMethodType PaymentMethodType `json:"payment_method_type"` // An enumeration.
-}
-type PaymentMethodType string
-
-const (
-	PaymentMethodTypeAwsSubscription   PaymentMethodType = "aws_subscription"
-	PaymentMethodTypeAzureSubscription PaymentMethodType = "azure_subscription"
-	PaymentMethodTypeBankTransfer      PaymentMethodType = "bank_transfer"
-	PaymentMethodTypeCreditCard        PaymentMethodType = "credit_card"
-	PaymentMethodTypeDisabled          PaymentMethodType = "disabled"
-	PaymentMethodTypeGcpSubscription   PaymentMethodType = "gcp_subscription"
-	PaymentMethodTypeNoPaymentExpected PaymentMethodType = "no_payment_expected"
-	PaymentMethodTypeNone              PaymentMethodType = "none"
-	PaymentMethodTypePartner           PaymentMethodType = "partner"
-)
-
-func PaymentMethodTypeChoices() []string {
-	return []string{"aws_subscription", "azure_subscription", "bank_transfer", "credit_card", "disabled", "gcp_subscription", "no_payment_expected", "none", "partner"}
-}
-
 type PermissionIn struct {
 	Permissions   []string      `json:"permissions"`    // List of roles
 	PrincipalId   string        `json:"principal_id"`   // ID of the principal
@@ -627,11 +587,6 @@ type organizationAddressListOut struct {
 // organizationAuthDomainListOut OrganizationAuthDomainListResponse
 type organizationAuthDomainListOut struct {
 	Domains []DomainOut `json:"domains"` // List of domains for the organization
-}
-
-// paymentMethodsListOut PaymentMethodsListResponse
-type paymentMethodsListOut struct {
-	PaymentMethods []PaymentMethodOut `json:"payment_methods"` // Payment Methods
 }
 
 // permissionsGetOut PermissionsGetResponse
