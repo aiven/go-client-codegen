@@ -10021,23 +10021,23 @@ func (_c *MockClient_PGServiceQueryStatistics_Call) RunAndReturn(run func(ctx co
 }
 
 // PaymentMethodsList provides a mock function for the type MockClient
-func (_mock *MockClient) PaymentMethodsList(ctx context.Context, organizationId string) ([]organization.PaymentMethodOut, error) {
+func (_mock *MockClient) PaymentMethodsList(ctx context.Context, organizationId string) ([]organizationbilling.PaymentMethodsListOut, error) {
 	ret := _mock.Called(ctx, organizationId)
 
 	if len(ret) == 0 {
 		panic("no return value specified for PaymentMethodsList")
 	}
 
-	var r0 []organization.PaymentMethodOut
+	var r0 []organizationbilling.PaymentMethodsListOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]organization.PaymentMethodOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]organizationbilling.PaymentMethodsListOut, error)); ok {
 		return returnFunc(ctx, organizationId)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []organization.PaymentMethodOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []organizationbilling.PaymentMethodsListOut); ok {
 		r0 = returnFunc(ctx, organizationId)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]organization.PaymentMethodOut)
+			r0 = ret.Get(0).([]organizationbilling.PaymentMethodsListOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -10078,12 +10078,12 @@ func (_c *MockClient_PaymentMethodsList_Call) Run(run func(ctx context.Context, 
 	return _c
 }
 
-func (_c *MockClient_PaymentMethodsList_Call) Return(paymentMethodOuts []organization.PaymentMethodOut, err error) *MockClient_PaymentMethodsList_Call {
-	_c.Call.Return(paymentMethodOuts, err)
+func (_c *MockClient_PaymentMethodsList_Call) Return(paymentMethodsListOuts []organizationbilling.PaymentMethodsListOut, err error) *MockClient_PaymentMethodsList_Call {
+	_c.Call.Return(paymentMethodsListOuts, err)
 	return _c
 }
 
-func (_c *MockClient_PaymentMethodsList_Call) RunAndReturn(run func(ctx context.Context, organizationId string) ([]organization.PaymentMethodOut, error)) *MockClient_PaymentMethodsList_Call {
+func (_c *MockClient_PaymentMethodsList_Call) RunAndReturn(run func(ctx context.Context, organizationId string) ([]organizationbilling.PaymentMethodsListOut, error)) *MockClient_PaymentMethodsList_Call {
 	_c.Call.Return(run)
 	return _c
 }

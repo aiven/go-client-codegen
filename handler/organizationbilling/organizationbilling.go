@@ -39,6 +39,11 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupUpdate
 	// Required roles or permissions: organization:billing:write
 	OrganizationBillingGroupUpdate(ctx context.Context, organizationId string, billingGroupId string, in *OrganizationBillingGroupUpdateIn) (*OrganizationBillingGroupUpdateOut, error)
+
+	// PaymentMethodsList [EXPERIMENTAL] List payment methods for an organization
+	// GET /v1/organization/{organization_id}/payment-methods
+	// https://api.aiven.io/doc/#tag/OrganizationPaymentMethod/operation/PaymentMethodsList
+	PaymentMethodsList(ctx context.Context, organizationId string) ([]PaymentMethodsListOut, error)
 }
 
 // doer http client
@@ -110,6 +115,19 @@ func (h *OrganizationBillingHandler) OrganizationBillingGroupUpdate(ctx context.
 		return nil, err
 	}
 	return out, nil
+}
+func (h *OrganizationBillingHandler) PaymentMethodsList(ctx context.Context, organizationId string) ([]PaymentMethodsListOut, error) {
+	path := fmt.Sprintf("/v1/organization/%s/payment-methods", url.PathEscape(organizationId))
+	b, err := h.doer.Do(ctx, "PaymentMethodsList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(paymentMethodsListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.PaymentMethods, nil
 }
 
 type BillingContactEmailIn struct {
@@ -245,18 +263,28 @@ const (
 	PaymentMethodTypeAzureSubscription PaymentMethodType = "azure_subscription"
 	PaymentMethodTypeBankTransfer      PaymentMethodType = "bank_transfer"
 	PaymentMethodTypeCreditCard        PaymentMethodType = "credit_card"
+	PaymentMethodTypeCustom            PaymentMethodType = "custom"
 	PaymentMethodTypeDisabled          PaymentMethodType = "disabled"
 	PaymentMethodTypeGcpSubscription   PaymentMethodType = "gcp_subscription"
 	PaymentMethodTypeNoPaymentExpected PaymentMethodType = "no_payment_expected"
-	PaymentMethodTypeNone              PaymentMethodType = "none"
 	PaymentMethodTypePartner           PaymentMethodType = "partner"
 )
 
 func PaymentMethodTypeChoices() []string {
-	return []string{"aws_subscription", "azure_subscription", "bank_transfer", "credit_card", "disabled", "gcp_subscription", "no_payment_expected", "none", "partner"}
+	return []string{"aws_subscription", "azure_subscription", "bank_transfer", "credit_card", "custom", "disabled", "gcp_subscription", "no_payment_expected", "partner"}
+}
+
+type PaymentMethodsListOut struct {
+	PaymentMethodId   string            `json:"payment_method_id"`   // Payment method ID
+	PaymentMethodType PaymentMethodType `json:"payment_method_type"` // An enumeration.
 }
 
 // organizationBillingGroupListOut OrganizationBillingGroupListResponse
 type organizationBillingGroupListOut struct {
 	BillingGroups []BillingGroupOut `json:"billing_groups"` // A list of all billing groups belonging to the organization
+}
+
+// paymentMethodsListOut PaymentMethodsListResponse
+type paymentMethodsListOut struct {
+	PaymentMethods []PaymentMethodsListOut `json:"payment_methods"` // Payment Methods
 }
