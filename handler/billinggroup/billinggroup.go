@@ -633,7 +633,6 @@ type ServiceType string
 
 const (
 	ServiceTypeAlertmanager     ServiceType = "alertmanager"
-	ServiceTypeAlloydbomni      ServiceType = "alloydbomni"
 	ServiceTypeApplication      ServiceType = "application"
 	ServiceTypeCassandra        ServiceType = "cassandra"
 	ServiceTypeClickhouse       ServiceType = "clickhouse"
@@ -665,7 +664,7 @@ const (
 )
 
 func ServiceTypeChoices() []string {
-	return []string{"alertmanager", "alloydbomni", "application", "cassandra", "clickhouse", "datahub", "dragonfly", "elasticsearch", "flink", "grafana", "kafka", "kafka_connect", "kafka_mirrormaker", "mysql", "nomadclient", "opensearch", "pg", "sparkpool", "stresstester", "sw", "thanos", "thanoscompactor", "thanosparquet", "thanosquery", "thanosreceiver", "thanosruler", "thanosstore", "valkey", "vector", "vmalert"}
+	return []string{"alertmanager", "application", "cassandra", "clickhouse", "datahub", "dragonfly", "elasticsearch", "flink", "grafana", "kafka", "kafka_connect", "kafka_mirrormaker", "mysql", "nomadclient", "opensearch", "pg", "sparkpool", "stresstester", "sw", "thanos", "thanoscompactor", "thanosparquet", "thanosquery", "thanosreceiver", "thanosruler", "thanosstore", "valkey", "vector", "vmalert"}
 }
 
 // billingGroupCreateOut BillingGroupCreateResponse

@@ -264,14 +264,11 @@ const (
 	PaymentMethodTypeBankTransfer      PaymentMethodType = "bank_transfer"
 	PaymentMethodTypeCreditCard        PaymentMethodType = "credit_card"
 	PaymentMethodTypeCustom            PaymentMethodType = "custom"
-	PaymentMethodTypeDisabled          PaymentMethodType = "disabled"
 	PaymentMethodTypeGcpSubscription   PaymentMethodType = "gcp_subscription"
-	PaymentMethodTypeNoPaymentExpected PaymentMethodType = "no_payment_expected"
-	PaymentMethodTypePartner           PaymentMethodType = "partner"
 )
 
 func PaymentMethodTypeChoices() []string {
-	return []string{"aws_subscription", "azure_subscription", "bank_transfer", "credit_card", "custom", "disabled", "gcp_subscription", "no_payment_expected", "partner"}
+	return []string{"aws_subscription", "azure_subscription", "bank_transfer", "credit_card", "custom", "gcp_subscription"}
 }
 
 type PaymentMethodsListOut struct {
