@@ -18924,23 +18924,23 @@ func (_c *MockClient_ServiceKafkaConnectGetConnectorStatus_Call) RunAndReturn(ru
 }
 
 // ServiceKafkaConnectList provides a mock function for the type MockClient
-func (_mock *MockClient) ServiceKafkaConnectList(ctx context.Context, project1 string, serviceName string) ([]kafkaconnect.ConnectorOut, error) {
+func (_mock *MockClient) ServiceKafkaConnectList(ctx context.Context, project1 string, serviceName string) (*kafkaconnect.ServiceKafkaConnectListOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServiceKafkaConnectList")
 	}
 
-	var r0 []kafkaconnect.ConnectorOut
+	var r0 *kafkaconnect.ServiceKafkaConnectListOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) ([]kafkaconnect.ConnectorOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*kafkaconnect.ServiceKafkaConnectListOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) []kafkaconnect.ConnectorOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *kafkaconnect.ServiceKafkaConnectListOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]kafkaconnect.ConnectorOut)
+			r0 = ret.Get(0).(*kafkaconnect.ServiceKafkaConnectListOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
@@ -18987,12 +18987,12 @@ func (_c *MockClient_ServiceKafkaConnectList_Call) Run(run func(ctx context.Cont
 	return _c
 }
 
-func (_c *MockClient_ServiceKafkaConnectList_Call) Return(connectorOuts []kafkaconnect.ConnectorOut, err error) *MockClient_ServiceKafkaConnectList_Call {
-	_c.Call.Return(connectorOuts, err)
+func (_c *MockClient_ServiceKafkaConnectList_Call) Return(serviceKafkaConnectListOut *kafkaconnect.ServiceKafkaConnectListOut, err error) *MockClient_ServiceKafkaConnectList_Call {
+	_c.Call.Return(serviceKafkaConnectListOut, err)
 	return _c
 }
 
-func (_c *MockClient_ServiceKafkaConnectList_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) ([]kafkaconnect.ConnectorOut, error)) *MockClient_ServiceKafkaConnectList_Call {
+func (_c *MockClient_ServiceKafkaConnectList_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) (*kafkaconnect.ServiceKafkaConnectListOut, error)) *MockClient_ServiceKafkaConnectList_Call {
 	_c.Call.Return(run)
 	return _c
 }
