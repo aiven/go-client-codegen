@@ -649,6 +649,7 @@ const (
 	MemberTypeProjectServicesWrite        MemberType = "project:services:write"
 	MemberTypeReadOnly                    MemberType = "read_only"
 	MemberTypeRoleOrganizationAdmin       MemberType = "role:organization:admin"
+	MemberTypeRoleProjectAdmin            MemberType = "role:project:admin"
 	MemberTypeRoleServicesMaintenance     MemberType = "role:services:maintenance"
 	MemberTypeRoleServicesRecover         MemberType = "role:services:recover"
 	MemberTypeServiceConfigurationWrite   MemberType = "service:configuration:write"
@@ -659,7 +660,7 @@ const (
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:project:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
 }
 
 // MysqlOut Service type information
@@ -828,6 +829,7 @@ const (
 	ProjectMembershipTypeProjectServicesWrite        ProjectMembershipType = "project:services:write"
 	ProjectMembershipTypeReadOnly                    ProjectMembershipType = "read_only"
 	ProjectMembershipTypeRoleOrganizationAdmin       ProjectMembershipType = "role:organization:admin"
+	ProjectMembershipTypeRoleProjectAdmin            ProjectMembershipType = "role:project:admin"
 	ProjectMembershipTypeRoleServicesMaintenance     ProjectMembershipType = "role:services:maintenance"
 	ProjectMembershipTypeRoleServicesRecover         ProjectMembershipType = "role:services:recover"
 	ProjectMembershipTypeServiceConfigurationWrite   ProjectMembershipType = "service:configuration:write"
@@ -838,7 +840,7 @@ const (
 )
 
 func ProjectMembershipTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:audit_logs:read", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:groups:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:users:write", "project:audit_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:project:admin", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:secrets:read", "service:users:write"}
 }
 
 type ProjectOut struct {
