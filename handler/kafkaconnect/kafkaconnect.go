@@ -50,7 +50,7 @@ type Handler interface {
 	// GET /v1/project/{project}/service/{service_name}/connectors
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaConnectList
 	// Required roles or permissions: service:data:write
-	ServiceKafkaConnectList(ctx context.Context, project string, serviceName string) ([]ConnectorOut, error)
+	ServiceKafkaConnectList(ctx context.Context, project string, serviceName string) (*ServiceKafkaConnectListOut, error)
 
 	// ServiceKafkaConnectPauseConnector pause a Kafka Connect Connector
 	// POST /v1/project/{project}/service/{service_name}/connectors/{connector_name}/pause
@@ -160,18 +160,18 @@ func (h *KafkaConnectHandler) ServiceKafkaConnectGetConnectorStatus(ctx context.
 	}
 	return &out.Status, nil
 }
-func (h *KafkaConnectHandler) ServiceKafkaConnectList(ctx context.Context, project string, serviceName string) ([]ConnectorOut, error) {
+func (h *KafkaConnectHandler) ServiceKafkaConnectList(ctx context.Context, project string, serviceName string) (*ServiceKafkaConnectListOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaConnectList", "GET", path, nil)
 	if err != nil {
 		return nil, err
 	}
-	out := new(serviceKafkaConnectListOut)
+	out := new(ServiceKafkaConnectListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.Connectors, nil
+	return out, nil
 }
 func (h *KafkaConnectHandler) ServiceKafkaConnectPauseConnector(ctx context.Context, project string, serviceName string, connectorName string) error {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/connectors/%s/pause", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(connectorName))
@@ -198,6 +198,12 @@ type AvailableVersionOut struct {
 	Deprecated       *bool   `json:"deprecated,omitempty"`        // If the version is deprecated.
 	NeedsMaintenance *bool   `json:"needs_maintenance,omitempty"` // Using this version requires a maintenance update.
 	Version          *string `json:"version,omitempty"`           // Connector version number
+}
+
+// ConfigOut Connector configuration parameters
+type ConfigOut struct {
+	ConnectorClass string `json:"connector.class"` // The Java class for the connector
+	Name           string `json:"name"`            // Unique name for the connector
 }
 type ConfigurationSchemaOut struct {
 	DefaultValue  string                  `json:"default_value"` // Default value to be set if field omitted in configuration
@@ -234,6 +240,11 @@ type ConnectorOut struct {
 	Name   string            `json:"name"`   // Connector name
 	Plugin PluginOut         `json:"plugin"` // Kafka Connector plugin information
 	Tasks  []TaskOut         `json:"tasks"`  // List of tasks of a connector
+}
+type FailedConnectorOut struct {
+	Config ConfigOut `json:"config"` // Connector configuration parameters
+	Error  string    `json:"error"`  // Error message explaining why the connector failed to load
+	Name   string    `json:"name"`   // Connector name
 }
 type ImportanceType string
 
@@ -324,6 +335,12 @@ type ServiceKafkaConnectGetConnectorStatusTaskOut struct {
 	State TaskStateType `json:"state"` // Current status of the task
 	Trace string        `json:"trace"` // Task error information
 }
+
+// ServiceKafkaConnectListOut ServiceKafkaConnectListResponse
+type ServiceKafkaConnectListOut struct {
+	Connectors       []ConnectorOut       `json:"connectors"`                  // List of active Kafka Connect connectors
+	FailedConnectors []FailedConnectorOut `json:"failed_connectors,omitempty"` // List of connectors that failed plugin resolution
+}
 type TaskOut struct {
 	Connector string `json:"connector"` // Related connector name
 	Task      int    `json:"task"`      // Task id / number
@@ -378,9 +395,4 @@ type serviceKafkaConnectGetConnectorConfigurationOut struct {
 // serviceKafkaConnectGetConnectorStatusOut ServiceKafkaConnectGetConnectorStatusResponse
 type serviceKafkaConnectGetConnectorStatusOut struct {
 	Status ServiceKafkaConnectGetConnectorStatusOut `json:"status"` // Connector status information
-}
-
-// serviceKafkaConnectListOut ServiceKafkaConnectListResponse
-type serviceKafkaConnectListOut struct {
-	Connectors []ConnectorOut `json:"connectors"` // List of active Kafka Connect connectors
 }
