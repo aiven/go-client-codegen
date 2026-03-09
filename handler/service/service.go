@@ -195,18 +195,6 @@ type Handler interface {
 	// Required roles or permissions: project:integrations:write
 	ServiceIntegrationUpdate(ctx context.Context, project string, integrationId string, in *ServiceIntegrationUpdateIn) (*ServiceIntegrationUpdateOut, error)
 
-	// ServiceKmsGetCA retrieve a service CA
-	// GET /v1/project/{project}/service/{service_name}/kms/ca/{ca_name}
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceKmsGetCA
-	// Required roles or permissions: developer, operator, read_only
-	ServiceKmsGetCA(ctx context.Context, project string, serviceName string, caName string) (string, error)
-
-	// ServiceKmsGetKeypair retrieve service keypair
-	// GET /v1/project/{project}/service/{service_name}/kms/keypairs/{keypair_name}
-	// https://api.aiven.io/doc/#tag/Service/operation/ServiceKmsGetKeypair
-	// Required roles or permissions: operator
-	ServiceKmsGetKeypair(ctx context.Context, project string, serviceName string, keypairName string) (*ServiceKmsGetKeypairOut, error)
-
 	// ServiceList list services
 	// GET /v1/project/{project}/service
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceList
@@ -655,32 +643,6 @@ func (h *ServiceHandler) ServiceIntegrationUpdate(ctx context.Context, project s
 		return nil, err
 	}
 	return &out.ServiceIntegration, nil
-}
-func (h *ServiceHandler) ServiceKmsGetCA(ctx context.Context, project string, serviceName string, caName string) (string, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/kms/ca/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(caName))
-	b, err := h.doer.Do(ctx, "ServiceKmsGetCA", "GET", path, nil)
-	if err != nil {
-		return "", err
-	}
-	out := new(serviceKmsGetCaOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return "", err
-	}
-	return out.Certificate, nil
-}
-func (h *ServiceHandler) ServiceKmsGetKeypair(ctx context.Context, project string, serviceName string, keypairName string) (*ServiceKmsGetKeypairOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/service/%s/kms/keypairs/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(keypairName))
-	b, err := h.doer.Do(ctx, "ServiceKmsGetKeypair", "GET", path, nil)
-	if err != nil {
-		return nil, err
-	}
-	out := new(ServiceKmsGetKeypairOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 // ServiceListIncludeSecrets Explicitly indicates that the client wants to read secrets that might be returned by this endpoint.
@@ -2166,12 +2128,6 @@ type ServiceIntegrationUpdateOut struct {
 	UserConfig           map[string]any        `json:"user_config,omitempty"`        // Service integration settings
 }
 
-// ServiceKmsGetKeypairOut ServiceKmsGetKeypairResponse
-type ServiceKmsGetKeypairOut struct {
-	Certificate string `json:"certificate"` // PEM encoded certificate
-	Key         string `json:"key"`         // PEM encoded private key
-}
-
 // ServiceMetricsFetchIn ServiceMetricsFetchRequestBody
 type ServiceMetricsFetchIn struct {
 	KafkaTopicName *string    `json:"kafka_topic_name,omitempty"` // Metrics at Kafka service topic level
@@ -2770,11 +2726,6 @@ type serviceIntegrationTypesOut struct {
 // serviceIntegrationUpdateOut ServiceIntegrationUpdateResponse
 type serviceIntegrationUpdateOut struct {
 	ServiceIntegration ServiceIntegrationUpdateOut `json:"service_integration"` // Service integration
-}
-
-// serviceKmsGetCaOut ServiceKmsGetCAResponse
-type serviceKmsGetCaOut struct {
-	Certificate string `json:"certificate"` // PEM encoded certificate
 }
 
 // serviceListOut ServiceListResponse

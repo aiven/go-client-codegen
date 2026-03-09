@@ -444,12 +444,6 @@ ServiceKafkaTopicMessageProduce:
   - service:data:write
 ServiceKafkaTopicUpdate:
   - service:data:write
-ServiceKmsGetCA:
-  - developer
-  - operator
-  - read_only
-ServiceKmsGetKeypair:
-  - operator
 ServiceList:
   - project:services:read
 ServiceMaintenanceStart:
