@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"html"
+	"maps"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -22,7 +23,6 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"golang.org/x/exp/maps"
 	"gopkg.in/yaml.v3"
 )
 
@@ -534,7 +534,7 @@ var reInvertSnakeCase = regexp.MustCompile("[^a-zA-Z0-9_]+")
 func fmtStruct(s *Schema) *jen.Statement {
 	// Sorts field names
 	// Resolves field name collision when a new more conventional JSON name replaces an existing field
-	jsonNames := maps.Keys(s.Properties)
+	jsonNames := slices.Collect(maps.Keys(s.Properties))
 	sort.Slice(jsonNames, func(i, j int) bool {
 		return reInvertSnakeCase.ReplaceAllString(jsonNames[i], "") > reInvertSnakeCase.ReplaceAllString(jsonNames[j], "")
 	})

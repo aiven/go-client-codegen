@@ -12,10 +12,10 @@ import (
 	"net/url"
 	"os"
 	"reflect"
+	"slices"
 	"strings"
 	"time"
 
-	"golang.org/x/exp/slices"
 	"golang.org/x/sync/singleflight"
 
 	"github.com/hashicorp/go-retryablehttp"
@@ -208,7 +208,7 @@ func (d *aivenClient) do(ctx context.Context, method, path string, in any, query
 
 func isEmpty(a any) bool {
 	v := reflect.ValueOf(a)
-	return v.IsZero() || v.Kind() == reflect.Ptr && v.IsNil()
+	return v.IsZero() || v.Kind() == reflect.Pointer && v.IsNil()
 }
 
 func fmtQuery(operationID string, query ...[2]string) string {
