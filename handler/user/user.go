@@ -91,11 +91,6 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAuthenticationMethodsList
 	UserAuthenticationMethodsList(ctx context.Context) ([]AuthenticationMethodOut, error)
 
-	// Deprecated: UserCreate create a user
-	// POST /v1/user
-	// https://api.aiven.io/doc/#tag/Users/operation/UserCreate
-	UserCreate(ctx context.Context, in *UserCreateIn) (*UserCreateOut, error)
-
 	// Deprecated: UserCreditCardsList list user's credit cards
 	// GET /v1/card
 	// https://api.aiven.io/doc/#tag/Payment/operation/UserCreditCardsList
@@ -348,19 +343,6 @@ func (h *UserHandler) UserAuthenticationMethodsList(ctx context.Context) ([]Auth
 		return nil, err
 	}
 	return out.AuthenticationMethods, nil
-}
-func (h *UserHandler) UserCreate(ctx context.Context, in *UserCreateIn) (*UserCreateOut, error) {
-	path := fmt.Sprintf("/v1/user")
-	b, err := h.doer.Do(ctx, "UserCreate", "POST", path, in)
-	if err != nil {
-		return nil, err
-	}
-	out := new(UserCreateOut)
-	err = json.Unmarshal(b, out)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 func (h *UserHandler) UserCreditCardsList(ctx context.Context) ([]CardOut, error) {
 	path := fmt.Sprintf("/v1/card")
@@ -732,28 +714,6 @@ type UserAuthOut struct {
 	Token     string  `json:"token"`                // API session authentication token
 	UserEmail string  `json:"user_email"`           // User email address
 }
-
-// UserCreateIn UserCreateRequestBody
-type UserCreateIn struct {
-	Company                      *string   `json:"company,omitempty"`                        // Name of a company
-	CountryCode                  *string   `json:"country_code,omitempty"`                   // Two letter country code for country
-	CreditCode                   *string   `json:"credit_code,omitempty"`                    // Credit code
-	Email                        string    `json:"email"`                                    // User email address
-	EmailCommunicationCategories *[]string `json:"email_communication_categories,omitempty"` // Categories of email communication enabled for user during signup
-	Origin                       *string   `json:"origin,omitempty"`                         // Origin of the user
-	Password                     *string   `json:"password,omitempty"`                       // User password
-	RealName                     string    `json:"real_name"`                                // User real name
-	State                        *string   `json:"state,omitempty"`                          // Address state or province
-	Token                        *string   `json:"token,omitempty"`                          // Signup token for single sign-on linking
-}
-
-// UserCreateOut UserCreateResponse
-type UserCreateOut struct {
-	State     string  `json:"state"`      // User account state
-	Token     string  `json:"token"`      // API session authentication token
-	User      UserOut `json:"user"`       // User information
-	UserEmail string  `json:"user_email"` // User email address
-}
 type UserGroupOut struct {
 	CreateTime    time.Time `json:"create_time"` // User group creation time
 	Description   string    `json:"description"`
@@ -765,28 +725,6 @@ type UserGroupOut struct {
 
 // UserInfoOut User information
 type UserInfoOut struct {
-	Auth                   []string                         `json:"auth"` // List of user's required authentication methods
-	City                   *string                          `json:"city,omitempty"`
-	Country                *string                          `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2
-	CreateTime             *time.Time                       `json:"create_time,omitempty"`              // User registration time
-	Department             *string                          `json:"department,omitempty"`               // Job department
-	Features               map[string]any                   `json:"features,omitempty"`                 // Feature flags
-	Invitations            []InvitationOut                  `json:"invitations"`                        // List of pending invitations
-	JobTitle               *string                          `json:"job_title,omitempty"`                // Job title
-	ManagedByScim          *bool                            `json:"managed_by_scim,omitempty"`          // User management status
-	ManagingOrganizationId *string                          `json:"managing_organization_id,omitempty"` // Organization ID
-	ProjectMembership      map[string]ProjectMembershipType `json:"project_membership"`                 // Project membership and type of membership
-	ProjectMemberships     map[string][]string              `json:"project_memberships"`                // List of project membership and type of membership
-	Projects               []string                         `json:"projects"`                           // List of projects the user is a member of
-	RealName               string                           `json:"real_name"`                          // User real name
-	State                  string                           `json:"state"`                              // User account state
-	TokenValidityBegin     *string                          `json:"token_validity_begin,omitempty"`     // Earliest valid authentication token timestamp
-	User                   string                           `json:"user"`                               // User email address
-	UserId                 string                           `json:"user_id"`                            // User ID
-}
-
-// UserOut User information
-type UserOut struct {
 	Auth                   []string                         `json:"auth"` // List of user's required authentication methods
 	City                   *string                          `json:"city,omitempty"`
 	Country                *string                          `json:"country,omitempty"`                  // Country code ISO 3166-1 alpha-2

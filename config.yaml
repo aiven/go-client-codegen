@@ -356,8 +356,6 @@ Service:
   - ServiceIntegrationList
   - ServiceIntegrationTypes
   - ServiceIntegrationUpdate
-  - ServiceKmsGetCA
-  - ServiceKmsGetKeypair
   - ServiceList
   - ServiceMaintenanceStart
   - ServiceMetricsFetch
@@ -398,7 +396,6 @@ User:
   - UserAuthLoginOptions
   - UserAuthenticationMethodDelete
   - UserAuthenticationMethodsList
-  - UserCreate
   - UserCreditCardsList
   - UserExpireTokens
   - UserInfo
