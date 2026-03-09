@@ -5,15 +5,15 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"maps"
 	"regexp"
+	"slices"
 	"sort"
 	"strings"
 
 	"github.com/dave/jennifer/jen"
 	"github.com/iancoleman/strcase"
 	"github.com/rs/zerolog/log"
-	"golang.org/x/exp/maps"
-	"golang.org/x/exp/slices"
 )
 
 const docSite = "https://api.aiven.io/doc"
@@ -564,10 +564,7 @@ func lowerFirst(s string) string {
 }
 
 func sortedKeys[T any](m map[string]T) []string {
-	keys := maps.Keys(m)
-	sort.Strings(keys)
-
-	return keys
+	return slices.Sorted(maps.Keys(m))
 }
 
 var cleanEnumName = regexp.MustCompile("(Create|Get|Update|Delete|Stop|Cancel|Verify|Put|Add)")
