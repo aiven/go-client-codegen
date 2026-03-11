@@ -376,6 +376,7 @@ StaticIP:
   - ProjectStaticIPPatch
   - PublicStaticIPAvailabilityList
   - StaticIPCreate
+  - StaticIPDelete
   - StaticIPList
 Thanos:
   - ServiceThanosStorageSummary

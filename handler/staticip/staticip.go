@@ -45,6 +45,11 @@ type Handler interface {
 	// Required roles or permissions: operator
 	StaticIPCreate(ctx context.Context, project string, in *StaticIpCreateIn) (*StaticIpCreateOut, error)
 
+	// StaticIPDelete delete a static IP address
+	// DELETE /v1/project/{project}/static-ips/{static_ip_address_id}
+	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPDelete
+	StaticIPDelete(ctx context.Context, project string, staticIpAddressId string) (*StaticIpDeleteOut, error)
+
 	// StaticIPList list static IP addresses
 	// GET /v1/project/{project}/static-ips
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPList
@@ -137,6 +142,19 @@ func (h *StaticIPHandler) StaticIPCreate(ctx context.Context, project string, in
 		return nil, err
 	}
 	out := new(StaticIpCreateOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *StaticIPHandler) StaticIPDelete(ctx context.Context, project string, staticIpAddressId string) (*StaticIpDeleteOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/static-ips/%s", url.PathEscape(project), url.PathEscape(staticIpAddressId))
+	b, err := h.doer.Do(ctx, "StaticIPDelete", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(StaticIpDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -252,6 +270,16 @@ type StaticIpCreateIn struct {
 
 // StaticIpCreateOut StaticIPCreateResponse
 type StaticIpCreateOut struct {
+	CloudName             string            `json:"cloud_name"`             // Target cloud
+	IpAddress             string            `json:"ip_address"`             // IPv4 address
+	ServiceName           string            `json:"service_name"`           // Service name
+	State                 StaticIpStateType `json:"state"`                  // Static IP address state
+	StaticIpAddressId     string            `json:"static_ip_address_id"`   // Static IP address identifier
+	TerminationProtection bool              `json:"termination_protection"` // Static IP address is protected against deletion
+}
+
+// StaticIpDeleteOut StaticIPDeleteResponse
+type StaticIpDeleteOut struct {
 	CloudName             string            `json:"cloud_name"`             // Target cloud
 	IpAddress             string            `json:"ip_address"`             // IPv4 address
 	ServiceName           string            `json:"service_name"`           // Service name

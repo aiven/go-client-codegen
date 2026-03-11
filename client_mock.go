@@ -25339,6 +25339,80 @@ func (_c *MockClient_StaticIPCreate_Call) RunAndReturn(run func(ctx context.Cont
 	return _c
 }
 
+// StaticIPDelete provides a mock function for the type MockClient
+func (_mock *MockClient) StaticIPDelete(ctx context.Context, project1 string, staticIpAddressId string) (*staticip.StaticIpDeleteOut, error) {
+	ret := _mock.Called(ctx, project1, staticIpAddressId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for StaticIPDelete")
+	}
+
+	var r0 *staticip.StaticIpDeleteOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*staticip.StaticIpDeleteOut, error)); ok {
+		return returnFunc(ctx, project1, staticIpAddressId)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *staticip.StaticIpDeleteOut); ok {
+		r0 = returnFunc(ctx, project1, staticIpAddressId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*staticip.StaticIpDeleteOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, project1, staticIpAddressId)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_StaticIPDelete_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'StaticIPDelete'
+type MockClient_StaticIPDelete_Call struct {
+	*mock.Call
+}
+
+// StaticIPDelete is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project1 string
+//   - staticIpAddressId string
+func (_e *MockClient_Expecter) StaticIPDelete(ctx interface{}, project1 interface{}, staticIpAddressId interface{}) *MockClient_StaticIPDelete_Call {
+	return &MockClient_StaticIPDelete_Call{Call: _e.mock.On("StaticIPDelete", ctx, project1, staticIpAddressId)}
+}
+
+func (_c *MockClient_StaticIPDelete_Call) Run(run func(ctx context.Context, project1 string, staticIpAddressId string)) *MockClient_StaticIPDelete_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_StaticIPDelete_Call) Return(staticIpDeleteOut *staticip.StaticIpDeleteOut, err error) *MockClient_StaticIPDelete_Call {
+	_c.Call.Return(staticIpDeleteOut, err)
+	return _c
+}
+
+func (_c *MockClient_StaticIPDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpAddressId string) (*staticip.StaticIpDeleteOut, error)) *MockClient_StaticIPDelete_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // StaticIPList provides a mock function for the type MockClient
 func (_mock *MockClient) StaticIPList(ctx context.Context, project1 string) ([]staticip.StaticIpOut, error) {
 	ret := _mock.Called(ctx, project1)
