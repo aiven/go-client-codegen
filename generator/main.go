@@ -697,6 +697,7 @@ func customCamelCase(s string, private bool) string {
 	c := strcase.NewCaser(
 		false,
 		map[string]bool{
+			"IP":  true,
 			"CMK": true,
 		},
 		strcase.NewSplitFn(

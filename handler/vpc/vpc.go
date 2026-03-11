@@ -451,7 +451,7 @@ type WarningOut struct {
 type WarningType string
 
 const (
-	WarningTypeOverlappingPeerVpcIpRanges WarningType = "overlapping-peer-vpc-ip-ranges"
+	WarningTypeOverlappingPeerVpcIPRanges WarningType = "overlapping-peer-vpc-ip-ranges"
 	WarningTypeUpcloudPeeringInError      WarningType = "upcloud-peering-in-error"
 )
 

@@ -14,47 +14,47 @@ type Handler interface {
 	// POST /v1/project/{project}/static-ips/{static_ip_address_id}/association
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPAssociate
 	// Required roles or permissions: service:configuration:write
-	ProjectStaticIPAssociate(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIpAssociateIn) (*ProjectStaticIpAssociateOut, error)
+	ProjectStaticIPAssociate(ctx context.Context, project string, staticIpaddressId string, in *ProjectStaticIPAssociateIn) (*ProjectStaticIPAssociateOut, error)
 
 	// ProjectStaticIPAvailabilityList list static IP address cloud availability and prices for a project
 	// GET /v1/project/{project}/static-ip-availability
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPAvailabilityList
 	// Required roles or permissions: developer, operator, read_only
-	ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailabilityOut, error)
+	ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIPAddressAvailabilityOut, error)
 
 	// ProjectStaticIPDissociate dissociate a static IP address from a service
 	// DELETE /v1/project/{project}/static-ips/{static_ip_address_id}/association
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPDissociate
 	// Required roles or permissions: service:configuration:write
-	ProjectStaticIPDissociate(ctx context.Context, project string, staticIpAddressId string) (*ProjectStaticIpDissociateOut, error)
+	ProjectStaticIPDissociate(ctx context.Context, project string, staticIpaddressId string) (*ProjectStaticIPDissociateOut, error)
 
 	// ProjectStaticIPPatch update a static IP address configuration
 	// PATCH /v1/project/{project}/static-ips/{static_ip_address_id}
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/ProjectStaticIPPatch
 	// Required roles or permissions: operator
-	ProjectStaticIPPatch(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIpPatchIn) (*ProjectStaticIpPatchOut, error)
+	ProjectStaticIPPatch(ctx context.Context, project string, staticIpaddressId string, in *ProjectStaticIPPatchIn) (*ProjectStaticIPPatchOut, error)
 
 	// PublicStaticIPAvailabilityList list static IP clouds and prices
 	// GET /v1/tenants/{tenant}/static-ip-availability
 	// https://api.aiven.io/doc/#tag/Cloud_platforms/operation/PublicStaticIPAvailabilityList
-	PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIpAddressAvailabilityOut, error)
+	PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIPAddressAvailabilityOut, error)
 
 	// StaticIPCreate create static IP address
 	// POST /v1/project/{project}/static-ips
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPCreate
 	// Required roles or permissions: operator
-	StaticIPCreate(ctx context.Context, project string, in *StaticIpCreateIn) (*StaticIpCreateOut, error)
+	StaticIPCreate(ctx context.Context, project string, in *StaticIPCreateIn) (*StaticIPCreateOut, error)
 
 	// StaticIPDelete delete a static IP address
 	// DELETE /v1/project/{project}/static-ips/{static_ip_address_id}
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPDelete
-	StaticIPDelete(ctx context.Context, project string, staticIpAddressId string) (*StaticIpDeleteOut, error)
+	StaticIPDelete(ctx context.Context, project string, staticIpaddressId string) (*StaticIPDeleteOut, error)
 
 	// StaticIPList list static IP addresses
 	// GET /v1/project/{project}/static-ips
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPList
 	// Required roles or permissions: developer, operator, read_only
-	StaticIPList(ctx context.Context, project string) ([]StaticIpOut, error)
+	StaticIPList(ctx context.Context, project string) ([]StaticIPOut, error)
 }
 
 // doer http client
@@ -70,104 +70,104 @@ type StaticIPHandler struct {
 	doer doer
 }
 
-func (h *StaticIPHandler) ProjectStaticIPAssociate(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIpAssociateIn) (*ProjectStaticIpAssociateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/static-ips/%s/association", url.PathEscape(project), url.PathEscape(staticIpAddressId))
+func (h *StaticIPHandler) ProjectStaticIPAssociate(ctx context.Context, project string, staticIpaddressId string, in *ProjectStaticIPAssociateIn) (*ProjectStaticIPAssociateOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/static-ips/%s/association", url.PathEscape(project), url.PathEscape(staticIpaddressId))
 	b, err := h.doer.Do(ctx, "ProjectStaticIPAssociate", "POST", path, in)
 	if err != nil {
 		return nil, err
 	}
-	out := new(ProjectStaticIpAssociateOut)
+	out := new(ProjectStaticIPAssociateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *StaticIPHandler) ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIpAddressAvailabilityOut, error) {
+func (h *StaticIPHandler) ProjectStaticIPAvailabilityList(ctx context.Context, project string) ([]StaticIPAddressAvailabilityOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/static-ip-availability", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "ProjectStaticIPAvailabilityList", "GET", path, nil)
 	if err != nil {
 		return nil, err
 	}
-	out := new(projectStaticIpAvailabilityListOut)
+	out := new(projectStaticIPAvailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.StaticIpAddressAvailability, nil
+	return out.StaticIPAddressAvailability, nil
 }
-func (h *StaticIPHandler) ProjectStaticIPDissociate(ctx context.Context, project string, staticIpAddressId string) (*ProjectStaticIpDissociateOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/static-ips/%s/association", url.PathEscape(project), url.PathEscape(staticIpAddressId))
+func (h *StaticIPHandler) ProjectStaticIPDissociate(ctx context.Context, project string, staticIpaddressId string) (*ProjectStaticIPDissociateOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/static-ips/%s/association", url.PathEscape(project), url.PathEscape(staticIpaddressId))
 	b, err := h.doer.Do(ctx, "ProjectStaticIPDissociate", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
 	}
-	out := new(ProjectStaticIpDissociateOut)
+	out := new(ProjectStaticIPDissociateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *StaticIPHandler) ProjectStaticIPPatch(ctx context.Context, project string, staticIpAddressId string, in *ProjectStaticIpPatchIn) (*ProjectStaticIpPatchOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/static-ips/%s", url.PathEscape(project), url.PathEscape(staticIpAddressId))
+func (h *StaticIPHandler) ProjectStaticIPPatch(ctx context.Context, project string, staticIpaddressId string, in *ProjectStaticIPPatchIn) (*ProjectStaticIPPatchOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/static-ips/%s", url.PathEscape(project), url.PathEscape(staticIpaddressId))
 	b, err := h.doer.Do(ctx, "ProjectStaticIPPatch", "PATCH", path, in)
 	if err != nil {
 		return nil, err
 	}
-	out := new(ProjectStaticIpPatchOut)
+	out := new(ProjectStaticIPPatchOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *StaticIPHandler) PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIpAddressAvailabilityOut, error) {
+func (h *StaticIPHandler) PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]StaticIPAddressAvailabilityOut, error) {
 	path := fmt.Sprintf("/v1/tenants/%s/static-ip-availability", url.PathEscape(tenant))
 	b, err := h.doer.Do(ctx, "PublicStaticIPAvailabilityList", "GET", path, nil)
 	if err != nil {
 		return nil, err
 	}
-	out := new(publicStaticIpAvailabilityListOut)
+	out := new(publicStaticIPAvailabilityListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.StaticIpAddressAvailability, nil
+	return out.StaticIPAddressAvailability, nil
 }
-func (h *StaticIPHandler) StaticIPCreate(ctx context.Context, project string, in *StaticIpCreateIn) (*StaticIpCreateOut, error) {
+func (h *StaticIPHandler) StaticIPCreate(ctx context.Context, project string, in *StaticIPCreateIn) (*StaticIPCreateOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/static-ips", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "StaticIPCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
 	}
-	out := new(StaticIpCreateOut)
+	out := new(StaticIPCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *StaticIPHandler) StaticIPDelete(ctx context.Context, project string, staticIpAddressId string) (*StaticIpDeleteOut, error) {
-	path := fmt.Sprintf("/v1/project/%s/static-ips/%s", url.PathEscape(project), url.PathEscape(staticIpAddressId))
+func (h *StaticIPHandler) StaticIPDelete(ctx context.Context, project string, staticIpaddressId string) (*StaticIPDeleteOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/static-ips/%s", url.PathEscape(project), url.PathEscape(staticIpaddressId))
 	b, err := h.doer.Do(ctx, "StaticIPDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
 	}
-	out := new(StaticIpDeleteOut)
+	out := new(StaticIPDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *StaticIPHandler) StaticIPList(ctx context.Context, project string) ([]StaticIpOut, error) {
+func (h *StaticIPHandler) StaticIPList(ctx context.Context, project string) ([]StaticIPOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/static-ips", url.PathEscape(project))
 	b, err := h.doer.Do(ctx, "StaticIPList", "GET", path, nil)
 	if err != nil {
 		return nil, err
 	}
-	out := new(staticIpListOut)
+	out := new(staticIPListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -175,152 +175,152 @@ func (h *StaticIPHandler) StaticIPList(ctx context.Context, project string) ([]S
 	return out.StaticIps, nil
 }
 
-// ProjectStaticIpAssociateIn ProjectStaticIPAssociateRequestBody
-type ProjectStaticIpAssociateIn struct {
+// ProjectStaticIPAssociateIn ProjectStaticIPAssociateRequestBody
+type ProjectStaticIPAssociateIn struct {
 	ServiceName string `json:"service_name"` // Service name
 }
 
-// ProjectStaticIpAssociateOut ProjectStaticIPAssociateResponse
-type ProjectStaticIpAssociateOut struct {
+// ProjectStaticIPAssociateOut ProjectStaticIPAssociateResponse
+type ProjectStaticIPAssociateOut struct {
 	CloudName             string                            `json:"cloud_name"`             // Target cloud
-	IpAddress             string                            `json:"ip_address"`             // IPv4 address
+	IPAddress             string                            `json:"ip_address"`             // IPv4 address
 	ServiceName           string                            `json:"service_name"`           // Service name
-	State                 ProjectStaticIpAssociateStateType `json:"state"`                  // Static IP address state
-	StaticIpAddressId     string                            `json:"static_ip_address_id"`   // Static IP address identifier
+	State                 ProjectStaticIPAssociateStateType `json:"state"`                  // Static IP address state
+	StaticIPAddressId     string                            `json:"static_ip_address_id"`   // Static IP address identifier
 	TerminationProtection bool                              `json:"termination_protection"` // Static IP address is protected against deletion
 }
-type ProjectStaticIpAssociateStateType string
+type ProjectStaticIPAssociateStateType string
 
 const (
-	ProjectStaticIpAssociateStateTypeAssigned  ProjectStaticIpAssociateStateType = "assigned"
-	ProjectStaticIpAssociateStateTypeAvailable ProjectStaticIpAssociateStateType = "available"
-	ProjectStaticIpAssociateStateTypeCreated   ProjectStaticIpAssociateStateType = "created"
-	ProjectStaticIpAssociateStateTypeCreating  ProjectStaticIpAssociateStateType = "creating"
-	ProjectStaticIpAssociateStateTypeDeleted   ProjectStaticIpAssociateStateType = "deleted"
-	ProjectStaticIpAssociateStateTypeDeleting  ProjectStaticIpAssociateStateType = "deleting"
+	ProjectStaticIPAssociateStateTypeAssigned  ProjectStaticIPAssociateStateType = "assigned"
+	ProjectStaticIPAssociateStateTypeAvailable ProjectStaticIPAssociateStateType = "available"
+	ProjectStaticIPAssociateStateTypeCreated   ProjectStaticIPAssociateStateType = "created"
+	ProjectStaticIPAssociateStateTypeCreating  ProjectStaticIPAssociateStateType = "creating"
+	ProjectStaticIPAssociateStateTypeDeleted   ProjectStaticIPAssociateStateType = "deleted"
+	ProjectStaticIPAssociateStateTypeDeleting  ProjectStaticIPAssociateStateType = "deleting"
 )
 
-func ProjectStaticIpAssociateStateTypeChoices() []string {
+func ProjectStaticIPAssociateStateTypeChoices() []string {
 	return []string{"assigned", "available", "created", "creating", "deleted", "deleting"}
 }
 
-// ProjectStaticIpDissociateOut ProjectStaticIPDissociateResponse
-type ProjectStaticIpDissociateOut struct {
+// ProjectStaticIPDissociateOut ProjectStaticIPDissociateResponse
+type ProjectStaticIPDissociateOut struct {
 	CloudName             string                             `json:"cloud_name"`             // Target cloud
-	IpAddress             string                             `json:"ip_address"`             // IPv4 address
+	IPAddress             string                             `json:"ip_address"`             // IPv4 address
 	ServiceName           string                             `json:"service_name"`           // Service name
-	State                 ProjectStaticIpDissociateStateType `json:"state"`                  // Static IP address state
-	StaticIpAddressId     string                             `json:"static_ip_address_id"`   // Static IP address identifier
+	State                 ProjectStaticIPDissociateStateType `json:"state"`                  // Static IP address state
+	StaticIPAddressId     string                             `json:"static_ip_address_id"`   // Static IP address identifier
 	TerminationProtection bool                               `json:"termination_protection"` // Static IP address is protected against deletion
 }
-type ProjectStaticIpDissociateStateType string
+type ProjectStaticIPDissociateStateType string
 
 const (
-	ProjectStaticIpDissociateStateTypeAssigned  ProjectStaticIpDissociateStateType = "assigned"
-	ProjectStaticIpDissociateStateTypeAvailable ProjectStaticIpDissociateStateType = "available"
-	ProjectStaticIpDissociateStateTypeCreated   ProjectStaticIpDissociateStateType = "created"
-	ProjectStaticIpDissociateStateTypeCreating  ProjectStaticIpDissociateStateType = "creating"
-	ProjectStaticIpDissociateStateTypeDeleted   ProjectStaticIpDissociateStateType = "deleted"
-	ProjectStaticIpDissociateStateTypeDeleting  ProjectStaticIpDissociateStateType = "deleting"
+	ProjectStaticIPDissociateStateTypeAssigned  ProjectStaticIPDissociateStateType = "assigned"
+	ProjectStaticIPDissociateStateTypeAvailable ProjectStaticIPDissociateStateType = "available"
+	ProjectStaticIPDissociateStateTypeCreated   ProjectStaticIPDissociateStateType = "created"
+	ProjectStaticIPDissociateStateTypeCreating  ProjectStaticIPDissociateStateType = "creating"
+	ProjectStaticIPDissociateStateTypeDeleted   ProjectStaticIPDissociateStateType = "deleted"
+	ProjectStaticIPDissociateStateTypeDeleting  ProjectStaticIPDissociateStateType = "deleting"
 )
 
-func ProjectStaticIpDissociateStateTypeChoices() []string {
+func ProjectStaticIPDissociateStateTypeChoices() []string {
 	return []string{"assigned", "available", "created", "creating", "deleted", "deleting"}
 }
 
-// ProjectStaticIpPatchIn ProjectStaticIPPatchRequestBody
-type ProjectStaticIpPatchIn struct {
+// ProjectStaticIPPatchIn ProjectStaticIPPatchRequestBody
+type ProjectStaticIPPatchIn struct {
 	TerminationProtection *bool `json:"termination_protection,omitempty"` // Static IP address is protected against deletion
 }
 
-// ProjectStaticIpPatchOut ProjectStaticIPPatchResponse
-type ProjectStaticIpPatchOut struct {
+// ProjectStaticIPPatchOut ProjectStaticIPPatchResponse
+type ProjectStaticIPPatchOut struct {
 	CloudName             string                        `json:"cloud_name"`             // Target cloud
-	IpAddress             string                        `json:"ip_address"`             // IPv4 address
+	IPAddress             string                        `json:"ip_address"`             // IPv4 address
 	ServiceName           string                        `json:"service_name"`           // Service name
-	State                 ProjectStaticIpPatchStateType `json:"state"`                  // Static IP address state
-	StaticIpAddressId     string                        `json:"static_ip_address_id"`   // Static IP address identifier
+	State                 ProjectStaticIPPatchStateType `json:"state"`                  // Static IP address state
+	StaticIPAddressId     string                        `json:"static_ip_address_id"`   // Static IP address identifier
 	TerminationProtection bool                          `json:"termination_protection"` // Static IP address is protected against deletion
 }
-type ProjectStaticIpPatchStateType string
+type ProjectStaticIPPatchStateType string
 
 const (
-	ProjectStaticIpPatchStateTypeAssigned  ProjectStaticIpPatchStateType = "assigned"
-	ProjectStaticIpPatchStateTypeAvailable ProjectStaticIpPatchStateType = "available"
-	ProjectStaticIpPatchStateTypeCreated   ProjectStaticIpPatchStateType = "created"
-	ProjectStaticIpPatchStateTypeCreating  ProjectStaticIpPatchStateType = "creating"
-	ProjectStaticIpPatchStateTypeDeleted   ProjectStaticIpPatchStateType = "deleted"
-	ProjectStaticIpPatchStateTypeDeleting  ProjectStaticIpPatchStateType = "deleting"
+	ProjectStaticIPPatchStateTypeAssigned  ProjectStaticIPPatchStateType = "assigned"
+	ProjectStaticIPPatchStateTypeAvailable ProjectStaticIPPatchStateType = "available"
+	ProjectStaticIPPatchStateTypeCreated   ProjectStaticIPPatchStateType = "created"
+	ProjectStaticIPPatchStateTypeCreating  ProjectStaticIPPatchStateType = "creating"
+	ProjectStaticIPPatchStateTypeDeleted   ProjectStaticIPPatchStateType = "deleted"
+	ProjectStaticIPPatchStateTypeDeleting  ProjectStaticIPPatchStateType = "deleting"
 )
 
-func ProjectStaticIpPatchStateTypeChoices() []string {
+func ProjectStaticIPPatchStateTypeChoices() []string {
 	return []string{"assigned", "available", "created", "creating", "deleted", "deleting"}
 }
 
-type StaticIpAddressAvailabilityOut struct {
+type StaticIPAddressAvailabilityOut struct {
 	CloudName string `json:"cloud_name"` // Target cloud
 	PriceUsd  string `json:"price_usd"`  // Hourly static IP address price in this cloud region
 }
 
-// StaticIpCreateIn StaticIPCreateRequestBody
-type StaticIpCreateIn struct {
+// StaticIPCreateIn StaticIPCreateRequestBody
+type StaticIPCreateIn struct {
 	CloudName             string `json:"cloud_name"`                       // Target cloud
 	TerminationProtection *bool  `json:"termination_protection,omitempty"` // Static IP address is protected against deletion
 }
 
-// StaticIpCreateOut StaticIPCreateResponse
-type StaticIpCreateOut struct {
+// StaticIPCreateOut StaticIPCreateResponse
+type StaticIPCreateOut struct {
 	CloudName             string            `json:"cloud_name"`             // Target cloud
-	IpAddress             string            `json:"ip_address"`             // IPv4 address
+	IPAddress             string            `json:"ip_address"`             // IPv4 address
 	ServiceName           string            `json:"service_name"`           // Service name
-	State                 StaticIpStateType `json:"state"`                  // Static IP address state
-	StaticIpAddressId     string            `json:"static_ip_address_id"`   // Static IP address identifier
+	State                 StaticIPStateType `json:"state"`                  // Static IP address state
+	StaticIPAddressId     string            `json:"static_ip_address_id"`   // Static IP address identifier
 	TerminationProtection bool              `json:"termination_protection"` // Static IP address is protected against deletion
 }
 
-// StaticIpDeleteOut StaticIPDeleteResponse
-type StaticIpDeleteOut struct {
+// StaticIPDeleteOut StaticIPDeleteResponse
+type StaticIPDeleteOut struct {
 	CloudName             string            `json:"cloud_name"`             // Target cloud
-	IpAddress             string            `json:"ip_address"`             // IPv4 address
+	IPAddress             string            `json:"ip_address"`             // IPv4 address
 	ServiceName           string            `json:"service_name"`           // Service name
-	State                 StaticIpStateType `json:"state"`                  // Static IP address state
-	StaticIpAddressId     string            `json:"static_ip_address_id"`   // Static IP address identifier
+	State                 StaticIPStateType `json:"state"`                  // Static IP address state
+	StaticIPAddressId     string            `json:"static_ip_address_id"`   // Static IP address identifier
 	TerminationProtection bool              `json:"termination_protection"` // Static IP address is protected against deletion
 }
-type StaticIpOut struct {
+type StaticIPOut struct {
 	CloudName             string            `json:"cloud_name"`             // Target cloud
-	IpAddress             string            `json:"ip_address"`             // IPv4 address
+	IPAddress             string            `json:"ip_address"`             // IPv4 address
 	ServiceName           string            `json:"service_name"`           // Service name
-	State                 StaticIpStateType `json:"state"`                  // Static IP address state
-	StaticIpAddressId     string            `json:"static_ip_address_id"`   // Static IP address identifier
+	State                 StaticIPStateType `json:"state"`                  // Static IP address state
+	StaticIPAddressId     string            `json:"static_ip_address_id"`   // Static IP address identifier
 	TerminationProtection bool              `json:"termination_protection"` // Static IP address is protected against deletion
 }
-type StaticIpStateType string
+type StaticIPStateType string
 
 const (
-	StaticIpStateTypeAssigned  StaticIpStateType = "assigned"
-	StaticIpStateTypeAvailable StaticIpStateType = "available"
-	StaticIpStateTypeCreated   StaticIpStateType = "created"
-	StaticIpStateTypeCreating  StaticIpStateType = "creating"
-	StaticIpStateTypeDeleted   StaticIpStateType = "deleted"
-	StaticIpStateTypeDeleting  StaticIpStateType = "deleting"
+	StaticIPStateTypeAssigned  StaticIPStateType = "assigned"
+	StaticIPStateTypeAvailable StaticIPStateType = "available"
+	StaticIPStateTypeCreated   StaticIPStateType = "created"
+	StaticIPStateTypeCreating  StaticIPStateType = "creating"
+	StaticIPStateTypeDeleted   StaticIPStateType = "deleted"
+	StaticIPStateTypeDeleting  StaticIPStateType = "deleting"
 )
 
-func StaticIpStateTypeChoices() []string {
+func StaticIPStateTypeChoices() []string {
 	return []string{"assigned", "available", "created", "creating", "deleted", "deleting"}
 }
 
-// projectStaticIpAvailabilityListOut ProjectStaticIPAvailabilityListResponse
-type projectStaticIpAvailabilityListOut struct {
-	StaticIpAddressAvailability []StaticIpAddressAvailabilityOut `json:"static_ip_address_availability"` // Paginated array
+// projectStaticIPAvailabilityListOut ProjectStaticIPAvailabilityListResponse
+type projectStaticIPAvailabilityListOut struct {
+	StaticIPAddressAvailability []StaticIPAddressAvailabilityOut `json:"static_ip_address_availability"` // Paginated array
 }
 
-// publicStaticIpAvailabilityListOut PublicStaticIPAvailabilityListResponse
-type publicStaticIpAvailabilityListOut struct {
-	StaticIpAddressAvailability []StaticIpAddressAvailabilityOut `json:"static_ip_address_availability"` // Paginated array
+// publicStaticIPAvailabilityListOut PublicStaticIPAvailabilityListResponse
+type publicStaticIPAvailabilityListOut struct {
+	StaticIPAddressAvailability []StaticIPAddressAvailabilityOut `json:"static_ip_address_availability"` // Paginated array
 }
 
-// staticIpListOut StaticIPListResponse
-type staticIpListOut struct {
-	StaticIps []StaticIpOut `json:"static_ips"` // Paginated array
+// staticIPListOut StaticIPListResponse
+type staticIPListOut struct {
+	StaticIps []StaticIPOut `json:"static_ips"` // Paginated array
 }
