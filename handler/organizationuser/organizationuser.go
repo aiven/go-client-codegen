@@ -283,8 +283,8 @@ type OrganizationUserUpdateOut struct {
 }
 type TokenOut struct {
 	Description   string    `json:"description"`
-	IpAllowlist   []string  `json:"ip_allowlist"`    // List of IP addresses that are allowed to use the token
-	LastIp        string    `json:"last_ip"`         // Last-used IP
+	IPAllowlist   []string  `json:"ip_allowlist"`    // List of IP addresses that are allowed to use the token
+	LastIP        string    `json:"last_ip"`         // Last-used IP
 	LastUsedTime  time.Time `json:"last_used_time"`  // Last-used time
 	LastUserAgent string    `json:"last_user_agent"` // Last-used user agent
 	TokenPrefix   string    `json:"token_prefix"`    // Token prefix

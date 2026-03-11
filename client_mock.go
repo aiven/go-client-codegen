@@ -12068,27 +12068,27 @@ func (_c *MockClient_ProjectServiceTypesList_Call) RunAndReturn(run func(ctx con
 }
 
 // ProjectStaticIPAssociate provides a mock function for the type MockClient
-func (_mock *MockClient) ProjectStaticIPAssociate(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpAssociateIn) (*staticip.ProjectStaticIpAssociateOut, error) {
-	ret := _mock.Called(ctx, project1, staticIpAddressId, in)
+func (_mock *MockClient) ProjectStaticIPAssociate(ctx context.Context, project1 string, staticIpaddressId string, in *staticip.ProjectStaticIPAssociateIn) (*staticip.ProjectStaticIPAssociateOut, error) {
+	ret := _mock.Called(ctx, project1, staticIpaddressId, in)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ProjectStaticIPAssociate")
 	}
 
-	var r0 *staticip.ProjectStaticIpAssociateOut
+	var r0 *staticip.ProjectStaticIPAssociateOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIpAssociateIn) (*staticip.ProjectStaticIpAssociateOut, error)); ok {
-		return returnFunc(ctx, project1, staticIpAddressId, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIPAssociateIn) (*staticip.ProjectStaticIPAssociateOut, error)); ok {
+		return returnFunc(ctx, project1, staticIpaddressId, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIpAssociateIn) *staticip.ProjectStaticIpAssociateOut); ok {
-		r0 = returnFunc(ctx, project1, staticIpAddressId, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIPAssociateIn) *staticip.ProjectStaticIPAssociateOut); ok {
+		r0 = returnFunc(ctx, project1, staticIpaddressId, in)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*staticip.ProjectStaticIpAssociateOut)
+			r0 = ret.Get(0).(*staticip.ProjectStaticIPAssociateOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *staticip.ProjectStaticIpAssociateIn) error); ok {
-		r1 = returnFunc(ctx, project1, staticIpAddressId, in)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *staticip.ProjectStaticIPAssociateIn) error); ok {
+		r1 = returnFunc(ctx, project1, staticIpaddressId, in)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -12103,13 +12103,13 @@ type MockClient_ProjectStaticIPAssociate_Call struct {
 // ProjectStaticIPAssociate is a helper method to define mock.On call
 //   - ctx context.Context
 //   - project1 string
-//   - staticIpAddressId string
-//   - in *staticip.ProjectStaticIpAssociateIn
-func (_e *MockClient_Expecter) ProjectStaticIPAssociate(ctx interface{}, project1 interface{}, staticIpAddressId interface{}, in interface{}) *MockClient_ProjectStaticIPAssociate_Call {
-	return &MockClient_ProjectStaticIPAssociate_Call{Call: _e.mock.On("ProjectStaticIPAssociate", ctx, project1, staticIpAddressId, in)}
+//   - staticIpaddressId string
+//   - in *staticip.ProjectStaticIPAssociateIn
+func (_e *MockClient_Expecter) ProjectStaticIPAssociate(ctx interface{}, project1 interface{}, staticIpaddressId interface{}, in interface{}) *MockClient_ProjectStaticIPAssociate_Call {
+	return &MockClient_ProjectStaticIPAssociate_Call{Call: _e.mock.On("ProjectStaticIPAssociate", ctx, project1, staticIpaddressId, in)}
 }
 
-func (_c *MockClient_ProjectStaticIPAssociate_Call) Run(run func(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpAssociateIn)) *MockClient_ProjectStaticIPAssociate_Call {
+func (_c *MockClient_ProjectStaticIPAssociate_Call) Run(run func(ctx context.Context, project1 string, staticIpaddressId string, in *staticip.ProjectStaticIPAssociateIn)) *MockClient_ProjectStaticIPAssociate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -12123,9 +12123,9 @@ func (_c *MockClient_ProjectStaticIPAssociate_Call) Run(run func(ctx context.Con
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *staticip.ProjectStaticIpAssociateIn
+		var arg3 *staticip.ProjectStaticIPAssociateIn
 		if args[3] != nil {
-			arg3 = args[3].(*staticip.ProjectStaticIpAssociateIn)
+			arg3 = args[3].(*staticip.ProjectStaticIPAssociateIn)
 		}
 		run(
 			arg0,
@@ -12137,34 +12137,34 @@ func (_c *MockClient_ProjectStaticIPAssociate_Call) Run(run func(ctx context.Con
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPAssociate_Call) Return(projectStaticIpAssociateOut *staticip.ProjectStaticIpAssociateOut, err error) *MockClient_ProjectStaticIPAssociate_Call {
-	_c.Call.Return(projectStaticIpAssociateOut, err)
+func (_c *MockClient_ProjectStaticIPAssociate_Call) Return(projectStaticIPAssociateOut *staticip.ProjectStaticIPAssociateOut, err error) *MockClient_ProjectStaticIPAssociate_Call {
+	_c.Call.Return(projectStaticIPAssociateOut, err)
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPAssociate_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpAssociateIn) (*staticip.ProjectStaticIpAssociateOut, error)) *MockClient_ProjectStaticIPAssociate_Call {
+func (_c *MockClient_ProjectStaticIPAssociate_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpaddressId string, in *staticip.ProjectStaticIPAssociateIn) (*staticip.ProjectStaticIPAssociateOut, error)) *MockClient_ProjectStaticIPAssociate_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ProjectStaticIPAvailabilityList provides a mock function for the type MockClient
-func (_mock *MockClient) ProjectStaticIPAvailabilityList(ctx context.Context, project1 string) ([]staticip.StaticIpAddressAvailabilityOut, error) {
+func (_mock *MockClient) ProjectStaticIPAvailabilityList(ctx context.Context, project1 string) ([]staticip.StaticIPAddressAvailabilityOut, error) {
 	ret := _mock.Called(ctx, project1)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ProjectStaticIPAvailabilityList")
 	}
 
-	var r0 []staticip.StaticIpAddressAvailabilityOut
+	var r0 []staticip.StaticIPAddressAvailabilityOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]staticip.StaticIpAddressAvailabilityOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]staticip.StaticIPAddressAvailabilityOut, error)); ok {
 		return returnFunc(ctx, project1)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []staticip.StaticIpAddressAvailabilityOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []staticip.StaticIPAddressAvailabilityOut); ok {
 		r0 = returnFunc(ctx, project1)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]staticip.StaticIpAddressAvailabilityOut)
+			r0 = ret.Get(0).([]staticip.StaticIPAddressAvailabilityOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -12205,38 +12205,38 @@ func (_c *MockClient_ProjectStaticIPAvailabilityList_Call) Run(run func(ctx cont
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPAvailabilityList_Call) Return(staticIpAddressAvailabilityOuts []staticip.StaticIpAddressAvailabilityOut, err error) *MockClient_ProjectStaticIPAvailabilityList_Call {
-	_c.Call.Return(staticIpAddressAvailabilityOuts, err)
+func (_c *MockClient_ProjectStaticIPAvailabilityList_Call) Return(staticIPAddressAvailabilityOuts []staticip.StaticIPAddressAvailabilityOut, err error) *MockClient_ProjectStaticIPAvailabilityList_Call {
+	_c.Call.Return(staticIPAddressAvailabilityOuts, err)
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPAvailabilityList_Call) RunAndReturn(run func(ctx context.Context, project1 string) ([]staticip.StaticIpAddressAvailabilityOut, error)) *MockClient_ProjectStaticIPAvailabilityList_Call {
+func (_c *MockClient_ProjectStaticIPAvailabilityList_Call) RunAndReturn(run func(ctx context.Context, project1 string) ([]staticip.StaticIPAddressAvailabilityOut, error)) *MockClient_ProjectStaticIPAvailabilityList_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ProjectStaticIPDissociate provides a mock function for the type MockClient
-func (_mock *MockClient) ProjectStaticIPDissociate(ctx context.Context, project1 string, staticIpAddressId string) (*staticip.ProjectStaticIpDissociateOut, error) {
-	ret := _mock.Called(ctx, project1, staticIpAddressId)
+func (_mock *MockClient) ProjectStaticIPDissociate(ctx context.Context, project1 string, staticIpaddressId string) (*staticip.ProjectStaticIPDissociateOut, error) {
+	ret := _mock.Called(ctx, project1, staticIpaddressId)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ProjectStaticIPDissociate")
 	}
 
-	var r0 *staticip.ProjectStaticIpDissociateOut
+	var r0 *staticip.ProjectStaticIPDissociateOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*staticip.ProjectStaticIpDissociateOut, error)); ok {
-		return returnFunc(ctx, project1, staticIpAddressId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*staticip.ProjectStaticIPDissociateOut, error)); ok {
+		return returnFunc(ctx, project1, staticIpaddressId)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *staticip.ProjectStaticIpDissociateOut); ok {
-		r0 = returnFunc(ctx, project1, staticIpAddressId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *staticip.ProjectStaticIPDissociateOut); ok {
+		r0 = returnFunc(ctx, project1, staticIpaddressId)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*staticip.ProjectStaticIpDissociateOut)
+			r0 = ret.Get(0).(*staticip.ProjectStaticIPDissociateOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
-		r1 = returnFunc(ctx, project1, staticIpAddressId)
+		r1 = returnFunc(ctx, project1, staticIpaddressId)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -12251,12 +12251,12 @@ type MockClient_ProjectStaticIPDissociate_Call struct {
 // ProjectStaticIPDissociate is a helper method to define mock.On call
 //   - ctx context.Context
 //   - project1 string
-//   - staticIpAddressId string
-func (_e *MockClient_Expecter) ProjectStaticIPDissociate(ctx interface{}, project1 interface{}, staticIpAddressId interface{}) *MockClient_ProjectStaticIPDissociate_Call {
-	return &MockClient_ProjectStaticIPDissociate_Call{Call: _e.mock.On("ProjectStaticIPDissociate", ctx, project1, staticIpAddressId)}
+//   - staticIpaddressId string
+func (_e *MockClient_Expecter) ProjectStaticIPDissociate(ctx interface{}, project1 interface{}, staticIpaddressId interface{}) *MockClient_ProjectStaticIPDissociate_Call {
+	return &MockClient_ProjectStaticIPDissociate_Call{Call: _e.mock.On("ProjectStaticIPDissociate", ctx, project1, staticIpaddressId)}
 }
 
-func (_c *MockClient_ProjectStaticIPDissociate_Call) Run(run func(ctx context.Context, project1 string, staticIpAddressId string)) *MockClient_ProjectStaticIPDissociate_Call {
+func (_c *MockClient_ProjectStaticIPDissociate_Call) Run(run func(ctx context.Context, project1 string, staticIpaddressId string)) *MockClient_ProjectStaticIPDissociate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -12279,38 +12279,38 @@ func (_c *MockClient_ProjectStaticIPDissociate_Call) Run(run func(ctx context.Co
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPDissociate_Call) Return(projectStaticIpDissociateOut *staticip.ProjectStaticIpDissociateOut, err error) *MockClient_ProjectStaticIPDissociate_Call {
-	_c.Call.Return(projectStaticIpDissociateOut, err)
+func (_c *MockClient_ProjectStaticIPDissociate_Call) Return(projectStaticIPDissociateOut *staticip.ProjectStaticIPDissociateOut, err error) *MockClient_ProjectStaticIPDissociate_Call {
+	_c.Call.Return(projectStaticIPDissociateOut, err)
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPDissociate_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpAddressId string) (*staticip.ProjectStaticIpDissociateOut, error)) *MockClient_ProjectStaticIPDissociate_Call {
+func (_c *MockClient_ProjectStaticIPDissociate_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpaddressId string) (*staticip.ProjectStaticIPDissociateOut, error)) *MockClient_ProjectStaticIPDissociate_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ProjectStaticIPPatch provides a mock function for the type MockClient
-func (_mock *MockClient) ProjectStaticIPPatch(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpPatchIn) (*staticip.ProjectStaticIpPatchOut, error) {
-	ret := _mock.Called(ctx, project1, staticIpAddressId, in)
+func (_mock *MockClient) ProjectStaticIPPatch(ctx context.Context, project1 string, staticIpaddressId string, in *staticip.ProjectStaticIPPatchIn) (*staticip.ProjectStaticIPPatchOut, error) {
+	ret := _mock.Called(ctx, project1, staticIpaddressId, in)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ProjectStaticIPPatch")
 	}
 
-	var r0 *staticip.ProjectStaticIpPatchOut
+	var r0 *staticip.ProjectStaticIPPatchOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIpPatchIn) (*staticip.ProjectStaticIpPatchOut, error)); ok {
-		return returnFunc(ctx, project1, staticIpAddressId, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIPPatchIn) (*staticip.ProjectStaticIPPatchOut, error)); ok {
+		return returnFunc(ctx, project1, staticIpaddressId, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIpPatchIn) *staticip.ProjectStaticIpPatchOut); ok {
-		r0 = returnFunc(ctx, project1, staticIpAddressId, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *staticip.ProjectStaticIPPatchIn) *staticip.ProjectStaticIPPatchOut); ok {
+		r0 = returnFunc(ctx, project1, staticIpaddressId, in)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*staticip.ProjectStaticIpPatchOut)
+			r0 = ret.Get(0).(*staticip.ProjectStaticIPPatchOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *staticip.ProjectStaticIpPatchIn) error); ok {
-		r1 = returnFunc(ctx, project1, staticIpAddressId, in)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *staticip.ProjectStaticIPPatchIn) error); ok {
+		r1 = returnFunc(ctx, project1, staticIpaddressId, in)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -12325,13 +12325,13 @@ type MockClient_ProjectStaticIPPatch_Call struct {
 // ProjectStaticIPPatch is a helper method to define mock.On call
 //   - ctx context.Context
 //   - project1 string
-//   - staticIpAddressId string
-//   - in *staticip.ProjectStaticIpPatchIn
-func (_e *MockClient_Expecter) ProjectStaticIPPatch(ctx interface{}, project1 interface{}, staticIpAddressId interface{}, in interface{}) *MockClient_ProjectStaticIPPatch_Call {
-	return &MockClient_ProjectStaticIPPatch_Call{Call: _e.mock.On("ProjectStaticIPPatch", ctx, project1, staticIpAddressId, in)}
+//   - staticIpaddressId string
+//   - in *staticip.ProjectStaticIPPatchIn
+func (_e *MockClient_Expecter) ProjectStaticIPPatch(ctx interface{}, project1 interface{}, staticIpaddressId interface{}, in interface{}) *MockClient_ProjectStaticIPPatch_Call {
+	return &MockClient_ProjectStaticIPPatch_Call{Call: _e.mock.On("ProjectStaticIPPatch", ctx, project1, staticIpaddressId, in)}
 }
 
-func (_c *MockClient_ProjectStaticIPPatch_Call) Run(run func(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpPatchIn)) *MockClient_ProjectStaticIPPatch_Call {
+func (_c *MockClient_ProjectStaticIPPatch_Call) Run(run func(ctx context.Context, project1 string, staticIpaddressId string, in *staticip.ProjectStaticIPPatchIn)) *MockClient_ProjectStaticIPPatch_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -12345,9 +12345,9 @@ func (_c *MockClient_ProjectStaticIPPatch_Call) Run(run func(ctx context.Context
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *staticip.ProjectStaticIpPatchIn
+		var arg3 *staticip.ProjectStaticIPPatchIn
 		if args[3] != nil {
-			arg3 = args[3].(*staticip.ProjectStaticIpPatchIn)
+			arg3 = args[3].(*staticip.ProjectStaticIPPatchIn)
 		}
 		run(
 			arg0,
@@ -12359,12 +12359,12 @@ func (_c *MockClient_ProjectStaticIPPatch_Call) Run(run func(ctx context.Context
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPPatch_Call) Return(projectStaticIpPatchOut *staticip.ProjectStaticIpPatchOut, err error) *MockClient_ProjectStaticIPPatch_Call {
-	_c.Call.Return(projectStaticIpPatchOut, err)
+func (_c *MockClient_ProjectStaticIPPatch_Call) Return(projectStaticIPPatchOut *staticip.ProjectStaticIPPatchOut, err error) *MockClient_ProjectStaticIPPatch_Call {
+	_c.Call.Return(projectStaticIPPatchOut, err)
 	return _c
 }
 
-func (_c *MockClient_ProjectStaticIPPatch_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpAddressId string, in *staticip.ProjectStaticIpPatchIn) (*staticip.ProjectStaticIpPatchOut, error)) *MockClient_ProjectStaticIPPatch_Call {
+func (_c *MockClient_ProjectStaticIPPatch_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpaddressId string, in *staticip.ProjectStaticIPPatchIn) (*staticip.ProjectStaticIPPatchOut, error)) *MockClient_ProjectStaticIPPatch_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -12906,23 +12906,23 @@ func (_c *MockClient_PublicPrivatelinkAvailabilityList_Call) RunAndReturn(run fu
 }
 
 // PublicStaticIPAvailabilityList provides a mock function for the type MockClient
-func (_mock *MockClient) PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]staticip.StaticIpAddressAvailabilityOut, error) {
+func (_mock *MockClient) PublicStaticIPAvailabilityList(ctx context.Context, tenant string) ([]staticip.StaticIPAddressAvailabilityOut, error) {
 	ret := _mock.Called(ctx, tenant)
 
 	if len(ret) == 0 {
 		panic("no return value specified for PublicStaticIPAvailabilityList")
 	}
 
-	var r0 []staticip.StaticIpAddressAvailabilityOut
+	var r0 []staticip.StaticIPAddressAvailabilityOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]staticip.StaticIpAddressAvailabilityOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]staticip.StaticIPAddressAvailabilityOut, error)); ok {
 		return returnFunc(ctx, tenant)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []staticip.StaticIpAddressAvailabilityOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []staticip.StaticIPAddressAvailabilityOut); ok {
 		r0 = returnFunc(ctx, tenant)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]staticip.StaticIpAddressAvailabilityOut)
+			r0 = ret.Get(0).([]staticip.StaticIPAddressAvailabilityOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -12963,12 +12963,12 @@ func (_c *MockClient_PublicStaticIPAvailabilityList_Call) Run(run func(ctx conte
 	return _c
 }
 
-func (_c *MockClient_PublicStaticIPAvailabilityList_Call) Return(staticIpAddressAvailabilityOuts []staticip.StaticIpAddressAvailabilityOut, err error) *MockClient_PublicStaticIPAvailabilityList_Call {
-	_c.Call.Return(staticIpAddressAvailabilityOuts, err)
+func (_c *MockClient_PublicStaticIPAvailabilityList_Call) Return(staticIPAddressAvailabilityOuts []staticip.StaticIPAddressAvailabilityOut, err error) *MockClient_PublicStaticIPAvailabilityList_Call {
+	_c.Call.Return(staticIPAddressAvailabilityOuts, err)
 	return _c
 }
 
-func (_c *MockClient_PublicStaticIPAvailabilityList_Call) RunAndReturn(run func(ctx context.Context, tenant string) ([]staticip.StaticIpAddressAvailabilityOut, error)) *MockClient_PublicStaticIPAvailabilityList_Call {
+func (_c *MockClient_PublicStaticIPAvailabilityList_Call) RunAndReturn(run func(ctx context.Context, tenant string) ([]staticip.StaticIPAddressAvailabilityOut, error)) *MockClient_PublicStaticIPAvailabilityList_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -25266,26 +25266,26 @@ func (_c *MockClient_ServiceUserGet_Call) RunAndReturn(run func(ctx context.Cont
 }
 
 // StaticIPCreate provides a mock function for the type MockClient
-func (_mock *MockClient) StaticIPCreate(ctx context.Context, project1 string, in *staticip.StaticIpCreateIn) (*staticip.StaticIpCreateOut, error) {
+func (_mock *MockClient) StaticIPCreate(ctx context.Context, project1 string, in *staticip.StaticIPCreateIn) (*staticip.StaticIPCreateOut, error) {
 	ret := _mock.Called(ctx, project1, in)
 
 	if len(ret) == 0 {
 		panic("no return value specified for StaticIPCreate")
 	}
 
-	var r0 *staticip.StaticIpCreateOut
+	var r0 *staticip.StaticIPCreateOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *staticip.StaticIpCreateIn) (*staticip.StaticIpCreateOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *staticip.StaticIPCreateIn) (*staticip.StaticIPCreateOut, error)); ok {
 		return returnFunc(ctx, project1, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *staticip.StaticIpCreateIn) *staticip.StaticIpCreateOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *staticip.StaticIPCreateIn) *staticip.StaticIPCreateOut); ok {
 		r0 = returnFunc(ctx, project1, in)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*staticip.StaticIpCreateOut)
+			r0 = ret.Get(0).(*staticip.StaticIPCreateOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, *staticip.StaticIpCreateIn) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, *staticip.StaticIPCreateIn) error); ok {
 		r1 = returnFunc(ctx, project1, in)
 	} else {
 		r1 = ret.Error(1)
@@ -25301,12 +25301,12 @@ type MockClient_StaticIPCreate_Call struct {
 // StaticIPCreate is a helper method to define mock.On call
 //   - ctx context.Context
 //   - project1 string
-//   - in *staticip.StaticIpCreateIn
+//   - in *staticip.StaticIPCreateIn
 func (_e *MockClient_Expecter) StaticIPCreate(ctx interface{}, project1 interface{}, in interface{}) *MockClient_StaticIPCreate_Call {
 	return &MockClient_StaticIPCreate_Call{Call: _e.mock.On("StaticIPCreate", ctx, project1, in)}
 }
 
-func (_c *MockClient_StaticIPCreate_Call) Run(run func(ctx context.Context, project1 string, in *staticip.StaticIpCreateIn)) *MockClient_StaticIPCreate_Call {
+func (_c *MockClient_StaticIPCreate_Call) Run(run func(ctx context.Context, project1 string, in *staticip.StaticIPCreateIn)) *MockClient_StaticIPCreate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -25316,9 +25316,9 @@ func (_c *MockClient_StaticIPCreate_Call) Run(run func(ctx context.Context, proj
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
-		var arg2 *staticip.StaticIpCreateIn
+		var arg2 *staticip.StaticIPCreateIn
 		if args[2] != nil {
-			arg2 = args[2].(*staticip.StaticIpCreateIn)
+			arg2 = args[2].(*staticip.StaticIPCreateIn)
 		}
 		run(
 			arg0,
@@ -25329,38 +25329,38 @@ func (_c *MockClient_StaticIPCreate_Call) Run(run func(ctx context.Context, proj
 	return _c
 }
 
-func (_c *MockClient_StaticIPCreate_Call) Return(staticIpCreateOut *staticip.StaticIpCreateOut, err error) *MockClient_StaticIPCreate_Call {
-	_c.Call.Return(staticIpCreateOut, err)
+func (_c *MockClient_StaticIPCreate_Call) Return(staticIPCreateOut *staticip.StaticIPCreateOut, err error) *MockClient_StaticIPCreate_Call {
+	_c.Call.Return(staticIPCreateOut, err)
 	return _c
 }
 
-func (_c *MockClient_StaticIPCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, in *staticip.StaticIpCreateIn) (*staticip.StaticIpCreateOut, error)) *MockClient_StaticIPCreate_Call {
+func (_c *MockClient_StaticIPCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, in *staticip.StaticIPCreateIn) (*staticip.StaticIPCreateOut, error)) *MockClient_StaticIPCreate_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // StaticIPDelete provides a mock function for the type MockClient
-func (_mock *MockClient) StaticIPDelete(ctx context.Context, project1 string, staticIpAddressId string) (*staticip.StaticIpDeleteOut, error) {
-	ret := _mock.Called(ctx, project1, staticIpAddressId)
+func (_mock *MockClient) StaticIPDelete(ctx context.Context, project1 string, staticIpaddressId string) (*staticip.StaticIPDeleteOut, error) {
+	ret := _mock.Called(ctx, project1, staticIpaddressId)
 
 	if len(ret) == 0 {
 		panic("no return value specified for StaticIPDelete")
 	}
 
-	var r0 *staticip.StaticIpDeleteOut
+	var r0 *staticip.StaticIPDeleteOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*staticip.StaticIpDeleteOut, error)); ok {
-		return returnFunc(ctx, project1, staticIpAddressId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*staticip.StaticIPDeleteOut, error)); ok {
+		return returnFunc(ctx, project1, staticIpaddressId)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *staticip.StaticIpDeleteOut); ok {
-		r0 = returnFunc(ctx, project1, staticIpAddressId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *staticip.StaticIPDeleteOut); ok {
+		r0 = returnFunc(ctx, project1, staticIpaddressId)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*staticip.StaticIpDeleteOut)
+			r0 = ret.Get(0).(*staticip.StaticIPDeleteOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
-		r1 = returnFunc(ctx, project1, staticIpAddressId)
+		r1 = returnFunc(ctx, project1, staticIpaddressId)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -25375,12 +25375,12 @@ type MockClient_StaticIPDelete_Call struct {
 // StaticIPDelete is a helper method to define mock.On call
 //   - ctx context.Context
 //   - project1 string
-//   - staticIpAddressId string
-func (_e *MockClient_Expecter) StaticIPDelete(ctx interface{}, project1 interface{}, staticIpAddressId interface{}) *MockClient_StaticIPDelete_Call {
-	return &MockClient_StaticIPDelete_Call{Call: _e.mock.On("StaticIPDelete", ctx, project1, staticIpAddressId)}
+//   - staticIpaddressId string
+func (_e *MockClient_Expecter) StaticIPDelete(ctx interface{}, project1 interface{}, staticIpaddressId interface{}) *MockClient_StaticIPDelete_Call {
+	return &MockClient_StaticIPDelete_Call{Call: _e.mock.On("StaticIPDelete", ctx, project1, staticIpaddressId)}
 }
 
-func (_c *MockClient_StaticIPDelete_Call) Run(run func(ctx context.Context, project1 string, staticIpAddressId string)) *MockClient_StaticIPDelete_Call {
+func (_c *MockClient_StaticIPDelete_Call) Run(run func(ctx context.Context, project1 string, staticIpaddressId string)) *MockClient_StaticIPDelete_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -25403,34 +25403,34 @@ func (_c *MockClient_StaticIPDelete_Call) Run(run func(ctx context.Context, proj
 	return _c
 }
 
-func (_c *MockClient_StaticIPDelete_Call) Return(staticIpDeleteOut *staticip.StaticIpDeleteOut, err error) *MockClient_StaticIPDelete_Call {
-	_c.Call.Return(staticIpDeleteOut, err)
+func (_c *MockClient_StaticIPDelete_Call) Return(staticIPDeleteOut *staticip.StaticIPDeleteOut, err error) *MockClient_StaticIPDelete_Call {
+	_c.Call.Return(staticIPDeleteOut, err)
 	return _c
 }
 
-func (_c *MockClient_StaticIPDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpAddressId string) (*staticip.StaticIpDeleteOut, error)) *MockClient_StaticIPDelete_Call {
+func (_c *MockClient_StaticIPDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, staticIpaddressId string) (*staticip.StaticIPDeleteOut, error)) *MockClient_StaticIPDelete_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // StaticIPList provides a mock function for the type MockClient
-func (_mock *MockClient) StaticIPList(ctx context.Context, project1 string) ([]staticip.StaticIpOut, error) {
+func (_mock *MockClient) StaticIPList(ctx context.Context, project1 string) ([]staticip.StaticIPOut, error) {
 	ret := _mock.Called(ctx, project1)
 
 	if len(ret) == 0 {
 		panic("no return value specified for StaticIPList")
 	}
 
-	var r0 []staticip.StaticIpOut
+	var r0 []staticip.StaticIPOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]staticip.StaticIpOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]staticip.StaticIPOut, error)); ok {
 		return returnFunc(ctx, project1)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []staticip.StaticIpOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []staticip.StaticIPOut); ok {
 		r0 = returnFunc(ctx, project1)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]staticip.StaticIpOut)
+			r0 = ret.Get(0).([]staticip.StaticIPOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -25471,12 +25471,12 @@ func (_c *MockClient_StaticIPList_Call) Run(run func(ctx context.Context, projec
 	return _c
 }
 
-func (_c *MockClient_StaticIPList_Call) Return(staticIpOuts []staticip.StaticIpOut, err error) *MockClient_StaticIPList_Call {
-	_c.Call.Return(staticIpOuts, err)
+func (_c *MockClient_StaticIPList_Call) Return(staticIPOuts []staticip.StaticIPOut, err error) *MockClient_StaticIPList_Call {
+	_c.Call.Return(staticIPOuts, err)
 	return _c
 }
 
-func (_c *MockClient_StaticIPList_Call) RunAndReturn(run func(ctx context.Context, project1 string) ([]staticip.StaticIpOut, error)) *MockClient_StaticIPList_Call {
+func (_c *MockClient_StaticIPList_Call) RunAndReturn(run func(ctx context.Context, project1 string) ([]staticip.StaticIPOut, error)) *MockClient_StaticIPList_Call {
 	_c.Call.Return(run)
 	return _c
 }
