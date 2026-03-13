@@ -996,6 +996,26 @@ type ConnectionPoolOut struct {
 	Username      *string      `json:"username,omitempty"` // Pool username
 }
 
+// ControlledSwitchoverOut Controlled switchover status
+type ControlledSwitchoverOut struct {
+	Enabled            bool                          `json:"enabled"`              // Controlled switchover configured and enabled
+	ScheduledStartTime time.Time                     `json:"scheduled_start_time"` // Scheduled start time of the switchover window, if enabled and active
+	State              ControlledSwitchoverStateType `json:"state"`                // Controlled switchover state
+}
+type ControlledSwitchoverStateType string
+
+const (
+	ControlledSwitchoverStateTypeCompleted ControlledSwitchoverStateType = "COMPLETED"
+	ControlledSwitchoverStateTypeInactive  ControlledSwitchoverStateType = "INACTIVE"
+	ControlledSwitchoverStateTypePending   ControlledSwitchoverStateType = "PENDING"
+	ControlledSwitchoverStateTypeRunning   ControlledSwitchoverStateType = "RUNNING"
+	ControlledSwitchoverStateTypeScheduled ControlledSwitchoverStateType = "SCHEDULED"
+)
+
+func ControlledSwitchoverStateTypeChoices() []string {
+	return []string{"COMPLETED", "INACTIVE", "PENDING", "RUNNING", "SCHEDULED"}
+}
+
 // CreateSearchableSnapshotIn Move indices to a searchable snaphshot
 type CreateSearchableSnapshotIn struct {
 	Indices string `json:"indices"` // The indices to move to a searchable snapshot. Use , to create a list of indexes, * to specify an index pattern, and - to exclude certain indexes.
@@ -1405,10 +1425,11 @@ type MaintenanceIn struct {
 
 // MaintenanceOut Automatic maintenance settings
 type MaintenanceOut struct {
-	Dow     MaintenanceDowType `json:"dow"`     // Day of week for installing updates
-	Enabled bool               `json:"enabled"` // Service maintenance enabled
-	Time    string             `json:"time"`    // Time for installing updates, UTC
-	Updates []UpdateOut        `json:"updates"` // List of updates waiting to be installed
+	ControlledSwitchover *ControlledSwitchoverOut `json:"controlled_switchover,omitempty"` // Controlled switchover status
+	Dow                  MaintenanceDowType       `json:"dow"`                             // Day of week for installing updates
+	Enabled              bool                     `json:"enabled"`                         // Service maintenance enabled
+	Time                 string                   `json:"time"`                            // Time for installing updates, UTC
+	Updates              []UpdateOut              `json:"updates"`                         // List of updates waiting to be installed
 }
 type MasterLinkStatusType string
 
