@@ -740,6 +740,7 @@ type UserInfoOut struct {
 	Projects               []string                         `json:"projects"`                           // List of projects the user is a member of
 	RealName               string                           `json:"real_name"`                          // User real name
 	State                  string                           `json:"state"`                              // User account state
+	Tenant                 string                           `json:"tenant"`                             // Tenant identifier
 	TokenValidityBegin     *string                          `json:"token_validity_begin,omitempty"`     // Earliest valid authentication token timestamp
 	User                   string                           `json:"user"`                               // User email address
 	UserId                 string                           `json:"user_id"`                            // User ID
@@ -787,6 +788,7 @@ type UserUpdateOut struct {
 	Projects               []string                         `json:"projects"`                           // List of projects the user is a member of
 	RealName               string                           `json:"real_name"`                          // User real name
 	State                  string                           `json:"state"`                              // User account state
+	Tenant                 string                           `json:"tenant"`                             // Tenant identifier
 	TokenValidityBegin     *string                          `json:"token_validity_begin,omitempty"`     // Earliest valid authentication token timestamp
 	User                   string                           `json:"user"`                               // User email address
 	UserId                 string                           `json:"user_id"`                            // User ID
