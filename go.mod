@@ -11,7 +11,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/sync v0.19.0
+	golang.org/x/sync v0.20.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
