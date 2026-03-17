@@ -134,7 +134,7 @@ type OrganizationProjectsCreateOut struct {
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
 	Features           map[string]bool               `json:"features,omitempty"`         // Feature flags
 	OrganizationId     string                        `json:"organization_id"`            // Organization ID
-	ParentId           *string                       `json:"parent_id,omitempty"`        // Organization or unit ID to where the project belongs
+	ParentId           string                        `json:"parent_id"`                  // Organization or unit ID to where the project belongs
 	ProjectId          string                        `json:"project_id"`                 // Project ID
 	Tags               map[string]string             `json:"tags"`                       // Tags
 	TechEmails         []TechEmailOut                `json:"tech_emails"`                // List of project technical email addresses
@@ -148,7 +148,7 @@ type OrganizationProjectsGetOut struct {
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
 	Features           map[string]bool               `json:"features,omitempty"`         // Feature flags
 	OrganizationId     string                        `json:"organization_id"`            // Organization ID
-	ParentId           *string                       `json:"parent_id,omitempty"`        // Organization or unit ID to where the project belongs
+	ParentId           string                        `json:"parent_id"`                  // Organization or unit ID to where the project belongs
 	ProjectId          string                        `json:"project_id"`                 // Project ID
 	Tags               map[string]string             `json:"tags"`                       // Tags
 	TechEmails         []TechEmailOut                `json:"tech_emails"`                // List of project technical email addresses
@@ -179,7 +179,7 @@ type OrganizationProjectsUpdateOut struct {
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
 	Features           map[string]bool               `json:"features,omitempty"`         // Feature flags
 	OrganizationId     string                        `json:"organization_id"`            // Organization ID
-	ParentId           *string                       `json:"parent_id,omitempty"`        // Organization or unit ID to where the project belongs
+	ParentId           string                        `json:"parent_id"`                  // Organization or unit ID to where the project belongs
 	ProjectId          string                        `json:"project_id"`                 // Project ID
 	Tags               map[string]string             `json:"tags"`                       // Tags
 	TechEmails         []TechEmailOut                `json:"tech_emails"`                // List of project technical email addresses
@@ -189,7 +189,7 @@ type ProjectOut struct {
 	BasePort           *int                          `json:"base_port,omitempty"`        // Valid port number (1-65535)
 	BillingGroupId     *string                       `json:"billing_group_id,omitempty"` // Billing group ID
 	EndOfLifeExtension map[string]EndOfLifeExtension `json:"end_of_life_extension"`      // End of life extension information
-	ParentId           *string                       `json:"parent_id,omitempty"`        // Organization or unit ID to where the project belongs
+	ParentId           string                        `json:"parent_id"`                  // Organization or unit ID to where the project belongs
 	ProjectId          string                        `json:"project_id"`                 // Project ID
 	Tags               map[string]string             `json:"tags"`                       // Tags
 	TechEmails         []TechEmailOut                `json:"tech_emails"`                // List of project technical email addresses
