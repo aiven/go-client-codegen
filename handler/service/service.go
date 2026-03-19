@@ -2246,7 +2246,7 @@ type ServiceTaskCreateIn struct {
 	CreateUserBackup         *CreateUserBackupIn         `json:"create_user_backup,omitempty"`         // Payload to be used with create_user_backup
 	DatasetImport            *DatasetImportIn            `json:"dataset_import,omitempty"`             // Payload to be used with dataset_import
 	MigrationCheck           *MigrationCheckIn           `json:"migration_check,omitempty"`            // Payload to be used with migration_check
-	TargetVersion            TargetVersionType           `json:"target_version,omitempty"`             // Deprecated! Use 'upgrade_check' field
+	TargetVersion            *string                     `json:"target_version,omitempty"`             // Deprecated! Use 'upgrade_check' field
 	TaskType                 TaskType                    `json:"task_type"`                            // Service task type
 	UpgradeCheck             *UpgradeCheckIn             `json:"upgrade_check,omitempty"`              // Payload to be used with upgrade_check
 }
@@ -2516,20 +2516,6 @@ type StateOut struct {
 	Nodes            map[string]any        `json:"nodes"`
 	Status           IntegrationStatusType `json:"status"` // Service integration status
 }
-type TargetVersionType string
-
-const (
-	TargetVersionType14 TargetVersionType = "14"
-	TargetVersionType15 TargetVersionType = "15"
-	TargetVersionType16 TargetVersionType = "16"
-	TargetVersionType17 TargetVersionType = "17"
-	TargetVersionType18 TargetVersionType = "18"
-)
-
-func TargetVersionTypeChoices() []string {
-	return []string{"14", "15", "16", "17", "18"}
-}
-
 type TaskType string
 
 const (
@@ -2606,8 +2592,8 @@ type UpdateOut struct {
 
 // UpgradeCheckIn Payload to be used with upgrade_check
 type UpgradeCheckIn struct {
-	Async         *bool             `json:"async,omitempty"` // Run task asynchronously and return immediately
-	TargetVersion TargetVersionType `json:"target_version"`  // Target version used with upgrade_check
+	Async         *bool  `json:"async,omitempty"` // Run task asynchronously and return immediately
+	TargetVersion string `json:"target_version"`  // Target version used with upgrade_check
 }
 type UsageType string
 
