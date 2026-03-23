@@ -376,7 +376,7 @@ type AccountCreateOut struct {
 	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
 	OrganizationId        string           `json:"organization_id"`             // Organization ID
 	ParentAccountId       *string          `json:"parent_account_id,omitempty"` // Account ID
-	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Billing group ID
+	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Primary billing group ID - deprecated, always null
 	RootAccountId         string           `json:"root_account_id"`             // Account ID
 	TenantId              *string          `json:"tenant_id,omitempty"`         // Tenant identifier
 	UpdateTime            time.Time        `json:"update_time"`                 // Timestamp in ISO 8601 format, always in UTC
@@ -394,7 +394,7 @@ type AccountGetOut struct {
 	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
 	OrganizationId        string           `json:"organization_id"`             // Organization ID
 	ParentAccountId       *string          `json:"parent_account_id,omitempty"` // Account ID
-	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Billing group ID
+	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Primary billing group ID - deprecated, always null
 	RootAccountId         string           `json:"root_account_id"`             // Account ID
 	TenantId              *string          `json:"tenant_id,omitempty"`         // Tenant identifier
 	UpdateTime            time.Time        `json:"update_time"`                 // Timestamp in ISO 8601 format, always in UTC
@@ -417,7 +417,7 @@ type AccountMoveOut struct {
 	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
 	OrganizationId        string           `json:"organization_id"`             // Organization ID
 	ParentAccountId       *string          `json:"parent_account_id,omitempty"` // Account ID
-	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Billing group ID
+	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Primary billing group ID - deprecated, always null
 	RootAccountId         string           `json:"root_account_id"`             // Account ID
 	TenantId              *string          `json:"tenant_id,omitempty"`         // Tenant identifier
 	UpdateTime            time.Time        `json:"update_time"`                 // Timestamp in ISO 8601 format, always in UTC
@@ -433,7 +433,7 @@ type AccountOut struct {
 	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
 	OrganizationId        string           `json:"organization_id"`             // Organization ID
 	ParentAccountId       *string          `json:"parent_account_id,omitempty"` // Account ID
-	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Billing group ID
+	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Primary billing group ID - deprecated, always null
 	RootAccountId         string           `json:"root_account_id"`             // Account ID
 	TenantId              *string          `json:"tenant_id,omitempty"`         // Tenant identifier
 	UpdateTime            time.Time        `json:"update_time"`                 // Timestamp in ISO 8601 format, always in UTC
@@ -463,7 +463,7 @@ type AccountUpdateOut struct {
 	IsAccountOwner        bool             `json:"is_account_owner"`            // If true, user is part of the owners team for this account
 	OrganizationId        string           `json:"organization_id"`             // Organization ID
 	ParentAccountId       *string          `json:"parent_account_id,omitempty"` // Account ID
-	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Billing group ID
+	PrimaryBillingGroupId string           `json:"primary_billing_group_id"`    // Primary billing group ID - deprecated, always null
 	RootAccountId         string           `json:"root_account_id"`             // Account ID
 	TenantId              *string          `json:"tenant_id,omitempty"`         // Tenant identifier
 	UpdateTime            time.Time        `json:"update_time"`                 // Timestamp in ISO 8601 format, always in UTC
