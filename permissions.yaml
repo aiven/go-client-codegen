@@ -8,12 +8,6 @@ AccountAuthenticationMethodUpdate:
   - role:organization:admin
 AccountAuthenticationMethodsList:
   - role:organization:admin
-AlloyDbOmniGoogleCloudPrivateKeyIdentify:
-  - service:data:write
-AlloyDbOmniGoogleCloudPrivateKeyRemove:
-  - service:data:write
-AlloyDbOmniGoogleCloudPrivateKeySet:
-  - service:data:write
 ApplicationUserAccessTokenCreate:
   - organization:app_users:write
 ApplicationUserAccessTokenDelete:

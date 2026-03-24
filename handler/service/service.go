@@ -859,15 +859,6 @@ type AlertOut struct {
 	ServiceType *string   `json:"service_type,omitempty"` // Service type code
 	Severity    string    `json:"severity"`               // Severity of the event
 }
-
-// AlloydbomniOut Service type information
-type AlloydbomniOut struct {
-	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string           `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
-	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
-	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
 type AuthenticationType string
 
 const (
@@ -1334,7 +1325,6 @@ func LikelyErrorCauseTypeChoices() []string {
 
 // ListProjectServiceTypesOut Service plans by service type
 type ListProjectServiceTypesOut struct {
-	Alloydbomni      *AlloydbomniOut      `json:"alloydbomni,omitempty"`       // Service type information
 	Cassandra        *CassandraOut        `json:"cassandra,omitempty"`         // Service type information
 	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`         // Service type information
@@ -1357,7 +1347,6 @@ type ListProjectServiceTypesOut struct {
 
 // ListPublicServiceTypesOut Service plans by service type
 type ListPublicServiceTypesOut struct {
-	Alloydbomni      *AlloydbomniOut      `json:"alloydbomni,omitempty"`       // Service type information
 	Cassandra        *CassandraOut        `json:"cassandra,omitempty"`         // Service type information
 	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`         // Service type information
