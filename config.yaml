@@ -38,10 +38,6 @@ AccountTeamMember:
   - AccountTeamMembersDelete
   - AccountTeamMembersInvite
   - AccountTeamMembersList
-AlloyDBOmni:
-  - AlloyDbOmniGoogleCloudPrivateKeyIdentify
-  - AlloyDbOmniGoogleCloudPrivateKeyRemove
-  - AlloyDbOmniGoogleCloudPrivateKeySet
 ApplicationUser:
   - ApplicationUserAccessTokenCreate
   - ApplicationUserAccessTokenDelete
