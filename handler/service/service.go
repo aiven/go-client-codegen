@@ -1900,6 +1900,7 @@ type ServiceCreateOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
@@ -1955,6 +1956,7 @@ type ServiceGetOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
@@ -2173,6 +2175,7 @@ type ServiceOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
@@ -2202,6 +2205,7 @@ type ServiceOut struct {
 }
 type ServicePlanOut struct {
 	BackupConfig     BackupConfigOut `json:"backup_config"`                // Backup configuration for this service plan
+	IsClusterPlan    *bool           `json:"is_cluster_plan,omitempty"`    // True when the plan is a cluster plan with dedicated node groups
 	MaxMemoryPercent *int            `json:"max_memory_percent,omitempty"` // Maximum amount of system memory as a percentage (0-100) the service can actually use after taking into account management overhead. This is relevant for memory bound services for which some service management operations require allocating proportional amount of memory on top the basic load.
 	NodeCount        *int            `json:"node_count,omitempty"`         // Number of nodes in this service plan
 	Regions          map[string]any  `json:"regions,omitempty"`            // Service plan hourly price per cloud region
@@ -2290,6 +2294,7 @@ type ServiceUpdateOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
@@ -2372,6 +2377,7 @@ type ServiceUserCredentialsModifyOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
@@ -2414,6 +2420,7 @@ type ServiceUserCredentialsResetOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
