@@ -561,14 +561,6 @@ type GroupUserOut struct {
 	UserEmail   string     `json:"user_email"`    // User email address
 	UserGroupId string     `json:"user_group_id"` // User group ID
 }
-
-// InfluxdbOut Service type information
-type InfluxdbOut struct {
-	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string         `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
-	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
 type InvitationOut struct {
 	InviteTime        time.Time  `json:"invite_time"`         // Timestamp in ISO 8601 format, always in UTC
 	InvitedUserEmail  string     `json:"invited_user_email"`  // User email address
@@ -594,22 +586,6 @@ type KafkaMirrormakerOut struct {
 
 // KafkaOut Service type information
 type KafkaOut struct {
-	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string         `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
-	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
-
-// M3AggregatorOut Service type information
-type M3AggregatorOut struct {
-	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string         `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
-	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
-
-// M3DbOut Service type information
-type M3DbOut struct {
 	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
 	Description            string         `json:"description"`                        // Single line description of the service
 	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
@@ -917,12 +893,9 @@ type ProjectServiceTypesListOut struct {
 	Elasticsearch    *ProjectServiceTypesListElasticsearchOut `json:"elasticsearch,omitempty"`     // Service type information
 	Flink            *FlinkOut                                `json:"flink,omitempty"`             // Service type information
 	Grafana          *GrafanaOut                              `json:"grafana,omitempty"`           // Service type information
-	Influxdb         *InfluxdbOut                             `json:"influxdb,omitempty"`          // Service type information
 	Kafka            *KafkaOut                                `json:"kafka,omitempty"`             // Service type information
 	KafkaConnect     *KafkaConnectOut                         `json:"kafka_connect,omitempty"`     // Service type information
 	KafkaMirrormaker *KafkaMirrormakerOut                     `json:"kafka_mirrormaker,omitempty"` // Service type information
-	M3Aggregator     *M3AggregatorOut                         `json:"m3aggregator,omitempty"`      // Service type information
-	M3Db             *M3DbOut                                 `json:"m3db,omitempty"`              // Service type information
 	Mysql            *MysqlOut                                `json:"mysql,omitempty"`             // Service type information
 	Opensearch       *OpensearchOut                           `json:"opensearch,omitempty"`        // Service type information
 	Pg               *PgOut                                   `json:"pg,omitempty"`                // Service type information
@@ -1029,6 +1002,7 @@ type RedisOut struct {
 }
 type ServicePlanOut struct {
 	BackupConfig     BackupConfigOut `json:"backup_config"`                // Backup configuration for this service plan
+	IsClusterPlan    *bool           `json:"is_cluster_plan,omitempty"`    // True when the plan is a cluster plan with dedicated node groups
 	MaxMemoryPercent *int            `json:"max_memory_percent,omitempty"` // Maximum amount of system memory as a percentage (0-100) the service can actually use after taking into account management overhead. This is relevant for memory bound services for which some service management operations require allocating proportional amount of memory on top the basic load.
 	NodeCount        *int            `json:"node_count,omitempty"`         // Number of nodes in this service plan
 	Regions          map[string]any  `json:"regions,omitempty"`            // Service plan hourly price per cloud region

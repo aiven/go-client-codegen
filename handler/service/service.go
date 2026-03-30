@@ -1135,15 +1135,6 @@ type GrafanaOut struct {
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
 
-// InfluxdbOut Service type information
-type InfluxdbOut struct {
-	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string           `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
-	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
-	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
-
 // IntegrationStatusOut Integration status
 type IntegrationStatusOut struct {
 	State          StateOut `json:"state"`            // Service integration state
@@ -1196,8 +1187,6 @@ const (
 	IntegrationTypeKafkaLogs                         IntegrationType = "kafka_logs"
 	IntegrationTypeKafkaMirrormaker                  IntegrationType = "kafka_mirrormaker"
 	IntegrationTypeLogs                              IntegrationType = "logs"
-	IntegrationTypeM3Aggregator                      IntegrationType = "m3aggregator"
-	IntegrationTypeM3Coordinator                     IntegrationType = "m3coordinator"
 	IntegrationTypeMetrics                           IntegrationType = "metrics"
 	IntegrationTypeOpensearchCrossClusterReplication IntegrationType = "opensearch_cross_cluster_replication"
 	IntegrationTypeOpensearchCrossClusterSearch      IntegrationType = "opensearch_cross_cluster_search"
@@ -1205,6 +1194,7 @@ const (
 	IntegrationTypeReadReplica                       IntegrationType = "read_replica"
 	IntegrationTypeRsyslog                           IntegrationType = "rsyslog"
 	IntegrationTypeSchemaRegistryProxy               IntegrationType = "schema_registry_proxy"
+	IntegrationTypeServiceComposition                IntegrationType = "service_composition"
 	IntegrationTypeStresstester                      IntegrationType = "stresstester"
 	IntegrationTypeThanosDistributedQuery            IntegrationType = "thanos_distributed_query"
 	IntegrationTypeThanosMigrate                     IntegrationType = "thanos_migrate"
@@ -1217,7 +1207,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "m3aggregator", "m3coordinator", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
+	return []string{"alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
 }
 
 type IntegrationTypeOut struct {
@@ -1331,12 +1321,9 @@ type ListProjectServiceTypesOut struct {
 	Elasticsearch    *ElasticsearchOut    `json:"elasticsearch,omitempty"`     // Service type information
 	Flink            *FlinkOut            `json:"flink,omitempty"`             // Service type information
 	Grafana          *GrafanaOut          `json:"grafana,omitempty"`           // Service type information
-	Influxdb         *InfluxdbOut         `json:"influxdb,omitempty"`          // Service type information
 	Kafka            *KafkaOut            `json:"kafka,omitempty"`             // Service type information
 	KafkaConnect     *KafkaConnectOut     `json:"kafka_connect,omitempty"`     // Service type information
 	KafkaMirrormaker *KafkaMirrormakerOut `json:"kafka_mirrormaker,omitempty"` // Service type information
-	M3Aggregator     *M3AggregatorOut     `json:"m3aggregator,omitempty"`      // Service type information
-	M3Db             *M3DbOut             `json:"m3db,omitempty"`              // Service type information
 	Mysql            *MysqlOut            `json:"mysql,omitempty"`             // Service type information
 	Opensearch       *OpensearchOut       `json:"opensearch,omitempty"`        // Service type information
 	Pg               *PgOut               `json:"pg,omitempty"`                // Service type information
@@ -1353,12 +1340,9 @@ type ListPublicServiceTypesOut struct {
 	Elasticsearch    *ElasticsearchOut    `json:"elasticsearch,omitempty"`     // Service type information
 	Flink            *FlinkOut            `json:"flink,omitempty"`             // Service type information
 	Grafana          *GrafanaOut          `json:"grafana,omitempty"`           // Service type information
-	Influxdb         *InfluxdbOut         `json:"influxdb,omitempty"`          // Service type information
 	Kafka            *KafkaOut            `json:"kafka,omitempty"`             // Service type information
 	KafkaConnect     *KafkaConnectOut     `json:"kafka_connect,omitempty"`     // Service type information
 	KafkaMirrormaker *KafkaMirrormakerOut `json:"kafka_mirrormaker,omitempty"` // Service type information
-	M3Aggregator     *M3AggregatorOut     `json:"m3aggregator,omitempty"`      // Service type information
-	M3Db             *M3DbOut             `json:"m3db,omitempty"`              // Service type information
 	Mysql            *MysqlOut            `json:"mysql,omitempty"`             // Service type information
 	Opensearch       *OpensearchOut       `json:"opensearch,omitempty"`        // Service type information
 	Pg               *PgOut               `json:"pg,omitempty"`                // Service type information
@@ -1370,24 +1354,6 @@ type LogOut struct {
 	Msg  string  `json:"msg"`            // Log message
 	Time *string `json:"time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
 	Unit *string `json:"unit,omitempty"` // SystemD unit name
-}
-
-// M3AggregatorOut Service type information
-type M3AggregatorOut struct {
-	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string           `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
-	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
-	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
-
-// M3DbOut Service type information
-type M3DbOut struct {
-	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string           `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
-	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
-	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
 type MaintenanceDowType string
 
@@ -1900,6 +1866,7 @@ type ServiceCreateOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
@@ -1955,6 +1922,7 @@ type ServiceGetOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
@@ -2173,6 +2141,7 @@ type ServiceOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
@@ -2202,6 +2171,7 @@ type ServiceOut struct {
 }
 type ServicePlanOut struct {
 	BackupConfig     BackupConfigOut `json:"backup_config"`                // Backup configuration for this service plan
+	IsClusterPlan    *bool           `json:"is_cluster_plan,omitempty"`    // True when the plan is a cluster plan with dedicated node groups
 	MaxMemoryPercent *int            `json:"max_memory_percent,omitempty"` // Maximum amount of system memory as a percentage (0-100) the service can actually use after taking into account management overhead. This is relevant for memory bound services for which some service management operations require allocating proportional amount of memory on top the basic load.
 	NodeCount        *int            `json:"node_count,omitempty"`         // Number of nodes in this service plan
 	Regions          map[string]any  `json:"regions,omitempty"`            // Service plan hourly price per cloud region
@@ -2290,6 +2260,7 @@ type ServiceUpdateOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
@@ -2372,6 +2343,7 @@ type ServiceUserCredentialsModifyOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
@@ -2414,6 +2386,7 @@ type ServiceUserCredentialsResetOut struct {
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
+	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
 	Maintenance            *MaintenanceOut          `json:"maintenance,omitempty"`              // Automatic maintenance settings
 	Metadata               map[string]any           `json:"metadata,omitempty"`                 // Service type specific metadata
