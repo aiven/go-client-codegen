@@ -2174,6 +2174,7 @@ type ServicePlanOut struct {
 	IsClusterPlan    *bool           `json:"is_cluster_plan,omitempty"`    // True when the plan is a cluster plan with dedicated node groups
 	MaxMemoryPercent *int            `json:"max_memory_percent,omitempty"` // Maximum amount of system memory as a percentage (0-100) the service can actually use after taking into account management overhead. This is relevant for memory bound services for which some service management operations require allocating proportional amount of memory on top the basic load.
 	NodeCount        *int            `json:"node_count,omitempty"`         // Number of nodes in this service plan
+	PrimaryCount     *int            `json:"primary_count,omitempty"`      // Number of primary nodes in this Valkey cluster service plan
 	Regions          map[string]any  `json:"regions,omitempty"`            // Service plan hourly price per cloud region
 	ServicePlan      string          `json:"service_plan"`                 // Subscription plan
 	ServiceType      string          `json:"service_type"`                 // Service type code
