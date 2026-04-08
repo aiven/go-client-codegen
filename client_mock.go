@@ -9712,7 +9712,7 @@ func (_c *MockClient_PGServiceAvailableExtensions_Call) RunAndReturn(run func(ct
 }
 
 // PGServiceQueryStatistics provides a mock function for the type MockClient
-func (_mock *MockClient) PGServiceQueryStatistics(ctx context.Context, project1 string, serviceName string, in *postgresql.PgServiceQueryStatisticsIn) ([]postgresql.QueryOut, error) {
+func (_mock *MockClient) PGServiceQueryStatistics(ctx context.Context, project1 string, serviceName string, in *postgresql.PGServiceQueryStatisticsIn) ([]postgresql.QueryOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName, in)
 
 	if len(ret) == 0 {
@@ -9721,17 +9721,17 @@ func (_mock *MockClient) PGServiceQueryStatistics(ctx context.Context, project1 
 
 	var r0 []postgresql.QueryOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *postgresql.PgServiceQueryStatisticsIn) ([]postgresql.QueryOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *postgresql.PGServiceQueryStatisticsIn) ([]postgresql.QueryOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *postgresql.PgServiceQueryStatisticsIn) []postgresql.QueryOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *postgresql.PGServiceQueryStatisticsIn) []postgresql.QueryOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]postgresql.QueryOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *postgresql.PgServiceQueryStatisticsIn) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *postgresql.PGServiceQueryStatisticsIn) error); ok {
 		r1 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		r1 = ret.Error(1)
@@ -9748,12 +9748,12 @@ type MockClient_PGServiceQueryStatistics_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - serviceName string
-//   - in *postgresql.PgServiceQueryStatisticsIn
+//   - in *postgresql.PGServiceQueryStatisticsIn
 func (_e *MockClient_Expecter) PGServiceQueryStatistics(ctx interface{}, project1 interface{}, serviceName interface{}, in interface{}) *MockClient_PGServiceQueryStatistics_Call {
 	return &MockClient_PGServiceQueryStatistics_Call{Call: _e.mock.On("PGServiceQueryStatistics", ctx, project1, serviceName, in)}
 }
 
-func (_c *MockClient_PGServiceQueryStatistics_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.PgServiceQueryStatisticsIn)) *MockClient_PGServiceQueryStatistics_Call {
+func (_c *MockClient_PGServiceQueryStatistics_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.PGServiceQueryStatisticsIn)) *MockClient_PGServiceQueryStatistics_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -9767,9 +9767,9 @@ func (_c *MockClient_PGServiceQueryStatistics_Call) Run(run func(ctx context.Con
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *postgresql.PgServiceQueryStatisticsIn
+		var arg3 *postgresql.PGServiceQueryStatisticsIn
 		if args[3] != nil {
-			arg3 = args[3].(*postgresql.PgServiceQueryStatisticsIn)
+			arg3 = args[3].(*postgresql.PGServiceQueryStatisticsIn)
 		}
 		run(
 			arg0,
@@ -9786,7 +9786,7 @@ func (_c *MockClient_PGServiceQueryStatistics_Call) Return(queryOuts []postgresq
 	return _c
 }
 
-func (_c *MockClient_PGServiceQueryStatistics_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.PgServiceQueryStatisticsIn) ([]postgresql.QueryOut, error)) *MockClient_PGServiceQueryStatistics_Call {
+func (_c *MockClient_PGServiceQueryStatistics_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.PGServiceQueryStatisticsIn) ([]postgresql.QueryOut, error)) *MockClient_PGServiceQueryStatistics_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -10090,23 +10090,23 @@ func (_c *MockClient_PermissionsUpdate_Call) RunAndReturn(run func(ctx context.C
 }
 
 // PgAvailableExtensions provides a mock function for the type MockClient
-func (_mock *MockClient) PgAvailableExtensions(ctx context.Context, tenant string) ([]postgresql.PgOut, error) {
+func (_mock *MockClient) PgAvailableExtensions(ctx context.Context, tenant string) ([]postgresql.PGOut, error) {
 	ret := _mock.Called(ctx, tenant)
 
 	if len(ret) == 0 {
 		panic("no return value specified for PgAvailableExtensions")
 	}
 
-	var r0 []postgresql.PgOut
+	var r0 []postgresql.PGOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]postgresql.PgOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]postgresql.PGOut, error)); ok {
 		return returnFunc(ctx, tenant)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []postgresql.PgOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []postgresql.PGOut); ok {
 		r0 = returnFunc(ctx, tenant)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]postgresql.PgOut)
+			r0 = ret.Get(0).([]postgresql.PGOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -10147,12 +10147,12 @@ func (_c *MockClient_PgAvailableExtensions_Call) Run(run func(ctx context.Contex
 	return _c
 }
 
-func (_c *MockClient_PgAvailableExtensions_Call) Return(pgOuts []postgresql.PgOut, err error) *MockClient_PgAvailableExtensions_Call {
-	_c.Call.Return(pgOuts, err)
+func (_c *MockClient_PgAvailableExtensions_Call) Return(pGOuts []postgresql.PGOut, err error) *MockClient_PgAvailableExtensions_Call {
+	_c.Call.Return(pGOuts, err)
 	return _c
 }
 
-func (_c *MockClient_PgAvailableExtensions_Call) RunAndReturn(run func(ctx context.Context, tenant string) ([]postgresql.PgOut, error)) *MockClient_PgAvailableExtensions_Call {
+func (_c *MockClient_PgAvailableExtensions_Call) RunAndReturn(run func(ctx context.Context, tenant string) ([]postgresql.PGOut, error)) *MockClient_PgAvailableExtensions_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -21736,7 +21736,7 @@ func (_c *MockClient_ServiceOpenSearchSecuritySet_Call) RunAndReturn(run func(ct
 }
 
 // ServicePGBouncerCreate provides a mock function for the type MockClient
-func (_mock *MockClient) ServicePGBouncerCreate(ctx context.Context, project1 string, serviceName string, in *postgresql.ServicePgBouncerCreateIn) error {
+func (_mock *MockClient) ServicePGBouncerCreate(ctx context.Context, project1 string, serviceName string, in *postgresql.ServicePGBouncerCreateIn) error {
 	ret := _mock.Called(ctx, project1, serviceName, in)
 
 	if len(ret) == 0 {
@@ -21744,7 +21744,7 @@ func (_mock *MockClient) ServicePGBouncerCreate(ctx context.Context, project1 st
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *postgresql.ServicePgBouncerCreateIn) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *postgresql.ServicePGBouncerCreateIn) error); ok {
 		r0 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		r0 = ret.Error(0)
@@ -21761,12 +21761,12 @@ type MockClient_ServicePGBouncerCreate_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - serviceName string
-//   - in *postgresql.ServicePgBouncerCreateIn
+//   - in *postgresql.ServicePGBouncerCreateIn
 func (_e *MockClient_Expecter) ServicePGBouncerCreate(ctx interface{}, project1 interface{}, serviceName interface{}, in interface{}) *MockClient_ServicePGBouncerCreate_Call {
 	return &MockClient_ServicePGBouncerCreate_Call{Call: _e.mock.On("ServicePGBouncerCreate", ctx, project1, serviceName, in)}
 }
 
-func (_c *MockClient_ServicePGBouncerCreate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.ServicePgBouncerCreateIn)) *MockClient_ServicePGBouncerCreate_Call {
+func (_c *MockClient_ServicePGBouncerCreate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.ServicePGBouncerCreateIn)) *MockClient_ServicePGBouncerCreate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -21780,9 +21780,9 @@ func (_c *MockClient_ServicePGBouncerCreate_Call) Run(run func(ctx context.Conte
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *postgresql.ServicePgBouncerCreateIn
+		var arg3 *postgresql.ServicePGBouncerCreateIn
 		if args[3] != nil {
-			arg3 = args[3].(*postgresql.ServicePgBouncerCreateIn)
+			arg3 = args[3].(*postgresql.ServicePGBouncerCreateIn)
 		}
 		run(
 			arg0,
@@ -21799,7 +21799,7 @@ func (_c *MockClient_ServicePGBouncerCreate_Call) Return(err error) *MockClient_
 	return _c
 }
 
-func (_c *MockClient_ServicePGBouncerCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.ServicePgBouncerCreateIn) error) *MockClient_ServicePGBouncerCreate_Call {
+func (_c *MockClient_ServicePGBouncerCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *postgresql.ServicePGBouncerCreateIn) error) *MockClient_ServicePGBouncerCreate_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -21874,7 +21874,7 @@ func (_c *MockClient_ServicePGBouncerDelete_Call) RunAndReturn(run func(ctx cont
 }
 
 // ServicePGBouncerUpdate provides a mock function for the type MockClient
-func (_mock *MockClient) ServicePGBouncerUpdate(ctx context.Context, project1 string, serviceName string, poolName string, in *postgresql.ServicePgBouncerUpdateIn) error {
+func (_mock *MockClient) ServicePGBouncerUpdate(ctx context.Context, project1 string, serviceName string, poolName string, in *postgresql.ServicePGBouncerUpdateIn) error {
 	ret := _mock.Called(ctx, project1, serviceName, poolName, in)
 
 	if len(ret) == 0 {
@@ -21882,7 +21882,7 @@ func (_mock *MockClient) ServicePGBouncerUpdate(ctx context.Context, project1 st
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string, *postgresql.ServicePgBouncerUpdateIn) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string, *postgresql.ServicePGBouncerUpdateIn) error); ok {
 		r0 = returnFunc(ctx, project1, serviceName, poolName, in)
 	} else {
 		r0 = ret.Error(0)
@@ -21900,12 +21900,12 @@ type MockClient_ServicePGBouncerUpdate_Call struct {
 //   - project1 string
 //   - serviceName string
 //   - poolName string
-//   - in *postgresql.ServicePgBouncerUpdateIn
+//   - in *postgresql.ServicePGBouncerUpdateIn
 func (_e *MockClient_Expecter) ServicePGBouncerUpdate(ctx interface{}, project1 interface{}, serviceName interface{}, poolName interface{}, in interface{}) *MockClient_ServicePGBouncerUpdate_Call {
 	return &MockClient_ServicePGBouncerUpdate_Call{Call: _e.mock.On("ServicePGBouncerUpdate", ctx, project1, serviceName, poolName, in)}
 }
 
-func (_c *MockClient_ServicePGBouncerUpdate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, poolName string, in *postgresql.ServicePgBouncerUpdateIn)) *MockClient_ServicePGBouncerUpdate_Call {
+func (_c *MockClient_ServicePGBouncerUpdate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, poolName string, in *postgresql.ServicePGBouncerUpdateIn)) *MockClient_ServicePGBouncerUpdate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -21923,9 +21923,9 @@ func (_c *MockClient_ServicePGBouncerUpdate_Call) Run(run func(ctx context.Conte
 		if args[3] != nil {
 			arg3 = args[3].(string)
 		}
-		var arg4 *postgresql.ServicePgBouncerUpdateIn
+		var arg4 *postgresql.ServicePGBouncerUpdateIn
 		if args[4] != nil {
-			arg4 = args[4].(*postgresql.ServicePgBouncerUpdateIn)
+			arg4 = args[4].(*postgresql.ServicePGBouncerUpdateIn)
 		}
 		run(
 			arg0,
@@ -21943,7 +21943,7 @@ func (_c *MockClient_ServicePGBouncerUpdate_Call) Return(err error) *MockClient_
 	return _c
 }
 
-func (_c *MockClient_ServicePGBouncerUpdate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, poolName string, in *postgresql.ServicePgBouncerUpdateIn) error) *MockClient_ServicePGBouncerUpdate_Call {
+func (_c *MockClient_ServicePGBouncerUpdate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, poolName string, in *postgresql.ServicePGBouncerUpdateIn) error) *MockClient_ServicePGBouncerUpdate_Call {
 	_c.Call.Return(run)
 	return _c
 }

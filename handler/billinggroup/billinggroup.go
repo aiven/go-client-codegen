@@ -646,7 +646,7 @@ const (
 	ServiceTypeMysql            ServiceType = "mysql"
 	ServiceTypeNomadclient      ServiceType = "nomadclient"
 	ServiceTypeOpensearch       ServiceType = "opensearch"
-	ServiceTypePg               ServiceType = "pg"
+	ServiceTypePG               ServiceType = "pg"
 	ServiceTypeSparkpool        ServiceType = "sparkpool"
 	ServiceTypeStresstester     ServiceType = "stresstester"
 	ServiceTypeSw               ServiceType = "sw"

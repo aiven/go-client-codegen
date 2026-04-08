@@ -818,7 +818,7 @@ type AccessControlIn struct {
 	DragonflyAclCategories *[]string `json:"dragonfly_acl_categories,omitempty"` // Command category rules
 	DragonflyAclCommands   *[]string `json:"dragonfly_acl_commands,omitempty"`   // Rules for individual commands
 	DragonflyAclKeys       *[]string `json:"dragonfly_acl_keys,omitempty"`       // Key access rules
-	PgAllowReplication     *bool     `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
+	PGAllowReplication     *bool     `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
 	RedisAclCategories     *[]string `json:"redis_acl_categories,omitempty"`     // Command category rules
 	RedisAclChannels       *[]string `json:"redis_acl_channels,omitempty"`       // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
 	RedisAclCommands       *[]string `json:"redis_acl_commands,omitempty"`       // Rules for individual commands
@@ -834,7 +834,7 @@ type AccessControlOut struct {
 	DragonflyAclCategories []string `json:"dragonfly_acl_categories,omitempty"` // Command category rules
 	DragonflyAclCommands   []string `json:"dragonfly_acl_commands,omitempty"`   // Rules for individual commands
 	DragonflyAclKeys       []string `json:"dragonfly_acl_keys,omitempty"`       // Key access rules
-	PgAllowReplication     *bool    `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
+	PGAllowReplication     *bool    `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
 	RedisAclCategories     []string `json:"redis_acl_categories,omitempty"`     // Command category rules
 	RedisAclChannels       []string `json:"redis_acl_channels,omitempty"`       // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
 	RedisAclCommands       []string `json:"redis_acl_commands,omitempty"`       // Rules for individual commands
@@ -957,11 +957,11 @@ type ConnectionInfoOut struct {
 	OpensearchDashboardsUri  *string         `json:"opensearch_dashboards_uri,omitempty"`
 	OpensearchPassword       *string         `json:"opensearch_password,omitempty"`
 	OpensearchUsername       *string         `json:"opensearch_username,omitempty"`
-	Pg                       []string        `json:"pg,omitempty"`
-	PgParams                 []PgParamOut    `json:"pg_params,omitempty"`
-	PgReplicaUri             *string         `json:"pg_replica_uri,omitempty"`
-	PgStandby                []string        `json:"pg_standby,omitempty"`
-	PgSyncing                []string        `json:"pg_syncing,omitempty"`
+	PG                       []string        `json:"pg,omitempty"`
+	PGParams                 []PGParamOut    `json:"pg_params,omitempty"`
+	PGReplicaUri             *string         `json:"pg_replica_uri,omitempty"`
+	PGStandby                []string        `json:"pg_standby,omitempty"`
+	PGSyncing                []string        `json:"pg_syncing,omitempty"`
 	PrometheusRemoteReadUri  *string         `json:"prometheus_remote_read_uri,omitempty"`
 	PrometheusRemoteWriteUri *string         `json:"prometheus_remote_write_uri,omitempty"`
 	QueryFrontendUri         *string         `json:"query_frontend_uri,omitempty"`
@@ -1328,7 +1328,7 @@ type ListProjectServiceTypesOut struct {
 	KafkaMirrormaker *KafkaMirrormakerOut `json:"kafka_mirrormaker,omitempty"` // Service type information
 	Mysql            *MysqlOut            `json:"mysql,omitempty"`             // Service type information
 	Opensearch       *OpensearchOut       `json:"opensearch,omitempty"`        // Service type information
-	Pg               *PgOut               `json:"pg,omitempty"`                // Service type information
+	PG               *PGOut               `json:"pg,omitempty"`                // Service type information
 	Redis            *RedisOut            `json:"redis,omitempty"`             // Service type information
 	Thanos           *ThanosOut           `json:"thanos,omitempty"`            // Service type information
 	Valkey           *ValkeyOut           `json:"valkey,omitempty"`            // Service type information
@@ -1347,7 +1347,7 @@ type ListPublicServiceTypesOut struct {
 	KafkaMirrormaker *KafkaMirrormakerOut `json:"kafka_mirrormaker,omitempty"` // Service type information
 	Mysql            *MysqlOut            `json:"mysql,omitempty"`             // Service type information
 	Opensearch       *OpensearchOut       `json:"opensearch,omitempty"`        // Service type information
-	Pg               *PgOut               `json:"pg,omitempty"`                // Service type information
+	PG               *PGOut               `json:"pg,omitempty"`                // Service type information
 	Redis            *RedisOut            `json:"redis,omitempty"`             // Service type information
 	Thanos           *ThanosOut           `json:"thanos,omitempty"`            // Service type information
 	Valkey           *ValkeyOut           `json:"valkey,omitempty"`            // Service type information
@@ -1412,7 +1412,7 @@ type MethodType string
 const (
 	MethodTypeDump        MethodType = "dump"
 	MethodTypeMysqldump   MethodType = "mysqldump"
-	MethodTypePgDump      MethodType = "pg_dump"
+	MethodTypePGDump      MethodType = "pg_dump"
 	MethodTypeReplication MethodType = "replication"
 	MethodTypeScan        MethodType = "scan"
 )
@@ -1554,6 +1554,22 @@ func OperationTypeChoices() []string {
 	return []string{"All", "Alter", "AlterConfigs", "ClusterAction", "Create", "CreateTokens", "Delete", "Describe", "DescribeConfigs", "DescribeTokens", "IdempotentWrite", "Read", "Write"}
 }
 
+// PGOut Service type information
+type PGOut struct {
+	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string           `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
+	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
+	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+type PGParamOut struct {
+	Dbname   string `json:"dbname"`
+	Host     string `json:"host"`
+	Password string `json:"password"`
+	Port     string `json:"port"`
+	Sslmode  string `json:"sslmode"`
+	User     string `json:"user"`
+}
 type PatternType string
 
 const (
@@ -1592,22 +1608,6 @@ func PermissionTypeChoices() []string {
 	return []string{"admin", "read", "readwrite", "write"}
 }
 
-// PgOut Service type information
-type PgOut struct {
-	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string           `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
-	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
-	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
-type PgParamOut struct {
-	Dbname   string `json:"dbname"`
-	Host     string `json:"host"`
-	Password string `json:"password"`
-	Port     string `json:"port"`
-	Sslmode  string `json:"sslmode"`
-	User     string `json:"user"`
-}
 type PhaseType string
 
 const (

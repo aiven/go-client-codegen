@@ -699,6 +699,7 @@ func customCamelCase(s string, private bool) string {
 		map[string]bool{
 			"IP":  true,
 			"CMK": true,
+			"PG":  true,
 		},
 		strcase.NewSplitFn(
 			[]rune{'_'},
