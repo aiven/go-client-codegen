@@ -648,8 +648,8 @@ type OpensearchOut struct {
 	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
 }
 
-// PgOut Service type information
-type PgOut struct {
+// PGOut Service type information
+type PGOut struct {
 	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
 	Description            string         `json:"description"`                        // Single line description of the service
 	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
@@ -899,7 +899,7 @@ type ProjectServiceTypesListOut struct {
 	KafkaMirrormaker *KafkaMirrormakerOut                     `json:"kafka_mirrormaker,omitempty"` // Service type information
 	Mysql            *MysqlOut                                `json:"mysql,omitempty"`             // Service type information
 	Opensearch       *OpensearchOut                           `json:"opensearch,omitempty"`        // Service type information
-	Pg               *PgOut                                   `json:"pg,omitempty"`                // Service type information
+	PG               *PGOut                                   `json:"pg,omitempty"`                // Service type information
 	Redis            *RedisOut                                `json:"redis,omitempty"`             // Service type information
 	Thanos           *ThanosOut                               `json:"thanos,omitempty"`            // Service type information
 	Valkey           *ValkeyOut                               `json:"valkey,omitempty"`            // Service type information
