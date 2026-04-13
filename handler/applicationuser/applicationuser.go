@@ -185,24 +185,27 @@ type ApplicationUserCreateIn struct {
 
 // ApplicationUserCreateOut ApplicationUserCreateResponse
 type ApplicationUserCreateOut struct {
-	IsSuperAdmin bool   `json:"is_super_admin"` // Super admin state of the organization application user
-	Name         string `json:"name"`
-	UserEmail    string `json:"user_email"` // User Email
-	UserId       string `json:"user_id"`    // User ID
+	CreateTime   time.Time `json:"create_time"`    // Time this application user was created
+	IsSuperAdmin bool      `json:"is_super_admin"` // Super admin state of the organization application user
+	Name         string    `json:"name"`
+	UserEmail    string    `json:"user_email"` // User Email
+	UserId       string    `json:"user_id"`    // User ID
 }
 
 // ApplicationUserGetOut ApplicationUserGetResponse
 type ApplicationUserGetOut struct {
-	IsSuperAdmin bool   `json:"is_super_admin"` // Super admin state of the organization application user
-	Name         string `json:"name"`
-	UserEmail    string `json:"user_email"` // User Email
-	UserId       string `json:"user_id"`    // User ID
+	CreateTime   time.Time `json:"create_time"`    // Time this application user was created
+	IsSuperAdmin bool      `json:"is_super_admin"` // Super admin state of the organization application user
+	Name         string    `json:"name"`
+	UserEmail    string    `json:"user_email"` // User Email
+	UserId       string    `json:"user_id"`    // User ID
 }
 type ApplicationUserOut struct {
-	IsSuperAdmin bool   `json:"is_super_admin"` // Super admin state of the organization application user
-	Name         string `json:"name"`
-	UserEmail    string `json:"user_email"` // User Email
-	UserId       string `json:"user_id"`    // User ID
+	CreateTime   time.Time `json:"create_time"`    // Time this application user was created
+	IsSuperAdmin bool      `json:"is_super_admin"` // Super admin state of the organization application user
+	Name         string    `json:"name"`
+	UserEmail    string    `json:"user_email"` // User Email
+	UserId       string    `json:"user_id"`    // User ID
 }
 
 // ApplicationUserUpdateIn ApplicationUserUpdateRequestBody
@@ -213,10 +216,11 @@ type ApplicationUserUpdateIn struct {
 
 // ApplicationUserUpdateOut ApplicationUserUpdateResponse
 type ApplicationUserUpdateOut struct {
-	IsSuperAdmin bool   `json:"is_super_admin"` // Super admin state of the organization application user
-	Name         string `json:"name"`
-	UserEmail    string `json:"user_email"` // User Email
-	UserId       string `json:"user_id"`    // User ID
+	CreateTime   time.Time `json:"create_time"`    // Time this application user was created
+	IsSuperAdmin bool      `json:"is_super_admin"` // Super admin state of the organization application user
+	Name         string    `json:"name"`
+	UserEmail    string    `json:"user_email"` // User Email
+	UserId       string    `json:"user_id"`    // User ID
 }
 type TokenOut struct {
 	CreateTime                 time.Time  `json:"create_time"`      // Create Time
