@@ -54,7 +54,7 @@ type Handler interface {
 	// OrganizationUserList list users of the organization
 	// GET /v1/organization/{organization_id}/user
 	// https://api.aiven.io/doc/#tag/Users/operation/OrganizationUserList
-	OrganizationUserList(ctx context.Context, organizationId string) ([]UserOut, error)
+	OrganizationUserList(ctx context.Context, organizationId string, query ...[2]string) ([]UserOut, error)
 
 	// OrganizationUserPasswordReset reset the password of a managed user in the organization
 	// POST /v1/organization/{organization_id}/user/{member_user_id}/reset_password
@@ -153,9 +153,14 @@ func (h *OrganizationUserHandler) OrganizationUserInvite(ctx context.Context, or
 	_, err := h.doer.Do(ctx, "OrganizationUserInvite", "POST", path, in)
 	return err
 }
-func (h *OrganizationUserHandler) OrganizationUserList(ctx context.Context, organizationId string) ([]UserOut, error) {
+
+// OrganizationUserListIncludeApplicationUsers Include application users in the response. Defaults to true.
+func OrganizationUserListIncludeApplicationUsers(includeApplicationUsers bool) [2]string {
+	return [2]string{"include_application_users", fmt.Sprintf("%t", includeApplicationUsers)}
+}
+func (h *OrganizationUserHandler) OrganizationUserList(ctx context.Context, organizationId string, query ...[2]string) ([]UserOut, error) {
 	path := fmt.Sprintf("/v1/organization/%s/user", url.PathEscape(organizationId))
-	b, err := h.doer.Do(ctx, "OrganizationUserList", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "OrganizationUserList", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}

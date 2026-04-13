@@ -8834,8 +8834,14 @@ func (_c *MockClient_OrganizationUserInvite_Call) RunAndReturn(run func(ctx cont
 }
 
 // OrganizationUserList provides a mock function for the type MockClient
-func (_mock *MockClient) OrganizationUserList(ctx context.Context, organizationId string) ([]organizationuser.UserOut, error) {
-	ret := _mock.Called(ctx, organizationId)
+func (_mock *MockClient) OrganizationUserList(ctx context.Context, organizationId string, query ...[2]string) ([]organizationuser.UserOut, error) {
+	var tmpRet mock.Arguments
+	if len(query) > 0 {
+		tmpRet = _mock.Called(ctx, organizationId, query)
+	} else {
+		tmpRet = _mock.Called(ctx, organizationId)
+	}
+	ret := tmpRet
 
 	if len(ret) == 0 {
 		panic("no return value specified for OrganizationUserList")
@@ -8843,18 +8849,18 @@ func (_mock *MockClient) OrganizationUserList(ctx context.Context, organizationI
 
 	var r0 []organizationuser.UserOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]organizationuser.UserOut, error)); ok {
-		return returnFunc(ctx, organizationId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, ...[2]string) ([]organizationuser.UserOut, error)); ok {
+		return returnFunc(ctx, organizationId, query...)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []organizationuser.UserOut); ok {
-		r0 = returnFunc(ctx, organizationId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, ...[2]string) []organizationuser.UserOut); ok {
+		r0 = returnFunc(ctx, organizationId, query...)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]organizationuser.UserOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
-		r1 = returnFunc(ctx, organizationId)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, ...[2]string) error); ok {
+		r1 = returnFunc(ctx, organizationId, query...)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -8869,11 +8875,13 @@ type MockClient_OrganizationUserList_Call struct {
 // OrganizationUserList is a helper method to define mock.On call
 //   - ctx context.Context
 //   - organizationId string
-func (_e *MockClient_Expecter) OrganizationUserList(ctx interface{}, organizationId interface{}) *MockClient_OrganizationUserList_Call {
-	return &MockClient_OrganizationUserList_Call{Call: _e.mock.On("OrganizationUserList", ctx, organizationId)}
+//   - query ...[2]string
+func (_e *MockClient_Expecter) OrganizationUserList(ctx interface{}, organizationId interface{}, query ...interface{}) *MockClient_OrganizationUserList_Call {
+	return &MockClient_OrganizationUserList_Call{Call: _e.mock.On("OrganizationUserList",
+		append([]interface{}{ctx, organizationId}, query...)...)}
 }
 
-func (_c *MockClient_OrganizationUserList_Call) Run(run func(ctx context.Context, organizationId string)) *MockClient_OrganizationUserList_Call {
+func (_c *MockClient_OrganizationUserList_Call) Run(run func(ctx context.Context, organizationId string, query ...[2]string)) *MockClient_OrganizationUserList_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -8883,9 +8891,16 @@ func (_c *MockClient_OrganizationUserList_Call) Run(run func(ctx context.Context
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
+		var arg2 [][2]string
+		var variadicArgs [][2]string
+		if len(args) > 2 {
+			variadicArgs = args[2].([][2]string)
+		}
+		arg2 = variadicArgs
 		run(
 			arg0,
 			arg1,
+			arg2...,
 		)
 	})
 	return _c
@@ -8896,7 +8911,7 @@ func (_c *MockClient_OrganizationUserList_Call) Return(userOuts []organizationus
 	return _c
 }
 
-func (_c *MockClient_OrganizationUserList_Call) RunAndReturn(run func(ctx context.Context, organizationId string) ([]organizationuser.UserOut, error)) *MockClient_OrganizationUserList_Call {
+func (_c *MockClient_OrganizationUserList_Call) RunAndReturn(run func(ctx context.Context, organizationId string, query ...[2]string) ([]organizationuser.UserOut, error)) *MockClient_OrganizationUserList_Call {
 	_c.Call.Return(run)
 	return _c
 }
