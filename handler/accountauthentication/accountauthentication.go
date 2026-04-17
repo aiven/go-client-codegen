@@ -150,6 +150,7 @@ type AccountAuthenticationMethodCreateOut struct {
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`                        // Automatically add users to a group, when user signs up using this authentication method
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
 	DeleteTime                       time.Time                     `json:"delete_time"`                                    // Delete Time
+	InternalMcpEnabled               *bool                         `json:"internal_mcp_enabled,omitempty"`                 // MCP connections enabled
 	OrganizationId                   *string                       `json:"organization_id,omitempty"`                      // Organization ID
 	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`                         // Saml Acs Url
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
@@ -190,6 +191,7 @@ type AccountAuthenticationMethodGetOut struct {
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`                        // Automatically add users to a group, when user signs up using this authentication method
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
 	DeleteTime                       time.Time                     `json:"delete_time"`                                    // Delete Time
+	InternalMcpEnabled               *bool                         `json:"internal_mcp_enabled,omitempty"`                 // MCP connections enabled
 	OrganizationId                   *string                       `json:"organization_id,omitempty"`                      // Organization ID
 	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`                         // Saml Acs Url
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
@@ -253,6 +255,7 @@ type AccountAuthenticationMethodUpdateOut struct {
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`                        // Automatically add users to a group, when user signs up using this authentication method
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
 	DeleteTime                       time.Time                     `json:"delete_time"`                                    // Delete Time
+	InternalMcpEnabled               *bool                         `json:"internal_mcp_enabled,omitempty"`                 // MCP connections enabled
 	OrganizationId                   *string                       `json:"organization_id,omitempty"`                      // Organization ID
 	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`                         // Saml Acs Url
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
@@ -291,6 +294,7 @@ type AuthenticationMethodOut struct {
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`                        // Automatically add users to a group, when user signs up using this authentication method
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
 	DeleteTime                       time.Time                     `json:"delete_time"`                                    // Delete Time
+	InternalMcpEnabled               *bool                         `json:"internal_mcp_enabled,omitempty"`                 // MCP connections enabled
 	OrganizationId                   *string                       `json:"organization_id,omitempty"`                      // Organization ID
 	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`                         // Saml Acs Url
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
