@@ -896,15 +896,6 @@ type BackupOut struct {
 	TieredStorageDataSize *int      `json:"tiered_storage_data_size,omitempty"` // The amount of tiered storage data in bytes referenced by this backup.
 }
 
-// CassandraOut Service type information
-type CassandraOut struct {
-	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string           `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
-	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
-	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
-
 // ClickhouseOut Service type information
 type ClickhouseOut struct {
 	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
@@ -1163,7 +1154,6 @@ const (
 	IntegrationTypeAutoscaler                        IntegrationType = "autoscaler"
 	IntegrationTypeAutoscalerService                 IntegrationType = "autoscaler_service"
 	IntegrationTypeCaching                           IntegrationType = "caching"
-	IntegrationTypeCassandraCrossServiceCluster      IntegrationType = "cassandra_cross_service_cluster"
 	IntegrationTypeClickhouseCredentials             IntegrationType = "clickhouse_credentials"
 	IntegrationTypeClickhouseKafka                   IntegrationType = "clickhouse_kafka"
 	IntegrationTypeClickhousePostgresql              IntegrationType = "clickhouse_postgresql"
@@ -1209,7 +1199,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "cassandra_cross_service_cluster", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanos_object_storage", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
+	return []string{"alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanos_object_storage", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
 }
 
 type IntegrationTypeOut struct {
@@ -1317,7 +1307,6 @@ func LikelyErrorCauseTypeChoices() []string {
 
 // ListProjectServiceTypesOut Service plans by service type
 type ListProjectServiceTypesOut struct {
-	Cassandra        *CassandraOut        `json:"cassandra,omitempty"`         // Service type information
 	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`         // Service type information
 	Elasticsearch    *ElasticsearchOut    `json:"elasticsearch,omitempty"`     // Service type information
@@ -1336,7 +1325,6 @@ type ListProjectServiceTypesOut struct {
 
 // ListPublicServiceTypesOut Service plans by service type
 type ListPublicServiceTypesOut struct {
-	Cassandra        *CassandraOut        `json:"cassandra,omitempty"`         // Service type information
 	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`         // Service type information
 	Elasticsearch    *ElasticsearchOut    `json:"elasticsearch,omitempty"`     // Service type information

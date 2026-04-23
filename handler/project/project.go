@@ -497,14 +497,6 @@ type CardInfoOut struct {
 	UserEmail   string `json:"user_email"`   // User email address
 }
 
-// CassandraOut Service type information
-type CassandraOut struct {
-	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
-	Description            string         `json:"description"`                        // Single line description of the service
-	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
-	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
-}
-
 // ClickhouseOut Service type information
 type ClickhouseOut struct {
 	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
@@ -888,7 +880,6 @@ type ProjectServiceTypesListElasticsearchOut struct {
 
 // ProjectServiceTypesListOut ProjectServiceTypesListResponse
 type ProjectServiceTypesListOut struct {
-	Cassandra        *CassandraOut                            `json:"cassandra,omitempty"`         // Service type information
 	Clickhouse       *ClickhouseOut                           `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut                            `json:"dragonfly,omitempty"`         // Service type information
 	Elasticsearch    *ProjectServiceTypesListElasticsearchOut `json:"elasticsearch,omitempty"`     // Service type information
