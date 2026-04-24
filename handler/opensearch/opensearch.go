@@ -79,12 +79,12 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclGet(ctx context.Context, project
 	if err != nil {
 		return nil, err
 	}
-	out := new(ServiceOpenSearchAclGetOut)
+	out := new(serviceOpenSearchAclGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	return &out.OpensearchAclConfig, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchAclSet(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclSetIn) (*ServiceOpenSearchAclSetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/acl", url.PathEscape(project), url.PathEscape(serviceName))
@@ -92,12 +92,12 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclSet(ctx context.Context, project
 	if err != nil {
 		return nil, err
 	}
-	out := new(ServiceOpenSearchAclSetOut)
+	out := new(serviceOpenSearchAclSetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	return &out.OpensearchAclConfig, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchAclUpdate(ctx context.Context, project string, serviceName string, in *ServiceOpenSearchAclUpdateIn) (*ServiceOpenSearchAclUpdateOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/opensearch/acl", url.PathEscape(project), url.PathEscape(serviceName))
@@ -105,12 +105,12 @@ func (h *OpenSearchHandler) ServiceOpenSearchAclUpdate(ctx context.Context, proj
 	if err != nil {
 		return nil, err
 	}
-	out := new(ServiceOpenSearchAclUpdateOut)
+	out := new(serviceOpenSearchAclUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	return &out.OpensearchAclConfig, nil
 }
 func (h *OpenSearchHandler) ServiceOpenSearchIndexDelete(ctx context.Context, project string, serviceName string, indexPattern string) error {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/index/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(indexPattern))
@@ -178,20 +178,6 @@ type AclOut struct {
 	Rules    []RuleOut `json:"rules"` // OpenSearch rules
 	Username string    `json:"username"`
 }
-type ElasticsearchVersionType string
-
-const (
-	ElasticsearchVersionType1   ElasticsearchVersionType = "1"
-	ElasticsearchVersionType2   ElasticsearchVersionType = "2"
-	ElasticsearchVersionType219 ElasticsearchVersionType = "2.19"
-	ElasticsearchVersionType33  ElasticsearchVersionType = "3.3"
-	ElasticsearchVersionType7   ElasticsearchVersionType = "7"
-)
-
-func ElasticsearchVersionTypeChoices() []string {
-	return []string{"1", "2", "2.19", "3.3", "7"}
-}
-
 type HealthType string
 
 const (
@@ -236,12 +222,6 @@ type OpensearchAclConfigIn struct {
 	Acls    []AclIn `json:"acls"`    // List of OpenSearch ACLs
 	Enabled bool    `json:"enabled"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
 }
-
-// OpensearchAclConfigOut OpenSearch ACL configuration
-type OpensearchAclConfigOut struct {
-	Acls    []AclOut `json:"acls"`    // List of OpenSearch ACLs
-	Enabled bool     `json:"enabled"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
-}
 type PermissionType string
 
 const (
@@ -271,28 +251,26 @@ type RuleOut struct {
 	Permission PermissionType `json:"permission"` // OpenSearch permission
 }
 
-// ServiceOpenSearchAclGetOut ServiceOpenSearchAclGetResponse
+// ServiceOpenSearchAclGetOut OpenSearch ACL configuration
 type ServiceOpenSearchAclGetOut struct {
-	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch version
-	OpensearchAclConfig  OpensearchAclConfigOut   `json:"opensearch_acl_config"`           // OpenSearch ACL configuration
+	Acls    []AclOut `json:"acls"`    // List of OpenSearch ACLs
+	Enabled bool     `json:"enabled"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
 }
 
 // ServiceOpenSearchAclSetIn ServiceOpenSearchAclSetRequestBody
 type ServiceOpenSearchAclSetIn struct {
-	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch version
-	OpensearchAclConfig  OpensearchAclConfigIn    `json:"opensearch_acl_config"`           // OpenSearch ACL configuration
+	OpensearchAclConfig OpensearchAclConfigIn `json:"opensearch_acl_config"` // OpenSearch ACL configuration
 }
 
-// ServiceOpenSearchAclSetOut ServiceOpenSearchAclSetResponse
+// ServiceOpenSearchAclSetOut OpenSearch ACL configuration
 type ServiceOpenSearchAclSetOut struct {
-	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch version
-	OpensearchAclConfig  OpensearchAclConfigOut   `json:"opensearch_acl_config"`           // OpenSearch ACL configuration
+	Acls    []AclOut `json:"acls"`    // List of OpenSearch ACLs
+	Enabled bool     `json:"enabled"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
 }
 
 // ServiceOpenSearchAclUpdateIn ServiceOpenSearchAclUpdateRequestBody
 type ServiceOpenSearchAclUpdateIn struct {
-	ElasticsearchVersion ElasticsearchVersionType                        `json:"elasticsearch_version,omitempty"` // Elasticsearch version
-	OpensearchAclConfig  ServiceOpenSearchAclUpdateOpensearchAclConfigIn `json:"opensearch_acl_config"`           // OpenSearch ACL configuration
+	OpensearchAclConfig ServiceOpenSearchAclUpdateOpensearchAclConfigIn `json:"opensearch_acl_config"` // OpenSearch ACL configuration
 }
 
 // ServiceOpenSearchAclUpdateOpensearchAclConfigIn OpenSearch ACL configuration
@@ -301,10 +279,10 @@ type ServiceOpenSearchAclUpdateOpensearchAclConfigIn struct {
 	Enabled *bool    `json:"enabled,omitempty"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
 }
 
-// ServiceOpenSearchAclUpdateOut ServiceOpenSearchAclUpdateResponse
+// ServiceOpenSearchAclUpdateOut OpenSearch ACL configuration
 type ServiceOpenSearchAclUpdateOut struct {
-	ElasticsearchVersion ElasticsearchVersionType `json:"elasticsearch_version,omitempty"` // Elasticsearch version
-	OpensearchAclConfig  OpensearchAclConfigOut   `json:"opensearch_acl_config"`           // OpenSearch ACL configuration
+	Acls    []AclOut `json:"acls"`    // List of OpenSearch ACLs
+	Enabled bool     `json:"enabled"` // Enable OpenSearch ACLs. When disabled authenticated service users have unrestricted access.
 }
 
 // ServiceOpenSearchSecurityGetOut ServiceOpenSearchSecurityGetResponse
@@ -337,6 +315,21 @@ type ServiceOpenSearchSecuritySetOut struct {
 	SecurityPluginAdminEnabled bool  `json:"security_plugin_admin_enabled"`     // security plugin admin defined
 	SecurityPluginAvailable    bool  `json:"security_plugin_available"`         // Opensearch security available for the service
 	SecurityPluginEnabled      *bool `json:"security_plugin_enabled,omitempty"` // Opensearch security enabled for the service
+}
+
+// serviceOpenSearchAclGetOut ServiceOpenSearchAclGetResponse
+type serviceOpenSearchAclGetOut struct {
+	OpensearchAclConfig ServiceOpenSearchAclGetOut `json:"opensearch_acl_config"` // OpenSearch ACL configuration
+}
+
+// serviceOpenSearchAclSetOut ServiceOpenSearchAclSetResponse
+type serviceOpenSearchAclSetOut struct {
+	OpensearchAclConfig ServiceOpenSearchAclSetOut `json:"opensearch_acl_config"` // OpenSearch ACL configuration
+}
+
+// serviceOpenSearchAclUpdateOut ServiceOpenSearchAclUpdateResponse
+type serviceOpenSearchAclUpdateOut struct {
+	OpensearchAclConfig ServiceOpenSearchAclUpdateOut `json:"opensearch_acl_config"` // OpenSearch ACL configuration
 }
 
 // serviceOpenSearchIndexListOut ServiceOpenSearchIndexListResponse
