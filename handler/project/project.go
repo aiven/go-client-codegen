@@ -136,18 +136,18 @@ type Handler interface {
 	// Required roles or permissions: organization:projects:write
 	ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*ProjectUpdateOut, error)
 
-	// ProjectUserList list users with access to the project. May contain same user multiple times if they belong to multiple teams associated to the project
+	// Deprecated: ProjectUserList list users with access to the project. May contain same user multiple times if they belong to multiple teams associated to the project
 	// GET /v1/project/{project}/users
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserList
 	// Required roles or permissions: developer, operator, read_only
 	ProjectUserList(ctx context.Context, project string) (*ProjectUserListOut, error)
 
-	// ProjectUserRemove remove user from the project
+	// Deprecated: ProjectUserRemove remove user from the project
 	// DELETE /v1/project/{project}/user/{user_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserRemove
 	ProjectUserRemove(ctx context.Context, project string, userEmail string) error
 
-	// ProjectUserUpdate update a project user
+	// Deprecated: ProjectUserUpdate update a project user
 	// PUT /v1/project/{project}/user/{user_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserUpdate
 	ProjectUserUpdate(ctx context.Context, project string, userEmail string, in *ProjectUserUpdateIn) error
