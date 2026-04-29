@@ -12,31 +12,31 @@ import (
 
 type Handler interface {
 	// OrganizationAddressCreate [EXPERIMENTAL] Create new address for an organization
-	// POST /v1/organizations/{organization_id}/addresses
+	// POST /v1/organization/{organization_id}/addresses
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressCreate
 	// Required roles or permissions: organization:billing:write
 	OrganizationAddressCreate(ctx context.Context, organizationId string, in *OrganizationAddressCreateIn) (*OrganizationAddressCreateOut, error)
 
 	// OrganizationAddressDelete [EXPERIMENTAL] Delete an address of an organization
-	// DELETE /v1/organizations/{organization_id}/addresses/{address_id}
+	// DELETE /v1/organization/{organization_id}/address/{address_id}
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressDelete
 	// Required roles or permissions: organization:billing:write
 	OrganizationAddressDelete(ctx context.Context, organizationId string, addressId string) error
 
 	// OrganizationAddressGet [EXPERIMENTAL] Get organization address info
-	// GET /v1/organizations/{organization_id}/addresses/{address_id}
+	// GET /v1/organization/{organization_id}/address/{address_id}
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressGet
 	// Required roles or permissions: organization:billing:read, organization:billing:write
 	OrganizationAddressGet(ctx context.Context, organizationId string, addressId string) (*OrganizationAddressGetOut, error)
 
 	// OrganizationAddressList [EXPERIMENTAL] List addresses of an organization
-	// GET /v1/organizations/{organization_id}/addresses
+	// GET /v1/organization/{organization_id}/addresses
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressList
 	// Required roles or permissions: organization:billing:read, organization:billing:write
 	OrganizationAddressList(ctx context.Context, organizationId string) ([]AddresseOut, error)
 
 	// OrganizationAddressUpdate [EXPERIMENTAL] Update an address of an organization
-	// PATCH /v1/organizations/{organization_id}/addresses/{address_id}
+	// PATCH /v1/organization/{organization_id}/address/{address_id}
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressUpdate
 	// Required roles or permissions: organization:billing:write
 	OrganizationAddressUpdate(ctx context.Context, organizationId string, addressId string, in *OrganizationAddressUpdateIn) (*OrganizationAddressUpdateOut, error)
@@ -121,7 +121,7 @@ type OrganizationHandler struct {
 }
 
 func (h *OrganizationHandler) OrganizationAddressCreate(ctx context.Context, organizationId string, in *OrganizationAddressCreateIn) (*OrganizationAddressCreateOut, error) {
-	path := fmt.Sprintf("/v1/organizations/%s/addresses", url.PathEscape(organizationId))
+	path := fmt.Sprintf("/v1/organization/%s/addresses", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "OrganizationAddressCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -134,12 +134,12 @@ func (h *OrganizationHandler) OrganizationAddressCreate(ctx context.Context, org
 	return out, nil
 }
 func (h *OrganizationHandler) OrganizationAddressDelete(ctx context.Context, organizationId string, addressId string) error {
-	path := fmt.Sprintf("/v1/organizations/%s/addresses/%s", url.PathEscape(organizationId), url.PathEscape(addressId))
+	path := fmt.Sprintf("/v1/organization/%s/address/%s", url.PathEscape(organizationId), url.PathEscape(addressId))
 	_, err := h.doer.Do(ctx, "OrganizationAddressDelete", "DELETE", path, nil)
 	return err
 }
 func (h *OrganizationHandler) OrganizationAddressGet(ctx context.Context, organizationId string, addressId string) (*OrganizationAddressGetOut, error) {
-	path := fmt.Sprintf("/v1/organizations/%s/addresses/%s", url.PathEscape(organizationId), url.PathEscape(addressId))
+	path := fmt.Sprintf("/v1/organization/%s/address/%s", url.PathEscape(organizationId), url.PathEscape(addressId))
 	b, err := h.doer.Do(ctx, "OrganizationAddressGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -152,7 +152,7 @@ func (h *OrganizationHandler) OrganizationAddressGet(ctx context.Context, organi
 	return out, nil
 }
 func (h *OrganizationHandler) OrganizationAddressList(ctx context.Context, organizationId string) ([]AddresseOut, error) {
-	path := fmt.Sprintf("/v1/organizations/%s/addresses", url.PathEscape(organizationId))
+	path := fmt.Sprintf("/v1/organization/%s/addresses", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "OrganizationAddressList", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -165,7 +165,7 @@ func (h *OrganizationHandler) OrganizationAddressList(ctx context.Context, organ
 	return out.Addresses, nil
 }
 func (h *OrganizationHandler) OrganizationAddressUpdate(ctx context.Context, organizationId string, addressId string, in *OrganizationAddressUpdateIn) (*OrganizationAddressUpdateOut, error) {
-	path := fmt.Sprintf("/v1/organizations/%s/addresses/%s", url.PathEscape(organizationId), url.PathEscape(addressId))
+	path := fmt.Sprintf("/v1/organization/%s/address/%s", url.PathEscape(organizationId), url.PathEscape(addressId))
 	b, err := h.doer.Do(ctx, "OrganizationAddressUpdate", "PATCH", path, in)
 	if err != nil {
 		return nil, err

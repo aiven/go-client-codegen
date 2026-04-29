@@ -1846,6 +1846,7 @@ type ServiceCreateIn struct {
 type ServiceCreateOut struct {
 	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Aiven ACL entries for Kafka service
 	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
+	CMKId                  *string                  `json:"cmk_id,omitempty"`                   // Active Customer Managed Key identifier (CMK ID)
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
 	Components             []ComponentOut           `json:"components,omitempty"`               // Service component information objects
@@ -1902,6 +1903,7 @@ type ServiceGetMigrationStatusOut struct {
 type ServiceGetOut struct {
 	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Aiven ACL entries for Kafka service
 	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
+	CMKId                  *string                  `json:"cmk_id,omitempty"`                   // Active Customer Managed Key identifier (CMK ID)
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
 	Components             []ComponentOut           `json:"components,omitempty"`               // Service component information objects
@@ -2121,6 +2123,7 @@ func ServiceNotificationTypeChoices() []string {
 type ServiceOut struct {
 	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Aiven ACL entries for Kafka service
 	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
+	CMKId                  *string                  `json:"cmk_id,omitempty"`                   // Active Customer Managed Key identifier (CMK ID)
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
 	Components             []ComponentOut           `json:"components,omitempty"`               // Service component information objects
@@ -2241,6 +2244,7 @@ type ServiceUpdateIn struct {
 type ServiceUpdateOut struct {
 	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Aiven ACL entries for Kafka service
 	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
+	CMKId                  *string                  `json:"cmk_id,omitempty"`                   // Active Customer Managed Key identifier (CMK ID)
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
 	Components             []ComponentOut           `json:"components,omitempty"`               // Service component information objects
@@ -2324,6 +2328,7 @@ func ServiceUserCredentialsModifyOperationTypeChoices() []string {
 type ServiceUserCredentialsModifyOut struct {
 	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Aiven ACL entries for Kafka service
 	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
+	CMKId                  *string                  `json:"cmk_id,omitempty"`                   // Active Customer Managed Key identifier (CMK ID)
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
 	Components             []ComponentOut           `json:"components,omitempty"`               // Service component information objects
@@ -2367,6 +2372,7 @@ type ServiceUserCredentialsModifyOut struct {
 type ServiceUserCredentialsResetOut struct {
 	Acl                    []AclOut                 `json:"acl,omitempty"`                      // List of Aiven ACL entries for Kafka service
 	Backups                []BackupOut              `json:"backups,omitempty"`                  // List of backups for the service
+	CMKId                  *string                  `json:"cmk_id,omitempty"`                   // Active Customer Managed Key identifier (CMK ID)
 	CloudDescription       *string                  `json:"cloud_description,omitempty"`        // Cloud provider and location
 	CloudName              string                   `json:"cloud_name"`                         // Target cloud
 	Components             []ComponentOut           `json:"components,omitempty"`               // Service component information objects
