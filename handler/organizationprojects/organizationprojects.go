@@ -16,13 +16,13 @@ type Handler interface {
 	OrganizationProjectsCreate(ctx context.Context, organizationId string, in *OrganizationProjectsCreateIn) (*OrganizationProjectsCreateOut, error)
 
 	// OrganizationProjectsDelete delete project under the organization
-	// DELETE /v1/organization/{organization_id}/projects/{project_id}
+	// DELETE /v1/organization/{organization_id}/project/{project_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsDelete
 	// Required roles or permissions: organization:projects:write
 	OrganizationProjectsDelete(ctx context.Context, organizationId string, projectId string) error
 
 	// OrganizationProjectsGet retrieve project under the organization
-	// GET /v1/organization/{organization_id}/projects/{project_id}
+	// GET /v1/organization/{organization_id}/project/{project_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsGet
 	// Required roles or permissions: project:services:read
 	OrganizationProjectsGet(ctx context.Context, organizationId string, projectId string) (*OrganizationProjectsGetOut, error)
@@ -33,7 +33,7 @@ type Handler interface {
 	OrganizationProjectsList(ctx context.Context, organizationId string) (*OrganizationProjectsListOut, error)
 
 	// OrganizationProjectsUpdate update project under the organization
-	// PATCH /v1/organization/{organization_id}/projects/{project_id}
+	// PATCH /v1/organization/{organization_id}/project/{project_id}
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsUpdate
 	// Required roles or permissions: organization:projects:write
 	OrganizationProjectsUpdate(ctx context.Context, organizationId string, projectId string, in *OrganizationProjectsUpdateIn) (*OrganizationProjectsUpdateOut, error)
@@ -66,12 +66,12 @@ func (h *OrganizationProjectsHandler) OrganizationProjectsCreate(ctx context.Con
 	return out, nil
 }
 func (h *OrganizationProjectsHandler) OrganizationProjectsDelete(ctx context.Context, organizationId string, projectId string) error {
-	path := fmt.Sprintf("/v1/organization/%s/projects/%s", url.PathEscape(organizationId), url.PathEscape(projectId))
+	path := fmt.Sprintf("/v1/organization/%s/project/%s", url.PathEscape(organizationId), url.PathEscape(projectId))
 	_, err := h.doer.Do(ctx, "OrganizationProjectsDelete", "DELETE", path, nil)
 	return err
 }
 func (h *OrganizationProjectsHandler) OrganizationProjectsGet(ctx context.Context, organizationId string, projectId string) (*OrganizationProjectsGetOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/projects/%s", url.PathEscape(organizationId), url.PathEscape(projectId))
+	path := fmt.Sprintf("/v1/organization/%s/project/%s", url.PathEscape(organizationId), url.PathEscape(projectId))
 	b, err := h.doer.Do(ctx, "OrganizationProjectsGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -97,7 +97,7 @@ func (h *OrganizationProjectsHandler) OrganizationProjectsList(ctx context.Conte
 	return out, nil
 }
 func (h *OrganizationProjectsHandler) OrganizationProjectsUpdate(ctx context.Context, organizationId string, projectId string, in *OrganizationProjectsUpdateIn) (*OrganizationProjectsUpdateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/projects/%s", url.PathEscape(organizationId), url.PathEscape(projectId))
+	path := fmt.Sprintf("/v1/organization/%s/project/%s", url.PathEscape(organizationId), url.PathEscape(projectId))
 	b, err := h.doer.Do(ctx, "OrganizationProjectsUpdate", "PATCH", path, in)
 	if err != nil {
 		return nil, err

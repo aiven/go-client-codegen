@@ -1159,6 +1159,7 @@ const (
 	IntegrationTypeClickhousePostgresql              IntegrationType = "clickhouse_postgresql"
 	IntegrationTypeDashboard                         IntegrationType = "dashboard"
 	IntegrationTypeDatadog                           IntegrationType = "datadog"
+	IntegrationTypeDatahubMetadataIngestion          IntegrationType = "datahub_metadata_ingestion"
 	IntegrationTypeDatasource                        IntegrationType = "datasource"
 	IntegrationTypeDisasterRecovery                  IntegrationType = "disaster_recovery"
 	IntegrationTypeExternalAwsCloudwatchLogs         IntegrationType = "external_aws_cloudwatch_logs"
@@ -1199,7 +1200,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanos_object_storage", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
+	return []string{"alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datahub_metadata_ingestion", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanos_object_storage", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
 }
 
 type IntegrationTypeOut struct {
@@ -1825,6 +1826,7 @@ type ServiceCancelQueryIn struct {
 
 // ServiceCreateIn ServiceCreateRequestBody
 type ServiceCreateIn struct {
+	CMKId                 *string                 `json:"cmk_id,omitempty"`                 // Customer Managed Key identifier (CMK ID)
 	Cloud                 *string                 `json:"cloud,omitempty"`                  // Target cloud
 	CopyTags              *bool                   `json:"copy_tags,omitempty"`              // If this is a forked service, copy tags from the source service. If request contains additional tags, the tags copied from source are updated with them.
 	DiskSpaceMb           *int                    `json:"disk_space_mb,omitempty"`          // Megabytes of disk space for data storage
@@ -2226,6 +2228,7 @@ type ServiceTaskGetOut struct {
 
 // ServiceUpdateIn ServiceUpdateRequestBody
 type ServiceUpdateIn struct {
+	CMKId                 *string         `json:"cmk_id,omitempty"`                 // Customer Managed Key identifier (CMK ID)
 	Cloud                 *string         `json:"cloud,omitempty"`                  // Target cloud
 	DiskSpaceMb           *int            `json:"disk_space_mb,omitempty"`          // Megabytes of disk space for data storage
 	GroupName             *string         `json:"group_name,omitempty"`             // Service group name (DEPRECATED: do not use)
