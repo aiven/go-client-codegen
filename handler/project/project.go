@@ -666,7 +666,7 @@ type ProjectCreateIn struct {
 	CardId                       *string             `json:"card_id,omitempty"`                          // Deprecated: Credit card ID
 	City                         *string             `json:"city,omitempty"`                             // Deprecated: Address city
 	Cloud                        *string             `json:"cloud,omitempty"`                            // Target cloud
-	Company                      *string             `json:"company,omitempty"`                          // Name of a company
+	Company                      *string             `json:"company,omitempty"`                          // Deprecated: Name of company
 	CopyFromProject              *string             `json:"copy_from_project,omitempty"`                // Project name from which to copy settings to the new project
 	CopyTags                     *bool               `json:"copy_tags,omitempty"`                        // Copy tags from the source project. If request contains additional tags, the tags copied from source are updated with them.
 	CountryCode                  *string             `json:"country_code,omitempty"`                     // Deprecated: Two letter country code for billing country
@@ -919,7 +919,7 @@ type ProjectUpdateIn struct {
 	CardId                      *string             `json:"card_id,omitempty"`                         // Deprecated: Credit card ID
 	City                        *string             `json:"city,omitempty"`                            // Deprecated: Address city
 	Cloud                       *string             `json:"cloud,omitempty"`                           // Target cloud
-	Company                     *string             `json:"company,omitempty"`                         // Name of a company
+	Company                     *string             `json:"company,omitempty"`                         // Deprecated: Name of company
 	CountryCode                 *string             `json:"country_code,omitempty"`                    // Deprecated: Two letter country code for billing country
 	ProjectName                 *string             `json:"project_name,omitempty"`                    // Project name
 	State                       *string             `json:"state,omitempty"`                           // Deprecated: Address state
