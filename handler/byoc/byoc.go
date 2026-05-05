@@ -379,13 +379,15 @@ type DeploymentModelType string
 
 const (
 	DeploymentModelTypeDirectIpsecIngress DeploymentModelType = "direct_ipsec_ingress"
+	DeploymentModelTypeHipaa              DeploymentModelType = "hipaa"
 	DeploymentModelTypeIpsecIngress       DeploymentModelType = "ipsec_ingress"
+	DeploymentModelTypePciDss             DeploymentModelType = "pci_dss"
 	DeploymentModelTypeStandard           DeploymentModelType = "standard"
 	DeploymentModelTypeStandardPublic     DeploymentModelType = "standard_public"
 )
 
 func DeploymentModelTypeChoices() []string {
-	return []string{"direct_ipsec_ingress", "ipsec_ingress", "standard", "standard_public"}
+	return []string{"direct_ipsec_ingress", "hipaa", "ipsec_ingress", "pci_dss", "standard", "standard_public"}
 }
 
 type ErrorOut struct {
