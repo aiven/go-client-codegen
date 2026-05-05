@@ -17,13 +17,13 @@ type Handler interface {
 	OrganizationBillingGroupCreate(ctx context.Context, organizationId string, in *OrganizationBillingGroupCreateIn) (*OrganizationBillingGroupCreateOut, error)
 
 	// OrganizationBillingGroupDelete [EXPERIMENTAL] Delete an organization billing group
-	// DELETE /v1/organization/{organization_id}/billing-groups/{billing_group_id}
+	// DELETE /v1/organization/{organization_id}/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupDelete
 	// Required roles or permissions: organization:billing:write
 	OrganizationBillingGroupDelete(ctx context.Context, organizationId string, billingGroupId string) error
 
 	// OrganizationBillingGroupGet [EXPERIMENTAL] Get organization billing group details
-	// GET /v1/organization/{organization_id}/billing-groups/{billing_group_id}
+	// GET /v1/organization/{organization_id}/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupGet
 	// Required roles or permissions: organization:billing:read, organization:billing:write
 	OrganizationBillingGroupGet(ctx context.Context, organizationId string, billingGroupId string) (*OrganizationBillingGroupGetOut, error)
@@ -35,7 +35,7 @@ type Handler interface {
 	OrganizationBillingGroupList(ctx context.Context, organizationId string) ([]BillingGroupOut, error)
 
 	// OrganizationBillingGroupUpdate [EXPERIMENTAL] Update organization billing group details
-	// PUT /v1/organization/{organization_id}/billing-groups/{billing_group_id}
+	// PUT /v1/organization/{organization_id}/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupUpdate
 	// Required roles or permissions: organization:billing:write
 	OrganizationBillingGroupUpdate(ctx context.Context, organizationId string, billingGroupId string, in *OrganizationBillingGroupUpdateIn) (*OrganizationBillingGroupUpdateOut, error)
@@ -73,12 +73,12 @@ func (h *OrganizationBillingHandler) OrganizationBillingGroupCreate(ctx context.
 	return out, nil
 }
 func (h *OrganizationBillingHandler) OrganizationBillingGroupDelete(ctx context.Context, organizationId string, billingGroupId string) error {
-	path := fmt.Sprintf("/v1/organization/%s/billing-groups/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
+	path := fmt.Sprintf("/v1/organization/%s/billing-group/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
 	_, err := h.doer.Do(ctx, "OrganizationBillingGroupDelete", "DELETE", path, nil)
 	return err
 }
 func (h *OrganizationBillingHandler) OrganizationBillingGroupGet(ctx context.Context, organizationId string, billingGroupId string) (*OrganizationBillingGroupGetOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/billing-groups/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
+	path := fmt.Sprintf("/v1/organization/%s/billing-group/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
 	b, err := h.doer.Do(ctx, "OrganizationBillingGroupGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -104,7 +104,7 @@ func (h *OrganizationBillingHandler) OrganizationBillingGroupList(ctx context.Co
 	return out.BillingGroups, nil
 }
 func (h *OrganizationBillingHandler) OrganizationBillingGroupUpdate(ctx context.Context, organizationId string, billingGroupId string, in *OrganizationBillingGroupUpdateIn) (*OrganizationBillingGroupUpdateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/billing-groups/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
+	path := fmt.Sprintf("/v1/organization/%s/billing-group/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
 	b, err := h.doer.Do(ctx, "OrganizationBillingGroupUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err

@@ -18,13 +18,13 @@ type Handler interface {
 	OrganizationVpcCreate(ctx context.Context, organizationId string, in *OrganizationVpcCreateIn) (*OrganizationVpcCreateOut, error)
 
 	// OrganizationVpcDelete [EXPERIMENTAL] Delete organization VPC
-	// DELETE /v1/organization/{organization_id}/vpcs/{organization_vpc_id}
+	// DELETE /v1/organization/{organization_id}/vpc/{organization_vpc_id}
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcDelete
 	// Required roles or permissions: organization:networking:write
 	OrganizationVpcDelete(ctx context.Context, organizationId string, organizationVpcId string) (*OrganizationVpcDeleteOut, error)
 
 	// OrganizationVpcGet [EXPERIMENTAL] Get organization VPC
-	// GET /v1/organization/{organization_id}/vpcs/{organization_vpc_id}
+	// GET /v1/organization/{organization_id}/vpc/{organization_vpc_id}
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcGet
 	// Required roles or permissions: organization:networking:read
 	OrganizationVpcGet(ctx context.Context, organizationId string, organizationVpcId string) (*OrganizationVpcGetOut, error)
@@ -36,13 +36,13 @@ type Handler interface {
 	OrganizationVpcList(ctx context.Context, organizationId string) ([]VpcOut, error)
 
 	// OrganizationVpcPeeringConnectionCreate [EXPERIMENTAL] Create organization VPC peering
-	// POST /v1/organization/{organization_id}/vpcs/{organization_vpc_id}/peering-connections
+	// POST /v1/organization/{organization_id}/vpc/{organization_vpc_id}/peering-connections
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcPeeringConnectionCreate
 	// Required roles or permissions: organization:networking:write
 	OrganizationVpcPeeringConnectionCreate(ctx context.Context, organizationId string, organizationVpcId string, in *OrganizationVpcPeeringConnectionCreateIn) (*OrganizationVpcPeeringConnectionCreateOut, error)
 
 	// OrganizationVpcPeeringConnectionDeleteById [EXPERIMENTAL] Delete organization VPC peering
-	// DELETE /v1/organization/{organization_id}/vpcs/{organization_vpc_id}/peering-connections/{peering_connection_id}
+	// DELETE /v1/organization/{organization_id}/vpc/{organization_vpc_id}/peering-connection/{peering_connection_id}
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcPeeringConnectionDeleteById
 	// Required roles or permissions: organization:networking:write
 	OrganizationVpcPeeringConnectionDeleteById(ctx context.Context, organizationId string, organizationVpcId string, peeringConnectionId string) (*OrganizationVpcPeeringConnectionDeleteByIdOut, error)
@@ -75,7 +75,7 @@ func (h *OrganizationVpcHandler) OrganizationVpcCreate(ctx context.Context, orga
 	return out, nil
 }
 func (h *OrganizationVpcHandler) OrganizationVpcDelete(ctx context.Context, organizationId string, organizationVpcId string) (*OrganizationVpcDeleteOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/vpcs/%s", url.PathEscape(organizationId), url.PathEscape(organizationVpcId))
+	path := fmt.Sprintf("/v1/organization/%s/vpc/%s", url.PathEscape(organizationId), url.PathEscape(organizationVpcId))
 	b, err := h.doer.Do(ctx, "OrganizationVpcDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
@@ -88,7 +88,7 @@ func (h *OrganizationVpcHandler) OrganizationVpcDelete(ctx context.Context, orga
 	return out, nil
 }
 func (h *OrganizationVpcHandler) OrganizationVpcGet(ctx context.Context, organizationId string, organizationVpcId string) (*OrganizationVpcGetOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/vpcs/%s", url.PathEscape(organizationId), url.PathEscape(organizationVpcId))
+	path := fmt.Sprintf("/v1/organization/%s/vpc/%s", url.PathEscape(organizationId), url.PathEscape(organizationVpcId))
 	b, err := h.doer.Do(ctx, "OrganizationVpcGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -114,7 +114,7 @@ func (h *OrganizationVpcHandler) OrganizationVpcList(ctx context.Context, organi
 	return out.Vpcs, nil
 }
 func (h *OrganizationVpcHandler) OrganizationVpcPeeringConnectionCreate(ctx context.Context, organizationId string, organizationVpcId string, in *OrganizationVpcPeeringConnectionCreateIn) (*OrganizationVpcPeeringConnectionCreateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/vpcs/%s/peering-connections", url.PathEscape(organizationId), url.PathEscape(organizationVpcId))
+	path := fmt.Sprintf("/v1/organization/%s/vpc/%s/peering-connections", url.PathEscape(organizationId), url.PathEscape(organizationVpcId))
 	b, err := h.doer.Do(ctx, "OrganizationVpcPeeringConnectionCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
@@ -127,7 +127,7 @@ func (h *OrganizationVpcHandler) OrganizationVpcPeeringConnectionCreate(ctx cont
 	return out, nil
 }
 func (h *OrganizationVpcHandler) OrganizationVpcPeeringConnectionDeleteById(ctx context.Context, organizationId string, organizationVpcId string, peeringConnectionId string) (*OrganizationVpcPeeringConnectionDeleteByIdOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/vpcs/%s/peering-connections/%s", url.PathEscape(organizationId), url.PathEscape(organizationVpcId), url.PathEscape(peeringConnectionId))
+	path := fmt.Sprintf("/v1/organization/%s/vpc/%s/peering-connection/%s", url.PathEscape(organizationId), url.PathEscape(organizationVpcId), url.PathEscape(peeringConnectionId))
 	b, err := h.doer.Do(ctx, "OrganizationVpcPeeringConnectionDeleteById", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
