@@ -223,7 +223,8 @@ type GcpOut struct {
 
 // OciOut CMKAccessorsOCI
 type OciOut struct {
-	AccessGroup string `json:"access_group"` // Access Group
+	AccessGroup  string `json:"access_group"`  // Access Group
+	AccessTenant string `json:"access_tenant"` // Tenancy for the access group
 }
 type ProviderType string
 
