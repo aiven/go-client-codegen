@@ -61,7 +61,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountPaymentMethodsList
 	AccountPaymentMethodsList(ctx context.Context, accountId string) ([]CardOut, error)
 
-	// AccountProjectsList list projects belonging to account
+	// Deprecated: AccountProjectsList list projects belonging to account
 	// GET /v1/account/{account_id}/projects
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountProjectsList
 	AccountProjectsList(ctx context.Context, accountId string) (*AccountProjectsListOut, error)
