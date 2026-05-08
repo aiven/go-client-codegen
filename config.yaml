@@ -376,6 +376,13 @@ StaticIP:
   - StaticIPList
 Thanos:
   - ServiceThanosStorageSummary
+UpgradePipeline:
+  - UpgradePipelineStepCreate
+  - UpgradePipelineStepDelete
+  - UpgradePipelineStepGet
+  - UpgradePipelineStepList
+  - UpgradePipelineStepUpdate
+  - UpgradePipelineStepValidate
 User:
   - AccessTokenCreate
   - AccessTokenList

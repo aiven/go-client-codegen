@@ -429,3 +429,7 @@ components:
       schema:
         type: boolean
       required: false
+    # Avoid generating a single-value enum from the example UUID.
+    step_id:
+      schema:
+        enum: []
