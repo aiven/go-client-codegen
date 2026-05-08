@@ -48,6 +48,7 @@ import (
 	"github.com/aiven/go-client-codegen/handler/service"
 	"github.com/aiven/go-client-codegen/handler/staticip"
 	"github.com/aiven/go-client-codegen/handler/thanos"
+	"github.com/aiven/go-client-codegen/handler/upgradepipeline"
 	"github.com/aiven/go-client-codegen/handler/user"
 	"github.com/aiven/go-client-codegen/handler/usergroup"
 	"github.com/aiven/go-client-codegen/handler/vpc"
@@ -25399,6 +25400,434 @@ func (_c *MockClient_TwoFactorAuthConfigureOTP_Call) Return(twoFactorAuthConfigu
 }
 
 func (_c *MockClient_TwoFactorAuthConfigureOTP_Call) RunAndReturn(run func(ctx context.Context, in *user.TwoFactorAuthConfigureOtpIn) (*user.TwoFactorAuthConfigureOtpOut, error)) *MockClient_TwoFactorAuthConfigureOTP_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpgradePipelineStepCreate provides a mock function for the type MockClient
+func (_mock *MockClient) UpgradePipelineStepCreate(ctx context.Context, organizationId string, in *upgradepipeline.UpgradePipelineStepCreateIn) (*upgradepipeline.UpgradePipelineStepCreateOut, error) {
+	ret := _mock.Called(ctx, organizationId, in)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradePipelineStepCreate")
+	}
+
+	var r0 *upgradepipeline.UpgradePipelineStepCreateOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *upgradepipeline.UpgradePipelineStepCreateIn) (*upgradepipeline.UpgradePipelineStepCreateOut, error)); ok {
+		return returnFunc(ctx, organizationId, in)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *upgradepipeline.UpgradePipelineStepCreateIn) *upgradepipeline.UpgradePipelineStepCreateOut); ok {
+		r0 = returnFunc(ctx, organizationId, in)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*upgradepipeline.UpgradePipelineStepCreateOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, *upgradepipeline.UpgradePipelineStepCreateIn) error); ok {
+		r1 = returnFunc(ctx, organizationId, in)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_UpgradePipelineStepCreate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradePipelineStepCreate'
+type MockClient_UpgradePipelineStepCreate_Call struct {
+	*mock.Call
+}
+
+// UpgradePipelineStepCreate is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - in *upgradepipeline.UpgradePipelineStepCreateIn
+func (_e *MockClient_Expecter) UpgradePipelineStepCreate(ctx interface{}, organizationId interface{}, in interface{}) *MockClient_UpgradePipelineStepCreate_Call {
+	return &MockClient_UpgradePipelineStepCreate_Call{Call: _e.mock.On("UpgradePipelineStepCreate", ctx, organizationId, in)}
+}
+
+func (_c *MockClient_UpgradePipelineStepCreate_Call) Run(run func(ctx context.Context, organizationId string, in *upgradepipeline.UpgradePipelineStepCreateIn)) *MockClient_UpgradePipelineStepCreate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 *upgradepipeline.UpgradePipelineStepCreateIn
+		if args[2] != nil {
+			arg2 = args[2].(*upgradepipeline.UpgradePipelineStepCreateIn)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_UpgradePipelineStepCreate_Call) Return(upgradePipelineStepCreateOut *upgradepipeline.UpgradePipelineStepCreateOut, err error) *MockClient_UpgradePipelineStepCreate_Call {
+	_c.Call.Return(upgradePipelineStepCreateOut, err)
+	return _c
+}
+
+func (_c *MockClient_UpgradePipelineStepCreate_Call) RunAndReturn(run func(ctx context.Context, organizationId string, in *upgradepipeline.UpgradePipelineStepCreateIn) (*upgradepipeline.UpgradePipelineStepCreateOut, error)) *MockClient_UpgradePipelineStepCreate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpgradePipelineStepDelete provides a mock function for the type MockClient
+func (_mock *MockClient) UpgradePipelineStepDelete(ctx context.Context, organizationId string, stepId string) error {
+	ret := _mock.Called(ctx, organizationId, stepId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradePipelineStepDelete")
+	}
+
+	var r0 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) error); ok {
+		r0 = returnFunc(ctx, organizationId, stepId)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
+// MockClient_UpgradePipelineStepDelete_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradePipelineStepDelete'
+type MockClient_UpgradePipelineStepDelete_Call struct {
+	*mock.Call
+}
+
+// UpgradePipelineStepDelete is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - stepId string
+func (_e *MockClient_Expecter) UpgradePipelineStepDelete(ctx interface{}, organizationId interface{}, stepId interface{}) *MockClient_UpgradePipelineStepDelete_Call {
+	return &MockClient_UpgradePipelineStepDelete_Call{Call: _e.mock.On("UpgradePipelineStepDelete", ctx, organizationId, stepId)}
+}
+
+func (_c *MockClient_UpgradePipelineStepDelete_Call) Run(run func(ctx context.Context, organizationId string, stepId string)) *MockClient_UpgradePipelineStepDelete_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_UpgradePipelineStepDelete_Call) Return(err error) *MockClient_UpgradePipelineStepDelete_Call {
+	_c.Call.Return(err)
+	return _c
+}
+
+func (_c *MockClient_UpgradePipelineStepDelete_Call) RunAndReturn(run func(ctx context.Context, organizationId string, stepId string) error) *MockClient_UpgradePipelineStepDelete_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpgradePipelineStepGet provides a mock function for the type MockClient
+func (_mock *MockClient) UpgradePipelineStepGet(ctx context.Context, organizationId string, stepId string) (*upgradepipeline.UpgradePipelineStepGetOut, error) {
+	ret := _mock.Called(ctx, organizationId, stepId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradePipelineStepGet")
+	}
+
+	var r0 *upgradepipeline.UpgradePipelineStepGetOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*upgradepipeline.UpgradePipelineStepGetOut, error)); ok {
+		return returnFunc(ctx, organizationId, stepId)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *upgradepipeline.UpgradePipelineStepGetOut); ok {
+		r0 = returnFunc(ctx, organizationId, stepId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*upgradepipeline.UpgradePipelineStepGetOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, organizationId, stepId)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_UpgradePipelineStepGet_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradePipelineStepGet'
+type MockClient_UpgradePipelineStepGet_Call struct {
+	*mock.Call
+}
+
+// UpgradePipelineStepGet is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - stepId string
+func (_e *MockClient_Expecter) UpgradePipelineStepGet(ctx interface{}, organizationId interface{}, stepId interface{}) *MockClient_UpgradePipelineStepGet_Call {
+	return &MockClient_UpgradePipelineStepGet_Call{Call: _e.mock.On("UpgradePipelineStepGet", ctx, organizationId, stepId)}
+}
+
+func (_c *MockClient_UpgradePipelineStepGet_Call) Run(run func(ctx context.Context, organizationId string, stepId string)) *MockClient_UpgradePipelineStepGet_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_UpgradePipelineStepGet_Call) Return(upgradePipelineStepGetOut *upgradepipeline.UpgradePipelineStepGetOut, err error) *MockClient_UpgradePipelineStepGet_Call {
+	_c.Call.Return(upgradePipelineStepGetOut, err)
+	return _c
+}
+
+func (_c *MockClient_UpgradePipelineStepGet_Call) RunAndReturn(run func(ctx context.Context, organizationId string, stepId string) (*upgradepipeline.UpgradePipelineStepGetOut, error)) *MockClient_UpgradePipelineStepGet_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpgradePipelineStepList provides a mock function for the type MockClient
+func (_mock *MockClient) UpgradePipelineStepList(ctx context.Context, organizationId string) (*upgradepipeline.UpgradePipelineStepListOut, error) {
+	ret := _mock.Called(ctx, organizationId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradePipelineStepList")
+	}
+
+	var r0 *upgradepipeline.UpgradePipelineStepListOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*upgradepipeline.UpgradePipelineStepListOut, error)); ok {
+		return returnFunc(ctx, organizationId)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *upgradepipeline.UpgradePipelineStepListOut); ok {
+		r0 = returnFunc(ctx, organizationId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*upgradepipeline.UpgradePipelineStepListOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = returnFunc(ctx, organizationId)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_UpgradePipelineStepList_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradePipelineStepList'
+type MockClient_UpgradePipelineStepList_Call struct {
+	*mock.Call
+}
+
+// UpgradePipelineStepList is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+func (_e *MockClient_Expecter) UpgradePipelineStepList(ctx interface{}, organizationId interface{}) *MockClient_UpgradePipelineStepList_Call {
+	return &MockClient_UpgradePipelineStepList_Call{Call: _e.mock.On("UpgradePipelineStepList", ctx, organizationId)}
+}
+
+func (_c *MockClient_UpgradePipelineStepList_Call) Run(run func(ctx context.Context, organizationId string)) *MockClient_UpgradePipelineStepList_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_UpgradePipelineStepList_Call) Return(upgradePipelineStepListOut *upgradepipeline.UpgradePipelineStepListOut, err error) *MockClient_UpgradePipelineStepList_Call {
+	_c.Call.Return(upgradePipelineStepListOut, err)
+	return _c
+}
+
+func (_c *MockClient_UpgradePipelineStepList_Call) RunAndReturn(run func(ctx context.Context, organizationId string) (*upgradepipeline.UpgradePipelineStepListOut, error)) *MockClient_UpgradePipelineStepList_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpgradePipelineStepUpdate provides a mock function for the type MockClient
+func (_mock *MockClient) UpgradePipelineStepUpdate(ctx context.Context, organizationId string, stepId string, in *upgradepipeline.UpgradePipelineStepUpdateIn) (*upgradepipeline.UpgradePipelineStepUpdateOut, error) {
+	ret := _mock.Called(ctx, organizationId, stepId, in)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradePipelineStepUpdate")
+	}
+
+	var r0 *upgradepipeline.UpgradePipelineStepUpdateOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *upgradepipeline.UpgradePipelineStepUpdateIn) (*upgradepipeline.UpgradePipelineStepUpdateOut, error)); ok {
+		return returnFunc(ctx, organizationId, stepId, in)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *upgradepipeline.UpgradePipelineStepUpdateIn) *upgradepipeline.UpgradePipelineStepUpdateOut); ok {
+		r0 = returnFunc(ctx, organizationId, stepId, in)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*upgradepipeline.UpgradePipelineStepUpdateOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *upgradepipeline.UpgradePipelineStepUpdateIn) error); ok {
+		r1 = returnFunc(ctx, organizationId, stepId, in)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_UpgradePipelineStepUpdate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradePipelineStepUpdate'
+type MockClient_UpgradePipelineStepUpdate_Call struct {
+	*mock.Call
+}
+
+// UpgradePipelineStepUpdate is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - stepId string
+//   - in *upgradepipeline.UpgradePipelineStepUpdateIn
+func (_e *MockClient_Expecter) UpgradePipelineStepUpdate(ctx interface{}, organizationId interface{}, stepId interface{}, in interface{}) *MockClient_UpgradePipelineStepUpdate_Call {
+	return &MockClient_UpgradePipelineStepUpdate_Call{Call: _e.mock.On("UpgradePipelineStepUpdate", ctx, organizationId, stepId, in)}
+}
+
+func (_c *MockClient_UpgradePipelineStepUpdate_Call) Run(run func(ctx context.Context, organizationId string, stepId string, in *upgradepipeline.UpgradePipelineStepUpdateIn)) *MockClient_UpgradePipelineStepUpdate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		var arg3 *upgradepipeline.UpgradePipelineStepUpdateIn
+		if args[3] != nil {
+			arg3 = args[3].(*upgradepipeline.UpgradePipelineStepUpdateIn)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+			arg3,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_UpgradePipelineStepUpdate_Call) Return(upgradePipelineStepUpdateOut *upgradepipeline.UpgradePipelineStepUpdateOut, err error) *MockClient_UpgradePipelineStepUpdate_Call {
+	_c.Call.Return(upgradePipelineStepUpdateOut, err)
+	return _c
+}
+
+func (_c *MockClient_UpgradePipelineStepUpdate_Call) RunAndReturn(run func(ctx context.Context, organizationId string, stepId string, in *upgradepipeline.UpgradePipelineStepUpdateIn) (*upgradepipeline.UpgradePipelineStepUpdateOut, error)) *MockClient_UpgradePipelineStepUpdate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpgradePipelineStepValidate provides a mock function for the type MockClient
+func (_mock *MockClient) UpgradePipelineStepValidate(ctx context.Context, project1 string, serviceName string, in *upgradepipeline.UpgradePipelineStepValidateIn) error {
+	ret := _mock.Called(ctx, project1, serviceName, in)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradePipelineStepValidate")
+	}
+
+	var r0 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *upgradepipeline.UpgradePipelineStepValidateIn) error); ok {
+		r0 = returnFunc(ctx, project1, serviceName, in)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
+// MockClient_UpgradePipelineStepValidate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradePipelineStepValidate'
+type MockClient_UpgradePipelineStepValidate_Call struct {
+	*mock.Call
+}
+
+// UpgradePipelineStepValidate is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project1 string
+//   - serviceName string
+//   - in *upgradepipeline.UpgradePipelineStepValidateIn
+func (_e *MockClient_Expecter) UpgradePipelineStepValidate(ctx interface{}, project1 interface{}, serviceName interface{}, in interface{}) *MockClient_UpgradePipelineStepValidate_Call {
+	return &MockClient_UpgradePipelineStepValidate_Call{Call: _e.mock.On("UpgradePipelineStepValidate", ctx, project1, serviceName, in)}
+}
+
+func (_c *MockClient_UpgradePipelineStepValidate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *upgradepipeline.UpgradePipelineStepValidateIn)) *MockClient_UpgradePipelineStepValidate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		var arg3 *upgradepipeline.UpgradePipelineStepValidateIn
+		if args[3] != nil {
+			arg3 = args[3].(*upgradepipeline.UpgradePipelineStepValidateIn)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+			arg3,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_UpgradePipelineStepValidate_Call) Return(err error) *MockClient_UpgradePipelineStepValidate_Call {
+	_c.Call.Return(err)
+	return _c
+}
+
+func (_c *MockClient_UpgradePipelineStepValidate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *upgradepipeline.UpgradePipelineStepValidateIn) error) *MockClient_UpgradePipelineStepValidate_Call {
 	_c.Call.Return(run)
 	return _c
 }
