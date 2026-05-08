@@ -44,6 +44,7 @@ import (
 	service "github.com/aiven/go-client-codegen/handler/service"
 	staticip "github.com/aiven/go-client-codegen/handler/staticip"
 	thanos "github.com/aiven/go-client-codegen/handler/thanos"
+	upgradepipeline "github.com/aiven/go-client-codegen/handler/upgradepipeline"
 	user "github.com/aiven/go-client-codegen/handler/user"
 	usergroup "github.com/aiven/go-client-codegen/handler/usergroup"
 	vpc "github.com/aiven/go-client-codegen/handler/vpc"
@@ -95,6 +96,7 @@ func newClient(doer doer) Client {
 		ServiceHandler:                       service.NewHandler(doer),
 		StaticIPHandler:                      staticip.NewHandler(doer),
 		ThanosHandler:                        thanos.NewHandler(doer),
+		UpgradePipelineHandler:               upgradepipeline.NewHandler(doer),
 		UserGroupHandler:                     usergroup.NewHandler(doer),
 		UserHandler:                          user.NewHandler(doer),
 		VpcHandler:                           vpc.NewHandler(doer),
@@ -141,6 +143,7 @@ type client struct {
 	service.ServiceHandler
 	staticip.StaticIPHandler
 	thanos.ThanosHandler
+	upgradepipeline.UpgradePipelineHandler
 	user.UserHandler
 	usergroup.UserGroupHandler
 	vpc.VpcHandler
@@ -185,6 +188,7 @@ type Client interface {
 	service.Handler
 	staticip.Handler
 	thanos.Handler
+	upgradepipeline.Handler
 	user.Handler
 	usergroup.Handler
 	vpc.Handler
