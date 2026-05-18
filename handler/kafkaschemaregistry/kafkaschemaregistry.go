@@ -68,13 +68,13 @@ type Handler interface {
 	// DELETE /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectDelete
 	// Required roles or permissions: service:data:write
-	ServiceSchemaRegistrySubjectDelete(ctx context.Context, project string, serviceName string, subjectName string) error
+	ServiceSchemaRegistrySubjectDelete(ctx context.Context, project string, serviceName string, subjectName string, query ...[2]string) error
 
 	// ServiceSchemaRegistrySubjectVersionDelete delete Schema Registry subject version
 	// DELETE /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionDelete
 	// Required roles or permissions: service:data:write
-	ServiceSchemaRegistrySubjectVersionDelete(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error
+	ServiceSchemaRegistrySubjectVersionDelete(ctx context.Context, project string, serviceName string, subjectName string, versionId int, query ...[2]string) error
 
 	// ServiceSchemaRegistrySubjectVersionGet get Schema Registry Subject version
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id}
@@ -234,14 +234,24 @@ func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectConfigPut(ctx c
 	}
 	return out.Compatibility, nil
 }
-func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectDelete(ctx context.Context, project string, serviceName string, subjectName string) error {
+
+// ServiceSchemaRegistrySubjectDeletePermanent If true, performs a hard delete that removes all metadata, including the schema ID. A hard delete is only allowed after a soft delete.
+func ServiceSchemaRegistrySubjectDeletePermanent(permanent bool) [2]string {
+	return [2]string{"permanent", fmt.Sprintf("%t", permanent)}
+}
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectDelete(ctx context.Context, project string, serviceName string, subjectName string, query ...[2]string) error {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/schema/subjects/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(subjectName))
-	_, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectDelete", "DELETE", path, nil)
+	_, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectDelete", "DELETE", path, nil, query...)
 	return err
 }
-func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionDelete(ctx context.Context, project string, serviceName string, subjectName string, versionId int) error {
+
+// ServiceSchemaRegistrySubjectVersionDeletePermanent If true, performs a hard delete that removes all metadata, including the schema ID. A hard delete is only allowed after a soft delete.
+func ServiceSchemaRegistrySubjectVersionDeletePermanent(permanent bool) [2]string {
+	return [2]string{"permanent", fmt.Sprintf("%t", permanent)}
+}
+func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionDelete(ctx context.Context, project string, serviceName string, subjectName string, versionId int, query ...[2]string) error {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/kafka/schema/subjects/%s/versions/%d", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(subjectName), versionId)
-	_, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionDelete", "DELETE", path, nil)
+	_, err := h.doer.Do(ctx, "ServiceSchemaRegistrySubjectVersionDelete", "DELETE", path, nil, query...)
 	return err
 }
 func (h *KafkaSchemaRegistryHandler) ServiceSchemaRegistrySubjectVersionGet(ctx context.Context, project string, serviceName string, subjectName string, versionId int) (*ServiceSchemaRegistrySubjectVersionGetOut, error) {
