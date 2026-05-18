@@ -19,6 +19,21 @@ paths:
         - $ref: "#/components/parameters/service_name"
         - $ref: "#/components/parameters/subject_name"
         - $ref: "#/components/parameters/global_default_fallback"
+  /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}:
+    delete:
+      parameters:
+        - $ref: "#/components/parameters/project"
+        - $ref: "#/components/parameters/service_name"
+        - $ref: "#/components/parameters/subject_name"
+        - $ref: "#/components/parameters/permanent"
+  /project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id}:
+    delete:
+      parameters:
+        - $ref: "#/components/parameters/project"
+        - $ref: "#/components/parameters/service_name"
+        - $ref: "#/components/parameters/subject_name"
+        - $ref: "#/components/parameters/version_id"
+        - $ref: "#/components/parameters/permanent"
   /v2/project/{project}/service/{service_name}/topic:
     post:
       summary: List Kafka topics V2
@@ -426,6 +441,13 @@ components:
       in: query
       name: global_default_fallback
       description: This parameter is not documented in the API but we need it to support the backward compatibility with old API client
+      schema:
+        type: boolean
+      required: false
+    permanent:
+      in: query
+      name: permanent
+      description: If true, performs a hard delete that removes all metadata, including the schema ID. A hard delete is only allowed after a soft delete.
       schema:
         type: boolean
       required: false

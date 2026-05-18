@@ -16,7 +16,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberCancelInvite
 	AccountTeamMemberCancelInvite(ctx context.Context, accountId string, teamId string, userEmail string) error
 
-	// AccountTeamMemberVerifyInvite confirm account team invite
+	// Deprecated: AccountTeamMemberVerifyInvite confirm account team invite
 	// POST /v1/account/{account_id}/invite/{invite_verification_code}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberVerifyInvite
 	AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*AccountTeamMemberVerifyInviteOut, error)

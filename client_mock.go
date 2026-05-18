@@ -23771,16 +23771,22 @@ func (_c *MockClient_ServiceSchemaRegistrySubjectConfigPut_Call) RunAndReturn(ru
 }
 
 // ServiceSchemaRegistrySubjectDelete provides a mock function for the type MockClient
-func (_mock *MockClient) ServiceSchemaRegistrySubjectDelete(ctx context.Context, project1 string, serviceName string, subjectName string) error {
-	ret := _mock.Called(ctx, project1, serviceName, subjectName)
+func (_mock *MockClient) ServiceSchemaRegistrySubjectDelete(ctx context.Context, project1 string, serviceName string, subjectName string, query ...[2]string) error {
+	var tmpRet mock.Arguments
+	if len(query) > 0 {
+		tmpRet = _mock.Called(ctx, project1, serviceName, subjectName, query)
+	} else {
+		tmpRet = _mock.Called(ctx, project1, serviceName, subjectName)
+	}
+	ret := tmpRet
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServiceSchemaRegistrySubjectDelete")
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string) error); ok {
-		r0 = returnFunc(ctx, project1, serviceName, subjectName)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string, ...[2]string) error); ok {
+		r0 = returnFunc(ctx, project1, serviceName, subjectName, query...)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -23797,11 +23803,13 @@ type MockClient_ServiceSchemaRegistrySubjectDelete_Call struct {
 //   - project1 string
 //   - serviceName string
 //   - subjectName string
-func (_e *MockClient_Expecter) ServiceSchemaRegistrySubjectDelete(ctx interface{}, project1 interface{}, serviceName interface{}, subjectName interface{}) *MockClient_ServiceSchemaRegistrySubjectDelete_Call {
-	return &MockClient_ServiceSchemaRegistrySubjectDelete_Call{Call: _e.mock.On("ServiceSchemaRegistrySubjectDelete", ctx, project1, serviceName, subjectName)}
+//   - query ...[2]string
+func (_e *MockClient_Expecter) ServiceSchemaRegistrySubjectDelete(ctx interface{}, project1 interface{}, serviceName interface{}, subjectName interface{}, query ...interface{}) *MockClient_ServiceSchemaRegistrySubjectDelete_Call {
+	return &MockClient_ServiceSchemaRegistrySubjectDelete_Call{Call: _e.mock.On("ServiceSchemaRegistrySubjectDelete",
+		append([]interface{}{ctx, project1, serviceName, subjectName}, query...)...)}
 }
 
-func (_c *MockClient_ServiceSchemaRegistrySubjectDelete_Call) Run(run func(ctx context.Context, project1 string, serviceName string, subjectName string)) *MockClient_ServiceSchemaRegistrySubjectDelete_Call {
+func (_c *MockClient_ServiceSchemaRegistrySubjectDelete_Call) Run(run func(ctx context.Context, project1 string, serviceName string, subjectName string, query ...[2]string)) *MockClient_ServiceSchemaRegistrySubjectDelete_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -23819,11 +23827,18 @@ func (_c *MockClient_ServiceSchemaRegistrySubjectDelete_Call) Run(run func(ctx c
 		if args[3] != nil {
 			arg3 = args[3].(string)
 		}
+		var arg4 [][2]string
+		var variadicArgs [][2]string
+		if len(args) > 4 {
+			variadicArgs = args[4].([][2]string)
+		}
+		arg4 = variadicArgs
 		run(
 			arg0,
 			arg1,
 			arg2,
 			arg3,
+			arg4...,
 		)
 	})
 	return _c
@@ -23834,22 +23849,28 @@ func (_c *MockClient_ServiceSchemaRegistrySubjectDelete_Call) Return(err error) 
 	return _c
 }
 
-func (_c *MockClient_ServiceSchemaRegistrySubjectDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, subjectName string) error) *MockClient_ServiceSchemaRegistrySubjectDelete_Call {
+func (_c *MockClient_ServiceSchemaRegistrySubjectDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, subjectName string, query ...[2]string) error) *MockClient_ServiceSchemaRegistrySubjectDelete_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ServiceSchemaRegistrySubjectVersionDelete provides a mock function for the type MockClient
-func (_mock *MockClient) ServiceSchemaRegistrySubjectVersionDelete(ctx context.Context, project1 string, serviceName string, subjectName string, versionId int) error {
-	ret := _mock.Called(ctx, project1, serviceName, subjectName, versionId)
+func (_mock *MockClient) ServiceSchemaRegistrySubjectVersionDelete(ctx context.Context, project1 string, serviceName string, subjectName string, versionId int, query ...[2]string) error {
+	var tmpRet mock.Arguments
+	if len(query) > 0 {
+		tmpRet = _mock.Called(ctx, project1, serviceName, subjectName, versionId, query)
+	} else {
+		tmpRet = _mock.Called(ctx, project1, serviceName, subjectName, versionId)
+	}
+	ret := tmpRet
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServiceSchemaRegistrySubjectVersionDelete")
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string, int) error); ok {
-		r0 = returnFunc(ctx, project1, serviceName, subjectName, versionId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string, int, ...[2]string) error); ok {
+		r0 = returnFunc(ctx, project1, serviceName, subjectName, versionId, query...)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -23867,11 +23888,13 @@ type MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call struct {
 //   - serviceName string
 //   - subjectName string
 //   - versionId int
-func (_e *MockClient_Expecter) ServiceSchemaRegistrySubjectVersionDelete(ctx interface{}, project1 interface{}, serviceName interface{}, subjectName interface{}, versionId interface{}) *MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call {
-	return &MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call{Call: _e.mock.On("ServiceSchemaRegistrySubjectVersionDelete", ctx, project1, serviceName, subjectName, versionId)}
+//   - query ...[2]string
+func (_e *MockClient_Expecter) ServiceSchemaRegistrySubjectVersionDelete(ctx interface{}, project1 interface{}, serviceName interface{}, subjectName interface{}, versionId interface{}, query ...interface{}) *MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call {
+	return &MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call{Call: _e.mock.On("ServiceSchemaRegistrySubjectVersionDelete",
+		append([]interface{}{ctx, project1, serviceName, subjectName, versionId}, query...)...)}
 }
 
-func (_c *MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call) Run(run func(ctx context.Context, project1 string, serviceName string, subjectName string, versionId int)) *MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call {
+func (_c *MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call) Run(run func(ctx context.Context, project1 string, serviceName string, subjectName string, versionId int, query ...[2]string)) *MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -23893,12 +23916,19 @@ func (_c *MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call) Run(run fun
 		if args[4] != nil {
 			arg4 = args[4].(int)
 		}
+		var arg5 [][2]string
+		var variadicArgs [][2]string
+		if len(args) > 5 {
+			variadicArgs = args[5].([][2]string)
+		}
+		arg5 = variadicArgs
 		run(
 			arg0,
 			arg1,
 			arg2,
 			arg3,
 			arg4,
+			arg5...,
 		)
 	})
 	return _c
@@ -23909,7 +23939,7 @@ func (_c *MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call) Return(err 
 	return _c
 }
 
-func (_c *MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, subjectName string, versionId int) error) *MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call {
+func (_c *MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, subjectName string, versionId int, query ...[2]string) error) *MockClient_ServiceSchemaRegistrySubjectVersionDelete_Call {
 	_c.Call.Return(run)
 	return _c
 }

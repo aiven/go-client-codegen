@@ -363,7 +363,7 @@ type OrganizationAddressCreateIn struct {
 	AddressLines []string `json:"address_lines"` // Address lines
 	City         string   `json:"city"`
 	CountryCode  string   `json:"country_code"` // Country Code
-	Name         string   `json:"name"`         // Name of a company
+	Name         string   `json:"name"`
 	State        *string  `json:"state,omitempty"`
 	ZipCode      *string  `json:"zip_code,omitempty"` // Zip Code
 }
@@ -401,7 +401,7 @@ type OrganizationAddressUpdateIn struct {
 	AddressLines *[]string `json:"address_lines,omitempty"` // Address Lines
 	City         *string   `json:"city,omitempty"`
 	CountryCode  *string   `json:"country_code,omitempty"` // Country Code
-	Name         *string   `json:"name,omitempty"`         // Name of a company
+	Name         *string   `json:"name,omitempty"`
 	State        *string   `json:"state,omitempty"`
 	ZipCode      *string   `json:"zip_code,omitempty"` // Zip Code
 }
