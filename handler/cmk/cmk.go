@@ -139,6 +139,11 @@ type AwsOut struct {
 	Principal string `json:"principal"`
 }
 
+// AzureOut CMKAccessorsAzure
+type AzureOut struct {
+	AppId string `json:"app_id"` // Application ID
+}
+
 // CMKAccessCheckTriggerOut CMK
 type CMKAccessCheckTriggerOut struct {
 	CreatedAt  time.Time `json:"created_at"`  // Created At
@@ -150,9 +155,10 @@ type CMKAccessCheckTriggerOut struct {
 
 // CMKAccessorsListOut CMKAccessors
 type CMKAccessorsListOut struct {
-	Aws *AwsOut `json:"aws,omitempty"` // CMKAccessorsAWS
-	Gcp GcpOut  `json:"gcp"`           // CMKAccessorsGCP
-	Oci OciOut  `json:"oci"`           // CMKAccessorsOCI
+	Aws   *AwsOut  `json:"aws,omitempty"` // CMKAccessorsAWS
+	Azure AzureOut `json:"azure"`         // CMKAccessorsAzure
+	Gcp   GcpOut   `json:"gcp"`           // CMKAccessorsGCP
+	Oci   OciOut   `json:"oci"`           // CMKAccessorsOCI
 }
 
 // CMKCreateIn CMKCreateRequestBody
@@ -229,13 +235,14 @@ type OciOut struct {
 type ProviderType string
 
 const (
-	ProviderTypeAws ProviderType = "aws"
-	ProviderTypeGcp ProviderType = "gcp"
-	ProviderTypeOci ProviderType = "oci"
+	ProviderTypeAws   ProviderType = "aws"
+	ProviderTypeAzure ProviderType = "azure"
+	ProviderTypeGcp   ProviderType = "gcp"
+	ProviderTypeOci   ProviderType = "oci"
 )
 
 func ProviderTypeChoices() []string {
-	return []string{"aws", "gcp", "oci"}
+	return []string{"aws", "azure", "gcp", "oci"}
 }
 
 // cmkAccessCheckTriggerOut CMKAccessCheckTriggerResponse
