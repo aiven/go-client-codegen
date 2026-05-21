@@ -61,12 +61,12 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountDelete
 	UserAccountDelete(ctx context.Context, userId string) error
 
-	// UserAccountInvitesAccept accept all invites for a single account
+	// Deprecated: UserAccountInvitesAccept accept all invites for a single account
 	// POST /v1/me/account/invites/accept
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountInvitesAccept
 	UserAccountInvitesAccept(ctx context.Context, in *UserAccountInvitesAcceptIn) ([]AccountInviteOut, error)
 
-	// UserAccountInvitesList list pending account invites
+	// Deprecated: UserAccountInvitesList list pending account invites
 	// GET /v1/me/account/invites
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountInvitesList
 	UserAccountInvitesList(ctx context.Context) ([]AccountInviteOut, error)
