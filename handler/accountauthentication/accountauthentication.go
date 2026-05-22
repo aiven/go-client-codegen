@@ -119,7 +119,7 @@ type AccountAuthenticationMethodCreateIn struct {
 	AuthTokenMaxAgeSeconds           *int                       `json:"auth_token_max_age_seconds,omitempty"`           // Auth Token Max Age Seconds
 	AuthenticationMethodName         string                     `json:"authentication_method_name"`                     // Authentication Method Name
 	AuthenticationMethodType         AuthenticationMethodType   `json:"authentication_method_type"`                     // An enumeration.
-	AutoJoinTeamId                   *string                    `json:"auto_join_team_id,omitempty"`                    // Automatically add users to a team, when user signs up using this authentication method
+	AutoJoinTeamId                   *string                    `json:"auto_join_team_id,omitempty"`                    // Deprecated; always null. Teams are being sunset, so this value is ignored on writes and always returned as null.
 	AutoJoinUserGroupId              *string                    `json:"auto_join_user_group_id,omitempty"`              // Automatically add users to a group, when user signs up using this authentication method
 	LinkedDomains                    *[]LinkedDomainIn          `json:"linked_domains,omitempty"`                       // Linked Domains
 	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
@@ -146,7 +146,7 @@ type AccountAuthenticationMethodCreateOut struct {
 	AuthenticationMethodId           string                        `json:"authentication_method_id"`                       // Authentication Method ID
 	AuthenticationMethodName         *string                       `json:"authentication_method_name,omitempty"`           // Authentication Method Name
 	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`                     // An enumeration.
-	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`                              // Automatically add users to a team, when user signs up using this authentication method
+	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`                              // Deprecated; always null. Teams are being sunset, so this value is ignored on writes and always returned as null.
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`                        // Automatically add users to a group, when user signs up using this authentication method
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
 	DeleteTime                       time.Time                     `json:"delete_time"`                                    // Delete Time
@@ -187,7 +187,7 @@ type AccountAuthenticationMethodGetOut struct {
 	AuthenticationMethodId           string                        `json:"authentication_method_id"`                       // Authentication Method ID
 	AuthenticationMethodName         *string                       `json:"authentication_method_name,omitempty"`           // Authentication Method Name
 	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`                     // An enumeration.
-	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`                              // Automatically add users to a team, when user signs up using this authentication method
+	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`                              // Deprecated; always null. Teams are being sunset, so this value is ignored on writes and always returned as null.
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`                        // Automatically add users to a group, when user signs up using this authentication method
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
 	DeleteTime                       time.Time                     `json:"delete_time"`                                    // Delete Time
@@ -225,7 +225,7 @@ type AccountAuthenticationMethodUpdateIn struct {
 	AuthTokenMaxAgeSeconds           *int                       `json:"auth_token_max_age_seconds,omitempty"`           // Auth Token Max Age Seconds
 	AuthenticationMethodEnabled      *bool                      `json:"authentication_method_enabled,omitempty"`        // If true, authentication method can be used to access account/projects in account. If false, authentication method can still be used to sign in
 	AuthenticationMethodName         *string                    `json:"authentication_method_name,omitempty"`           // Authentication Method Name
-	AutoJoinTeamId                   *string                    `json:"auto_join_team_id,omitempty"`                    // Automatically add users to a team, when user signs up using this authentication method
+	AutoJoinTeamId                   *string                    `json:"auto_join_team_id,omitempty"`                    // Deprecated; always null. Teams are being sunset, so this value is ignored on writes and always returned as null.
 	AutoJoinUserGroupId              *string                    `json:"auto_join_user_group_id,omitempty"`              // Automatically add users to a group, when user signs up using this authentication method
 	SamlAssertionSignedEnabled       *bool                      `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
 	SamlAuthnRequestsSignedEnabled   *bool                      `json:"saml_authn_requests_signed_enabled,omitempty"`   // Set to 'true' to enable AuthnRequestsSigned
@@ -251,7 +251,7 @@ type AccountAuthenticationMethodUpdateOut struct {
 	AuthenticationMethodId           string                        `json:"authentication_method_id"`                       // Authentication Method ID
 	AuthenticationMethodName         *string                       `json:"authentication_method_name,omitempty"`           // Authentication Method Name
 	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`                     // An enumeration.
-	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`                              // Automatically add users to a team, when user signs up using this authentication method
+	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`                              // Deprecated; always null. Teams are being sunset, so this value is ignored on writes and always returned as null.
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`                        // Automatically add users to a group, when user signs up using this authentication method
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
 	DeleteTime                       time.Time                     `json:"delete_time"`                                    // Delete Time
@@ -290,7 +290,7 @@ type AuthenticationMethodOut struct {
 	AuthenticationMethodId           string                        `json:"authentication_method_id"`                       // Authentication Method ID
 	AuthenticationMethodName         *string                       `json:"authentication_method_name,omitempty"`           // Authentication Method Name
 	AuthenticationMethodType         AuthenticationMethodType      `json:"authentication_method_type"`                     // An enumeration.
-	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`                              // Automatically add users to a team, when user signs up using this authentication method
+	AutoJoinTeamId                   string                        `json:"auto_join_team_id"`                              // Deprecated; always null. Teams are being sunset, so this value is ignored on writes and always returned as null.
 	AutoJoinUserGroupId              string                        `json:"auto_join_user_group_id"`                        // Automatically add users to a group, when user signs up using this authentication method
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
 	DeleteTime                       time.Time                     `json:"delete_time"`                                    // Delete Time
