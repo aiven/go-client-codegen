@@ -314,11 +314,11 @@ func (h *OrganizationHandler) UserOrganizationsList(ctx context.Context) ([]Orga
 
 type AddresseOut struct {
 	AddressId      string    `json:"address_id"`              // Address ID
-	AddressLines   []string  `json:"address_lines,omitempty"` // Address Lines
+	AddressLines   []string  `json:"address_lines,omitempty"` // Address lines
 	City           *string   `json:"city,omitempty"`
-	CountryCode    string    `json:"country_code"`    // Country Code
-	CreateTime     time.Time `json:"create_time"`     // Create Time
-	Name           string    `json:"name"`            // Name of a company
+	CountryCode    string    `json:"country_code"` // Country Code
+	CreateTime     time.Time `json:"create_time"`  // Create Time
+	Name           string    `json:"name"`
 	OrganizationId string    `json:"organization_id"` // Organization ID
 	State          *string   `json:"state,omitempty"`
 	UpdateTime     time.Time `json:"update_time"`        // Update Time
@@ -371,11 +371,11 @@ type OrganizationAddressCreateIn struct {
 // OrganizationAddressCreateOut OrganizationAddressCreateResponse
 type OrganizationAddressCreateOut struct {
 	AddressId      string    `json:"address_id"`              // Address ID
-	AddressLines   []string  `json:"address_lines,omitempty"` // Address Lines
+	AddressLines   []string  `json:"address_lines,omitempty"` // Address lines
 	City           *string   `json:"city,omitempty"`
-	CountryCode    string    `json:"country_code"`    // Country Code
-	CreateTime     time.Time `json:"create_time"`     // Create Time
-	Name           string    `json:"name"`            // Name of a company
+	CountryCode    string    `json:"country_code"` // Country Code
+	CreateTime     time.Time `json:"create_time"`  // Create Time
+	Name           string    `json:"name"`
 	OrganizationId string    `json:"organization_id"` // Organization ID
 	State          *string   `json:"state,omitempty"`
 	UpdateTime     time.Time `json:"update_time"`        // Update Time
@@ -385,11 +385,11 @@ type OrganizationAddressCreateOut struct {
 // OrganizationAddressGetOut OrganizationAddressGetResponse
 type OrganizationAddressGetOut struct {
 	AddressId      string    `json:"address_id"`              // Address ID
-	AddressLines   []string  `json:"address_lines,omitempty"` // Address Lines
+	AddressLines   []string  `json:"address_lines,omitempty"` // Address lines
 	City           *string   `json:"city,omitempty"`
-	CountryCode    string    `json:"country_code"`    // Country Code
-	CreateTime     time.Time `json:"create_time"`     // Create Time
-	Name           string    `json:"name"`            // Name of a company
+	CountryCode    string    `json:"country_code"` // Country Code
+	CreateTime     time.Time `json:"create_time"`  // Create Time
+	Name           string    `json:"name"`
 	OrganizationId string    `json:"organization_id"` // Organization ID
 	State          *string   `json:"state,omitempty"`
 	UpdateTime     time.Time `json:"update_time"`        // Update Time
@@ -398,7 +398,7 @@ type OrganizationAddressGetOut struct {
 
 // OrganizationAddressUpdateIn OrganizationAddressUpdateRequestBody
 type OrganizationAddressUpdateIn struct {
-	AddressLines *[]string `json:"address_lines,omitempty"` // Address Lines
+	AddressLines *[]string `json:"address_lines,omitempty"` // Address lines
 	City         *string   `json:"city,omitempty"`
 	CountryCode  *string   `json:"country_code,omitempty"` // Country Code
 	Name         *string   `json:"name,omitempty"`
@@ -409,11 +409,11 @@ type OrganizationAddressUpdateIn struct {
 // OrganizationAddressUpdateOut OrganizationAddressUpdateResponse
 type OrganizationAddressUpdateOut struct {
 	AddressId      string    `json:"address_id"`              // Address ID
-	AddressLines   []string  `json:"address_lines,omitempty"` // Address Lines
+	AddressLines   []string  `json:"address_lines,omitempty"` // Address lines
 	City           *string   `json:"city,omitempty"`
-	CountryCode    string    `json:"country_code"`    // Country Code
-	CreateTime     time.Time `json:"create_time"`     // Create Time
-	Name           string    `json:"name"`            // Name of a company
+	CountryCode    string    `json:"country_code"` // Country Code
+	CreateTime     time.Time `json:"create_time"`  // Create Time
+	Name           string    `json:"name"`
 	OrganizationId string    `json:"organization_id"` // Organization ID
 	State          *string   `json:"state,omitempty"`
 	UpdateTime     time.Time `json:"update_time"`        // Update Time
