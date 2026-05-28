@@ -25646,8 +25646,14 @@ func (_c *MockClient_UpgradePipelineStepGet_Call) RunAndReturn(run func(ctx cont
 }
 
 // UpgradePipelineStepList provides a mock function for the type MockClient
-func (_mock *MockClient) UpgradePipelineStepList(ctx context.Context, organizationId string) (*upgradepipeline.UpgradePipelineStepListOut, error) {
-	ret := _mock.Called(ctx, organizationId)
+func (_mock *MockClient) UpgradePipelineStepList(ctx context.Context, organizationId string, query ...[2]string) (*upgradepipeline.UpgradePipelineStepListOut, error) {
+	var tmpRet mock.Arguments
+	if len(query) > 0 {
+		tmpRet = _mock.Called(ctx, organizationId, query)
+	} else {
+		tmpRet = _mock.Called(ctx, organizationId)
+	}
+	ret := tmpRet
 
 	if len(ret) == 0 {
 		panic("no return value specified for UpgradePipelineStepList")
@@ -25655,18 +25661,18 @@ func (_mock *MockClient) UpgradePipelineStepList(ctx context.Context, organizati
 
 	var r0 *upgradepipeline.UpgradePipelineStepListOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*upgradepipeline.UpgradePipelineStepListOut, error)); ok {
-		return returnFunc(ctx, organizationId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, ...[2]string) (*upgradepipeline.UpgradePipelineStepListOut, error)); ok {
+		return returnFunc(ctx, organizationId, query...)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *upgradepipeline.UpgradePipelineStepListOut); ok {
-		r0 = returnFunc(ctx, organizationId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, ...[2]string) *upgradepipeline.UpgradePipelineStepListOut); ok {
+		r0 = returnFunc(ctx, organizationId, query...)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*upgradepipeline.UpgradePipelineStepListOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
-		r1 = returnFunc(ctx, organizationId)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, ...[2]string) error); ok {
+		r1 = returnFunc(ctx, organizationId, query...)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -25681,11 +25687,13 @@ type MockClient_UpgradePipelineStepList_Call struct {
 // UpgradePipelineStepList is a helper method to define mock.On call
 //   - ctx context.Context
 //   - organizationId string
-func (_e *MockClient_Expecter) UpgradePipelineStepList(ctx interface{}, organizationId interface{}) *MockClient_UpgradePipelineStepList_Call {
-	return &MockClient_UpgradePipelineStepList_Call{Call: _e.mock.On("UpgradePipelineStepList", ctx, organizationId)}
+//   - query ...[2]string
+func (_e *MockClient_Expecter) UpgradePipelineStepList(ctx interface{}, organizationId interface{}, query ...interface{}) *MockClient_UpgradePipelineStepList_Call {
+	return &MockClient_UpgradePipelineStepList_Call{Call: _e.mock.On("UpgradePipelineStepList",
+		append([]interface{}{ctx, organizationId}, query...)...)}
 }
 
-func (_c *MockClient_UpgradePipelineStepList_Call) Run(run func(ctx context.Context, organizationId string)) *MockClient_UpgradePipelineStepList_Call {
+func (_c *MockClient_UpgradePipelineStepList_Call) Run(run func(ctx context.Context, organizationId string, query ...[2]string)) *MockClient_UpgradePipelineStepList_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -25695,9 +25703,16 @@ func (_c *MockClient_UpgradePipelineStepList_Call) Run(run func(ctx context.Cont
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
+		var arg2 [][2]string
+		var variadicArgs [][2]string
+		if len(args) > 2 {
+			variadicArgs = args[2].([][2]string)
+		}
+		arg2 = variadicArgs
 		run(
 			arg0,
 			arg1,
+			arg2...,
 		)
 	})
 	return _c
@@ -25708,7 +25723,7 @@ func (_c *MockClient_UpgradePipelineStepList_Call) Return(upgradePipelineStepLis
 	return _c
 }
 
-func (_c *MockClient_UpgradePipelineStepList_Call) RunAndReturn(run func(ctx context.Context, organizationId string) (*upgradepipeline.UpgradePipelineStepListOut, error)) *MockClient_UpgradePipelineStepList_Call {
+func (_c *MockClient_UpgradePipelineStepList_Call) RunAndReturn(run func(ctx context.Context, organizationId string, query ...[2]string) (*upgradepipeline.UpgradePipelineStepListOut, error)) *MockClient_UpgradePipelineStepList_Call {
 	_c.Call.Return(run)
 	return _c
 }
