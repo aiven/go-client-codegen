@@ -29,7 +29,7 @@ type Handler interface {
 	// UpgradePipelineStepList [EXPERIMENTAL] List upgrade steps
 	// GET /v1/organization/{organization_id}/upgrade-pipeline/steps
 	// https://api.aiven.io/doc/#tag/Upgrade_pipeline/operation/UpgradePipelineStepList
-	UpgradePipelineStepList(ctx context.Context, organizationId string) (*UpgradePipelineStepListOut, error)
+	UpgradePipelineStepList(ctx context.Context, organizationId string, query ...[2]string) (*UpgradePipelineStepListOut, error)
 
 	// UpgradePipelineStepUpdate [EXPERIMENTAL] Update an upgrade step
 	// PATCH /v1/organization/{organization_id}/upgrade-pipeline/steps/{step_id}
@@ -86,9 +86,19 @@ func (h *UpgradePipelineHandler) UpgradePipelineStepGet(ctx context.Context, org
 	}
 	return out, nil
 }
-func (h *UpgradePipelineHandler) UpgradePipelineStepList(ctx context.Context, organizationId string) (*UpgradePipelineStepListOut, error) {
+
+// UpgradePipelineStepListCursor Pagination cursor
+func UpgradePipelineStepListCursor(cursor string) [2]string {
+	return [2]string{"cursor", cursor}
+}
+
+// UpgradePipelineStepListLimit Limit results to this number
+func UpgradePipelineStepListLimit(limit int) [2]string {
+	return [2]string{"limit", fmt.Sprintf("%d", limit)}
+}
+func (h *UpgradePipelineHandler) UpgradePipelineStepList(ctx context.Context, organizationId string, query ...[2]string) (*UpgradePipelineStepListOut, error) {
 	path := fmt.Sprintf("/v1/organization/%s/upgrade-pipeline/steps", url.PathEscape(organizationId))
-	b, err := h.doer.Do(ctx, "UpgradePipelineStepList", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "UpgradePipelineStepList", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}
