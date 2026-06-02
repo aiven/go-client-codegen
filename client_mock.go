@@ -2079,16 +2079,16 @@ func (_c *MockClient_AccountTeamMembersDelete_Call) RunAndReturn(run func(ctx co
 }
 
 // AccountTeamMembersInvite provides a mock function for the type MockClient
-func (_mock *MockClient) AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string, in *accountteammember.AccountTeamMembersInviteIn) error {
-	ret := _mock.Called(ctx, accountId, teamId, in)
+func (_mock *MockClient) AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string) error {
+	ret := _mock.Called(ctx, accountId, teamId)
 
 	if len(ret) == 0 {
 		panic("no return value specified for AccountTeamMembersInvite")
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *accountteammember.AccountTeamMembersInviteIn) error); ok {
-		r0 = returnFunc(ctx, accountId, teamId, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) error); ok {
+		r0 = returnFunc(ctx, accountId, teamId)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -2104,12 +2104,11 @@ type MockClient_AccountTeamMembersInvite_Call struct {
 //   - ctx context.Context
 //   - accountId string
 //   - teamId string
-//   - in *accountteammember.AccountTeamMembersInviteIn
-func (_e *MockClient_Expecter) AccountTeamMembersInvite(ctx interface{}, accountId interface{}, teamId interface{}, in interface{}) *MockClient_AccountTeamMembersInvite_Call {
-	return &MockClient_AccountTeamMembersInvite_Call{Call: _e.mock.On("AccountTeamMembersInvite", ctx, accountId, teamId, in)}
+func (_e *MockClient_Expecter) AccountTeamMembersInvite(ctx interface{}, accountId interface{}, teamId interface{}) *MockClient_AccountTeamMembersInvite_Call {
+	return &MockClient_AccountTeamMembersInvite_Call{Call: _e.mock.On("AccountTeamMembersInvite", ctx, accountId, teamId)}
 }
 
-func (_c *MockClient_AccountTeamMembersInvite_Call) Run(run func(ctx context.Context, accountId string, teamId string, in *accountteammember.AccountTeamMembersInviteIn)) *MockClient_AccountTeamMembersInvite_Call {
+func (_c *MockClient_AccountTeamMembersInvite_Call) Run(run func(ctx context.Context, accountId string, teamId string)) *MockClient_AccountTeamMembersInvite_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -2123,15 +2122,10 @@ func (_c *MockClient_AccountTeamMembersInvite_Call) Run(run func(ctx context.Con
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *accountteammember.AccountTeamMembersInviteIn
-		if args[3] != nil {
-			arg3 = args[3].(*accountteammember.AccountTeamMembersInviteIn)
-		}
 		run(
 			arg0,
 			arg1,
 			arg2,
-			arg3,
 		)
 	})
 	return _c
@@ -2142,7 +2136,7 @@ func (_c *MockClient_AccountTeamMembersInvite_Call) Return(err error) *MockClien
 	return _c
 }
 
-func (_c *MockClient_AccountTeamMembersInvite_Call) RunAndReturn(run func(ctx context.Context, accountId string, teamId string, in *accountteammember.AccountTeamMembersInviteIn) error) *MockClient_AccountTeamMembersInvite_Call {
+func (_c *MockClient_AccountTeamMembersInvite_Call) RunAndReturn(run func(ctx context.Context, accountId string, teamId string) error) *MockClient_AccountTeamMembersInvite_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -25935,8 +25929,8 @@ func (_c *MockClient_UserAccountDelete_Call) RunAndReturn(run func(ctx context.C
 }
 
 // UserAccountInvitesAccept provides a mock function for the type MockClient
-func (_mock *MockClient) UserAccountInvitesAccept(ctx context.Context, in *user.UserAccountInvitesAcceptIn) ([]user.AccountInviteOut, error) {
-	ret := _mock.Called(ctx, in)
+func (_mock *MockClient) UserAccountInvitesAccept(ctx context.Context) ([]user.AccountInviteOut, error) {
+	ret := _mock.Called(ctx)
 
 	if len(ret) == 0 {
 		panic("no return value specified for UserAccountInvitesAccept")
@@ -25944,18 +25938,18 @@ func (_mock *MockClient) UserAccountInvitesAccept(ctx context.Context, in *user.
 
 	var r0 []user.AccountInviteOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, *user.UserAccountInvitesAcceptIn) ([]user.AccountInviteOut, error)); ok {
-		return returnFunc(ctx, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context) ([]user.AccountInviteOut, error)); ok {
+		return returnFunc(ctx)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, *user.UserAccountInvitesAcceptIn) []user.AccountInviteOut); ok {
-		r0 = returnFunc(ctx, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context) []user.AccountInviteOut); ok {
+		r0 = returnFunc(ctx)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]user.AccountInviteOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, *user.UserAccountInvitesAcceptIn) error); ok {
-		r1 = returnFunc(ctx, in)
+	if returnFunc, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = returnFunc(ctx)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -25969,24 +25963,18 @@ type MockClient_UserAccountInvitesAccept_Call struct {
 
 // UserAccountInvitesAccept is a helper method to define mock.On call
 //   - ctx context.Context
-//   - in *user.UserAccountInvitesAcceptIn
-func (_e *MockClient_Expecter) UserAccountInvitesAccept(ctx interface{}, in interface{}) *MockClient_UserAccountInvitesAccept_Call {
-	return &MockClient_UserAccountInvitesAccept_Call{Call: _e.mock.On("UserAccountInvitesAccept", ctx, in)}
+func (_e *MockClient_Expecter) UserAccountInvitesAccept(ctx interface{}) *MockClient_UserAccountInvitesAccept_Call {
+	return &MockClient_UserAccountInvitesAccept_Call{Call: _e.mock.On("UserAccountInvitesAccept", ctx)}
 }
 
-func (_c *MockClient_UserAccountInvitesAccept_Call) Run(run func(ctx context.Context, in *user.UserAccountInvitesAcceptIn)) *MockClient_UserAccountInvitesAccept_Call {
+func (_c *MockClient_UserAccountInvitesAccept_Call) Run(run func(ctx context.Context)) *MockClient_UserAccountInvitesAccept_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
 			arg0 = args[0].(context.Context)
 		}
-		var arg1 *user.UserAccountInvitesAcceptIn
-		if args[1] != nil {
-			arg1 = args[1].(*user.UserAccountInvitesAcceptIn)
-		}
 		run(
 			arg0,
-			arg1,
 		)
 	})
 	return _c
@@ -25997,7 +25985,7 @@ func (_c *MockClient_UserAccountInvitesAccept_Call) Return(accountInviteOuts []u
 	return _c
 }
 
-func (_c *MockClient_UserAccountInvitesAccept_Call) RunAndReturn(run func(ctx context.Context, in *user.UserAccountInvitesAcceptIn) ([]user.AccountInviteOut, error)) *MockClient_UserAccountInvitesAccept_Call {
+func (_c *MockClient_UserAccountInvitesAccept_Call) RunAndReturn(run func(ctx context.Context) ([]user.AccountInviteOut, error)) *MockClient_UserAccountInvitesAccept_Call {
 	_c.Call.Return(run)
 	return _c
 }

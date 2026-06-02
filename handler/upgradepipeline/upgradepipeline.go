@@ -96,6 +96,26 @@ func UpgradePipelineStepListCursor(cursor string) [2]string {
 func UpgradePipelineStepListLimit(limit int) [2]string {
 	return [2]string{"limit", fmt.Sprintf("%d", limit)}
 }
+
+// UpgradePipelineStepListSourceProjectName Filter results by source project name
+func UpgradePipelineStepListSourceProjectName(sourceProjectName string) [2]string {
+	return [2]string{"source_project_name", sourceProjectName}
+}
+
+// UpgradePipelineStepListSourceServiceName Filter results by source service name
+func UpgradePipelineStepListSourceServiceName(sourceServiceName string) [2]string {
+	return [2]string{"source_service_name", sourceServiceName}
+}
+
+// UpgradePipelineStepListDestinationProjectName Filter results by destination project name
+func UpgradePipelineStepListDestinationProjectName(destinationProjectName string) [2]string {
+	return [2]string{"destination_project_name", destinationProjectName}
+}
+
+// UpgradePipelineStepListDestinationServiceName Filter results by destination service name
+func UpgradePipelineStepListDestinationServiceName(destinationServiceName string) [2]string {
+	return [2]string{"destination_service_name", destinationServiceName}
+}
 func (h *UpgradePipelineHandler) UpgradePipelineStepList(ctx context.Context, organizationId string, query ...[2]string) (*UpgradePipelineStepListOut, error) {
 	path := fmt.Sprintf("/v1/organization/%s/upgrade-pipeline/steps", url.PathEscape(organizationId))
 	b, err := h.doer.Do(ctx, "UpgradePipelineStepList", "GET", path, nil, query...)

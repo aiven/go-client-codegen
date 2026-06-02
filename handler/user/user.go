@@ -64,7 +64,7 @@ type Handler interface {
 	// Deprecated: UserAccountInvitesAccept accept all invites for a single account
 	// POST /v1/me/account/invites/accept
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountInvitesAccept
-	UserAccountInvitesAccept(ctx context.Context, in *UserAccountInvitesAcceptIn) ([]AccountInviteOut, error)
+	UserAccountInvitesAccept(ctx context.Context) ([]AccountInviteOut, error)
 
 	// Deprecated: UserAccountInvitesList list pending account invites
 	// GET /v1/me/account/invites
@@ -274,9 +274,9 @@ func (h *UserHandler) UserAccountDelete(ctx context.Context, userId string) erro
 	_, err := h.doer.Do(ctx, "UserAccountDelete", "DELETE", path, nil)
 	return err
 }
-func (h *UserHandler) UserAccountInvitesAccept(ctx context.Context, in *UserAccountInvitesAcceptIn) ([]AccountInviteOut, error) {
+func (h *UserHandler) UserAccountInvitesAccept(ctx context.Context) ([]AccountInviteOut, error) {
 	path := fmt.Sprintf("/v1/me/account/invites/accept")
-	b, err := h.doer.Do(ctx, "UserAccountInvitesAccept", "POST", path, in)
+	b, err := h.doer.Do(ctx, "UserAccountInvitesAccept", "POST", path, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -678,12 +678,6 @@ type TwoFactorAuthConfigureOut struct {
 	Method string  `json:"method"`           // Two-factor authentication method being used, if any
 	Qrcode *string `json:"qrcode,omitempty"` // QR code describing the TOTP as a base64-encoded PNG
 	Uri    *string `json:"uri,omitempty"`    // URI describing the TOTP
-}
-
-// UserAccountInvitesAcceptIn UserAccountInvitesAcceptRequestBody
-type UserAccountInvitesAcceptIn struct {
-	AccountId string  `json:"account_id"`        // Account ID
-	TeamId    *string `json:"team_id,omitempty"` // Team ID
 }
 
 // UserAuthIn UserAuthRequestBody
