@@ -29,7 +29,7 @@ type Handler interface {
 	// Deprecated: AccountTeamMembersInvite invite a new member to join the team
 	// POST /v1/account/{account_id}/team/{team_id}/members
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersInvite
-	AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string, in *AccountTeamMembersInviteIn) error
+	AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string) error
 
 	// Deprecated: AccountTeamMembersList list members of a single team
 	// GET /v1/account/{account_id}/team/{team_id}/members
@@ -73,9 +73,9 @@ func (h *AccountTeamMemberHandler) AccountTeamMembersDelete(ctx context.Context,
 	_, err := h.doer.Do(ctx, "AccountTeamMembersDelete", "DELETE", path, nil)
 	return err
 }
-func (h *AccountTeamMemberHandler) AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string, in *AccountTeamMembersInviteIn) error {
+func (h *AccountTeamMemberHandler) AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string) error {
 	path := fmt.Sprintf("/v1/account/%s/team/%s/members", url.PathEscape(accountId), url.PathEscape(teamId))
-	_, err := h.doer.Do(ctx, "AccountTeamMembersInvite", "POST", path, in)
+	_, err := h.doer.Do(ctx, "AccountTeamMembersInvite", "POST", path, nil)
 	return err
 }
 func (h *AccountTeamMemberHandler) AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error) {
@@ -95,11 +95,6 @@ func (h *AccountTeamMemberHandler) AccountTeamMembersList(ctx context.Context, a
 // AccountTeamMemberVerifyInviteOut Details of verified invite
 type AccountTeamMemberVerifyInviteOut struct {
 	UserEmail string `json:"user_email"` // User email address
-}
-
-// AccountTeamMembersInviteIn AccountTeamMembersInviteRequestBody
-type AccountTeamMembersInviteIn struct {
-	Email string `json:"email"` // User email address
 }
 type MemberOut struct {
 	CreateTime time.Time `json:"create_time"` // Timestamp in ISO 8601 format, always in UTC

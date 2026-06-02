@@ -980,22 +980,25 @@ type ConnectionPoolOut struct {
 
 // ControlledSwitchoverOut Controlled switchover status
 type ControlledSwitchoverOut struct {
-	Enabled            bool                          `json:"enabled"`              // Controlled switchover configured and enabled
-	ScheduledStartTime time.Time                     `json:"scheduled_start_time"` // Scheduled start time of the switchover window, if enabled and active
-	State              ControlledSwitchoverStateType `json:"state"`                // Controlled switchover state
+	CompletedAt        *time.Time                    `json:"completed_at,omitempty"`       // Time when the switchover completed, if it has completed
+	Enabled            bool                          `json:"enabled"`                      // Controlled switchover configured and enabled
+	ScheduledStartTime time.Time                     `json:"scheduled_start_time"`         // Scheduled start time of the switchover window, if enabled and active
+	State              ControlledSwitchoverStateType `json:"state"`                        // Controlled switchover state
+	TerminationReason  *string                       `json:"termination_reason,omitempty"` // Reason for switchover termination
 }
 type ControlledSwitchoverStateType string
 
 const (
-	ControlledSwitchoverStateTypeCompleted ControlledSwitchoverStateType = "COMPLETED"
-	ControlledSwitchoverStateTypeInactive  ControlledSwitchoverStateType = "INACTIVE"
-	ControlledSwitchoverStateTypePending   ControlledSwitchoverStateType = "PENDING"
-	ControlledSwitchoverStateTypeRunning   ControlledSwitchoverStateType = "RUNNING"
-	ControlledSwitchoverStateTypeScheduled ControlledSwitchoverStateType = "SCHEDULED"
+	ControlledSwitchoverStateTypeCompleted      ControlledSwitchoverStateType = "COMPLETED"
+	ControlledSwitchoverStateTypeCompletedEarly ControlledSwitchoverStateType = "COMPLETED_EARLY"
+	ControlledSwitchoverStateTypeInactive       ControlledSwitchoverStateType = "INACTIVE"
+	ControlledSwitchoverStateTypePending        ControlledSwitchoverStateType = "PENDING"
+	ControlledSwitchoverStateTypeRunning        ControlledSwitchoverStateType = "RUNNING"
+	ControlledSwitchoverStateTypeScheduled      ControlledSwitchoverStateType = "SCHEDULED"
 )
 
 func ControlledSwitchoverStateTypeChoices() []string {
-	return []string{"COMPLETED", "INACTIVE", "PENDING", "RUNNING", "SCHEDULED"}
+	return []string{"COMPLETED", "COMPLETED_EARLY", "INACTIVE", "PENDING", "RUNNING", "SCHEDULED"}
 }
 
 // CreateSearchableSnapshotIn Move indices to a searchable snaphshot
