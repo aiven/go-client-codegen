@@ -1345,9 +1345,10 @@ type ListPublicServiceTypesOut struct {
 	Valkey           *ValkeyOut           `json:"valkey,omitempty"`            // Service type information
 }
 type LogOut struct {
-	Msg  string  `json:"msg"`            // Log message
-	Time *string `json:"time,omitempty"` // Timestamp in ISO 8601 format, always in UTC
-	Unit *string `json:"unit,omitempty"` // SystemD unit name
+	Msg      string  `json:"msg"`                // Log message
+	Severity *string `json:"severity,omitempty"` // Log severity level
+	Time     *string `json:"time,omitempty"`     // Timestamp in ISO 8601 format, always in UTC
+	Unit     *string `json:"unit,omitempty"`     // SystemD unit name
 }
 type MaintenanceDowType string
 
@@ -1603,14 +1604,15 @@ func PermissionTypeChoices() []string {
 type PhaseType string
 
 const (
-	PhaseTypeBasebackup PhaseType = "basebackup"
-	PhaseTypeFinalize   PhaseType = "finalize"
-	PhaseTypePrepare    PhaseType = "prepare"
-	PhaseTypeStream     PhaseType = "stream"
+	PhaseTypeBasebackup        PhaseType = "basebackup"
+	PhaseTypeBasebackupPrepare PhaseType = "basebackup_prepare"
+	PhaseTypeFinalize          PhaseType = "finalize"
+	PhaseTypePrepare           PhaseType = "prepare"
+	PhaseTypeStream            PhaseType = "stream"
 )
 
 func PhaseTypeChoices() []string {
-	return []string{"basebackup", "finalize", "prepare", "stream"}
+	return []string{"basebackup", "basebackup_prepare", "finalize", "prepare", "stream"}
 }
 
 type PitrAdditionalRegionOut struct {
@@ -1655,6 +1657,7 @@ type ProgressUpdateOut struct {
 type ProjectGetServiceLogsIn struct {
 	Limit     *int          `json:"limit,omitempty"`      // How many log entries to receive at most
 	Offset    *string       `json:"offset,omitempty"`     // Opaque offset identifier
+	Severity  SeverityType  `json:"severity,omitempty"`   // Filter to entries with severity at least as severe as this value
 	SortOrder SortOrderType `json:"sort_order,omitempty"` // Sort order for log messages
 }
 
@@ -2458,6 +2461,23 @@ func ServiceVersionStateTypeChoices() []string {
 	return []string{"available", "eol", "preview", "terminated", "unavailable"}
 }
 
+type SeverityType string
+
+const (
+	SeverityTypeAlert   SeverityType = "alert"
+	SeverityTypeCrit    SeverityType = "crit"
+	SeverityTypeDebug   SeverityType = "debug"
+	SeverityTypeEmerg   SeverityType = "emerg"
+	SeverityTypeErr     SeverityType = "err"
+	SeverityTypeInfo    SeverityType = "info"
+	SeverityTypeNotice  SeverityType = "notice"
+	SeverityTypeWarning SeverityType = "warning"
+)
+
+func SeverityTypeChoices() []string {
+	return []string{"alert", "crit", "debug", "emerg", "err", "info", "notice", "warning"}
+}
+
 // ShardOut Shard of this node. Only returned for a subset of service types
 type ShardOut struct {
 	Name     *string `json:"name,omitempty"`     // Name of the shard.
@@ -2538,11 +2558,12 @@ const (
 	UnitTypeBinlogs           UnitType = "binlogs"
 	UnitTypeBytesCompressed   UnitType = "bytes_compressed"
 	UnitTypeBytesUncompressed UnitType = "bytes_uncompressed"
+	UnitTypePreparePercent    UnitType = "prepare_percent"
 	UnitTypeWalLsn            UnitType = "wal_lsn"
 )
 
 func UnitTypeChoices() []string {
-	return []string{"binlogs", "bytes_compressed", "bytes_uncompressed", "wal_lsn"}
+	return []string{"binlogs", "bytes_compressed", "bytes_uncompressed", "prepare_percent", "wal_lsn"}
 }
 
 type UpdateOut struct {
