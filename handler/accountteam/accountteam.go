@@ -14,7 +14,7 @@ type Handler interface {
 	// Deprecated: AccountTeamCreate create a new team
 	// POST /v1/account/{account_id}/teams
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamCreate
-	AccountTeamCreate(ctx context.Context, accountId string, in *AccountTeamCreateIn) (*AccountTeamCreateOut, error)
+	AccountTeamCreate(ctx context.Context, accountId string) (*AccountTeamCreateOut, error)
 
 	// Deprecated: AccountTeamDelete delete a team
 	// DELETE /v1/account/{account_id}/team/{team_id}
@@ -75,9 +75,9 @@ type AccountTeamHandler struct {
 	doer doer
 }
 
-func (h *AccountTeamHandler) AccountTeamCreate(ctx context.Context, accountId string, in *AccountTeamCreateIn) (*AccountTeamCreateOut, error) {
+func (h *AccountTeamHandler) AccountTeamCreate(ctx context.Context, accountId string) (*AccountTeamCreateOut, error) {
 	path := fmt.Sprintf("/v1/account/%s/teams", url.PathEscape(accountId))
-	b, err := h.doer.Do(ctx, "AccountTeamCreate", "POST", path, in)
+	b, err := h.doer.Do(ctx, "AccountTeamCreate", "POST", path, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -182,11 +182,6 @@ type AccountInviteOut struct {
 	TeamId             string    `json:"team_id"`               // Team ID
 	TeamName           string    `json:"team_name"`             // Team name
 	UserEmail          string    `json:"user_email"`            // User email address
-}
-
-// AccountTeamCreateIn AccountTeamCreateRequestBody
-type AccountTeamCreateIn struct {
-	TeamName string `json:"team_name"` // Team name
 }
 
 // AccountTeamCreateOut Account Team details
