@@ -20,7 +20,7 @@ type Handler interface {
 	// POST /v1/project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsClaim
 	// Required roles or permissions: developer, operator
-	ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*ProjectCreditsClaimOut, error)
+	ProjectCreditsClaim(ctx context.Context, project string) (*ProjectCreditsClaimOut, error)
 
 	// Deprecated: ProjectCreditsList list credits available to the project
 	// GET /v1/project/{project}/credits
@@ -61,9 +61,9 @@ func (h *ProjectBillingHandler) InvoiceGet(ctx context.Context, invoiceNumber st
 	}
 	return &out.Invoice, nil
 }
-func (h *ProjectBillingHandler) ProjectCreditsClaim(ctx context.Context, project string, in *ProjectCreditsClaimIn) (*ProjectCreditsClaimOut, error) {
+func (h *ProjectBillingHandler) ProjectCreditsClaim(ctx context.Context, project string) (*ProjectCreditsClaimOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/credits", url.PathEscape(project))
-	b, err := h.doer.Do(ctx, "ProjectCreditsClaim", "POST", path, in)
+	b, err := h.doer.Do(ctx, "ProjectCreditsClaim", "POST", path, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -217,11 +217,6 @@ const (
 
 func InvoiceStateTypeChoices() []string {
 	return []string{"accrual", "consolidated", "due", "due_only_project_charges_calculated", "estimate", "estimate_only_project_charges_calculated", "failed_credit_card_charge", "failed_no_credit_card", "mailed", "no_payment_expected", "paid", "partner_metering", "uncollectible", "waived"}
-}
-
-// ProjectCreditsClaimIn ProjectCreditsClaimRequestBody
-type ProjectCreditsClaimIn struct {
-	Code string `json:"code"` // Credit code
 }
 
 // ProjectCreditsClaimOut Assigned credit

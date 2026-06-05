@@ -1514,8 +1514,8 @@ func (_c *MockClient_AccountProjectsTeamsList_Call) RunAndReturn(run func(ctx co
 }
 
 // AccountTeamCreate provides a mock function for the type MockClient
-func (_mock *MockClient) AccountTeamCreate(ctx context.Context, accountId string, in *accountteam.AccountTeamCreateIn) (*accountteam.AccountTeamCreateOut, error) {
-	ret := _mock.Called(ctx, accountId, in)
+func (_mock *MockClient) AccountTeamCreate(ctx context.Context, accountId string) (*accountteam.AccountTeamCreateOut, error) {
+	ret := _mock.Called(ctx, accountId)
 
 	if len(ret) == 0 {
 		panic("no return value specified for AccountTeamCreate")
@@ -1523,18 +1523,18 @@ func (_mock *MockClient) AccountTeamCreate(ctx context.Context, accountId string
 
 	var r0 *accountteam.AccountTeamCreateOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *accountteam.AccountTeamCreateIn) (*accountteam.AccountTeamCreateOut, error)); ok {
-		return returnFunc(ctx, accountId, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*accountteam.AccountTeamCreateOut, error)); ok {
+		return returnFunc(ctx, accountId)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *accountteam.AccountTeamCreateIn) *accountteam.AccountTeamCreateOut); ok {
-		r0 = returnFunc(ctx, accountId, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *accountteam.AccountTeamCreateOut); ok {
+		r0 = returnFunc(ctx, accountId)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*accountteam.AccountTeamCreateOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, *accountteam.AccountTeamCreateIn) error); ok {
-		r1 = returnFunc(ctx, accountId, in)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = returnFunc(ctx, accountId)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -1549,12 +1549,11 @@ type MockClient_AccountTeamCreate_Call struct {
 // AccountTeamCreate is a helper method to define mock.On call
 //   - ctx context.Context
 //   - accountId string
-//   - in *accountteam.AccountTeamCreateIn
-func (_e *MockClient_Expecter) AccountTeamCreate(ctx interface{}, accountId interface{}, in interface{}) *MockClient_AccountTeamCreate_Call {
-	return &MockClient_AccountTeamCreate_Call{Call: _e.mock.On("AccountTeamCreate", ctx, accountId, in)}
+func (_e *MockClient_Expecter) AccountTeamCreate(ctx interface{}, accountId interface{}) *MockClient_AccountTeamCreate_Call {
+	return &MockClient_AccountTeamCreate_Call{Call: _e.mock.On("AccountTeamCreate", ctx, accountId)}
 }
 
-func (_c *MockClient_AccountTeamCreate_Call) Run(run func(ctx context.Context, accountId string, in *accountteam.AccountTeamCreateIn)) *MockClient_AccountTeamCreate_Call {
+func (_c *MockClient_AccountTeamCreate_Call) Run(run func(ctx context.Context, accountId string)) *MockClient_AccountTeamCreate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -1564,14 +1563,9 @@ func (_c *MockClient_AccountTeamCreate_Call) Run(run func(ctx context.Context, a
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
-		var arg2 *accountteam.AccountTeamCreateIn
-		if args[2] != nil {
-			arg2 = args[2].(*accountteam.AccountTeamCreateIn)
-		}
 		run(
 			arg0,
 			arg1,
-			arg2,
 		)
 	})
 	return _c
@@ -1582,7 +1576,7 @@ func (_c *MockClient_AccountTeamCreate_Call) Return(accountTeamCreateOut *accoun
 	return _c
 }
 
-func (_c *MockClient_AccountTeamCreate_Call) RunAndReturn(run func(ctx context.Context, accountId string, in *accountteam.AccountTeamCreateIn) (*accountteam.AccountTeamCreateOut, error)) *MockClient_AccountTeamCreate_Call {
+func (_c *MockClient_AccountTeamCreate_Call) RunAndReturn(run func(ctx context.Context, accountId string) (*accountteam.AccountTeamCreateOut, error)) *MockClient_AccountTeamCreate_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -10304,8 +10298,8 @@ func (_c *MockClient_ProjectCreate_Call) RunAndReturn(run func(ctx context.Conte
 }
 
 // ProjectCreditsClaim provides a mock function for the type MockClient
-func (_mock *MockClient) ProjectCreditsClaim(ctx context.Context, project1 string, in *projectbilling.ProjectCreditsClaimIn) (*projectbilling.ProjectCreditsClaimOut, error) {
-	ret := _mock.Called(ctx, project1, in)
+func (_mock *MockClient) ProjectCreditsClaim(ctx context.Context, project1 string) (*projectbilling.ProjectCreditsClaimOut, error) {
+	ret := _mock.Called(ctx, project1)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ProjectCreditsClaim")
@@ -10313,18 +10307,18 @@ func (_mock *MockClient) ProjectCreditsClaim(ctx context.Context, project1 strin
 
 	var r0 *projectbilling.ProjectCreditsClaimOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *projectbilling.ProjectCreditsClaimIn) (*projectbilling.ProjectCreditsClaimOut, error)); ok {
-		return returnFunc(ctx, project1, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*projectbilling.ProjectCreditsClaimOut, error)); ok {
+		return returnFunc(ctx, project1)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *projectbilling.ProjectCreditsClaimIn) *projectbilling.ProjectCreditsClaimOut); ok {
-		r0 = returnFunc(ctx, project1, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *projectbilling.ProjectCreditsClaimOut); ok {
+		r0 = returnFunc(ctx, project1)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*projectbilling.ProjectCreditsClaimOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, *projectbilling.ProjectCreditsClaimIn) error); ok {
-		r1 = returnFunc(ctx, project1, in)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = returnFunc(ctx, project1)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -10339,12 +10333,11 @@ type MockClient_ProjectCreditsClaim_Call struct {
 // ProjectCreditsClaim is a helper method to define mock.On call
 //   - ctx context.Context
 //   - project1 string
-//   - in *projectbilling.ProjectCreditsClaimIn
-func (_e *MockClient_Expecter) ProjectCreditsClaim(ctx interface{}, project1 interface{}, in interface{}) *MockClient_ProjectCreditsClaim_Call {
-	return &MockClient_ProjectCreditsClaim_Call{Call: _e.mock.On("ProjectCreditsClaim", ctx, project1, in)}
+func (_e *MockClient_Expecter) ProjectCreditsClaim(ctx interface{}, project1 interface{}) *MockClient_ProjectCreditsClaim_Call {
+	return &MockClient_ProjectCreditsClaim_Call{Call: _e.mock.On("ProjectCreditsClaim", ctx, project1)}
 }
 
-func (_c *MockClient_ProjectCreditsClaim_Call) Run(run func(ctx context.Context, project1 string, in *projectbilling.ProjectCreditsClaimIn)) *MockClient_ProjectCreditsClaim_Call {
+func (_c *MockClient_ProjectCreditsClaim_Call) Run(run func(ctx context.Context, project1 string)) *MockClient_ProjectCreditsClaim_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -10354,14 +10347,9 @@ func (_c *MockClient_ProjectCreditsClaim_Call) Run(run func(ctx context.Context,
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
-		var arg2 *projectbilling.ProjectCreditsClaimIn
-		if args[2] != nil {
-			arg2 = args[2].(*projectbilling.ProjectCreditsClaimIn)
-		}
 		run(
 			arg0,
 			arg1,
-			arg2,
 		)
 	})
 	return _c
@@ -10372,7 +10360,7 @@ func (_c *MockClient_ProjectCreditsClaim_Call) Return(projectCreditsClaimOut *pr
 	return _c
 }
 
-func (_c *MockClient_ProjectCreditsClaim_Call) RunAndReturn(run func(ctx context.Context, project1 string, in *projectbilling.ProjectCreditsClaimIn) (*projectbilling.ProjectCreditsClaimOut, error)) *MockClient_ProjectCreditsClaim_Call {
+func (_c *MockClient_ProjectCreditsClaim_Call) RunAndReturn(run func(ctx context.Context, project1 string) (*projectbilling.ProjectCreditsClaimOut, error)) *MockClient_ProjectCreditsClaim_Call {
 	_c.Call.Return(run)
 	return _c
 }
