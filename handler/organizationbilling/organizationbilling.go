@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/url"
+	"time"
 )
 
 type Handler interface {
@@ -148,6 +149,7 @@ type BillingGroupOut struct {
 	BillingEmails        []BillingEmailOut        `json:"billing_emails"`                // List of billing contact emails
 	BillingGroupId       string                   `json:"billing_group_id"`              // Billing group ID
 	BillingGroupName     string                   `json:"billing_group_name"`            // Billing Group Name
+	CreateTime           time.Time                `json:"create_time"`                   // The date when this billing group was created
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"` // Extra billing text
 	OrganizationId       string                   `json:"organization_id"`               // Organization ID
 	PaymentMethod        *PaymentMethodOut        `json:"payment_method,omitempty"`      // Payment method
@@ -174,6 +176,7 @@ type OrganizationBillingGroupCreateOut struct {
 	BillingEmails        []BillingEmailOut        `json:"billing_emails"`                // List of billing contact emails
 	BillingGroupId       string                   `json:"billing_group_id"`              // Billing group ID
 	BillingGroupName     string                   `json:"billing_group_name"`            // Billing Group Name
+	CreateTime           time.Time                `json:"create_time"`                   // The date when this billing group was created
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"` // Extra billing text
 	OrganizationId       string                   `json:"organization_id"`               // Organization ID
 	PaymentMethod        *PaymentMethodOut        `json:"payment_method,omitempty"`      // Payment method
@@ -188,6 +191,7 @@ type OrganizationBillingGroupGetOut struct {
 	BillingEmails        []BillingEmailOut        `json:"billing_emails"`                // List of billing contact emails
 	BillingGroupId       string                   `json:"billing_group_id"`              // Billing group ID
 	BillingGroupName     string                   `json:"billing_group_name"`            // Billing Group Name
+	CreateTime           time.Time                `json:"create_time"`                   // The date when this billing group was created
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"` // Extra billing text
 	OrganizationId       string                   `json:"organization_id"`               // Organization ID
 	PaymentMethod        *PaymentMethodOut        `json:"payment_method,omitempty"`      // Payment method
@@ -214,6 +218,7 @@ type OrganizationBillingGroupUpdateOut struct {
 	BillingEmails        []BillingEmailOut        `json:"billing_emails"`                // List of billing contact emails
 	BillingGroupId       string                   `json:"billing_group_id"`              // Billing group ID
 	BillingGroupName     string                   `json:"billing_group_name"`            // Billing Group Name
+	CreateTime           time.Time                `json:"create_time"`                   // The date when this billing group was created
 	CustomInvoiceText    *string                  `json:"custom_invoice_text,omitempty"` // Extra billing text
 	OrganizationId       string                   `json:"organization_id"`               // Organization ID
 	PaymentMethod        *PaymentMethodOut        `json:"payment_method,omitempty"`      // Payment method
