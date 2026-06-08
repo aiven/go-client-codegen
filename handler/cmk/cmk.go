@@ -14,31 +14,37 @@ type Handler interface {
 	// CMKAccessCheckTrigger trigger an access check on CMK
 	// POST /v1/project/{project}/secrets/cmks/{cmk_id}/access_check
 	// https://api.aiven.io/doc/#tag/Secrets/operation/CMKAccessCheckTrigger
+	// Required roles or permissions: operator
 	CMKAccessCheckTrigger(ctx context.Context, project string, cmkid string) (*CMKAccessCheckTriggerOut, error)
 
 	// CMKAccessorsList list CMK accessors
 	// GET /v1/project/{project}/secrets/cmks/accessors
 	// https://api.aiven.io/doc/#tag/Secrets/operation/CMKAccessorsList
+	// Required roles or permissions: operator
 	CMKAccessorsList(ctx context.Context, project string) (*CMKAccessorsListOut, error)
 
 	// CMKCreate create new CMK
 	// POST /v1/project/{project}/secrets/cmks
 	// https://api.aiven.io/doc/#tag/Secrets/operation/CMKCreate
+	// Required roles or permissions: operator
 	CMKCreate(ctx context.Context, project string, in *CMKCreateIn) (*CMKCreateOut, error)
 
 	// CMKDelete delete CMK
 	// DELETE /v1/project/{project}/secrets/cmks/{cmk_id}
 	// https://api.aiven.io/doc/#tag/Secrets/operation/CMKDelete
+	// Required roles or permissions: operator
 	CMKDelete(ctx context.Context, project string, cmkid string) (*CMKDeleteOut, error)
 
 	// CMKGet get CMK details
 	// GET /v1/project/{project}/secrets/cmks/{cmk_id}
 	// https://api.aiven.io/doc/#tag/Secrets/operation/CMKGet
+	// Required roles or permissions: operator
 	CMKGet(ctx context.Context, project string, cmkid string) (*CMKGetOut, error)
 
 	// CMKUpdate update CMK
 	// POST /v1/project/{project}/secrets/cmks/{cmk_id}
 	// https://api.aiven.io/doc/#tag/Secrets/operation/CMKUpdate
+	// Required roles or permissions: operator
 	CMKUpdate(ctx context.Context, project string, cmkid string, in *CMKUpdateIn) (*CMKUpdateOut, error)
 }
 

@@ -48,6 +48,7 @@ type Handler interface {
 	// StaticIPDelete delete a static IP address
 	// DELETE /v1/project/{project}/static-ips/{static_ip_address_id}
 	// https://api.aiven.io/doc/#tag/StaticIP/operation/StaticIPDelete
+	// Required roles or permissions: operator
 	StaticIPDelete(ctx context.Context, project string, staticIpaddressId string) (*StaticIPDeleteOut, error)
 
 	// StaticIPList list static IP addresses

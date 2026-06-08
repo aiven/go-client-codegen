@@ -84,6 +84,7 @@ type Handler interface {
 	// PermissionsGet list of permissions
 	// GET /v1/organization/{organization_id}/permissions/{resource_type}/{resource_id}
 	// https://api.aiven.io/doc/#tag/Permissions/operation/PermissionsGet
+	// Required roles or permissions: project:permissions:read
 	PermissionsGet(ctx context.Context, organizationId string, resourceType ResourceType, resourceId string) ([]PermissionOut, error)
 
 	// PermissionsSet set permissions
