@@ -5560,8 +5560,14 @@ func (_c *MockClient_ListClouds_Call) RunAndReturn(run func(ctx context.Context)
 }
 
 // ListProjectClouds provides a mock function for the type MockClient
-func (_mock *MockClient) ListProjectClouds(ctx context.Context, project string) ([]cloud.CloudOut, error) {
-	ret := _mock.Called(ctx, project)
+func (_mock *MockClient) ListProjectClouds(ctx context.Context, project string, query ...[2]string) ([]cloud.CloudOut, error) {
+	var tmpRet mock.Arguments
+	if len(query) > 0 {
+		tmpRet = _mock.Called(ctx, project, query)
+	} else {
+		tmpRet = _mock.Called(ctx, project)
+	}
+	ret := tmpRet
 
 	if len(ret) == 0 {
 		panic("no return value specified for ListProjectClouds")
@@ -5569,18 +5575,18 @@ func (_mock *MockClient) ListProjectClouds(ctx context.Context, project string) 
 
 	var r0 []cloud.CloudOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]cloud.CloudOut, error)); ok {
-		return returnFunc(ctx, project)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, ...[2]string) ([]cloud.CloudOut, error)); ok {
+		return returnFunc(ctx, project, query...)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []cloud.CloudOut); ok {
-		r0 = returnFunc(ctx, project)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, ...[2]string) []cloud.CloudOut); ok {
+		r0 = returnFunc(ctx, project, query...)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]cloud.CloudOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
-		r1 = returnFunc(ctx, project)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, ...[2]string) error); ok {
+		r1 = returnFunc(ctx, project, query...)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -5595,11 +5601,13 @@ type MockClient_ListProjectClouds_Call struct {
 // ListProjectClouds is a helper method to define mock.On call
 //   - ctx context.Context
 //   - project string
-func (_e *MockClient_Expecter) ListProjectClouds(ctx interface{}, project interface{}) *MockClient_ListProjectClouds_Call {
-	return &MockClient_ListProjectClouds_Call{Call: _e.mock.On("ListProjectClouds", ctx, project)}
+//   - query ...[2]string
+func (_e *MockClient_Expecter) ListProjectClouds(ctx interface{}, project interface{}, query ...interface{}) *MockClient_ListProjectClouds_Call {
+	return &MockClient_ListProjectClouds_Call{Call: _e.mock.On("ListProjectClouds",
+		append([]interface{}{ctx, project}, query...)...)}
 }
 
-func (_c *MockClient_ListProjectClouds_Call) Run(run func(ctx context.Context, project string)) *MockClient_ListProjectClouds_Call {
+func (_c *MockClient_ListProjectClouds_Call) Run(run func(ctx context.Context, project string, query ...[2]string)) *MockClient_ListProjectClouds_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -5609,9 +5617,16 @@ func (_c *MockClient_ListProjectClouds_Call) Run(run func(ctx context.Context, p
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
+		var arg2 [][2]string
+		var variadicArgs [][2]string
+		if len(args) > 2 {
+			variadicArgs = args[2].([][2]string)
+		}
+		arg2 = variadicArgs
 		run(
 			arg0,
 			arg1,
+			arg2...,
 		)
 	})
 	return _c
@@ -5622,7 +5637,7 @@ func (_c *MockClient_ListProjectClouds_Call) Return(cloudOuts []cloud.CloudOut, 
 	return _c
 }
 
-func (_c *MockClient_ListProjectClouds_Call) RunAndReturn(run func(ctx context.Context, project string) ([]cloud.CloudOut, error)) *MockClient_ListProjectClouds_Call {
+func (_c *MockClient_ListProjectClouds_Call) RunAndReturn(run func(ctx context.Context, project string, query ...[2]string) ([]cloud.CloudOut, error)) *MockClient_ListProjectClouds_Call {
 	_c.Call.Return(run)
 	return _c
 }

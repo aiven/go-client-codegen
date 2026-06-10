@@ -19,7 +19,7 @@ type Handler interface {
 	// GET /v1/project/{project}/clouds
 	// https://api.aiven.io/doc/#tag/Cloud_platforms/operation/ListProjectClouds
 	// Required roles or permissions: project:services:write
-	ListProjectClouds(ctx context.Context, project string) ([]CloudOut, error)
+	ListProjectClouds(ctx context.Context, project string, query ...[2]string) ([]CloudOut, error)
 }
 
 // doer http client
@@ -48,9 +48,14 @@ func (h *CloudHandler) ListClouds(ctx context.Context) ([]CloudOut, error) {
 	}
 	return out.Clouds, nil
 }
-func (h *CloudHandler) ListProjectClouds(ctx context.Context, project string) ([]CloudOut, error) {
+
+// ListProjectCloudsSortByProximity When true, order clouds by proximity to the caller's IP (closest first).
+func ListProjectCloudsSortByProximity(sortByProximity bool) [2]string {
+	return [2]string{"sort_by_proximity", fmt.Sprintf("%t", sortByProximity)}
+}
+func (h *CloudHandler) ListProjectClouds(ctx context.Context, project string, query ...[2]string) ([]CloudOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/clouds", url.PathEscape(project))
-	b, err := h.doer.Do(ctx, "ListProjectClouds", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "ListProjectClouds", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}

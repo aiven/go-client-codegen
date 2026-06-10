@@ -11,31 +11,31 @@ import (
 )
 
 type Handler interface {
-	// OrganizationAddressCreate [EXPERIMENTAL] Create new address for an organization
+	// OrganizationAddressCreate create new address for an organization
 	// POST /v1/organization/{organization_id}/addresses
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressCreate
 	// Required roles or permissions: organization:billing:write
 	OrganizationAddressCreate(ctx context.Context, organizationId string, in *OrganizationAddressCreateIn) (*OrganizationAddressCreateOut, error)
 
-	// OrganizationAddressDelete [EXPERIMENTAL] Delete an address of an organization
+	// OrganizationAddressDelete delete an address of an organization
 	// DELETE /v1/organization/{organization_id}/address/{address_id}
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressDelete
 	// Required roles or permissions: organization:billing:write
 	OrganizationAddressDelete(ctx context.Context, organizationId string, addressId string) error
 
-	// OrganizationAddressGet [EXPERIMENTAL] Get organization address info
+	// OrganizationAddressGet get organization address info
 	// GET /v1/organization/{organization_id}/address/{address_id}
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressGet
 	// Required roles or permissions: organization:billing:read, organization:billing:write
 	OrganizationAddressGet(ctx context.Context, organizationId string, addressId string) (*OrganizationAddressGetOut, error)
 
-	// OrganizationAddressList [EXPERIMENTAL] List addresses of an organization
+	// OrganizationAddressList list addresses of an organization
 	// GET /v1/organization/{organization_id}/addresses
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressList
 	// Required roles or permissions: organization:billing:read, organization:billing:write
 	OrganizationAddressList(ctx context.Context, organizationId string) ([]AddresseOut, error)
 
-	// OrganizationAddressUpdate [EXPERIMENTAL] Update an address of an organization
+	// OrganizationAddressUpdate update an address of an organization
 	// PATCH /v1/organization/{organization_id}/address/{address_id}
 	// https://api.aiven.io/doc/#tag/Billing/operation/OrganizationAddressUpdate
 	// Required roles or permissions: organization:billing:write
