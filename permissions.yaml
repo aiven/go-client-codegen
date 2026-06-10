@@ -51,6 +51,18 @@ BillingGroupProjectList:
   - developer
   - operator
   - read_only
+CMKAccessCheckTrigger:
+  - operator
+CMKAccessorsList:
+  - operator
+CMKCreate:
+  - operator
+CMKDelete:
+  - operator
+CMKGet:
+  - operator
+CMKUpdate:
+  - operator
 ListProjectClouds:
   - project:services:write
 ListProjectServiceTypes:
@@ -134,6 +146,11 @@ PGServiceAvailableExtensions:
   - service:data:write
 PGServiceQueryStatistics:
   - service:data:write
+PaymentMethodsList:
+  - organization:billing:read
+  - organization:billing:write
+PermissionsGet:
+  - project:permissions:read
 ProjectAlertsList:
   - developer
   - operator
@@ -170,9 +187,7 @@ ProjectKmsGetCA:
 ProjectPrivatelinkAvailabilityList:
   - project:services:write
 ProjectServicePlanList:
-  - developer
-  - operator
-  - read_only
+  - project:services:write
 ProjectServicePlanPriceGet:
   - developer
   - operator
@@ -233,7 +248,6 @@ ServiceClickHouseDatabaseDelete:
 ServiceClickHouseDatabaseList:
   - service:data:write
 ServiceClickHousePasswordReset:
-  - service:data:write
   - service:users:write
 ServiceClickHouseQuery:
   - service:data:write
@@ -242,13 +256,10 @@ ServiceClickHouseQueryStats:
 ServiceClickHouseTieredStorageSummary:
   - service:data:write
 ServiceClickHouseUserCreate:
-  - service:data:write
   - service:users:write
 ServiceClickHouseUserDelete:
-  - service:data:write
   - service:users:write
 ServiceClickHouseUserList:
-  - service:data:write
   - service:users:write
 ServiceCreate:
   - project:services:write
@@ -443,9 +454,7 @@ ServiceList:
 ServiceMaintenanceStart:
   - role:services:maintenance
 ServiceMetricsFetch:
-  - developer
-  - operator
-  - read_only
+  - service:metrics:read
 ServiceOpenSearchAclGet:
   - service:data:write
 ServiceOpenSearchAclSet:
@@ -532,9 +541,9 @@ ServiceSchemaRegistrySubjectVersionsGet:
 ServiceSchemaRegistrySubjects:
   - service:data:write
 ServiceTaskCreate:
-  - operator
+  - role:services:maintenance
 ServiceTaskGet:
-  - operator
+  - role:services:maintenance
 ServiceThanosStorageSummary:
   - service:data:write
 ServiceUpdate:
@@ -554,6 +563,8 @@ ServiceUserGet:
   - service:configuration:write
   - service:users:write
 StaticIPCreate:
+  - operator
+StaticIPDelete:
   - operator
 StaticIPList:
   - developer

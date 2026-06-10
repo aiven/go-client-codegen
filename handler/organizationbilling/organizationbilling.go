@@ -44,6 +44,7 @@ type Handler interface {
 	// PaymentMethodsList list payment methods for an organization
 	// GET /v1/organization/{organization_id}/payment-methods
 	// https://api.aiven.io/doc/#tag/OrganizationPaymentMethod/operation/PaymentMethodsList
+	// Required roles or permissions: organization:billing:read, organization:billing:write
 	PaymentMethodsList(ctx context.Context, organizationId string) ([]PaymentMethodsListOut, error)
 }
 

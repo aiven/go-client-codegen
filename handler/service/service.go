@@ -210,7 +210,7 @@ type Handler interface {
 	// ServiceMetricsFetch fetch service metrics
 	// POST /v1/project/{project}/service/{service_name}/metrics
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceMetricsFetch
-	// Required roles or permissions: developer, operator, read_only
+	// Required roles or permissions: service:metrics:read
 	ServiceMetricsFetch(ctx context.Context, project string, serviceName string, in *ServiceMetricsFetchIn) (map[string]any, error)
 
 	// ServiceQueryActivity fetch current queries for the service
@@ -228,13 +228,13 @@ type Handler interface {
 	// ServiceTaskCreate create a new task for service
 	// POST /v1/project/{project}/service/{service_name}/task
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceTaskCreate
-	// Required roles or permissions: operator
+	// Required roles or permissions: role:services:maintenance
 	ServiceTaskCreate(ctx context.Context, project string, serviceName string, in *ServiceTaskCreateIn) (*ServiceTaskCreateOut, error)
 
 	// ServiceTaskGet get task result
 	// GET /v1/project/{project}/service/{service_name}/task/{task_id}
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceTaskGet
-	// Required roles or permissions: operator
+	// Required roles or permissions: role:services:maintenance
 	ServiceTaskGet(ctx context.Context, project string, serviceName string, taskId string) (*ServiceTaskGetOut, error)
 
 	// ServiceUpdate update service configuration

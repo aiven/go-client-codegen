@@ -87,7 +87,7 @@ type Handler interface {
 	// ProjectServicePlanList list service plans
 	// GET /v1/project/{project}/service-types/{service_type}/plans
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectServicePlanList
-	// Required roles or permissions: developer, operator, read_only
+	// Required roles or permissions: project:services:write
 	ProjectServicePlanList(ctx context.Context, project string, serviceType string) ([]ServicePlanOut, error)
 
 	// ProjectServicePlanPriceGet get plan pricing
