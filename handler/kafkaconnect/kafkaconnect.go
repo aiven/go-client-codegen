@@ -206,16 +206,17 @@ type ConfigOut struct {
 	Name           string `json:"name"`            // Unique name for the connector
 }
 type ConfigurationSchemaOut struct {
-	DefaultValue  string                  `json:"default_value"` // Default value to be set if field omitted in configuration
-	DisplayName   string                  `json:"display_name"`  // Human friendly name of the field
-	Documentation string                  `json:"documentation"` // Assisting help text
-	Group         string                  `json:"group"`         // Name of the field group to which the field belongs to
-	Importance    ImportanceType          `json:"importance"`    // How important is the field
-	Name          string                  `json:"name"`          // Machine friendly name of the field
-	Order         int                     `json:"order"`         // Position of the field in the configuration form
-	Required      bool                    `json:"required"`      // Defines if the field value is mandatory or not
-	Type          ConfigurationSchemaType `json:"type"`          // Configuration value type
-	Width         WidthType               `json:"width"`         // Expected length of the input value
+	DefaultValue  string                  `json:"default_value"`  // Default value to be set if field omitted in configuration
+	DisplayName   string                  `json:"display_name"`   // Human friendly name of the field
+	Documentation string                  `json:"documentation"`  // Assisting help text
+	Group         string                  `json:"group"`          // Name of the field group to which the field belongs to
+	Importance    ImportanceType          `json:"importance"`     // How important is the field
+	Name          string                  `json:"name"`           // Machine friendly name of the field
+	Order         int                     `json:"order"`          // Position of the field in the configuration form
+	OrderInGroup  int                     `json:"order_in_group"` // Position of the field in the configuration form (Kafka 4.x name, alias of order)
+	Required      bool                    `json:"required"`       // Defines if the field value is mandatory or not
+	Type          ConfigurationSchemaType `json:"type"`           // Configuration value type
+	Width         WidthType               `json:"width"`          // Expected length of the input value
 }
 type ConfigurationSchemaType string
 
