@@ -11,7 +11,7 @@ import (
 )
 
 type Handler interface {
-	// AccountAttachPaymentMethod attach payment method for account
+	// Deprecated: AccountAttachPaymentMethod attach payment method for account
 	// POST /v1/account/{account_id}/payment_methods
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAttachPaymentMethod
 	AccountAttachPaymentMethod(ctx context.Context, accountId string, in *AccountAttachPaymentMethodIn) (*AccountAttachPaymentMethodOut, error)
@@ -51,7 +51,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountMove
 	AccountMove(ctx context.Context, accountId string, in *AccountMoveIn) (*AccountMoveOut, error)
 
-	// AccountPaymentMethodDelete delete credit card attached to the account as a payment method
+	// Deprecated: AccountPaymentMethodDelete delete credit card attached to the account as a payment method
 	// DELETE /v1/account/{account_id}/payment_method/{card_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountPaymentMethodDelete
 	AccountPaymentMethodDelete(ctx context.Context, accountId string, cardId string) error

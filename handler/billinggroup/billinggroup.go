@@ -62,7 +62,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupList
 	BillingGroupList(ctx context.Context) ([]BillingGroupOut, error)
 
-	// BillingGroupProjectAssign assign project to billing group
+	// Deprecated: BillingGroupProjectAssign assign project to billing group
 	// POST /v1/billing-group/{billing_group_id}/project-assign/{project}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectAssign
 	BillingGroupProjectAssign(ctx context.Context, billingGroupId string, project string) error
@@ -73,7 +73,7 @@ type Handler interface {
 	// Required roles or permissions: developer, operator, read_only
 	BillingGroupProjectList(ctx context.Context, billingGroupId string) ([]ProjectOut, error)
 
-	// BillingGroupProjectsAssign assign projects to billing group
+	// Deprecated: BillingGroupProjectsAssign assign projects to billing group
 	// POST /v1/billing-group/{billing_group_id}/projects-assign
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectsAssign
 	BillingGroupProjectsAssign(ctx context.Context, billingGroupId string, in *BillingGroupProjectsAssignIn) error
