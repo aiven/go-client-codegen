@@ -97,7 +97,7 @@ type Handler interface {
 	// GET /v1/project/{project}/service/{service_name}/db
 	// https://api.aiven.io/doc/#tag/Service/operation/ServiceDatabaseList
 	// Required roles or permissions: developer, operator, read_only
-	ServiceDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error)
+	ServiceDatabaseList(ctx context.Context, project string, serviceName string, query ...[2]string) (*ServiceDatabaseListOut, error)
 
 	// ServiceDelete terminate a service
 	// DELETE /v1/project/{project}/service/{service_name}
@@ -437,18 +437,28 @@ func (h *ServiceHandler) ServiceDatabaseDelete(ctx context.Context, project stri
 	_, err := h.doer.Do(ctx, "ServiceDatabaseDelete", "DELETE", path, nil)
 	return err
 }
-func (h *ServiceHandler) ServiceDatabaseList(ctx context.Context, project string, serviceName string) ([]DatabaseOut, error) {
+
+// ServiceDatabaseListLimit Maximum number of databases to return per page. Must be between 1 and 250.
+func ServiceDatabaseListLimit(limit int) [2]string {
+	return [2]string{"limit", fmt.Sprintf("%d", limit)}
+}
+
+// ServiceDatabaseListAfter Cursor for pagination. Returns databases after the specified database name.
+func ServiceDatabaseListAfter(after string) [2]string {
+	return [2]string{"after", after}
+}
+func (h *ServiceHandler) ServiceDatabaseList(ctx context.Context, project string, serviceName string, query ...[2]string) (*ServiceDatabaseListOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/db", url.PathEscape(project), url.PathEscape(serviceName))
-	b, err := h.doer.Do(ctx, "ServiceDatabaseList", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "ServiceDatabaseList", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}
-	out := new(serviceDatabaseListOut)
+	out := new(ServiceDatabaseListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.Databases, nil
+	return out, nil
 }
 func (h *ServiceHandler) ServiceDelete(ctx context.Context, project string, serviceName string) error {
 	path := fmt.Sprintf("/v1/project/%s/service/%s", url.PathEscape(project), url.PathEscape(serviceName))
@@ -1350,6 +1360,17 @@ type LogOut struct {
 	Time     *string `json:"time,omitempty"`     // Timestamp in ISO 8601 format, always in UTC
 	Unit     *string `json:"unit,omitempty"`     // SystemD unit name
 }
+type LogType string
+
+const (
+	LogTypeApplicationBuild LogType = "application-build"
+	LogTypeApplicationRun   LogType = "application-run"
+)
+
+func LogTypeChoices() []string {
+	return []string{"application-build", "application-run"}
+}
+
 type MaintenanceDowType string
 
 const (
@@ -1656,6 +1677,7 @@ type ProgressUpdateOut struct {
 // ProjectGetServiceLogsIn ProjectGetServiceLogsRequestBody
 type ProjectGetServiceLogsIn struct {
 	Limit     *int          `json:"limit,omitempty"`      // How many log entries to receive at most
+	LogType   LogType       `json:"log_type,omitempty"`   // Filter to entries of a specific application log type. Only supported for application services. When omitted on application services, runtime logs (application-run) are returned.
 	Offset    *string       `json:"offset,omitempty"`     // Opaque offset identifier
 	Severity  SeverityType  `json:"severity,omitempty"`   // Filter to entries with severity at least as severe as this value
 	SortOrder SortOrderType `json:"sort_order,omitempty"` // Sort order for log messages
@@ -1899,6 +1921,12 @@ type ServiceDatabaseCreateIn struct {
 	Database  string  `json:"database"`             // Service database name
 	LcCollate *string `json:"lc_collate,omitempty"` // Default string sort order (LC_COLLATE) for PostgreSQL database
 	LcCtype   *string `json:"lc_ctype,omitempty"`   // Default character classification (LC_CTYPE) for PostgreSQL database
+}
+
+// ServiceDatabaseListOut ServiceDatabaseListResponse
+type ServiceDatabaseListOut struct {
+	Databases []DatabaseOut `json:"databases"`      // List of databases
+	Next      *string       `json:"next,omitempty"` // Pagination cursor for the next page of databases
 }
 
 // ServiceGetMigrationStatusOut ServiceGetMigrationStatusResponse
@@ -2654,11 +2682,6 @@ type serviceCancelQueryOut struct {
 // serviceCreateOut ServiceCreateResponse
 type serviceCreateOut struct {
 	Service ServiceCreateOut `json:"service"` // Service information
-}
-
-// serviceDatabaseListOut ServiceDatabaseListResponse
-type serviceDatabaseListOut struct {
-	Databases []DatabaseOut `json:"databases"` // List of databases
 }
 
 // serviceEnableWritesOut ServiceEnableWritesResponse

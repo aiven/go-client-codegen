@@ -11,7 +11,7 @@ import (
 )
 
 type Handler interface {
-	// InvoiceGet get a single invoice
+	// Deprecated: InvoiceGet get a single invoice
 	// GET /v1/invoices/{invoice_number}
 	// https://api.aiven.io/doc/#tag/Billing/operation/InvoiceGet
 	InvoiceGet(ctx context.Context, invoiceNumber string) (*InvoiceGetOut, error)
