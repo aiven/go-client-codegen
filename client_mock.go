@@ -14112,27 +14112,33 @@ func (_c *MockClient_ServiceDatabaseDelete_Call) RunAndReturn(run func(ctx conte
 }
 
 // ServiceDatabaseList provides a mock function for the type MockClient
-func (_mock *MockClient) ServiceDatabaseList(ctx context.Context, project1 string, serviceName string) ([]service.DatabaseOut, error) {
-	ret := _mock.Called(ctx, project1, serviceName)
+func (_mock *MockClient) ServiceDatabaseList(ctx context.Context, project1 string, serviceName string, query ...[2]string) (*service.ServiceDatabaseListOut, error) {
+	var tmpRet mock.Arguments
+	if len(query) > 0 {
+		tmpRet = _mock.Called(ctx, project1, serviceName, query)
+	} else {
+		tmpRet = _mock.Called(ctx, project1, serviceName)
+	}
+	ret := tmpRet
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServiceDatabaseList")
 	}
 
-	var r0 []service.DatabaseOut
+	var r0 *service.ServiceDatabaseListOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) ([]service.DatabaseOut, error)); ok {
-		return returnFunc(ctx, project1, serviceName)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, ...[2]string) (*service.ServiceDatabaseListOut, error)); ok {
+		return returnFunc(ctx, project1, serviceName, query...)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) []service.DatabaseOut); ok {
-		r0 = returnFunc(ctx, project1, serviceName)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, ...[2]string) *service.ServiceDatabaseListOut); ok {
+		r0 = returnFunc(ctx, project1, serviceName, query...)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]service.DatabaseOut)
+			r0 = ret.Get(0).(*service.ServiceDatabaseListOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
-		r1 = returnFunc(ctx, project1, serviceName)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, ...[2]string) error); ok {
+		r1 = returnFunc(ctx, project1, serviceName, query...)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -14148,11 +14154,13 @@ type MockClient_ServiceDatabaseList_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - serviceName string
-func (_e *MockClient_Expecter) ServiceDatabaseList(ctx interface{}, project1 interface{}, serviceName interface{}) *MockClient_ServiceDatabaseList_Call {
-	return &MockClient_ServiceDatabaseList_Call{Call: _e.mock.On("ServiceDatabaseList", ctx, project1, serviceName)}
+//   - query ...[2]string
+func (_e *MockClient_Expecter) ServiceDatabaseList(ctx interface{}, project1 interface{}, serviceName interface{}, query ...interface{}) *MockClient_ServiceDatabaseList_Call {
+	return &MockClient_ServiceDatabaseList_Call{Call: _e.mock.On("ServiceDatabaseList",
+		append([]interface{}{ctx, project1, serviceName}, query...)...)}
 }
 
-func (_c *MockClient_ServiceDatabaseList_Call) Run(run func(ctx context.Context, project1 string, serviceName string)) *MockClient_ServiceDatabaseList_Call {
+func (_c *MockClient_ServiceDatabaseList_Call) Run(run func(ctx context.Context, project1 string, serviceName string, query ...[2]string)) *MockClient_ServiceDatabaseList_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -14166,21 +14174,28 @@ func (_c *MockClient_ServiceDatabaseList_Call) Run(run func(ctx context.Context,
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
+		var arg3 [][2]string
+		var variadicArgs [][2]string
+		if len(args) > 3 {
+			variadicArgs = args[3].([][2]string)
+		}
+		arg3 = variadicArgs
 		run(
 			arg0,
 			arg1,
 			arg2,
+			arg3...,
 		)
 	})
 	return _c
 }
 
-func (_c *MockClient_ServiceDatabaseList_Call) Return(databaseOuts []service.DatabaseOut, err error) *MockClient_ServiceDatabaseList_Call {
-	_c.Call.Return(databaseOuts, err)
+func (_c *MockClient_ServiceDatabaseList_Call) Return(serviceDatabaseListOut *service.ServiceDatabaseListOut, err error) *MockClient_ServiceDatabaseList_Call {
+	_c.Call.Return(serviceDatabaseListOut, err)
 	return _c
 }
 
-func (_c *MockClient_ServiceDatabaseList_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) ([]service.DatabaseOut, error)) *MockClient_ServiceDatabaseList_Call {
+func (_c *MockClient_ServiceDatabaseList_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, query ...[2]string) (*service.ServiceDatabaseListOut, error)) *MockClient_ServiceDatabaseList_Call {
 	_c.Call.Return(run)
 	return _c
 }

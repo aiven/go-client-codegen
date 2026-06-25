@@ -16,7 +16,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAttachPaymentMethod
 	AccountAttachPaymentMethod(ctx context.Context, accountId string, in *AccountAttachPaymentMethodIn) (*AccountAttachPaymentMethodOut, error)
 
-	// AccountBillingGroupList list account billing groups
+	// Deprecated: AccountBillingGroupList list account billing groups
 	// GET /v1/account/{account_id}/billing-group
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountBillingGroupList
 	AccountBillingGroupList(ctx context.Context, accountId string) ([]AccountBillingGroupOut, error)
