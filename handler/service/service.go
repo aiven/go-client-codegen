@@ -438,9 +438,9 @@ func (h *ServiceHandler) ServiceDatabaseDelete(ctx context.Context, project stri
 	return err
 }
 
-// ServiceDatabaseListLimit Maximum number of databases to return per page. Must be between 1 and 250.
-func ServiceDatabaseListLimit(limit int) [2]string {
-	return [2]string{"limit", fmt.Sprintf("%d", limit)}
+// ServiceDatabaseListMaxItems Maximum number of databases to return per page. Must be between 1 and 250.
+func ServiceDatabaseListMaxItems(maxItems int) [2]string {
+	return [2]string{"maxItems", fmt.Sprintf("%d", maxItems)}
 }
 
 // ServiceDatabaseListAfter Cursor for pagination. Returns databases after the specified database name.
