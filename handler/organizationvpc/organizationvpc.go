@@ -46,6 +46,12 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcPeeringConnectionDeleteById
 	// Required roles or permissions: organization:networking:write
 	OrganizationVpcPeeringConnectionDeleteById(ctx context.Context, organizationId string, organizationVpcId string, peeringConnectionId string) (*OrganizationVpcPeeringConnectionDeleteByIdOut, error)
+
+	// OrganizationVpcUpdate update organization VPC
+	// PUT /v1/organization/{organization_id}/vpc/{organization_vpc_id}
+	// https://api.aiven.io/doc/#tag/Organization_Vpc/operation/OrganizationVpcUpdate
+	// Required roles or permissions: organization:networking:write
+	OrganizationVpcUpdate(ctx context.Context, organizationId string, organizationVpcId string, in *OrganizationVpcUpdateIn) (*OrganizationVpcUpdateOut, error)
 }
 
 // doer http client
@@ -133,6 +139,19 @@ func (h *OrganizationVpcHandler) OrganizationVpcPeeringConnectionDeleteById(ctx 
 		return nil, err
 	}
 	out := new(OrganizationVpcPeeringConnectionDeleteByIdOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *OrganizationVpcHandler) OrganizationVpcUpdate(ctx context.Context, organizationId string, organizationVpcId string, in *OrganizationVpcUpdateIn) (*OrganizationVpcUpdateOut, error) {
+	path := fmt.Sprintf("/v1/organization/%s/vpc/%s", url.PathEscape(organizationId), url.PathEscape(organizationVpcId))
+	b, err := h.doer.Do(ctx, "OrganizationVpcUpdate", "PUT", path, in)
+	if err != nil {
+		return nil, err
+	}
+	out := new(OrganizationVpcUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -304,6 +323,23 @@ func OrganizationVpcStateTypeChoices() []string {
 	return []string{"ACTIVE", "APPROVED", "DELETED", "DELETING"}
 }
 
+// OrganizationVpcUpdateIn OrganizationVpcUpdateRequestBody
+type OrganizationVpcUpdateIn struct {
+	DisplayName *string `json:"display_name,omitempty"` // User defined display name for this VPC
+}
+
+// OrganizationVpcUpdateOut OrganizationVpcUpdateResponse
+type OrganizationVpcUpdateOut struct {
+	Clouds                             []CloudOut               `json:"clouds"`                                           // Clouds or clouds to create this VPC in
+	CreateTime                         time.Time                `json:"create_time"`                                      // VPC creation timestamp
+	DisplayName                        string                   `json:"display_name"`                                     // User defined display name for this VPC
+	OrganizationId                     string                   `json:"organization_id"`                                  // Organization ID
+	OrganizationVpcId                  string                   `json:"organization_vpc_id"`                              // Project VPC ID
+	PeeringConnections                 []PeeringConnectionOut   `json:"peering_connections"`                              // List of peering connections
+	PendingBuildOnlyPeeringConnections *string                  `json:"pending_build_only_peering_connections,omitempty"` // VPC rebuild is scheduled
+	State                              OrganizationVpcStateType `json:"state"`                                            // Project VPC state
+	UpdateTime                         time.Time                `json:"update_time"`                                      // Timestamp of last change to VPC
+}
 type PeeringConnectionIn struct {
 	PeerAzureAppId       *string   `json:"peer_azure_app_id,omitempty"`       // Azure app registration id in UUID4 form that is allowed to create a peering to the peer vnet
 	PeerAzureTenantId    *string   `json:"peer_azure_tenant_id,omitempty"`    // Azure tenant id in UUID4 form

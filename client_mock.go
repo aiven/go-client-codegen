@@ -9656,6 +9656,86 @@ func (_c *MockClient_OrganizationVpcPeeringConnectionDeleteById_Call) RunAndRetu
 	return _c
 }
 
+// OrganizationVpcUpdate provides a mock function for the type MockClient
+func (_mock *MockClient) OrganizationVpcUpdate(ctx context.Context, organizationId string, organizationVpcId string, in *organizationvpc.OrganizationVpcUpdateIn) (*organizationvpc.OrganizationVpcUpdateOut, error) {
+	ret := _mock.Called(ctx, organizationId, organizationVpcId, in)
+
+	if len(ret) == 0 {
+		panic("no return value specified for OrganizationVpcUpdate")
+	}
+
+	var r0 *organizationvpc.OrganizationVpcUpdateOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *organizationvpc.OrganizationVpcUpdateIn) (*organizationvpc.OrganizationVpcUpdateOut, error)); ok {
+		return returnFunc(ctx, organizationId, organizationVpcId, in)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *organizationvpc.OrganizationVpcUpdateIn) *organizationvpc.OrganizationVpcUpdateOut); ok {
+		r0 = returnFunc(ctx, organizationId, organizationVpcId, in)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*organizationvpc.OrganizationVpcUpdateOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *organizationvpc.OrganizationVpcUpdateIn) error); ok {
+		r1 = returnFunc(ctx, organizationId, organizationVpcId, in)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_OrganizationVpcUpdate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'OrganizationVpcUpdate'
+type MockClient_OrganizationVpcUpdate_Call struct {
+	*mock.Call
+}
+
+// OrganizationVpcUpdate is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - organizationVpcId string
+//   - in *organizationvpc.OrganizationVpcUpdateIn
+func (_e *MockClient_Expecter) OrganizationVpcUpdate(ctx interface{}, organizationId interface{}, organizationVpcId interface{}, in interface{}) *MockClient_OrganizationVpcUpdate_Call {
+	return &MockClient_OrganizationVpcUpdate_Call{Call: _e.mock.On("OrganizationVpcUpdate", ctx, organizationId, organizationVpcId, in)}
+}
+
+func (_c *MockClient_OrganizationVpcUpdate_Call) Run(run func(ctx context.Context, organizationId string, organizationVpcId string, in *organizationvpc.OrganizationVpcUpdateIn)) *MockClient_OrganizationVpcUpdate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		var arg3 *organizationvpc.OrganizationVpcUpdateIn
+		if args[3] != nil {
+			arg3 = args[3].(*organizationvpc.OrganizationVpcUpdateIn)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+			arg3,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_OrganizationVpcUpdate_Call) Return(organizationVpcUpdateOut *organizationvpc.OrganizationVpcUpdateOut, err error) *MockClient_OrganizationVpcUpdate_Call {
+	_c.Call.Return(organizationVpcUpdateOut, err)
+	return _c
+}
+
+func (_c *MockClient_OrganizationVpcUpdate_Call) RunAndReturn(run func(ctx context.Context, organizationId string, organizationVpcId string, in *organizationvpc.OrganizationVpcUpdateIn) (*organizationvpc.OrganizationVpcUpdateOut, error)) *MockClient_OrganizationVpcUpdate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // PGServiceAvailableExtensions provides a mock function for the type MockClient
 func (_mock *MockClient) PGServiceAvailableExtensions(ctx context.Context, project1 string, serviceName string) ([]postgresql.ExtensionOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName)

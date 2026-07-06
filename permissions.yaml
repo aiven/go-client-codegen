@@ -142,6 +142,8 @@ OrganizationVpcPeeringConnectionCreate:
   - organization:networking:write
 OrganizationVpcPeeringConnectionDeleteById:
   - organization:networking:write
+OrganizationVpcUpdate:
+  - organization:networking:write
 PGServiceAvailableExtensions:
   - service:data:write
 PGServiceQueryStatistics:
