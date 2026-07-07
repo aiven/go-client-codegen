@@ -56,7 +56,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountPaymentMethodDelete
 	AccountPaymentMethodDelete(ctx context.Context, accountId string, cardId string) error
 
-	// AccountPaymentMethodsList list credit cards attached as a payment method to the account
+	// Deprecated: AccountPaymentMethodsList list credit cards attached as a payment method to the account
 	// GET /v1/account/{account_id}/payment_methods
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountPaymentMethodsList
 	AccountPaymentMethodsList(ctx context.Context, accountId string) ([]CardOut, error)
@@ -86,7 +86,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUserTeamsList
 	AccountUserTeamsList(ctx context.Context, accountId string, userId string) ([]AccountUserTeamsListOut, error)
 
-	// AccountUsersSearch list/search users who are members of any team on this account
+	// Deprecated: AccountUsersSearch list/search users who are members of any team on this account
 	// POST /v1/account/{account_id}/users/search
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUsersSearch
 	AccountUsersSearch(ctx context.Context, accountId string, in *AccountUsersSearchIn) ([]UserOut, error)
