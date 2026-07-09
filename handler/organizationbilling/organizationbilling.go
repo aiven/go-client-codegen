@@ -241,7 +241,7 @@ type PaymentMethodOut struct {
 type PaymentMethodType string
 
 const (
-	PaymentMethodTypeAwsSubscription   PaymentMethodType = "aws_subscription"
+	PaymentMethodTypeAWSSubscription   PaymentMethodType = "aws_subscription"
 	PaymentMethodTypeAzureSubscription PaymentMethodType = "azure_subscription"
 	PaymentMethodTypeBankTransfer      PaymentMethodType = "bank_transfer"
 	PaymentMethodTypeCreditCard        PaymentMethodType = "credit_card"

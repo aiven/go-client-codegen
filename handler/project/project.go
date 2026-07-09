@@ -1041,8 +1041,8 @@ type ValkeyOut struct {
 type VpcPeeringConnectionType string
 
 const (
-	VpcPeeringConnectionTypeAwsTgwVpcAttachment     VpcPeeringConnectionType = "aws-tgw-vpc-attachment"
-	VpcPeeringConnectionTypeAwsVpcPeeringConnection VpcPeeringConnectionType = "aws-vpc-peering-connection"
+	VpcPeeringConnectionTypeAWSTgwVpcAttachment     VpcPeeringConnectionType = "aws-tgw-vpc-attachment"
+	VpcPeeringConnectionTypeAWSVpcPeeringConnection VpcPeeringConnectionType = "aws-vpc-peering-connection"
 	VpcPeeringConnectionTypeAzureVnetPeering        VpcPeeringConnectionType = "azure-vnet-peering"
 	VpcPeeringConnectionTypeDoVpcPeering            VpcPeeringConnectionType = "do-vpc-peering"
 	VpcPeeringConnectionTypeGoogleVpcPeering        VpcPeeringConnectionType = "google-vpc-peering"

@@ -25,25 +25,25 @@ type Handler interface {
 	// POST /v1/project/{project}/service/{service_name}/privatelink/aws
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSCreate
 	// Required roles or permissions: service:configuration:write
-	ServicePrivatelinkAWSCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwsCreateIn) (*ServicePrivatelinkAwsCreateOut, error)
+	ServicePrivatelinkAWSCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAWSCreateIn) (*ServicePrivatelinkAWSCreateOut, error)
 
 	// ServicePrivatelinkAWSDelete delete an AWS Privatelink Endpoint Service
 	// DELETE /v1/project/{project}/service/{service_name}/privatelink/aws
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSDelete
 	// Required roles or permissions: service:configuration:write
-	ServicePrivatelinkAWSDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsDeleteOut, error)
+	ServicePrivatelinkAWSDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAWSDeleteOut, error)
 
 	// ServicePrivatelinkAWSGet get AWS Privatelink Endpoint Service information
 	// GET /v1/project/{project}/service/{service_name}/privatelink/aws
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSGet
 	// Required roles or permissions: service:configuration:write
-	ServicePrivatelinkAWSGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsGetOut, error)
+	ServicePrivatelinkAWSGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAWSGetOut, error)
 
 	// ServicePrivatelinkAWSUpdate update an AWS Privatelink Endpoint Service
 	// PUT /v1/project/{project}/service/{service_name}/privatelink/aws
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAWSUpdate
 	// Required roles or permissions: service:configuration:write
-	ServicePrivatelinkAWSUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwsUpdateIn) (*ServicePrivatelinkAwsUpdateOut, error)
+	ServicePrivatelinkAWSUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAWSUpdateIn) (*ServicePrivatelinkAWSUpdateOut, error)
 
 	// ServicePrivatelinkAzureConnectionApproval approve an Azure private endpoint connection pending user approval
 	// POST /v1/project/{project}/service/{service_name}/privatelink/azure/connections/{privatelink_connection_id}/approve
@@ -120,59 +120,59 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAWSConnectionList(ctx context.Con
 	if err != nil {
 		return nil, err
 	}
-	out := new(servicePrivatelinkAwsConnectionListOut)
+	out := new(servicePrivatelinkAWSConnectionListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out.Connections, nil
 }
-func (h *PrivatelinkHandler) ServicePrivatelinkAWSCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwsCreateIn) (*ServicePrivatelinkAwsCreateOut, error) {
+func (h *PrivatelinkHandler) ServicePrivatelinkAWSCreate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAWSCreateIn) (*ServicePrivatelinkAWSCreateOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSCreate", "POST", path, in)
 	if err != nil {
 		return nil, err
 	}
-	out := new(ServicePrivatelinkAwsCreateOut)
+	out := new(ServicePrivatelinkAWSCreateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *PrivatelinkHandler) ServicePrivatelinkAWSDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsDeleteOut, error) {
+func (h *PrivatelinkHandler) ServicePrivatelinkAWSDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAWSDeleteOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSDelete", "DELETE", path, nil)
 	if err != nil {
 		return nil, err
 	}
-	out := new(ServicePrivatelinkAwsDeleteOut)
+	out := new(ServicePrivatelinkAWSDeleteOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *PrivatelinkHandler) ServicePrivatelinkAWSGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAwsGetOut, error) {
+func (h *PrivatelinkHandler) ServicePrivatelinkAWSGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAWSGetOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
 	}
-	out := new(ServicePrivatelinkAwsGetOut)
+	out := new(ServicePrivatelinkAWSGetOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
-func (h *PrivatelinkHandler) ServicePrivatelinkAWSUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAwsUpdateIn) (*ServicePrivatelinkAwsUpdateOut, error) {
+func (h *PrivatelinkHandler) ServicePrivatelinkAWSUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAWSUpdateIn) (*ServicePrivatelinkAWSUpdateOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/aws", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServicePrivatelinkAWSUpdate", "PUT", path, in)
 	if err != nil {
 		return nil, err
 	}
-	out := new(ServicePrivatelinkAwsUpdateOut)
+	out := new(ServicePrivatelinkAWSUpdateOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
@@ -295,57 +295,57 @@ type PrivatelinkAvailabilityOut struct {
 	PriceUsd  string `json:"price_usd"`  // Hourly privatelink price in this cloud region
 }
 
-// ServicePrivatelinkAwsCreateIn ServicePrivatelinkAWSCreateRequestBody
-type ServicePrivatelinkAwsCreateIn struct {
+// ServicePrivatelinkAWSCreateIn ServicePrivatelinkAWSCreateRequestBody
+type ServicePrivatelinkAWSCreateIn struct {
 	Principals []string `json:"principals"` // ARNs of principals allowed connecting to the service
 }
 
-// ServicePrivatelinkAwsCreateOut ServicePrivatelinkAWSCreateResponse
-type ServicePrivatelinkAwsCreateOut struct {
-	AwsServiceId   *string                        `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
-	AwsServiceName *string                        `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
+// ServicePrivatelinkAWSCreateOut ServicePrivatelinkAWSCreateResponse
+type ServicePrivatelinkAWSCreateOut struct {
+	AWSServiceId   *string                        `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
+	AWSServiceName *string                        `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
 	Principals     []string                       `json:"principals"`                 // ARNs of principals allowed connecting to the service
-	State          ServicePrivatelinkAwsStateType `json:"state"`                      // Privatelink resource state
+	State          ServicePrivatelinkAWSStateType `json:"state"`                      // Privatelink resource state
 }
 
-// ServicePrivatelinkAwsDeleteOut ServicePrivatelinkAWSDeleteResponse
-type ServicePrivatelinkAwsDeleteOut struct {
-	AwsServiceId   *string                        `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
-	AwsServiceName *string                        `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
+// ServicePrivatelinkAWSDeleteOut ServicePrivatelinkAWSDeleteResponse
+type ServicePrivatelinkAWSDeleteOut struct {
+	AWSServiceId   *string                        `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
+	AWSServiceName *string                        `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
 	Principals     []string                       `json:"principals"`                 // ARNs of principals allowed connecting to the service
-	State          ServicePrivatelinkAwsStateType `json:"state"`                      // Privatelink resource state
+	State          ServicePrivatelinkAWSStateType `json:"state"`                      // Privatelink resource state
 }
 
-// ServicePrivatelinkAwsGetOut ServicePrivatelinkAWSGetResponse
-type ServicePrivatelinkAwsGetOut struct {
-	AwsServiceId   *string                        `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
-	AwsServiceName *string                        `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
+// ServicePrivatelinkAWSGetOut ServicePrivatelinkAWSGetResponse
+type ServicePrivatelinkAWSGetOut struct {
+	AWSServiceId   *string                        `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
+	AWSServiceName *string                        `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
 	Principals     []string                       `json:"principals"`                 // ARNs of principals allowed connecting to the service
-	State          ServicePrivatelinkAwsStateType `json:"state"`                      // Privatelink resource state
+	State          ServicePrivatelinkAWSStateType `json:"state"`                      // Privatelink resource state
 }
-type ServicePrivatelinkAwsStateType string
+type ServicePrivatelinkAWSStateType string
 
 const (
-	ServicePrivatelinkAwsStateTypeActive   ServicePrivatelinkAwsStateType = "active"
-	ServicePrivatelinkAwsStateTypeCreating ServicePrivatelinkAwsStateType = "creating"
-	ServicePrivatelinkAwsStateTypeDeleting ServicePrivatelinkAwsStateType = "deleting"
+	ServicePrivatelinkAWSStateTypeActive   ServicePrivatelinkAWSStateType = "active"
+	ServicePrivatelinkAWSStateTypeCreating ServicePrivatelinkAWSStateType = "creating"
+	ServicePrivatelinkAWSStateTypeDeleting ServicePrivatelinkAWSStateType = "deleting"
 )
 
-func ServicePrivatelinkAwsStateTypeChoices() []string {
+func ServicePrivatelinkAWSStateTypeChoices() []string {
 	return []string{"active", "creating", "deleting"}
 }
 
-// ServicePrivatelinkAwsUpdateIn ServicePrivatelinkAWSUpdateRequestBody
-type ServicePrivatelinkAwsUpdateIn struct {
+// ServicePrivatelinkAWSUpdateIn ServicePrivatelinkAWSUpdateRequestBody
+type ServicePrivatelinkAWSUpdateIn struct {
 	Principals []string `json:"principals"` // ARNs of principals allowed connecting to the service
 }
 
-// ServicePrivatelinkAwsUpdateOut ServicePrivatelinkAWSUpdateResponse
-type ServicePrivatelinkAwsUpdateOut struct {
-	AwsServiceId   *string                        `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
-	AwsServiceName *string                        `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
+// ServicePrivatelinkAWSUpdateOut ServicePrivatelinkAWSUpdateResponse
+type ServicePrivatelinkAWSUpdateOut struct {
+	AWSServiceId   *string                        `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
+	AWSServiceName *string                        `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
 	Principals     []string                       `json:"principals"`                 // ARNs of principals allowed connecting to the service
-	State          ServicePrivatelinkAwsStateType `json:"state"`                      // Privatelink resource state
+	State          ServicePrivatelinkAWSStateType `json:"state"`                      // Privatelink resource state
 }
 
 // ServicePrivatelinkAzureConnectionApprovalOut ServicePrivatelinkAzureConnectionApprovalResponse
@@ -458,8 +458,8 @@ type publicPrivatelinkAvailabilityListOut struct {
 	PrivatelinkAvailability []PrivatelinkAvailabilityOut `json:"privatelink_availability"` // Privatelink pricing information for supported clouds
 }
 
-// servicePrivatelinkAwsConnectionListOut ServicePrivatelinkAWSConnectionListResponse
-type servicePrivatelinkAwsConnectionListOut struct {
+// servicePrivatelinkAWSConnectionListOut ServicePrivatelinkAWSConnectionListResponse
+type servicePrivatelinkAWSConnectionListOut struct {
 	Connections []ConnectionOut `json:"connections"` // AWS Privatelink VPC Endpoint connection list
 }
 

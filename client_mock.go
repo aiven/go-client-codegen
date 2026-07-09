@@ -7,8 +7,6 @@ package aiven
 import (
 	"context"
 
-	mock "github.com/stretchr/testify/mock"
-
 	"github.com/aiven/go-client-codegen/handler/account"
 	"github.com/aiven/go-client-codegen/handler/accountauthentication"
 	"github.com/aiven/go-client-codegen/handler/accountteam"
@@ -52,6 +50,7 @@ import (
 	"github.com/aiven/go-client-codegen/handler/user"
 	"github.com/aiven/go-client-codegen/handler/usergroup"
 	"github.com/aiven/go-client-codegen/handler/vpc"
+	mock "github.com/stretchr/testify/mock"
 )
 
 // NewMockClient creates a new instance of MockClient. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
@@ -22131,26 +22130,26 @@ func (_c *MockClient_ServicePrivatelinkAWSConnectionList_Call) RunAndReturn(run 
 }
 
 // ServicePrivatelinkAWSCreate provides a mock function for the type MockClient
-func (_mock *MockClient) ServicePrivatelinkAWSCreate(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsCreateIn) (*privatelink.ServicePrivatelinkAwsCreateOut, error) {
+func (_mock *MockClient) ServicePrivatelinkAWSCreate(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAWSCreateIn) (*privatelink.ServicePrivatelinkAWSCreateOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName, in)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServicePrivatelinkAWSCreate")
 	}
 
-	var r0 *privatelink.ServicePrivatelinkAwsCreateOut
+	var r0 *privatelink.ServicePrivatelinkAWSCreateOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsCreateIn) (*privatelink.ServicePrivatelinkAwsCreateOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAWSCreateIn) (*privatelink.ServicePrivatelinkAWSCreateOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsCreateIn) *privatelink.ServicePrivatelinkAwsCreateOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAWSCreateIn) *privatelink.ServicePrivatelinkAWSCreateOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAwsCreateOut)
+			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAWSCreateOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsCreateIn) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAWSCreateIn) error); ok {
 		r1 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		r1 = ret.Error(1)
@@ -22167,12 +22166,12 @@ type MockClient_ServicePrivatelinkAWSCreate_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - serviceName string
-//   - in *privatelink.ServicePrivatelinkAwsCreateIn
+//   - in *privatelink.ServicePrivatelinkAWSCreateIn
 func (_e *MockClient_Expecter) ServicePrivatelinkAWSCreate(ctx interface{}, project1 interface{}, serviceName interface{}, in interface{}) *MockClient_ServicePrivatelinkAWSCreate_Call {
 	return &MockClient_ServicePrivatelinkAWSCreate_Call{Call: _e.mock.On("ServicePrivatelinkAWSCreate", ctx, project1, serviceName, in)}
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsCreateIn)) *MockClient_ServicePrivatelinkAWSCreate_Call {
+func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAWSCreateIn)) *MockClient_ServicePrivatelinkAWSCreate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -22186,9 +22185,9 @@ func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) Run(run func(ctx context.
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *privatelink.ServicePrivatelinkAwsCreateIn
+		var arg3 *privatelink.ServicePrivatelinkAWSCreateIn
 		if args[3] != nil {
-			arg3 = args[3].(*privatelink.ServicePrivatelinkAwsCreateIn)
+			arg3 = args[3].(*privatelink.ServicePrivatelinkAWSCreateIn)
 		}
 		run(
 			arg0,
@@ -22200,34 +22199,34 @@ func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) Run(run func(ctx context.
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) Return(servicePrivatelinkAwsCreateOut *privatelink.ServicePrivatelinkAwsCreateOut, err error) *MockClient_ServicePrivatelinkAWSCreate_Call {
-	_c.Call.Return(servicePrivatelinkAwsCreateOut, err)
+func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) Return(servicePrivatelinkAWSCreateOut *privatelink.ServicePrivatelinkAWSCreateOut, err error) *MockClient_ServicePrivatelinkAWSCreate_Call {
+	_c.Call.Return(servicePrivatelinkAWSCreateOut, err)
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsCreateIn) (*privatelink.ServicePrivatelinkAwsCreateOut, error)) *MockClient_ServicePrivatelinkAWSCreate_Call {
+func (_c *MockClient_ServicePrivatelinkAWSCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAWSCreateIn) (*privatelink.ServicePrivatelinkAWSCreateOut, error)) *MockClient_ServicePrivatelinkAWSCreate_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ServicePrivatelinkAWSDelete provides a mock function for the type MockClient
-func (_mock *MockClient) ServicePrivatelinkAWSDelete(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAwsDeleteOut, error) {
+func (_mock *MockClient) ServicePrivatelinkAWSDelete(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAWSDeleteOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServicePrivatelinkAWSDelete")
 	}
 
-	var r0 *privatelink.ServicePrivatelinkAwsDeleteOut
+	var r0 *privatelink.ServicePrivatelinkAWSDeleteOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*privatelink.ServicePrivatelinkAwsDeleteOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*privatelink.ServicePrivatelinkAWSDeleteOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *privatelink.ServicePrivatelinkAwsDeleteOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *privatelink.ServicePrivatelinkAWSDeleteOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAwsDeleteOut)
+			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAWSDeleteOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
@@ -22274,34 +22273,34 @@ func (_c *MockClient_ServicePrivatelinkAWSDelete_Call) Run(run func(ctx context.
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSDelete_Call) Return(servicePrivatelinkAwsDeleteOut *privatelink.ServicePrivatelinkAwsDeleteOut, err error) *MockClient_ServicePrivatelinkAWSDelete_Call {
-	_c.Call.Return(servicePrivatelinkAwsDeleteOut, err)
+func (_c *MockClient_ServicePrivatelinkAWSDelete_Call) Return(servicePrivatelinkAWSDeleteOut *privatelink.ServicePrivatelinkAWSDeleteOut, err error) *MockClient_ServicePrivatelinkAWSDelete_Call {
+	_c.Call.Return(servicePrivatelinkAWSDeleteOut, err)
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAwsDeleteOut, error)) *MockClient_ServicePrivatelinkAWSDelete_Call {
+func (_c *MockClient_ServicePrivatelinkAWSDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAWSDeleteOut, error)) *MockClient_ServicePrivatelinkAWSDelete_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ServicePrivatelinkAWSGet provides a mock function for the type MockClient
-func (_mock *MockClient) ServicePrivatelinkAWSGet(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAwsGetOut, error) {
+func (_mock *MockClient) ServicePrivatelinkAWSGet(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAWSGetOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServicePrivatelinkAWSGet")
 	}
 
-	var r0 *privatelink.ServicePrivatelinkAwsGetOut
+	var r0 *privatelink.ServicePrivatelinkAWSGetOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*privatelink.ServicePrivatelinkAwsGetOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*privatelink.ServicePrivatelinkAWSGetOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *privatelink.ServicePrivatelinkAwsGetOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *privatelink.ServicePrivatelinkAWSGetOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAwsGetOut)
+			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAWSGetOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
@@ -22348,37 +22347,37 @@ func (_c *MockClient_ServicePrivatelinkAWSGet_Call) Run(run func(ctx context.Con
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSGet_Call) Return(servicePrivatelinkAwsGetOut *privatelink.ServicePrivatelinkAwsGetOut, err error) *MockClient_ServicePrivatelinkAWSGet_Call {
-	_c.Call.Return(servicePrivatelinkAwsGetOut, err)
+func (_c *MockClient_ServicePrivatelinkAWSGet_Call) Return(servicePrivatelinkAWSGetOut *privatelink.ServicePrivatelinkAWSGetOut, err error) *MockClient_ServicePrivatelinkAWSGet_Call {
+	_c.Call.Return(servicePrivatelinkAWSGetOut, err)
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSGet_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAwsGetOut, error)) *MockClient_ServicePrivatelinkAWSGet_Call {
+func (_c *MockClient_ServicePrivatelinkAWSGet_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkAWSGetOut, error)) *MockClient_ServicePrivatelinkAWSGet_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ServicePrivatelinkAWSUpdate provides a mock function for the type MockClient
-func (_mock *MockClient) ServicePrivatelinkAWSUpdate(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsUpdateIn) (*privatelink.ServicePrivatelinkAwsUpdateOut, error) {
+func (_mock *MockClient) ServicePrivatelinkAWSUpdate(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAWSUpdateIn) (*privatelink.ServicePrivatelinkAWSUpdateOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName, in)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServicePrivatelinkAWSUpdate")
 	}
 
-	var r0 *privatelink.ServicePrivatelinkAwsUpdateOut
+	var r0 *privatelink.ServicePrivatelinkAWSUpdateOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsUpdateIn) (*privatelink.ServicePrivatelinkAwsUpdateOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAWSUpdateIn) (*privatelink.ServicePrivatelinkAWSUpdateOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsUpdateIn) *privatelink.ServicePrivatelinkAwsUpdateOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAWSUpdateIn) *privatelink.ServicePrivatelinkAWSUpdateOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAwsUpdateOut)
+			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkAWSUpdateOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAwsUpdateIn) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *privatelink.ServicePrivatelinkAWSUpdateIn) error); ok {
 		r1 = returnFunc(ctx, project1, serviceName, in)
 	} else {
 		r1 = ret.Error(1)
@@ -22395,12 +22394,12 @@ type MockClient_ServicePrivatelinkAWSUpdate_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - serviceName string
-//   - in *privatelink.ServicePrivatelinkAwsUpdateIn
+//   - in *privatelink.ServicePrivatelinkAWSUpdateIn
 func (_e *MockClient_Expecter) ServicePrivatelinkAWSUpdate(ctx interface{}, project1 interface{}, serviceName interface{}, in interface{}) *MockClient_ServicePrivatelinkAWSUpdate_Call {
 	return &MockClient_ServicePrivatelinkAWSUpdate_Call{Call: _e.mock.On("ServicePrivatelinkAWSUpdate", ctx, project1, serviceName, in)}
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsUpdateIn)) *MockClient_ServicePrivatelinkAWSUpdate_Call {
+func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAWSUpdateIn)) *MockClient_ServicePrivatelinkAWSUpdate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -22414,9 +22413,9 @@ func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) Run(run func(ctx context.
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *privatelink.ServicePrivatelinkAwsUpdateIn
+		var arg3 *privatelink.ServicePrivatelinkAWSUpdateIn
 		if args[3] != nil {
-			arg3 = args[3].(*privatelink.ServicePrivatelinkAwsUpdateIn)
+			arg3 = args[3].(*privatelink.ServicePrivatelinkAWSUpdateIn)
 		}
 		run(
 			arg0,
@@ -22428,12 +22427,12 @@ func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) Run(run func(ctx context.
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) Return(servicePrivatelinkAwsUpdateOut *privatelink.ServicePrivatelinkAwsUpdateOut, err error) *MockClient_ServicePrivatelinkAWSUpdate_Call {
-	_c.Call.Return(servicePrivatelinkAwsUpdateOut, err)
+func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) Return(servicePrivatelinkAWSUpdateOut *privatelink.ServicePrivatelinkAWSUpdateOut, err error) *MockClient_ServicePrivatelinkAWSUpdate_Call {
+	_c.Call.Return(servicePrivatelinkAWSUpdateOut, err)
 	return _c
 }
 
-func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAwsUpdateIn) (*privatelink.ServicePrivatelinkAwsUpdateOut, error)) *MockClient_ServicePrivatelinkAWSUpdate_Call {
+func (_c *MockClient_ServicePrivatelinkAWSUpdate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAWSUpdateIn) (*privatelink.ServicePrivatelinkAWSUpdateOut, error)) *MockClient_ServicePrivatelinkAWSUpdate_Call {
 	_c.Call.Return(run)
 	return _c
 }

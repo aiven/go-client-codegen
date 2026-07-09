@@ -367,7 +367,7 @@ type PeeringConnectionOut struct {
 
 // PeeringConnectionStateInfoOut State-specific help or error information
 type PeeringConnectionStateInfoOut struct {
-	AwsVpcPeeringConnectionId *string      `json:"aws_vpc_peering_connection_id,omitempty"`
+	AWSVpcPeeringConnectionId *string      `json:"aws_vpc_peering_connection_id,omitempty"`
 	Message                   string       `json:"message"` // Human-readable information message
 	ToProjectId               *string      `json:"to_project_id,omitempty"`
 	ToVpcNetwork              *string      `json:"to_vpc_network,omitempty"`
@@ -412,8 +412,8 @@ func VpcPeeringConnectionStateTypeChoices() []string {
 type VpcPeeringConnectionType string
 
 const (
-	VpcPeeringConnectionTypeAwsTgwVpcAttachment     VpcPeeringConnectionType = "aws-tgw-vpc-attachment"
-	VpcPeeringConnectionTypeAwsVpcPeeringConnection VpcPeeringConnectionType = "aws-vpc-peering-connection"
+	VpcPeeringConnectionTypeAWSTgwVpcAttachment     VpcPeeringConnectionType = "aws-tgw-vpc-attachment"
+	VpcPeeringConnectionTypeAWSVpcPeeringConnection VpcPeeringConnectionType = "aws-vpc-peering-connection"
 	VpcPeeringConnectionTypeAzureVnetPeering        VpcPeeringConnectionType = "azure-vnet-peering"
 	VpcPeeringConnectionTypeDoVpcPeering            VpcPeeringConnectionType = "do-vpc-peering"
 	VpcPeeringConnectionTypeGoogleVpcPeering        VpcPeeringConnectionType = "google-vpc-peering"
@@ -438,9 +438,9 @@ func VpcStateTypeChoices() []string {
 }
 
 type WarningOut struct {
-	ConflictingAwsAccountId              *string     `json:"conflicting_aws_account_id,omitempty"`                // AWS account id of conflicting VPC
-	ConflictingAwsVpcId                  *string     `json:"conflicting_aws_vpc_id,omitempty"`                    // VPC id which is conflicting with the current one
-	ConflictingAwsVpcPeeringConnectionId *string     `json:"conflicting_aws_vpc_peering_connection_id,omitempty"` // AWS VPC connection id which is conflicting with current VPC
+	ConflictingAWSAccountId              *string     `json:"conflicting_aws_account_id,omitempty"`                // AWS account id of conflicting VPC
+	ConflictingAWSVpcId                  *string     `json:"conflicting_aws_vpc_id,omitempty"`                    // VPC id which is conflicting with the current one
+	ConflictingAWSVpcPeeringConnectionId *string     `json:"conflicting_aws_vpc_peering_connection_id,omitempty"` // AWS VPC connection id which is conflicting with current VPC
 	Message                              string      `json:"message"`                                             // Warning message to be shown to the user
 	Type                                 WarningType `json:"type"`                                                // Type of warning
 }
