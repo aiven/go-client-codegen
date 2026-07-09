@@ -149,7 +149,7 @@ func CategoryTypeChoices() []string {
 type CloudProviderType string
 
 const (
-	CloudProviderTypeAws    CloudProviderType = "aws"
+	CloudProviderTypeAWS    CloudProviderType = "aws"
 	CloudProviderTypeAzure  CloudProviderType = "azure"
 	CloudProviderTypeGoogle CloudProviderType = "google"
 	CloudProviderTypeOracle CloudProviderType = "oracle"
@@ -183,16 +183,16 @@ type CustomCloudEnvironmentCreateIn struct {
 
 // CustomCloudEnvironmentCreateOut Custom cloud environment
 type CustomCloudEnvironmentCreateOut struct {
-	AivenAwsAccountPrincipal                   *string                         `json:"aiven_aws_account_principal,omitempty"`                      // Entity that assumes the IAM role for controlling the BYOC account
-	AivenAwsAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
-	AivenAwsObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
-	AivenAwsObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
+	AWSIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
+	AWSSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
+	AWSSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
+	AivenAWSAccountPrincipal                   *string                         `json:"aiven_aws_account_principal,omitempty"`                      // Entity that assumes the IAM role for controlling the BYOC account
+	AivenAWSAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
+	AivenAWSObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
+	AivenAWSObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
-	AwsIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
-	AwsSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
-	AwsSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
 	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
 	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
 	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
@@ -219,16 +219,16 @@ type CustomCloudEnvironmentCreateOut struct {
 
 // CustomCloudEnvironmentGetOut Custom cloud environment
 type CustomCloudEnvironmentGetOut struct {
-	AivenAwsAccountPrincipal                   *string                         `json:"aiven_aws_account_principal,omitempty"`                      // Entity that assumes the IAM role for controlling the BYOC account
-	AivenAwsAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
-	AivenAwsObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
-	AivenAwsObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
+	AWSIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
+	AWSSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
+	AWSSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
+	AivenAWSAccountPrincipal                   *string                         `json:"aiven_aws_account_principal,omitempty"`                      // Entity that assumes the IAM role for controlling the BYOC account
+	AivenAWSAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
+	AivenAWSObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
+	AivenAWSObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
-	AwsIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
-	AwsSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
-	AwsSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
 	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
 	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
 	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
@@ -267,23 +267,23 @@ type CustomCloudEnvironmentPermissionsSetIn struct {
 
 // CustomCloudEnvironmentProvisionIn CustomCloudEnvironmentProvisionRequestBody
 type CustomCloudEnvironmentProvisionIn struct {
-	AwsIamRoleArn                          *string `json:"aws_iam_role_arn,omitempty"`                            // Amazon Resource Name
+	AWSIamRoleArn                          *string `json:"aws_iam_role_arn,omitempty"`                            // Amazon Resource Name
 	GooglePrivilegeBearingServiceAccountId *string `json:"google_privilege_bearing_service_account_id,omitempty"` // Google account identifier
 	OracleCompartmentId                    *string `json:"oracle_compartment_id,omitempty"`                       // Used to uniquely identify an asset in Oracle's cloud. May refer to a range of object types including instance, tenancy, subnet and more.
 }
 
 // CustomCloudEnvironmentProvisionOut Custom cloud environment
 type CustomCloudEnvironmentProvisionOut struct {
-	AivenAwsAccountPrincipal                   *string                         `json:"aiven_aws_account_principal,omitempty"`                      // Entity that assumes the IAM role for controlling the BYOC account
-	AivenAwsAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
-	AivenAwsObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
-	AivenAwsObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
+	AWSIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
+	AWSSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
+	AWSSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
+	AivenAWSAccountPrincipal                   *string                         `json:"aiven_aws_account_principal,omitempty"`                      // Entity that assumes the IAM role for controlling the BYOC account
+	AivenAWSAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
+	AivenAWSObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
+	AivenAWSObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
-	AwsIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
-	AwsSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
-	AwsSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
 	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
 	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
 	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
@@ -328,7 +328,7 @@ func CustomCloudEnvironmentStateTypeChoices() []string {
 
 // CustomCloudEnvironmentUpdateIn CustomCloudEnvironmentUpdateRequestBody
 type CustomCloudEnvironmentUpdateIn struct {
-	AwsIamRoleArn                          *string             `json:"aws_iam_role_arn,omitempty"`                            // Amazon Resource Name
+	AWSIamRoleArn                          *string             `json:"aws_iam_role_arn,omitempty"`                            // Amazon Resource Name
 	CloudProvider                          CloudProviderType   `json:"cloud_provider,omitempty"`                              // Cloud provider for the BYOC cloud
 	CloudRegion                            *string             `json:"cloud_region,omitempty"`                                // Cloud region for the BYOC cloud
 	ContactEmails                          *[]ContactEmailIn   `json:"contact_emails,omitempty"`                              // Email addresses for notifications and alerts for this BYOC cloud
@@ -342,16 +342,16 @@ type CustomCloudEnvironmentUpdateIn struct {
 
 // CustomCloudEnvironmentUpdateOut Custom cloud environment
 type CustomCloudEnvironmentUpdateOut struct {
-	AivenAwsAccountPrincipal                   *string                         `json:"aiven_aws_account_principal,omitempty"`                      // Entity that assumes the IAM role for controlling the BYOC account
-	AivenAwsAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
-	AivenAwsObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
-	AivenAwsObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
+	AWSIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
+	AWSSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
+	AWSSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
+	AivenAWSAccountPrincipal                   *string                         `json:"aiven_aws_account_principal,omitempty"`                      // Entity that assumes the IAM role for controlling the BYOC account
+	AivenAWSAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
+	AivenAWSObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
+	AivenAWSObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
-	AwsIamRoleArn                              *string                         `json:"aws_iam_role_arn,omitempty"`                                 // Amazon Resource Name
-	AwsSubnetsBastion                          map[string]any                  `json:"aws_subnets_bastion,omitempty"`                              // Subnets to build in the bastion VPC
-	AwsSubnetsWorkload                         map[string]any                  `json:"aws_subnets_workload,omitempty"`                             // Subnets to build in the workload VPC
 	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
 	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
 	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment

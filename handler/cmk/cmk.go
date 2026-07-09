@@ -140,8 +140,8 @@ func (h *CMKHandler) CMKUpdate(ctx context.Context, project string, cmkid string
 	return &out.CMK, nil
 }
 
-// AwsOut CMKAccessorsAWS
-type AwsOut struct {
+// AWSOut CMKAccessorsAWS
+type AWSOut struct {
 	Principal string `json:"principal"`
 }
 
@@ -161,7 +161,7 @@ type CMKAccessCheckTriggerOut struct {
 
 // CMKAccessorsListOut CMKAccessors
 type CMKAccessorsListOut struct {
-	Aws   *AwsOut  `json:"aws,omitempty"` // CMKAccessorsAWS
+	AWS   *AWSOut  `json:"aws,omitempty"` // CMKAccessorsAWS
 	Azure AzureOut `json:"azure"`         // CMKAccessorsAzure
 	Gcp   GcpOut   `json:"gcp"`           // CMKAccessorsGCP
 	Oci   OciOut   `json:"oci"`           // CMKAccessorsOCI
@@ -241,7 +241,7 @@ type OciOut struct {
 type ProviderType string
 
 const (
-	ProviderTypeAws   ProviderType = "aws"
+	ProviderTypeAWS   ProviderType = "aws"
 	ProviderTypeAzure ProviderType = "azure"
 	ProviderTypeGcp   ProviderType = "gcp"
 	ProviderTypeOci   ProviderType = "oci"
