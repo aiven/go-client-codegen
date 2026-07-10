@@ -329,17 +329,17 @@ type BillingGroupCreateOut struct {
 
 // BillingGroupCreditsClaimIn BillingGroupCreditsClaimRequestBody
 type BillingGroupCreditsClaimIn struct {
-	Code string `json:"code"` // Credit code
+	Code string `json:"code"`
 }
 
-// BillingGroupCreditsClaimOut Assigned credit
+// BillingGroupCreditsClaimOut Assigned credit.
 type BillingGroupCreditsClaimOut struct {
-	Code           *string    `json:"code,omitempty"`            // Credit code
-	ExpireTime     *time.Time `json:"expire_time,omitempty"`     // Timestamp in ISO 8601 format, always in UTC
-	RemainingValue *string    `json:"remaining_value,omitempty"` // Remaining credit value
-	StartTime      *time.Time `json:"start_time,omitempty"`      // Timestamp in ISO 8601 format, always in UTC
-	Type           CreditType `json:"type,omitempty"`            // Credit type
-	Value          *string    `json:"value,omitempty"`           // Original credit value, or for expired credits, the consumed credit value
+	Code           string     `json:"code"`
+	ExpireTime     time.Time  `json:"expire_time"`     // When this credit expires. Timestamp in ISO 8601 format, always in UTC
+	RemainingValue string     `json:"remaining_value"` // Remaining credit value
+	StartTime      time.Time  `json:"start_time"`      // When this credit can be used. Timestamp in ISO 8601 format, always in UTC
+	Type           CreditType `json:"type"`            // An enumeration.
+	Value          string     `json:"value"`           // Original credit value, or for expired credits, the consumed credit value
 }
 
 // BillingGroupGetOut Billing group information
@@ -475,12 +475,12 @@ type CardInfoOut struct {
 	UserEmail   string `json:"user_email"`   // User email address
 }
 type CreditOut struct {
-	Code           *string    `json:"code,omitempty"`            // Credit code
-	ExpireTime     *time.Time `json:"expire_time,omitempty"`     // Timestamp in ISO 8601 format, always in UTC
-	RemainingValue *string    `json:"remaining_value,omitempty"` // Remaining credit value
-	StartTime      *time.Time `json:"start_time,omitempty"`      // Timestamp in ISO 8601 format, always in UTC
-	Type           CreditType `json:"type,omitempty"`            // Credit type
-	Value          *string    `json:"value,omitempty"`           // Original credit value, or for expired credits, the consumed credit value
+	Code           string     `json:"code"`
+	ExpireTime     time.Time  `json:"expire_time"`     // When this credit expires. Timestamp in ISO 8601 format, always in UTC
+	RemainingValue string     `json:"remaining_value"` // Remaining credit value
+	StartTime      time.Time  `json:"start_time"`      // When this credit can be used. Timestamp in ISO 8601 format, always in UTC
+	Type           CreditType `json:"type"`            // An enumeration.
+	Value          string     `json:"value"`           // Original credit value, or for expired credits, the consumed credit value
 }
 type CreditType string
 
@@ -673,12 +673,12 @@ type billingGroupCreateOut struct {
 
 // billingGroupCreditsClaimOut BillingGroupCreditsClaimResponse
 type billingGroupCreditsClaimOut struct {
-	Credit BillingGroupCreditsClaimOut `json:"credit"` // Assigned credit
+	Credit BillingGroupCreditsClaimOut `json:"credit"` // Assigned credit.
 }
 
 // billingGroupCreditsListOut BillingGroupCreditsListResponse
 type billingGroupCreditsListOut struct {
-	Credits []CreditOut `json:"credits"` // List of credits assigned to a billing group
+	Credits []CreditOut `json:"credits"` // Credits
 }
 
 // billingGroupEventListOut BillingGroupEventListResponse

@@ -113,12 +113,12 @@ func BillingGroupStateTypeChoices() []string {
 }
 
 type CreditOut struct {
-	Code           *string    `json:"code,omitempty"`            // Credit code
-	ExpireTime     *time.Time `json:"expire_time,omitempty"`     // Timestamp in ISO 8601 format, always in UTC
-	RemainingValue *string    `json:"remaining_value,omitempty"` // Remaining credit value
-	StartTime      *time.Time `json:"start_time,omitempty"`      // Timestamp in ISO 8601 format, always in UTC
-	Type           CreditType `json:"type,omitempty"`            // Credit type
-	Value          *string    `json:"value,omitempty"`           // Original credit value, or for expired credits, the consumed credit value
+	Code           string     `json:"code"`
+	ExpireTime     time.Time  `json:"expire_time"`     // When this credit expires. Timestamp in ISO 8601 format, always in UTC
+	RemainingValue string     `json:"remaining_value"` // Remaining credit value
+	StartTime      time.Time  `json:"start_time"`      // When this credit can be used. Timestamp in ISO 8601 format, always in UTC
+	Type           CreditType `json:"type"`            // An enumeration.
+	Value          string     `json:"value"`           // Original credit value, or for expired credits, the consumed credit value
 }
 type CreditType string
 
@@ -219,14 +219,14 @@ func InvoiceStateTypeChoices() []string {
 	return []string{"accrual", "consolidated", "due", "due_only_project_charges_calculated", "estimate", "estimate_only_project_charges_calculated", "failed_credit_card_charge", "failed_no_credit_card", "mailed", "no_payment_expected", "paid", "partner_metering", "uncollectible", "waived"}
 }
 
-// ProjectCreditsClaimOut Assigned credit
+// ProjectCreditsClaimOut Assigned credit.
 type ProjectCreditsClaimOut struct {
-	Code           *string    `json:"code,omitempty"`            // Credit code
-	ExpireTime     *time.Time `json:"expire_time,omitempty"`     // Timestamp in ISO 8601 format, always in UTC
-	RemainingValue *string    `json:"remaining_value,omitempty"` // Remaining credit value
-	StartTime      *time.Time `json:"start_time,omitempty"`      // Timestamp in ISO 8601 format, always in UTC
-	Type           CreditType `json:"type,omitempty"`            // Credit type
-	Value          *string    `json:"value,omitempty"`           // Original credit value, or for expired credits, the consumed credit value
+	Code           string     `json:"code"`
+	ExpireTime     time.Time  `json:"expire_time"`     // When this credit expires. Timestamp in ISO 8601 format, always in UTC
+	RemainingValue string     `json:"remaining_value"` // Remaining credit value
+	StartTime      time.Time  `json:"start_time"`      // When this credit can be used. Timestamp in ISO 8601 format, always in UTC
+	Type           CreditType `json:"type"`            // An enumeration.
+	Value          string     `json:"value"`           // Original credit value, or for expired credits, the consumed credit value
 }
 
 // invoiceGetOut InvoiceGetResponse
@@ -236,12 +236,12 @@ type invoiceGetOut struct {
 
 // projectCreditsClaimOut ProjectCreditsClaimResponse
 type projectCreditsClaimOut struct {
-	Credit ProjectCreditsClaimOut `json:"credit"` // Assigned credit
+	Credit ProjectCreditsClaimOut `json:"credit"` // Assigned credit.
 }
 
 // projectCreditsListOut ProjectCreditsListResponse
 type projectCreditsListOut struct {
-	Credits []CreditOut `json:"credits"` // List of credits assigned to a project
+	Credits []CreditOut `json:"credits"` // Credits
 }
 
 // projectInvoiceListOut ProjectInvoiceListResponse
