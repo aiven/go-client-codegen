@@ -136,8 +136,9 @@ const (
 	VerifyErrorCodeType1 VerifyErrorCodeType = 1
 	VerifyErrorCodeType2 VerifyErrorCodeType = 2
 	VerifyErrorCodeType3 VerifyErrorCodeType = 3
+	VerifyErrorCodeType4 VerifyErrorCodeType = 4
 )
 
 func VerifyErrorCodeTypeChoices() []int {
-	return []int{1, 2, 3}
+	return []int{1, 2, 3, 4}
 }
