@@ -86,6 +86,42 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureUpdate
 	// Required roles or permissions: service:configuration:write
 	ServicePrivatelinkAzureUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureUpdateIn) (*ServicePrivatelinkAzureUpdateOut, error)
+
+	// ServicePrivatelinkGoogleConnectionCreate approve a new Google Private Service Connect connection
+	// POST /v1/project/{project}/service/{service_name}/privatelink/google/connections/{privatelink_connection_id}/approve
+	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkGoogleConnectionCreate
+	// Required roles or permissions: service:configuration:write
+	ServicePrivatelinkGoogleConnectionCreate(ctx context.Context, project string, serviceName string, privatelinkConnectionId string, in *ServicePrivatelinkGoogleConnectionCreateIn) (*ServicePrivatelinkGoogleConnectionCreateOut, error)
+
+	// ServicePrivatelinkGoogleConnectionList list Google Private Service Connect connections for a service
+	// GET /v1/project/{project}/service/{service_name}/privatelink/google/connections
+	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkGoogleConnectionList
+	// Required roles or permissions: service:configuration:write
+	ServicePrivatelinkGoogleConnectionList(ctx context.Context, project string, serviceName string) ([]ServicePrivatelinkGoogleConnectionListOut, error)
+
+	// ServicePrivatelinkGoogleCreate create a Google Private Service Connect endpoint for a service
+	// POST /v1/project/{project}/service/{service_name}/privatelink/google
+	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkGoogleCreate
+	// Required roles or permissions: service:configuration:write
+	ServicePrivatelinkGoogleCreate(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkGoogleCreateOut, error)
+
+	// ServicePrivatelinkGoogleDelete delete a Google Private Service Connect endpoint for a service
+	// DELETE /v1/project/{project}/service/{service_name}/privatelink/google
+	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkGoogleDelete
+	// Required roles or permissions: service:configuration:write
+	ServicePrivatelinkGoogleDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkGoogleDeleteOut, error)
+
+	// ServicePrivatelinkGoogleGet return status of Google Private Service Connect endpoint
+	// GET /v1/project/{project}/service/{service_name}/privatelink/google
+	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkGoogleGet
+	// Required roles or permissions: service:configuration:write
+	ServicePrivatelinkGoogleGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkGoogleGetOut, error)
+
+	// ServicePrivatelinkGoogleRefresh initiate fetch from cloud & update to aiven DB of connections to this privatelink
+	// POST /v1/project/{project}/service/{service_name}/privatelink/google/refresh
+	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkGoogleRefresh
+	// Required roles or permissions: service:configuration:write
+	ServicePrivatelinkGoogleRefresh(ctx context.Context, project string, serviceName string) error
 }
 
 // doer http client
@@ -270,6 +306,76 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureUpdate(ctx context.Context, 
 	}
 	return out, nil
 }
+func (h *PrivatelinkHandler) ServicePrivatelinkGoogleConnectionCreate(ctx context.Context, project string, serviceName string, privatelinkConnectionId string, in *ServicePrivatelinkGoogleConnectionCreateIn) (*ServicePrivatelinkGoogleConnectionCreateOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/google/connections/%s/approve", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(privatelinkConnectionId))
+	b, err := h.doer.Do(ctx, "ServicePrivatelinkGoogleConnectionCreate", "POST", path, in)
+	if err != nil {
+		return nil, err
+	}
+	out := new(ServicePrivatelinkGoogleConnectionCreateOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *PrivatelinkHandler) ServicePrivatelinkGoogleConnectionList(ctx context.Context, project string, serviceName string) ([]ServicePrivatelinkGoogleConnectionListOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/google/connections", url.PathEscape(project), url.PathEscape(serviceName))
+	b, err := h.doer.Do(ctx, "ServicePrivatelinkGoogleConnectionList", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(servicePrivatelinkGoogleConnectionListOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out.Connections, nil
+}
+func (h *PrivatelinkHandler) ServicePrivatelinkGoogleCreate(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkGoogleCreateOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/google", url.PathEscape(project), url.PathEscape(serviceName))
+	b, err := h.doer.Do(ctx, "ServicePrivatelinkGoogleCreate", "POST", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(ServicePrivatelinkGoogleCreateOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *PrivatelinkHandler) ServicePrivatelinkGoogleDelete(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkGoogleDeleteOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/google", url.PathEscape(project), url.PathEscape(serviceName))
+	b, err := h.doer.Do(ctx, "ServicePrivatelinkGoogleDelete", "DELETE", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(ServicePrivatelinkGoogleDeleteOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *PrivatelinkHandler) ServicePrivatelinkGoogleGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkGoogleGetOut, error) {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/google", url.PathEscape(project), url.PathEscape(serviceName))
+	b, err := h.doer.Do(ctx, "ServicePrivatelinkGoogleGet", "GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+	out := new(ServicePrivatelinkGoogleGetOut)
+	err = json.Unmarshal(b, out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+func (h *PrivatelinkHandler) ServicePrivatelinkGoogleRefresh(ctx context.Context, project string, serviceName string) error {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/google/refresh", url.PathEscape(project), url.PathEscape(serviceName))
+	_, err := h.doer.Do(ctx, "ServicePrivatelinkGoogleRefresh", "POST", path, nil)
+	return err
+}
 
 type ConnectionOut struct {
 	DnsName                 string              `json:"dns_name"`                            // The VPC Endpoint DNS name that the Aiven privatelink access route DNS name is using as the value for itsCNAME record. This DNS name resolves to the private IP addresses of the VPC Endpoint's NICs in all configured subnets
@@ -453,6 +559,66 @@ type ServicePrivatelinkAzureUpdateOut struct {
 	UserSubscriptionIds []string                         `json:"user_subscription_ids"`         // IDs of Azure subscriptions allowed to connect to the service
 }
 
+// ServicePrivatelinkGoogleConnectionCreateIn ServicePrivatelinkGoogleConnectionCreateRequestBody
+type ServicePrivatelinkGoogleConnectionCreateIn struct {
+	UserIPAddress string `json:"user_ip_address"` // (Private) IP address of Private Service Connect endpoint
+}
+
+// ServicePrivatelinkGoogleConnectionCreateOut ServicePrivatelinkGoogleConnectionCreateResponse
+type ServicePrivatelinkGoogleConnectionCreateOut struct {
+	PrivatelinkConnectionId string                                      `json:"privatelink_connection_id"` // Privatelink connection ID
+	PscConnectionId         string                                      `json:"psc_connection_id"`         // Google Private Service Connect connection ID for this connection
+	State                   ServicePrivatelinkGoogleConnectionStateType `json:"state"`                     // The Aiven connection state. The Google endpoint status has a separate value
+	UserIPAddress           string                                      `json:"user_ip_address"`           // Frontend IP address of the forwarding rule that connects to the service at customer end
+}
+type ServicePrivatelinkGoogleConnectionListOut struct {
+	PrivatelinkConnectionId string              `json:"privatelink_connection_id"` // Privatelink connection ID
+	PscConnectionId         string              `json:"psc_connection_id"`         // Google Private Service Connect connection ID for this connection
+	State                   ConnectionStateType `json:"state"`                     // The Aiven connection state. The Google endpoint status has a separate value
+	UserIPAddress           string              `json:"user_ip_address"`           // Frontend IP address of the forwarding rule that connects to the service at customer end
+}
+type ServicePrivatelinkGoogleConnectionStateType string
+
+const (
+	ServicePrivatelinkGoogleConnectionStateTypeActive              ServicePrivatelinkGoogleConnectionStateType = "active"
+	ServicePrivatelinkGoogleConnectionStateTypeConnected           ServicePrivatelinkGoogleConnectionStateType = "connected"
+	ServicePrivatelinkGoogleConnectionStateTypePendingUserApproval ServicePrivatelinkGoogleConnectionStateType = "pending-user-approval"
+	ServicePrivatelinkGoogleConnectionStateTypeUserApproved        ServicePrivatelinkGoogleConnectionStateType = "user-approved"
+)
+
+func ServicePrivatelinkGoogleConnectionStateTypeChoices() []string {
+	return []string{"active", "connected", "pending-user-approval", "user-approved"}
+}
+
+// ServicePrivatelinkGoogleCreateOut ServicePrivatelinkGoogleCreateResponse
+type ServicePrivatelinkGoogleCreateOut struct {
+	GoogleServiceAttachment string                            `json:"google_service_attachment"` // Google Private Service Connect service attachment name
+	State                   ServicePrivatelinkGoogleStateType `json:"state"`                     // Privatelink resource state
+}
+
+// ServicePrivatelinkGoogleDeleteOut ServicePrivatelinkGoogleDeleteResponse
+type ServicePrivatelinkGoogleDeleteOut struct {
+	GoogleServiceAttachment string                            `json:"google_service_attachment"` // Google Private Service Connect service attachment name
+	State                   ServicePrivatelinkGoogleStateType `json:"state"`                     // Privatelink resource state
+}
+
+// ServicePrivatelinkGoogleGetOut ServicePrivatelinkGoogleGetResponse
+type ServicePrivatelinkGoogleGetOut struct {
+	GoogleServiceAttachment string                            `json:"google_service_attachment"` // Google Private Service Connect service attachment name
+	State                   ServicePrivatelinkGoogleStateType `json:"state"`                     // Privatelink resource state
+}
+type ServicePrivatelinkGoogleStateType string
+
+const (
+	ServicePrivatelinkGoogleStateTypeActive   ServicePrivatelinkGoogleStateType = "active"
+	ServicePrivatelinkGoogleStateTypeCreating ServicePrivatelinkGoogleStateType = "creating"
+	ServicePrivatelinkGoogleStateTypeDeleting ServicePrivatelinkGoogleStateType = "deleting"
+)
+
+func ServicePrivatelinkGoogleStateTypeChoices() []string {
+	return []string{"active", "creating", "deleting"}
+}
+
 // publicPrivatelinkAvailabilityListOut PublicPrivatelinkAvailabilityListResponse
 type publicPrivatelinkAvailabilityListOut struct {
 	PrivatelinkAvailability []PrivatelinkAvailabilityOut `json:"privatelink_availability"` // Privatelink pricing information for supported clouds
@@ -466,4 +632,9 @@ type servicePrivatelinkAWSConnectionListOut struct {
 // servicePrivatelinkAzureConnectionListOut ServicePrivatelinkAzureConnectionListResponse
 type servicePrivatelinkAzureConnectionListOut struct {
 	Connections []ServicePrivatelinkAzureConnectionListOut `json:"connections"` // Private endpoint connection list
+}
+
+// servicePrivatelinkGoogleConnectionListOut ServicePrivatelinkGoogleConnectionListResponse
+type servicePrivatelinkGoogleConnectionListOut struct {
+	Connections []ServicePrivatelinkGoogleConnectionListOut `json:"connections"` // Private Service Connect endpoint connection list
 }

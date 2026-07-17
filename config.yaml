@@ -288,6 +288,12 @@ Privatelink:
   - ServicePrivatelinkAzureDelete
   - ServicePrivatelinkAzureGet
   - ServicePrivatelinkAzureUpdate
+  - ServicePrivatelinkGoogleConnectionCreate
+  - ServicePrivatelinkGoogleConnectionList
+  - ServicePrivatelinkGoogleCreate
+  - ServicePrivatelinkGoogleDelete
+  - ServicePrivatelinkGoogleGet
+  - ServicePrivatelinkGoogleRefresh
 Project:
   - ListProjectVpcPeeringConnectionTypes
   - ProjectAlertsList
