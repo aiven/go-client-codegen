@@ -503,6 +503,18 @@ ServicePrivatelinkAzureGet:
   - service:configuration:write
 ServicePrivatelinkAzureUpdate:
   - service:configuration:write
+ServicePrivatelinkGoogleConnectionCreate:
+  - service:configuration:write
+ServicePrivatelinkGoogleConnectionList:
+  - service:configuration:write
+ServicePrivatelinkGoogleCreate:
+  - service:configuration:write
+ServicePrivatelinkGoogleDelete:
+  - service:configuration:write
+ServicePrivatelinkGoogleGet:
+  - service:configuration:write
+ServicePrivatelinkGoogleRefresh:
+  - service:configuration:write
 ServiceQueryActivity:
   - developer
   - operator

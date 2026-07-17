@@ -22986,6 +22986,451 @@ func (_c *MockClient_ServicePrivatelinkAzureUpdate_Call) RunAndReturn(run func(c
 	return _c
 }
 
+// ServicePrivatelinkGoogleConnectionCreate provides a mock function for the type MockClient
+func (_mock *MockClient) ServicePrivatelinkGoogleConnectionCreate(ctx context.Context, project1 string, serviceName string, privatelinkConnectionId string, in *privatelink.ServicePrivatelinkGoogleConnectionCreateIn) (*privatelink.ServicePrivatelinkGoogleConnectionCreateOut, error) {
+	ret := _mock.Called(ctx, project1, serviceName, privatelinkConnectionId, in)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ServicePrivatelinkGoogleConnectionCreate")
+	}
+
+	var r0 *privatelink.ServicePrivatelinkGoogleConnectionCreateOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string, *privatelink.ServicePrivatelinkGoogleConnectionCreateIn) (*privatelink.ServicePrivatelinkGoogleConnectionCreateOut, error)); ok {
+		return returnFunc(ctx, project1, serviceName, privatelinkConnectionId, in)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string, *privatelink.ServicePrivatelinkGoogleConnectionCreateIn) *privatelink.ServicePrivatelinkGoogleConnectionCreateOut); ok {
+		r0 = returnFunc(ctx, project1, serviceName, privatelinkConnectionId, in)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkGoogleConnectionCreateOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, string, *privatelink.ServicePrivatelinkGoogleConnectionCreateIn) error); ok {
+		r1 = returnFunc(ctx, project1, serviceName, privatelinkConnectionId, in)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_ServicePrivatelinkGoogleConnectionCreate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ServicePrivatelinkGoogleConnectionCreate'
+type MockClient_ServicePrivatelinkGoogleConnectionCreate_Call struct {
+	*mock.Call
+}
+
+// ServicePrivatelinkGoogleConnectionCreate is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project1 string
+//   - serviceName string
+//   - privatelinkConnectionId string
+//   - in *privatelink.ServicePrivatelinkGoogleConnectionCreateIn
+func (_e *MockClient_Expecter) ServicePrivatelinkGoogleConnectionCreate(ctx interface{}, project1 interface{}, serviceName interface{}, privatelinkConnectionId interface{}, in interface{}) *MockClient_ServicePrivatelinkGoogleConnectionCreate_Call {
+	return &MockClient_ServicePrivatelinkGoogleConnectionCreate_Call{Call: _e.mock.On("ServicePrivatelinkGoogleConnectionCreate", ctx, project1, serviceName, privatelinkConnectionId, in)}
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleConnectionCreate_Call) Run(run func(ctx context.Context, project1 string, serviceName string, privatelinkConnectionId string, in *privatelink.ServicePrivatelinkGoogleConnectionCreateIn)) *MockClient_ServicePrivatelinkGoogleConnectionCreate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		var arg3 string
+		if args[3] != nil {
+			arg3 = args[3].(string)
+		}
+		var arg4 *privatelink.ServicePrivatelinkGoogleConnectionCreateIn
+		if args[4] != nil {
+			arg4 = args[4].(*privatelink.ServicePrivatelinkGoogleConnectionCreateIn)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+			arg3,
+			arg4,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleConnectionCreate_Call) Return(servicePrivatelinkGoogleConnectionCreateOut *privatelink.ServicePrivatelinkGoogleConnectionCreateOut, err error) *MockClient_ServicePrivatelinkGoogleConnectionCreate_Call {
+	_c.Call.Return(servicePrivatelinkGoogleConnectionCreateOut, err)
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleConnectionCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, privatelinkConnectionId string, in *privatelink.ServicePrivatelinkGoogleConnectionCreateIn) (*privatelink.ServicePrivatelinkGoogleConnectionCreateOut, error)) *MockClient_ServicePrivatelinkGoogleConnectionCreate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ServicePrivatelinkGoogleConnectionList provides a mock function for the type MockClient
+func (_mock *MockClient) ServicePrivatelinkGoogleConnectionList(ctx context.Context, project1 string, serviceName string) ([]privatelink.ServicePrivatelinkGoogleConnectionListOut, error) {
+	ret := _mock.Called(ctx, project1, serviceName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ServicePrivatelinkGoogleConnectionList")
+	}
+
+	var r0 []privatelink.ServicePrivatelinkGoogleConnectionListOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) ([]privatelink.ServicePrivatelinkGoogleConnectionListOut, error)); ok {
+		return returnFunc(ctx, project1, serviceName)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) []privatelink.ServicePrivatelinkGoogleConnectionListOut); ok {
+		r0 = returnFunc(ctx, project1, serviceName)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]privatelink.ServicePrivatelinkGoogleConnectionListOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, project1, serviceName)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_ServicePrivatelinkGoogleConnectionList_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ServicePrivatelinkGoogleConnectionList'
+type MockClient_ServicePrivatelinkGoogleConnectionList_Call struct {
+	*mock.Call
+}
+
+// ServicePrivatelinkGoogleConnectionList is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project1 string
+//   - serviceName string
+func (_e *MockClient_Expecter) ServicePrivatelinkGoogleConnectionList(ctx interface{}, project1 interface{}, serviceName interface{}) *MockClient_ServicePrivatelinkGoogleConnectionList_Call {
+	return &MockClient_ServicePrivatelinkGoogleConnectionList_Call{Call: _e.mock.On("ServicePrivatelinkGoogleConnectionList", ctx, project1, serviceName)}
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleConnectionList_Call) Run(run func(ctx context.Context, project1 string, serviceName string)) *MockClient_ServicePrivatelinkGoogleConnectionList_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleConnectionList_Call) Return(servicePrivatelinkGoogleConnectionListOuts []privatelink.ServicePrivatelinkGoogleConnectionListOut, err error) *MockClient_ServicePrivatelinkGoogleConnectionList_Call {
+	_c.Call.Return(servicePrivatelinkGoogleConnectionListOuts, err)
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleConnectionList_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) ([]privatelink.ServicePrivatelinkGoogleConnectionListOut, error)) *MockClient_ServicePrivatelinkGoogleConnectionList_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ServicePrivatelinkGoogleCreate provides a mock function for the type MockClient
+func (_mock *MockClient) ServicePrivatelinkGoogleCreate(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkGoogleCreateOut, error) {
+	ret := _mock.Called(ctx, project1, serviceName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ServicePrivatelinkGoogleCreate")
+	}
+
+	var r0 *privatelink.ServicePrivatelinkGoogleCreateOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*privatelink.ServicePrivatelinkGoogleCreateOut, error)); ok {
+		return returnFunc(ctx, project1, serviceName)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *privatelink.ServicePrivatelinkGoogleCreateOut); ok {
+		r0 = returnFunc(ctx, project1, serviceName)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkGoogleCreateOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, project1, serviceName)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_ServicePrivatelinkGoogleCreate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ServicePrivatelinkGoogleCreate'
+type MockClient_ServicePrivatelinkGoogleCreate_Call struct {
+	*mock.Call
+}
+
+// ServicePrivatelinkGoogleCreate is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project1 string
+//   - serviceName string
+func (_e *MockClient_Expecter) ServicePrivatelinkGoogleCreate(ctx interface{}, project1 interface{}, serviceName interface{}) *MockClient_ServicePrivatelinkGoogleCreate_Call {
+	return &MockClient_ServicePrivatelinkGoogleCreate_Call{Call: _e.mock.On("ServicePrivatelinkGoogleCreate", ctx, project1, serviceName)}
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleCreate_Call) Run(run func(ctx context.Context, project1 string, serviceName string)) *MockClient_ServicePrivatelinkGoogleCreate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleCreate_Call) Return(servicePrivatelinkGoogleCreateOut *privatelink.ServicePrivatelinkGoogleCreateOut, err error) *MockClient_ServicePrivatelinkGoogleCreate_Call {
+	_c.Call.Return(servicePrivatelinkGoogleCreateOut, err)
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleCreate_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkGoogleCreateOut, error)) *MockClient_ServicePrivatelinkGoogleCreate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ServicePrivatelinkGoogleDelete provides a mock function for the type MockClient
+func (_mock *MockClient) ServicePrivatelinkGoogleDelete(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkGoogleDeleteOut, error) {
+	ret := _mock.Called(ctx, project1, serviceName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ServicePrivatelinkGoogleDelete")
+	}
+
+	var r0 *privatelink.ServicePrivatelinkGoogleDeleteOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*privatelink.ServicePrivatelinkGoogleDeleteOut, error)); ok {
+		return returnFunc(ctx, project1, serviceName)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *privatelink.ServicePrivatelinkGoogleDeleteOut); ok {
+		r0 = returnFunc(ctx, project1, serviceName)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkGoogleDeleteOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, project1, serviceName)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_ServicePrivatelinkGoogleDelete_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ServicePrivatelinkGoogleDelete'
+type MockClient_ServicePrivatelinkGoogleDelete_Call struct {
+	*mock.Call
+}
+
+// ServicePrivatelinkGoogleDelete is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project1 string
+//   - serviceName string
+func (_e *MockClient_Expecter) ServicePrivatelinkGoogleDelete(ctx interface{}, project1 interface{}, serviceName interface{}) *MockClient_ServicePrivatelinkGoogleDelete_Call {
+	return &MockClient_ServicePrivatelinkGoogleDelete_Call{Call: _e.mock.On("ServicePrivatelinkGoogleDelete", ctx, project1, serviceName)}
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleDelete_Call) Run(run func(ctx context.Context, project1 string, serviceName string)) *MockClient_ServicePrivatelinkGoogleDelete_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleDelete_Call) Return(servicePrivatelinkGoogleDeleteOut *privatelink.ServicePrivatelinkGoogleDeleteOut, err error) *MockClient_ServicePrivatelinkGoogleDelete_Call {
+	_c.Call.Return(servicePrivatelinkGoogleDeleteOut, err)
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkGoogleDeleteOut, error)) *MockClient_ServicePrivatelinkGoogleDelete_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ServicePrivatelinkGoogleGet provides a mock function for the type MockClient
+func (_mock *MockClient) ServicePrivatelinkGoogleGet(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkGoogleGetOut, error) {
+	ret := _mock.Called(ctx, project1, serviceName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ServicePrivatelinkGoogleGet")
+	}
+
+	var r0 *privatelink.ServicePrivatelinkGoogleGetOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*privatelink.ServicePrivatelinkGoogleGetOut, error)); ok {
+		return returnFunc(ctx, project1, serviceName)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *privatelink.ServicePrivatelinkGoogleGetOut); ok {
+		r0 = returnFunc(ctx, project1, serviceName)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*privatelink.ServicePrivatelinkGoogleGetOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, project1, serviceName)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_ServicePrivatelinkGoogleGet_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ServicePrivatelinkGoogleGet'
+type MockClient_ServicePrivatelinkGoogleGet_Call struct {
+	*mock.Call
+}
+
+// ServicePrivatelinkGoogleGet is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project1 string
+//   - serviceName string
+func (_e *MockClient_Expecter) ServicePrivatelinkGoogleGet(ctx interface{}, project1 interface{}, serviceName interface{}) *MockClient_ServicePrivatelinkGoogleGet_Call {
+	return &MockClient_ServicePrivatelinkGoogleGet_Call{Call: _e.mock.On("ServicePrivatelinkGoogleGet", ctx, project1, serviceName)}
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleGet_Call) Run(run func(ctx context.Context, project1 string, serviceName string)) *MockClient_ServicePrivatelinkGoogleGet_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleGet_Call) Return(servicePrivatelinkGoogleGetOut *privatelink.ServicePrivatelinkGoogleGetOut, err error) *MockClient_ServicePrivatelinkGoogleGet_Call {
+	_c.Call.Return(servicePrivatelinkGoogleGetOut, err)
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleGet_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) (*privatelink.ServicePrivatelinkGoogleGetOut, error)) *MockClient_ServicePrivatelinkGoogleGet_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ServicePrivatelinkGoogleRefresh provides a mock function for the type MockClient
+func (_mock *MockClient) ServicePrivatelinkGoogleRefresh(ctx context.Context, project1 string, serviceName string) error {
+	ret := _mock.Called(ctx, project1, serviceName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ServicePrivatelinkGoogleRefresh")
+	}
+
+	var r0 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) error); ok {
+		r0 = returnFunc(ctx, project1, serviceName)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
+// MockClient_ServicePrivatelinkGoogleRefresh_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ServicePrivatelinkGoogleRefresh'
+type MockClient_ServicePrivatelinkGoogleRefresh_Call struct {
+	*mock.Call
+}
+
+// ServicePrivatelinkGoogleRefresh is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project1 string
+//   - serviceName string
+func (_e *MockClient_Expecter) ServicePrivatelinkGoogleRefresh(ctx interface{}, project1 interface{}, serviceName interface{}) *MockClient_ServicePrivatelinkGoogleRefresh_Call {
+	return &MockClient_ServicePrivatelinkGoogleRefresh_Call{Call: _e.mock.On("ServicePrivatelinkGoogleRefresh", ctx, project1, serviceName)}
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleRefresh_Call) Run(run func(ctx context.Context, project1 string, serviceName string)) *MockClient_ServicePrivatelinkGoogleRefresh_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleRefresh_Call) Return(err error) *MockClient_ServicePrivatelinkGoogleRefresh_Call {
+	_c.Call.Return(err)
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkGoogleRefresh_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) error) *MockClient_ServicePrivatelinkGoogleRefresh_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ServiceQueryActivity provides a mock function for the type MockClient
 func (_mock *MockClient) ServiceQueryActivity(ctx context.Context, project1 string, serviceName string, in *service.ServiceQueryActivityIn) ([]service.QueryOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName, in)
