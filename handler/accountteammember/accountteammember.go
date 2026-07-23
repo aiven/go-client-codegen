@@ -11,27 +11,27 @@ import (
 )
 
 type Handler interface {
-	// Deprecated: AccountTeamMemberCancelInvite cancel pending user invite
+	// AccountTeamMemberCancelInvite cancel pending user invite
 	// DELETE /v1/account/{account_id}/team/{team_id}/invites/{user_email}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberCancelInvite
 	AccountTeamMemberCancelInvite(ctx context.Context, accountId string, teamId string, userEmail string) error
 
-	// Deprecated: AccountTeamMemberVerifyInvite confirm account team invite
+	// AccountTeamMemberVerifyInvite confirm account team invite
 	// POST /v1/account/{account_id}/invite/{invite_verification_code}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMemberVerifyInvite
 	AccountTeamMemberVerifyInvite(ctx context.Context, accountId string, inviteVerificationCode string) (*AccountTeamMemberVerifyInviteOut, error)
 
-	// Deprecated: AccountTeamMembersDelete remove a member from the team
+	// AccountTeamMembersDelete remove a member from the team
 	// DELETE /v1/account/{account_id}/team/{team_id}/member/{user_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersDelete
 	AccountTeamMembersDelete(ctx context.Context, accountId string, teamId string, userId string) error
 
-	// Deprecated: AccountTeamMembersInvite invite a new member to join the team
+	// AccountTeamMembersInvite invite a new member to join the team
 	// POST /v1/account/{account_id}/team/{team_id}/members
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersInvite
 	AccountTeamMembersInvite(ctx context.Context, accountId string, teamId string) error
 
-	// Deprecated: AccountTeamMembersList list members of a single team
+	// AccountTeamMembersList list members of a single team
 	// GET /v1/account/{account_id}/team/{team_id}/members
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamMembersList
 	AccountTeamMembersList(ctx context.Context, accountId string, teamId string) ([]MemberOut, error)

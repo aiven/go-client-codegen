@@ -1107,12 +1107,13 @@ const (
 	EndpointTypeExternalSchemaRegistry       EndpointType = "external_schema_registry"
 	EndpointTypeExternalSumologicLogs        EndpointType = "external_sumologic_logs"
 	EndpointTypeJolokia                      EndpointType = "jolokia"
+	EndpointTypeOpentelemetry                EndpointType = "opentelemetry"
 	EndpointTypePrometheus                   EndpointType = "prometheus"
 	EndpointTypeRsyslog                      EndpointType = "rsyslog"
 )
 
 func EndpointTypeChoices() []string {
-	return []string{"autoscaler", "autoscaler_service", "datadog", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_aws_s3", "external_azure_blob_storage", "external_clickhouse", "external_elasticsearch_logs", "external_google_cloud_bigquery", "external_google_cloud_logging", "external_kafka", "external_mysql", "external_object_storage_config", "external_opensearch_logs", "external_postgresql", "external_prometheus", "external_redis", "external_schema_registry", "external_sumologic_logs", "jolokia", "prometheus", "rsyslog"}
+	return []string{"autoscaler", "autoscaler_service", "datadog", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_aws_s3", "external_azure_blob_storage", "external_clickhouse", "external_elasticsearch_logs", "external_google_cloud_bigquery", "external_google_cloud_logging", "external_kafka", "external_mysql", "external_object_storage_config", "external_opensearch_logs", "external_postgresql", "external_prometheus", "external_redis", "external_schema_registry", "external_sumologic_logs", "jolokia", "opentelemetry", "prometheus", "rsyslog"}
 }
 
 type EndpointTypeOut struct {
@@ -1195,6 +1196,7 @@ const (
 	IntegrationTypeMetrics                           IntegrationType = "metrics"
 	IntegrationTypeOpensearchCrossClusterReplication IntegrationType = "opensearch_cross_cluster_replication"
 	IntegrationTypeOpensearchCrossClusterSearch      IntegrationType = "opensearch_cross_cluster_search"
+	IntegrationTypeOpentelemetry                     IntegrationType = "opentelemetry"
 	IntegrationTypePrometheus                        IntegrationType = "prometheus"
 	IntegrationTypeReadReplica                       IntegrationType = "read_replica"
 	IntegrationTypeRsyslog                           IntegrationType = "rsyslog"
@@ -1213,7 +1215,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datahub_metadata_ingestion", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanos_object_storage", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
+	return []string{"alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datahub_metadata_ingestion", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "opentelemetry", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanos_object_storage", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
 }
 
 type IntegrationTypeOut struct {
@@ -1660,18 +1662,27 @@ func PoolModeTypeChoices() []string {
 	return []string{"session", "statement", "transaction"}
 }
 
+// PositionOut Position in the backup chain being restored. May be missing.
+type PositionOut struct {
+	BackupIncremental bool   `json:"backup_incremental"` // Whether the backup currently being restored is an incremental one
+	BackupName        string `json:"backup_name"`        // Name of the backup currently being restored, matching the name in the service backup list
+	ChainIndex        int    `json:"chain_index"`        // 1-based position of the backup currently being restored within the restore chain
+	ChainTotal        int    `json:"chain_total"`        // Total number of backups in the restore chain
+}
+
 // PrimaryRegionOut Point-in-time-recovery metadata related to the primary backup location of the service.
 type PrimaryRegionOut struct {
 	PitrRangeEnd   string `json:"pitr_range_end"`   // Latest timestamp usable for PITR (ISO 8601) (null means current time)
 	PitrRangeStart string `json:"pitr_range_start"` // Earliest timestamp usable for PITR (ISO 8601) (null means no available backup for PITR)
 }
 type ProgressUpdateOut struct {
-	Completed bool      `json:"completed"`         // Indicates whether this phase has been completed or not
-	Current   *int      `json:"current,omitempty"` // Current progress for this phase. May be missing or null.
-	Max       *int      `json:"max,omitempty"`     // Maximum progress value for this phase. May be missing or null. May change.
-	Min       *int      `json:"min,omitempty"`     // Minimum progress value for this phase. May be missing or null.
-	Phase     PhaseType `json:"phase"`             // Key identifying this phase
-	Unit      UnitType  `json:"unit,omitempty"`    // Unit for current/min/max values. New units may be added. If null should be treated as generic unit
+	Completed bool         `json:"completed"`          // Indicates whether this phase has been completed or not
+	Current   *int         `json:"current,omitempty"`  // Current progress for this phase. May be missing or null.
+	Max       *int         `json:"max,omitempty"`      // Maximum progress value for this phase. May be missing or null. May change.
+	Min       *int         `json:"min,omitempty"`      // Minimum progress value for this phase. May be missing or null.
+	Phase     PhaseType    `json:"phase"`              // Key identifying this phase
+	Position  *PositionOut `json:"position,omitempty"` // Position in the backup chain being restored. May be missing.
+	Unit      UnitType     `json:"unit,omitempty"`     // Unit for current/min/max values. New units may be added. If null should be treated as generic unit
 }
 
 // ProjectGetServiceLogsIn ProjectGetServiceLogsRequestBody

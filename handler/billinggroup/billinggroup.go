@@ -11,7 +11,7 @@ import (
 )
 
 type Handler interface {
-	// Deprecated: BillingGroupCreate create a billing group
+	// BillingGroupCreate create a billing group
 	// POST /v1/billing-group
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupCreate
 	BillingGroupCreate(ctx context.Context, in *BillingGroupCreateIn) (*BillingGroupCreateOut, error)
@@ -28,7 +28,7 @@ type Handler interface {
 	// Required roles or permissions: developer, operator, read_only
 	BillingGroupCreditsList(ctx context.Context, billingGroupId string) ([]CreditOut, error)
 
-	// Deprecated: BillingGroupDelete delete billing group
+	// BillingGroupDelete delete billing group
 	// DELETE /v1/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupDelete
 	BillingGroupDelete(ctx context.Context, billingGroupId string) error
@@ -39,46 +39,46 @@ type Handler interface {
 	// Required roles or permissions: developer, operator, read_only
 	BillingGroupEventList(ctx context.Context, billingGroupId string) ([]EventOut, error)
 
-	// Deprecated: BillingGroupGet get billing group details
+	// BillingGroupGet get billing group details
 	// GET /v1/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupGet
 	// Required roles or permissions: developer, operator, read_only
 	BillingGroupGet(ctx context.Context, billingGroupId string) (*BillingGroupGetOut, error)
 
-	// Deprecated: BillingGroupInvoiceLinesList get invoice lines for a single invoice
+	// BillingGroupInvoiceLinesList get invoice lines for a single invoice
 	// GET /v1/billing-group/{billing_group_id}/invoice/{invoice_number}/lines
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupInvoiceLinesList
 	// Required roles or permissions: operator
 	BillingGroupInvoiceLinesList(ctx context.Context, billingGroupId string, invoiceNumber string) ([]LineOut, error)
 
-	// Deprecated: BillingGroupInvoiceList get invoices generated for billing group
+	// BillingGroupInvoiceList get invoices generated for billing group
 	// GET /v1/billing-group/{billing_group_id}/invoice
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupInvoiceList
 	// Required roles or permissions: developer, operator, read_only
 	BillingGroupInvoiceList(ctx context.Context, billingGroupId string) ([]InvoiceOut, error)
 
-	// Deprecated: BillingGroupList list billing groups
+	// BillingGroupList list billing groups
 	// GET /v1/billing-group
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupList
 	BillingGroupList(ctx context.Context) ([]BillingGroupOut, error)
 
-	// Deprecated: BillingGroupProjectAssign assign project to billing group
+	// BillingGroupProjectAssign assign project to billing group
 	// POST /v1/billing-group/{billing_group_id}/project-assign/{project}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectAssign
 	BillingGroupProjectAssign(ctx context.Context, billingGroupId string, project string) error
 
-	// Deprecated: BillingGroupProjectList get projects assigned to billing group
+	// BillingGroupProjectList get projects assigned to billing group
 	// GET /v1/billing-group/{billing_group_id}/projects
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectList
 	// Required roles or permissions: developer, operator, read_only
 	BillingGroupProjectList(ctx context.Context, billingGroupId string) ([]ProjectOut, error)
 
-	// Deprecated: BillingGroupProjectsAssign assign projects to billing group
+	// BillingGroupProjectsAssign assign projects to billing group
 	// POST /v1/billing-group/{billing_group_id}/projects-assign
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectsAssign
 	BillingGroupProjectsAssign(ctx context.Context, billingGroupId string, in *BillingGroupProjectsAssignIn) error
 
-	// Deprecated: BillingGroupUpdate update billing group
+	// BillingGroupUpdate update billing group
 	// PUT /v1/billing-group/{billing_group_id}
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupUpdate
 	BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroupUpdateOut, error)
