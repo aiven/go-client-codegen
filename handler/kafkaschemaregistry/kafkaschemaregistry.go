@@ -88,7 +88,7 @@ type Handler interface {
 	// Required roles or permissions: service:data:write
 	ServiceSchemaRegistrySubjectVersionPost(ctx context.Context, project string, serviceName string, subjectName string, in *ServiceSchemaRegistrySubjectVersionPostIn) (int, error)
 
-	// Deprecated: ServiceSchemaRegistrySubjectVersionSchemaGet dEPRECATED: Get raw schema of a specific version in Schema Registry
+	// ServiceSchemaRegistrySubjectVersionSchemaGet get raw schema of a specific version in Schema Registry
 	// GET /v1/project/{project}/service/{service_name}/kafka/schema/subjects/{subject_name}/versions/{version_id}/schema
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceSchemaRegistrySubjectVersionSchemaGet
 	// Required roles or permissions: service:data:write
