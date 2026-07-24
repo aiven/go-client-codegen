@@ -11,24 +11,24 @@ import (
 )
 
 type Handler interface {
-	// Deprecated: InvoiceGet get a single invoice
+	// InvoiceGet get a single invoice
 	// GET /v1/invoices/{invoice_number}
 	// https://api.aiven.io/doc/#tag/Billing/operation/InvoiceGet
 	InvoiceGet(ctx context.Context, invoiceNumber string) (*InvoiceGetOut, error)
 
-	// Deprecated: ProjectCreditsClaim claim a credit code
+	// ProjectCreditsClaim claim a credit code
 	// POST /v1/project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsClaim
 	// Required roles or permissions: developer, operator
 	ProjectCreditsClaim(ctx context.Context, project string) (*ProjectCreditsClaimOut, error)
 
-	// Deprecated: ProjectCreditsList list credits available to the project
+	// ProjectCreditsList list credits available to the project
 	// GET /v1/project/{project}/credits
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectCreditsList
 	// Required roles or permissions: developer, operator, read_only
 	ProjectCreditsList(ctx context.Context, project string) ([]CreditOut, error)
 
-	// Deprecated: ProjectInvoiceList list project invoices
+	// ProjectInvoiceList list project invoices
 	// GET /v1/project/{project}/invoice
 	// https://api.aiven.io/doc/#tag/Project_Billing/operation/ProjectInvoiceList
 	// Required roles or permissions: developer, operator, read_only

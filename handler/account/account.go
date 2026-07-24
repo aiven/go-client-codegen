@@ -11,12 +11,12 @@ import (
 )
 
 type Handler interface {
-	// Deprecated: AccountAttachPaymentMethod attach payment method for account
+	// AccountAttachPaymentMethod attach payment method for account
 	// POST /v1/account/{account_id}/payment_methods
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAttachPaymentMethod
 	AccountAttachPaymentMethod(ctx context.Context, accountId string, in *AccountAttachPaymentMethodIn) (*AccountAttachPaymentMethodOut, error)
 
-	// Deprecated: AccountBillingGroupList list account billing groups
+	// AccountBillingGroupList list account billing groups
 	// GET /v1/account/{account_id}/billing-group
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountBillingGroupList
 	AccountBillingGroupList(ctx context.Context, accountId string) ([]AccountBillingGroupOut, error)
@@ -51,22 +51,22 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountMove
 	AccountMove(ctx context.Context, accountId string, in *AccountMoveIn) (*AccountMoveOut, error)
 
-	// Deprecated: AccountPaymentMethodDelete delete credit card attached to the account as a payment method
+	// AccountPaymentMethodDelete delete credit card attached to the account as a payment method
 	// DELETE /v1/account/{account_id}/payment_method/{card_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountPaymentMethodDelete
 	AccountPaymentMethodDelete(ctx context.Context, accountId string, cardId string) error
 
-	// Deprecated: AccountPaymentMethodsList list credit cards attached as a payment method to the account
+	// AccountPaymentMethodsList list credit cards attached as a payment method to the account
 	// GET /v1/account/{account_id}/payment_methods
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountPaymentMethodsList
 	AccountPaymentMethodsList(ctx context.Context, accountId string) ([]CardOut, error)
 
-	// Deprecated: AccountProjectsList list projects belonging to account
+	// AccountProjectsList list projects belonging to account
 	// GET /v1/account/{account_id}/projects
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountProjectsList
 	AccountProjectsList(ctx context.Context, accountId string) (*AccountProjectsListOut, error)
 
-	// Deprecated: AccountProjectsTeamsList list account teams associated to a project
+	// AccountProjectsTeamsList list account teams associated to a project
 	// GET /v1/account/{account_id}/project/{project_name}/teams
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountProjectsTeamsList
 	AccountProjectsTeamsList(ctx context.Context, accountId string, projectName string) ([]TeamOut, error)
@@ -81,12 +81,12 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUserProjectsList
 	AccountUserProjectsList(ctx context.Context, accountId string, userId string) ([]UserProjectOut, error)
 
-	// Deprecated: AccountUserTeamsList list all teams for user
+	// AccountUserTeamsList list all teams for user
 	// GET /v1/account/{account_id}/user/{user_id}/teams
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUserTeamsList
 	AccountUserTeamsList(ctx context.Context, accountId string, userId string) ([]AccountUserTeamsListOut, error)
 
-	// Deprecated: AccountUsersSearch list/search users who are members of any team on this account
+	// AccountUsersSearch list/search users who are members of any team on this account
 	// POST /v1/account/{account_id}/users/search
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountUsersSearch
 	AccountUsersSearch(ctx context.Context, accountId string, in *AccountUsersSearchIn) ([]UserOut, error)

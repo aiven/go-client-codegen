@@ -61,12 +61,12 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountDelete
 	UserAccountDelete(ctx context.Context, userId string) error
 
-	// Deprecated: UserAccountInvitesAccept accept all invites for a single account
+	// UserAccountInvitesAccept accept all invites for a single account
 	// POST /v1/me/account/invites/accept
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountInvitesAccept
 	UserAccountInvitesAccept(ctx context.Context) ([]AccountInviteOut, error)
 
-	// Deprecated: UserAccountInvitesList list pending account invites
+	// UserAccountInvitesList list pending account invites
 	// GET /v1/me/account/invites
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAccountInvitesList
 	UserAccountInvitesList(ctx context.Context) ([]AccountInviteOut, error)
@@ -91,7 +91,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Users/operation/UserAuthenticationMethodsList
 	UserAuthenticationMethodsList(ctx context.Context) ([]AuthenticationMethodOut, error)
 
-	// Deprecated: UserCreditCardsList list user's credit cards
+	// UserCreditCardsList list user's credit cards
 	// GET /v1/card
 	// https://api.aiven.io/doc/#tag/Payment/operation/UserCreditCardsList
 	UserCreditCardsList(ctx context.Context) ([]CardOut, error)

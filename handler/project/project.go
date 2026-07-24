@@ -28,7 +28,7 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectCreate
 	ProjectCreate(ctx context.Context, in *ProjectCreateIn) (*ProjectCreateOut, error)
 
-	// Deprecated: ProjectDelete delete project
+	// ProjectDelete delete project
 	// DELETE /v1/project/{project}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectDelete
 	// Required roles or permissions: organization:projects:write
@@ -40,7 +40,7 @@ type Handler interface {
 	// Required roles or permissions: developer, operator, read_only
 	ProjectGenerateSbomDownloadUrl(ctx context.Context, project string, fileFormat string) (string, error)
 
-	// Deprecated: ProjectGet get project details
+	// ProjectGet get project details
 	// GET /v1/project/{project}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectGet
 	// Required roles or permissions: project:services:read
@@ -52,17 +52,17 @@ type Handler interface {
 	// Required roles or permissions: project:audit_logs:read
 	ProjectGetEventLogs(ctx context.Context, project string) ([]EventOut, error)
 
-	// Deprecated: ProjectInvite send project membership invitation
+	// ProjectInvite send project membership invitation
 	// POST /v1/project/{project}/invite
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInvite
 	ProjectInvite(ctx context.Context, project string, in *ProjectInviteIn) error
 
-	// Deprecated: ProjectInviteAccept confirm project invite
+	// ProjectInviteAccept confirm project invite
 	// POST /v1/project/{project}/invite/{invite_verification_code}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInviteAccept
 	ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*ProjectInviteAcceptOut, error)
 
-	// Deprecated: ProjectInviteDelete delete an invitation to a project
+	// ProjectInviteDelete delete an invitation to a project
 	// DELETE /v1/project/{project}/invite/{invited_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInviteDelete
 	ProjectInviteDelete(ctx context.Context, project string, invitedEmail string) error
@@ -73,7 +73,7 @@ type Handler interface {
 	// Required roles or permissions: organization:projects:write
 	ProjectKmsGetCA(ctx context.Context, project string) (string, error)
 
-	// Deprecated: ProjectList list projects
+	// ProjectList list projects
 	// GET /v1/project
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectList
 	ProjectList(ctx context.Context) (*ProjectListOut, error)
@@ -130,24 +130,24 @@ type Handler interface {
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectTagsUpdate
 	ProjectTagsUpdate(ctx context.Context, project string, in *ProjectTagsUpdateIn) error
 
-	// Deprecated: ProjectUpdate update project
+	// ProjectUpdate update project
 	// PUT /v1/project/{project}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUpdate
 	// Required roles or permissions: organization:projects:write
 	ProjectUpdate(ctx context.Context, project string, in *ProjectUpdateIn) (*ProjectUpdateOut, error)
 
-	// Deprecated: ProjectUserList list users with access to the project. May contain same user multiple times if they belong to multiple teams associated to the project
+	// ProjectUserList list users with access to the project. May contain same user multiple times if they belong to multiple teams associated to the project
 	// GET /v1/project/{project}/users
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserList
 	// Required roles or permissions: developer, operator, read_only
 	ProjectUserList(ctx context.Context, project string) (*ProjectUserListOut, error)
 
-	// Deprecated: ProjectUserRemove remove user from the project
+	// ProjectUserRemove remove user from the project
 	// DELETE /v1/project/{project}/user/{user_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserRemove
 	ProjectUserRemove(ctx context.Context, project string, userEmail string) error
 
-	// Deprecated: ProjectUserUpdate update a project user
+	// ProjectUserUpdate update a project user
 	// PUT /v1/project/{project}/user/{user_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserUpdate
 	ProjectUserUpdate(ctx context.Context, project string, userEmail string, in *ProjectUserUpdateIn) error
