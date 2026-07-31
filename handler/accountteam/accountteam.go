@@ -11,52 +11,52 @@ import (
 )
 
 type Handler interface {
-	// AccountTeamCreate create a new team
+	// Deprecated: AccountTeamCreate create a new team
 	// POST /v1/account/{account_id}/teams
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamCreate
 	AccountTeamCreate(ctx context.Context, accountId string) (*AccountTeamCreateOut, error)
 
-	// AccountTeamDelete delete a team
+	// Deprecated: AccountTeamDelete delete a team
 	// DELETE /v1/account/{account_id}/team/{team_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamDelete
 	AccountTeamDelete(ctx context.Context, accountId string, teamId string) error
 
-	// AccountTeamGet get details for a single team
+	// Deprecated: AccountTeamGet get details for a single team
 	// GET /v1/account/{account_id}/team/{team_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamGet
 	AccountTeamGet(ctx context.Context, accountId string, teamId string) (*AccountTeamGetOut, error)
 
-	// AccountTeamInvitesList list pending invites
+	// Deprecated: AccountTeamInvitesList list pending invites
 	// GET /v1/account/{account_id}/team/{team_id}/invites
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamInvitesList
 	AccountTeamInvitesList(ctx context.Context, accountId string, teamId string) ([]AccountInviteOut, error)
 
-	// AccountTeamList list teams belonging to an account
+	// Deprecated: AccountTeamList list teams belonging to an account
 	// GET /v1/account/{account_id}/teams
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamList
 	AccountTeamList(ctx context.Context, accountId string) ([]TeamOut, error)
 
-	// AccountTeamProjectAssociate associate team to a project
+	// Deprecated: AccountTeamProjectAssociate associate team to a project
 	// POST /v1/account/{account_id}/team/{team_id}/project/{project}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectAssociate
 	AccountTeamProjectAssociate(ctx context.Context, accountId string, teamId string, project string, in *AccountTeamProjectAssociateIn) error
 
-	// AccountTeamProjectAssociationUpdate update team-project association
+	// Deprecated: AccountTeamProjectAssociationUpdate update team-project association
 	// PUT /v1/account/{account_id}/team/{team_id}/project/{project}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectAssociationUpdate
 	AccountTeamProjectAssociationUpdate(ctx context.Context, accountId string, teamId string, project string, in *AccountTeamProjectAssociationUpdateIn) error
 
-	// AccountTeamProjectDisassociate disassociate team from a project
+	// Deprecated: AccountTeamProjectDisassociate disassociate team from a project
 	// DELETE /v1/account/{account_id}/team/{team_id}/project/{project}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectDisassociate
 	AccountTeamProjectDisassociate(ctx context.Context, accountId string, teamId string, project string) error
 
-	// AccountTeamProjectList list projects associated to a team
+	// Deprecated: AccountTeamProjectList list projects associated to a team
 	// GET /v1/account/{account_id}/team/{team_id}/projects
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamProjectList
 	AccountTeamProjectList(ctx context.Context, accountId string, teamId string) ([]ProjectOut, error)
 
-	// AccountTeamUpdate update team details
+	// Deprecated: AccountTeamUpdate update team details
 	// PUT /v1/account/{account_id}/team/{team_id}
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountTeamUpdate
 	AccountTeamUpdate(ctx context.Context, accountId string, teamId string, in *AccountTeamUpdateIn) (*AccountTeamUpdateOut, error)
