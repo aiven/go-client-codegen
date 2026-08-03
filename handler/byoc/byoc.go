@@ -193,6 +193,7 @@ type CustomCloudEnvironmentCreateOut struct {
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
+	AzureSubscriptionId                        *string                         `json:"azure_subscription_id,omitempty"`                            // UUID identifying the customer's Azure subscription where BYOC infrastructure is deployed.
 	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
 	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
 	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
@@ -229,6 +230,7 @@ type CustomCloudEnvironmentGetOut struct {
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
+	AzureSubscriptionId                        *string                         `json:"azure_subscription_id,omitempty"`                            // UUID identifying the customer's Azure subscription where BYOC infrastructure is deployed.
 	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
 	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
 	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
@@ -268,6 +270,10 @@ type CustomCloudEnvironmentPermissionsSetIn struct {
 // CustomCloudEnvironmentProvisionIn CustomCloudEnvironmentProvisionRequestBody
 type CustomCloudEnvironmentProvisionIn struct {
 	AWSIamRoleArn                          *string `json:"aws_iam_role_arn,omitempty"`                            // Amazon Resource Name
+	AzureClientId                          *string `json:"azure_client_id,omitempty"`                             // Application (client) ID of the operator service principal created by Terraform.
+	AzureClientSecret                      *string `json:"azure_client_secret,omitempty"`                         // Client secret of the operator service principal created by Terraform.
+	AzureSubscriptionId                    *string `json:"azure_subscription_id,omitempty"`                       // UUID identifying the customer's Azure subscription where BYOC infrastructure is deployed.
+	AzureTenantId                          *string `json:"azure_tenant_id,omitempty"`                             // Azure tenant id in UUID4 form
 	GooglePrivilegeBearingServiceAccountId *string `json:"google_privilege_bearing_service_account_id,omitempty"` // Google account identifier
 	OracleCompartmentId                    *string `json:"oracle_compartment_id,omitempty"`                       // Used to uniquely identify an asset in Oracle's cloud. May refer to a range of object types including instance, tenancy, subnet and more.
 }
@@ -284,6 +290,7 @@ type CustomCloudEnvironmentProvisionOut struct {
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
+	AzureSubscriptionId                        *string                         `json:"azure_subscription_id,omitempty"`                            // UUID identifying the customer's Azure subscription where BYOC infrastructure is deployed.
 	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
 	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
 	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
@@ -352,6 +359,7 @@ type CustomCloudEnvironmentUpdateOut struct {
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
+	AzureSubscriptionId                        *string                         `json:"azure_subscription_id,omitempty"`                            // UUID identifying the customer's Azure subscription where BYOC infrastructure is deployed.
 	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
 	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
 	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
