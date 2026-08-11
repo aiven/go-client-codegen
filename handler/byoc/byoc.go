@@ -270,10 +270,8 @@ type CustomCloudEnvironmentPermissionsSetIn struct {
 // CustomCloudEnvironmentProvisionIn CustomCloudEnvironmentProvisionRequestBody
 type CustomCloudEnvironmentProvisionIn struct {
 	AWSIamRoleArn                          *string `json:"aws_iam_role_arn,omitempty"`                            // Amazon Resource Name
-	AzureClientId                          *string `json:"azure_client_id,omitempty"`                             // Application (client) ID of the operator service principal created by Terraform.
-	AzureClientSecret                      *string `json:"azure_client_secret,omitempty"`                         // Client secret of the operator service principal created by Terraform.
 	AzureSubscriptionId                    *string `json:"azure_subscription_id,omitempty"`                       // UUID identifying the customer's Azure subscription where BYOC infrastructure is deployed.
-	AzureTenantId                          *string `json:"azure_tenant_id,omitempty"`                             // Azure tenant id in UUID4 form
+	AzureTenantId                          *string `json:"azure_tenant_id,omitempty"`                             // Entra ID tenant ID of the customer's directory where the Aiven CCE enterprise application is installed.
 	GooglePrivilegeBearingServiceAccountId *string `json:"google_privilege_bearing_service_account_id,omitempty"` // Google account identifier
 	OracleCompartmentId                    *string `json:"oracle_compartment_id,omitempty"`                       // Used to uniquely identify an asset in Oracle's cloud. May refer to a range of object types including instance, tenancy, subnet and more.
 }
