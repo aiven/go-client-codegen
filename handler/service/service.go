@@ -1586,6 +1586,18 @@ type PGParamOut struct {
 	Sslmode  string `json:"sslmode"`
 	User     string `json:"user"`
 }
+type PasswordEncryptionType string
+
+const (
+	PasswordEncryptionTypeMd5         PasswordEncryptionType = "md5"
+	PasswordEncryptionTypeScramSha256 PasswordEncryptionType = "scram-sha-256"
+	PasswordEncryptionTypeUnknown     PasswordEncryptionType = "unknown"
+)
+
+func PasswordEncryptionTypeChoices() []string {
+	return []string{"md5", "scram-sha-256", "unknown"}
+}
+
 type PatternType string
 
 const (
@@ -2341,16 +2353,17 @@ type ServiceUserCreateIn struct {
 
 // ServiceUserCreateOut Service user account
 type ServiceUserCreateOut struct {
-	AccessCert                    *string            `json:"access_cert,omitempty"`                        // Access certificate for TLS client authentication
-	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`   // Validity end time (ISO8601) for the current access certificate
-	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`                     // Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
-	AccessKey                     *string            `json:"access_key,omitempty"`                         // Access key for TLS client authentication
-	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
-	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // When the existing certificate is nearing expiration and a new certificate has been generated, the validity end time (ISO8601) for the expiring certificate
-	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
-	PasswordUpdatedTime           *time.Time         `json:"password_updated_time,omitempty"`              // Timestamp (ISO8601) of the last time this password was set.
-	Type                          string             `json:"type"`                                         // Account type
-	Username                      string             `json:"username"`                                     // Account username
+	AccessCert                    *string                `json:"access_cert,omitempty"`                        // Access certificate for TLS client authentication
+	AccessCertNotValidAfterTime   *time.Time             `json:"access_cert_not_valid_after_time,omitempty"`   // Validity end time (ISO8601) for the current access certificate
+	AccessControl                 *AccessControlOut      `json:"access_control,omitempty"`                     // Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	AccessKey                     *string                `json:"access_key,omitempty"`                         // Access key for TLS client authentication
+	Authentication                AuthenticationType     `json:"authentication,omitempty"`                     // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
+	ExpiringCertNotValidAfterTime *time.Time             `json:"expiring_cert_not_valid_after_time,omitempty"` // When the existing certificate is nearing expiration and a new certificate has been generated, the validity end time (ISO8601) for the expiring certificate
+	Password                      string                 `json:"password"`                                     // Account password. A null value indicates a user overridden password.
+	PasswordEncryptionType        PasswordEncryptionType `json:"password_encryption_type,omitempty"`           // The password hashing algorithm used for this PostgreSQL user, derived from the stored password hash. 'unknown' is reported when the hash is missing or uses an unrecognised format.
+	PasswordUpdatedTime           *time.Time             `json:"password_updated_time,omitempty"`              // Timestamp (ISO8601) of the last time this password was set.
+	Type                          string                 `json:"type"`                                         // Account type
+	Username                      string                 `json:"username"`                                     // Account username
 }
 
 // ServiceUserCredentialsModifyIn ServiceUserCredentialsModifyRequestBody
@@ -2462,16 +2475,17 @@ type ServiceUserCredentialsResetOut struct {
 
 // ServiceUserGetOut Service user account
 type ServiceUserGetOut struct {
-	AccessCert                    *string            `json:"access_cert,omitempty"`                        // Access certificate for TLS client authentication
-	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`   // Validity end time (ISO8601) for the current access certificate
-	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`                     // Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
-	AccessKey                     *string            `json:"access_key,omitempty"`                         // Access key for TLS client authentication
-	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
-	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // When the existing certificate is nearing expiration and a new certificate has been generated, the validity end time (ISO8601) for the expiring certificate
-	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
-	PasswordUpdatedTime           *time.Time         `json:"password_updated_time,omitempty"`              // Timestamp (ISO8601) of the last time this password was set.
-	Type                          string             `json:"type"`                                         // Account type
-	Username                      string             `json:"username"`                                     // Account username
+	AccessCert                    *string                `json:"access_cert,omitempty"`                        // Access certificate for TLS client authentication
+	AccessCertNotValidAfterTime   *time.Time             `json:"access_cert_not_valid_after_time,omitempty"`   // Validity end time (ISO8601) for the current access certificate
+	AccessControl                 *AccessControlOut      `json:"access_control,omitempty"`                     // Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	AccessKey                     *string                `json:"access_key,omitempty"`                         // Access key for TLS client authentication
+	Authentication                AuthenticationType     `json:"authentication,omitempty"`                     // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
+	ExpiringCertNotValidAfterTime *time.Time             `json:"expiring_cert_not_valid_after_time,omitempty"` // When the existing certificate is nearing expiration and a new certificate has been generated, the validity end time (ISO8601) for the expiring certificate
+	Password                      string                 `json:"password"`                                     // Account password. A null value indicates a user overridden password.
+	PasswordEncryptionType        PasswordEncryptionType `json:"password_encryption_type,omitempty"`           // The password hashing algorithm used for this PostgreSQL user, derived from the stored password hash. 'unknown' is reported when the hash is missing or uses an unrecognised format.
+	PasswordUpdatedTime           *time.Time             `json:"password_updated_time,omitempty"`              // Timestamp (ISO8601) of the last time this password was set.
+	Type                          string                 `json:"type"`                                         // Account type
+	Username                      string                 `json:"username"`                                     // Account username
 }
 type ServiceVersionOut struct {
 	AivenEndOfLifeTime      *time.Time              `json:"aiven_end_of_life_time,omitempty"`       // Aiven end-of-life timestamp (ISO 8601)
@@ -2634,16 +2648,17 @@ func UsageTypeChoices() []string {
 }
 
 type UserOut struct {
-	AccessCert                    *string            `json:"access_cert,omitempty"`                        // Access certificate for TLS client authentication
-	AccessCertNotValidAfterTime   *time.Time         `json:"access_cert_not_valid_after_time,omitempty"`   // Validity end time (ISO8601) for the current access certificate
-	AccessControl                 *AccessControlOut  `json:"access_control,omitempty"`                     // Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
-	AccessKey                     *string            `json:"access_key,omitempty"`                         // Access key for TLS client authentication
-	Authentication                AuthenticationType `json:"authentication,omitempty"`                     // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
-	ExpiringCertNotValidAfterTime *time.Time         `json:"expiring_cert_not_valid_after_time,omitempty"` // When the existing certificate is nearing expiration and a new certificate has been generated, the validity end time (ISO8601) for the expiring certificate
-	Password                      string             `json:"password"`                                     // Account password. A null value indicates a user overridden password.
-	PasswordUpdatedTime           *time.Time         `json:"password_updated_time,omitempty"`              // Timestamp (ISO8601) of the last time this password was set.
-	Type                          string             `json:"type"`                                         // Account type
-	Username                      string             `json:"username"`                                     // Account username
+	AccessCert                    *string                `json:"access_cert,omitempty"`                        // Access certificate for TLS client authentication
+	AccessCertNotValidAfterTime   *time.Time             `json:"access_cert_not_valid_after_time,omitempty"`   // Validity end time (ISO8601) for the current access certificate
+	AccessControl                 *AccessControlOut      `json:"access_control,omitempty"`                     // Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
+	AccessKey                     *string                `json:"access_key,omitempty"`                         // Access key for TLS client authentication
+	Authentication                AuthenticationType     `json:"authentication,omitempty"`                     // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
+	ExpiringCertNotValidAfterTime *time.Time             `json:"expiring_cert_not_valid_after_time,omitempty"` // When the existing certificate is nearing expiration and a new certificate has been generated, the validity end time (ISO8601) for the expiring certificate
+	Password                      string                 `json:"password"`                                     // Account password. A null value indicates a user overridden password.
+	PasswordEncryptionType        PasswordEncryptionType `json:"password_encryption_type,omitempty"`           // The password hashing algorithm used for this PostgreSQL user, derived from the stored password hash. 'unknown' is reported when the hash is missing or uses an unrecognised format.
+	PasswordUpdatedTime           *time.Time             `json:"password_updated_time,omitempty"`              // Timestamp (ISO8601) of the last time this password was set.
+	Type                          string                 `json:"type"`                                         // Account type
+	Username                      string                 `json:"username"`                                     // Account username
 }
 
 // ValkeyOut Service type information
