@@ -403,7 +403,8 @@ type PrivatelinkAvailabilityOut struct {
 
 // ServicePrivatelinkAWSCreateIn ServicePrivatelinkAWSCreateRequestBody
 type ServicePrivatelinkAWSCreateIn struct {
-	Principals []string `json:"principals"` // ARNs of principals allowed connecting to the service
+	Principals       []string  `json:"principals"`                  // ARNs of principals allowed connecting to the service
+	SupportedRegions *[]string `json:"supported_regions,omitempty"` // List of AWS regions to allow cross-region privatelink connections from
 }
 
 // ServicePrivatelinkAWSCreateOut ServicePrivatelinkAWSCreateResponse
@@ -443,7 +444,8 @@ func ServicePrivatelinkAWSStateTypeChoices() []string {
 
 // ServicePrivatelinkAWSUpdateIn ServicePrivatelinkAWSUpdateRequestBody
 type ServicePrivatelinkAWSUpdateIn struct {
-	Principals []string `json:"principals"` // ARNs of principals allowed connecting to the service
+	Principals       *[]string `json:"principals,omitempty"`        // ARNs of principals allowed connecting to the service
+	SupportedRegions *[]string `json:"supported_regions,omitempty"` // List of AWS regions to allow cross-region privatelink connections from
 }
 
 // ServicePrivatelinkAWSUpdateOut ServicePrivatelinkAWSUpdateResponse
