@@ -23,7 +23,7 @@ type Handler interface {
 	// Required roles or permissions: developer, operator, read_only
 	ProjectAlertsList(ctx context.Context, project string) ([]AlertOut, error)
 
-	// ProjectCreate create a project
+	// Deprecated: ProjectCreate create a project
 	// POST /v1/project
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectCreate
 	ProjectCreate(ctx context.Context, in *ProjectCreateIn) (*ProjectCreateOut, error)
