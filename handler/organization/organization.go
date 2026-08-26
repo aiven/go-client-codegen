@@ -429,6 +429,7 @@ type OrganizationAuthDomainLinkIn struct {
 // OrganizationAuthenticationConfigGetOut OrganizationAuthenticationConfigGetResponse
 type OrganizationAuthenticationConfigGetOut struct {
 	McpEnabled                             *bool `json:"mcp_enabled,omitempty"`                                 // Users can use MCP clients with services and other resources they have access to in this organization.
+	McpReadOnly                            *bool `json:"mcp_read_only,omitempty"`                               // MCP connections in this organization are restricted to read-only operations.
 	OauthEnabled                           *bool `json:"oauth_enabled,omitempty"`                               // Organization users are able to use OAuth authentication.
 	PasswordAuthEnabled                    *bool `json:"password_auth_enabled,omitempty"`                       // Organization users are able to use password authentication.
 	PersonalTokensEnabled                  *bool `json:"personal_tokens_enabled,omitempty"`                     // Organization users can use their personal tokens to access the organization through the Aiven API or other applications.
@@ -441,6 +442,7 @@ type OrganizationAuthenticationConfigGetOut struct {
 // OrganizationAuthenticationConfigUpdateIn OrganizationAuthenticationConfigUpdateRequestBody
 type OrganizationAuthenticationConfigUpdateIn struct {
 	McpEnabled                             *bool `json:"mcp_enabled,omitempty"`                                 // Users can use MCP clients with services and other resources they have access to in this organization.
+	McpReadOnly                            *bool `json:"mcp_read_only,omitempty"`                               // MCP connections in this organization are restricted to read-only operations.
 	OauthEnabled                           *bool `json:"oauth_enabled,omitempty"`                               // Organization users are able to use OAuth authentication.
 	PasswordAuthEnabled                    *bool `json:"password_auth_enabled,omitempty"`                       // Organization users are able to use password authentication.
 	PersonalTokensEnabled                  *bool `json:"personal_tokens_enabled,omitempty"`                     // Organization users can use their personal tokens to access the organization through the Aiven API or other applications.
@@ -453,6 +455,7 @@ type OrganizationAuthenticationConfigUpdateIn struct {
 // OrganizationAuthenticationConfigUpdateOut OrganizationAuthenticationConfigUpdateResponse
 type OrganizationAuthenticationConfigUpdateOut struct {
 	McpEnabled                             *bool `json:"mcp_enabled,omitempty"`                                 // Users can use MCP clients with services and other resources they have access to in this organization.
+	McpReadOnly                            *bool `json:"mcp_read_only,omitempty"`                               // MCP connections in this organization are restricted to read-only operations.
 	OauthEnabled                           *bool `json:"oauth_enabled,omitempty"`                               // Organization users are able to use OAuth authentication.
 	PasswordAuthEnabled                    *bool `json:"password_auth_enabled,omitempty"`                       // Organization users are able to use password authentication.
 	PersonalTokensEnabled                  *bool `json:"personal_tokens_enabled,omitempty"`                     // Organization users can use their personal tokens to access the organization through the Aiven API or other applications.

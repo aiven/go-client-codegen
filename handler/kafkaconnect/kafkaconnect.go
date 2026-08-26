@@ -264,6 +264,7 @@ type PluginOut struct {
 	Author            string                `json:"author"`                       // Connector author name
 	AvailableVersions []AvailableVersionOut `json:"available_versions,omitempty"` // Versions available on the service
 	Class             string                `json:"class"`                        // Connector class name
+	CustomPlugin      *bool                 `json:"custom_plugin,omitempty"`      // Whether this connector is from a custom plugin
 	DocUrl            string                `json:"docURL"`                       // Connector documentation URL
 	PluginName        *string               `json:"plugin_name,omitempty"`        // Connector plugin name
 	Preview           *bool                 `json:"preview,omitempty"`            // Describes if connector is in beta
@@ -317,6 +318,7 @@ type ServiceKafkaConnectGetAvailableConnectorsOut struct {
 	Author            string                `json:"author"`                       // Connector author name
 	AvailableVersions []AvailableVersionOut `json:"available_versions,omitempty"` // Versions available on the service
 	Class             string                `json:"class"`                        // Connector class name
+	CustomPlugin      *bool                 `json:"custom_plugin,omitempty"`      // Whether this connector is from a custom plugin
 	DocUrl            string                `json:"docURL"`                       // Connector documentation URL
 	PluginName        *string               `json:"plugin_name,omitempty"`        // Connector plugin name
 	Preview           *bool                 `json:"preview,omitempty"`            // Describes if connector is in beta
