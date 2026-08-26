@@ -194,6 +194,7 @@ type CustomCloudEnvironmentCreateOut struct {
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
 	AzureSubscriptionId                        *string                         `json:"azure_subscription_id,omitempty"`                            // UUID identifying the customer's Azure subscription where BYOC infrastructure is deployed.
+	AzureTenantId                              *string                         `json:"azure_tenant_id,omitempty"`                                  // Entra ID tenant ID of the customer's directory where the Aiven CCE enterprise application is installed.
 	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
 	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
 	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
@@ -231,6 +232,7 @@ type CustomCloudEnvironmentGetOut struct {
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
 	AzureSubscriptionId                        *string                         `json:"azure_subscription_id,omitempty"`                            // UUID identifying the customer's Azure subscription where BYOC infrastructure is deployed.
+	AzureTenantId                              *string                         `json:"azure_tenant_id,omitempty"`                                  // Entra ID tenant ID of the customer's directory where the Aiven CCE enterprise application is installed.
 	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
 	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
 	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
@@ -289,6 +291,7 @@ type CustomCloudEnvironmentProvisionOut struct {
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
 	AzureSubscriptionId                        *string                         `json:"azure_subscription_id,omitempty"`                            // UUID identifying the customer's Azure subscription where BYOC infrastructure is deployed.
+	AzureTenantId                              *string                         `json:"azure_tenant_id,omitempty"`                                  // Entra ID tenant ID of the customer's directory where the Aiven CCE enterprise application is installed.
 	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
 	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
 	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment
@@ -334,6 +337,8 @@ func CustomCloudEnvironmentStateTypeChoices() []string {
 // CustomCloudEnvironmentUpdateIn CustomCloudEnvironmentUpdateRequestBody
 type CustomCloudEnvironmentUpdateIn struct {
 	AWSIamRoleArn                          *string             `json:"aws_iam_role_arn,omitempty"`                            // Amazon Resource Name
+	AzureSubscriptionId                    *string             `json:"azure_subscription_id,omitempty"`                       // UUID identifying the customer's Azure subscription where BYOC infrastructure is deployed.
+	AzureTenantId                          *string             `json:"azure_tenant_id,omitempty"`                             // Entra ID tenant ID of the customer's directory where the Aiven CCE enterprise application is installed.
 	CloudProvider                          CloudProviderType   `json:"cloud_provider,omitempty"`                              // Cloud provider for the BYOC cloud
 	CloudRegion                            *string             `json:"cloud_region,omitempty"`                                // Cloud region for the BYOC cloud
 	ContactEmails                          *[]ContactEmailIn   `json:"contact_emails,omitempty"`                              // Email addresses for notifications and alerts for this BYOC cloud
@@ -358,6 +363,7 @@ type CustomCloudEnvironmentUpdateOut struct {
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
 	AzureSubscriptionId                        *string                         `json:"azure_subscription_id,omitempty"`                            // UUID identifying the customer's Azure subscription where BYOC infrastructure is deployed.
+	AzureTenantId                              *string                         `json:"azure_tenant_id,omitempty"`                                  // Entra ID tenant ID of the customer's directory where the Aiven CCE enterprise application is installed.
 	BucketNames                                map[string]any                  `json:"bucket_names,omitempty"`                                     // Names and usages of buckets required for workloads
 	ByocResourceTags                           map[string]any                  `json:"byoc_resource_tags,omitempty"`                               // Set of tags for the resources provisioned on the BYOC account
 	ByocUniqueName                             *string                         `json:"byoc_unique_name,omitempty"`                                 // Name for all the resources created for the custom cloud environment

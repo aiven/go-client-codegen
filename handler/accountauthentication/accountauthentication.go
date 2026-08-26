@@ -151,6 +151,7 @@ type AccountAuthenticationMethodCreateOut struct {
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
 	DeleteTime                       time.Time                     `json:"delete_time"`                                    // Delete Time
 	InternalMcpEnabled               *bool                         `json:"internal_mcp_enabled,omitempty"`                 // MCP connections enabled
+	InternalMcpReadOnly              *bool                         `json:"internal_mcp_read_only,omitempty"`               // MCP connections restricted to read-only
 	OrganizationId                   *string                       `json:"organization_id,omitempty"`                      // Organization ID
 	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`                         // Saml Acs Url
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
@@ -192,6 +193,7 @@ type AccountAuthenticationMethodGetOut struct {
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
 	DeleteTime                       time.Time                     `json:"delete_time"`                                    // Delete Time
 	InternalMcpEnabled               *bool                         `json:"internal_mcp_enabled,omitempty"`                 // MCP connections enabled
+	InternalMcpReadOnly              *bool                         `json:"internal_mcp_read_only,omitempty"`               // MCP connections restricted to read-only
 	OrganizationId                   *string                       `json:"organization_id,omitempty"`                      // Organization ID
 	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`                         // Saml Acs Url
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
@@ -256,6 +258,7 @@ type AccountAuthenticationMethodUpdateOut struct {
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
 	DeleteTime                       time.Time                     `json:"delete_time"`                                    // Delete Time
 	InternalMcpEnabled               *bool                         `json:"internal_mcp_enabled,omitempty"`                 // MCP connections enabled
+	InternalMcpReadOnly              *bool                         `json:"internal_mcp_read_only,omitempty"`               // MCP connections restricted to read-only
 	OrganizationId                   *string                       `json:"organization_id,omitempty"`                      // Organization ID
 	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`                         // Saml Acs Url
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
@@ -295,6 +298,7 @@ type AuthenticationMethodOut struct {
 	CreateTime                       time.Time                     `json:"create_time"`                                    // Create Time
 	DeleteTime                       time.Time                     `json:"delete_time"`                                    // Delete Time
 	InternalMcpEnabled               *bool                         `json:"internal_mcp_enabled,omitempty"`                 // MCP connections enabled
+	InternalMcpReadOnly              *bool                         `json:"internal_mcp_read_only,omitempty"`               // MCP connections restricted to read-only
 	OrganizationId                   *string                       `json:"organization_id,omitempty"`                      // Organization ID
 	SamlAcsUrl                       *string                       `json:"saml_acs_url,omitempty"`                         // Saml Acs Url
 	SamlAssertionSignedEnabled       *bool                         `json:"saml_assertion_signed_enabled,omitempty"`        // Set to 'true' to enable WantAssertionsSigned
