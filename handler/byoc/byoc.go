@@ -190,6 +190,7 @@ type CustomCloudEnvironmentCreateOut struct {
 	AivenAWSAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
 	AivenAWSObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
 	AivenAWSObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
+	AivenAzureCceClientId                      *string                         `json:"aiven_azure_cce_client_id,omitempty"`                        // Application (client) ID of the Aiven multi-tenant Azure CCE service principal.
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
@@ -228,6 +229,7 @@ type CustomCloudEnvironmentGetOut struct {
 	AivenAWSAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
 	AivenAWSObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
 	AivenAWSObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
+	AivenAzureCceClientId                      *string                         `json:"aiven_azure_cce_client_id,omitempty"`                        // Application (client) ID of the Aiven multi-tenant Azure CCE service principal.
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
@@ -287,6 +289,7 @@ type CustomCloudEnvironmentProvisionOut struct {
 	AivenAWSAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
 	AivenAWSObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
 	AivenAWSObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
+	AivenAzureCceClientId                      *string                         `json:"aiven_azure_cce_client_id,omitempty"`                        // Application (client) ID of the Aiven multi-tenant Azure CCE service principal.
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier
@@ -359,6 +362,7 @@ type CustomCloudEnvironmentUpdateOut struct {
 	AivenAWSAssumeRoleExternalId               *string                         `json:"aiven_aws_assume_role_external_id,omitempty"`                // External ID for assuming the IAM role for controlling the BYOC account
 	AivenAWSObjectStorageCredentialsCreatorArn *string                         `json:"aiven_aws_object_storage_credentials_creator_arn,omitempty"` // Amazon Resource Name
 	AivenAWSObjectStorageUserArn               *string                         `json:"aiven_aws_object_storage_user_arn,omitempty"`                // Amazon Resource Name
+	AivenAzureCceClientId                      *string                         `json:"aiven_azure_cce_client_id,omitempty"`                        // Application (client) ID of the Aiven multi-tenant Azure CCE service principal.
 	AivenGoogleAccountPrincipal                *string                         `json:"aiven_google_account_principal,omitempty"`                   // Google account identifier
 	AivenManagementCidrBlocks                  []string                        `json:"aiven_management_cidr_blocks,omitempty"`                     // IP address ranges for incoming connections to the bastion host from the Aiven management plane
 	AivenObjectStorageCredentialsCreatorUser   *string                         `json:"aiven_object_storage_credentials_creator_user,omitempty"`    // Google account identifier

@@ -18180,23 +18180,23 @@ func (_c *MockClient_ServiceKafkaAclAdd_Call) RunAndReturn(run func(ctx context.
 }
 
 // ServiceKafkaAclDelete provides a mock function for the type MockClient
-func (_mock *MockClient) ServiceKafkaAclDelete(ctx context.Context, project1 string, serviceName string, kafkaAclId string) ([]kafka.AclOut, error) {
+func (_mock *MockClient) ServiceKafkaAclDelete(ctx context.Context, project1 string, serviceName string, kafkaAclId string) ([]kafka.ServiceKafkaAclDeleteOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName, kafkaAclId)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServiceKafkaAclDelete")
 	}
 
-	var r0 []kafka.AclOut
+	var r0 []kafka.ServiceKafkaAclDeleteOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string) ([]kafka.AclOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string) ([]kafka.ServiceKafkaAclDeleteOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName, kafkaAclId)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string) []kafka.AclOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, string) []kafka.ServiceKafkaAclDeleteOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName, kafkaAclId)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]kafka.AclOut)
+			r0 = ret.Get(0).([]kafka.ServiceKafkaAclDeleteOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, string) error); ok {
@@ -18249,34 +18249,34 @@ func (_c *MockClient_ServiceKafkaAclDelete_Call) Run(run func(ctx context.Contex
 	return _c
 }
 
-func (_c *MockClient_ServiceKafkaAclDelete_Call) Return(aclOuts []kafka.AclOut, err error) *MockClient_ServiceKafkaAclDelete_Call {
-	_c.Call.Return(aclOuts, err)
+func (_c *MockClient_ServiceKafkaAclDelete_Call) Return(serviceKafkaAclDeleteOuts []kafka.ServiceKafkaAclDeleteOut, err error) *MockClient_ServiceKafkaAclDelete_Call {
+	_c.Call.Return(serviceKafkaAclDeleteOuts, err)
 	return _c
 }
 
-func (_c *MockClient_ServiceKafkaAclDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, kafkaAclId string) ([]kafka.AclOut, error)) *MockClient_ServiceKafkaAclDelete_Call {
+func (_c *MockClient_ServiceKafkaAclDelete_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string, kafkaAclId string) ([]kafka.ServiceKafkaAclDeleteOut, error)) *MockClient_ServiceKafkaAclDelete_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ServiceKafkaAclList provides a mock function for the type MockClient
-func (_mock *MockClient) ServiceKafkaAclList(ctx context.Context, project1 string, serviceName string) ([]kafka.AclOut, error) {
+func (_mock *MockClient) ServiceKafkaAclList(ctx context.Context, project1 string, serviceName string) ([]kafka.ServiceKafkaAclListOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ServiceKafkaAclList")
 	}
 
-	var r0 []kafka.AclOut
+	var r0 []kafka.ServiceKafkaAclListOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) ([]kafka.AclOut, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) ([]kafka.ServiceKafkaAclListOut, error)); ok {
 		return returnFunc(ctx, project1, serviceName)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) []kafka.AclOut); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) []kafka.ServiceKafkaAclListOut); ok {
 		r0 = returnFunc(ctx, project1, serviceName)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]kafka.AclOut)
+			r0 = ret.Get(0).([]kafka.ServiceKafkaAclListOut)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
@@ -18323,12 +18323,12 @@ func (_c *MockClient_ServiceKafkaAclList_Call) Run(run func(ctx context.Context,
 	return _c
 }
 
-func (_c *MockClient_ServiceKafkaAclList_Call) Return(aclOuts []kafka.AclOut, err error) *MockClient_ServiceKafkaAclList_Call {
-	_c.Call.Return(aclOuts, err)
+func (_c *MockClient_ServiceKafkaAclList_Call) Return(serviceKafkaAclListOuts []kafka.ServiceKafkaAclListOut, err error) *MockClient_ServiceKafkaAclList_Call {
+	_c.Call.Return(serviceKafkaAclListOuts, err)
 	return _c
 }
 
-func (_c *MockClient_ServiceKafkaAclList_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) ([]kafka.AclOut, error)) *MockClient_ServiceKafkaAclList_Call {
+func (_c *MockClient_ServiceKafkaAclList_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) ([]kafka.ServiceKafkaAclListOut, error)) *MockClient_ServiceKafkaAclList_Call {
 	_c.Call.Return(run)
 	return _c
 }

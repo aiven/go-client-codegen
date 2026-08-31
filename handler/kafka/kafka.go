@@ -20,13 +20,13 @@ type Handler interface {
 	// DELETE /v1/project/{project}/service/{service_name}/acl/{kafka_acl_id}
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaAclDelete
 	// Required roles or permissions: service:data:write
-	ServiceKafkaAclDelete(ctx context.Context, project string, serviceName string, kafkaAclId string) ([]AclOut, error)
+	ServiceKafkaAclDelete(ctx context.Context, project string, serviceName string, kafkaAclId string) ([]ServiceKafkaAclDeleteOut, error)
 
 	// ServiceKafkaAclList list Aiven ACL entries for Kafka service
 	// GET /v1/project/{project}/service/{service_name}/acl
 	// https://api.aiven.io/doc/#tag/Service:_Kafka/operation/ServiceKafkaAclList
 	// Required roles or permissions: service:data:write
-	ServiceKafkaAclList(ctx context.Context, project string, serviceName string) ([]AclOut, error)
+	ServiceKafkaAclList(ctx context.Context, project string, serviceName string) ([]ServiceKafkaAclListOut, error)
 
 	// ServiceKafkaNativeAclAdd add a Kafka-native ACL entry
 	// POST /v1/project/{project}/service/{service_name}/kafka/acl
@@ -121,7 +121,7 @@ func (h *KafkaHandler) ServiceKafkaAclAdd(ctx context.Context, project string, s
 	}
 	return out.Acl, nil
 }
-func (h *KafkaHandler) ServiceKafkaAclDelete(ctx context.Context, project string, serviceName string, kafkaAclId string) ([]AclOut, error) {
+func (h *KafkaHandler) ServiceKafkaAclDelete(ctx context.Context, project string, serviceName string, kafkaAclId string) ([]ServiceKafkaAclDeleteOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/acl/%s", url.PathEscape(project), url.PathEscape(serviceName), url.PathEscape(kafkaAclId))
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclDelete", "DELETE", path, nil)
 	if err != nil {
@@ -134,7 +134,7 @@ func (h *KafkaHandler) ServiceKafkaAclDelete(ctx context.Context, project string
 	}
 	return out.Acl, nil
 }
-func (h *KafkaHandler) ServiceKafkaAclList(ctx context.Context, project string, serviceName string) ([]AclOut, error) {
+func (h *KafkaHandler) ServiceKafkaAclList(ctx context.Context, project string, serviceName string) ([]ServiceKafkaAclListOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/acl", url.PathEscape(project), url.PathEscape(serviceName))
 	b, err := h.doer.Do(ctx, "ServiceKafkaAclList", "GET", path, nil)
 	if err != nil {
@@ -288,9 +288,9 @@ func (h *KafkaHandler) ServiceKafkaTieredStorageSummary(ctx context.Context, pro
 }
 
 type AclOut struct {
-	Id         *string        `json:"id,omitempty"` // ID
-	Permission PermissionType `json:"permission"`   // Kafka permission
-	Topic      string         `json:"topic"`        // Topic name pattern
+	Id         string         `json:"id"`         // ID
+	Permission PermissionType `json:"permission"` // Permission of an Aiven Kafka ACL entry, as opposed to a Kafka-native one.
+	Topic      string         `json:"topic"`      // Topic name pattern
 	Username   string         `json:"username"`
 }
 type HourlyOut struct {
@@ -389,32 +389,44 @@ func ResourceTypeChoices() []string {
 
 // ServiceKafkaAclAddIn ServiceKafkaAclAddRequestBody
 type ServiceKafkaAclAddIn struct {
-	Permission PermissionType `json:"permission"` // Kafka permission
+	Permission PermissionType `json:"permission"` // Permission of an Aiven Kafka ACL entry, as opposed to a Kafka-native one.
 	Topic      string         `json:"topic"`      // Topic name pattern
+	Username   string         `json:"username"`
+}
+type ServiceKafkaAclDeleteOut struct {
+	Id         *string        `json:"id,omitempty"` // ID
+	Permission PermissionType `json:"permission"`   // Kafka permission
+	Topic      string         `json:"topic"`        // Topic name pattern
+	Username   string         `json:"username"`
+}
+type ServiceKafkaAclListOut struct {
+	Id         *string        `json:"id,omitempty"` // ID
+	Permission PermissionType `json:"permission"`   // Kafka permission
+	Topic      string         `json:"topic"`        // Topic name pattern
 	Username   string         `json:"username"`
 }
 
 // ServiceKafkaNativeAclAddIn ServiceKafkaNativeAclAddRequestBody
 type ServiceKafkaNativeAclAddIn struct {
 	Host           *string                             `json:"host,omitempty"`  // the host or * for all hosts
-	Operation      OperationType                       `json:"operation"`       // Kafka ACL operation represents an operation which an ACL grants or denies permission to perform
-	PatternType    PatternType                         `json:"pattern_type"`    // Kafka ACL pattern type of resource name
-	PermissionType ServiceKafkaNativeAclPermissionType `json:"permission_type"` // Kafka ACL permission type
+	Operation      OperationType                       `json:"operation"`       // Operation a Kafka-native ACL grants or denies permission to perform.
+	PatternType    PatternType                         `json:"pattern_type"`    // How a Kafka-native ACL matches its resource name.
+	PermissionType ServiceKafkaNativeAclPermissionType `json:"permission_type"` // Whether a Kafka-native ACL allows or denies its operation.
 	Principal      string                              `json:"principal"`       // principal is in 'PrincipalType:name' format
 	ResourceName   string                              `json:"resource_name"`   // Resource pattern used to match specified resources
-	ResourceType   ResourceType                        `json:"resource_type"`   // Kafka ACL resource type represents a type of resource which an ACL can be applied to
+	ResourceType   ResourceType                        `json:"resource_type"`   // Type of resource a Kafka-native ACL can be applied to.
 }
 
-// ServiceKafkaNativeAclAddOut Kafka-native ACL entry for Kafka service
+// ServiceKafkaNativeAclAddOut Kafka-native ACL entry for Kafka service.
 type ServiceKafkaNativeAclAddOut struct {
 	Host           string                              `json:"host"`            // the host or * for all hosts
 	Id             string                              `json:"id"`              // ID
-	Operation      OperationType                       `json:"operation"`       // Kafka ACL operation represents an operation which an ACL grants or denies permission to perform
-	PatternType    PatternType                         `json:"pattern_type"`    // Kafka ACL pattern type of resource name
-	PermissionType ServiceKafkaNativeAclPermissionType `json:"permission_type"` // Kafka ACL permission type
+	Operation      OperationType                       `json:"operation"`       // Operation a Kafka-native ACL grants or denies permission to perform.
+	PatternType    PatternType                         `json:"pattern_type"`    // How a Kafka-native ACL matches its resource name.
+	PermissionType ServiceKafkaNativeAclPermissionType `json:"permission_type"` // Whether a Kafka-native ACL allows or denies its operation.
 	Principal      string                              `json:"principal"`       // principal is in 'principalType:name' format
 	ResourceName   string                              `json:"resource_name"`   // Resource pattern used to match specified resources
-	ResourceType   ResourceType                        `json:"resource_type"`   // Kafka ACL resource type represents a type of resource which an ACL can be applied to
+	ResourceType   ResourceType                        `json:"resource_type"`   // Type of resource a Kafka-native ACL can be applied to.
 }
 
 // ServiceKafkaNativeAclGetOut Kafka-native ACL entry for Kafka service
@@ -428,11 +440,17 @@ type ServiceKafkaNativeAclGetOut struct {
 	ResourceName   string                              `json:"resource_name"`   // Resource pattern used to match specified resources
 	ResourceType   ResourceType                        `json:"resource_type"`   // Kafka ACL resource type represents a type of resource which an ACL can be applied to
 }
+type ServiceKafkaNativeAclListAclOut struct {
+	Id         *string        `json:"id,omitempty"` // ID
+	Permission PermissionType `json:"permission"`   // Kafka permission
+	Topic      string         `json:"topic"`        // Topic name pattern
+	Username   string         `json:"username"`
+}
 
 // ServiceKafkaNativeAclListOut ServiceKafkaNativeAclListResponse
 type ServiceKafkaNativeAclListOut struct {
-	Acl      []AclOut      `json:"acl"`       // List of Aiven ACL entries for Kafka service
-	KafkaAcl []KafkaAclOut `json:"kafka_acl"` // List of Kafka-native ACL entries
+	Acl      []ServiceKafkaNativeAclListAclOut `json:"acl"`       // List of Aiven ACL entries for Kafka service
+	KafkaAcl []KafkaAclOut                     `json:"kafka_acl"` // List of Kafka-native ACL entries
 }
 type ServiceKafkaNativeAclPermissionType string
 
@@ -484,17 +502,17 @@ type serviceKafkaAclAddOut struct {
 
 // serviceKafkaAclDeleteOut ServiceKafkaAclDeleteResponse
 type serviceKafkaAclDeleteOut struct {
-	Acl []AclOut `json:"acl"` // List of Aiven ACL entries for Kafka service
+	Acl []ServiceKafkaAclDeleteOut `json:"acl"` // List of Aiven ACL entries for Kafka service
 }
 
 // serviceKafkaAclListOut ServiceKafkaAclListResponse
 type serviceKafkaAclListOut struct {
-	Acl []AclOut `json:"acl"` // List of Aiven ACL entries for Kafka service
+	Acl []ServiceKafkaAclListOut `json:"acl"` // List of Aiven ACL entries for Kafka service
 }
 
 // serviceKafkaNativeAclAddOut ServiceKafkaNativeAclAddResponse
 type serviceKafkaNativeAclAddOut struct {
-	Acl ServiceKafkaNativeAclAddOut `json:"acl"` // Kafka-native ACL entry for Kafka service
+	Acl ServiceKafkaNativeAclAddOut `json:"acl"` // Kafka-native ACL entry for Kafka service.
 }
 
 // serviceKafkaNativeAclGetOut ServiceKafkaNativeAclGetResponse
