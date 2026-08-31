@@ -409,26 +409,29 @@ type ServicePrivatelinkAWSCreateIn struct {
 
 // ServicePrivatelinkAWSCreateOut ServicePrivatelinkAWSCreateResponse
 type ServicePrivatelinkAWSCreateOut struct {
-	AWSServiceId   *string                        `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
-	AWSServiceName *string                        `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
-	Principals     []string                       `json:"principals"`                 // ARNs of principals allowed connecting to the service
-	State          ServicePrivatelinkAWSStateType `json:"state"`                      // Privatelink resource state
+	AWSServiceId     *string                        `json:"aws_service_id,omitempty"`    // AWS VPC endpoint service ID
+	AWSServiceName   *string                        `json:"aws_service_name,omitempty"`  // AWS VPC endpoint service name
+	Principals       []string                       `json:"principals"`                  // ARNs of principals allowed connecting to the service
+	State            ServicePrivatelinkAWSStateType `json:"state"`                       // Privatelink resource state
+	SupportedRegions []string                       `json:"supported_regions,omitempty"` // Allow new connections to the endpoint from these regions, in addition to the region the endpoint is in
 }
 
 // ServicePrivatelinkAWSDeleteOut ServicePrivatelinkAWSDeleteResponse
 type ServicePrivatelinkAWSDeleteOut struct {
-	AWSServiceId   *string                        `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
-	AWSServiceName *string                        `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
-	Principals     []string                       `json:"principals"`                 // ARNs of principals allowed connecting to the service
-	State          ServicePrivatelinkAWSStateType `json:"state"`                      // Privatelink resource state
+	AWSServiceId     *string                        `json:"aws_service_id,omitempty"`    // AWS VPC endpoint service ID
+	AWSServiceName   *string                        `json:"aws_service_name,omitempty"`  // AWS VPC endpoint service name
+	Principals       []string                       `json:"principals"`                  // ARNs of principals allowed connecting to the service
+	State            ServicePrivatelinkAWSStateType `json:"state"`                       // Privatelink resource state
+	SupportedRegions []string                       `json:"supported_regions,omitempty"` // Allow new connections to the endpoint from these regions, in addition to the region the endpoint is in
 }
 
 // ServicePrivatelinkAWSGetOut ServicePrivatelinkAWSGetResponse
 type ServicePrivatelinkAWSGetOut struct {
-	AWSServiceId   *string                        `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
-	AWSServiceName *string                        `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
-	Principals     []string                       `json:"principals"`                 // ARNs of principals allowed connecting to the service
-	State          ServicePrivatelinkAWSStateType `json:"state"`                      // Privatelink resource state
+	AWSServiceId     *string                        `json:"aws_service_id,omitempty"`    // AWS VPC endpoint service ID
+	AWSServiceName   *string                        `json:"aws_service_name,omitempty"`  // AWS VPC endpoint service name
+	Principals       []string                       `json:"principals"`                  // ARNs of principals allowed connecting to the service
+	State            ServicePrivatelinkAWSStateType `json:"state"`                       // Privatelink resource state
+	SupportedRegions []string                       `json:"supported_regions,omitempty"` // Allow new connections to the endpoint from these regions, in addition to the region the endpoint is in
 }
 type ServicePrivatelinkAWSStateType string
 
@@ -450,10 +453,11 @@ type ServicePrivatelinkAWSUpdateIn struct {
 
 // ServicePrivatelinkAWSUpdateOut ServicePrivatelinkAWSUpdateResponse
 type ServicePrivatelinkAWSUpdateOut struct {
-	AWSServiceId   *string                        `json:"aws_service_id,omitempty"`   // AWS VPC endpoint service ID
-	AWSServiceName *string                        `json:"aws_service_name,omitempty"` // AWS VPC endpoint service name
-	Principals     []string                       `json:"principals"`                 // ARNs of principals allowed connecting to the service
-	State          ServicePrivatelinkAWSStateType `json:"state"`                      // Privatelink resource state
+	AWSServiceId     *string                        `json:"aws_service_id,omitempty"`    // AWS VPC endpoint service ID
+	AWSServiceName   *string                        `json:"aws_service_name,omitempty"`  // AWS VPC endpoint service name
+	Principals       []string                       `json:"principals"`                  // ARNs of principals allowed connecting to the service
+	State            ServicePrivatelinkAWSStateType `json:"state"`                       // Privatelink resource state
+	SupportedRegions []string                       `json:"supported_regions,omitempty"` // Allow new connections to the endpoint from these regions, in addition to the region the endpoint is in
 }
 
 // ServicePrivatelinkAzureConnectionApprovalOut ServicePrivatelinkAzureConnectionApprovalResponse

@@ -632,6 +632,7 @@ type ProjectOut struct {
 type ServiceType string
 
 const (
+	ServiceTypeAlertTriage      ServiceType = "alert_triage"
 	ServiceTypeAlertmanager     ServiceType = "alertmanager"
 	ServiceTypeApplication      ServiceType = "application"
 	ServiceTypeClickhouse       ServiceType = "clickhouse"
@@ -663,7 +664,7 @@ const (
 )
 
 func ServiceTypeChoices() []string {
-	return []string{"alertmanager", "application", "clickhouse", "datahub", "dragonfly", "elasticsearch", "flink", "grafana", "kafka", "kafka_connect", "kafka_mirrormaker", "mysql", "nomadclient", "opensearch", "pg", "sparkpool", "stresstester", "sw", "thanos", "thanoscompactor", "thanosparquet", "thanosquery", "thanosreceiver", "thanosruler", "thanosstore", "valkey", "vector", "vmalert"}
+	return []string{"alert_triage", "alertmanager", "application", "clickhouse", "datahub", "dragonfly", "elasticsearch", "flink", "grafana", "kafka", "kafka_connect", "kafka_mirrormaker", "mysql", "nomadclient", "opensearch", "pg", "sparkpool", "stresstester", "sw", "thanos", "thanoscompactor", "thanosparquet", "thanosquery", "thanosreceiver", "thanosruler", "thanosstore", "valkey", "vector", "vmalert"}
 }
 
 // billingGroupCreateOut BillingGroupCreateResponse
