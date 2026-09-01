@@ -93,6 +93,57 @@ components:
         password:
           # When sent as null, the password is generated on the server side.
           nullable: true
+    # The API returns provider-specific and evolving diagnostic fields here.
+    # Generate the complete object as map[string]any instead of dropping keys
+    # that are absent from the published schema.
+    VpcGetResponse:
+      properties:
+        peering_connections:
+          items:
+            properties:
+              state_info: &project_vpc_peering_state_info
+                nullable: true
+                additionalProperties: true
+    VpcCreateResponse:
+      properties:
+        peering_connections:
+          items:
+            properties:
+              state_info: *project_vpc_peering_state_info
+    VpcDeleteResponse:
+      properties:
+        peering_connections:
+          items:
+            properties:
+              state_info: *project_vpc_peering_state_info
+    VpcPeeringConnectionUpdateResponse:
+      properties:
+        peering_connections:
+          items:
+            properties:
+              state_info: *project_vpc_peering_state_info
+    VpcPeeringConnectionCreateResponse:
+      properties:
+        state_info: *project_vpc_peering_state_info
+    VpcPeeringConnectionDeleteResponse:
+      properties:
+        state_info: *project_vpc_peering_state_info
+    VpcPeeringConnectionWithRegionDeleteResponse:
+      properties:
+        state_info: *project_vpc_peering_state_info
+    VpcPeeringConnectionWithResourceGroupDeleteResponse:
+      properties:
+        state_info: *project_vpc_peering_state_info
+    # The backend uses the region when identifying the peering connection to
+    # which a CIDR is added, but the published schema currently omits it.
+    VpcPeeringConnectionUpdateRequestBody:
+      properties:
+        add:
+          items:
+            properties:
+              peer_region:
+                type: string
+                maxLength: 1024
     OrganizationVpcGetResponse:
       properties:
         peering_connections:
