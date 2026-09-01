@@ -198,8 +198,9 @@ func (h *VpcHandler) VpcPeeringConnectionWithResourceGroupDelete(ctx context.Con
 }
 
 type AddIn struct {
-	Cidr              string  `json:"cidr"`                          // IPv4 network range CIDR
-	PeerCloudAccount  string  `json:"peer_cloud_account"`            // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
+	Cidr              string  `json:"cidr"`               // IPv4 network range CIDR
+	PeerCloudAccount  string  `json:"peer_cloud_account"` // AWS account ID, GCP project ID, Azure subscription ID of the peered VPC, or string "upcloud" for UpCloud peering connections
+	PeerRegion        *string `json:"peer_region,omitempty"`
 	PeerResourceGroup *string `json:"peer_resource_group,omitempty"` // Azure resource group name of the peered VPC
 	PeerVpc           string  `json:"peer_vpc"`                      // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
 }
@@ -222,17 +223,10 @@ type PeeringConnectionOut struct {
 	PeerVpc                  string                        `json:"peer_vpc"`                        // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
 	PeeringConnectionId      *string                       `json:"peering_connection_id,omitempty"` // VPC peering connection ID
 	State                    VpcPeeringConnectionStateType `json:"state"`                           // Project VPC peering connection state
-	StateInfo                StateInfoOut                  `json:"state_info"`                      // State-specific help or error information
+	StateInfo                map[string]any                `json:"state_info"`                      // State-specific help or error information
 	UpdateTime               time.Time                     `json:"update_time"`                     // Timestamp of last change to the VPC peering connection
 	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`         // List of private IPv4 ranges to route through the peering connection
 	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"`     // Type of network connection from the VPC
-}
-
-// StateInfoOut State-specific help or error information
-type StateInfoOut struct {
-	Message  string       `json:"message"`            // Human-readable information message
-	Type     string       `json:"type"`               // Type of state information
-	Warnings []WarningOut `json:"warnings,omitempty"` // List of warnings if any
 }
 
 // VpcCreateIn VpcCreateRequestBody
@@ -308,7 +302,7 @@ type VpcPeeringConnectionCreateOut struct {
 	PeerVpc                  string                        `json:"peer_vpc"`                        // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
 	PeeringConnectionId      *string                       `json:"peering_connection_id,omitempty"` // VPC peering connection ID
 	State                    VpcPeeringConnectionStateType `json:"state"`                           // Project VPC peering connection state
-	StateInfo                StateInfoOut                  `json:"state_info"`                      // State-specific help or error information
+	StateInfo                map[string]any                `json:"state_info"`                      // State-specific help or error information
 	UpdateTime               time.Time                     `json:"update_time"`                     // Timestamp of last change to the VPC peering connection
 	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`         // List of private IPv4 ranges to route through the peering connection
 	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"`     // Type of network connection from the VPC
@@ -325,7 +319,7 @@ type VpcPeeringConnectionDeleteOut struct {
 	PeerVpc                  string                        `json:"peer_vpc"`                        // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
 	PeeringConnectionId      *string                       `json:"peering_connection_id,omitempty"` // VPC peering connection ID
 	State                    VpcPeeringConnectionStateType `json:"state"`                           // Project VPC peering connection state
-	StateInfo                StateInfoOut                  `json:"state_info"`                      // State-specific help or error information
+	StateInfo                map[string]any                `json:"state_info"`                      // State-specific help or error information
 	UpdateTime               time.Time                     `json:"update_time"`                     // Timestamp of last change to the VPC peering connection
 	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`         // List of private IPv4 ranges to route through the peering connection
 	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"`     // Type of network connection from the VPC
@@ -406,7 +400,7 @@ type VpcPeeringConnectionWithRegionDeleteOut struct {
 	PeerVpc                  string                        `json:"peer_vpc"`                        // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
 	PeeringConnectionId      *string                       `json:"peering_connection_id,omitempty"` // VPC peering connection ID
 	State                    VpcPeeringConnectionStateType `json:"state"`                           // Project VPC peering connection state
-	StateInfo                StateInfoOut                  `json:"state_info"`                      // State-specific help or error information
+	StateInfo                map[string]any                `json:"state_info"`                      // State-specific help or error information
 	UpdateTime               time.Time                     `json:"update_time"`                     // Timestamp of last change to the VPC peering connection
 	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`         // List of private IPv4 ranges to route through the peering connection
 	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"`     // Type of network connection from the VPC
@@ -423,7 +417,7 @@ type VpcPeeringConnectionWithResourceGroupDeleteOut struct {
 	PeerVpc                  string                        `json:"peer_vpc"`                        // AWS VPC ID, GCP VPC network name, Azure Virtual network name of the peered VPC, or UpCloud VPC ID
 	PeeringConnectionId      *string                       `json:"peering_connection_id,omitempty"` // VPC peering connection ID
 	State                    VpcPeeringConnectionStateType `json:"state"`                           // Project VPC peering connection state
-	StateInfo                StateInfoOut                  `json:"state_info"`                      // State-specific help or error information
+	StateInfo                map[string]any                `json:"state_info"`                      // State-specific help or error information
 	UpdateTime               time.Time                     `json:"update_time"`                     // Timestamp of last change to the VPC peering connection
 	UserPeerNetworkCidrs     []string                      `json:"user_peer_network_cidrs"`         // List of private IPv4 ranges to route through the peering connection
 	VpcPeeringConnectionType VpcPeeringConnectionType      `json:"vpc_peering_connection_type"`     // Type of network connection from the VPC
@@ -439,24 +433,6 @@ const (
 
 func VpcStateTypeChoices() []string {
 	return []string{"ACTIVE", "APPROVED", "DELETED", "DELETING"}
-}
-
-type WarningOut struct {
-	ConflictingAWSAccountId              *string     `json:"conflicting_aws_account_id,omitempty"`                // AWS account id of conflicting VPC
-	ConflictingAWSVpcId                  *string     `json:"conflicting_aws_vpc_id,omitempty"`                    // VPC id which is conflicting with the current one
-	ConflictingAWSVpcPeeringConnectionId *string     `json:"conflicting_aws_vpc_peering_connection_id,omitempty"` // AWS VPC connection id which is conflicting with current VPC
-	Message                              string      `json:"message"`                                             // Warning message to be shown to the user
-	Type                                 WarningType `json:"type"`                                                // Type of warning
-}
-type WarningType string
-
-const (
-	WarningTypeOverlappingPeerVpcIPRanges WarningType = "overlapping-peer-vpc-ip-ranges"
-	WarningTypeUpcloudPeeringInError      WarningType = "upcloud-peering-in-error"
-)
-
-func WarningTypeChoices() []string {
-	return []string{"overlapping-peer-vpc-ip-ranges", "upcloud-peering-in-error"}
 }
 
 // vpcListOut VpcListResponse
