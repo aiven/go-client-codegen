@@ -446,6 +446,14 @@ type AlertOut struct {
 	Severity    string    `json:"severity"`               // Severity of the event
 }
 
+// ApplicationOut Service type information
+type ApplicationOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
 // BackupConfigOut Backup configuration for this service plan
 type BackupConfigOut struct {
 	FrequentIntervalMinutes    *int             `json:"frequent_interval_minutes,omitempty"`     // Interval of taking a frequent backup in service types supporting different backup schedules
@@ -890,6 +898,7 @@ type ProjectServiceTypesListElasticsearchOut struct {
 
 // ProjectServiceTypesListOut ProjectServiceTypesListResponse
 type ProjectServiceTypesListOut struct {
+	Application      *ApplicationOut                          `json:"application,omitempty"`       // Service type information
 	Clickhouse       *ClickhouseOut                           `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut                            `json:"dragonfly,omitempty"`         // Service type information
 	Elasticsearch    *ProjectServiceTypesListElasticsearchOut `json:"elasticsearch,omitempty"`     // Service type information

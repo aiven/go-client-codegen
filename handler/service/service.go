@@ -869,6 +869,15 @@ type AlertOut struct {
 	ServiceType *string   `json:"service_type,omitempty"` // Service type code
 	Severity    string    `json:"severity"`               // Severity of the event
 }
+
+// ApplicationOut Service type information
+type ApplicationOut struct {
+	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string           `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
+	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
+	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
 type AuthenticationType string
 
 const (
@@ -1163,6 +1172,7 @@ func IntegrationStatusTypeChoices() []string {
 type IntegrationType string
 
 const (
+	IntegrationTypeAlertTriageKafka                  IntegrationType = "alert_triage_kafka"
 	IntegrationTypeAlertmanager                      IntegrationType = "alertmanager"
 	IntegrationTypeApplicationServiceCredential      IntegrationType = "application_service_credential"
 	IntegrationTypeAutoscaler                        IntegrationType = "autoscaler"
@@ -1215,7 +1225,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datahub_metadata_ingestion", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "opentelemetry", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanos_object_storage", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
+	return []string{"alert_triage_kafka", "alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datahub_metadata_ingestion", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "opentelemetry", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanos_object_storage", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
 }
 
 type IntegrationTypeOut struct {
@@ -1323,6 +1333,7 @@ func LikelyErrorCauseTypeChoices() []string {
 
 // ListProjectServiceTypesOut Service plans by service type
 type ListProjectServiceTypesOut struct {
+	Application      *ApplicationOut      `json:"application,omitempty"`       // Service type information
 	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`         // Service type information
 	Elasticsearch    *ElasticsearchOut    `json:"elasticsearch,omitempty"`     // Service type information
@@ -1341,6 +1352,7 @@ type ListProjectServiceTypesOut struct {
 
 // ListPublicServiceTypesOut Service plans by service type
 type ListPublicServiceTypesOut struct {
+	Application      *ApplicationOut      `json:"application,omitempty"`       // Service type information
 	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`         // Service type information
 	Elasticsearch    *ElasticsearchOut    `json:"elasticsearch,omitempty"`     // Service type information
