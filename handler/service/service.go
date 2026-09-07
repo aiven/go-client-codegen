@@ -25,7 +25,7 @@ type Handler interface {
 	// ListServiceVersions list service versions
 	// GET /v1/service_versions
 	// https://api.aiven.io/doc/#tag/Service/operation/ListServiceVersions
-	ListServiceVersions(ctx context.Context) ([]ServiceVersionOut, error)
+	ListServiceVersions(ctx context.Context, query ...[2]string) ([]ServiceVersionOut, error)
 
 	// ProjectGetServiceLogs get service log entries
 	// POST /v1/project/{project}/service/{service_name}/logs
@@ -313,9 +313,14 @@ func (h *ServiceHandler) ListPublicServiceTypes(ctx context.Context) (*ListPubli
 	}
 	return &out.ServiceTypes, nil
 }
-func (h *ServiceHandler) ListServiceVersions(ctx context.Context) ([]ServiceVersionOut, error) {
+
+// ListServiceVersionsVisibleUntilType How far into a version's lifecycle it should still be listed: end-of-availability (default, matches historical behavior), or end-of-life (Aiven's own end of life).
+func ListServiceVersionsVisibleUntilType(visibleUntilType VisibleUntilType) [2]string {
+	return [2]string{"visible_until", fmt.Sprintf("%s", visibleUntilType)}
+}
+func (h *ServiceHandler) ListServiceVersions(ctx context.Context, query ...[2]string) ([]ServiceVersionOut, error) {
 	path := fmt.Sprintf("/v1/service_versions")
-	b, err := h.doer.Do(ctx, "ListServiceVersions", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "ListServiceVersions", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}
@@ -869,6 +874,15 @@ type AlertOut struct {
 	ServiceType *string   `json:"service_type,omitempty"` // Service type code
 	Severity    string    `json:"severity"`               // Severity of the event
 }
+
+// ApplicationOut Service type information
+type ApplicationOut struct {
+	DefaultVersion         *string          `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string           `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
+	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
+	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
 type AuthenticationType string
 
 const (
@@ -1163,6 +1177,7 @@ func IntegrationStatusTypeChoices() []string {
 type IntegrationType string
 
 const (
+	IntegrationTypeAlertTriageKafka                  IntegrationType = "alert_triage_kafka"
 	IntegrationTypeAlertmanager                      IntegrationType = "alertmanager"
 	IntegrationTypeApplicationServiceCredential      IntegrationType = "application_service_credential"
 	IntegrationTypeAutoscaler                        IntegrationType = "autoscaler"
@@ -1215,7 +1230,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datahub_metadata_ingestion", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "opentelemetry", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanos_object_storage", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
+	return []string{"alert_triage_kafka", "alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datahub_metadata_ingestion", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "opentelemetry", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanos_object_storage", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
 }
 
 type IntegrationTypeOut struct {
@@ -1323,6 +1338,7 @@ func LikelyErrorCauseTypeChoices() []string {
 
 // ListProjectServiceTypesOut Service plans by service type
 type ListProjectServiceTypesOut struct {
+	Application      *ApplicationOut      `json:"application,omitempty"`       // Service type information
 	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`         // Service type information
 	Elasticsearch    *ElasticsearchOut    `json:"elasticsearch,omitempty"`     // Service type information
@@ -1341,6 +1357,7 @@ type ListProjectServiceTypesOut struct {
 
 // ListPublicServiceTypesOut Service plans by service type
 type ListPublicServiceTypesOut struct {
+	Application      *ApplicationOut      `json:"application,omitempty"`       // Service type information
 	Clickhouse       *ClickhouseOut       `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut        `json:"dragonfly,omitempty"`         // Service type information
 	Elasticsearch    *ElasticsearchOut    `json:"elasticsearch,omitempty"`     // Service type information
@@ -2668,6 +2685,16 @@ type ValkeyOut struct {
 	LatestAvailableVersion *string          `json:"latest_available_version,omitempty"` // Latest available version of the service
 	ServicePlans           []ServicePlanOut `json:"service_plans"`                      // List of plans available for this type of service
 	UserConfigSchema       map[string]any   `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+type VisibleUntilType string
+
+const (
+	VisibleUntilTypeEndOfAvailability VisibleUntilType = "end-of-availability"
+	VisibleUntilTypeEndOfLife         VisibleUntilType = "end-of-life"
+)
+
+func VisibleUntilTypeChoices() []string {
+	return []string{"end-of-availability", "end-of-life"}
 }
 
 // listProjectServiceTypesOut ListProjectServiceTypesResponse
