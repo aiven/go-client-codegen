@@ -446,6 +446,14 @@ type AlertOut struct {
 	Severity    string    `json:"severity"`               // Severity of the event
 }
 
+// ApplicationOut Service type information
+type ApplicationOut struct {
+	DefaultVersion         *string        `json:"default_version,omitempty"`          // Default version of the service if no explicit version is defined
+	Description            string         `json:"description"`                        // Single line description of the service
+	LatestAvailableVersion *string        `json:"latest_available_version,omitempty"` // Latest available version of the service
+	UserConfigSchema       map[string]any `json:"user_config_schema"`                 // JSON-Schema for the 'user_config' properties
+}
+
 // BackupConfigOut Backup configuration for this service plan
 type BackupConfigOut struct {
 	FrequentIntervalMinutes    *int             `json:"frequent_interval_minutes,omitempty"`     // Interval of taking a frequent backup in service types supporting different backup schedules
@@ -594,11 +602,13 @@ const (
 	MemberTypeOrganizationBillingWrite       MemberType = "organization:billing:write"
 	MemberTypeOrganizationDomainsWrite       MemberType = "organization:domains:write"
 	MemberTypeOrganizationEventLogsRead      MemberType = "organization:event_logs:read"
+	MemberTypeOrganizationGroupsRead         MemberType = "organization:groups:read"
 	MemberTypeOrganizationGroupsWrite        MemberType = "organization:groups:write"
 	MemberTypeOrganizationNetworkingRead     MemberType = "organization:networking:read"
 	MemberTypeOrganizationNetworkingWrite    MemberType = "organization:networking:write"
 	MemberTypeOrganizationProjectsWrite      MemberType = "organization:projects:write"
 	MemberTypeOrganizationSustainabilityRead MemberType = "organization:sustainability:read"
+	MemberTypeOrganizationUsersRead          MemberType = "organization:users:read"
 	MemberTypeOrganizationUsersWrite         MemberType = "organization:users:write"
 	MemberTypeProjectAiGatewayKeysRead       MemberType = "project:ai_gateway_keys:read"
 	MemberTypeProjectAiGatewayKeysWrite      MemberType = "project:ai_gateway_keys:write"
@@ -614,6 +624,7 @@ const (
 	MemberTypeReadOnly                       MemberType = "read_only"
 	MemberTypeRoleOrganizationAdmin          MemberType = "role:organization:admin"
 	MemberTypeRoleProjectAdmin               MemberType = "role:project:admin"
+	MemberTypeRoleProjectManager             MemberType = "role:project:manager"
 	MemberTypeRoleProjectRead                MemberType = "role:project:read"
 	MemberTypeRoleServicesMaintenance        MemberType = "role:services:maintenance"
 	MemberTypeRoleServicesRecover            MemberType = "role:services:recover"
@@ -626,7 +637,7 @@ const (
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:event_logs:read", "organization:groups:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:sustainability:read", "organization:users:write", "project:ai_gateway_keys:read", "project:ai_gateway_keys:write", "project:audit_logs:read", "project:event_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:project:admin", "role:project:read", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:metrics:read", "service:secrets:read", "service:users:write"}
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:event_logs:read", "organization:groups:read", "organization:groups:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:sustainability:read", "organization:users:read", "organization:users:write", "project:ai_gateway_keys:read", "project:ai_gateway_keys:write", "project:audit_logs:read", "project:event_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:project:admin", "role:project:manager", "role:project:read", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:metrics:read", "service:secrets:read", "service:users:write"}
 }
 
 // MysqlOut Service type information
@@ -780,11 +791,13 @@ const (
 	ProjectMembershipTypeOrganizationBillingWrite       ProjectMembershipType = "organization:billing:write"
 	ProjectMembershipTypeOrganizationDomainsWrite       ProjectMembershipType = "organization:domains:write"
 	ProjectMembershipTypeOrganizationEventLogsRead      ProjectMembershipType = "organization:event_logs:read"
+	ProjectMembershipTypeOrganizationGroupsRead         ProjectMembershipType = "organization:groups:read"
 	ProjectMembershipTypeOrganizationGroupsWrite        ProjectMembershipType = "organization:groups:write"
 	ProjectMembershipTypeOrganizationNetworkingRead     ProjectMembershipType = "organization:networking:read"
 	ProjectMembershipTypeOrganizationNetworkingWrite    ProjectMembershipType = "organization:networking:write"
 	ProjectMembershipTypeOrganizationProjectsWrite      ProjectMembershipType = "organization:projects:write"
 	ProjectMembershipTypeOrganizationSustainabilityRead ProjectMembershipType = "organization:sustainability:read"
+	ProjectMembershipTypeOrganizationUsersRead          ProjectMembershipType = "organization:users:read"
 	ProjectMembershipTypeOrganizationUsersWrite         ProjectMembershipType = "organization:users:write"
 	ProjectMembershipTypeProjectAiGatewayKeysRead       ProjectMembershipType = "project:ai_gateway_keys:read"
 	ProjectMembershipTypeProjectAiGatewayKeysWrite      ProjectMembershipType = "project:ai_gateway_keys:write"
@@ -800,6 +813,7 @@ const (
 	ProjectMembershipTypeReadOnly                       ProjectMembershipType = "read_only"
 	ProjectMembershipTypeRoleOrganizationAdmin          ProjectMembershipType = "role:organization:admin"
 	ProjectMembershipTypeRoleProjectAdmin               ProjectMembershipType = "role:project:admin"
+	ProjectMembershipTypeRoleProjectManager             ProjectMembershipType = "role:project:manager"
 	ProjectMembershipTypeRoleProjectRead                ProjectMembershipType = "role:project:read"
 	ProjectMembershipTypeRoleServicesMaintenance        ProjectMembershipType = "role:services:maintenance"
 	ProjectMembershipTypeRoleServicesRecover            ProjectMembershipType = "role:services:recover"
@@ -812,7 +826,7 @@ const (
 )
 
 func ProjectMembershipTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:event_logs:read", "organization:groups:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:sustainability:read", "organization:users:write", "project:ai_gateway_keys:read", "project:ai_gateway_keys:write", "project:audit_logs:read", "project:event_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:project:admin", "role:project:read", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:metrics:read", "service:secrets:read", "service:users:write"}
+	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:event_logs:read", "organization:groups:read", "organization:groups:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:sustainability:read", "organization:users:read", "organization:users:write", "project:ai_gateway_keys:read", "project:ai_gateway_keys:write", "project:audit_logs:read", "project:event_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:project:admin", "role:project:manager", "role:project:read", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:metrics:read", "service:secrets:read", "service:users:write"}
 }
 
 type ProjectOut struct {
@@ -890,6 +904,7 @@ type ProjectServiceTypesListElasticsearchOut struct {
 
 // ProjectServiceTypesListOut ProjectServiceTypesListResponse
 type ProjectServiceTypesListOut struct {
+	Application      *ApplicationOut                          `json:"application,omitempty"`       // Service type information
 	Clickhouse       *ClickhouseOut                           `json:"clickhouse,omitempty"`        // Service type information
 	Dragonfly        *DragonflyOut                            `json:"dragonfly,omitempty"`         // Service type information
 	Elasticsearch    *ProjectServiceTypesListElasticsearchOut `json:"elasticsearch,omitempty"`     // Service type information

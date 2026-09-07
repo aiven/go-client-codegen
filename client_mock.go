@@ -5841,8 +5841,14 @@ func (_c *MockClient_ListPublicServiceTypes_Call) RunAndReturn(run func(ctx cont
 }
 
 // ListServiceVersions provides a mock function for the type MockClient
-func (_mock *MockClient) ListServiceVersions(ctx context.Context) ([]service.ServiceVersionOut, error) {
-	ret := _mock.Called(ctx)
+func (_mock *MockClient) ListServiceVersions(ctx context.Context, query ...[2]string) ([]service.ServiceVersionOut, error) {
+	var tmpRet mock.Arguments
+	if len(query) > 0 {
+		tmpRet = _mock.Called(ctx, query)
+	} else {
+		tmpRet = _mock.Called(ctx)
+	}
+	ret := tmpRet
 
 	if len(ret) == 0 {
 		panic("no return value specified for ListServiceVersions")
@@ -5850,18 +5856,18 @@ func (_mock *MockClient) ListServiceVersions(ctx context.Context) ([]service.Ser
 
 	var r0 []service.ServiceVersionOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context) ([]service.ServiceVersionOut, error)); ok {
-		return returnFunc(ctx)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, ...[2]string) ([]service.ServiceVersionOut, error)); ok {
+		return returnFunc(ctx, query...)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context) []service.ServiceVersionOut); ok {
-		r0 = returnFunc(ctx)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, ...[2]string) []service.ServiceVersionOut); ok {
+		r0 = returnFunc(ctx, query...)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]service.ServiceVersionOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context) error); ok {
-		r1 = returnFunc(ctx)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, ...[2]string) error); ok {
+		r1 = returnFunc(ctx, query...)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -5875,18 +5881,27 @@ type MockClient_ListServiceVersions_Call struct {
 
 // ListServiceVersions is a helper method to define mock.On call
 //   - ctx context.Context
-func (_e *MockClient_Expecter) ListServiceVersions(ctx interface{}) *MockClient_ListServiceVersions_Call {
-	return &MockClient_ListServiceVersions_Call{Call: _e.mock.On("ListServiceVersions", ctx)}
+//   - query ...[2]string
+func (_e *MockClient_Expecter) ListServiceVersions(ctx interface{}, query ...interface{}) *MockClient_ListServiceVersions_Call {
+	return &MockClient_ListServiceVersions_Call{Call: _e.mock.On("ListServiceVersions",
+		append([]interface{}{ctx}, query...)...)}
 }
 
-func (_c *MockClient_ListServiceVersions_Call) Run(run func(ctx context.Context)) *MockClient_ListServiceVersions_Call {
+func (_c *MockClient_ListServiceVersions_Call) Run(run func(ctx context.Context, query ...[2]string)) *MockClient_ListServiceVersions_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
 			arg0 = args[0].(context.Context)
 		}
+		var arg1 [][2]string
+		var variadicArgs [][2]string
+		if len(args) > 1 {
+			variadicArgs = args[1].([][2]string)
+		}
+		arg1 = variadicArgs
 		run(
 			arg0,
+			arg1...,
 		)
 	})
 	return _c
@@ -5897,7 +5912,7 @@ func (_c *MockClient_ListServiceVersions_Call) Return(serviceVersionOuts []servi
 	return _c
 }
 
-func (_c *MockClient_ListServiceVersions_Call) RunAndReturn(run func(ctx context.Context) ([]service.ServiceVersionOut, error)) *MockClient_ListServiceVersions_Call {
+func (_c *MockClient_ListServiceVersions_Call) RunAndReturn(run func(ctx context.Context, query ...[2]string) ([]service.ServiceVersionOut, error)) *MockClient_ListServiceVersions_Call {
 	_c.Call.Return(run)
 	return _c
 }
