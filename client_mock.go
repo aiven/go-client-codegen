@@ -343,8 +343,8 @@ func (_c *MockClient_AccessTokenUpdate_Call) RunAndReturn(run func(ctx context.C
 }
 
 // AccountAttachPaymentMethod provides a mock function for the type MockClient
-func (_mock *MockClient) AccountAttachPaymentMethod(ctx context.Context, accountId string, in *account.AccountAttachPaymentMethodIn) (*account.AccountAttachPaymentMethodOut, error) {
-	ret := _mock.Called(ctx, accountId, in)
+func (_mock *MockClient) AccountAttachPaymentMethod(ctx context.Context, accountId string) (*account.AccountAttachPaymentMethodOut, error) {
+	ret := _mock.Called(ctx, accountId)
 
 	if len(ret) == 0 {
 		panic("no return value specified for AccountAttachPaymentMethod")
@@ -352,18 +352,18 @@ func (_mock *MockClient) AccountAttachPaymentMethod(ctx context.Context, account
 
 	var r0 *account.AccountAttachPaymentMethodOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *account.AccountAttachPaymentMethodIn) (*account.AccountAttachPaymentMethodOut, error)); ok {
-		return returnFunc(ctx, accountId, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*account.AccountAttachPaymentMethodOut, error)); ok {
+		return returnFunc(ctx, accountId)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *account.AccountAttachPaymentMethodIn) *account.AccountAttachPaymentMethodOut); ok {
-		r0 = returnFunc(ctx, accountId, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *account.AccountAttachPaymentMethodOut); ok {
+		r0 = returnFunc(ctx, accountId)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*account.AccountAttachPaymentMethodOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, *account.AccountAttachPaymentMethodIn) error); ok {
-		r1 = returnFunc(ctx, accountId, in)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = returnFunc(ctx, accountId)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -378,12 +378,11 @@ type MockClient_AccountAttachPaymentMethod_Call struct {
 // AccountAttachPaymentMethod is a helper method to define mock.On call
 //   - ctx context.Context
 //   - accountId string
-//   - in *account.AccountAttachPaymentMethodIn
-func (_e *MockClient_Expecter) AccountAttachPaymentMethod(ctx interface{}, accountId interface{}, in interface{}) *MockClient_AccountAttachPaymentMethod_Call {
-	return &MockClient_AccountAttachPaymentMethod_Call{Call: _e.mock.On("AccountAttachPaymentMethod", ctx, accountId, in)}
+func (_e *MockClient_Expecter) AccountAttachPaymentMethod(ctx interface{}, accountId interface{}) *MockClient_AccountAttachPaymentMethod_Call {
+	return &MockClient_AccountAttachPaymentMethod_Call{Call: _e.mock.On("AccountAttachPaymentMethod", ctx, accountId)}
 }
 
-func (_c *MockClient_AccountAttachPaymentMethod_Call) Run(run func(ctx context.Context, accountId string, in *account.AccountAttachPaymentMethodIn)) *MockClient_AccountAttachPaymentMethod_Call {
+func (_c *MockClient_AccountAttachPaymentMethod_Call) Run(run func(ctx context.Context, accountId string)) *MockClient_AccountAttachPaymentMethod_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -393,14 +392,9 @@ func (_c *MockClient_AccountAttachPaymentMethod_Call) Run(run func(ctx context.C
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
-		var arg2 *account.AccountAttachPaymentMethodIn
-		if args[2] != nil {
-			arg2 = args[2].(*account.AccountAttachPaymentMethodIn)
-		}
 		run(
 			arg0,
 			arg1,
-			arg2,
 		)
 	})
 	return _c
@@ -411,7 +405,7 @@ func (_c *MockClient_AccountAttachPaymentMethod_Call) Return(accountAttachPaymen
 	return _c
 }
 
-func (_c *MockClient_AccountAttachPaymentMethod_Call) RunAndReturn(run func(ctx context.Context, accountId string, in *account.AccountAttachPaymentMethodIn) (*account.AccountAttachPaymentMethodOut, error)) *MockClient_AccountAttachPaymentMethod_Call {
+func (_c *MockClient_AccountAttachPaymentMethod_Call) RunAndReturn(run func(ctx context.Context, accountId string) (*account.AccountAttachPaymentMethodOut, error)) *MockClient_AccountAttachPaymentMethod_Call {
 	_c.Call.Return(run)
 	return _c
 }
