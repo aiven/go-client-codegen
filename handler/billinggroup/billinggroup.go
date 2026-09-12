@@ -76,7 +76,7 @@ type Handler interface {
 	// Deprecated: BillingGroupProjectsAssign assign projects to billing group
 	// POST /v1/billing-group/{billing_group_id}/projects-assign
 	// https://api.aiven.io/doc/#tag/BillingGroup/operation/BillingGroupProjectsAssign
-	BillingGroupProjectsAssign(ctx context.Context, billingGroupId string, in *BillingGroupProjectsAssignIn) error
+	BillingGroupProjectsAssign(ctx context.Context, billingGroupId string) error
 
 	// Deprecated: BillingGroupUpdate update billing group
 	// PUT /v1/billing-group/{billing_group_id}
@@ -224,9 +224,9 @@ func (h *BillingGroupHandler) BillingGroupProjectList(ctx context.Context, billi
 	}
 	return out.Projects, nil
 }
-func (h *BillingGroupHandler) BillingGroupProjectsAssign(ctx context.Context, billingGroupId string, in *BillingGroupProjectsAssignIn) error {
+func (h *BillingGroupHandler) BillingGroupProjectsAssign(ctx context.Context, billingGroupId string) error {
 	path := fmt.Sprintf("/v1/billing-group/%s/projects-assign", url.PathEscape(billingGroupId))
-	_, err := h.doer.Do(ctx, "BillingGroupProjectsAssign", "POST", path, in)
+	_, err := h.doer.Do(ctx, "BillingGroupProjectsAssign", "POST", path, nil)
 	return err
 }
 func (h *BillingGroupHandler) BillingGroupUpdate(ctx context.Context, billingGroupId string, in *BillingGroupUpdateIn) (*BillingGroupUpdateOut, error) {
@@ -396,11 +396,6 @@ type BillingGroupOut struct {
 	State                 string                   `json:"state"`                     // Address state or province
 	VatId                 string                   `json:"vat_id"`                    // EU VAT Identification Number
 	ZipCode               string                   `json:"zip_code"`                  // Address zip code
-}
-
-// BillingGroupProjectsAssignIn BillingGroupProjectsAssignRequestBody
-type BillingGroupProjectsAssignIn struct {
-	ProjectsNames []string `json:"projects_names"` // Projects names
 }
 type BillingGroupStateType string
 
