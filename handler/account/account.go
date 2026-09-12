@@ -14,7 +14,7 @@ type Handler interface {
 	// Deprecated: AccountAttachPaymentMethod attach payment method for account
 	// POST /v1/account/{account_id}/payment_methods
 	// https://api.aiven.io/doc/#tag/Account/operation/AccountAttachPaymentMethod
-	AccountAttachPaymentMethod(ctx context.Context, accountId string, in *AccountAttachPaymentMethodIn) (*AccountAttachPaymentMethodOut, error)
+	AccountAttachPaymentMethod(ctx context.Context, accountId string) (*AccountAttachPaymentMethodOut, error)
 
 	// Deprecated: AccountBillingGroupList list account billing groups
 	// GET /v1/account/{account_id}/billing-group
@@ -105,9 +105,9 @@ type AccountHandler struct {
 	doer doer
 }
 
-func (h *AccountHandler) AccountAttachPaymentMethod(ctx context.Context, accountId string, in *AccountAttachPaymentMethodIn) (*AccountAttachPaymentMethodOut, error) {
+func (h *AccountHandler) AccountAttachPaymentMethod(ctx context.Context, accountId string) (*AccountAttachPaymentMethodOut, error) {
 	path := fmt.Sprintf("/v1/account/%s/payment_methods", url.PathEscape(accountId))
-	b, err := h.doer.Do(ctx, "AccountAttachPaymentMethod", "POST", path, in)
+	b, err := h.doer.Do(ctx, "AccountAttachPaymentMethod", "POST", path, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -309,11 +309,6 @@ const (
 
 func AccessSourceTypeChoices() []string {
 	return []string{"descendant_membership", "organization_membership", "project_membership", "team_membership"}
-}
-
-// AccountAttachPaymentMethodIn AccountAttachPaymentMethodRequestBody
-type AccountAttachPaymentMethodIn struct {
-	PaymentMethodId string `json:"payment_method_id"` // Unique identifier for a Stripe payment method
 }
 
 // AccountAttachPaymentMethodOut User credit card information

@@ -748,7 +748,7 @@ func (h *ServiceHandler) ServiceTaskGet(ctx context.Context, project string, ser
 	return &out.Task, nil
 }
 
-// ServiceUpdateAllowUncleanPoweroff Allows or disallows powering off a service if some WAL segments are not available for a future restoration of the service, which might result in data loss when powering the service back on
+// ServiceUpdateAllowUncleanPoweroff Allows or disallows powering off a service if some WAL segments are not available for a future restoration of the service, which might result in data loss when powering the service back on. Note: defaults to false for PostgreSQL services.
 func ServiceUpdateAllowUncleanPoweroff(allowUncleanPoweroff bool) [2]string {
 	return [2]string{"allow_unclean_poweroff", fmt.Sprintf("%t", allowUncleanPoweroff)}
 }
@@ -1212,6 +1212,7 @@ const (
 	IntegrationTypeOpensearchCrossClusterReplication IntegrationType = "opensearch_cross_cluster_replication"
 	IntegrationTypeOpensearchCrossClusterSearch      IntegrationType = "opensearch_cross_cluster_search"
 	IntegrationTypeOpentelemetry                     IntegrationType = "opentelemetry"
+	IntegrationTypePostgresqlClickhouseCdc           IntegrationType = "postgresql_clickhouse_cdc"
 	IntegrationTypePrometheus                        IntegrationType = "prometheus"
 	IntegrationTypeReadReplica                       IntegrationType = "read_replica"
 	IntegrationTypeRsyslog                           IntegrationType = "rsyslog"
@@ -1230,7 +1231,7 @@ const (
 )
 
 func IntegrationTypeChoices() []string {
-	return []string{"alert_triage_kafka", "alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datahub_metadata_ingestion", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "opentelemetry", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanos_object_storage", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
+	return []string{"alert_triage_kafka", "alertmanager", "application_service_credential", "autoscaler", "autoscaler_service", "caching", "clickhouse_credentials", "clickhouse_kafka", "clickhouse_postgresql", "dashboard", "datadog", "datahub_metadata_ingestion", "datasource", "disaster_recovery", "external_aws_cloudwatch_logs", "external_aws_cloudwatch_metrics", "external_elasticsearch_logs", "external_google_cloud_logging", "external_opensearch_logs", "flink", "flink_external_bigquery", "flink_external_kafka", "flink_external_postgresql", "internal_connectivity", "jolokia", "kafka_connect", "kafka_connect_postgresql", "kafka_inkless_postgresql", "kafka_logs", "kafka_mirrormaker", "logs", "metrics", "opensearch_cross_cluster_replication", "opensearch_cross_cluster_search", "opentelemetry", "postgresql_clickhouse_cdc", "prometheus", "read_replica", "rsyslog", "schema_registry_proxy", "service_composition", "stresstester", "thanos_distributed_query", "thanos_migrate", "thanos_object_storage", "thanoscompactor", "thanosquery", "thanosruler", "thanosstore", "vector", "vmalert"}
 }
 
 type IntegrationTypeOut struct {
@@ -2365,6 +2366,7 @@ type ServiceUpdateOut struct {
 type ServiceUserCreateIn struct {
 	AccessControl  *AccessControlIn   `json:"access_control,omitempty"` // Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
 	Authentication AuthenticationType `json:"authentication,omitempty"` // Service specific authentication details. Currently only used for MySQL where accepted options are 'mysql_native_password' and 'caching_sha2_password', latter being default when this is not explicitly set.
+	MysqlGrants    *[]string          `json:"mysql_grants,omitempty"`   // MySQL grants for the service user
 	Username       string             `json:"username"`                 // Service username
 }
 
