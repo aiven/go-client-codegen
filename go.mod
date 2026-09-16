@@ -1,6 +1,6 @@
 module github.com/aiven/go-client-codegen
 
-go 1.26
+go 1.26.0
 
 require (
 	github.com/dave/jennifer v1.7.1
@@ -11,7 +11,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/rs/zerolog v1.35.1
 	github.com/stretchr/testify v1.12.1
-	golang.org/x/sync v0.22.0
+	golang.org/x/sync v0.23.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
