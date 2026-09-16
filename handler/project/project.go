@@ -55,7 +55,7 @@ type Handler interface {
 	// Deprecated: ProjectInvite send project membership invitation
 	// POST /v1/project/{project}/invite
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectInvite
-	ProjectInvite(ctx context.Context, project string, in *ProjectInviteIn) error
+	ProjectInvite(ctx context.Context, project string) error
 
 	// Deprecated: ProjectInviteAccept confirm project invite
 	// POST /v1/project/{project}/invite/{invite_verification_code}
@@ -249,9 +249,9 @@ func (h *ProjectHandler) ProjectGetEventLogs(ctx context.Context, project string
 	}
 	return out.Events, nil
 }
-func (h *ProjectHandler) ProjectInvite(ctx context.Context, project string, in *ProjectInviteIn) error {
+func (h *ProjectHandler) ProjectInvite(ctx context.Context, project string) error {
 	path := fmt.Sprintf("/v1/project/%s/invite", url.PathEscape(project))
-	_, err := h.doer.Do(ctx, "ProjectInvite", "POST", path, in)
+	_, err := h.doer.Do(ctx, "ProjectInvite", "POST", path, nil)
 	return err
 }
 func (h *ProjectHandler) ProjectInviteAccept(ctx context.Context, project string, inviteVerificationCode string) (*ProjectInviteAcceptOut, error) {
@@ -766,12 +766,6 @@ type ProjectGetOut struct {
 // ProjectInviteAcceptOut Details of verified invite
 type ProjectInviteAcceptOut struct {
 	UserEmail string `json:"user_email"` // User email address
-}
-
-// ProjectInviteIn ProjectInviteRequestBody
-type ProjectInviteIn struct {
-	MemberType MemberType `json:"member_type,omitempty"` // Project member type
-	UserEmail  string     `json:"user_email"`            // User email address
 }
 
 // ProjectListOut ProjectListResponse
