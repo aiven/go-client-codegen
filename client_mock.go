@@ -10877,16 +10877,16 @@ func (_c *MockClient_ProjectGetServiceLogs_Call) RunAndReturn(run func(ctx conte
 }
 
 // ProjectInvite provides a mock function for the type MockClient
-func (_mock *MockClient) ProjectInvite(ctx context.Context, project1 string, in *project.ProjectInviteIn) error {
-	ret := _mock.Called(ctx, project1, in)
+func (_mock *MockClient) ProjectInvite(ctx context.Context, project1 string) error {
+	ret := _mock.Called(ctx, project1)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ProjectInvite")
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *project.ProjectInviteIn) error); ok {
-		r0 = returnFunc(ctx, project1, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = returnFunc(ctx, project1)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -10901,12 +10901,11 @@ type MockClient_ProjectInvite_Call struct {
 // ProjectInvite is a helper method to define mock.On call
 //   - ctx context.Context
 //   - project1 string
-//   - in *project.ProjectInviteIn
-func (_e *MockClient_Expecter) ProjectInvite(ctx interface{}, project1 interface{}, in interface{}) *MockClient_ProjectInvite_Call {
-	return &MockClient_ProjectInvite_Call{Call: _e.mock.On("ProjectInvite", ctx, project1, in)}
+func (_e *MockClient_Expecter) ProjectInvite(ctx interface{}, project1 interface{}) *MockClient_ProjectInvite_Call {
+	return &MockClient_ProjectInvite_Call{Call: _e.mock.On("ProjectInvite", ctx, project1)}
 }
 
-func (_c *MockClient_ProjectInvite_Call) Run(run func(ctx context.Context, project1 string, in *project.ProjectInviteIn)) *MockClient_ProjectInvite_Call {
+func (_c *MockClient_ProjectInvite_Call) Run(run func(ctx context.Context, project1 string)) *MockClient_ProjectInvite_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -10916,14 +10915,9 @@ func (_c *MockClient_ProjectInvite_Call) Run(run func(ctx context.Context, proje
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
-		var arg2 *project.ProjectInviteIn
-		if args[2] != nil {
-			arg2 = args[2].(*project.ProjectInviteIn)
-		}
 		run(
 			arg0,
 			arg1,
-			arg2,
 		)
 	})
 	return _c
@@ -10934,7 +10928,7 @@ func (_c *MockClient_ProjectInvite_Call) Return(err error) *MockClient_ProjectIn
 	return _c
 }
 
-func (_c *MockClient_ProjectInvite_Call) RunAndReturn(run func(ctx context.Context, project1 string, in *project.ProjectInviteIn) error) *MockClient_ProjectInvite_Call {
+func (_c *MockClient_ProjectInvite_Call) RunAndReturn(run func(ctx context.Context, project1 string) error) *MockClient_ProjectInvite_Call {
 	_c.Call.Return(run)
 	return _c
 }
