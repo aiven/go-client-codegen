@@ -30,7 +30,7 @@ type Handler interface {
 	// OrganizationProjectsList list projects under the organization
 	// GET /v1/organization/{organization_id}/projects
 	// https://api.aiven.io/doc/#tag/Organizations/operation/OrganizationProjectsList
-	OrganizationProjectsList(ctx context.Context, organizationId string) (*OrganizationProjectsListOut, error)
+	OrganizationProjectsList(ctx context.Context, organizationId string, query ...[2]string) (*OrganizationProjectsListOut, error)
 
 	// OrganizationProjectsUpdate update project under the organization
 	// PATCH /v1/organization/{organization_id}/project/{project_id}
@@ -83,9 +83,14 @@ func (h *OrganizationProjectsHandler) OrganizationProjectsGet(ctx context.Contex
 	}
 	return out, nil
 }
-func (h *OrganizationProjectsHandler) OrganizationProjectsList(ctx context.Context, organizationId string) (*OrganizationProjectsListOut, error) {
+
+// OrganizationProjectsListBillingGroupId Restrict results to projects assigned to this billing group
+func OrganizationProjectsListBillingGroupId(billingGroupId string) [2]string {
+	return [2]string{"billing_group_id", billingGroupId}
+}
+func (h *OrganizationProjectsHandler) OrganizationProjectsList(ctx context.Context, organizationId string, query ...[2]string) (*OrganizationProjectsListOut, error) {
 	path := fmt.Sprintf("/v1/organization/%s/projects", url.PathEscape(organizationId))
-	b, err := h.doer.Do(ctx, "OrganizationProjectsList", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "OrganizationProjectsList", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}
