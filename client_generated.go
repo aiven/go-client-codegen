@@ -26,6 +26,7 @@ import (
 	flinkjob "github.com/aiven/go-client-codegen/handler/flinkjob"
 	kafka "github.com/aiven/go-client-codegen/handler/kafka"
 	kafkaconnect "github.com/aiven/go-client-codegen/handler/kafkaconnect"
+	kafkaconnectcustomplugin "github.com/aiven/go-client-codegen/handler/kafkaconnectcustomplugin"
 	kafkamirrormaker "github.com/aiven/go-client-codegen/handler/kafkamirrormaker"
 	kafkaschemaregistry "github.com/aiven/go-client-codegen/handler/kafkaschemaregistry"
 	kafkatopic "github.com/aiven/go-client-codegen/handler/kafkatopic"
@@ -76,6 +77,7 @@ func newClient(doer doer) Client {
 		FlinkJarApplicationHandler:           flinkjarapplication.NewHandler(doer),
 		FlinkJarApplicationVersionHandler:    flinkjarapplicationversion.NewHandler(doer),
 		FlinkJobHandler:                      flinkjob.NewHandler(doer),
+		KafkaConnectCustomPluginHandler:      kafkaconnectcustomplugin.NewHandler(doer),
 		KafkaConnectHandler:                  kafkaconnect.NewHandler(doer),
 		KafkaHandler:                         kafka.NewHandler(doer),
 		KafkaMirrorMakerHandler:              kafkamirrormaker.NewHandler(doer),
@@ -125,6 +127,7 @@ type client struct {
 	flinkjob.FlinkJobHandler
 	kafka.KafkaHandler
 	kafkaconnect.KafkaConnectHandler
+	kafkaconnectcustomplugin.KafkaConnectCustomPluginHandler
 	kafkamirrormaker.KafkaMirrorMakerHandler
 	kafkaschemaregistry.KafkaSchemaRegistryHandler
 	kafkatopic.KafkaTopicHandler
@@ -170,6 +173,7 @@ type Client interface {
 	flinkjob.Handler
 	kafka.Handler
 	kafkaconnect.Handler
+	kafkaconnectcustomplugin.Handler
 	kafkamirrormaker.Handler
 	kafkaschemaregistry.Handler
 	kafkatopic.Handler
