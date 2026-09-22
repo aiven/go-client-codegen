@@ -242,17 +242,15 @@ type PaymentMethodType string
 
 const (
 	PaymentMethodTypeAWSSubscription   PaymentMethodType = "aws_subscription"
-	PaymentMethodTypeAWSSubscriptionV1 PaymentMethodType = "aws_subscription_v1"
 	PaymentMethodTypeAzureSubscription PaymentMethodType = "azure_subscription"
 	PaymentMethodTypeBankTransfer      PaymentMethodType = "bank_transfer"
 	PaymentMethodTypeCreditCard        PaymentMethodType = "credit_card"
 	PaymentMethodTypeCustom            PaymentMethodType = "custom"
 	PaymentMethodTypeGcpSubscription   PaymentMethodType = "gcp_subscription"
-	PaymentMethodTypeGcpSubscriptionV1 PaymentMethodType = "gcp_subscription_v1"
 )
 
 func PaymentMethodTypeChoices() []string {
-	return []string{"aws_subscription", "aws_subscription_v1", "azure_subscription", "bank_transfer", "credit_card", "custom", "gcp_subscription", "gcp_subscription_v1"}
+	return []string{"aws_subscription", "azure_subscription", "bank_transfer", "credit_card", "custom", "gcp_subscription"}
 }
 
 type PaymentMethodsListOut struct {
