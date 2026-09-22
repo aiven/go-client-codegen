@@ -166,6 +166,22 @@ KafkaConnect:
   - ServiceKafkaConnectRestartConnector
   - ServiceKafkaConnectRestartConnectorTask
   - ServiceKafkaConnectResumeConnector
+KafkaConnectCustomPlugin:
+  - KafkaConnectCustomPluginClassGet
+  - KafkaConnectCustomPluginClassList
+  - KafkaConnectCustomPluginClassListByName
+  - KafkaConnectCustomPluginClassUpdate
+  - KafkaConnectCustomPluginDelete
+  - KafkaConnectCustomPluginFileClassList
+  - KafkaConnectCustomPluginFileCreate
+  - KafkaConnectCustomPluginFileDelete
+  - KafkaConnectCustomPluginFileGet
+  - KafkaConnectCustomPluginFileList
+  - KafkaConnectCustomPluginFileListByName
+  - KafkaConnectCustomPluginFileUpdate
+  - KafkaConnectCustomPluginGet
+  - KafkaConnectCustomPluginList
+  - KafkaConnectCustomPluginUpdate
 KafkaMirrorMaker:
   - ServiceKafkaMirrorMakerCreateReplicationFlow
   - ServiceKafkaMirrorMakerDeleteReplicationFlow
