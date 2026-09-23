@@ -30,6 +30,7 @@ import (
 	"github.com/aiven/go-client-codegen/handler/flinkjob"
 	"github.com/aiven/go-client-codegen/handler/kafka"
 	"github.com/aiven/go-client-codegen/handler/kafkaconnect"
+	"github.com/aiven/go-client-codegen/handler/kafkaconnectcustomplugin"
 	"github.com/aiven/go-client-codegen/handler/kafkamirrormaker"
 	"github.com/aiven/go-client-codegen/handler/kafkaschemaregistry"
 	"github.com/aiven/go-client-codegen/handler/kafkatopic"
@@ -5481,6 +5482,1094 @@ func (_c *MockClient_InvoiceGet_Call) Return(invoiceGetOut *projectbilling.Invoi
 }
 
 func (_c *MockClient_InvoiceGet_Call) RunAndReturn(run func(ctx context.Context, invoiceNumber string) (*projectbilling.InvoiceGetOut, error)) *MockClient_InvoiceGet_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginClassGet provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginClassGet(ctx context.Context, organizationId string, pluginClassName string) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginClassGetOut, error) {
+	ret := _mock.Called(ctx, organizationId, pluginClassName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginClassGet")
+	}
+
+	var r0 *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassGetOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginClassGetOut, error)); ok {
+		return returnFunc(ctx, organizationId, pluginClassName)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassGetOut); ok {
+		r0 = returnFunc(ctx, organizationId, pluginClassName)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*kafkaconnectcustomplugin.KafkaConnectCustomPluginClassGetOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, organizationId, pluginClassName)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginClassGet_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginClassGet'
+type MockClient_KafkaConnectCustomPluginClassGet_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginClassGet is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - pluginClassName string
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginClassGet(ctx interface{}, organizationId interface{}, pluginClassName interface{}) *MockClient_KafkaConnectCustomPluginClassGet_Call {
+	return &MockClient_KafkaConnectCustomPluginClassGet_Call{Call: _e.mock.On("KafkaConnectCustomPluginClassGet", ctx, organizationId, pluginClassName)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginClassGet_Call) Run(run func(ctx context.Context, organizationId string, pluginClassName string)) *MockClient_KafkaConnectCustomPluginClassGet_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginClassGet_Call) Return(kafkaConnectCustomPluginClassGetOut *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassGetOut, err error) *MockClient_KafkaConnectCustomPluginClassGet_Call {
+	_c.Call.Return(kafkaConnectCustomPluginClassGetOut, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginClassGet_Call) RunAndReturn(run func(ctx context.Context, organizationId string, pluginClassName string) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginClassGetOut, error)) *MockClient_KafkaConnectCustomPluginClassGet_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginClassList provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginClassList(ctx context.Context, organizationId string) ([]kafkaconnectcustomplugin.PluginClasseOut, error) {
+	ret := _mock.Called(ctx, organizationId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginClassList")
+	}
+
+	var r0 []kafkaconnectcustomplugin.PluginClasseOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]kafkaconnectcustomplugin.PluginClasseOut, error)); ok {
+		return returnFunc(ctx, organizationId)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []kafkaconnectcustomplugin.PluginClasseOut); ok {
+		r0 = returnFunc(ctx, organizationId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]kafkaconnectcustomplugin.PluginClasseOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = returnFunc(ctx, organizationId)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginClassList_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginClassList'
+type MockClient_KafkaConnectCustomPluginClassList_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginClassList is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginClassList(ctx interface{}, organizationId interface{}) *MockClient_KafkaConnectCustomPluginClassList_Call {
+	return &MockClient_KafkaConnectCustomPluginClassList_Call{Call: _e.mock.On("KafkaConnectCustomPluginClassList", ctx, organizationId)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginClassList_Call) Run(run func(ctx context.Context, organizationId string)) *MockClient_KafkaConnectCustomPluginClassList_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginClassList_Call) Return(pluginClasseOuts []kafkaconnectcustomplugin.PluginClasseOut, err error) *MockClient_KafkaConnectCustomPluginClassList_Call {
+	_c.Call.Return(pluginClasseOuts, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginClassList_Call) RunAndReturn(run func(ctx context.Context, organizationId string) ([]kafkaconnectcustomplugin.PluginClasseOut, error)) *MockClient_KafkaConnectCustomPluginClassList_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginClassListByName provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginClassListByName(ctx context.Context, organizationId string, pluginName string) ([]kafkaconnectcustomplugin.PluginClasseOut, error) {
+	ret := _mock.Called(ctx, organizationId, pluginName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginClassListByName")
+	}
+
+	var r0 []kafkaconnectcustomplugin.PluginClasseOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) ([]kafkaconnectcustomplugin.PluginClasseOut, error)); ok {
+		return returnFunc(ctx, organizationId, pluginName)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) []kafkaconnectcustomplugin.PluginClasseOut); ok {
+		r0 = returnFunc(ctx, organizationId, pluginName)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]kafkaconnectcustomplugin.PluginClasseOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, organizationId, pluginName)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginClassListByName_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginClassListByName'
+type MockClient_KafkaConnectCustomPluginClassListByName_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginClassListByName is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - pluginName string
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginClassListByName(ctx interface{}, organizationId interface{}, pluginName interface{}) *MockClient_KafkaConnectCustomPluginClassListByName_Call {
+	return &MockClient_KafkaConnectCustomPluginClassListByName_Call{Call: _e.mock.On("KafkaConnectCustomPluginClassListByName", ctx, organizationId, pluginName)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginClassListByName_Call) Run(run func(ctx context.Context, organizationId string, pluginName string)) *MockClient_KafkaConnectCustomPluginClassListByName_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginClassListByName_Call) Return(pluginClasseOuts []kafkaconnectcustomplugin.PluginClasseOut, err error) *MockClient_KafkaConnectCustomPluginClassListByName_Call {
+	_c.Call.Return(pluginClasseOuts, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginClassListByName_Call) RunAndReturn(run func(ctx context.Context, organizationId string, pluginName string) ([]kafkaconnectcustomplugin.PluginClasseOut, error)) *MockClient_KafkaConnectCustomPluginClassListByName_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginClassUpdate provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginClassUpdate(ctx context.Context, organizationId string, pluginClassName string, in *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateIn) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateOut, error) {
+	ret := _mock.Called(ctx, organizationId, pluginClassName, in)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginClassUpdate")
+	}
+
+	var r0 *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateIn) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateOut, error)); ok {
+		return returnFunc(ctx, organizationId, pluginClassName, in)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateIn) *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateOut); ok {
+		r0 = returnFunc(ctx, organizationId, pluginClassName, in)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateIn) error); ok {
+		r1 = returnFunc(ctx, organizationId, pluginClassName, in)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginClassUpdate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginClassUpdate'
+type MockClient_KafkaConnectCustomPluginClassUpdate_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginClassUpdate is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - pluginClassName string
+//   - in *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateIn
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginClassUpdate(ctx interface{}, organizationId interface{}, pluginClassName interface{}, in interface{}) *MockClient_KafkaConnectCustomPluginClassUpdate_Call {
+	return &MockClient_KafkaConnectCustomPluginClassUpdate_Call{Call: _e.mock.On("KafkaConnectCustomPluginClassUpdate", ctx, organizationId, pluginClassName, in)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginClassUpdate_Call) Run(run func(ctx context.Context, organizationId string, pluginClassName string, in *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateIn)) *MockClient_KafkaConnectCustomPluginClassUpdate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		var arg3 *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateIn
+		if args[3] != nil {
+			arg3 = args[3].(*kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateIn)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+			arg3,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginClassUpdate_Call) Return(kafkaConnectCustomPluginClassUpdateOut *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateOut, err error) *MockClient_KafkaConnectCustomPluginClassUpdate_Call {
+	_c.Call.Return(kafkaConnectCustomPluginClassUpdateOut, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginClassUpdate_Call) RunAndReturn(run func(ctx context.Context, organizationId string, pluginClassName string, in *kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateIn) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginClassUpdateOut, error)) *MockClient_KafkaConnectCustomPluginClassUpdate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginDelete provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginDelete(ctx context.Context, organizationId string, pluginName string) error {
+	ret := _mock.Called(ctx, organizationId, pluginName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginDelete")
+	}
+
+	var r0 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) error); ok {
+		r0 = returnFunc(ctx, organizationId, pluginName)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
+// MockClient_KafkaConnectCustomPluginDelete_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginDelete'
+type MockClient_KafkaConnectCustomPluginDelete_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginDelete is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - pluginName string
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginDelete(ctx interface{}, organizationId interface{}, pluginName interface{}) *MockClient_KafkaConnectCustomPluginDelete_Call {
+	return &MockClient_KafkaConnectCustomPluginDelete_Call{Call: _e.mock.On("KafkaConnectCustomPluginDelete", ctx, organizationId, pluginName)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginDelete_Call) Run(run func(ctx context.Context, organizationId string, pluginName string)) *MockClient_KafkaConnectCustomPluginDelete_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginDelete_Call) Return(err error) *MockClient_KafkaConnectCustomPluginDelete_Call {
+	_c.Call.Return(err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginDelete_Call) RunAndReturn(run func(ctx context.Context, organizationId string, pluginName string) error) *MockClient_KafkaConnectCustomPluginDelete_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginFileClassList provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginFileClassList(ctx context.Context, organizationId string, pluginFileId string) ([]kafkaconnectcustomplugin.PluginClasseOut, error) {
+	ret := _mock.Called(ctx, organizationId, pluginFileId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginFileClassList")
+	}
+
+	var r0 []kafkaconnectcustomplugin.PluginClasseOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) ([]kafkaconnectcustomplugin.PluginClasseOut, error)); ok {
+		return returnFunc(ctx, organizationId, pluginFileId)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) []kafkaconnectcustomplugin.PluginClasseOut); ok {
+		r0 = returnFunc(ctx, organizationId, pluginFileId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]kafkaconnectcustomplugin.PluginClasseOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, organizationId, pluginFileId)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginFileClassList_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginFileClassList'
+type MockClient_KafkaConnectCustomPluginFileClassList_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginFileClassList is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - pluginFileId string
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginFileClassList(ctx interface{}, organizationId interface{}, pluginFileId interface{}) *MockClient_KafkaConnectCustomPluginFileClassList_Call {
+	return &MockClient_KafkaConnectCustomPluginFileClassList_Call{Call: _e.mock.On("KafkaConnectCustomPluginFileClassList", ctx, organizationId, pluginFileId)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileClassList_Call) Run(run func(ctx context.Context, organizationId string, pluginFileId string)) *MockClient_KafkaConnectCustomPluginFileClassList_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileClassList_Call) Return(pluginClasseOuts []kafkaconnectcustomplugin.PluginClasseOut, err error) *MockClient_KafkaConnectCustomPluginFileClassList_Call {
+	_c.Call.Return(pluginClasseOuts, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileClassList_Call) RunAndReturn(run func(ctx context.Context, organizationId string, pluginFileId string) ([]kafkaconnectcustomplugin.PluginClasseOut, error)) *MockClient_KafkaConnectCustomPluginFileClassList_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginFileCreate provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginFileCreate(ctx context.Context, organizationId string, in *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateIn) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateOut, error) {
+	ret := _mock.Called(ctx, organizationId, in)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginFileCreate")
+	}
+
+	var r0 *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateIn) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateOut, error)); ok {
+		return returnFunc(ctx, organizationId, in)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateIn) *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateOut); ok {
+		r0 = returnFunc(ctx, organizationId, in)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateIn) error); ok {
+		r1 = returnFunc(ctx, organizationId, in)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginFileCreate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginFileCreate'
+type MockClient_KafkaConnectCustomPluginFileCreate_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginFileCreate is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - in *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateIn
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginFileCreate(ctx interface{}, organizationId interface{}, in interface{}) *MockClient_KafkaConnectCustomPluginFileCreate_Call {
+	return &MockClient_KafkaConnectCustomPluginFileCreate_Call{Call: _e.mock.On("KafkaConnectCustomPluginFileCreate", ctx, organizationId, in)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileCreate_Call) Run(run func(ctx context.Context, organizationId string, in *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateIn)) *MockClient_KafkaConnectCustomPluginFileCreate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateIn
+		if args[2] != nil {
+			arg2 = args[2].(*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateIn)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileCreate_Call) Return(kafkaConnectCustomPluginFileCreateOut *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateOut, err error) *MockClient_KafkaConnectCustomPluginFileCreate_Call {
+	_c.Call.Return(kafkaConnectCustomPluginFileCreateOut, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileCreate_Call) RunAndReturn(run func(ctx context.Context, organizationId string, in *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateIn) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileCreateOut, error)) *MockClient_KafkaConnectCustomPluginFileCreate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginFileDelete provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginFileDelete(ctx context.Context, organizationId string, pluginFileId string) error {
+	ret := _mock.Called(ctx, organizationId, pluginFileId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginFileDelete")
+	}
+
+	var r0 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) error); ok {
+		r0 = returnFunc(ctx, organizationId, pluginFileId)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
+// MockClient_KafkaConnectCustomPluginFileDelete_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginFileDelete'
+type MockClient_KafkaConnectCustomPluginFileDelete_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginFileDelete is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - pluginFileId string
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginFileDelete(ctx interface{}, organizationId interface{}, pluginFileId interface{}) *MockClient_KafkaConnectCustomPluginFileDelete_Call {
+	return &MockClient_KafkaConnectCustomPluginFileDelete_Call{Call: _e.mock.On("KafkaConnectCustomPluginFileDelete", ctx, organizationId, pluginFileId)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileDelete_Call) Run(run func(ctx context.Context, organizationId string, pluginFileId string)) *MockClient_KafkaConnectCustomPluginFileDelete_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileDelete_Call) Return(err error) *MockClient_KafkaConnectCustomPluginFileDelete_Call {
+	_c.Call.Return(err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileDelete_Call) RunAndReturn(run func(ctx context.Context, organizationId string, pluginFileId string) error) *MockClient_KafkaConnectCustomPluginFileDelete_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginFileGet provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginFileGet(ctx context.Context, organizationId string, pluginFileId string) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileGetOut, error) {
+	ret := _mock.Called(ctx, organizationId, pluginFileId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginFileGet")
+	}
+
+	var r0 *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileGetOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileGetOut, error)); ok {
+		return returnFunc(ctx, organizationId, pluginFileId)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileGetOut); ok {
+		r0 = returnFunc(ctx, organizationId, pluginFileId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileGetOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, organizationId, pluginFileId)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginFileGet_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginFileGet'
+type MockClient_KafkaConnectCustomPluginFileGet_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginFileGet is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - pluginFileId string
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginFileGet(ctx interface{}, organizationId interface{}, pluginFileId interface{}) *MockClient_KafkaConnectCustomPluginFileGet_Call {
+	return &MockClient_KafkaConnectCustomPluginFileGet_Call{Call: _e.mock.On("KafkaConnectCustomPluginFileGet", ctx, organizationId, pluginFileId)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileGet_Call) Run(run func(ctx context.Context, organizationId string, pluginFileId string)) *MockClient_KafkaConnectCustomPluginFileGet_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileGet_Call) Return(kafkaConnectCustomPluginFileGetOut *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileGetOut, err error) *MockClient_KafkaConnectCustomPluginFileGet_Call {
+	_c.Call.Return(kafkaConnectCustomPluginFileGetOut, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileGet_Call) RunAndReturn(run func(ctx context.Context, organizationId string, pluginFileId string) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileGetOut, error)) *MockClient_KafkaConnectCustomPluginFileGet_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginFileList provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginFileList(ctx context.Context, organizationId string) ([]kafkaconnectcustomplugin.PluginFileOut, error) {
+	ret := _mock.Called(ctx, organizationId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginFileList")
+	}
+
+	var r0 []kafkaconnectcustomplugin.PluginFileOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]kafkaconnectcustomplugin.PluginFileOut, error)); ok {
+		return returnFunc(ctx, organizationId)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []kafkaconnectcustomplugin.PluginFileOut); ok {
+		r0 = returnFunc(ctx, organizationId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]kafkaconnectcustomplugin.PluginFileOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = returnFunc(ctx, organizationId)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginFileList_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginFileList'
+type MockClient_KafkaConnectCustomPluginFileList_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginFileList is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginFileList(ctx interface{}, organizationId interface{}) *MockClient_KafkaConnectCustomPluginFileList_Call {
+	return &MockClient_KafkaConnectCustomPluginFileList_Call{Call: _e.mock.On("KafkaConnectCustomPluginFileList", ctx, organizationId)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileList_Call) Run(run func(ctx context.Context, organizationId string)) *MockClient_KafkaConnectCustomPluginFileList_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileList_Call) Return(pluginFileOuts []kafkaconnectcustomplugin.PluginFileOut, err error) *MockClient_KafkaConnectCustomPluginFileList_Call {
+	_c.Call.Return(pluginFileOuts, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileList_Call) RunAndReturn(run func(ctx context.Context, organizationId string) ([]kafkaconnectcustomplugin.PluginFileOut, error)) *MockClient_KafkaConnectCustomPluginFileList_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginFileListByName provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginFileListByName(ctx context.Context, organizationId string, pluginName string) ([]kafkaconnectcustomplugin.PluginFileOut, error) {
+	ret := _mock.Called(ctx, organizationId, pluginName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginFileListByName")
+	}
+
+	var r0 []kafkaconnectcustomplugin.PluginFileOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) ([]kafkaconnectcustomplugin.PluginFileOut, error)); ok {
+		return returnFunc(ctx, organizationId, pluginName)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) []kafkaconnectcustomplugin.PluginFileOut); ok {
+		r0 = returnFunc(ctx, organizationId, pluginName)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]kafkaconnectcustomplugin.PluginFileOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, organizationId, pluginName)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginFileListByName_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginFileListByName'
+type MockClient_KafkaConnectCustomPluginFileListByName_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginFileListByName is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - pluginName string
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginFileListByName(ctx interface{}, organizationId interface{}, pluginName interface{}) *MockClient_KafkaConnectCustomPluginFileListByName_Call {
+	return &MockClient_KafkaConnectCustomPluginFileListByName_Call{Call: _e.mock.On("KafkaConnectCustomPluginFileListByName", ctx, organizationId, pluginName)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileListByName_Call) Run(run func(ctx context.Context, organizationId string, pluginName string)) *MockClient_KafkaConnectCustomPluginFileListByName_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileListByName_Call) Return(pluginFileOuts []kafkaconnectcustomplugin.PluginFileOut, err error) *MockClient_KafkaConnectCustomPluginFileListByName_Call {
+	_c.Call.Return(pluginFileOuts, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileListByName_Call) RunAndReturn(run func(ctx context.Context, organizationId string, pluginName string) ([]kafkaconnectcustomplugin.PluginFileOut, error)) *MockClient_KafkaConnectCustomPluginFileListByName_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginFileUpdate provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginFileUpdate(ctx context.Context, organizationId string, pluginFileId string, in *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateIn) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateOut, error) {
+	ret := _mock.Called(ctx, organizationId, pluginFileId, in)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginFileUpdate")
+	}
+
+	var r0 *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateIn) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateOut, error)); ok {
+		return returnFunc(ctx, organizationId, pluginFileId, in)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateIn) *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateOut); ok {
+		r0 = returnFunc(ctx, organizationId, pluginFileId, in)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateIn) error); ok {
+		r1 = returnFunc(ctx, organizationId, pluginFileId, in)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginFileUpdate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginFileUpdate'
+type MockClient_KafkaConnectCustomPluginFileUpdate_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginFileUpdate is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - pluginFileId string
+//   - in *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateIn
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginFileUpdate(ctx interface{}, organizationId interface{}, pluginFileId interface{}, in interface{}) *MockClient_KafkaConnectCustomPluginFileUpdate_Call {
+	return &MockClient_KafkaConnectCustomPluginFileUpdate_Call{Call: _e.mock.On("KafkaConnectCustomPluginFileUpdate", ctx, organizationId, pluginFileId, in)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileUpdate_Call) Run(run func(ctx context.Context, organizationId string, pluginFileId string, in *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateIn)) *MockClient_KafkaConnectCustomPluginFileUpdate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		var arg3 *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateIn
+		if args[3] != nil {
+			arg3 = args[3].(*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateIn)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+			arg3,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileUpdate_Call) Return(kafkaConnectCustomPluginFileUpdateOut *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateOut, err error) *MockClient_KafkaConnectCustomPluginFileUpdate_Call {
+	_c.Call.Return(kafkaConnectCustomPluginFileUpdateOut, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginFileUpdate_Call) RunAndReturn(run func(ctx context.Context, organizationId string, pluginFileId string, in *kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateIn) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginFileUpdateOut, error)) *MockClient_KafkaConnectCustomPluginFileUpdate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginGet provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginGet(ctx context.Context, organizationId string, pluginName string) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginGetOut, error) {
+	ret := _mock.Called(ctx, organizationId, pluginName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginGet")
+	}
+
+	var r0 *kafkaconnectcustomplugin.KafkaConnectCustomPluginGetOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginGetOut, error)); ok {
+		return returnFunc(ctx, organizationId, pluginName)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *kafkaconnectcustomplugin.KafkaConnectCustomPluginGetOut); ok {
+		r0 = returnFunc(ctx, organizationId, pluginName)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*kafkaconnectcustomplugin.KafkaConnectCustomPluginGetOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, organizationId, pluginName)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginGet_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginGet'
+type MockClient_KafkaConnectCustomPluginGet_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginGet is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - pluginName string
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginGet(ctx interface{}, organizationId interface{}, pluginName interface{}) *MockClient_KafkaConnectCustomPluginGet_Call {
+	return &MockClient_KafkaConnectCustomPluginGet_Call{Call: _e.mock.On("KafkaConnectCustomPluginGet", ctx, organizationId, pluginName)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginGet_Call) Run(run func(ctx context.Context, organizationId string, pluginName string)) *MockClient_KafkaConnectCustomPluginGet_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginGet_Call) Return(kafkaConnectCustomPluginGetOut *kafkaconnectcustomplugin.KafkaConnectCustomPluginGetOut, err error) *MockClient_KafkaConnectCustomPluginGet_Call {
+	_c.Call.Return(kafkaConnectCustomPluginGetOut, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginGet_Call) RunAndReturn(run func(ctx context.Context, organizationId string, pluginName string) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginGetOut, error)) *MockClient_KafkaConnectCustomPluginGet_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginList provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginList(ctx context.Context, organizationId string) ([]kafkaconnectcustomplugin.PluginOut, error) {
+	ret := _mock.Called(ctx, organizationId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginList")
+	}
+
+	var r0 []kafkaconnectcustomplugin.PluginOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]kafkaconnectcustomplugin.PluginOut, error)); ok {
+		return returnFunc(ctx, organizationId)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []kafkaconnectcustomplugin.PluginOut); ok {
+		r0 = returnFunc(ctx, organizationId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]kafkaconnectcustomplugin.PluginOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = returnFunc(ctx, organizationId)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginList_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginList'
+type MockClient_KafkaConnectCustomPluginList_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginList is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginList(ctx interface{}, organizationId interface{}) *MockClient_KafkaConnectCustomPluginList_Call {
+	return &MockClient_KafkaConnectCustomPluginList_Call{Call: _e.mock.On("KafkaConnectCustomPluginList", ctx, organizationId)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginList_Call) Run(run func(ctx context.Context, organizationId string)) *MockClient_KafkaConnectCustomPluginList_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginList_Call) Return(pluginOuts []kafkaconnectcustomplugin.PluginOut, err error) *MockClient_KafkaConnectCustomPluginList_Call {
+	_c.Call.Return(pluginOuts, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginList_Call) RunAndReturn(run func(ctx context.Context, organizationId string) ([]kafkaconnectcustomplugin.PluginOut, error)) *MockClient_KafkaConnectCustomPluginList_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// KafkaConnectCustomPluginUpdate provides a mock function for the type MockClient
+func (_mock *MockClient) KafkaConnectCustomPluginUpdate(ctx context.Context, organizationId string, pluginName string, in *kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateIn) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateOut, error) {
+	ret := _mock.Called(ctx, organizationId, pluginName, in)
+
+	if len(ret) == 0 {
+		panic("no return value specified for KafkaConnectCustomPluginUpdate")
+	}
+
+	var r0 *kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateOut
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateIn) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateOut, error)); ok {
+		return returnFunc(ctx, organizationId, pluginName, in)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateIn) *kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateOut); ok {
+		r0 = returnFunc(ctx, organizationId, pluginName, in)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateOut)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateIn) error); ok {
+		r1 = returnFunc(ctx, organizationId, pluginName, in)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockClient_KafkaConnectCustomPluginUpdate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'KafkaConnectCustomPluginUpdate'
+type MockClient_KafkaConnectCustomPluginUpdate_Call struct {
+	*mock.Call
+}
+
+// KafkaConnectCustomPluginUpdate is a helper method to define mock.On call
+//   - ctx context.Context
+//   - organizationId string
+//   - pluginName string
+//   - in *kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateIn
+func (_e *MockClient_Expecter) KafkaConnectCustomPluginUpdate(ctx interface{}, organizationId interface{}, pluginName interface{}, in interface{}) *MockClient_KafkaConnectCustomPluginUpdate_Call {
+	return &MockClient_KafkaConnectCustomPluginUpdate_Call{Call: _e.mock.On("KafkaConnectCustomPluginUpdate", ctx, organizationId, pluginName, in)}
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginUpdate_Call) Run(run func(ctx context.Context, organizationId string, pluginName string, in *kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateIn)) *MockClient_KafkaConnectCustomPluginUpdate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		var arg3 *kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateIn
+		if args[3] != nil {
+			arg3 = args[3].(*kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateIn)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+			arg3,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginUpdate_Call) Return(kafkaConnectCustomPluginUpdateOut *kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateOut, err error) *MockClient_KafkaConnectCustomPluginUpdate_Call {
+	_c.Call.Return(kafkaConnectCustomPluginUpdateOut, err)
+	return _c
+}
+
+func (_c *MockClient_KafkaConnectCustomPluginUpdate_Call) RunAndReturn(run func(ctx context.Context, organizationId string, pluginName string, in *kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateIn) (*kafkaconnectcustomplugin.KafkaConnectCustomPluginUpdateOut, error)) *MockClient_KafkaConnectCustomPluginUpdate_Call {
 	_c.Call.Return(run)
 	return _c
 }
