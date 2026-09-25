@@ -13734,16 +13734,16 @@ func (_c *MockClient_ProjectUserRemove_Call) RunAndReturn(run func(ctx context.C
 }
 
 // ProjectUserUpdate provides a mock function for the type MockClient
-func (_mock *MockClient) ProjectUserUpdate(ctx context.Context, project1 string, userEmail string, in *project.ProjectUserUpdateIn) error {
-	ret := _mock.Called(ctx, project1, userEmail, in)
+func (_mock *MockClient) ProjectUserUpdate(ctx context.Context, project1 string, userEmail string) error {
+	ret := _mock.Called(ctx, project1, userEmail)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ProjectUserUpdate")
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *project.ProjectUserUpdateIn) error); ok {
-		r0 = returnFunc(ctx, project1, userEmail, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) error); ok {
+		r0 = returnFunc(ctx, project1, userEmail)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -13759,12 +13759,11 @@ type MockClient_ProjectUserUpdate_Call struct {
 //   - ctx context.Context
 //   - project1 string
 //   - userEmail string
-//   - in *project.ProjectUserUpdateIn
-func (_e *MockClient_Expecter) ProjectUserUpdate(ctx interface{}, project1 interface{}, userEmail interface{}, in interface{}) *MockClient_ProjectUserUpdate_Call {
-	return &MockClient_ProjectUserUpdate_Call{Call: _e.mock.On("ProjectUserUpdate", ctx, project1, userEmail, in)}
+func (_e *MockClient_Expecter) ProjectUserUpdate(ctx interface{}, project1 interface{}, userEmail interface{}) *MockClient_ProjectUserUpdate_Call {
+	return &MockClient_ProjectUserUpdate_Call{Call: _e.mock.On("ProjectUserUpdate", ctx, project1, userEmail)}
 }
 
-func (_c *MockClient_ProjectUserUpdate_Call) Run(run func(ctx context.Context, project1 string, userEmail string, in *project.ProjectUserUpdateIn)) *MockClient_ProjectUserUpdate_Call {
+func (_c *MockClient_ProjectUserUpdate_Call) Run(run func(ctx context.Context, project1 string, userEmail string)) *MockClient_ProjectUserUpdate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -13778,15 +13777,10 @@ func (_c *MockClient_ProjectUserUpdate_Call) Run(run func(ctx context.Context, p
 		if args[2] != nil {
 			arg2 = args[2].(string)
 		}
-		var arg3 *project.ProjectUserUpdateIn
-		if args[3] != nil {
-			arg3 = args[3].(*project.ProjectUserUpdateIn)
-		}
 		run(
 			arg0,
 			arg1,
 			arg2,
-			arg3,
 		)
 	})
 	return _c
@@ -13797,7 +13791,7 @@ func (_c *MockClient_ProjectUserUpdate_Call) Return(err error) *MockClient_Proje
 	return _c
 }
 
-func (_c *MockClient_ProjectUserUpdate_Call) RunAndReturn(run func(ctx context.Context, project1 string, userEmail string, in *project.ProjectUserUpdateIn) error) *MockClient_ProjectUserUpdate_Call {
+func (_c *MockClient_ProjectUserUpdate_Call) RunAndReturn(run func(ctx context.Context, project1 string, userEmail string) error) *MockClient_ProjectUserUpdate_Call {
 	_c.Call.Return(run)
 	return _c
 }

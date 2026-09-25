@@ -117,6 +117,7 @@ func OffsetSyncsTopicLocationTypeChoices() []string {
 
 type ReplicationFlowOut struct {
 	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // A comma separated list of topic configuration properties and/or regexes that should not be replicated. If omitted, MirrorMaker will use default list of exclusions. For stability reasons, we always include the unclean.leader.election.enable field in the excluded parameters. If you have specific requirements for this configuration, please reach out to our support team for assistance.
+	DisklessAzEnabled               *bool                        `json:"diskless_az_enabled,omitempty"`                 // Adds a diskless_az= hint to the replication flow's Kafka client.id so that diskless Kafka clusters serve the flow from brokers in the same availability zone.
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Whether to emit heartbeats to the direction opposite to the flow, i.e. to the source cluster
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
@@ -149,6 +150,7 @@ func ReplicationPolicyClassTypeChoices() []string {
 // ServiceKafkaMirrorMakerCreateReplicationFlowIn ServiceKafkaMirrorMakerCreateReplicationFlowRequestBody
 type ServiceKafkaMirrorMakerCreateReplicationFlowIn struct {
 	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // A comma separated list of topic configuration properties and/or regexes that should not be replicated. If omitted, MirrorMaker will use default list of exclusions. For stability reasons, we always include the unclean.leader.election.enable field in the excluded parameters. If you have specific requirements for this configuration, please reach out to our support team for assistance.
+	DisklessAzEnabled               *bool                        `json:"diskless_az_enabled,omitempty"`                 // Adds a diskless_az= hint to the replication flow's Kafka client.id so that diskless Kafka clusters serve the flow from brokers in the same availability zone.
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Whether to emit heartbeats to the direction opposite to the flow, i.e. to the source cluster
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
@@ -170,6 +172,7 @@ type ServiceKafkaMirrorMakerCreateReplicationFlowIn struct {
 // ServiceKafkaMirrorMakerGetReplicationFlowOut Replication flow
 type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
 	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // A comma separated list of topic configuration properties and/or regexes that should not be replicated. If omitted, MirrorMaker will use default list of exclusions. For stability reasons, we always include the unclean.leader.election.enable field in the excluded parameters. If you have specific requirements for this configuration, please reach out to our support team for assistance.
+	DisklessAzEnabled               *bool                        `json:"diskless_az_enabled,omitempty"`                 // Adds a diskless_az= hint to the replication flow's Kafka client.id so that diskless Kafka clusters serve the flow from brokers in the same availability zone.
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Whether to emit heartbeats to the direction opposite to the flow, i.e. to the source cluster
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled
@@ -192,6 +195,7 @@ type ServiceKafkaMirrorMakerGetReplicationFlowOut struct {
 // ServiceKafkaMirrorMakerPatchReplicationFlowIn ServiceKafkaMirrorMakerPatchReplicationFlowRequestBody
 type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
 	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // A comma separated list of topic configuration properties and/or regexes that should not be replicated. If omitted, MirrorMaker will use default list of exclusions. For stability reasons, we always include the unclean.leader.election.enable field in the excluded parameters. If you have specific requirements for this configuration, please reach out to our support team for assistance.
+	DisklessAzEnabled               *bool                        `json:"diskless_az_enabled,omitempty"`                 // Adds a diskless_az= hint to the replication flow's Kafka client.id so that diskless Kafka clusters serve the flow from brokers in the same availability zone.
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Whether to emit heartbeats to the direction opposite to the flow, i.e. to the source cluster
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         *bool                        `json:"enabled,omitempty"`                             // Is replication flow enabled
@@ -211,6 +215,7 @@ type ServiceKafkaMirrorMakerPatchReplicationFlowIn struct {
 // ServiceKafkaMirrorMakerPatchReplicationFlowOut Replication flow
 type ServiceKafkaMirrorMakerPatchReplicationFlowOut struct {
 	ConfigPropertiesExclude         *string                      `json:"config_properties_exclude,omitempty"`           // A comma separated list of topic configuration properties and/or regexes that should not be replicated. If omitted, MirrorMaker will use default list of exclusions. For stability reasons, we always include the unclean.leader.election.enable field in the excluded parameters. If you have specific requirements for this configuration, please reach out to our support team for assistance.
+	DisklessAzEnabled               *bool                        `json:"diskless_az_enabled,omitempty"`                 // Adds a diskless_az= hint to the replication flow's Kafka client.id so that diskless Kafka clusters serve the flow from brokers in the same availability zone.
 	EmitBackwardHeartbeatsEnabled   *bool                        `json:"emit_backward_heartbeats_enabled,omitempty"`    // Whether to emit heartbeats to the direction opposite to the flow, i.e. to the source cluster
 	EmitHeartbeatsEnabled           *bool                        `json:"emit_heartbeats_enabled,omitempty"`             // Whether to emit heartbeats to the target cluster
 	Enabled                         bool                         `json:"enabled"`                                       // Is replication flow enabled

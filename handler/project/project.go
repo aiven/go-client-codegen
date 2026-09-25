@@ -150,7 +150,7 @@ type Handler interface {
 	// Deprecated: ProjectUserUpdate update a project user
 	// PUT /v1/project/{project}/user/{user_email}
 	// https://api.aiven.io/doc/#tag/Project/operation/ProjectUserUpdate
-	ProjectUserUpdate(ctx context.Context, project string, userEmail string, in *ProjectUserUpdateIn) error
+	ProjectUserUpdate(ctx context.Context, project string, userEmail string) error
 }
 
 // doer http client
@@ -430,9 +430,9 @@ func (h *ProjectHandler) ProjectUserRemove(ctx context.Context, project string, 
 	_, err := h.doer.Do(ctx, "ProjectUserRemove", "DELETE", path, nil)
 	return err
 }
-func (h *ProjectHandler) ProjectUserUpdate(ctx context.Context, project string, userEmail string, in *ProjectUserUpdateIn) error {
+func (h *ProjectHandler) ProjectUserUpdate(ctx context.Context, project string, userEmail string) error {
 	path := fmt.Sprintf("/v1/project/%s/user/%s", url.PathEscape(project), url.PathEscape(userEmail))
-	_, err := h.doer.Do(ctx, "ProjectUserUpdate", "PUT", path, in)
+	_, err := h.doer.Do(ctx, "ProjectUserUpdate", "PUT", path, nil)
 	return err
 }
 
@@ -987,11 +987,6 @@ type ProjectUserListOut struct {
 	GroupUsers  []GroupUserOut  `json:"group_users"` // List of users in groups that have access to the project
 	Invitations []InvitationOut `json:"invitations"` // List of pending invitations
 	Users       []UserOut       `json:"users"`       // List of project's users
-}
-
-// ProjectUserUpdateIn ProjectUserUpdateRequestBody
-type ProjectUserUpdateIn struct {
-	MemberType MemberType `json:"member_type"` // Project member type
 }
 type RecoveryModeType string
 
