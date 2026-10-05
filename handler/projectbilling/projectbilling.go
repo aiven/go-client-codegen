@@ -199,24 +199,22 @@ type InvoiceOut struct {
 type InvoiceStateType string
 
 const (
-	InvoiceStateTypeAccrual                              InvoiceStateType = "accrual"
-	InvoiceStateTypeConsolidated                         InvoiceStateType = "consolidated"
-	InvoiceStateTypeDue                                  InvoiceStateType = "due"
-	InvoiceStateTypeDueOnlyProjectChargesCalculated      InvoiceStateType = "due_only_project_charges_calculated"
-	InvoiceStateTypeEstimate                             InvoiceStateType = "estimate"
-	InvoiceStateTypeEstimateOnlyProjectChargesCalculated InvoiceStateType = "estimate_only_project_charges_calculated"
-	InvoiceStateTypeFailedCreditCardCharge               InvoiceStateType = "failed_credit_card_charge"
-	InvoiceStateTypeFailedNoCreditCard                   InvoiceStateType = "failed_no_credit_card"
-	InvoiceStateTypeMailed                               InvoiceStateType = "mailed"
-	InvoiceStateTypeNoPaymentExpected                    InvoiceStateType = "no_payment_expected"
-	InvoiceStateTypePaid                                 InvoiceStateType = "paid"
-	InvoiceStateTypePartnerMetering                      InvoiceStateType = "partner_metering"
-	InvoiceStateTypeUncollectible                        InvoiceStateType = "uncollectible"
-	InvoiceStateTypeWaived                               InvoiceStateType = "waived"
+	InvoiceStateTypeAccrual                InvoiceStateType = "accrual"
+	InvoiceStateTypeConsolidated           InvoiceStateType = "consolidated"
+	InvoiceStateTypeDue                    InvoiceStateType = "due"
+	InvoiceStateTypeEstimate               InvoiceStateType = "estimate"
+	InvoiceStateTypeFailedCreditCardCharge InvoiceStateType = "failed_credit_card_charge"
+	InvoiceStateTypeFailedNoCreditCard     InvoiceStateType = "failed_no_credit_card"
+	InvoiceStateTypeMailed                 InvoiceStateType = "mailed"
+	InvoiceStateTypeNoPaymentExpected      InvoiceStateType = "no_payment_expected"
+	InvoiceStateTypePaid                   InvoiceStateType = "paid"
+	InvoiceStateTypePartnerMetering        InvoiceStateType = "partner_metering"
+	InvoiceStateTypeUncollectible          InvoiceStateType = "uncollectible"
+	InvoiceStateTypeWaived                 InvoiceStateType = "waived"
 )
 
 func InvoiceStateTypeChoices() []string {
-	return []string{"accrual", "consolidated", "due", "due_only_project_charges_calculated", "estimate", "estimate_only_project_charges_calculated", "failed_credit_card_charge", "failed_no_credit_card", "mailed", "no_payment_expected", "paid", "partner_metering", "uncollectible", "waived"}
+	return []string{"accrual", "consolidated", "due", "estimate", "failed_credit_card_charge", "failed_no_credit_card", "mailed", "no_payment_expected", "paid", "partner_metering", "uncollectible", "waived"}
 }
 
 // ProjectCreditsClaimOut Assigned credit.
