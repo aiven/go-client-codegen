@@ -11,32 +11,32 @@ import (
 )
 
 type Handler interface {
-	// UpgradePipelineStepCreate [EXPERIMENTAL] Create an upgrade step
+	// UpgradePipelineStepCreate create an upgrade step
 	// POST /v1/organization/{organization_id}/upgrade-pipeline/steps
 	// https://api.aiven.io/doc/#tag/Upgrade_pipeline/operation/UpgradePipelineStepCreate
 	UpgradePipelineStepCreate(ctx context.Context, organizationId string, in *UpgradePipelineStepCreateIn) (*UpgradePipelineStepCreateOut, error)
 
-	// UpgradePipelineStepDelete [EXPERIMENTAL] Delete an upgrade step
+	// UpgradePipelineStepDelete delete an upgrade step
 	// DELETE /v1/organization/{organization_id}/upgrade-pipeline/steps/{step_id}
 	// https://api.aiven.io/doc/#tag/Upgrade_pipeline/operation/UpgradePipelineStepDelete
 	UpgradePipelineStepDelete(ctx context.Context, organizationId string, stepId string) error
 
-	// UpgradePipelineStepGet [EXPERIMENTAL] Get details of a specific upgrade step
+	// UpgradePipelineStepGet get details of a specific upgrade step
 	// GET /v1/organization/{organization_id}/upgrade-pipeline/steps/{step_id}
 	// https://api.aiven.io/doc/#tag/Upgrade_pipeline/operation/UpgradePipelineStepGet
 	UpgradePipelineStepGet(ctx context.Context, organizationId string, stepId string) (*UpgradePipelineStepGetOut, error)
 
-	// UpgradePipelineStepList [EXPERIMENTAL] List upgrade steps
+	// UpgradePipelineStepList list upgrade steps
 	// GET /v1/organization/{organization_id}/upgrade-pipeline/steps
 	// https://api.aiven.io/doc/#tag/Upgrade_pipeline/operation/UpgradePipelineStepList
 	UpgradePipelineStepList(ctx context.Context, organizationId string, query ...[2]string) (*UpgradePipelineStepListOut, error)
 
-	// UpgradePipelineStepUpdate [EXPERIMENTAL] Update an upgrade step
+	// UpgradePipelineStepUpdate update an upgrade step
 	// PATCH /v1/organization/{organization_id}/upgrade-pipeline/steps/{step_id}
 	// https://api.aiven.io/doc/#tag/Upgrade_pipeline/operation/UpgradePipelineStepUpdate
 	UpgradePipelineStepUpdate(ctx context.Context, organizationId string, stepId string, in *UpgradePipelineStepUpdateIn) (*UpgradePipelineStepUpdateOut, error)
 
-	// UpgradePipelineStepValidate [EXPERIMENTAL] Validate upgrade step
+	// UpgradePipelineStepValidate validate upgrade step
 	// POST /v1/project/{project}/service/{service_name}/upgrade-validation
 	// https://api.aiven.io/doc/#tag/Upgrade_pipeline/operation/UpgradePipelineStepValidate
 	UpgradePipelineStepValidate(ctx context.Context, project string, serviceName string, in *UpgradePipelineStepValidateIn) error
