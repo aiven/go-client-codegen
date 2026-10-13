@@ -1929,6 +1929,7 @@ type ServiceCreateOut struct {
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	FirstUseTime           *time.Time               `json:"first_use_time,omitempty"`           // Timestamp when the service was first used (ISO 8601), null if it has not been used yet
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
@@ -1992,6 +1993,7 @@ type ServiceGetOut struct {
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	FirstUseTime           *time.Time               `json:"first_use_time,omitempty"`           // Timestamp when the service was first used (ISO 8601), null if it has not been used yet
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
@@ -2212,6 +2214,7 @@ type ServiceOut struct {
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	FirstUseTime           *time.Time               `json:"first_use_time,omitempty"`           // Timestamp when the service was first used (ISO 8601), null if it has not been used yet
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
@@ -2335,6 +2338,7 @@ type ServiceUpdateOut struct {
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	FirstUseTime           *time.Time               `json:"first_use_time,omitempty"`           // Timestamp when the service was first used (ISO 8601), null if it has not been used yet
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
@@ -2421,6 +2425,7 @@ type ServiceUserCredentialsModifyOut struct {
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	FirstUseTime           *time.Time               `json:"first_use_time,omitempty"`           // Timestamp when the service was first used (ISO 8601), null if it has not been used yet
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
@@ -2465,6 +2470,7 @@ type ServiceUserCredentialsResetOut struct {
 	Databases              []string                 `json:"databases,omitempty"`                // List of service's user database names
 	DiskSpaceMb            *int                     `json:"disk_space_mb,omitempty"`            // Megabytes of disk space for data storage
 	Features               map[string]any           `json:"features,omitempty"`                 // Feature flags
+	FirstUseTime           *time.Time               `json:"first_use_time,omitempty"`           // Timestamp when the service was first used (ISO 8601), null if it has not been used yet
 	GroupList              []string                 `json:"group_list"`                         // List of service groups the service belongs to. This field is deprecated. It is always set to single element with value 'default'
 	IsClusterPlan          *bool                    `json:"is_cluster_plan,omitempty"`          // True when the service uses a cluster plan with dedicated node groups
 	KafkaAcl               []KafkaAclOut            `json:"kafka_acl,omitempty"`                // List of Kafka-native ACL entries
