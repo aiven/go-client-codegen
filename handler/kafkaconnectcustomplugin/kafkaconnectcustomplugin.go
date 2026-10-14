@@ -370,6 +370,7 @@ type KafkaConnectCustomPluginFileCreateOut struct {
 
 // KafkaConnectCustomPluginFileGetOut KafkaConnectCustomPluginFileGetResponse
 type KafkaConnectCustomPluginFileGetOut struct {
+	ContentType        ContentType       `json:"content_type"`                   // MIME type of the plugin file: 'application/java-archive' for a single JAR file or 'application/zip' for a ZIP plugin bundle.
 	CreatedAt          time.Time         `json:"created_at"`                     // Creation timestamp in ISO 8601 format, always in UTC.
 	CreatedBy          string            `json:"created_by"`                     // Email address of the user who created this entity.
 	FileDescription    *string           `json:"file_description,omitempty"`     // Optional human-readable change notes specific to this plugin version.
@@ -381,6 +382,7 @@ type KafkaConnectCustomPluginFileGetOut struct {
 	PluginId           string            `json:"plugin_id"`                      // Unique identifier for the plugin identity record (shared across all versions).
 	PluginName         string            `json:"plugin_name"`                    // User-provided name identifying this custom plugin.
 	PluginVersion      string            `json:"plugin_version"`                 // User-provided version string for this plugin upload.
+	ServiceType        ServiceType       `json:"service_type"`                   // The Aiven service type this plugin is intended for.
 	UpdatedAt          time.Time         `json:"updated_at"`                     // Last update timestamp in ISO 8601 format, always in UTC.
 	UpdatedBy          *string           `json:"updated_by,omitempty"`           // Email address of the user who last updated this entity.
 	VerifyErrorCode    *int              `json:"verify_error_code,omitempty"`    // Machine-readable error code when file_status is FAILED.
