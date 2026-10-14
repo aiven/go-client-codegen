@@ -551,6 +551,7 @@ type MemberType string
 
 const (
 	MemberTypeAdmin                          MemberType = "admin"
+	MemberTypeApplicationAccessConnect       MemberType = "application:access:connect"
 	MemberTypeDeveloper                      MemberType = "developer"
 	MemberTypeOperator                       MemberType = "operator"
 	MemberTypeOrganizationAppUsersWrite      MemberType = "organization:app_users:write"
@@ -593,7 +594,7 @@ const (
 )
 
 func MemberTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:event_logs:read", "organization:groups:read", "organization:groups:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:sustainability:read", "organization:users:read", "organization:users:write", "project:ai_gateway_keys:read", "project:ai_gateway_keys:write", "project:audit_logs:read", "project:event_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:project:admin", "role:project:manager", "role:project:read", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:metrics:read", "service:secrets:read", "service:users:write"}
+	return []string{"admin", "application:access:connect", "developer", "operator", "organization:app_users:write", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:event_logs:read", "organization:groups:read", "organization:groups:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:sustainability:read", "organization:users:read", "organization:users:write", "project:ai_gateway_keys:read", "project:ai_gateway_keys:write", "project:audit_logs:read", "project:event_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:project:admin", "role:project:manager", "role:project:read", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:metrics:read", "service:secrets:read", "service:users:write"}
 }
 
 type OrderByType string
@@ -670,6 +671,7 @@ type TeamType string
 
 const (
 	TeamTypeAdmin                          TeamType = "admin"
+	TeamTypeApplicationAccessConnect       TeamType = "application:access:connect"
 	TeamTypeDeveloper                      TeamType = "developer"
 	TeamTypeOperator                       TeamType = "operator"
 	TeamTypeOrganizationAppUsersWrite      TeamType = "organization:app_users:write"
@@ -712,7 +714,7 @@ const (
 )
 
 func TeamTypeChoices() []string {
-	return []string{"admin", "developer", "operator", "organization:app_users:write", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:event_logs:read", "organization:groups:read", "organization:groups:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:sustainability:read", "organization:users:read", "organization:users:write", "project:ai_gateway_keys:read", "project:ai_gateway_keys:write", "project:audit_logs:read", "project:event_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:project:admin", "role:project:manager", "role:project:read", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:metrics:read", "service:secrets:read", "service:users:write"}
+	return []string{"admin", "application:access:connect", "developer", "operator", "organization:app_users:write", "organization:billing:read", "organization:billing:write", "organization:domains:write", "organization:event_logs:read", "organization:groups:read", "organization:groups:write", "organization:networking:read", "organization:networking:write", "organization:projects:write", "organization:sustainability:read", "organization:users:read", "organization:users:write", "project:ai_gateway_keys:read", "project:ai_gateway_keys:write", "project:audit_logs:read", "project:event_logs:read", "project:integrations:read", "project:integrations:write", "project:networking:read", "project:networking:write", "project:permissions:read", "project:services:read", "project:services:write", "read_only", "role:organization:admin", "role:project:admin", "role:project:manager", "role:project:read", "role:services:maintenance", "role:services:recover", "service:configuration:write", "service:data:write", "service:logs:read", "service:metrics:read", "service:secrets:read", "service:users:write"}
 }
 
 type TechEmailOut struct {
