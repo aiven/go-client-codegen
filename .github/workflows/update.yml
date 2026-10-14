@@ -27,15 +27,21 @@ jobs:
         env:
           AIVEN_TOKEN: ${{ secrets.AIVEN_TOKEN }}
           AIVEN_PROJECT_NAME: ${{ secrets.AIVEN_PROJECT_NAME }}
-      # Bump `version.go` in the same commit the update PR will carry. This is
-      # what the release-tag workflow keys off: when `main` advances with a
-      # `version.go` change, `release.yml` tags it. Keeping both edits in one
-      # commit avoids a second workflow run on the PR branch, the first-time-
-      # contributor approval gate on bot-authored commits, and the need for a
-      # PAT to re-fire required checks.
+      # Bump `version.go` in the same commit the update PR will carry, but
+      # only when `task generate` actually produced a diff. Without this
+      # guard, no-op runs (schema unchanged) still open a PR that only
+      # moves the version forward.
+      #
+      # `release.yml` keys off `version.go` changing on `main`, so writing
+      # `version.go` here is what triggers the tag + GitHub Release when
+      # the PR eventually merges.
       - name: Bump `version.go`
         run: |
           set -euo pipefail
+          if [[ -z "$(git status --porcelain -- ':(exclude)version.go' ':(exclude)openapi.json')" ]]; then
+            echo "task generate produced no changes; skipping version bump"
+            exit 0
+          fi
           git fetch --tags --force --quiet
           current="$(git tag --list 'v*' --sort=-v:refname | head -n1)"
           : "${current:=v0.0.0}"
