@@ -1,7 +1,7 @@
 package aiven
 
 // Version returns aiven-go-client version string
-func Version() string { return "v0.228.0" }
+func Version() string { return "v0.229.0" }
 
 // OpenAPISpecHash returns the SHA-256 hex digest of the OpenAPI document for this release
 func OpenAPISpecHash() string {
