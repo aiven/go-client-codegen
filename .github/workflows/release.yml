@@ -1,147 +1,19 @@
 name: Release
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, labeled, unlabeled]
-    branches: [main]
   push:
     branches: [main]
     paths: [version.go]
-  # Manual trigger runs `bump` against whatever branch you dispatch from and
-  # commits `version.go` to that branch (useful for smoke-testing the release
-  # flow). The `tag` job never runs on dispatch.
-  workflow_dispatch: {}
 
 permissions: read-all
 
 jobs:
-  # Runs on every PR against main. If the PR title starts with `chore(update):`
-  # (the daily openapi-schema bump produced by `.github/workflows/update.yml`)
-  # and the PR is not labelled `skip-release`, writes `version.go` on the PR
-  # branch with the next minor version plus a fresh OpenAPI spec hash. Lands
-  # in the queue with the PR, so the merge commit on main already carries the
-  # `version.go` we want to tag.
-  #
-  # Edge case: if two release PRs are enqueued simultaneously they'll both carry
-  # the same next version → the later one hits a conflict in version.go and the
-  # queue drops it. The author re-pushes anything to the branch, this job runs
-  # again against the newer tag, and the PR goes back into the queue.
-  bump:
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'pull_request' &&
-       !contains(github.event.pull_request.labels.*.name, 'skip-release') &&
-       github.event.pull_request.head.repo.full_name == github.repository)
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    concurrency:
-      group: release-bump-${{ github.event.pull_request.number || github.ref }}
-      cancel-in-progress: true
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
-          fetch-depth: 0
-          persist-credentials: true
-
-      - name: Decide bump
-        id: decide
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          PR_TITLE: ${{ github.event.pull_request.title }}
-        run: |
-          set -euo pipefail
-          # Only `chore(update):` PRs cut a release (the daily openapi-schema
-          # bump from `.github/workflows/update.yml`); everything else is
-          # skipped. `workflow_dispatch` always bumps (manual smoke-tests).
-          release_re='^chore\(update\):'
-          release=false
-          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            release=true
-          elif [[ "$PR_TITLE" =~ $release_re ]]; then
-            release=true
-          fi
-          echo "release=$release"
-          echo "release=$release" >> "$GITHUB_OUTPUT"
-
-      - name: Compute next version
-        id: version
-        if: steps.decide.outputs.release == 'true'
-        run: |
-          set -euo pipefail
-          git fetch --tags --force --quiet
-          current="$(git tag --list 'v*' --sort=-v:refname | head -n1)"
-          : "${current:=v0.0.0}"
-          IFS='.' read -r major minor patch <<< "${current#v}"
-          minor=$((minor + 1))
-          patch=0
-          next="v${major}.${minor}.${patch}"
-          echo "current=$current"
-          echo "next=$next"
-          echo "next=$next" >> "$GITHUB_OUTPUT"
-
-      - uses: arduino/setup-task@v3
-        if: steps.decide.outputs.release == 'true'
-
-      - name: Write version.go
-        id: write
-        if: steps.decide.outputs.release == 'true'
-        env:
-          NEXT_VERSION: ${{ steps.version.outputs.next }}
-        run: |
-          set -euo pipefail
-          task get-openapi-spec
-          openapi_hash="$(sha256sum openapi.json | awk '{print $1}')"
-          echo "OpenAPI spec SHA-256: $openapi_hash"
-
-          cat > version.go <<EOF
-          package aiven
-
-          // Version returns aiven-go-client version string
-          func Version() string { return "$NEXT_VERSION" }
-
-          // OpenAPISpecHash returns the SHA-256 hex digest of the OpenAPI document for this release
-          func OpenAPISpecHash() string {
-          	return "$openapi_hash"
-          }
-          EOF
-
-          if git diff --quiet -- version.go; then
-            echo "version.go already matches; nothing to commit"
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Commit and push to branch
-        if: steps.write.outputs.changed == 'true'
-        env:
-          BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
-          NEXT_VERSION: ${{ steps.version.outputs.next }}
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add version.go
-          git commit -m "chore(version.go): set version to $NEXT_VERSION"
-          # The branch may have advanced while we were computing; rebase and retry.
-          for attempt in 1 2 3; do
-            git fetch origin "$BRANCH"
-            git rebase "origin/$BRANCH" || { git rebase --abort; continue; }
-            if git push origin "HEAD:$BRANCH"; then
-              exit 0
-            fi
-          done
-          echo "::error::failed to push version.go to $BRANCH after 3 attempts"
-          exit 1
-
-  # Runs after main advances. If HEAD's version.go changed (i.e. the queue just
-  # merged a release PR), tag that commit and create the GitHub Release.
-  # Dispatch intentionally skipped — manual dispatch is for testing the `bump`
-  # job from arbitrary branches, not for cutting a tag.
+  # Fires when `main` advances with a `version.go` change (i.e. the queue just
+  # merged a `chore(update): …` PR produced by `.github/workflows/update.yml`,
+  # which bumps `version.go` in the same commit as the generated code). Parses
+  # the version out of `version.go`, creates the tag, and publishes the GitHub
+  # Release. Idempotent: skips if the tag already exists.
   tag:
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -154,7 +26,7 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Read version from version.go
+      - name: Read version from `version.go`
         id: version
         run: |
           set -euo pipefail
@@ -187,7 +59,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -a "$TAG" -m "$TAG"
-          git push origin "$TAG"
+          git push origin "refs/tags/$TAG"
 
       - name: Create GitHub Release
         if: steps.check.outputs.exists == 'false'
