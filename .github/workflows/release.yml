@@ -3,17 +3,25 @@ name: Release
 on:
   push:
     branches: [main]
-    paths: [version.go]
+    paths:
+      - "**.go"
+      - "**/go.mod"
+      - "**/go.sum"
+      - "!**_test.go"
+      - "!generator/**"
+  workflow_dispatch: {}
 
 permissions: read-all
 
 jobs:
-  # Fires when `main` advances with a `version.go` change (i.e. the queue just
-  # merged a `chore(update): …` PR produced by `.github/workflows/update.yml`,
-  # which bumps `version.go` in the same commit as the generated code). Parses
-  # the version out of `version.go`, creates the tag, and publishes the GitHub
-  # Release. Idempotent: skips if the tag already exists.
+  # Fires when the merge queue lands library Go changes on `main` (tests and
+  # `generator/` alone don't count), or manually. Tags the pushed commit with
+  # the next minor version and publishes a GitHub Release with the current
+  # `openapi.json` attached as `openapi.zip`. Nothing is committed back:
+  # `Version()` reads the tag from build info.
+  # Idempotent: skips if the commit is already tagged.
   tag:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -23,35 +31,40 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: main
+          ref: ${{ github.sha }}
           fetch-depth: 0
 
-      - name: Read version from `version.go`
+      - name: Compute next version
         id: version
         run: |
           set -euo pipefail
-          version="$(sed -n 's/.*func Version() string { return "\(v[0-9][^"]*\)".*/\1/p' version.go | head -n1)"
-          if [[ -z "$version" ]]; then
-            echo "::error::could not parse version from version.go"
-            exit 1
+          existing="$(git tag --points-at HEAD --list 'v*' | head -n1)"
+          if [[ -n "$existing" ]]; then
+            echo "commit already tagged as $existing; nothing to do"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
-          echo "tag=$version" >> "$GITHUB_OUTPUT"
+          current="$(git tag --list 'v*' --sort=-v:refname | head -n1)"
+          : "${current:=v0.0.0}"
+          IFS='.' read -r major minor _ <<< "${current#v}"
+          tag="v${major}.$((minor + 1)).0"
+          echo "next version: $tag"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
 
-      - name: Check tag exists
-        id: check
-        env:
-          TAG: ${{ steps.version.outputs.tag }}
+      - uses: arduino/setup-task@v3
+        if: steps.version.outputs.skip == 'false'
+
+      # Downloaded before tagging, so a failed fetch leaves no tag behind.
+      - name: Download and zip OpenAPI spec
+        if: steps.version.outputs.skip == 'false'
         run: |
           set -euo pipefail
-          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
-            echo "tag $TAG already exists; nothing to do"
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-          fi
+          task get-openapi-spec
+          zip -9 -j -X openapi.zip openapi.json
 
       - name: Create and push tag
-        if: steps.check.outputs.exists == 'false'
+        if: steps.version.outputs.skip == 'false'
         env:
           TAG: ${{ steps.version.outputs.tag }}
         run: |
@@ -62,9 +75,11 @@ jobs:
           git push origin "refs/tags/$TAG"
 
       - name: Create GitHub Release
-        if: steps.check.outputs.exists == 'false'
+        if: steps.version.outputs.skip == 'false'
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           name: ${{ steps.version.outputs.tag }}
           body: auto-generated release for commit ${{ github.sha }}
+          files: openapi.zip
+          fail_on_unmatched_files: true
