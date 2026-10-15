@@ -1,9 +1,24 @@
 package aiven
 
-// Version returns aiven-go-client version string
-func Version() string { return "v0.230.0" }
+import (
+	"runtime/debug"
+	"sync"
+)
 
-// OpenAPISpecHash returns the SHA-256 hex digest of the OpenAPI document for this release
-func OpenAPISpecHash() string {
-	return "84b4640e4ef55513ee6d3e09ca33c8099aa9efa1b5ddf71ba67595c3a29feabb"
-}
+const modulePath = "github.com/aiven/go-client-codegen"
+
+// Version returns the module version from build info, or "v0.0.0" for local builds.
+func Version() string { return version() }
+
+var version = sync.OnceValue(func() string {
+	info, ok := debug.ReadBuildInfo()
+	if !ok {
+		return "v0.0.0"
+	}
+	for _, m := range info.Deps {
+		if m.Path == modulePath {
+			return m.Version
+		}
+	}
+	return "v0.0.0"
+})
