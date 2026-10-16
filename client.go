@@ -46,6 +46,15 @@ func NewClient(opts ...Option) (Client, error) {
 		opt(d)
 	}
 
+	if d.Debug {
+		sink := d.loggerWriter
+		if sink == nil {
+			sink = os.Stderr
+		}
+		out := zerolog.ConsoleWriter{Out: sink, TimeFormat: time.RFC3339}
+		d.logger = zerolog.New(out).With().Timestamp().Logger()
+	}
+
 	// When DoerOpt is not applied
 	if d.doer == nil {
 		c := retryablehttp.NewClient()
@@ -54,7 +63,10 @@ func NewClient(opts ...Option) (Client, error) {
 		c.RetryWaitMax = d.RetryWaitMax
 		c.CheckRetry = checkRetry
 
-		// Disables retryablehttp logger which outputs a lot of debug information
+		// Silence retryablehttp's built-in logger. Do (below) prints
+		// one line per call; retry cost shows up in the "duration"
+		// field. Don't add a ResponseLogHook here either — it would
+		// log every attempt on top of Do's summary line.
 		c.Logger = nil
 
 		// By default, when retryablehttp gets 500 (or any error),
@@ -62,11 +74,6 @@ func NewClient(opts ...Option) (Client, error) {
 		// Instead, it returns `giving up after %d attempt(s)` for the given url and method.
 		c.ErrorHandler = retryablehttp.PassthroughErrorHandler
 		d.doer = c.StandardClient()
-	}
-
-	if d.Debug {
-		out := zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339}
-		d.logger = zerolog.New(out).With().Timestamp().Logger()
 	}
 
 	if d.Token == "" {
@@ -114,6 +121,7 @@ type aivenClient struct {
 	RetryWaitMax       time.Duration `envconfig:"AIVEN_CLIENT_RETRY_WAIT_MAX" default:"15s"`
 	EnableSingleFlight bool          `envconfig:"AIVEN_CLIENT_ENABLE_SINGLE_FLIGHT" default:"true"`
 	logger             zerolog.Logger
+	loggerWriter       io.Writer // debug log sink; nil = os.Stderr
 	doer               Doer
 	singleflight       singleflight.Group
 }
@@ -126,23 +134,25 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 	queryString := fmtQuery(operationID, query...)
 
 	var statusCode int
+	var body []byte
 	var shared bool
 	var err error
 
+	// Log exactly one line per Do call. Retries collapse into
+	// "duration"; a piggy-backed singleflight response is marked
+	// with shared=true. Adding a retryablehttp ResponseLogHook
+	// alongside this would log every request twice.
 	if d.Debug {
 		start := time.Now()
 		defer func() {
-			end := time.Since(start)
-
 			var event *zerolog.Event
 			if err != nil {
 				event = d.logger.Error().Err(err)
 			} else {
 				event = d.logger.Info()
 			}
-
 			event.Ctx(ctx).
-				Stringer("duration", end).
+				Stringer("duration", time.Since(start)).
 				Str("operationID", operationID).
 				Str("method", method).
 				Str("path", path).
@@ -153,7 +163,6 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 		}()
 	}
 
-	var body []byte
 	if d.EnableSingleFlight && (method == http.MethodGet || method == http.MethodHead || method == http.MethodOptions || method == http.MethodTrace) {
 		type result struct {
 			statusCode int
@@ -161,6 +170,10 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 		}
 		key := strings.Join([]string{method, d.Host, path, queryString}, "|")
 		v, serr, sh := d.singleflight.Do(key, func() (any, error) {
+			// := shadows statusCode/body/err on purpose: only the
+			// primary caller runs this closure. The outer variables
+			// are set below from `res` and `serr`, so every waiter
+			// ends up with the same status/body the primary got.
 			statusCode, body, err := d.do(ctx, method, path, in, queryString)
 			return result{statusCode: statusCode, body: body}, err
 		})
@@ -169,6 +182,7 @@ func (d *aivenClient) Do(ctx context.Context, operationID, method, path string, 
 	} else {
 		statusCode, body, err = d.do(ctx, method, path, in, queryString)
 	}
+
 	if err != nil {
 		return nil, err
 	}

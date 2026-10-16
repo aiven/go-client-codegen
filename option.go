@@ -1,7 +1,10 @@
 // Package aiven provides a client for interacting with the Aiven API.
 package aiven
 
-import "time"
+import (
+	"io"
+	"time"
+)
 
 // Option is a function that configures the client.
 type Option func(*aivenClient)
@@ -11,6 +14,25 @@ type Option func(*aivenClient)
 func DebugOpt(debug bool) Option {
 	return func(d *aivenClient) {
 		d.Debug = debug
+	}
+}
+
+// LoggerWriterOpt sets the writer the debug logger emits to.
+//
+// Defaults to os.Stderr. Passing a custom writer is useful when the caller
+// wants to route the client's request logs somewhere else — for example,
+// through a CLI spinner that interleaves logs above its animation without
+// clobbering it, or to a file. Has no effect unless DebugOpt(true) is also
+// set.
+//
+// The writer must be safe for concurrent Write calls: the client fires
+// requests from arbitrary goroutines, and both the per-attempt hook and
+// the per-operation summary may call Write from different goroutines at
+// the same time. os.Stderr and *os.File satisfy this; a bare bytes.Buffer
+// does not — wrap it in a mutex if needed.
+func LoggerWriterOpt(w io.Writer) Option {
+	return func(d *aivenClient) {
+		d.loggerWriter = w
 	}
 }
 
