@@ -3,6 +3,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -53,7 +54,7 @@ func readOpenAPIPatched(oaFile, patchFile string) ([]byte, error) {
 	}
 
 	var d, p map[string]any
-	err = json.Unmarshal(dest, &d)
+	err = decodeJSON(dest, &d)
 	if err != nil {
 		return nil, err
 	}
@@ -63,10 +64,36 @@ func readOpenAPIPatched(oaFile, patchFile string) ([]byte, error) {
 		return nil, err
 	}
 
+	// Gives the patch the same scalar types as the spec, see patchDict type check
+	b, err := json.Marshal(p)
+	if err != nil {
+		return nil, err
+	}
+
+	err = decodeJSON(b, &p)
+	if err != nil {
+		return nil, err
+	}
+
 	err = patchDict(d, p)
 	if err != nil {
 		return nil, err
 	}
 
-	return json.Marshal(&d)
+	var buf bytes.Buffer
+	enc := json.NewEncoder(&buf)
+	enc.SetEscapeHTML(false)
+	err = enc.Encode(d)
+	if err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
+}
+
+// decodeJSON keeps numbers as json.Number, so int64 limits in the spec survive re-encoding.
+func decodeJSON(b []byte, v any) error {
+	dec := json.NewDecoder(bytes.NewReader(b))
+	dec.UseNumber()
+	return dec.Decode(v)
 }

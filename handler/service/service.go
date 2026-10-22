@@ -2033,7 +2033,7 @@ type ServiceIntegrationCreateIn struct {
 	SourceEndpointId *string         `json:"source_endpoint_id,omitempty"` // Integration source endpoint ID
 	SourceProject    *string         `json:"source_project,omitempty"`     // Defaults to project in the request path
 	SourceService    *string         `json:"source_service,omitempty"`     // Source service name
-	UserConfig       *map[string]any `json:"user_config,omitempty"`        // Service type-specific settings
+	UserConfig       *map[string]any `json:"user_config,omitempty"`        // Service integration settings
 }
 
 // ServiceIntegrationCreateOut Service integration
@@ -2131,7 +2131,7 @@ type ServiceIntegrationIn struct {
 	SourceEndpointId *string         `json:"source_endpoint_id,omitempty"` // Integration source endpoint ID
 	SourceProject    *string         `json:"source_project,omitempty"`     // Defaults to project in the request path
 	SourceService    *string         `json:"source_service,omitempty"`     // Source service name
-	UserConfig       *map[string]any `json:"user_config,omitempty"`        // Service type-specific settings
+	UserConfig       *map[string]any `json:"user_config,omitempty"`        // Service integration settings
 }
 type ServiceIntegrationOut struct {
 	Active               bool                  `json:"active"`                       // True when integration is active
