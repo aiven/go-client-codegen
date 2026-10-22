@@ -103,6 +103,12 @@ func exec() error {
 		return err
 	}
 
+	// The patched spec is published as a release asset
+	err = os.WriteFile(cfg.OpenAPIFile, docBytes, writeMode)
+	if err != nil {
+		return err
+	}
+
 	doc := new(Doc)
 	err = json.Unmarshal(docBytes, doc)
 	if err != nil {

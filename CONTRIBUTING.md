@@ -70,6 +70,8 @@ command to generate the client code:
 task generate
 ```
 
+The generator overwrites `openapi.json` with `openapi_patch.yaml` applied.
+
 ### Tests
 
 ```bash

@@ -15,14 +15,14 @@ tasks:
     cmds:
       - find . -type f -name '*.go' -exec sed -i '/^import ($$/,/^)/ {/^[[:space:]]*$$/d}' {} +
       - goimports -local "github.com/aiven/go-client-codegen" -w .
-  get-openapi-spec:
+  download-spec:
     cmds:
-      - curl -s -o openapi.json https://api.aiven.io/doc/openapi.json
-  go-generate:
+      - curl -s -o openapi.json https://api.aiven.io/doc/openapi-uc.json
+  generate-client:
+    # Also writes the patched spec back to openapi.json
     cmds:
       - rm -rf {{.GEN_OUT_DIR}} client_mock.go
-      - GEN_OUT_DIR={{.GEN_OUT_DIR}} go run -tags=generator ./generator/...
-      - task: fmt-imports
+      - GEN_HANDLER_DIR={{.GEN_OUT_DIR}} go run -tags=generator ./generator/...
     requires:
       vars:
         - GEN_OUT_DIR
@@ -34,10 +34,11 @@ tasks:
       - mockery
   generate:
     cmds:
-      - task: get-openapi-spec
-      - task: go-generate
+      - task: download-spec
+      - task: generate-client
       - task: generate-mocks
       - task: fmt-imports
   test:
     cmds:
       - go test -race -count=1 -v ./...
+      - go test -race -count=1 -v -tags=generator ./generator/...

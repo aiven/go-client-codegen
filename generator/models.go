@@ -199,8 +199,36 @@ type Schema struct {
 	duplicates                  []*Schema // Refs to structs with exactly the same fields
 }
 
+// userConfigSuffix marks typed user config schemas, which use oneOf/anyOf
+// and are rendered as map[string]any until the generator supports them.
+const userConfigSuffix = "UserConfig"
+
+// userConfigDescriptions restores descriptions that user config refs lack,
+// keyed by field name or by the referenced schema name.
+var userConfigDescriptions = map[string]string{
+	"user_config_schema":                        "JSON-Schema for the 'user_config' properties",
+	"OneOfServiceUserConfig":                    "Service type-specific settings",
+	"OneOfServiceIntegrationUserConfig":         "Service integration settings",
+	"OneOfServiceIntegrationEndpointUserConfig": "Service integration endpoint settings",
+}
+
+func userConfigDescription(name, ref string) string {
+	if d, ok := userConfigDescriptions[name]; ok {
+		return d
+	}
+	return userConfigDescriptions[ref[strings.LastIndex(ref, "/")+1:]]
+}
+
 //nolint:funlen,gocognit,gocyclo // It is easy to maintain and read, we don't need to split it
 func (s *Schema) init(doc *Doc, scope map[string]*Schema, name string) {
+	if strings.HasSuffix(s.Ref, userConfigSuffix) {
+		if s.Description == "" {
+			s.Description = userConfigDescription(name, s.Ref)
+		}
+		s.Ref = ""
+		s.Type = SchemaTypeObject
+	}
+
 	if s.Ref != "" {
 		other, err := doc.getSchema(s.Ref)
 		if err != nil {
