@@ -27141,16 +27141,16 @@ func (_c *MockClient_UpgradePipelineStepCreate_Call) RunAndReturn(run func(ctx c
 }
 
 // UpgradePipelineStepDelete provides a mock function for the type MockClient
-func (_mock *MockClient) UpgradePipelineStepDelete(ctx context.Context, organizationId string, stepId string) error {
-	ret := _mock.Called(ctx, organizationId, stepId)
+func (_mock *MockClient) UpgradePipelineStepDelete(ctx context.Context, organizationId string, stepIdType upgradepipeline.StepIdType) error {
+	ret := _mock.Called(ctx, organizationId, stepIdType)
 
 	if len(ret) == 0 {
 		panic("no return value specified for UpgradePipelineStepDelete")
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) error); ok {
-		r0 = returnFunc(ctx, organizationId, stepId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, upgradepipeline.StepIdType) error); ok {
+		r0 = returnFunc(ctx, organizationId, stepIdType)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -27165,12 +27165,12 @@ type MockClient_UpgradePipelineStepDelete_Call struct {
 // UpgradePipelineStepDelete is a helper method to define mock.On call
 //   - ctx context.Context
 //   - organizationId string
-//   - stepId string
-func (_e *MockClient_Expecter) UpgradePipelineStepDelete(ctx interface{}, organizationId interface{}, stepId interface{}) *MockClient_UpgradePipelineStepDelete_Call {
-	return &MockClient_UpgradePipelineStepDelete_Call{Call: _e.mock.On("UpgradePipelineStepDelete", ctx, organizationId, stepId)}
+//   - stepIdType upgradepipeline.StepIdType
+func (_e *MockClient_Expecter) UpgradePipelineStepDelete(ctx interface{}, organizationId interface{}, stepIdType interface{}) *MockClient_UpgradePipelineStepDelete_Call {
+	return &MockClient_UpgradePipelineStepDelete_Call{Call: _e.mock.On("UpgradePipelineStepDelete", ctx, organizationId, stepIdType)}
 }
 
-func (_c *MockClient_UpgradePipelineStepDelete_Call) Run(run func(ctx context.Context, organizationId string, stepId string)) *MockClient_UpgradePipelineStepDelete_Call {
+func (_c *MockClient_UpgradePipelineStepDelete_Call) Run(run func(ctx context.Context, organizationId string, stepIdType upgradepipeline.StepIdType)) *MockClient_UpgradePipelineStepDelete_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -27180,9 +27180,9 @@ func (_c *MockClient_UpgradePipelineStepDelete_Call) Run(run func(ctx context.Co
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
-		var arg2 string
+		var arg2 upgradepipeline.StepIdType
 		if args[2] != nil {
-			arg2 = args[2].(string)
+			arg2 = args[2].(upgradepipeline.StepIdType)
 		}
 		run(
 			arg0,
@@ -27198,14 +27198,14 @@ func (_c *MockClient_UpgradePipelineStepDelete_Call) Return(err error) *MockClie
 	return _c
 }
 
-func (_c *MockClient_UpgradePipelineStepDelete_Call) RunAndReturn(run func(ctx context.Context, organizationId string, stepId string) error) *MockClient_UpgradePipelineStepDelete_Call {
+func (_c *MockClient_UpgradePipelineStepDelete_Call) RunAndReturn(run func(ctx context.Context, organizationId string, stepIdType upgradepipeline.StepIdType) error) *MockClient_UpgradePipelineStepDelete_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // UpgradePipelineStepGet provides a mock function for the type MockClient
-func (_mock *MockClient) UpgradePipelineStepGet(ctx context.Context, organizationId string, stepId string) (*upgradepipeline.UpgradePipelineStepGetOut, error) {
-	ret := _mock.Called(ctx, organizationId, stepId)
+func (_mock *MockClient) UpgradePipelineStepGet(ctx context.Context, organizationId string, stepIdType upgradepipeline.StepIdType) (*upgradepipeline.UpgradePipelineStepGetOut, error) {
+	ret := _mock.Called(ctx, organizationId, stepIdType)
 
 	if len(ret) == 0 {
 		panic("no return value specified for UpgradePipelineStepGet")
@@ -27213,18 +27213,18 @@ func (_mock *MockClient) UpgradePipelineStepGet(ctx context.Context, organizatio
 
 	var r0 *upgradepipeline.UpgradePipelineStepGetOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*upgradepipeline.UpgradePipelineStepGetOut, error)); ok {
-		return returnFunc(ctx, organizationId, stepId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, upgradepipeline.StepIdType) (*upgradepipeline.UpgradePipelineStepGetOut, error)); ok {
+		return returnFunc(ctx, organizationId, stepIdType)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *upgradepipeline.UpgradePipelineStepGetOut); ok {
-		r0 = returnFunc(ctx, organizationId, stepId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, upgradepipeline.StepIdType) *upgradepipeline.UpgradePipelineStepGetOut); ok {
+		r0 = returnFunc(ctx, organizationId, stepIdType)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*upgradepipeline.UpgradePipelineStepGetOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
-		r1 = returnFunc(ctx, organizationId, stepId)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, upgradepipeline.StepIdType) error); ok {
+		r1 = returnFunc(ctx, organizationId, stepIdType)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -27239,12 +27239,12 @@ type MockClient_UpgradePipelineStepGet_Call struct {
 // UpgradePipelineStepGet is a helper method to define mock.On call
 //   - ctx context.Context
 //   - organizationId string
-//   - stepId string
-func (_e *MockClient_Expecter) UpgradePipelineStepGet(ctx interface{}, organizationId interface{}, stepId interface{}) *MockClient_UpgradePipelineStepGet_Call {
-	return &MockClient_UpgradePipelineStepGet_Call{Call: _e.mock.On("UpgradePipelineStepGet", ctx, organizationId, stepId)}
+//   - stepIdType upgradepipeline.StepIdType
+func (_e *MockClient_Expecter) UpgradePipelineStepGet(ctx interface{}, organizationId interface{}, stepIdType interface{}) *MockClient_UpgradePipelineStepGet_Call {
+	return &MockClient_UpgradePipelineStepGet_Call{Call: _e.mock.On("UpgradePipelineStepGet", ctx, organizationId, stepIdType)}
 }
 
-func (_c *MockClient_UpgradePipelineStepGet_Call) Run(run func(ctx context.Context, organizationId string, stepId string)) *MockClient_UpgradePipelineStepGet_Call {
+func (_c *MockClient_UpgradePipelineStepGet_Call) Run(run func(ctx context.Context, organizationId string, stepIdType upgradepipeline.StepIdType)) *MockClient_UpgradePipelineStepGet_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -27254,9 +27254,9 @@ func (_c *MockClient_UpgradePipelineStepGet_Call) Run(run func(ctx context.Conte
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
-		var arg2 string
+		var arg2 upgradepipeline.StepIdType
 		if args[2] != nil {
-			arg2 = args[2].(string)
+			arg2 = args[2].(upgradepipeline.StepIdType)
 		}
 		run(
 			arg0,
@@ -27272,7 +27272,7 @@ func (_c *MockClient_UpgradePipelineStepGet_Call) Return(upgradePipelineStepGetO
 	return _c
 }
 
-func (_c *MockClient_UpgradePipelineStepGet_Call) RunAndReturn(run func(ctx context.Context, organizationId string, stepId string) (*upgradepipeline.UpgradePipelineStepGetOut, error)) *MockClient_UpgradePipelineStepGet_Call {
+func (_c *MockClient_UpgradePipelineStepGet_Call) RunAndReturn(run func(ctx context.Context, organizationId string, stepIdType upgradepipeline.StepIdType) (*upgradepipeline.UpgradePipelineStepGetOut, error)) *MockClient_UpgradePipelineStepGet_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -27361,8 +27361,8 @@ func (_c *MockClient_UpgradePipelineStepList_Call) RunAndReturn(run func(ctx con
 }
 
 // UpgradePipelineStepUpdate provides a mock function for the type MockClient
-func (_mock *MockClient) UpgradePipelineStepUpdate(ctx context.Context, organizationId string, stepId string, in *upgradepipeline.UpgradePipelineStepUpdateIn) (*upgradepipeline.UpgradePipelineStepUpdateOut, error) {
-	ret := _mock.Called(ctx, organizationId, stepId, in)
+func (_mock *MockClient) UpgradePipelineStepUpdate(ctx context.Context, organizationId string, stepIdType upgradepipeline.StepIdType, in *upgradepipeline.UpgradePipelineStepUpdateIn) (*upgradepipeline.UpgradePipelineStepUpdateOut, error) {
+	ret := _mock.Called(ctx, organizationId, stepIdType, in)
 
 	if len(ret) == 0 {
 		panic("no return value specified for UpgradePipelineStepUpdate")
@@ -27370,18 +27370,18 @@ func (_mock *MockClient) UpgradePipelineStepUpdate(ctx context.Context, organiza
 
 	var r0 *upgradepipeline.UpgradePipelineStepUpdateOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *upgradepipeline.UpgradePipelineStepUpdateIn) (*upgradepipeline.UpgradePipelineStepUpdateOut, error)); ok {
-		return returnFunc(ctx, organizationId, stepId, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, upgradepipeline.StepIdType, *upgradepipeline.UpgradePipelineStepUpdateIn) (*upgradepipeline.UpgradePipelineStepUpdateOut, error)); ok {
+		return returnFunc(ctx, organizationId, stepIdType, in)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, *upgradepipeline.UpgradePipelineStepUpdateIn) *upgradepipeline.UpgradePipelineStepUpdateOut); ok {
-		r0 = returnFunc(ctx, organizationId, stepId, in)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, upgradepipeline.StepIdType, *upgradepipeline.UpgradePipelineStepUpdateIn) *upgradepipeline.UpgradePipelineStepUpdateOut); ok {
+		r0 = returnFunc(ctx, organizationId, stepIdType, in)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*upgradepipeline.UpgradePipelineStepUpdateOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string, *upgradepipeline.UpgradePipelineStepUpdateIn) error); ok {
-		r1 = returnFunc(ctx, organizationId, stepId, in)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, upgradepipeline.StepIdType, *upgradepipeline.UpgradePipelineStepUpdateIn) error); ok {
+		r1 = returnFunc(ctx, organizationId, stepIdType, in)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -27396,13 +27396,13 @@ type MockClient_UpgradePipelineStepUpdate_Call struct {
 // UpgradePipelineStepUpdate is a helper method to define mock.On call
 //   - ctx context.Context
 //   - organizationId string
-//   - stepId string
+//   - stepIdType upgradepipeline.StepIdType
 //   - in *upgradepipeline.UpgradePipelineStepUpdateIn
-func (_e *MockClient_Expecter) UpgradePipelineStepUpdate(ctx interface{}, organizationId interface{}, stepId interface{}, in interface{}) *MockClient_UpgradePipelineStepUpdate_Call {
-	return &MockClient_UpgradePipelineStepUpdate_Call{Call: _e.mock.On("UpgradePipelineStepUpdate", ctx, organizationId, stepId, in)}
+func (_e *MockClient_Expecter) UpgradePipelineStepUpdate(ctx interface{}, organizationId interface{}, stepIdType interface{}, in interface{}) *MockClient_UpgradePipelineStepUpdate_Call {
+	return &MockClient_UpgradePipelineStepUpdate_Call{Call: _e.mock.On("UpgradePipelineStepUpdate", ctx, organizationId, stepIdType, in)}
 }
 
-func (_c *MockClient_UpgradePipelineStepUpdate_Call) Run(run func(ctx context.Context, organizationId string, stepId string, in *upgradepipeline.UpgradePipelineStepUpdateIn)) *MockClient_UpgradePipelineStepUpdate_Call {
+func (_c *MockClient_UpgradePipelineStepUpdate_Call) Run(run func(ctx context.Context, organizationId string, stepIdType upgradepipeline.StepIdType, in *upgradepipeline.UpgradePipelineStepUpdateIn)) *MockClient_UpgradePipelineStepUpdate_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -27412,9 +27412,9 @@ func (_c *MockClient_UpgradePipelineStepUpdate_Call) Run(run func(ctx context.Co
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
-		var arg2 string
+		var arg2 upgradepipeline.StepIdType
 		if args[2] != nil {
-			arg2 = args[2].(string)
+			arg2 = args[2].(upgradepipeline.StepIdType)
 		}
 		var arg3 *upgradepipeline.UpgradePipelineStepUpdateIn
 		if args[3] != nil {
@@ -27435,7 +27435,7 @@ func (_c *MockClient_UpgradePipelineStepUpdate_Call) Return(upgradePipelineStepU
 	return _c
 }
 
-func (_c *MockClient_UpgradePipelineStepUpdate_Call) RunAndReturn(run func(ctx context.Context, organizationId string, stepId string, in *upgradepipeline.UpgradePipelineStepUpdateIn) (*upgradepipeline.UpgradePipelineStepUpdateOut, error)) *MockClient_UpgradePipelineStepUpdate_Call {
+func (_c *MockClient_UpgradePipelineStepUpdate_Call) RunAndReturn(run func(ctx context.Context, organizationId string, stepIdType upgradepipeline.StepIdType, in *upgradepipeline.UpgradePipelineStepUpdateIn) (*upgradepipeline.UpgradePipelineStepUpdateOut, error)) *MockClient_UpgradePipelineStepUpdate_Call {
 	_c.Call.Return(run)
 	return _c
 }

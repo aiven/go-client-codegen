@@ -19,12 +19,12 @@ type Handler interface {
 	// UpgradePipelineStepDelete delete an upgrade step
 	// DELETE /v1/organization/{organization_id}/upgrade-pipeline/steps/{step_id}
 	// https://api.aiven.io/doc/#tag/Upgrade_pipeline/operation/UpgradePipelineStepDelete
-	UpgradePipelineStepDelete(ctx context.Context, organizationId string, stepId string) error
+	UpgradePipelineStepDelete(ctx context.Context, organizationId string, stepIdType StepIdType) error
 
 	// UpgradePipelineStepGet get details of a specific upgrade step
 	// GET /v1/organization/{organization_id}/upgrade-pipeline/steps/{step_id}
 	// https://api.aiven.io/doc/#tag/Upgrade_pipeline/operation/UpgradePipelineStepGet
-	UpgradePipelineStepGet(ctx context.Context, organizationId string, stepId string) (*UpgradePipelineStepGetOut, error)
+	UpgradePipelineStepGet(ctx context.Context, organizationId string, stepIdType StepIdType) (*UpgradePipelineStepGetOut, error)
 
 	// UpgradePipelineStepList list upgrade steps
 	// GET /v1/organization/{organization_id}/upgrade-pipeline/steps
@@ -34,7 +34,7 @@ type Handler interface {
 	// UpgradePipelineStepUpdate update an upgrade step
 	// PATCH /v1/organization/{organization_id}/upgrade-pipeline/steps/{step_id}
 	// https://api.aiven.io/doc/#tag/Upgrade_pipeline/operation/UpgradePipelineStepUpdate
-	UpgradePipelineStepUpdate(ctx context.Context, organizationId string, stepId string, in *UpgradePipelineStepUpdateIn) (*UpgradePipelineStepUpdateOut, error)
+	UpgradePipelineStepUpdate(ctx context.Context, organizationId string, stepIdType StepIdType, in *UpgradePipelineStepUpdateIn) (*UpgradePipelineStepUpdateOut, error)
 
 	// UpgradePipelineStepValidate validate upgrade step
 	// POST /v1/project/{project}/service/{service_name}/upgrade-validation
@@ -68,13 +68,13 @@ func (h *UpgradePipelineHandler) UpgradePipelineStepCreate(ctx context.Context, 
 	}
 	return out, nil
 }
-func (h *UpgradePipelineHandler) UpgradePipelineStepDelete(ctx context.Context, organizationId string, stepId string) error {
-	path := fmt.Sprintf("/v1/organization/%s/upgrade-pipeline/steps/%s", url.PathEscape(organizationId), url.PathEscape(stepId))
+func (h *UpgradePipelineHandler) UpgradePipelineStepDelete(ctx context.Context, organizationId string, stepIdType StepIdType) error {
+	path := fmt.Sprintf("/v1/organization/%s/upgrade-pipeline/steps/%s", url.PathEscape(organizationId), url.PathEscape(string(stepIdType)))
 	_, err := h.doer.Do(ctx, "UpgradePipelineStepDelete", "DELETE", path, nil)
 	return err
 }
-func (h *UpgradePipelineHandler) UpgradePipelineStepGet(ctx context.Context, organizationId string, stepId string) (*UpgradePipelineStepGetOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/upgrade-pipeline/steps/%s", url.PathEscape(organizationId), url.PathEscape(stepId))
+func (h *UpgradePipelineHandler) UpgradePipelineStepGet(ctx context.Context, organizationId string, stepIdType StepIdType) (*UpgradePipelineStepGetOut, error) {
+	path := fmt.Sprintf("/v1/organization/%s/upgrade-pipeline/steps/%s", url.PathEscape(organizationId), url.PathEscape(string(stepIdType)))
 	b, err := h.doer.Do(ctx, "UpgradePipelineStepGet", "GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -129,8 +129,8 @@ func (h *UpgradePipelineHandler) UpgradePipelineStepList(ctx context.Context, or
 	}
 	return out, nil
 }
-func (h *UpgradePipelineHandler) UpgradePipelineStepUpdate(ctx context.Context, organizationId string, stepId string, in *UpgradePipelineStepUpdateIn) (*UpgradePipelineStepUpdateOut, error) {
-	path := fmt.Sprintf("/v1/organization/%s/upgrade-pipeline/steps/%s", url.PathEscape(organizationId), url.PathEscape(stepId))
+func (h *UpgradePipelineHandler) UpgradePipelineStepUpdate(ctx context.Context, organizationId string, stepIdType StepIdType, in *UpgradePipelineStepUpdateIn) (*UpgradePipelineStepUpdateOut, error) {
+	path := fmt.Sprintf("/v1/organization/%s/upgrade-pipeline/steps/%s", url.PathEscape(organizationId), url.PathEscape(string(stepIdType)))
 	b, err := h.doer.Do(ctx, "UpgradePipelineStepUpdate", "PATCH", path, in)
 	if err != nil {
 		return nil, err
@@ -154,6 +154,16 @@ type LastValidationOut struct {
 	ValidatedAt     time.Time `json:"validated_at"`      // When the validation was created
 	ValidatedByUser string    `json:"validated_by_user"` // User who created the validation (null for auto-validation)
 }
+type StepIdType string
+
+const (
+	StepIdType550E8400E29B41D4A716446655440000 StepIdType = "550e8400-e29b-41d4-a716-446655440000"
+)
+
+func StepIdTypeChoices() []string {
+	return []string{"550e8400-e29b-41d4-a716-446655440000"}
+}
+
 type StepOut struct {
 	AutoValidationDelayDays int               `json:"auto_validation_delay_days"` // Days before automatic validation
 	DestinationProjectName  string            `json:"destination_project_name"`   // Destination project name
