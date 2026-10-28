@@ -830,34 +830,28 @@ func (h *ServiceHandler) ServiceUserGet(ctx context.Context, project string, ser
 
 // AccessControlIn Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
 type AccessControlIn struct {
-	DragonflyAclCategories *[]string `json:"dragonfly_acl_categories,omitempty"` // Command category rules
-	DragonflyAclCommands   *[]string `json:"dragonfly_acl_commands,omitempty"`   // Rules for individual commands
-	DragonflyAclKeys       *[]string `json:"dragonfly_acl_keys,omitempty"`       // Key access rules
-	PGAllowReplication     *bool     `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
-	RedisAclCategories     *[]string `json:"redis_acl_categories,omitempty"`     // Command category rules
-	RedisAclChannels       *[]string `json:"redis_acl_channels,omitempty"`       // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
-	RedisAclCommands       *[]string `json:"redis_acl_commands,omitempty"`       // Rules for individual commands
-	RedisAclKeys           *[]string `json:"redis_acl_keys,omitempty"`           // Key access rules
-	ValkeyAclCategories    *[]string `json:"valkey_acl_categories,omitempty"`    // Command category rules
-	ValkeyAclChannels      *[]string `json:"valkey_acl_channels,omitempty"`      // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
-	ValkeyAclCommands      *[]string `json:"valkey_acl_commands,omitempty"`      // Rules for individual commands
-	ValkeyAclKeys          *[]string `json:"valkey_acl_keys,omitempty"`          // Key access rules
+	PGAllowReplication  *bool     `json:"pg_allow_replication,omitempty"`  // Enable REPLICATION role option
+	RedisAclCategories  *[]string `json:"redis_acl_categories,omitempty"`  // Command category rules
+	RedisAclChannels    *[]string `json:"redis_acl_channels,omitempty"`    // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
+	RedisAclCommands    *[]string `json:"redis_acl_commands,omitempty"`    // Rules for individual commands
+	RedisAclKeys        *[]string `json:"redis_acl_keys,omitempty"`        // Key access rules
+	ValkeyAclCategories *[]string `json:"valkey_acl_categories,omitempty"` // Command category rules
+	ValkeyAclChannels   *[]string `json:"valkey_acl_channels,omitempty"`   // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
+	ValkeyAclCommands   *[]string `json:"valkey_acl_commands,omitempty"`   // Rules for individual commands
+	ValkeyAclKeys       *[]string `json:"valkey_acl_keys,omitempty"`       // Key access rules
 }
 
 // AccessControlOut Service type specific access control rules for user. Currently only used for configuring user ACLs for Redis version 6 and above.
 type AccessControlOut struct {
-	DragonflyAclCategories []string `json:"dragonfly_acl_categories,omitempty"` // Command category rules
-	DragonflyAclCommands   []string `json:"dragonfly_acl_commands,omitempty"`   // Rules for individual commands
-	DragonflyAclKeys       []string `json:"dragonfly_acl_keys,omitempty"`       // Key access rules
-	PGAllowReplication     *bool    `json:"pg_allow_replication,omitempty"`     // Enable REPLICATION role option
-	RedisAclCategories     []string `json:"redis_acl_categories,omitempty"`     // Command category rules
-	RedisAclChannels       []string `json:"redis_acl_channels,omitempty"`       // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
-	RedisAclCommands       []string `json:"redis_acl_commands,omitempty"`       // Rules for individual commands
-	RedisAclKeys           []string `json:"redis_acl_keys,omitempty"`           // Key access rules
-	ValkeyAclCategories    []string `json:"valkey_acl_categories,omitempty"`    // Command category rules
-	ValkeyAclChannels      []string `json:"valkey_acl_channels,omitempty"`      // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
-	ValkeyAclCommands      []string `json:"valkey_acl_commands,omitempty"`      // Rules for individual commands
-	ValkeyAclKeys          []string `json:"valkey_acl_keys,omitempty"`          // Key access rules
+	PGAllowReplication  *bool    `json:"pg_allow_replication,omitempty"`  // Enable REPLICATION role option
+	RedisAclCategories  []string `json:"redis_acl_categories,omitempty"`  // Command category rules
+	RedisAclChannels    []string `json:"redis_acl_channels,omitempty"`    // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
+	RedisAclCommands    []string `json:"redis_acl_commands,omitempty"`    // Rules for individual commands
+	RedisAclKeys        []string `json:"redis_acl_keys,omitempty"`        // Key access rules
+	ValkeyAclCategories []string `json:"valkey_acl_categories,omitempty"` // Command category rules
+	ValkeyAclChannels   []string `json:"valkey_acl_channels,omitempty"`   // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
+	ValkeyAclCommands   []string `json:"valkey_acl_commands,omitempty"`   // Rules for individual commands
+	ValkeyAclKeys       []string `json:"valkey_acl_keys,omitempty"`       // Key access rules
 }
 type AclOut struct {
 	Id         *string        `json:"id,omitempty"` // ID
