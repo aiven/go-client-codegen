@@ -742,6 +742,7 @@ type PartitionOut struct {
 	LatestOffset   int                `json:"latest_offset"`         // Latest partition message offset
 	Partition      int                `json:"partition"`             // Partition number
 	RemoteSize     *int               `json:"remote_size,omitempty"` // Size of tiered data from partition in bytes
+	ShareGroups    []ShareGroupOut    `json:"share_groups"`          // List of Kafka share groups
 	Size           int                `json:"size"`                  // Size of partition in bytes
 }
 
@@ -908,6 +909,11 @@ type ServiceKafkaTopicUpdateIn struct {
 	RetentionHours    *int      `json:"retention_hours,omitempty"`     // DEPRECATED: use config.retention_ms
 	Tags              *[]TagIn  `json:"tags,omitempty"`                // Topic tags
 	TopicDescription  *string   `json:"topic_description,omitempty"`   // Topic description
+}
+type ShareGroupOut struct {
+	GroupName   string `json:"group_name"`   // share group
+	Lag         int    `json:"lag"`          // Share partition lag
+	StartOffset int    `json:"start_offset"` // Share partition start offset
 }
 type SourceType string
 
