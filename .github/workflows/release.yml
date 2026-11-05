@@ -18,7 +18,7 @@ jobs:
   # `generator/` alone don't count), or manually. Tags the pushed commit with
   # the next minor version and publishes a GitHub Release with the current
   # patched `openapi.json` attached as `openapi.zip`; fails if that spec
-  # generates different handlers than committed. Nothing is committed back:
+  # isn't the committed `OpenAPISpecHash`. Nothing is committed back:
   # `Version()` reads the tag from build info.
   # Idempotent: skips if the commit is already tagged.
   tag:
@@ -70,11 +70,11 @@ jobs:
           set -euo pipefail
           task download-spec
           task generate-client
-          # Only `handler/`: other generated files need `goimports` and `mockery`.
-          # Handlers import only the standard library, so they skip formatting.
-          if [[ -n "$(git status --porcelain -- handler)" ]]; then
-            git status --short -- handler
-            echo "::error::the current spec generates different code; merge the latest schema update first"
+          # `OpenAPISpecHash` in the client covers the whole spec.
+          # `goimports` only adds a blank line between the import groups.
+          if ! git diff --quiet --ignore-blank-lines -- client_generated.go; then
+            git --no-pager diff --ignore-blank-lines -- client_generated.go
+            echo "::error::the current spec isn't the committed one; merge the latest schema update first"
             exit 1
           fi
           zip -9 -j -X openapi.zip openapi.json

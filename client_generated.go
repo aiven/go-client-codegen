@@ -197,3 +197,6 @@ type Client interface {
 	usergroup.Handler
 	vpc.Handler
 }
+
+// OpenAPISpecHash is the SHA-256 of the patched spec the client is generated from, released as openapi.zip.
+const OpenAPISpecHash = "ef3cb5221c36cd9692fdbd76c9423cbacef1dcda5602b28a07bd5d52edf5767e"
