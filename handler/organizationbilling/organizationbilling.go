@@ -33,7 +33,7 @@ type Handler interface {
 	// GET /v1/organization/{organization_id}/billing-groups
 	// https://api.aiven.io/doc/#tag/OrganizationBillingGroup/operation/OrganizationBillingGroupList
 	// Required roles or permissions: organization:billing:read, organization:billing:write, organization:projects:write
-	OrganizationBillingGroupList(ctx context.Context, organizationId string) ([]BillingGroupOut, error)
+	OrganizationBillingGroupList(ctx context.Context, organizationId string, query ...[2]string) (*OrganizationBillingGroupListOut, error)
 
 	// OrganizationBillingGroupUpdate update organization billing group details
 	// PUT /v1/organization/{organization_id}/billing-group/{billing_group_id}
@@ -92,18 +92,28 @@ func (h *OrganizationBillingHandler) OrganizationBillingGroupGet(ctx context.Con
 	}
 	return out, nil
 }
-func (h *OrganizationBillingHandler) OrganizationBillingGroupList(ctx context.Context, organizationId string) ([]BillingGroupOut, error) {
+
+// OrganizationBillingGroupListCursor Pagination cursor
+func OrganizationBillingGroupListCursor(cursor string) [2]string {
+	return [2]string{"cursor", cursor}
+}
+
+// OrganizationBillingGroupListLimit Limit results to this number
+func OrganizationBillingGroupListLimit(limit int) [2]string {
+	return [2]string{"limit", fmt.Sprintf("%d", limit)}
+}
+func (h *OrganizationBillingHandler) OrganizationBillingGroupList(ctx context.Context, organizationId string, query ...[2]string) (*OrganizationBillingGroupListOut, error) {
 	path := fmt.Sprintf("/v1/organization/%s/billing-groups", url.PathEscape(organizationId))
-	b, err := h.doer.Do(ctx, "OrganizationBillingGroupList", "GET", path, nil)
+	b, err := h.doer.Do(ctx, "OrganizationBillingGroupList", "GET", path, nil, query...)
 	if err != nil {
 		return nil, err
 	}
-	out := new(organizationBillingGroupListOut)
+	out := new(OrganizationBillingGroupListOut)
 	err = json.Unmarshal(b, out)
 	if err != nil {
 		return nil, err
 	}
-	return out.BillingGroups, nil
+	return out, nil
 }
 func (h *OrganizationBillingHandler) OrganizationBillingGroupUpdate(ctx context.Context, organizationId string, billingGroupId string, in *OrganizationBillingGroupUpdateIn) (*OrganizationBillingGroupUpdateOut, error) {
 	path := fmt.Sprintf("/v1/organization/%s/billing-group/%s", url.PathEscape(organizationId), url.PathEscape(billingGroupId))
@@ -200,6 +210,13 @@ type OrganizationBillingGroupGetOut struct {
 	VatId                *string                  `json:"vat_id,omitempty"`              // VAT ID
 }
 
+// OrganizationBillingGroupListOut OrganizationBillingGroupListResponse
+type OrganizationBillingGroupListOut struct {
+	BillingGroups []BillingGroupOut `json:"billing_groups"` // A list of all billing groups belonging to the organization
+	Next          *string           `json:"next,omitempty"` // Cursor for the next page. Only set when limit or cursor was given and more results exist
+	Prev          *string           `json:"prev,omitempty"` // Cursor for the previous page. Only set when limit or cursor was given and an earlier page exists
+}
+
 // OrganizationBillingGroupUpdateIn OrganizationBillingGroupUpdateRequestBody
 type OrganizationBillingGroupUpdateIn struct {
 	BillingAddressId     *string                  `json:"billing_address_id,omitempty"`     // Billing address ID
@@ -256,11 +273,6 @@ func PaymentMethodTypeChoices() []string {
 type PaymentMethodsListOut struct {
 	PaymentMethodId   string            `json:"payment_method_id"`   // Payment method ID
 	PaymentMethodType PaymentMethodType `json:"payment_method_type"` // An enumeration.
-}
-
-// organizationBillingGroupListOut OrganizationBillingGroupListResponse
-type organizationBillingGroupListOut struct {
-	BillingGroups []BillingGroupOut `json:"billing_groups"` // A list of all billing groups belonging to the organization
 }
 
 // paymentMethodsListOut PaymentMethodsListResponse

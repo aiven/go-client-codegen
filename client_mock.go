@@ -7999,27 +7999,33 @@ func (_c *MockClient_OrganizationBillingGroupGet_Call) RunAndReturn(run func(ctx
 }
 
 // OrganizationBillingGroupList provides a mock function for the type MockClient
-func (_mock *MockClient) OrganizationBillingGroupList(ctx context.Context, organizationId string) ([]organizationbilling.BillingGroupOut, error) {
-	ret := _mock.Called(ctx, organizationId)
+func (_mock *MockClient) OrganizationBillingGroupList(ctx context.Context, organizationId string, query ...[2]string) (*organizationbilling.OrganizationBillingGroupListOut, error) {
+	var tmpRet mock.Arguments
+	if len(query) > 0 {
+		tmpRet = _mock.Called(ctx, organizationId, query)
+	} else {
+		tmpRet = _mock.Called(ctx, organizationId)
+	}
+	ret := tmpRet
 
 	if len(ret) == 0 {
 		panic("no return value specified for OrganizationBillingGroupList")
 	}
 
-	var r0 []organizationbilling.BillingGroupOut
+	var r0 *organizationbilling.OrganizationBillingGroupListOut
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]organizationbilling.BillingGroupOut, error)); ok {
-		return returnFunc(ctx, organizationId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, ...[2]string) (*organizationbilling.OrganizationBillingGroupListOut, error)); ok {
+		return returnFunc(ctx, organizationId, query...)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []organizationbilling.BillingGroupOut); ok {
-		r0 = returnFunc(ctx, organizationId)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, ...[2]string) *organizationbilling.OrganizationBillingGroupListOut); ok {
+		r0 = returnFunc(ctx, organizationId, query...)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]organizationbilling.BillingGroupOut)
+			r0 = ret.Get(0).(*organizationbilling.OrganizationBillingGroupListOut)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
-		r1 = returnFunc(ctx, organizationId)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, ...[2]string) error); ok {
+		r1 = returnFunc(ctx, organizationId, query...)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -8034,11 +8040,13 @@ type MockClient_OrganizationBillingGroupList_Call struct {
 // OrganizationBillingGroupList is a helper method to define mock.On call
 //   - ctx context.Context
 //   - organizationId string
-func (_e *MockClient_Expecter) OrganizationBillingGroupList(ctx interface{}, organizationId interface{}) *MockClient_OrganizationBillingGroupList_Call {
-	return &MockClient_OrganizationBillingGroupList_Call{Call: _e.mock.On("OrganizationBillingGroupList", ctx, organizationId)}
+//   - query ...[2]string
+func (_e *MockClient_Expecter) OrganizationBillingGroupList(ctx interface{}, organizationId interface{}, query ...interface{}) *MockClient_OrganizationBillingGroupList_Call {
+	return &MockClient_OrganizationBillingGroupList_Call{Call: _e.mock.On("OrganizationBillingGroupList",
+		append([]interface{}{ctx, organizationId}, query...)...)}
 }
 
-func (_c *MockClient_OrganizationBillingGroupList_Call) Run(run func(ctx context.Context, organizationId string)) *MockClient_OrganizationBillingGroupList_Call {
+func (_c *MockClient_OrganizationBillingGroupList_Call) Run(run func(ctx context.Context, organizationId string, query ...[2]string)) *MockClient_OrganizationBillingGroupList_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -8048,20 +8056,27 @@ func (_c *MockClient_OrganizationBillingGroupList_Call) Run(run func(ctx context
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
+		var arg2 [][2]string
+		var variadicArgs [][2]string
+		if len(args) > 2 {
+			variadicArgs = args[2].([][2]string)
+		}
+		arg2 = variadicArgs
 		run(
 			arg0,
 			arg1,
+			arg2...,
 		)
 	})
 	return _c
 }
 
-func (_c *MockClient_OrganizationBillingGroupList_Call) Return(billingGroupOuts []organizationbilling.BillingGroupOut, err error) *MockClient_OrganizationBillingGroupList_Call {
-	_c.Call.Return(billingGroupOuts, err)
+func (_c *MockClient_OrganizationBillingGroupList_Call) Return(organizationBillingGroupListOut *organizationbilling.OrganizationBillingGroupListOut, err error) *MockClient_OrganizationBillingGroupList_Call {
+	_c.Call.Return(organizationBillingGroupListOut, err)
 	return _c
 }
 
-func (_c *MockClient_OrganizationBillingGroupList_Call) RunAndReturn(run func(ctx context.Context, organizationId string) ([]organizationbilling.BillingGroupOut, error)) *MockClient_OrganizationBillingGroupList_Call {
+func (_c *MockClient_OrganizationBillingGroupList_Call) RunAndReturn(run func(ctx context.Context, organizationId string, query ...[2]string) (*organizationbilling.OrganizationBillingGroupListOut, error)) *MockClient_OrganizationBillingGroupList_Call {
 	_c.Call.Return(run)
 	return _c
 }
