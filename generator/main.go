@@ -5,6 +5,7 @@ package main
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"html"
@@ -461,6 +462,10 @@ func exec() error {
 	)
 	client.Type().Id("client").Struct(clientFields...)
 	client.Type().Id("Client").Interface(clientTypeValues...)
+
+	// A spec change the code doesn't show, e.g., in a user config, still changes the client, so it's a release
+	client.Comment("OpenAPISpecHash is the SHA-256 of the patched spec the client is generated from, released as openapi.zip.")
+	client.Const().Id("OpenAPISpecHash").Op("=").Lit(fmt.Sprintf("%x", sha256.Sum256(docBytes)))
 
 	return client.Save(cfg.ClientFile)
 }
