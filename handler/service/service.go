@@ -838,6 +838,7 @@ type AccessControlIn struct {
 	ValkeyAclCategories *[]string `json:"valkey_acl_categories,omitempty"` // Command category rules
 	ValkeyAclChannels   *[]string `json:"valkey_acl_channels,omitempty"`   // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
 	ValkeyAclCommands   *[]string `json:"valkey_acl_commands,omitempty"`   // Rules for individual commands
+	ValkeyAclDatabases  *[]string `json:"valkey_acl_databases,omitempty"`  // Database ids the user can access, Valkey 9.1 and later only. An empty array or 'alldbs' grants all databases, 'resetdbs' grants none. If array is not defined, all databases are permitted.
 	ValkeyAclKeys       *[]string `json:"valkey_acl_keys,omitempty"`       // Key access rules
 }
 
@@ -851,6 +852,7 @@ type AccessControlOut struct {
 	ValkeyAclCategories []string `json:"valkey_acl_categories,omitempty"` // Command category rules
 	ValkeyAclChannels   []string `json:"valkey_acl_channels,omitempty"`   // Glob-style patterns defining which pub/sub channels can be accessed. If array is not defined, the default policy is used (allchannels).
 	ValkeyAclCommands   []string `json:"valkey_acl_commands,omitempty"`   // Rules for individual commands
+	ValkeyAclDatabases  []string `json:"valkey_acl_databases,omitempty"`  // Database ids the user can access, Valkey 9.1 and later only. An empty array or 'alldbs' grants all databases, 'resetdbs' grants none. If array is not defined, all databases are permitted.
 	ValkeyAclKeys       []string `json:"valkey_acl_keys,omitempty"`       // Key access rules
 }
 type AclOut struct {
@@ -1818,13 +1820,14 @@ type ResultCodeOut struct {
 type RoleType string
 
 const (
-	RoleTypeMaster      RoleType = "master"
-	RoleTypeReadReplica RoleType = "read-replica"
-	RoleTypeStandby     RoleType = "standby"
+	RoleTypeMaster        RoleType = "master"
+	RoleTypeReadReplica   RoleType = "read-replica"
+	RoleTypeStandby       RoleType = "standby"
+	RoleTypeStandbyLeader RoleType = "standby-leader"
 )
 
 func RoleTypeChoices() []string {
-	return []string{"master", "read-replica", "standby"}
+	return []string{"master", "read-replica", "standby", "standby-leader"}
 }
 
 type RouteType string
