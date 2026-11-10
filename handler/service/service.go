@@ -930,10 +930,12 @@ type ComponentOut struct {
 	Host                      string                        `json:"host"`                                  // DNS name for connecting to the service component
 	KafkaAuthenticationMethod KafkaAuthenticationMethodType `json:"kafka_authentication_method,omitempty"` // Kafka authentication method. This is a value specific to the 'kafka' service component
 	KafkaSslCa                KafkaSslCaType                `json:"kafka_ssl_ca,omitempty"`                // Specifies if this port uses Project CA or Letsencrypt. If not specified, the default is using Project CA.This is a value specific to the 'kafka' service component.
+	NodePosition              *int                          `json:"node_position,omitempty"`               // 1-based node position this component routes to. Set for components with usage node (ClickHouse per-node DNS names), null otherwise.
 	Path                      *string                       `json:"path,omitempty"`                        // Path component of the service URL (useful only if service component is HTTP or HTTPS endpoint)
 	Port                      int                           `json:"port"`                                  // Port number for connecting to the service component
 	PrivatelinkConnectionId   *string                       `json:"privatelink_connection_id,omitempty"`   // Privatelink connection ID
 	Route                     RouteType                     `json:"route"`                                 // Network access route
+	ShardPosition             *int                          `json:"shard_position,omitempty"`              // 1-based shard position this component routes to. Set for components with usage shard or node (ClickHouse per-shard and per-node DNS names), null otherwise.
 	Ssl                       *bool                         `json:"ssl,omitempty"`                         // Whether the endpoint is encrypted or accepts plaintext. By default endpoints are always encrypted andthis property is only included for service components that may disable encryption.
 	Usage                     UsageType                     `json:"usage"`                                 // DNS usage name
 }
@@ -1457,7 +1459,7 @@ func MethodTypeChoices() []string {
 type MigrationCheckIn struct {
 	IgnoreDbs         *string                  `json:"ignore_dbs,omitempty"`          // Comma-separated list of databases, which should be ignored during migration (supported by MySQL and PostgreSQL only at the moment)
 	IgnoreRoles       *string                  `json:"ignore_roles,omitempty"`        // Comma-separated list of database roles, which should be ignored during migration (supported by PostgreSQL only at the moment)
-	Method            MigrationCheckMethodType `json:"method,omitempty"`              // The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
+	Method            MigrationCheckMethodType `json:"method,omitempty"`              // The migration method to be used (currently supported only by Redis, MySQL and PostgreSQL service types)
 	SourceProjectName *string                  `json:"source_project_name,omitempty"` // Project name
 	SourceServiceName *string                  `json:"source_service_name,omitempty"` // Service name
 	SourceServiceUri  *string                  `json:"source_service_uri,omitempty"`  // Service URI of the source MySQL or PostgreSQL database with admin credentials. Used with migration_check.
@@ -1474,10 +1476,10 @@ func MigrationCheckMethodTypeChoices() []string {
 }
 
 type MigrationDetailOut struct {
-	Dbname   string                    `json:"dbname"`              // Migrated db name (PG, MySQL) or number (Redis, Dragonfly)
+	Dbname   string                    `json:"dbname"`              // Migrated db name (PG, MySQL) or number (Redis)
 	DumpTool DumpToolType              `json:"dump_tool,omitempty"` // Tool used to perform the initial dump of a database to migrate (when method is replication), or just the dump-reload of the database (when method is dump).
 	Error    *string                   `json:"error,omitempty"`     // Error message in case that migration has failed
-	Method   MethodType                `json:"method"`              // The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
+	Method   MethodType                `json:"method"`              // The migration method to be used (currently supported only by Redis, MySQL and PostgreSQL service types)
 	Status   MigrationDetailStatusType `json:"status"`              // Migration status
 }
 type MigrationDetailStatusType string
@@ -1499,7 +1501,7 @@ type MigrationOut struct {
 	Error                  *string              `json:"error,omitempty"`                      // Error message in case that migration has failed
 	MasterLastIoSecondsAgo *int                 `json:"master_last_io_seconds_ago,omitempty"` // Redis only: how many seconds since last I/O with redis master
 	MasterLinkStatus       MasterLinkStatusType `json:"master_link_status,omitempty"`         // Redis only: replication master link status
-	Method                 MethodType           `json:"method"`                               // The migration method to be used (currently supported only by Redis, Dragonfly, MySQL and PostgreSQL service types)
+	Method                 MethodType           `json:"method"`                               // The migration method to be used (currently supported only by Redis, MySQL and PostgreSQL service types)
 	Status                 MigrationStatusType  `json:"status"`                               // Migration status
 }
 type MigrationStatusType string
@@ -1715,6 +1717,7 @@ type ProgressUpdateOut struct {
 
 // ProjectGetServiceLogsIn ProjectGetServiceLogsRequestBody
 type ProjectGetServiceLogsIn struct {
+	BuildId   *string       `json:"build_id,omitempty"`   // Filter to entries of a specific application build. Only supported for application services. Only build logs carry a build ID, so when log_type is omitted, the filter alone selects build logs. Cannot be combined with log_type application-run.
 	Limit     *int          `json:"limit,omitempty"`      // How many log entries to receive at most
 	LogType   LogType       `json:"log_type,omitempty"`   // Filter to entries of a specific application log type. Only supported for application services. When omitted on application services, runtime logs (application-run) are returned.
 	Offset    *string       `json:"offset,omitempty"`     // Opaque offset identifier
@@ -2664,12 +2667,14 @@ type UsageType string
 const (
 	UsageTypeDisasterRecovery UsageType = "disaster_recovery"
 	UsageTypeHaReplica        UsageType = "ha_replica"
+	UsageTypeNode             UsageType = "node"
 	UsageTypePrimary          UsageType = "primary"
 	UsageTypeReplica          UsageType = "replica"
+	UsageTypeShard            UsageType = "shard"
 )
 
 func UsageTypeChoices() []string {
-	return []string{"disaster_recovery", "ha_replica", "primary", "replica"}
+	return []string{"disaster_recovery", "ha_replica", "node", "primary", "replica", "shard"}
 }
 
 type UserOut struct {
