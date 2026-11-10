@@ -57,6 +57,11 @@ paths:
                 $ref: "#/components/schemas/ServiceKafkaTopicListV2Response"
 components:
   schemas:
+    # Google PSC approval accepts only IPv4 endpoint addresses.
+    ServicePrivatelinkGoogleConnectionCreateRequestBody:
+      properties:
+        user_ip_address:
+          format: ipv4
     # Kafka Connect REST API expects all config values as strings, even for numeric/boolean values.
     # The request body contains connector configuration with dynamic keys (connector-type specific).
     # Only 2 fields are documented in OpenAPI spec (connector.class, name) but many more exist.
