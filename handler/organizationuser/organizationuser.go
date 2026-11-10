@@ -239,11 +239,12 @@ type InvitationOut struct {
 
 // OrganizationUserGetOut OrganizationUserGetResponse
 type OrganizationUserGetOut struct {
-	IsSuperAdmin     bool        `json:"is_super_admin"`     // Super admin state of the organization user
-	JoinTime         time.Time   `json:"join_time"`          // Join time
-	LastActivityTime time.Time   `json:"last_activity_time"` // Last activity time
-	UserId           string      `json:"user_id"`            // User ID
-	UserInfo         UserInfoOut `json:"user_info"`          // OrganizationUserInfo
+	IsSuperAdmin     bool                      `json:"is_super_admin"`     // Super admin state of the organization user
+	JoinTime         time.Time                 `json:"join_time"`          // Join time
+	LastActivityTime time.Time                 `json:"last_activity_time"` // Last activity time
+	State            OrganizationUserStateType `json:"state"`              // An enumeration.
+	UserId           string                    `json:"user_id"`            // User ID
+	UserInfo         UserInfoOut               `json:"user_info"`          // OrganizationUserInfo
 }
 
 // OrganizationUserInvitationAcceptIn OrganizationUserInvitationAcceptRequestBody
@@ -280,11 +281,12 @@ type OrganizationUserUpdateIn struct {
 
 // OrganizationUserUpdateOut OrganizationUserUpdateResponse
 type OrganizationUserUpdateOut struct {
-	IsSuperAdmin     bool        `json:"is_super_admin"`     // Super admin state of the organization user
-	JoinTime         time.Time   `json:"join_time"`          // Join time
-	LastActivityTime time.Time   `json:"last_activity_time"` // Last activity time
-	UserId           string      `json:"user_id"`            // User ID
-	UserInfo         UserInfoOut `json:"user_info"`          // OrganizationUserInfo
+	IsSuperAdmin     bool                      `json:"is_super_admin"`     // Super admin state of the organization user
+	JoinTime         time.Time                 `json:"join_time"`          // Join time
+	LastActivityTime time.Time                 `json:"last_activity_time"` // Last activity time
+	State            OrganizationUserStateType `json:"state"`              // An enumeration.
+	UserId           string                    `json:"user_id"`            // User ID
+	UserInfo         UserInfoOut               `json:"user_info"`          // OrganizationUserInfo
 }
 type TokenOut struct {
 	Description   string    `json:"description"`
@@ -310,11 +312,23 @@ type UserInfoOut struct {
 	UserEmail              string    `json:"user_email"` // User Email
 }
 type UserOut struct {
-	IsSuperAdmin     bool        `json:"is_super_admin"`     // Super admin state of the organization user
-	JoinTime         time.Time   `json:"join_time"`          // Join time
-	LastActivityTime time.Time   `json:"last_activity_time"` // Last activity time
-	UserId           string      `json:"user_id"`            // User ID
-	UserInfo         UserInfoOut `json:"user_info"`          // OrganizationUserInfo
+	IsSuperAdmin     bool          `json:"is_super_admin"`     // Super admin state of the organization user
+	JoinTime         time.Time     `json:"join_time"`          // Join time
+	LastActivityTime time.Time     `json:"last_activity_time"` // Last activity time
+	State            UserStateType `json:"state"`              // An enumeration.
+	UserId           string        `json:"user_id"`            // User ID
+	UserInfo         UserInfoOut   `json:"user_info"`          // OrganizationUserInfo
+}
+type UserStateType string
+
+const (
+	UserStateTypeActive      UserStateType = "active"
+	UserStateTypeDeactivated UserStateType = "deactivated"
+	UserStateTypeDeleted     UserStateType = "deleted"
+)
+
+func UserStateTypeChoices() []string {
+	return []string{"active", "deactivated", "deleted"}
 }
 
 // organizationUserAuthenticationMethodsListOut OrganizationUserAuthenticationMethodsListResponse
