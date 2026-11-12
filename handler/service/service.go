@@ -935,6 +935,7 @@ type ComponentOut struct {
 	Port                      int                           `json:"port"`                                  // Port number for connecting to the service component
 	PrivatelinkConnectionId   *string                       `json:"privatelink_connection_id,omitempty"`   // Privatelink connection ID
 	Route                     RouteType                     `json:"route"`                                 // Network access route
+	SecurityRedirectUris      []string                      `json:"security_redirect_uris,omitempty"`      // Redirect URIs to register with an OIDC provider to protect this port. This is a value specific to the 'application' service component. One per hostname of the port, the primary hostname's first. Present for HTTP ports once the platform has reported them, whether or not protection is configured.
 	ShardPosition             *int                          `json:"shard_position,omitempty"`              // 1-based shard position this component routes to. Set for components with usage shard or node (ClickHouse per-shard and per-node DNS names), null otherwise.
 	Ssl                       *bool                         `json:"ssl,omitempty"`                         // Whether the endpoint is encrypted or accepts plaintext. By default endpoints are always encrypted andthis property is only included for service components that may disable encryption.
 	Usage                     UsageType                     `json:"usage"`                                 // DNS usage name
