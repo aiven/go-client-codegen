@@ -199,4 +199,4 @@ type Client interface {
 }
 
 // OpenAPISpecHash is the SHA-256 of the patched spec the client is generated from, released as openapi.zip.
-const OpenAPISpecHash = "f6cec39f092f9e44f51c6d7f55a11263d9711b5008eddff5dc0b78949def310c"
+const OpenAPISpecHash = "dd0f6dad15163cb1f06c91cb027ad0f8252b4aca1f5bdd527656019e601e07d9"
