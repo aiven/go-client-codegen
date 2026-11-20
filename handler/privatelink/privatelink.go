@@ -462,10 +462,10 @@ type ServicePrivatelinkAWSUpdateOut struct {
 
 // ServicePrivatelinkAzureConnectionApprovalOut ServicePrivatelinkAzureConnectionApprovalResponse
 type ServicePrivatelinkAzureConnectionApprovalOut struct {
-	PrivateEndpointId       string                                             `json:"private_endpoint_id"`                 // Azure private endpoint ID
-	PrivatelinkConnectionId *string                                            `json:"privatelink_connection_id,omitempty"` // Privatelink connection ID
-	State                   ServicePrivatelinkAzureConnectionApprovalStateType `json:"state"`                               // The Aiven connection state. The Azure connection status has a separate value
-	UserIPAddress           string                                             `json:"user_ip_address"`                     // (Private) IP address of Privatelink endpoint
+	PrivateEndpointId       string                                             `json:"private_endpoint_id"`       // Azure private endpoint ID
+	PrivatelinkConnectionId string                                             `json:"privatelink_connection_id"` // Privatelink connection ID
+	State                   ServicePrivatelinkAzureConnectionApprovalStateType `json:"state"`                     // The Aiven connection state. The Azure connection status has a separate value
+	UserIPAddress           string                                             `json:"user_ip_address"`           // (Private) IP address of Privatelink endpoint
 }
 type ServicePrivatelinkAzureConnectionApprovalStateType string
 
@@ -481,10 +481,10 @@ func ServicePrivatelinkAzureConnectionApprovalStateTypeChoices() []string {
 }
 
 type ServicePrivatelinkAzureConnectionListOut struct {
-	PrivateEndpointId       string              `json:"private_endpoint_id"`                 // Azure private endpoint ID
-	PrivatelinkConnectionId *string             `json:"privatelink_connection_id,omitempty"` // Privatelink connection ID
-	State                   ConnectionStateType `json:"state"`                               // The Aiven connection state. The Azure connection status has a separate value
-	UserIPAddress           string              `json:"user_ip_address"`                     // (Private) IP address of Privatelink endpoint
+	PrivateEndpointId       string              `json:"private_endpoint_id"`       // Azure private endpoint ID
+	PrivatelinkConnectionId string              `json:"privatelink_connection_id"` // Privatelink connection ID
+	State                   ConnectionStateType `json:"state"`                     // The Aiven connection state. The Azure connection status has a separate value
+	UserIPAddress           string              `json:"user_ip_address"`           // (Private) IP address of Privatelink endpoint
 }
 type ServicePrivatelinkAzureConnectionStateType string
 
@@ -506,10 +506,10 @@ type ServicePrivatelinkAzureConnectionUpdateIn struct {
 
 // ServicePrivatelinkAzureConnectionUpdateOut ServicePrivatelinkAzureConnectionUpdateResponse
 type ServicePrivatelinkAzureConnectionUpdateOut struct {
-	PrivateEndpointId       string                                     `json:"private_endpoint_id"`                 // Azure private endpoint ID
-	PrivatelinkConnectionId *string                                    `json:"privatelink_connection_id,omitempty"` // Privatelink connection ID
-	State                   ServicePrivatelinkAzureConnectionStateType `json:"state"`                               // The Aiven connection state. The Azure connection status has a separate value
-	UserIPAddress           string                                     `json:"user_ip_address"`                     // (Private) IP address of Privatelink endpoint
+	PrivateEndpointId       string                                     `json:"private_endpoint_id"`       // Azure private endpoint ID
+	PrivatelinkConnectionId string                                     `json:"privatelink_connection_id"` // Privatelink connection ID
+	State                   ServicePrivatelinkAzureConnectionStateType `json:"state"`                     // The Aiven connection state. The Azure connection status has a separate value
+	UserIPAddress           string                                     `json:"user_ip_address"`           // (Private) IP address of Privatelink endpoint
 }
 
 // ServicePrivatelinkAzureCreateIn ServicePrivatelinkAzureCreateRequestBody
