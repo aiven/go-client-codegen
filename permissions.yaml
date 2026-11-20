@@ -501,6 +501,8 @@ ServicePrivatelinkAzureDelete:
   - service:configuration:write
 ServicePrivatelinkAzureGet:
   - service:configuration:write
+ServicePrivatelinkAzureRefresh:
+  - service:configuration:write
 ServicePrivatelinkAzureUpdate:
   - service:configuration:write
 ServicePrivatelinkGoogleConnectionCreate:

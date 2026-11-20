@@ -81,6 +81,12 @@ type Handler interface {
 	// Required roles or permissions: service:configuration:write
 	ServicePrivatelinkAzureGet(ctx context.Context, project string, serviceName string) (*ServicePrivatelinkAzureGetOut, error)
 
+	// ServicePrivatelinkAzureRefresh refresh the list of Azure private endpoint connections
+	// POST /v1/project/{project}/service/{service_name}/privatelink/azure/refresh
+	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureRefresh
+	// Required roles or permissions: service:configuration:write
+	ServicePrivatelinkAzureRefresh(ctx context.Context, project string, serviceName string) error
+
 	// ServicePrivatelinkAzureUpdate update an Azure Privatelink Service
 	// PUT /v1/project/{project}/service/{service_name}/privatelink/azure
 	// https://api.aiven.io/doc/#tag/Service/operation/ServicePrivatelinkAzureUpdate
@@ -292,6 +298,11 @@ func (h *PrivatelinkHandler) ServicePrivatelinkAzureGet(ctx context.Context, pro
 		return nil, err
 	}
 	return out, nil
+}
+func (h *PrivatelinkHandler) ServicePrivatelinkAzureRefresh(ctx context.Context, project string, serviceName string) error {
+	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure/refresh", url.PathEscape(project), url.PathEscape(serviceName))
+	_, err := h.doer.Do(ctx, "ServicePrivatelinkAzureRefresh", "POST", path, nil)
+	return err
 }
 func (h *PrivatelinkHandler) ServicePrivatelinkAzureUpdate(ctx context.Context, project string, serviceName string, in *ServicePrivatelinkAzureUpdateIn) (*ServicePrivatelinkAzureUpdateOut, error) {
 	path := fmt.Sprintf("/v1/project/%s/service/%s/privatelink/azure", url.PathEscape(project), url.PathEscape(serviceName))

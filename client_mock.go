@@ -24016,6 +24016,69 @@ func (_c *MockClient_ServicePrivatelinkAzureGet_Call) RunAndReturn(run func(ctx 
 	return _c
 }
 
+// ServicePrivatelinkAzureRefresh provides a mock function for the type MockClient
+func (_mock *MockClient) ServicePrivatelinkAzureRefresh(ctx context.Context, project1 string, serviceName string) error {
+	ret := _mock.Called(ctx, project1, serviceName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ServicePrivatelinkAzureRefresh")
+	}
+
+	var r0 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) error); ok {
+		r0 = returnFunc(ctx, project1, serviceName)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
+// MockClient_ServicePrivatelinkAzureRefresh_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ServicePrivatelinkAzureRefresh'
+type MockClient_ServicePrivatelinkAzureRefresh_Call struct {
+	*mock.Call
+}
+
+// ServicePrivatelinkAzureRefresh is a helper method to define mock.On call
+//   - ctx context.Context
+//   - project1 string
+//   - serviceName string
+func (_e *MockClient_Expecter) ServicePrivatelinkAzureRefresh(ctx interface{}, project1 interface{}, serviceName interface{}) *MockClient_ServicePrivatelinkAzureRefresh_Call {
+	return &MockClient_ServicePrivatelinkAzureRefresh_Call{Call: _e.mock.On("ServicePrivatelinkAzureRefresh", ctx, project1, serviceName)}
+}
+
+func (_c *MockClient_ServicePrivatelinkAzureRefresh_Call) Run(run func(ctx context.Context, project1 string, serviceName string)) *MockClient_ServicePrivatelinkAzureRefresh_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkAzureRefresh_Call) Return(err error) *MockClient_ServicePrivatelinkAzureRefresh_Call {
+	_c.Call.Return(err)
+	return _c
+}
+
+func (_c *MockClient_ServicePrivatelinkAzureRefresh_Call) RunAndReturn(run func(ctx context.Context, project1 string, serviceName string) error) *MockClient_ServicePrivatelinkAzureRefresh_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ServicePrivatelinkAzureUpdate provides a mock function for the type MockClient
 func (_mock *MockClient) ServicePrivatelinkAzureUpdate(ctx context.Context, project1 string, serviceName string, in *privatelink.ServicePrivatelinkAzureUpdateIn) (*privatelink.ServicePrivatelinkAzureUpdateOut, error) {
 	ret := _mock.Called(ctx, project1, serviceName, in)

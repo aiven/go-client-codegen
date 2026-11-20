@@ -303,6 +303,7 @@ Privatelink:
   - ServicePrivatelinkAzureCreate
   - ServicePrivatelinkAzureDelete
   - ServicePrivatelinkAzureGet
+  - ServicePrivatelinkAzureRefresh
   - ServicePrivatelinkAzureUpdate
   - ServicePrivatelinkGoogleConnectionCreate
   - ServicePrivatelinkGoogleConnectionList
