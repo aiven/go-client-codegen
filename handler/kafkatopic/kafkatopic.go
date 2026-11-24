@@ -900,15 +900,15 @@ type ServiceKafkaTopicMessageProduceOut struct {
 
 // ServiceKafkaTopicUpdateIn ServiceKafkaTopicUpdateRequestBody
 type ServiceKafkaTopicUpdateIn struct {
-	Config            *ConfigIn `json:"config,omitempty"`              // Kafka topic configuration
-	MinInsyncReplicas *int      `json:"min_insync_replicas,omitempty"` // When a producer sets acks to 'all' (or '-1'), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend). When used together, min.insync.replicas and acks allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set min.insync.replicas to 2, and produce with acks of 'all'. This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
-	OwnerUserGroupId  *string   `json:"owner_user_group_id,omitempty"` // The user group that owns this topic
-	Partitions        *int      `json:"partitions,omitempty"`          // Number of partitions
-	Replication       *int      `json:"replication,omitempty"`         // Number of replicas
-	RetentionBytes    *int      `json:"retention_bytes,omitempty"`     // This configuration controls the maximum size a partition (which consists of log segments) can grow to before we will discard old log segments to free up space if we are using the 'delete' retention policy. By default there is no size limit only a time limit. Since this limit is enforced at the partition level, multiply it by the number of partitions to compute the topic retention in bytes.
-	RetentionHours    *int      `json:"retention_hours,omitempty"`     // DEPRECATED: use config.retention_ms
-	Tags              *[]TagIn  `json:"tags,omitempty"`                // Topic tags
-	TopicDescription  *string   `json:"topic_description,omitempty"`   // Topic description
+	Config            *map[string]any `json:"config,omitempty"`              // Kafka topic configuration
+	MinInsyncReplicas *int            `json:"min_insync_replicas,omitempty"` // When a producer sets acks to 'all' (or '-1'), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend). When used together, min.insync.replicas and acks allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set min.insync.replicas to 2, and produce with acks of 'all'. This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
+	OwnerUserGroupId  *string         `json:"owner_user_group_id,omitempty"` // The user group that owns this topic
+	Partitions        *int            `json:"partitions,omitempty"`          // Number of partitions
+	Replication       *int            `json:"replication,omitempty"`         // Number of replicas
+	RetentionBytes    *int            `json:"retention_bytes,omitempty"`     // This configuration controls the maximum size a partition (which consists of log segments) can grow to before we will discard old log segments to free up space if we are using the 'delete' retention policy. By default there is no size limit only a time limit. Since this limit is enforced at the partition level, multiply it by the number of partitions to compute the topic retention in bytes.
+	RetentionHours    *int            `json:"retention_hours,omitempty"`     // DEPRECATED: use config.retention_ms
+	Tags              *[]TagIn        `json:"tags,omitempty"`                // Topic tags
+	TopicDescription  *string         `json:"topic_description,omitempty"`   // Topic description
 }
 type ShareGroupOut struct {
 	GroupName   string `json:"group_name"`   // share group

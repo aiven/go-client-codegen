@@ -459,6 +459,15 @@ components:
       properties:
         project_vpc_id:
           nullable: true
+    ServiceKafkaTopicUpdateRequestBody:
+      properties:
+        # A null value resets the config to the cluster setting or Kafka default.
+        # A map keeps nulls apart from omitted keys, which stay unchanged.
+        # todo: temporary workaround; bring back the ConfigIn struct once the
+        #  generator supports explicit nulls in request structs.
+        config:
+          additionalProperties: true
+          x-map: true
     ServiceKafkaTopicListV2Request:
       type: object
       required:
