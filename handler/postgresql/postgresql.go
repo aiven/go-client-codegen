@@ -116,7 +116,9 @@ func (h *PostgreSQLHandler) ServicePGBouncerUpdate(ctx context.Context, project 
 
 type ExtensionOut struct {
 	DefaultVersion *string  `json:"default_version,omitempty"` // Default version
+	Extwlist       *bool    `json:"extwlist,omitempty"`        // Whether the extension is made installable for regular users through pgextwlist
 	Name           string   `json:"name"`                      // Extension name
+	Trusted        *bool    `json:"trusted,omitempty"`         // Whether the extension is marked trusted and can be installed by non-superusers
 	Versions       []string `json:"versions,omitempty"`        // Extension versions available
 }
 type PGOut struct {
