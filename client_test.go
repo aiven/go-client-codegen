@@ -202,6 +202,49 @@ func TestServiceCreateErrorsRetries(t *testing.T) {
 	}
 }
 
+type roundTripperFunc func(*http.Request) (*http.Response, error)
+
+func (f roundTripperFunc) RoundTrip(req *http.Request) (*http.Response, error) {
+	return f(req)
+}
+
+func TestTransportOptSeesEachAttempt(t *testing.T) {
+	var serverCalls int64
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		if atomic.AddInt64(&serverCalls, 1) == 1 {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		_, err := w.Write([]byte(`{"service": {"plan": "wow"}}`))
+		assert.NoError(t, err)
+	}))
+	defer server.Close()
+
+	var transportCalls int64
+	wrap := func(next http.RoundTripper) http.RoundTripper {
+		require.NotNil(t, next)
+		return roundTripperFunc(func(req *http.Request) (*http.Response, error) {
+			atomic.AddInt64(&transportCalls, 1)
+			return next.RoundTrip(req)
+		})
+	}
+
+	c, err := NewClient(
+		TokenOpt("token"),
+		HostOpt(server.URL),
+		TransportOpt(wrap),
+		RetryWaitMinOpt(time.Millisecond),
+		RetryWaitMaxOpt(time.Millisecond),
+	)
+	require.NoError(t, err)
+
+	out, err := c.ServiceGet(context.Background(), "aiven-project", "my-service")
+	require.NoError(t, err)
+	assert.Equal(t, "wow", out.Plan)
+	assert.EqualValues(t, 2, serverCalls)
+	assert.EqualValues(t, 2, transportCalls)
+}
+
 func TestFmtQuery(t *testing.T) {
 	t.Parallel()
 

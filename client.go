@@ -73,6 +73,9 @@ func NewClient(opts ...Option) (Client, error) {
 		// it doesn't return the body which might contain useful information.
 		// Instead, it returns `giving up after %d attempt(s)` for the given url and method.
 		c.ErrorHandler = retryablehttp.PassthroughErrorHandler
+		if d.wrapTransport != nil {
+			c.HTTPClient.Transport = d.wrapTransport(c.HTTPClient.Transport)
+		}
 		d.doer = c.StandardClient()
 	}
 
@@ -123,6 +126,7 @@ type aivenClient struct {
 	logger             zerolog.Logger
 	loggerWriter       io.Writer // debug log sink; nil = os.Stderr
 	doer               Doer
+	wrapTransport      func(http.RoundTripper) http.RoundTripper
 	singleflight       singleflight.Group
 }
 
