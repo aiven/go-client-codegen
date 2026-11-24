@@ -702,31 +702,31 @@ type ProjectCreateOut struct {
 	AccountName           *string                `json:"account_name,omitempty"`            // Account name
 	AddressLines          []string               `json:"address_lines,omitempty"`           // Address lines
 	AvailableCredits      *string                `json:"available_credits,omitempty"`       // DEPRECATED: Available credits, in USD. Always 0.00, use billing group credits instead
-	BillingAddress        string                 `json:"billing_address"`                   // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
+	BillingAddress        *string                `json:"billing_address,omitempty"`         // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
 	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`        // Billing currency
-	BillingEmails         []BillingEmailOut      `json:"billing_emails"`                    // List of project billing email addresses
+	BillingEmails         []BillingEmailOut      `json:"billing_emails,omitempty"`          // List of project billing email addresses
 	BillingExtraText      *string                `json:"billing_extra_text,omitempty"`      // Extra text to be included in all project invoices, e.g. purchase order or cost center number
 	BillingGroupId        string                 `json:"billing_group_id"`                  // Billing group ID
-	BillingGroupName      string                 `json:"billing_group_name"`                // Billing group name
+	BillingGroupName      *string                `json:"billing_group_name,omitempty"`      // Billing group name
 	CardInfo              *CardInfoOut           `json:"card_info,omitempty"`               // Credit card assigned to the project
 	City                  *string                `json:"city,omitempty"`                    // Address city
 	Company               *string                `json:"company,omitempty"`                 // Name of a company
-	Country               string                 `json:"country"`                           // Billing country
-	CountryCode           string                 `json:"country_code"`                      // Two letter ISO country code
+	Country               *string                `json:"country,omitempty"`                 // Billing country
+	CountryCode           *string                `json:"country_code,omitempty"`            // Two letter ISO country code
 	DefaultCloud          string                 `json:"default_cloud"`                     // Default cloud to use when launching services
 	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`   // End of life extension information
-	EstimatedBalance      string                 `json:"estimated_balance"`                 // Estimated balance, in USD
+	EstimatedBalance      *string                `json:"estimated_balance,omitempty"`       // Estimated balance, in USD
 	EstimatedBalanceLocal *string                `json:"estimated_balance_local,omitempty"` // Estimated balance, in billing currency
 	Features              map[string]any         `json:"features,omitempty"`                // Feature flags
 	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
-	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
+	PaymentMethod         *string                `json:"payment_method,omitempty"`          // Payment method
 	ProjectName           string                 `json:"project_name"`                      // Project name
 	State                 *string                `json:"state,omitempty"`                   // Address state or province
 	Tags                  map[string]string      `json:"tags,omitempty"`                    // Set of resource tags
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`             // List of project tech email addresses
 	TenantId              *string                `json:"tenant_id,omitempty"`               // Tenant ID
 	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`   // Trial expiration time (ISO 8601)
-	VatId                 string                 `json:"vat_id"`                            // EU VAT Identification Number
+	VatId                 *string                `json:"vat_id,omitempty"`                  // EU VAT Identification Number
 	ZipCode               *string                `json:"zip_code,omitempty"`                // Address zip code
 }
 
@@ -956,31 +956,31 @@ type ProjectUpdateOut struct {
 	AccountName           *string                `json:"account_name,omitempty"`            // Account name
 	AddressLines          []string               `json:"address_lines,omitempty"`           // Address lines
 	AvailableCredits      *string                `json:"available_credits,omitempty"`       // DEPRECATED: Available credits, in USD. Always 0.00, use billing group credits instead
-	BillingAddress        string                 `json:"billing_address"`                   // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
+	BillingAddress        *string                `json:"billing_address,omitempty"`         // DEPRECATED: use split address fields like company, address_lines, zip_code, city and state instead
 	BillingCurrency       BillingCurrencyType    `json:"billing_currency,omitempty"`        // Billing currency
-	BillingEmails         []BillingEmailOut      `json:"billing_emails"`                    // List of project billing email addresses
+	BillingEmails         []BillingEmailOut      `json:"billing_emails,omitempty"`          // List of project billing email addresses
 	BillingExtraText      *string                `json:"billing_extra_text,omitempty"`      // Extra text to be included in all project invoices, e.g. purchase order or cost center number
 	BillingGroupId        string                 `json:"billing_group_id"`                  // Billing group ID
-	BillingGroupName      string                 `json:"billing_group_name"`                // Billing group name
+	BillingGroupName      *string                `json:"billing_group_name,omitempty"`      // Billing group name
 	CardInfo              *CardInfoOut           `json:"card_info,omitempty"`               // Credit card assigned to the project
 	City                  *string                `json:"city,omitempty"`                    // Address city
 	Company               *string                `json:"company,omitempty"`                 // Name of a company
-	Country               string                 `json:"country"`                           // Billing country
-	CountryCode           string                 `json:"country_code"`                      // Two letter ISO country code
+	Country               *string                `json:"country,omitempty"`                 // Billing country
+	CountryCode           *string                `json:"country_code,omitempty"`            // Two letter ISO country code
 	DefaultCloud          string                 `json:"default_cloud"`                     // Default cloud to use when launching services
 	EndOfLifeExtension    *EndOfLifeExtensionOut `json:"end_of_life_extension,omitempty"`   // End of life extension information
-	EstimatedBalance      string                 `json:"estimated_balance"`                 // Estimated balance, in USD
+	EstimatedBalance      *string                `json:"estimated_balance,omitempty"`       // Estimated balance, in USD
 	EstimatedBalanceLocal *string                `json:"estimated_balance_local,omitempty"` // Estimated balance, in billing currency
 	Features              map[string]any         `json:"features,omitempty"`                // Feature flags
 	OrganizationId        string                 `json:"organization_id"`                   // Organization ID
-	PaymentMethod         string                 `json:"payment_method"`                    // Payment method
+	PaymentMethod         *string                `json:"payment_method,omitempty"`          // Payment method
 	ProjectName           string                 `json:"project_name"`                      // Project name
 	State                 *string                `json:"state,omitempty"`                   // Address state or province
 	Tags                  map[string]string      `json:"tags,omitempty"`                    // Set of resource tags
 	TechEmails            []TechEmailOut         `json:"tech_emails,omitempty"`             // List of project tech email addresses
 	TenantId              *string                `json:"tenant_id,omitempty"`               // Tenant ID
 	TrialExpirationTime   *time.Time             `json:"trial_expiration_time,omitempty"`   // Trial expiration time (ISO 8601)
-	VatId                 string                 `json:"vat_id"`                            // EU VAT Identification Number
+	VatId                 *string                `json:"vat_id,omitempty"`                  // EU VAT Identification Number
 	ZipCode               *string                `json:"zip_code,omitempty"`                // Address zip code
 }
 
