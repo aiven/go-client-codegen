@@ -3,6 +3,7 @@ package aiven
 
 import (
 	"io"
+	"net/http"
 	"time"
 )
 
@@ -61,6 +62,14 @@ func HostOpt(host string) Option {
 func DoerOpt(doer Doer) Option {
 	return func(d *aivenClient) {
 		d.doer = doer
+	}
+}
+
+// TransportOpt wraps the transport of the default retrying http client,
+// e.g., to log each attempt. Has no effect with DoerOpt.
+func TransportOpt(wrap func(http.RoundTripper) http.RoundTripper) Option {
+	return func(d *aivenClient) {
+		d.wrapTransport = wrap
 	}
 }
 
